@@ -2,8 +2,16 @@
 import nlp from 'compromise/one'
 import tokenize from './tokenize/plugin.js'
 import version from './_version.js'
+import lexicon from './lexicon/plugin.js'
+import tagset from './tagset/plugin.js'
+import preTagger from './preTagger/plugin.js'
+import postTagger from './postTagger/plugin.js'
 
 nlp.plugin(tokenize)
+nlp.plugin(tagset)
+nlp.plugin(lexicon)
+nlp.plugin(preTagger)
+nlp.plugin(postTagger)
 
 
 const it = function (txt, lex) {

@@ -1,2 +1,1 @@
-# it-compromise
-bescheidene Verarbeitung natürlicher Sprache für Javascript
+itsa nota ready

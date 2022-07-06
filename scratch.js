@@ -6,7 +6,15 @@ import nlp from './src/index.js'
 let txt = ''
 
 txt = `Con l'autoradio sempre nella mano destra`
+txt = `Il libro dell’insegnante`
 txt = `sedicesimo`
+// Sto venendo ora dall’ufficio – I’m coming from the office
+// Il treno è arrivato ora da Milano – The train just arrived from Milan
+// Nel pomeriggio vado da Marco – In the afternoon I’ll go to Marco’s place
+
+// all’
+// nell’
+// sull’
 
 
 let doc = nlp(txt)

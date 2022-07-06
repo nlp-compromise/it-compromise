@@ -10,7 +10,7 @@ const percent = (part, total) => {
 const testOne = function (o) {
   let doc = nlp(o.text).terms()
   if (doc.length !== o.words.length) {
-    console.log('len mis-match')
+    // console.log('len mis-match')
     return null
   }
   let right = 0
@@ -24,7 +24,13 @@ const testOne = function (o) {
 
 let docs = getAll()
 
+let sum = 0
+let total = 0
 docs.forEach(o => {
-  console.log(testOne(o))
+  let avg = testOne(o)
+  if (avg !== null) {
+    sum += avg
+    total += 1
+  }
 })
-// console.log(docs[0])
+console.log(`==${Math.round(sum / total)}%==`)

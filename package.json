@@ -25,7 +25,7 @@
     "pack": "node ./scripts/pack.js",
     "watch": "amble ./scratch.js",
     "version": "node ./scripts/version.js",
-    "score": "node ./learn/giga/test.js"
+    "score": "node ./learn/tagger/test.js"
   },
   "files": [
     "builds/",

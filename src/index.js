@@ -13,7 +13,6 @@ nlp.plugin(lexicon)
 nlp.plugin(preTagger)
 nlp.plugin(postTagger)
 
-
 const it = function (txt, lex) {
   let doc = nlp(txt, lex)
   return doc

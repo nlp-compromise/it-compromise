@@ -14,6 +14,7 @@ txt = 'Il treno è arrivato ora da Milano'//The train just arrived from Milan
 txt = 'Nel pomeriggio vado da Marco'//In the afternoon I’ll go to Marco’s place
 txt = 'Come ti chiami?'
 txt = 'abballotti'
+txt = 'atteggiamenti naturali'
 // all’
 // nell’
 // sull’

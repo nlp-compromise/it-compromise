@@ -1,6 +1,7 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
 import conjugate from '../methods/verbs/conjugate.js'
+import { toFemale, toPlural, toFemalePlural } from '../methods/adjectives/index.js'
 import misc from './misc.js'
 
 const tagMap = {
@@ -25,27 +26,22 @@ Object.keys(lexData).forEach(tag => {
     if (tag === 'Ordinal') {
       words[w] = ['TextValue', 'Ordinal']
     }
+    if (tag === 'MaleAdjective') {
+      let adj = toFemale(w)
+      words[adj] = words[adj] || 'FemaleAdjective'
+      adj = toPlural(w)
+      words[adj] = words[adj] || 'PluralAdjective'
+      adj = toFemalePlural(w)
+      words[adj] = words[adj] || 'FemaleAdjective'
+    }
     if (tag === 'Infinitive') {
-      // do future-tense
-      // let res = conjugate.futureTense(w)
-      // Object.keys(res).forEach(k => {
-      //   if (!words[res[k]]) {
-      //     words[res[k]] = [tagMap[k], 'FutureTense']
-      //   }
-      // })
-      // // do present-tense
+      // do present-tense
       let res = conjugate.toPresent(w)
       Object.keys(res).forEach(k => {
         if (!words[res[k]]) {
           words[res[k]] = [tagMap[k], 'PresentTense']
         }
       })
-      // // do imperfect mood
-      // res = conjugate.imperfect(w)
-      // Object.keys(res).forEach(k => words[res[k]] = 'Verb')
-      // // past-participle
-      // let out = conjugate.pastParticiple(w)
-      // words[out] = 'PastTense'
     }
   })
 })

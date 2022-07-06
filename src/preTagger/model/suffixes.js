@@ -4,7 +4,7 @@ const rb = 'Adverb'
 // const jj = 'Adjective'
 // const cond = 'Conditional'
 // const fut = 'FutureTense'
-// const inf = 'Infinitive'
+const inf = 'Infinitive'
 // const g = 'Gerund'
 const ref = 'Reflexive'
 // const first = 'FirstPerson'
@@ -19,6 +19,9 @@ export default [
   },
   {
     // three-letter suffixes
+    are: inf,
+    ire: inf,
+    ere: inf,
   },
   { // four-letter suffixes
     arsi: ref,

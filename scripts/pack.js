@@ -36,10 +36,10 @@ const steps = [
     path: './src/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
-      Object.keys(models).forEach(k => {
+      Object.keys(models.verbs).forEach(k => {
         packed[k] = {}
-        Object.keys(models[k]).forEach(form => {
-          let pairs = models[k][form]
+        Object.keys(models.verbs[k]).forEach(form => {
+          let pairs = models.verbs[k][form]
           console.log(k, form)
           packed[k][form] = learn(pairs)
           packed[k][form] = compress(packed[k][form])

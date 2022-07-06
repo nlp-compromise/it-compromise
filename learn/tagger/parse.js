@@ -1,14 +1,15 @@
 import fs from 'fs'
 import path from 'path'
 import tagset from './tags.js'
-
+const file = 'it-test.part.txt'
+// const file = 'it-test.txt'
 let punct = new Set(['FB', 'FC', 'FF', 'FS'])
 
 
 import { fileURLToPath } from 'url'
 const dir = path.dirname(fileURLToPath(import.meta.url))
 
-let arr = fs.readFileSync(path.join(dir, 'it-test.part.txt')).toString().split(/\n/).map(str => str.trim()).filter(str => str)
+let arr = fs.readFileSync(path.join(dir, file)).toString().split(/\n/).map(str => str.trim()).filter(str => str)
 
 const parse = function (str) {
   let words = str.split(/ /g).map(w => {

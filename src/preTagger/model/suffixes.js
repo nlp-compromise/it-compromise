@@ -6,7 +6,7 @@ const rb = 'Adverb'
 // const fut = 'FutureTense'
 // const inf = 'Infinitive'
 // const g = 'Gerund'
-// const ref = 'Reflexive'
+const ref = 'Reflexive'
 // const first = 'FirstPerson'
 
 export default [
@@ -21,6 +21,9 @@ export default [
     // three-letter suffixes
   },
   { // four-letter suffixes
+    arsi: ref,
+    irsi: ref,
+    ersi: ref
   },
   { // five-letter suffixes
     mente: rb

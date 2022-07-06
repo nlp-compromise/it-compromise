@@ -1,6 +1,6 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-// import conjugate from '../methods/conjugate.js'
+import conjugate from '../methods/verbs/conjugate.js'
 import misc from './misc.js'
 
 const tagMap = {
@@ -34,12 +34,12 @@ Object.keys(lexData).forEach(tag => {
       //   }
       // })
       // // do present-tense
-      // res = conjugate.presentTense(w)
-      // Object.keys(res).forEach(k => {
-      //   if (!words[res[k]]) {
-      //     words[res[k]] = [tagMap[k], 'PresentTense']
-      //   }
-      // })
+      let res = conjugate.toPresent(w)
+      Object.keys(res).forEach(k => {
+        if (!words[res[k]]) {
+          words[res[k]] = [tagMap[k], 'PresentTense']
+        }
+      })
       // // do imperfect mood
       // res = conjugate.imperfect(w)
       // Object.keys(res).forEach(k => words[res[k]] = 'Verb')

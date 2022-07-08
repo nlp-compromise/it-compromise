@@ -1,16 +1,13 @@
 import methods from './methods/index.js'
 // import toRoot from './methods/toRoot/index.js'
 import words from './model/lexicon.js'
-// import root from './compute/root.js'
+import root from './compute/root.js'
 
 
 export default {
   methods: {
     two: {
-      transform: {
-        methods,
-        // toRoot
-      }
+      transform: methods,
     }
   },
   model: {
@@ -19,6 +16,6 @@ export default {
     }
   },
   compute: {
-    // root: root
+    root: root
   }
 }

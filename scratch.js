@@ -16,15 +16,13 @@ txt = 'Come ti chiami?'
 txt = 'abballotti'
 txt = 'atteggiamenti naturali'
 txt = 'Sentendomi male sono andato a letto.'
-// txt = 'Sto scrivendo una lettera.'
+txt = 'Sto scrivendo una lettera.'
 // txt = 'Ripensandoci, credo che non fosse colpa sua.'
 // all’
 // nell’
 // sull’
 
 let doc = nlp(txt)
-// // doc.compute('root')
+doc.compute('root')
 doc.debug()
-// import data from '/Users/spencer/mountain/it-compromise/data/models/verbs/present-tense.js'
-// let arr = Object.keys(data)
-// console.log(JSON.stringify(arr, null, 2))
+// console.log(doc.docs[0])

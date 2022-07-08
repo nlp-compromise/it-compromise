@@ -50,14 +50,14 @@ Object.keys(lexData).forEach(tag => {
         }
       })
       // future-tense
-      res = verbs.toPast(w)
+      res = verbs.toFuture(w)
       Object.keys(res).forEach(k => {
         if (!words[res[k]]) {
           words[res[k]] = [tagMap[k], 'FutureTense']
         }
       })
       // conditonal
-      res = verbs.toPast(w)
+      res = verbs.toConditional(w)
       Object.keys(res).forEach(k => {
         if (!words[res[k]]) {
           words[res[k]] = [tagMap[k], 'ConditionalVerb']
@@ -68,9 +68,7 @@ Object.keys(lexData).forEach(tag => {
       words[res] = words[res] || ['Gerund']
       // participle
       res = verbs.toPastParticiple(w)
-      words[res] = words[res] || ['Participle']
-
-
+      words[res] = words[res] || ['PastParticiple']
     }
   })
 })

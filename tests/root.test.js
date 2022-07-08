@@ -12,13 +12,36 @@ test('root-match:', function (t) {
     ["agguantiamo", "{agguantare}"],
     ["agguantate", "{agguantare}"],
     ["agguantano", "{agguantare}"],
-
     // gerunds
     ["abbancando", "{abbancare}"],
     ["abbandonando", "{abbandonare}"],
     ["abbarbagliando", "{abbarbagliare}"],
     // past-participle
     ["abbaruffato", "abbaruffare"],
+    // past-tense
+    ["vociai", "{vociare}"],
+    ["vociasti", "{vociare}"],
+    ["vociò", "{vociare}"],
+    ["vociammo", "{vociare}"],
+    ["vociaste", "{vociare}"],
+    ["vociarono", "{vociare}"],
+    // future-tense
+    ["trasporrò", "{trasporre}"],
+    ["trasporrai", "{trasporre}"],
+    ["trasporrà", "{trasporre}"],
+    ["trasporremo", "{trasporre}"],
+    ["trasporrete", "{trasporre}"],
+    ["trasporranno", "{trasporre}"],
+    // conditional
+    ["ammasserei", "{ammassare}"],
+    ["ammasseresti", "{ammassare}"],
+    ["ammasserebbe", "{ammassare}"],
+    ["ammasseremmo", "{ammassare}"],
+    ["ammassereste", "{ammassare}"],
+    ["ammasserebbero", "{ammassare}"],
+    // gerund
+    ["ventilando", "{ventilare}"],
+    ["verbalizzando", "{verbalizzare}"],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

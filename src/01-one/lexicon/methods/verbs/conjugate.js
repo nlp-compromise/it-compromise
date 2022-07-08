@@ -18,6 +18,7 @@ const toPast = (str) => doEach(str, pastTense)
 const toFuture = (str) => doEach(str, futureTense)
 const toConditional = (str) => doEach(str, conditional)
 
+
 export {
   toPresent,
   toPast,

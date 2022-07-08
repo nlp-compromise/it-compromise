@@ -5,7 +5,7 @@ const rb = 'Adverb'
 // const cond = 'Conditional'
 // const fut = 'FutureTense'
 const inf = 'Infinitive'
-// const g = 'Gerund'
+const g = 'Gerund'
 const ref = 'Reflexive'
 // const first = 'FirstPerson'
 
@@ -26,13 +26,18 @@ export default [
   { // four-letter suffixes
     arsi: ref,
     irsi: ref,
-    ersi: ref
+    ersi: ref,
+    endo: g,
+    ando: g,
   },
   { // five-letter suffixes
-    mente: rb
+    mente: rb,
   },
   {
     // six-letter suffixes
+    andoci: g,//reflexive gerund
+    endoci: g,
+    endomi: g,
   },
   {
     // seven-letter suffixes

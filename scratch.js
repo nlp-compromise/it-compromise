@@ -15,10 +15,12 @@ txt = 'Nel pomeriggio vado da Marco'//In the afternoon I’ll go to Marco’s pl
 txt = 'Come ti chiami?'
 txt = 'abballotti'
 txt = 'atteggiamenti naturali'
+txt = 'Sentendomi male sono andato a letto.'
+// txt = 'Sto scrivendo una lettera.'
+// txt = 'Ripensandoci, credo che non fosse colpa sua.'
 // all’
 // nell’
 // sull’
-
 
 let doc = nlp(txt)
 // // doc.compute('root')

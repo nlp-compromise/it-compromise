@@ -5,6 +5,8 @@ const postTagger = function (doc) {
 
   // Come ti chiami?
   doc.match('(mi|ti|si|ci|vi|si) #Verb').tag('Reflexive', 'si-verb')
+  // non lavoro
+  doc.match('non #Noun').tag('Verb', 'non-verb')
 
 }
 export default postTagger

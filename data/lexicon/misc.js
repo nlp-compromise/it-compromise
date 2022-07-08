@@ -36,6 +36,12 @@ export default {
   'vostre': pr,
 
   se: 'Condition',//if
-  'nel caso che': 'Condition'//in the event that
+  'nel caso che': 'Condition',//in the event that
+
+  'non': 'Negative',//
+  'nessuno': 'Negative',// (nobody/no one)
+  'niente': 'Negative',// (nothing)
+  'nulla': 'Negative',// (nothing)
+  'mai': 'Negative',// (never)
 
 }

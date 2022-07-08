@@ -45,6 +45,12 @@ const steps = [
           packed[k][form] = compress(packed[k][form])
         })
       })
+      console.log('gerunds')
+      let gerunds = learn(Object.entries(models.gerunds))
+      gerunds = compress(gerunds)
+      packed.gerunds = {
+        gerunds
+      }
       return packed
     },
   }

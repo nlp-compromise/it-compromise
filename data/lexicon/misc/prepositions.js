@@ -30,4 +30,8 @@ export default [
   'prima',//before
   'dopo',//after
   'che',
+  'contro',
+  'fino',
+  'molti',
+  'dove'
 ]

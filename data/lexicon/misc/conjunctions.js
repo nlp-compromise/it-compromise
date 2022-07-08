@@ -41,4 +41,6 @@ export default [
   'piuttosto che',//rather than
   'anziché',//rather than
   'sia',//whether
+  'se',
+  'ed',
 ]

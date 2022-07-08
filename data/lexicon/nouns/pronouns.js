@@ -21,5 +21,9 @@ export default [
 
   // 'gli',//him/it/them
   // 'che',
-  'così'
+  'così',
+  'questa',
+  'quale',
+  'questi',
+  'ne'
 ]

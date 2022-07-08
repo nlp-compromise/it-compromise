@@ -37,7 +37,7 @@ export default {
   'Ss': 'Singular',//	S num = s		singular noun 
   'Sp': 'Plural',//	S num = p		plural noun
   'Sn': 'Noun',//	S num = n		underspecified noun
-  'As': 'Adjective',//	A num = s		singular  adjective
+  'As': 'SingularAdjective',//	A num = s		singular  adjective
   'Ap': 'Adjective',//	A num = p		plural adjective
   'An': 'Adjective',//	A num = n		underspecified adjective
   'APs': 'Adjective',//	AP num = s	singular possessive adjective
@@ -75,7 +75,7 @@ export default {
   'VAii': 'Auxiliary',//	VA mod = i ten = i per != 3		auxiliary verb indicative imperfect, other than 3° person
   'VAii3': 'Auxiliary',//	VA mod = i ten = i per = 3		auxiliary verb indicative imperfect, 3° person
   'VAis': 'Auxiliary',//	VA mod = i ten = s per != 3		auxiliary verb indicative past, other than 3° person
-  // 'Vis3': 'Auxiliary',//	VA mod = i ten = s per = 3		auxiliary verb indicative past, 3° person
+  'VAis3': 'Auxiliary',//	VA mod = i ten = s per = 3		auxiliary verb indicative past, 3° person
   'VAif': 'Auxiliary',//	VA mod = i ten = f per != 3		auxiliary verb indicative future, other than 3° person
   'VAif3': 'Auxiliary',//	VA mod = i ten = f per = 3		auxiliary verb indicative future, 3° person
   'VAcp': 'Auxiliary',//	VA mod = c ten = p per != 3		auxiliary verb conjunctive present, other than 3° person

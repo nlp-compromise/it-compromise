@@ -2,14 +2,19 @@ import getAll from './parse.js'
 import nlp from '../../src/index.js'
 
 let show = new Set([
-  'che', 'un', 'si', 'una', 'le',
-  'non', 'più', 'come', 'anche', '',
-  'ed', 'fu', 'sua', 'suo', 'sono',
-  'cui', 'questo', 'era', 'prima', 'lo',
-  'parte', 'loro', 'uno', 'se', 'solo',
-  'questa', 'molto', 'altri', 'durante', 'può',
-  'dove', 'venne', 'poi', 'suoi', 'quale',
-  'ne', 'stesso', 'tutti', 'fino', 'sempre',
+  'durante', 'può', 'questa', 'l', 'dove',
+  'venne', 'poi', 'suoi', 'quale', 'ne',
+  'stesso', 'tutti', 'grande', 'fino', 'sempre',
+  'ogni', 'alcuni', 'quindi', 'la', 'serie',
+  'quella', 'altri', 'così', 'mondo', 'questi',
+  'quello', 'contro', 'vita', 'stata', 'ancora',
+  'aveva', 'fine', 'quali', 'inoltre', 'senza',
+  'gli', 'secondo', 'però', 'seguito', 'sue',
+  'molti', 'possono', 'sotto', 'oltre', 'nuovo',
+  'quanto', 'verso', 'tutto', 'circa', 'infatti',
+  'seconda', 'spesso', 'già', 'italia', 'volta',
+  'proprio', 'alcune', 'invece', 'furono', 'morte',
+  'tale', 'dopo', 'periodo', 'comune', 'a',
 ])
 
 const convert = {
@@ -17,6 +22,7 @@ const convert = {
   Singular: 'Noun',
   Plural: 'Noun',
   Auxiliary: 'Verb',
+  Negative: 'Adverb',
 }
 
 const percent = (part, total) => {

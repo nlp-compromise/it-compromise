@@ -2,19 +2,7 @@ import getAll from './parse.js'
 import nlp from '../../src/index.js'
 
 let show = new Set([
-  'durante', 'può', 'questa', 'l', 'dove',
-  'venne', 'poi', 'suoi', 'quale', 'ne',
-  'stesso', 'tutti', 'grande', 'fino', 'sempre',
-  'ogni', 'alcuni', 'quindi', 'la', 'serie',
-  'quella', 'altri', 'così', 'mondo', 'questi',
-  'quello', 'contro', 'vita', 'stata', 'ancora',
-  'aveva', 'fine', 'quali', 'inoltre', 'senza',
-  'gli', 'secondo', 'però', 'seguito', 'sue',
-  'molti', 'possono', 'sotto', 'oltre', 'nuovo',
-  'quanto', 'verso', 'tutto', 'circa', 'infatti',
-  'seconda', 'spesso', 'già', 'italia', 'volta',
-  'proprio', 'alcune', 'invece', 'furono', 'morte',
-  'tale', 'dopo', 'periodo', 'comune', 'a',
+
 ])
 
 const convert = {

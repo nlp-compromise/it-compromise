@@ -1,11 +1,11 @@
 import getAll from './parse.js'
 
 let all = {}
-let tag = "SingularAdjective"
+let tag = "Adverb"
 // let tag = "Adverb"
 const testOne = function (obj) {
   obj.words.forEach(o => {
-    if (o.tag === tag) {
+    if (o.tag === tag && !o.w.match(/mente$/)) {
       let str = o.w.toLowerCase()
       all[str] = all[str] || 0
       all[str] += 1
@@ -30,5 +30,5 @@ all = Object.entries(all).sort((a, b) => {
 })
 
 all = all.map(a => a[0])
-all = all.slice(0, 5000)
+all = all.slice(0, 100)
 console.log(JSON.stringify(all, null, 2))

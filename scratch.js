@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 
 // https://www.langeasy.com/italiansongs1en/
 let txt = ''
@@ -19,6 +19,9 @@ txt = 'Sentendomi male sono andato a letto.'
 txt = 'Sto scrivendo una lettera.'
 txt = 'agguantiamo'
 txt = 'ammasserei'
+txt = 'Siamo andati a casa.'
+txt = 'squadra'
+// txt = 'c'
 // txt = 'trasporre'
 // txt = 'Ripensandoci, credo che non fosse colpa sua.'
 // all’
@@ -33,4 +36,4 @@ doc.compute('root')
 doc.debug()
 // console.log(doc.verbs().conjugate())
 // console.log(doc.verbs().json())
-console.log(doc.docs[0])
+// console.log(doc.docs[0])

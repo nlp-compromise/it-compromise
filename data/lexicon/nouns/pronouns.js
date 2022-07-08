@@ -13,11 +13,13 @@ export default [
   'mi',//	me
   'ti',//	you
   'lo',//	him/it
-  'la',//	her/it
+  // 'la',//	her/it
   'ci',//	us
   'vi',//	you
   'li',//, le	them
   'le',//, le	them
 
-  'gli',//him/it/them
+  // 'gli',//him/it/them
+  // 'che',
+  'così'
 ]

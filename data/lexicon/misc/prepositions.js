@@ -25,4 +25,9 @@ export default [
   // between
   'tra',
   'fra',
+
+  'ad',//to
+  'prima',//before
+  'dopo',//after
+  'che',
 ]

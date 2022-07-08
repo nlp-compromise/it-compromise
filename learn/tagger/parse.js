@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import tagset from './tags.js'
-const file = 'it-test.part.txt'
+const file = 'it-test.txt'
 // const file = 'it-test.txt'
 let punct = new Set(['FB', 'FC', 'FF', 'FS'])
 
@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url'
 const dir = path.dirname(fileURLToPath(import.meta.url))
 
 let arr = fs.readFileSync(path.join(dir, file)).toString().split(/\n/).map(str => str.trim()).filter(str => str)
+console.log('read')
 
 const parse = function (str) {
   let words = str.split(/ /g).map(w => {
@@ -27,6 +28,8 @@ const parse = function (str) {
 // console.log(parse(arr[223]))
 
 const doAll = function () {
-  return arr.map(parse)
+  let d = arr.slice(0, 120000).map(parse)
+  console.log('parsed')
+  return d
 }
 export default doAll

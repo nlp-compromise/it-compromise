@@ -8,5 +8,7 @@ const postTagger = function (doc) {
   // non lavoro
   doc.match('non #Noun').tag('Verb', 'non-verb')
 
+  // auxiliary verbs
+  doc.match('[(sono|sei|lei|siamo|siete|ho|hai|abbiamo|avete|hanno)] #Verb', 0).tag('Auxiliary', 0)
 }
 export default postTagger

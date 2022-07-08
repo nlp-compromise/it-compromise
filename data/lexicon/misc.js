@@ -2,6 +2,8 @@ const pr = ['Pronoun', 'Possessive']
 
 export default {
 
+  'è': ['Copula', 'PresentTense'],
+
   'il': 'Article',
   'lo': 'Article',
   'la': 'Article',
@@ -36,6 +38,7 @@ export default {
   'vostre': pr,
 
   se: 'Condition',//if
+  si: 'Condition',//if
   'nel caso che': 'Condition',//in the event that
 
   'non': 'Negative',//
@@ -43,5 +46,21 @@ export default {
   'niente': 'Negative',// (nothing)
   'nulla': 'Negative',// (nothing)
   'mai': 'Negative',// (never)
+
+  // auxiliary verbs
+  // be
+  'sono': ['Copula', 'Auxiliary'],
+  'sei': ['Copula', 'Auxiliary'],
+  'lei': ['Copula', 'Auxiliary'],
+  'lei è': ['Copula', 'Auxiliary'],
+  'siamo': ['Copula', 'Auxiliary'],
+  'siete': ['Copula', 'Auxiliary'],
+  // have
+  'ho': 'Auxiliary',
+  'hai': 'Auxiliary',
+  'lei ha': 'Auxiliary',
+  'abbiamo': 'Auxiliary',
+  'avete': 'Auxiliary',
+  'hanno': 'Auxiliary',
 
 }

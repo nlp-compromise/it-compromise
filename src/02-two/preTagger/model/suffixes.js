@@ -1,7 +1,7 @@
 const rb = 'Adverb'
-// const nn = 'Noun'
+const nn = 'Noun'
 // const vb = 'Verb'
-// const jj = 'Adjective'
+const jj = 'Adjective'
 // const cond = 'ConditionalVerb'
 // const fut = 'FutureTense'
 const inf = 'Infinitive'
@@ -29,6 +29,8 @@ export default [
     ersi: ref,
     endo: g,
     ando: g,
+    ante: jj,
+    iere: nn
   },
   { // five-letter suffixes
     mente: rb,

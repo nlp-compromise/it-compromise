@@ -17,6 +17,7 @@ txt = 'abballotti'
 txt = 'atteggiamenti naturali'
 txt = 'Sentendomi male sono andato a letto.'
 txt = 'Sto scrivendo una lettera.'
+txt = 'agguantiamo'
 // txt = 'Ripensandoci, credo che non fosse colpa sua.'
 // all’
 // nell’
@@ -25,4 +26,4 @@ txt = 'Sto scrivendo una lettera.'
 let doc = nlp(txt)
 doc.compute('root')
 doc.debug()
-// console.log(doc.docs[0])
+console.log(doc.docs[0])

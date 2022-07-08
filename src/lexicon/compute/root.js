@@ -11,7 +11,6 @@ const verbForm = function (term) {
   return want.find(tag => term.tags.has(tag))
 }
 
-//relajarse -> relajar
 const stripReflexive = function (str) {
   str = str.replace(/arsi$/, 'ar')
   str = str.replace(/ersi$/, 'er')
@@ -34,7 +33,7 @@ const root = function (view) {
         if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('PresentTense')) {
-          // term.root = verb.toRoot.fromPresent(str, form)
+          term.root = verb.toRoot.fromPresent(str, form)
           // } else if (term.tags.has('PastTense')) {
           //   term.root = verb.toRoot.fromPast(str, form)
           // } else if (term.tags.has('FutureTense')) {

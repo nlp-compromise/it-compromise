@@ -1,12 +1,10 @@
 import { resolve } from 'path'
 import fs from 'fs'
-const want = 'gerund'
+const want = 'imperative'
 
 let arr = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conjugation/infinitives.txt').toString().split(/\n/).slice(0, 5000)
-console.log(arr)
 const tops = new Set(arr)
 
-let all = {}
 
 async function getFiles(dir) {
   const dirents = await fs.promises.readdir(dir, { withFileTypes: true })
@@ -23,6 +21,9 @@ const getOne = function (file) {
     return ''
   }
   let isBad = false
+  if (!tops.has(obj.word)) {
+    isBad = true
+  }
   if (obj.word.match(/si$/)) {
     isBad = true
   }

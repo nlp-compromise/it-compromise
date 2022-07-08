@@ -4,5 +4,5 @@ import toRoot from './toRoot.js'
 
 const toFemalePlural = (str) => toPlural(toFemale(str))
 
-export { toFemale, toPlural, toFemalePlural, toRoot }
+export default { toFemale, toPlural, toFemalePlural, toRoot }
 

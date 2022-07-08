@@ -51,6 +51,12 @@ const steps = [
       packed.gerunds = {
         gerunds
       }
+      console.log('past-participle')
+      let pastParticiple = learn(Object.entries(models.pastParticiple))
+      pastParticiple = compress(pastParticiple)
+      packed.pastParticiple = {
+        pastParticiple
+      }
       return packed
     },
   }

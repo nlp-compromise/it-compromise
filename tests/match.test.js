@@ -13,6 +13,9 @@ test('match:', function (t) {
     ["agonizziamo", '#PresentTense'],
     ["agonizzate", '#PresentTense'],
     ["agonizzano", '#PresentTense'],
+    ["abbaruffare", "#Infinitive"],
+    ['abbaruffato', '#PastParticiple'],
+    // ['', ''],
     // ['', ''],
   ]
   arr.forEach(function (a) {

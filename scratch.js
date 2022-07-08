@@ -18,6 +18,7 @@ txt = 'atteggiamenti naturali'
 txt = 'Sentendomi male sono andato a letto.'
 txt = 'Sto scrivendo una lettera.'
 txt = 'agguantiamo'
+txt = 'abbaruffato'
 // txt = 'Ripensandoci, credo che non fosse colpa sua.'
 // all’
 // nell’

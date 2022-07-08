@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import fs from 'fs'
-const want = 'indicative/present'
+const want = 'imperative'
 let forms = [
   's1',//io
   's2',//tu
@@ -9,7 +9,9 @@ let forms = [
   'p2',//voi
   'p3',//loro
 ]
-let all = {}
+
+let arr = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conjugation/infinitives.txt').toString().split(/\n/).slice(0, 5000)
+const tops = new Set(arr)
 
 async function getFiles(dir) {
   const dirents = await fs.promises.readdir(dir, { withFileTypes: true })
@@ -26,6 +28,9 @@ const getOne = function (file) {
     return ''
   }
   let isBad = false
+  if (!tops.has(obj.word)) {
+    isBad = true
+  }
   if (obj.word.match(/si$/)) {
     isBad = true
   }
@@ -36,13 +41,20 @@ const getOne = function (file) {
     isBad = true
   }
   let res = forms.map(f => {
-    let found = obj.conjugations.find(o => o.group === want && o.form === f)
+    let found = obj.conjugations.find(o => o.group === want && (o.form === f || o.form === f + '-b'))
+    if (!found || !found.value) {
+      isBad = true
+      return ''
+    }
     found.value = found.value.replace(/(mi|ti|si|ci|vi) /, '')
     if (found.value.match(/[ -]/)) {
       isBad = true
     }
     return found.value.trim()
   })
+  if (!tops.has(obj.word)) {
+    isBad = true
+  }
   if (isBad) {
     return ''
   }
@@ -55,12 +67,9 @@ getFiles('/Users/spencer/mountain/it-compromise/learn/conjugation/verbs').then((
   files = files.filter(str => str && str.match(/\.json$/))
   files.forEach(file => {
     let res = getOne(file)
-    fs.writeFileSync('./out.js', res + '\n', { flag: 'a' })
+    if (res) {
+      fs.writeFileSync('./out.js', res + '\n', { flag: 'a' })
+    }
   })
-  // console.log(all)
-  // fs.writeFileSync('./out.js', `export default ${JSON.stringify(all, null, 2)}`)
   fs.writeFileSync('./out.js', '\n}\n', { flag: 'a' })
 })
-
-// let res = getOne('/Users/spencer/mountain/it-compromise/learn/conjugation/verbs/p/parlare.json')
-// console.log(res)

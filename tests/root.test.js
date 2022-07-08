@@ -17,6 +17,8 @@ test('root-match:', function (t) {
     ["abbancando", "{abbancare}"],
     ["abbandonando", "{abbandonare}"],
     ["abbarbagliando", "{abbarbagliare}"],
+    // past-participle
+    ["abbaruffato", "abbaruffare"],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

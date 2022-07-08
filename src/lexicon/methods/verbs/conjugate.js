@@ -1,8 +1,6 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
-
-let { presentTense } = model
-// =-=-
+let { presentTense, pastTense, futureTense, conditional } = model
 
 const doEach = function (str, m) {
   return {
@@ -16,15 +14,13 @@ const doEach = function (str, m) {
 }
 
 const toPresent = (str) => doEach(str, presentTense)
-// const toPast = (str) => doEach(str, pastTense)
-// const toFuture = (str) => doEach(str, futureTense)
-// const toConditional = (str) => doEach(str, conditional)
+const toPast = (str) => doEach(str, pastTense)
+const toFuture = (str) => doEach(str, futureTense)
+const toConditional = (str) => doEach(str, conditional)
 
-
-
-export default {
+export {
   toPresent,
-  // toPast,
-  // toFuture,
-  // toConditional,
+  toPast,
+  toFuture,
+  toConditional,
 }

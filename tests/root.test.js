@@ -17,7 +17,7 @@ test('root-match:', function (t) {
     ["abbandonando", "{abbandonare}"],
     ["abbarbagliando", "{abbarbagliare}"],
     // past-participle
-    ["abbaruffato", "abbaruffare"],
+    ["abbaruffato", "{abbaruffare}"],
     // past-tense
     ["vociai", "{vociare}"],
     ["vociasti", "{vociare}"],

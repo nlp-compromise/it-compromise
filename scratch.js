@@ -18,19 +18,19 @@ txt = 'atteggiamenti naturali'
 txt = 'Sentendomi male sono andato a letto.'
 txt = 'Sto scrivendo una lettera.'
 txt = 'agguantiamo'
-txt = 'trasporrò'
+txt = 'ammasserei'
 // txt = 'trasporre'
 // txt = 'Ripensandoci, credo che non fosse colpa sua.'
 // all’
 // nell’
 // sull’
 
-console.log(nlp.model().one.lexicon['trasporrò'])
+// console.log(nlp.model().one.lexicon['abbaruffato'])
 // console.log(nlp.world())
 
 let doc = nlp(txt)
-// doc.compute('root')
+doc.compute('root')
 doc.debug()
 // console.log(doc.verbs().conjugate())
 // console.log(doc.verbs().json())
-// console.log(doc.docs[0])
+console.log(doc.docs[0])

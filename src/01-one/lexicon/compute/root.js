@@ -32,14 +32,16 @@ const root = function (view) {
         let form = verbForm(term)
         if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
+        } else if (term.tags.has('ConditionalVerb')) {
+          term.root = verb.fromConditional(str, form)
+        } else if (term.tags.has('PastParticiple')) {
+          term.root = verb.fromPastParticiple(str, form)
         } else if (term.tags.has('PresentTense')) {
           term.root = verb.fromPresent(str, form)
         } else if (term.tags.has('PastTense')) {
           term.root = verb.fromPast(str, form)
         } else if (term.tags.has('FutureTense')) {
           term.root = verb.fromFuture(str, form)
-        } else if (term.tags.has('Conditional')) {
-          term.root = verb.fromConditional(str, form)
         } else {
           term.root = verb.fromPresent(str, form)
         }

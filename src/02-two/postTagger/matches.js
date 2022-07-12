@@ -9,6 +9,8 @@ const postTagger = function (doc) {
   doc.match('non #Noun').tag('Verb', 'non-verb')
   // in the battle
   doc.match('nella [#Verb]', 0).tag('Noun', 'nella-verb')
+  // al negozio
+  doc.match('al [#FirstPerson]', 0).tag('Noun', 'al-verb')
 
   // auxiliary verbs
   doc.match('[(sono|sei|lei|siamo|siete|ho|hai|abbiamo|avete|hanno)] #Verb', 0).tag('Auxiliary', 0)

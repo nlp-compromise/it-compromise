@@ -1333,7 +1333,6 @@ export default {
   "generare": "generato",
   "germinare": "germinato",
   "germogliare": "germogliato",
-  "gessare": "gessato",
   "gestire": "gestito",
   "gettare": "gettato",
   "ghermire": "ghermito",

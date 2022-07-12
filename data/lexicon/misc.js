@@ -60,6 +60,8 @@ let misc = {
   'stata': 'Verb',
   'stato': 'Verb',
   'stati': 'Verb',
+  'diretto': 'Verb',
+  'chiamata': 'Verb',
 }
 Object.assign(misc, aux)
 export default misc

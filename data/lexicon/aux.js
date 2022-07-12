@@ -1,6 +1,6 @@
+// auxiliary verbs
 export default {
-  // auxiliary verbs
-  // be
+  // to be
   // 'sono': ['Copula', 'Auxiliary'],
   // 'sei': ['Copula', 'Auxiliary'],
   // 'lei': ['Copula', 'Auxiliary'],
@@ -212,4 +212,101 @@ export default {
   'avesse avuto': ['Auxiliary'],
   'avessimo avuto': ['Auxiliary'],
   'avessero avuto': ['Auxiliary'],
+
+
+  // make
+  // Presente
+  'faccio': ['Verb'],
+  'fai': ['Verb'],
+  'fa': ['Verb'],
+  'facciamo': ['Verb'],
+  'fate': ['Verb'],
+  'fanno': ['Verb'],
+  //Imperfetto
+  'facevo': ['Verb'],
+  'facevi': ['Verb'],
+  'faceva': ['Verb'],
+  'facevamo': ['Verb'],
+  'facevate': ['Verb'],
+  'facevano': ['Verb'],
+  //Passato remoto
+  'feci': ['Verb'],
+  'facesti': ['Verb'],
+  'fece': ['Verb'],
+  'facemmo': ['Verb'],
+  'faceste': ['Verb'],
+  'fecero': ['Verb'],
+  //Futuro semplice
+  'farò': ['Verb'],
+  'farai': ['Verb'],
+  'farà': ['Verb'],
+  'faremo': ['Verb'],
+  'farete': ['Verb'],
+  'faranno': ['Verb'],
+  //Passato prossimo
+  'ho fatto': ['Verb'],
+  'hai fatto': ['Verb'],
+  'ha fatto': ['Verb'],
+  'abbiamo fatto': ['Verb'],
+  'avete fatto': ['Verb'],
+  'hanno fatto': ['Verb'],
+  //Trapassato prossimo
+  'avevo fatto': ['Verb'],
+  'avevi fatto': ['Verb'],
+  'aveva fatto': ['Verb'],
+  'avevamo fatto': ['Verb'],
+  'avevate fatto': ['Verb'],
+  'avevano fatto': ['Verb'],
+  //Trapassato remoto
+  'ebbi fatto': ['Verb'],
+  'avesti fatto': ['Verb'],
+  'ebbe fatto': ['Verb'],
+  'avemmo fatto': ['Verb'],
+  'aveste fatto': ['Verb'],
+  'ebbero fatto': ['Verb'],
+  //Futuro anteriore
+  'avrò fatto': ['Verb'],
+  'avrai fatto': ['Verb'],
+  'avrà fatto': ['Verb'],
+  'avremo fatto': ['Verb'],
+  'avrete fatto': ['Verb'],
+  'avranno fatto': ['Verb'],
+  //CONGIUNTIVOPresente
+
+  'facciache': ['Verb'],
+  'facciamoche': ['Verb'],
+  'facciateche': ['Verb'],
+  'facciano': ['Verb'],
+  //Passato
+  'abbia fattoche': ['Verb'],
+  'abbiamo fattoche': ['Verb'],
+  'abbiate fattoche': ['Verb'],
+  'abbiano fatto': ['Verb'],
+  //Imperfetto
+  'facessiche': ['Verb'],
+  'facesseche': ['Verb'],
+  'facessimoche': ['Verb'],
+  'facesteche': ['Verb'],
+  'facessero': ['Verb'],
+  //Trapassato
+  'avessi fattoche': ['Verb'],
+  'avesse fattoche': ['Verb'],
+  'avessimo fattoche': ['Verb'],
+  'aveste fattoche': ['Verb'],
+  'avessero fatto': ['Verb'],
+  //CONDIZIONALEPresente
+
+  'farei': ['Verb'],
+  'faresti': ['Verb'],
+  'farebbe': ['Verb'],
+  'faremmo': ['Verb'],
+  'fareste': ['Verb'],
+  'farebbero': ['Verb'],
+  //Passato
+  'avrei fatto': ['Verb'],
+  'avresti fatto': ['Verb'],
+  'avrebbe fatto': ['Verb'],
+  'avremmo fatto': ['Verb'],
+  'avreste fatto': ['Verb'],
+  //'avrebbero fatto':['Verb'],
 }

@@ -9,7 +9,7 @@ export default {
   "Condition": "true¦nel caso che,si",
   "Negative": "true¦n0;essuno,iente,on,ulla",
   "Adverb": "true¦aZbenYcVdSecc,fRgià,inPlOmLno,oIpDquAs4t1vi0;a,ci06;a1roppo,utto0;!ra;lvolta,n05rdi;e4in,o1pe0ubi04ì;cie,sW;l1pra0t02;!ttut01;o,tZ;conda,mpA;a0i;l0nXsi;e,i;er3i2o1r0ur;esUopr8;co,i;uttosSù;alBsiP;lt1r0ve;a,mai;re;ai,e0olN;gl0no;io;à,ì;die3fine,siEt0vece;anIorG;a,orse,uori;a1ie0;tro;pprima,v5;irca,o0;m0sì;e,unque;!e;bbastanza,cc8ddirittura,lme7nc5ppun9ss3tt1v0;anti;or5raver0;so;ai,i0;eme;h',or0;!a;no;an0;to",
-  "Verb": "true¦deve,può,stat0;a,i",
+  "Verb": "true¦aQchiamata,deve,ebbOf3h1può,stat0;a,i;a0o 06; 05i 05nn04;a1ec0;e5i;c7i,n6r0te;a4e0à,ò;bbe2i,m1st0te;e,i;mo,o;!ro;i,n0;no;ci8e0;mmo,s2v0;a0i,o;!mo,no,te;s1t0;eRi;e1i0;cSmR;cRro;a0o;cPmoMno,tecP;e0i J; IrH;bbiaFv0;e5r0;a3e0à Fò F;bb6i Em1st0t6;e Di D;mBo C;i BnnA;mm9s3t2v0;a0i 9o 9; 8m7n7t0;e 7;s1t0;e6i 5;e1i0; 6mo 6; 5r1; 4mo2n0te 4;o 0;fatto; fatto0;!c2;fatt0;oc0;he",
   "Date": "true¦domani,ieri,oggi",
   "Noun": "true¦formula",
   "MaleNoun": "true¦0:0P;animali,battagl0Rc0Fdati,f0Cg06iniz0Ql02mWnUoperTpIrFs7t5v1;i2ol1;o,ta;sKt1;a,tor0N;est1itol00;a,i,o;co7e6i4paz0JquadUt1vilup7;a0or0Jr2udi1;!o;aXutL;gnifiOstem1;a,i;de,gui0rie;po;appor0egUi1;cerHs1torT;pet0ulta0;ar8erioQia6o4r1untN;em07o1;cesXg1;et0ramma;r1s0tP;ta;n1zza;o,te;co,t1;e,i1;!to;a,e;a1omi,umeQ;tu6;a4er3iliRo2usi1;ca;dell7nArte,vimen0;ca0;cchina,estKnie1re;ra;a2egge,i1uce;bHveJ;to,vor1;i,o;en5ioc4over3ra2ui1;da;do;no;hi,o;ere;at0igli2or1;ma,za;!a,o;a6ent5o1;n2r1;so;dizi5sigl8t1;o,ro3;ro;lc5mp3nz2po,usa,va1;llo;oni;iona0o;to;io;ia",

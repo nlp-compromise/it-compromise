@@ -1,11 +1,10 @@
 import getAll from './parse.js'
 
 let all = {}
-let tag = "Adverb"
-// let tag = "Adverb"
+let tag = "Plural"
 const testOne = function (obj) {
   obj.words.forEach(o => {
-    if (o.tag === tag && !o.w.match(/mente$/)) {
+    if (o.tag === tag) {
       let str = o.w.toLowerCase()
       all[str] = all[str] || 0
       all[str] += 1

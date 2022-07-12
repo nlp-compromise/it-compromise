@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import tagset from './tags.js'
 const file = 'it-test.txt'
-// const file = 'it-test.txt'
+// const file = 'it-test.part.txt'
 let punct = new Set(['FB', 'FC', 'FF', 'FS'])
 
 
@@ -15,7 +15,7 @@ console.log('read')
 const parse = function (str) {
   let words = str.split(/ /g).map(w => {
     let a = w.split(/_/)
-    return { w: a[0], tag: tagset[a[1]] || a[1] }
+    return { w: a[0], tag: tagset[a[1]] || a[1], id: a[1] }
   })
   words = words.filter(o => {
     return !punct.has(o.tag)

@@ -2,15 +2,23 @@ import getAll from './parse.js'
 import nlp from '../../src/index.js'
 
 let show = new Set([
-
 ])
+
+let byWord = {}
 
 const convert = {
   ProperNoun: 'Noun',
   Singular: 'Noun',
   Plural: 'Noun',
   Auxiliary: 'Verb',
+  Modal: 'Verb',
+  PresentTense: 'Verb',
+  PastTense: 'Verb',
+  FutureTense: 'Verb',
+  Gerund: 'Verb',
+  Imperative: 'Verb',
   Negative: 'Adverb',
+  SingularAdjective: 'Adjective',
 }
 
 const percent = (part, total) => {
@@ -36,6 +44,11 @@ const testOne = function (o) {
       right += 1
     } else {
       let str = m.text('normal')
+      if (tag === 'Verb') {
+        // if (m.has('#Noun')) {
+        byWord[str] = byWord[str] || 0
+        byWord[str] += 1
+      }
       missing[str] = missing[str] || 0
       missing[str] += 1
       if (show.has(str)) {
@@ -61,7 +74,7 @@ docs.forEach(o => {
 console.log(`==${Math.round(sum / total)}%==`)
 
 
-missing = Object.entries(missing).sort((a, b) => {
+byWord = Object.entries(byWord).sort((a, b) => {
   if (a[1] > b[1]) {
     return -1
   } else if (a[1] < b[1]) {
@@ -70,4 +83,4 @@ missing = Object.entries(missing).sort((a, b) => {
   return 0
 })
 
-console.log(missing.map(a => a[0]))
+console.log(byWord.map(a => a[0]))

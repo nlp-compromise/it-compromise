@@ -21,6 +21,11 @@ txt = 'agguantiamo'
 txt = 'ammasserei'
 txt = 'Siamo andati a casa.'
 txt = `nella battaglia`
+txt = `possono`
+txt = `potere`
+txt = `autoprodurre`
+txt = `vetrioleggiando`
+txt = `avevano`
 // txt = 'c'
 // txt = 'trasporre'
 // txt = 'Ripensandoci, credo che non fosse colpa sua.'
@@ -28,34 +33,34 @@ txt = `nella battaglia`
 // nell’
 // sull’
 
+
+// 'aver', 'sia', 'far', 'stati',
+//   'fa', 'deve', 'fatto', 'avevano',
+//   'diretto', 'poter', 'va', 'chiamata',
+//   'porta', 'veniva', 'fanno', 'abbia',
+//   'composto', 'usata', 'potrebbe', 'utilizzata',
+//   'poteva', 'venivano', 'devono', 'fondata',
+//   'possa', 'doveva', 'considerata', 'diede',
+//   'stava', 'nato', 'utilizzati', 'scritti',
+//   'decise', 'composta', 'conosciuta', 'vive',
+//   'continua', 'fatta', 'presenti', 'dedicata',
+//   'esser', 'avesse', 'ottenne', 'vince',
+//   'costruita', 'vanno', 'situata', 'chiamati',
+//   'conosciuto', 'costituita', 'usati', 'seguito',
+//   'legato', 'dotato', 'fondato',
+//   'sconfitto', 'ricevette', 'possiede', 'dovette',
+//   'scritta', 'pubblicata', 'perse', 'posto',
+//   'prodotta', 'considerati', 'avvenuta', 'vide',
+//   'morto', 'provenienti', 'diretta', 'potevano',
+//   'faceva', 'realizzata', 'pubblicati', 'perso',
+//   'potuto', 'dotata', 'definita', 'realizzati',
+//   'potrebbero', 'dovuta', 'basata', 'denominata',
+//   'vista', 'proveniente', 'che', 'potesse',
+//   'diventata', 'creata', 'intitolata', 'dotati',
+//   'contenente', 'trovava', 'rappresentata', 'sposato',
+
 // console.log(nlp.model().one.lexicon['abbaruffato'])
 // console.log(nlp.world())
-
-// 'sua',         'suo',          'loro',             'suoi',
-// 'altri',       'proprio',      'gran',             'propri',
-// 'vari',        'tali',         'pari',             'prime',
-// 'ex',          'soli',         'singoli',          'antichi',
-// 'politiche',   'antiche',      'blu',              'euro',
-// 'lunghi',      'mio',          'nostro',           'lunghe',
-// 'punk',        'economiche',   'vecchi',           '',
-// 'mia',         'pop',          'tecniche',         'pubbliche',
-// 'necessari',   'tedeschi',     'nostra',           'fisiche',
-// 'specifiche',  'storiche',     'socialisti',       'nostri',
-// 'rossi',       'molteplici',   'svariati',         'innumerevoli',
-// 'scritte',     'ricchi',       'greche',           'tedesche',
-// 'tipiche',     'saggi',        'finanziari',       'britanniche',
-// 'bianchi',     'distinti',     'ampi',             'open',
-// 'tua',         'artistiche',   'tuo',              'nord',
-// 'ricche',      'nemici',       'svariate',         'super',
-// 'comunisti',   'provenienti',  'cinematografiche', 'scientifiche',
-// 'sacri',       'curve',        'dette',            'nutrienti',
-// 'chimiche',    'altrui',       'animati',          'magiche',
-// 'liquidi',     'originari',    'elettriche',       'meccaniche',
-// 'du',          'classiche',    'miei',             'secondari',
-// 'dispositivi', 'partecipanti', 'metalliche',       'geologiche',
-// 'nostre',      'analoghi',     'architettoniche',  'cellulari',
-// 'letterari',   'cantate',      'circolari',        'e',
-// 'mediche',     'esteri',       'distinte',         'gialloblu',
 let doc = nlp(txt)
 doc.compute('root')
 doc.debug()

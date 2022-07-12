@@ -4998,4 +4998,7 @@ export default [
   "collettare",
   "congestionare",
   "controvertere",
+
+  "potere",
+
 ]

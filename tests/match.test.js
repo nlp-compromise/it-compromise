@@ -50,6 +50,12 @@ test('match:', function (t) {
     ["vociammo", "#PastTense"],
     ["vociaste", "#PastTense"],
     ["vociarono", "#PastTense"],
+
+    [`nella battaglia`, '#Preposition #Noun'],
+    // [`possono`, '#Verb'],
+    // [`potere`, '#Verb'],
+    [`autoprodurre`, '#Verb'],
+    [`autoprodotto`, '#Verb'],
     // ['', ''],
     // ['', ''],
   ]

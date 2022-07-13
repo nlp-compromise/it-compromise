@@ -121,6 +121,7 @@ export default [
   { // four-letter suffixes
     otto: val,
     nove: val,
+    mila: val,
 
     arsi: ref,
     irsi: ref,

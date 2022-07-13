@@ -79,6 +79,7 @@ let arr = [
   [1067, 'millesessantasette'],
   [1252, 'milleduecentocinquantadue'],
   [2000, 'duemila'],
+  [3000, 'tremila'],
   [10000, 'diecimila'],
   [100000, 'centomila'],
   [1000000, 'milione'],

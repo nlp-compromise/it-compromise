@@ -1,4 +1,4 @@
-import { data, toCardinal, toNumber } from '../data.js'
+import { toCardinal, toNumber, multiples } from '../data.js'
 import tokenize from './tokenize.js'
 
 const fromText = function (terms) {
@@ -25,8 +25,8 @@ const fromText = function (terms) {
       w = toCardinal[w]
     }
     // 'cent'
-    if (data.multiples.hasOwnProperty(w)) {
-      let mult = data.multiples[w] || 1
+    if (multiples.hasOwnProperty(w)) {
+      let mult = multiples[w] || 1
       if (carry === 0) {
         carry = 1
       }

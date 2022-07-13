@@ -32,7 +32,7 @@ let data = {
   ],
   hundreds: [
     [100, 'cento', 'centesimo'],
-    [200, 'duecento', 'duecentesimo'],//due
+    [200, 'duecento', 'duecentesimo'],
     [300, 'trecento', 'trecentesimo'],
     [400, 'quattrocento', 'quattrocentesimo'],
     [500, 'cinquecento', 'cinquecentesimo'],
@@ -43,7 +43,9 @@ let data = {
   ],
   multiples: [
     [1000, 'mille'],
-    [1000000, 'milione']
+    [100000, 'centomila'],
+    [1000000, 'milione'],
+    [1000000000, 'miliardo']
   ]
 }
 
@@ -67,10 +69,11 @@ Object.keys(data).forEach(k => {
   })
 })
 toNumber['tré'] = 3
-// console.log(data.ones)
+toNumber['mila'] = 1000
+toNumber['zero'] = 0
 
 // list end-strings, for tokenization
-let ends = ['cento', 'mille', 'milione', 'tré']
+let ends = ['cento', 'mille', 'milione', 'tré', 'mila']
 data.ones.forEach(a => {
   ends.push(a[1])
 })
@@ -90,4 +93,10 @@ ends = ends.sort((a, b) => {
   return 0
 })
 
-export { toCardinal, toNumber, data, ends }
+let multiples = {
+  mila: 1000
+}
+data.multiples.forEach(a => {
+  multiples[a[1]] = a[0]
+})
+export { toCardinal, toNumber, data, ends, multiples }

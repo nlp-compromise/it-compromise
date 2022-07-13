@@ -1,48 +1,54 @@
-import { data, toCardinal } from '../data.js'
-
-let ends = ['cento', 'mille', 'milione']
-data.ones.forEach(a => {
-  ends.push(a[1])
-})
-data.tens.forEach(a => {
-  ends.push(a[1])
-})
-// sort by length (longest first)
-ends = ends.sort((a, b) => {
-  if (a.length > b.length) {
-    return -1
-  } else if (a.length < b.length) {
-    return 1
-  }
-  return 0
-})
-
-const tokenize = function (str) {
-  let tokens = []
-  let going = true
-  while (going) {
-    let found = ends.find(end => str.endsWith(end))
-    if (found) {
-      tokens.push(found)
-      str = str.substr(0, str.length - found.length)
-    } else {
-      going = false
-    }
-  }
-  if (str) {
-    tokens.push(str)
-  }
-  return tokens.filter(s => s).reverse()
-}
+import { data, toCardinal, toNumber } from '../data.js'
+import tokenize from './tokenize.js'
 
 const fromText = function (terms) {
-  console.log(terms)
+  let sum = 0
+  let carry = 0
+  let minus = false
+  // get proper word tokens
   let str = terms.reduce((h, t) => {
     h += t.normal || ''
     return h
   }, '')
   let tokens = tokenize(str)
-  console.log(tokens)
-  return 0
+  // console.log(tokens)
+
+  for (let i = 0; i < tokens.length; i += 1) {
+    let w = tokens[i] || ''
+    // minus eight
+    if (w === 'meno') {
+      minus = true
+      continue
+    }
+    // 'huitieme'
+    if (toCardinal.hasOwnProperty(w)) {
+      w = toCardinal[w]
+    }
+    // 'cent'
+    if (data.multiples.hasOwnProperty(w)) {
+      let mult = data.multiples[w] || 1
+      if (carry === 0) {
+        carry = 1
+      }
+      // console.log('carry', carry, 'mult', mult, 'sum', sum)
+      sum += mult * carry
+      carry = 0
+      continue
+    }
+    // 'tres'
+    if (toNumber.hasOwnProperty(w)) {
+      carry += toNumber[w]
+    } else {
+      console.log('missing', w)
+    }
+  }
+  // include any remaining
+  if (carry !== 0) {
+    sum += carry
+  }
+  if (minus === true) {
+    sum *= -1
+  }
+  return sum
 }
 export default fromText

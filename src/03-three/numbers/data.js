@@ -50,6 +50,14 @@ let data = {
 
 const toCardinal = {}
 const toNumber = {}
+// add 'quarantuno'
+data.tens.forEach(a => {
+  let str = a[1].replace(/[ia]$/, 'uno')
+  data.ones.push([a[0] + 1, str, str])
+  str = a[1].replace(/[ia]$/, '')
+  toNumber[str] = a[0] //'vent' = 20
+})
+
 
 Object.keys(data).forEach(k => {
   data[k].forEach(a => {
@@ -58,5 +66,26 @@ Object.keys(data).forEach(k => {
     toNumber[card] = num
   })
 })
+toNumber['tré'] = 3
+// console.log(data.ones)
+// console.log(toNumber.vent)
 
-export { toCardinal, toNumber, data }
+// list end-strings, for tokenization
+let ends = ['cento', 'mille', 'milione', 'tré']
+data.ones.forEach(a => {
+  ends.push(a[1])
+})
+data.tens.forEach(a => {
+  ends.push(a[1])
+})
+// sort by length (longest first)
+ends = ends.sort((a, b) => {
+  if (a.length > b.length) {
+    return -1
+  } else if (a.length < b.length) {
+    return 1
+  }
+  return 0
+})
+
+export { toCardinal, toNumber, data, ends }

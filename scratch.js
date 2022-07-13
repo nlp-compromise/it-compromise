@@ -41,11 +41,12 @@ txt = 'il ginocchio. le ginocchia. i ginocchi  '
 txt = 'considerata'
 txt = 'considerati'
 txt = 'ventidue'
-txt = 'quattro'
 txt = 'ne ho ottantacinque'
 txt = 'ne ho milleduecentosessantasette'
 txt = 'cinquantasei'
 txt = 'centosessantasette'
+txt = 'quaranta'
+txt = 'duecento'
 // all’
 // nell’
 // sull’

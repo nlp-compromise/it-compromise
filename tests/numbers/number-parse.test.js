@@ -91,20 +91,20 @@ test('number-tag:', function (t) {
     let [_, str] = a
     let doc = nlp(str)
     let m = doc.numbers()
-    t.equal(m.found, true, here + '[toNumber] ' + str)
+    t.equal(m.found, true, here + '[findNumber] ' + str)
   })
   t.end()
 })
 
-// test('number-parse:', function (t) {
-//   arr.forEach(a => {
-//     let [want, str] = a
-//     let doc = nlp(str)
-//     let n = doc.numbers().get()[0]
-//     t.equal(n, want, here + '[toNumber] ' + str)
-//   })
-//   t.end()
-// })
+test('number-parse:', function (t) {
+  arr.forEach(a => {
+    let [want, str] = a
+    let doc = nlp(str)
+    let n = doc.numbers().get()[0]
+    t.equal(n, want, here + '[toNumber] ' + str)
+  })
+  t.end()
+})
 
 // test('number-create:', function (t) {
 //   arr.forEach(a => {

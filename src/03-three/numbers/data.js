@@ -32,7 +32,7 @@ let data = {
   ],
   hundreds: [
     [100, 'cento', 'centesimo'],
-    [200, 'duocento', 'duecentesimo'],//due
+    [200, 'duecento', 'duecentesimo'],//due
     [300, 'trecento', 'trecentesimo'],
     [400, 'quattrocento', 'quattrocentesimo'],
     [500, 'cinquecento', 'cinquecentesimo'],
@@ -68,7 +68,6 @@ Object.keys(data).forEach(k => {
 })
 toNumber['tré'] = 3
 // console.log(data.ones)
-// console.log(toNumber.vent)
 
 // list end-strings, for tokenization
 let ends = ['cento', 'mille', 'milione', 'tré']
@@ -76,6 +75,9 @@ data.ones.forEach(a => {
   ends.push(a[1])
 })
 data.tens.forEach(a => {
+  ends.push(a[1])
+})
+data.hundreds.forEach(a => {
   ends.push(a[1])
 })
 // sort by length (longest first)

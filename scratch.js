@@ -45,6 +45,7 @@ txt = 'quattro'
 txt = 'ne ho ottantacinque'
 txt = 'ne ho milleduecentosessantasette'
 txt = 'cinquantasei'
+txt = 'centosessantasette'
 // all’
 // nell’
 // sull’

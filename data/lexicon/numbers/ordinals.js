@@ -19,7 +19,13 @@ export default [
   'diciottesimo',//eighteenth
   'diciannovesimo',//nineteenth
   'ventesimo',//twentieth
+  'trentesimo',//
+  'quarantesimo',//
   'cinquantesimo',//fiftieth
+  'sessantesimo',//
+  'settantesimo',//
+  'ottantesimo',//
+  'novantesimo',//ninetieth
   'centesimo',//hundredth
   'millesimo',//thousandth
   'milionesimo',//millionth

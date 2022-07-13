@@ -51,5 +51,7 @@ export default [
   'duemila',//2000
   'milione',//000
   'milioni',//000
+  'diecimila',//10000
+  'centomila',//100000
   'miliardo',//000
 ]

@@ -79,9 +79,11 @@ let arr = [
   [1067, 'millesessantasette'],
   [1252, 'milleduecentocinquantadue'],
   [2000, 'duemila'],
-  // [000, 'milione'],
+  [10000, 'diecimila'],
+  [100000, 'centomila'],
+  [1000000, 'milione'],
   // [000, 'milioni'],
-  // [000, 'miliardo'],
+  [1000000000, 'miliardo'],
 
 ]
 test('number-tag:', function (t) {

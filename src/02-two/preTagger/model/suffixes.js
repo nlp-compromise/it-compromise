@@ -11,6 +11,7 @@ const g = 'Gerund'
 const ref = 'Reflexive'
 const imp = 'Imperative'
 const pres = 'PresentTense'
+const val = ['TextValue', 'Cardinal']
 // const first = 'FirstPerson'
 
 export default [
@@ -38,6 +39,13 @@ export default [
   },
   {
     // three-letter suffixes
+
+    uno: val,
+    due: val,
+    tre: val,
+    tré: val,
+    sei: val,
+
     are: inf,
     ire: inf,
     ere: inf,
@@ -111,6 +119,9 @@ export default [
     ort: nn,
   },
   { // four-letter suffixes
+    otto: val,
+    nove: val,
+
     arsi: ref,
     irsi: ref,
     ersi: ref,
@@ -298,6 +309,9 @@ export default [
     vitù: nn,
   },
   { // five-letter suffixes
+
+    sette: val,
+
     mente: rb,
     tipie: nn,
     toria: nn,
@@ -749,6 +763,8 @@ export default [
   },
   {
     // six-letter suffixes
+    cinque: val,
+
     andoci: g,//reflexive gerund
     endoci: g,
     endomi: g,
@@ -763,6 +779,8 @@ export default [
   },
   {
     // seven-letter suffixes
+    quattro: val,
+
     grafico: jj,
     ectomia: nn,
   }

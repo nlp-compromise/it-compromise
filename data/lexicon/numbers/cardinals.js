@@ -1,4 +1,5 @@
 export default [
+  'zero',//1
   'uno',//1
   'due',//2
   'tre',//3

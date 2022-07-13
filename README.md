@@ -68,10 +68,10 @@ o lato cliente:
 ### Numeri
 può analizzare e generare numeri scritti
 ```js
-let doc = nlp('tengo cuarenta dolares')
-doc.numbers().minus(50)
+let doc = nlp('ne ho milleduecentosessantasette euro')
+doc.numbers().minus(15)
 doc.text()
-// tengo moins diez dolares
+// 'ne ho milleduecentocinquantadue euro'
 ```
 -->
 

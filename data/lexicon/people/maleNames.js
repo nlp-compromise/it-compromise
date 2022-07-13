@@ -905,7 +905,6 @@ export default [
   'vicente',
   'victor',
   'vihaan',
-  'vince',
   'vincent',
   'virgil',
   'vivaan',

@@ -1,192 +1,159 @@
-const cp = 'Copula'
+let irreg = [
+  //essere (to be; auxiliary)
+  ['sono', 'ero', 'fui', 'sarò', 'sia', 'fossi', 'sarei'],
+  ['sei', 'eri', 'fosti', 'sarai', 'sia', 'fossi', 'saresti'],
+  ['è', 'era', 'fu', 'sarà', 'sia', 'fosse', 'sarebbe'],
+  ['siamo', 'eravamo', 'fummo', 'saremo', 'siamo', 'fossimo', 'saremmo'],
+  ['siete', 'eravate', 'foste', 'sarete', 'siate', 'foste', 'sareste'],
+  ['sono', 'erano', 'furono', 'saranno', 'siano', 'fossero', 'sarebbero'],
+
+  //stare (to stay; auxiliary)
+  ['sto', 'stavo', 'stetti', 'starò', 'stia', 'stessi', 'starei'],
+  ['stai', 'stavi', 'stesti', 'starai', 'stia', 'stessi', 'staresti'],
+  ['sta', 'stava', 'stette', 'starà', 'stia', 'stesse', 'starebbe'],
+  ['stiamo', 'stavamo', 'stemmo', 'staremo', 'stiamo', 'stessimo', 'staremmo'],
+  ['state', 'stavate', 'steste', 'starete', 'stiate', 'steste', 'stareste'],
+  ['stanno', 'stavano', 'stettero', 'staranno', 'stiano', 'stessero', 'starebbero'],
+
+  //avere (to have; auxiliary)
+  ['ho', 'avevo', 'ebbi', 'avrò', 'abbia', 'avessi', 'avrei'],
+  ['hai', 'avevi', 'avesti', 'avrai', 'abbia', 'avessi', 'avresti'],
+  ['ha', 'aveva', 'ebbe', 'avrà', 'abbia', 'avesse', 'avrebbe'],
+  ['abbiamo', 'avevamo', 'avemmo', 'avremo', 'abbiamo', 'avessimo', 'avremmo'],
+  ['avete', 'avevate', 'aveste', 'avrete', 'abbiate', 'aveste', 'avreste'],
+  ['hanno', 'avevano', 'ebbero', 'avranno', 'abbiano', 'avessero', 'avrebbero'],
+
+  //dovere (to have to, must, should; modal)
+  ['devo', 'dovevo', 'dovetti', 'dovrò', 'debba', 'dovessi', 'dovrei'],
+  ['devi', 'dovevi', 'dovesti', 'dovrai', 'debba', 'dovessi', 'dovresti'],
+  ['deve', 'doveva', 'dovette', 'dovrà', 'debba', 'dovesse', 'dovrebbe'],
+  ['dobbiamo', 'dovevamo', 'dovemmo', 'dovremo', 'dobbiamo', 'dovessimo', 'dovremmo'],
+  ['dovete', 'dovevate', 'doveste', 'dovrete', 'dobbiate', 'doveste', 'dovreste'],
+  ['devono', 'dovevano', 'dovettero', 'dovranno', 'debbano', 'dovessero', 'dovrebbero'],
+
+  //potere (to be able to, can, could; modal)
+  ['posso', 'potevo', 'potei', 'potrò', 'possa', 'potessi', 'potrei'],
+  ['puoi', 'potevi', 'potesti', 'potrai', 'possa', 'potessi', 'potresti'],
+  ['può', 'poteva', 'poté', 'potrà', 'possa', 'potesse', 'potrebbe'],
+  ['possiamo', 'potevamo', 'potemmo', 'potremo', 'possiamo', 'potessimo', 'potremmo'],
+  ['potete', 'potevate', 'poteste', 'potrete', 'possiate', 'poteste', 'potreste'],
+  ['possono', 'potevano', 'poterono', 'potranno', 'possano', 'potessero', 'potrebbero'],
+
+  // volere (to want, will, would); modal)
+  ['voglio', 'volevo', 'volli', 'vorrò', 'voglia', 'volessi', 'vorrei'],
+  ['vuoi', 'volevi', 'volesti', 'vorrai', 'voglia', 'volessi', 'vorresti'],
+  ['vuole', 'voleva', 'volle', 'vorrà', 'voglia', 'volesse', 'vorrebbe'],
+  ['vogliamo', 'volevamo', 'volemmo', 'vorremo', 'vogliamo', 'volessimo', 'vorremmo'],
+  ['volete', 'volevate', 'voleste', 'vorrete', 'vogliate', 'voleste', 'vorreste'],
+  ['vogliono', 'volevano', 'vollero', 'vorranno', 'vogliano', 'volessero', 'vorrebbero'],
+
+  // sapere (to be able to)
+  ['so', 'sapevo', 'seppi', 'saprò', 'sappia', 'sapessi', 'saprei'],
+  ['sai', 'sapevi', 'sapesti', 'saprai', 'sappia', 'sapessi', 'sapresti'],
+  ['sa', 'sapeva', 'seppe', 'saprà', 'sappia', 'sapesse', 'saprebbe'],
+  ['sappiamo', 'sapevamo', 'sapemmo', 'sapremo', 'sappiamo', 'sapessimo', 'sapremmo'],
+  ['sapete', 'sapevate', 'sapeste', 'saprete', 'sappiate', 'sapeste', 'sapreste'],
+  ['sanno', 'sapevano', 'seppero', 'sapranno', 'sappiano', 'sapessero', 'saprebbero'],
+]
+
+let lex = {}
+let forms = [
+  'PresentTense',
+  'PastTense',
+  'PastTense',
+  'FutureTense',
+  'PresentTense',
+  'PastTense',
+  'ConditionalVerb',
+]
+irreg.forEach(line => {
+  line.forEach((w, i) => {
+    lex[w] = lex[w] || forms[i]
+  })
+})
+
 const vb = 'Verb'
 // auxiliary verbs
-export default {
-  //==== essere (to be; auxiliary)===
-  // Presente
-  'sono': [cp, 'PresentTense'],
-  'sei': [cp, 'PresentTense'],
-  'è': [cp, 'PresentTense'],
-  'siamo': [cp, 'PresentTense'],
-  'siete': [cp, 'PresentTense'],
-  // Imperfetto
-  'ero': cp,
-  'eri': cp,
-  'era': cp,
-  'eravamo': cp,
-  'eravate': cp,
-  'erano': cp,
-  // Passato remoto
-  'fui': [cp, 'PastTense'],
-  'fosti': [cp, 'PastTense'],
-  'fu': [cp, 'PastTense'],
-  'fummo': [cp, 'PastTense'],
-  'foste': [cp, 'PastTense'],
-  'furono': [cp, 'PastTense'],
-  // Futuro semplice
-  'sarò': [cp, 'FutureTense'],
-  'sarai': [cp, 'FutureTense'],
-  'sarà': [cp, 'FutureTense'],
-  'saremo': [cp, 'FutureTense'],
-  'sarete': [cp, 'FutureTense'],
-  'saranno': [cp, 'FutureTense'],
-  // Passato prossimo
-  'stato': [cp, 'PastTense'],
-  'sei stato': [cp, 'PastTense'],
-  'stata': [cp, 'PastTense'],
-  'siamo stati': [cp, 'PastTense'],
-  'siete stati': [cp, 'PastTense'],
-  'stati': [cp, 'PastTense'],
-  // Presente
-  'sia': [cp, 'PresentTense'],
-  'siate': [cp, 'PresentTense'],
-  'siano': [cp, 'PresentTense'],
-  // Imperfetto
-  'fossi': cp,
-  'fosse': cp,
-  'fossimo': cp,
-  'fossero': cp,
-  // Presente
-  'sarei': [cp, 'PresentTense'],
-  'saresti': [cp, 'PresentTense'],
-  'sarebbe': [cp, 'PresentTense'],
-  'saremmo': [cp, 'PresentTense'],
-  'sareste': [cp, 'PresentTense'],
-  'sarebbero': [cp, 'PresentTense'],
-  // IMPERATIVO PRESENTE
-  'sii': [cp, 'PresentTense'],
-
-  // =='stare' to stay==
-  'sto': vb,
-  'stavo': vb,
-  'stetti': vb,
-  'starò': vb,
-  'stia': vb,
-  'stessi': vb,
-  'starei': vb,
-  'stai': vb,
-  'stavi': vb,
-  'stesti': vb,
-  'starai': vb,
-  'staresti': vb,
-  'sta': vb,
-  'stava': vb,
-  'stette': vb,
-  'starà': vb,
-  'stesse': vb,
-  'starebbe': vb,
-  'stiamo': vb,
-  'stavamo': vb,
-  'stemmo': vb,
-  'staremo': vb,
-  'stessimo': vb,
-  'staremmo': vb,
-  'state': vb,
-  'stavate': vb,
-  'steste': vb,
-  'starete': vb,
-  'stiate': vb,
-  'stareste': vb,
-  'stanno': vb,
-  'stavano': vb,
-  'stettero': vb,
-  'staranno': vb,
-  'stiano': vb,
-  'stessero': vb,
-  'starebbero': vb,
-
-  //== 'avere' to have==
-  // Presente
-  'ho': vb,
-  'hai': vb,
-  'ha': vb,
-  'abbiamo': vb,
-  'avete': vb,
-  'hanno': vb,
-  // Imperfetto  
-  'avevo': vb,
-  'avevi': vb,
-  'aveva': vb,
-  'avevamo': vb,
-  'avevate': vb,
-  'avevano': vb,
-  // Passato remoto  
-  'ebbi': vb,
-  'avesti': vb,
-  'ebbe': vb,
-  'avemmo': vb,
-  'aveste': vb,
-  'ebbero': vb,
-  // Futuro semplice  
-  'avrò': vb,
-  'avrai': vb,
-  'avrà': vb,
-  'avremo': vb,
-  'avrete': vb,
-  'avranno': vb,
-  // Passato prossimo  
-  'avuto': vb,
-  // CONGIUNTIVO  Presente  
-  'abbia': vb,
-  'abbiate': vb,
-  'abbiano': vb,
-  // Imperfetto  
-  'avessi': vb,
-  'avesse': vb,
-  'avessimo': vb,
-  'avessero': vb,
-
-
+let misc = {
+  //alt
+  'debbo': vb,
+  'debbono': vb,
   // make
-  // Presente
   'faccio': vb,
   'fai': vb,
   'fa': vb,
   'facciamo': vb,
   'fate': vb,
   'fanno': vb,
-  //Imperfetto
   'facevo': vb,
   'facevi': vb,
   'faceva': vb,
   'facevamo': vb,
   'facevate': vb,
   'facevano': vb,
-  //Passato remoto
   'feci': vb,
   'facesti': vb,
   'fece': vb,
   'facemmo': vb,
   'faceste': vb,
   'fecero': vb,
-  //Futuro semplice
   'farò': vb,
   'farai': vb,
   'farà': vb,
   'faremo': vb,
   'farete': vb,
   'faranno': vb,
-  //Trapassato prossimo
   'fatto': vb,
-  //CONGIUNTIVOPresente
-  'facciache': vb,
-  'facciamoche': vb,
-  'facciateche': vb,
+  'faccia': vb,
+  'facciate': vb,
   'facciano': vb,
-  //Passato
-  'fattoche': vb,
-  //Imperfetto
-  'facessiche': vb,
-  'facesseche': vb,
-  'facessimoche': vb,
-  'facesteche': vb,
+  'facessi': vb,
+  'facesse': vb,
+  'facessimo': vb,
   'facessero': vb,
-  //CONDIZIONALEPresente
   'farei': vb,
   'faresti': vb,
   'farebbe': vb,
   'faremmo': vb,
   'fareste': vb,
   'farebbero': vb,
-  //'avrebbero fatto':vb,
+
+  // ==venir come==
+  'vengo': vb,
+  'vieni': vb,
+  'viene': vb,
+  'veniamo': vb,
+  'venite': vb,
+  'vengono': vb,
+  'venivo': vb,
+  'venivi': vb,
+  'veniva': vb,
+  'venivamo': vb,
+  'venivate': vb,
+  'venivano': vb,
+  'venni': vb,
+  'venisti': vb,
+  'venne': vb,
+  'venimmo': vb,
+  'veniste': vb,
+  'vennero': vb,
+  'verrò': vb,
+  'verrai': vb,
+  'verrà': vb,
+  'verremo': vb,
+  'verrete': vb,
+  'verranno': vb,
+  'venuto': vb,
+  'venuta': vb,
+  'venuti': vb,
+  'venute': vb,
+  'venga': vb,
+  'veniate': vb,
+  'vengano': vb,
+  'venissi': vb,
+  'venisse': vb,
+  'venissimo': vb,
+  'venissero': vb,
 }
+lex = Object.assign(lex, misc)
+export default lex

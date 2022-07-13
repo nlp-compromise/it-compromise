@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 
 // https://www.langeasy.com/italiansongs1en/
 let txt = ''
@@ -38,19 +38,19 @@ txt = 'Ho guidato al negozio'
 txt = 'il cappello nero, i cappelli neri '
 // txt = 'la bella macchina, le belle macchine '
 txt = 'il ginocchio. le ginocchia. i ginocchi  '
-txt = 'pasto'
+txt = 'considerata'
+txt = 'considerati'
+txt = 'ventidue'
+txt = 'quattro'
+txt = 'ne ho ottantacinque'
+txt = 'ne ho milleduecentosessantasette'
+txt = 'cinquantasei'
 // all’
 // nell’
 // sull’
 
+/*
 
-// console.log(nlp.model().one.lexicon['abbaruffato'])
-// console.log(nlp.world())
+*/
 let doc = nlp(txt).debug()
-doc.compute('root')
-// doc.match('{guidare}').debug()
-// console.log(doc.has('{guidare} al #Noun'))
-// doc.debug()
-// console.log(doc.verbs().conjugate())
-// console.log(doc.verbs().json())
-// console.log(doc.docs[0])
+console.log(doc.numbers().get())

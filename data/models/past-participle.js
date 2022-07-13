@@ -763,7 +763,6 @@ export default {
   "coniugare": "coniugato",
   "connettere": "connesso",
   "connumerare": "connumerato",
-  "conoscere": "conosciuto",
   "conquistare": "conquistato",
   "consacrare": "consacrato",
   "consegnare": "consegnato",

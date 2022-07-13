@@ -6,6 +6,7 @@ import tagset from './01-one/tagset/plugin.js'
 import preTagger from './02-two/preTagger/plugin.js'
 import postTagger from './02-two/postTagger/plugin.js'
 import verbs from './03-three/verbs/plugin.js'
+import numbers from './03-three/numbers/plugin.js'
 
 nlp.plugin(tokenize)
 nlp.plugin(tagset)
@@ -13,6 +14,7 @@ nlp.plugin(lexicon)
 nlp.plugin(preTagger)
 nlp.plugin(postTagger)
 nlp.plugin(verbs)
+nlp.plugin(numbers)
 
 const it = function (txt, lex) {
   let doc = nlp(txt, lex)

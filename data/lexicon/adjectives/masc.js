@@ -730,6 +730,7 @@ export default [
   'scolastico',
   'giovanissimo',
   'considerevole',
+  'considerata',
   'primario',
   'drammatico',
   'pericoloso',
@@ -2310,5 +2311,7 @@ export default [
   // -ema
   'suprema',
   'estrema',
+
+  'diretto'
 
 ]

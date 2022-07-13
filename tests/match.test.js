@@ -56,8 +56,11 @@ test('match:', function (t) {
     // [`potere`, '#Verb'],
     [`autoprodurre`, '#Verb'],
     [`autoprodotto`, '#Verb'],
-    ['sulla', 'su la'],
+    // ['sulla', 'su la'],
     ['sulla', 'sulla'],
+    ['il ginocchio', '. #MaleNoun'],
+    ['le ginocchia', '. #FemaleNoun'],
+    ['i ginocchi', '. #PluralNoun'],
     // ['', ''],
   ]
   arr.forEach(function (a) {

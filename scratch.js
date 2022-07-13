@@ -39,32 +39,6 @@ txt = 'Ho guidato al negozio'
 // nell’
 // sull’
 
-// 'stato',      'possono',        'aver',        'sia',
-// 'far',        'fa',             'fatto',       'diretto',
-// 'poter',      'va',             'porta',       'veniva',
-// 'composto',   'usata',          'potrebbe',    'utilizzata',
-// 'poteva',     'venivano',       'devono',      'fondata',
-// 'possa',      'doveva',         'considerata', 'diede',
-// 'stava',      'nato',           'utilizzati',  'scritti',
-// 'decise',     'composta',       'conosciuta',  'vive',
-// 'continua',   'fatta',          'presenti',    'dedicata',
-// 'esser',      'ottenne',        'vince',       'costruita',
-// 'vanno',      'situata',        'chiamati',    'conosciuto',
-// 'costituita', 'usati',          'seguito',     'legato',
-// 'dotato',     'fondato',        'sconfitto',   'ricevette',
-// 'possiede',   'dovette',        'scritta',     'pubblicata',
-// 'perse',      'posto',          'prodotta',    'considerati',
-// 'avvenuta',   'vide',           'morto',       'provenienti',
-// '',           'diretta',        'potevano',    'realizzata',
-// 'pubblicati', 'perso',          'dotata',      'definita',
-// 'realizzati', 'potrebbero',     'dovuta',      'basata',
-// 'denominata', 'vista',          'proveniente', 'che',
-// 'potesse',    'diventata',      'creata',      'intitolata',
-// 'dotati',     'contenente',     'trovava',     'rappresentata',
-// 'sposato',    'caratterizzata', 'riviste',     'sviluppata',
-// 'legata',     'subito',         'incantesimo', 'eseguita',
-// 'nota',       'potuto',         'render',      'formata',
-
 
 // console.log(nlp.model().one.lexicon['abbaruffato'])
 // console.log(nlp.world())

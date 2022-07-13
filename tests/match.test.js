@@ -56,7 +56,8 @@ test('match:', function (t) {
     // [`potere`, '#Verb'],
     [`autoprodurre`, '#Verb'],
     [`autoprodotto`, '#Verb'],
-    // ['', ''],
+    ['sulla', 'su la'],
+    ['sulla', 'sulla'],
     // ['', ''],
   ]
   arr.forEach(function (a) {

@@ -20,8 +20,7 @@ import units from './numbers/units.js'
 
 import infinitives from './verbs/infinitives.js'
 
-import masculine from './nouns/masculine.js'
-import feminine from './nouns/feminine.js'
+import nouns from './nouns/nouns.js'
 import sportsTeams from './nouns/sportsTeams.js'
 import organizations from './nouns/organizations.js'
 import possessives from './nouns/possessives.js'
@@ -59,8 +58,7 @@ const data = [
 
   [infinitives, 'Infinitive'],
 
-  [masculine, 'MaleNoun'],
-  [feminine, 'FemaleNoun'],
+  [nouns, 'Noun'],
   [sportsTeams, 'SportsTeam'],
   [organizations, 'Organization'],
   [possessives, 'Possessive'],

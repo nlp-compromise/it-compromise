@@ -1,5 +1,23 @@
 export default [
+  // { word: 'del', out: ['di', 'il'] },
+  // { word: 'dello', out: ['di', 'lo'] },
+  // { word: 'della', out: ['di', 'la'] },
+  // { word: 'dell', out: ['di', 'l'] },
+  // { word: 'dei', out: ['di', 'i'] },
+  // { word: 'degli', out: ['di', 'gli'] },
+  // { word: 'delle', out: ['di', 'le'] },
+  // { word: 'col', out: ['con', 'il'] },
+  // { word: 'coi', out: ['con', 'i'] },
+  // { word: 'al', out: ['a', 'il'] },
+  // { word: 'allo', out: ['a', 'lo'] },
+  // { word: 'alla', out: ['a', 'la'] },
+  // { word: 'all', out: ['a', 'l'] },
+  // { word: 'ai', out: ['a', 'i'] },
+  // { word: 'agli', out: ['a', 'gli'] },
+  // { word: 'alle', out: ['a', 'le'] },
+  // { word: 'sul', out: ['su', 'il'] },
+  // { word: 'sulla', out: ['su', 'la'] },
+  // { word: 'sullo', out: ['su', 'lo'] },
+  // { word: 'sugli', out: ['su', 'gli'] },
 
 ]
-
-

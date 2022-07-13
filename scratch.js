@@ -38,6 +38,7 @@ txt = 'Ho guidato al negozio'
 txt = 'il cappello nero, i cappelli neri '
 // txt = 'la bella macchina, le belle macchine '
 txt = 'il ginocchio. le ginocchia. i ginocchi  '
+txt = 'pasto'
 // all’
 // nell’
 // sull’

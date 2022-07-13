@@ -1,7 +1,7 @@
 import getAll from './parse.js'
 
 
-let suff = 'ata'
+let suff = 'simi'
 let all = {}
 
 const convert = {
@@ -27,7 +27,7 @@ const testOne = function (obj) {
       // let str = o.w.toLowerCase()
       all[tag] = all[tag] || 0
       all[tag] += 1
-      if (tag === 'Adjective') {
+      if (tag !== 'Adjective') {
         counts[o.w] = counts[o.w] || 0
         counts[o.w] += 1
       }

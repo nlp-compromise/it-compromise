@@ -4,7 +4,6 @@ import { toOrdinal } from '../data.js'
 const formatNumber = function (parsed, fmt) {
   if (fmt === 'TextOrdinal') {
     let words = toText(parsed.num)
-    console.log(words)
     // only convert the last word
     let last = words[words.length - 1]
     if (toOrdinal.hasOwnProperty(last)) {

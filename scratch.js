@@ -47,7 +47,7 @@ txt = 'cinquantasei'
 txt = 'centosessantasette'
 txt = 'quaranta'
 txt = 'tremila'
-txt = '27'
+txt = '27°'
 // all’
 // nell’
 // sull’
@@ -56,5 +56,6 @@ txt = '27'
 
 */
 let doc = nlp(txt).debug()
-doc.numbers().toOrdinal()
+// doc.numbers().toCardinal()
+console.log(doc.docs[0])
 console.log(doc.text())

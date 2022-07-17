@@ -84,6 +84,7 @@ let misc = {
   'porta': 'Noun',
   'fatto': 'Noun',
   'posto': 'Noun',
+
 }
 Object.assign(misc, aux)
 export default misc

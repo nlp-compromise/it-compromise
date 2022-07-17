@@ -42,15 +42,17 @@ let data = {
     [900, 'novecento', 'novecentesimo'],
   ],
   multiples: [
-    [1000, 'mille'],
-    [100000, 'centomila'],
-    [1000000, 'milione'],
-    [1000000000, 'miliardo']
+    [1000, 'mille', 'millesimo'],
+    [10000, 'diecimila', 'decimillesimo'],
+    [100000, 'centomila', 'centomillesimo'],
+    [1000000, 'milione', 'milionesimo'],
+    [1000000000, 'miliardo', 'miliardesimo']
   ]
 }
 
 
 const toCardinal = {}
+const toOrdinal = {}
 const toNumber = {}
 // add 'quarantuno'
 data.tens.forEach(a => {
@@ -66,6 +68,7 @@ Object.keys(data).forEach(k => {
     let [num, card, ord] = a
     toCardinal[ord] = card
     toNumber[card] = num
+    toOrdinal[card] = ord
   })
 })
 toNumber['tré'] = 3
@@ -99,4 +102,4 @@ let multiples = {
 data.multiples.forEach(a => {
   multiples[a[1]] = a[0]
 })
-export { toCardinal, toNumber, data, ends, multiples }
+export { toCardinal, toOrdinal, toNumber, data, ends, multiples }

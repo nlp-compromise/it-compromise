@@ -312,6 +312,8 @@ export default [
   { // five-letter suffixes
 
     sette: val,
+    cento: val,
+    esimo: ['TextValue', 'Ordinal'],
 
     mente: rb,
     tipie: nn,

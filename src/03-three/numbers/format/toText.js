@@ -12,7 +12,7 @@ const multiples = [
   [1, ''],
 ]
 
-//turn number into an array of magnitudes, like [[5, million], [2, hundred]]
+//turn number into an array of magnitudes, like [[5, mila], [2, cento]]
 const getMagnitudes = function (num) {
   let working = num
   let have = []
@@ -32,6 +32,7 @@ const getMagnitudes = function (num) {
 }
 
 
+// 25 -> ['venti', 'cinque']
 const twoDigit = function (num) {
   let words = []
   // 20-90
@@ -88,9 +89,9 @@ const toText = function (num) {
       // 1 'mille', not 'mila'
       if (obj.unit === 'mila') {
         words.push('mille')
-      } else {
-        words.push(obj.unit)
+        return
       }
+      words.push(obj.unit)
       return
     }
     let res = twoDigit(obj.num)
@@ -99,6 +100,6 @@ const toText = function (num) {
       words.push(obj.unit)
     }
   })
-  return [words.join('')]
+  return words
 }
 export default toText

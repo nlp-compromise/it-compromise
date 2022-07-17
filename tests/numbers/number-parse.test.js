@@ -89,7 +89,7 @@ let arr = [
 ]
 test('number-tag:', function (t) {
   arr.forEach(a => {
-    let [_, str] = a
+    let str = a[1]
     let doc = nlp(str)
     let m = doc.numbers()
     t.equal(m.found, true, here + '[findNumber] ' + str)

@@ -47,7 +47,7 @@ txt = 'cinquantasei'
 txt = 'centosessantasette'
 txt = 'quaranta'
 txt = 'tremila'
-txt = '107'
+txt = '27'
 // all’
 // nell’
 // sull’
@@ -56,5 +56,5 @@ txt = '107'
 
 */
 let doc = nlp(txt).debug()
-doc.numbers().toText()
+doc.numbers().toOrdinal()
 console.log(doc.text())

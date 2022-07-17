@@ -1,8 +1,16 @@
 import { data } from '../data.js'
-let { ones, tens, multiples } = data
+let { ones, tens } = data
 ones = [].concat(ones).reverse()
 tens = [].concat(tens).reverse()
-multiples = [].concat(multiples).reverse()
+
+const multiples = [
+  [1000000000, 'miliardo'],
+  [1000000, 'milione'],
+  [100000, 'centomila'],
+  [1000, 'mila'],
+  [100, 'cento'],
+  [1, ''],
+]
 
 //turn number into an array of magnitudes, like [[5, million], [2, hundred]]
 const getMagnitudes = function (num) {
@@ -75,16 +83,22 @@ const toText = function (num) {
   // handle multiples
   let found = getMagnitudes(num)
   found.forEach(obj => {
+    // just 'cento', not 'unocento'
+    if (obj.num === 1 && obj.unit) {
+      // 1 'mille', not 'mila'
+      if (obj.unit === 'mila') {
+        words.push('mille')
+      } else {
+        words.push(obj.unit)
+      }
+      return
+    }
     let res = twoDigit(obj.num)
     words = words.concat(res)
-    if (obj.unit !== 'one') {
+    if (obj.unit !== '') {
       words.push(obj.unit)
     }
   })
-  if (num > 0) {
-    let res = twoDigit(num)
-    words = words.concat(res)
-  }
   return [words.join('')]
 }
 export default toText

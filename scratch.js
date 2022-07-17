@@ -47,7 +47,7 @@ txt = 'cinquantasei'
 txt = 'centosessantasette'
 txt = 'quaranta'
 txt = 'tremila'
-txt = '28'
+txt = '107'
 // all’
 // nell’
 // sull’

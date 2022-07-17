@@ -21,7 +21,7 @@
     <img src="https://codecov.io/gh/spencermountain/it-compromise/branch/master/graph/badge.svg" />
   </a> -->
   <a href="https://bundlephobia.com/result?p=it-compromise">
-    <img src="https://badge-size.herokuapp.com/spencermountain/it-compromise/master/builds/it-compromise.min.js" />
+    <img src="https://img.shields.io/bundlephobia/min/it-compromise"/>
   </a>
   </div>
   <div align="center">
@@ -39,6 +39,9 @@
 
 L'obiettivo di questo progetto è fornire un tagger POS piccolo, di base e basato su regole. 
 
+<p><i ><sub>
+  this project is a small, basic, rules-based POS tagger.
+</sub></i></p>
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
@@ -46,8 +49,8 @@ L'obiettivo di questo progetto è fornire un tagger POS piccolo, di base e basat
 import pln from 'it-compromise'
 
 let doc = nlp(`con l'autoradio sempre nella mano destra`)
-doc.match('#Noun').out('array')
-// [ 'autoradio', 'mano' ]
+doc.match('#Noun').json()
+// [{text:'autoradio'}, {text:'mano'}]
 ```
 
 <!-- spacer -->
@@ -66,10 +69,10 @@ o lato cliente:
 
 
 ## API
-**it-compromise includes all methods of `compromise/one`:
+**it-compromise** includes all methods of `compromise/one`:
 
 <details>
-  <summary>Clicca per vedere</summary>
+  <summary><h3>Clicca per vedere</h3></summary>
 
 ### Compromise/one
 
@@ -213,6 +216,15 @@ _(these methods are on the main `nlp` object)_
 
 </details>
 
+<div align="right">
+  <a href="https://docs.compromise.cool">docs</a>
+</div>
+<div align="center">
+  <img height="50px" src="https://user-images.githubusercontent.com/399657/68221837-0d142480-ffb8-11e9-9d30-90669f1b897c.png"/>
+</div>
+<!-- spacer -->
+<img height="30px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+
 
 ### Numeri
 può analizzare e generare numeri scritti
@@ -222,6 +234,16 @@ doc.numbers().minus(15)
 doc.text()
 // 'ne ho milleduecentocinquantadue euro'
 ```
+
+<div align="right">
+  <a href="https://docs.compromise.cool/compromise-numbers">number docs</a>
+</div>
+<div align="center">
+  <img height="50px" src="https://user-images.githubusercontent.com/399657/68221837-0d142480-ffb8-11e9-9d30-90669f1b897c.png"/>
+</div>
+<!-- spacer -->
+<img height="30px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+
 
 ### Lemmatizzazione
 può coniugare parole radice
@@ -254,24 +276,11 @@ npm watch
 ```
 
 
-<!-- spacer -->
-<img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-<table>
-  <tr align="center">
-    <td>
-      <a href="https://www.twitter.com/compromisejs">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956672/a30cf206-da53-11e6-8c6c-0995cf2aef62.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Twitter &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/nlp-compromise/compromise/wiki/Contributing">
-        <img src="https://cloud.githubusercontent.com/assets/399657/21956742/5985a89c-da55-11e6-87bc-4f0f1549d202.jpg"/>
-        <div>&nbsp; &nbsp; &nbsp; Pull-requests &nbsp; &nbsp; &nbsp; </div>
-      </a>
-    </td>
-  </tr>
-</table>
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/399657/68221731-e8b84800-ffb7-11e9-8453-6395e0e903fa.png"/>
+</div>
+
+#### See Also:
 
 MIT

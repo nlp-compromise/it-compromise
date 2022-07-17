@@ -267,6 +267,7 @@ per favore unisciti per aiutare! - please join to help!
 
 
 ###  Contributing
+*help with first PR[1](https://github.com/spencermountain/compromise/wiki/Contributing)*
 ```
 git clone https://github.com/nlp-compromise/it-compromise.git
 cd it-compromise
@@ -282,7 +283,7 @@ npm watch
 </div>
 
 #### See Also:
-- &nbsp; **[opennlp-italian](https://github.com/aparo/opennlp-italian-models)** - tagger w/ italian model
+- &nbsp; **[opennlp-italian](https://github.com/aparo/opennlp-italian-models)** - Java tagger w/ italian model
 - &nbsp; **[TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/)** - Perl tagger w/ italian model
 
 MIT

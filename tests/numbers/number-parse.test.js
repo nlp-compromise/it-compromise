@@ -50,7 +50,7 @@ let arr = [
   [50, 'cinquanta'],
   [51, 'cinquantuno'],
   [52, 'cinquantadue'],
-  [53, 'cinquantatre'],
+  [53, 'cinquantatré'],
   [54, 'cinquantaquattro'],
   [55, 'cinquantacinque'],
   [56, 'cinquantasei'],
@@ -107,12 +107,12 @@ test('number-parse:', function (t) {
   t.end()
 })
 
-// test('number-create:', function (t) {
-//   arr.forEach(a => {
-//     let [num, str] = a
-//     let doc = nlp(String(num))
-//     doc.numbers().toText()
-//     t.equal(doc.text(), str, here + '[toText] ' + num)
-//   })
-//   t.end()
-// })
+test('number-create:', function (t) {
+  arr.forEach(a => {
+    let [num, str] = a
+    let doc = nlp(String(num))
+    doc.numbers().toText()
+    t.equal(doc.text(), str, here + '[toText] ' + num)
+  })
+  t.end()
+})

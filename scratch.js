@@ -47,6 +47,7 @@ txt = 'cinquantasei'
 txt = 'centosessantasette'
 txt = 'quaranta'
 txt = 'tremila'
+txt = '28'
 // all’
 // nell’
 // sull’
@@ -55,4 +56,5 @@ txt = 'tremila'
 
 */
 let doc = nlp(txt).debug()
-console.log(doc.numbers().get())
+doc.numbers().toText()
+console.log(doc.text())

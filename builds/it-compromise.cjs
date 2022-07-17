@@ -53,6 +53,8 @@
   };
   var compute$8 = fns$4;
 
+  // wrappers for loops in javascript arrays
+
   const forEach = function (cb) {
     let ptrs = this.fullPointer;
     ptrs.forEach((ptr, i) => {
@@ -64,11 +66,14 @@
 
   const map = function (cb, empty) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     let res = ptrs.map((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
-      return cb(view, i)
+      let out = cb(view, i);
+      // if we returned nothing, return a view
+      if (out === undefined) {
+        return this.none()
+      }
+      return out
     });
     if (res.length === 0) {
       return empty || this.update([])
@@ -95,23 +100,18 @@
 
   const filter = function (cb) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     ptrs = ptrs.filter((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
       return cb(view, i)
     });
-    let res = this.update(ptrs); //TODO: keep caches automatically
-    // res._cache = ptrs.map(ptr => cache[ptr[0]])
+    let res = this.update(ptrs);
     return res
   };
 
-  const find$1 = function (cb) {
+  const find$2 = function (cb) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     let found = ptrs.find((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
       return cb(view, i)
     });
     return this.update([found])
@@ -119,10 +119,8 @@
 
   const some = function (cb) {
     let ptrs = this.fullPointer;
-    // let cache = this._cache || []
     return ptrs.some((ptr, i) => {
       let view = this.update([ptr]);
-      // view._cache = cache[i]
       return cb(view, i)
     })
   };
@@ -138,7 +136,7 @@
     ptrs = ptrs.slice(r, r + n);
     return this.update(ptrs)
   };
-  var loops = { forEach, map, filter, find: find$1, some, random };
+  var loops = { forEach, map, filter, find: find$2, some, random };
 
   const utils = {
     /** */
@@ -176,14 +174,11 @@
     /** */
     eq: function (n) {
       let ptr = this.pointer;
-      let cache = this._cache || [];
       if (!ptr) {
         ptr = this.docs.map((_doc, i) => [i]);
       }
       if (ptr[n]) {
-        let view = this.update([ptr[n]]);
-        view._cache = cache[n];
-        return view
+        return this.update([ptr[n]])
       }
       return this.none()
     },
@@ -268,7 +263,7 @@
 
   // aliases
   methods$m.get = methods$m.eq;
-  var api$d = methods$m;
+  var api$f = methods$m;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -342,31 +337,27 @@
     update(pointer) {
       let m = new View(this.document, pointer);
       // send the cache down, too?
-      if (m._cache && pointer && pointer.length > 1) {
-        // only if it's full
+      if (this._cache && pointer && pointer.length > 0) {
+        // only keep cache if it's a full-sentence
         let cache = [];
-        pointer.forEach(ptr => {
+        pointer.forEach((ptr, i) => {
+          let [n, start, end] = ptr;
           if (ptr.length === 1) {
-            cache.push(m._cache[ptr[0]]);
+            cache[i] = this._cache[n];
+          } else if (start === 0 && this.document[n].length === end) {
+            cache[i] = this._cache[n];
           }
-          // let [n, start, end] = ptr
-          // if (start === 0 && this.document[n][end - 1] && !this.document[n][end]) {
-          //   console.log('=-=-=-= here -=-=-=-')
-          // }
         });
-        m._cache = cache;
+        if (cache.length > 0) {
+          m._cache = cache;
+        }
       }
       m.world = this.world;
       return m
     }
     // create a new View, from this one
     toView(pointer) {
-      if (pointer === undefined) {
-        pointer = this.pointer;
-      }
-      let m = new View(this.document, pointer);
-      // m._cache = this._cache // share this full thing
-      return m
+      return new View(this.document, pointer || this.pointer)
     }
     fromText(input) {
       const { methods } = this;
@@ -397,10 +388,10 @@
       return m
     }
   }
-  Object.assign(View.prototype, api$d);
+  Object.assign(View.prototype, api$f);
   var View$1 = View;
 
-  var version$1 = '14.3.1';
+  var version$1 = '14.4.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -583,7 +574,6 @@
     return doc
   };
 
-
   /** extend compromise functionality */
   nlp.plugin = function (plugin) {
     extend$1(plugin, this._world, View$1, this);
@@ -671,7 +661,7 @@
   const addAPI$3 = function (View) {
     Object.assign(View.prototype, methods$k);
   };
-  var api$c = addAPI$3;
+  var api$e = addAPI$3;
 
   var compute$7 = {
     cache: function (view) {
@@ -680,7 +670,7 @@
   };
 
   var cache$1 = {
-    api: api$c,
+    api: api$e,
     compute: compute$7,
     methods: methods$l,
   };
@@ -859,7 +849,7 @@
       after 46-thousand sentences
 
   */
-  let start$1 = 0;
+  let index$2 = 0;
 
   const pad3 = (str) => {
     str = str.length < 3 ? '0' + str : str;
@@ -868,19 +858,17 @@
 
   const toId = function (term) {
     let [n, i] = term.index || [0, 0];
-    start$1 += 1;
-    var now = start$1;
-    now = parseInt(now, 10);
+    index$2 += 1;
 
-    //don't overflow time
-    now = now > 46655 ? 46655 : now;
+    //don't overflow index
+    index$2 = index$2 > 46655 ? 0 : index$2;
     //don't overflow sentences
-    n = n > 46655 ? 46655 : n;
+    n = n > 46655 ? 0 : n;
     // //don't overflow terms
-    i = i > 1294 ? 1294 : i;
+    i = i > 1294 ? 0 : i;
 
     // 3 digits for time
-    let id = pad3(now.toString(36));
+    let id = pad3(index$2.toString(36));
     // 3 digit  for sentence index (46k)
     id += pad3(n.toString(36));
 
@@ -939,6 +927,7 @@
 
   const insert = function (input, view, prepend) {
     const { document, world } = view;
+    view.uncache();
     // insert words at end of each doc
     let ptrs = view.fullPointer;
     let selfPtrs = view.fullPointer;
@@ -1027,6 +1016,7 @@
   fns$2.replaceWith = function (input, keep = {}) {
     let ptrs = this.fullPointer;
     let main = this;
+    this.uncache();
     if (typeof input === 'function') {
       return replaceByFn(main, input)
     }
@@ -1172,6 +1162,7 @@
     /** */
     remove: function (reg) {
       const { indexN } = this.methods.one.pointer;
+      this.uncache();
       // two modes:
       //  - a. remove self, from full parent
       let self = this.all();
@@ -1203,7 +1194,6 @@
         this.ptrs = [];
         return self.none()
       }
-      // self._cache = null
       let res = self.toView(ptrs); //return new document
       return res
     },
@@ -1318,7 +1308,7 @@
   methods$i.deHyphenate = methods$i.dehyphenate;
   methods$i.toQuotation = methods$i.toQuotations;
 
-  var whitespace$1 = methods$i;
+  var whitespace = methods$i;
 
   /** alphabetical order */
   const alpha = (a, b) => {
@@ -1410,6 +1400,7 @@
   /** re-arrange the order of the matches (in place) */
   const sort = function (input) {
     let { docs, pointer } = this;
+    this.uncache();
     if (typeof input === 'function') {
       return customSort(this, input)
     }
@@ -1449,6 +1440,9 @@
     let ptrs = this.pointer || this.docs.map((_d, n) => [n]);
     ptrs = [].concat(ptrs);
     ptrs = ptrs.reverse();
+    if (this._cache) {
+      this._cache = this._cache.reverse();
+    }
     return this.update(ptrs)
   };
 
@@ -1541,12 +1535,12 @@
   };
   var harden$1 = { harden, soften };
 
-  const methods$g = Object.assign({}, caseFns, insert$1, replace, remove, whitespace$1, sort$1, concat, harden$1);
+  const methods$g = Object.assign({}, caseFns, insert$1, replace, remove, whitespace, sort$1, concat, harden$1);
 
   const addAPI$2 = function (View) {
     Object.assign(View.prototype, methods$g);
   };
-  var api$b = addAPI$2;
+  var api$d = addAPI$2;
 
   const compute$5 = {
     id: function (view) {
@@ -1563,7 +1557,7 @@
   var compute$6 = compute$5;
 
   var change = {
-    api: api$b,
+    api: api$d,
     compute: compute$6,
   };
 
@@ -1793,6 +1787,34 @@
   };
   var numberRange$1 = numberRange;
 
+  const numUnit = /^([0-9.,+-]+)([a-z°²³µ/]+)$/i;
+
+  const notUnit = new Set([
+    'st',
+    'nd',
+    'rd',
+    'th',
+    'am',
+    'pm',
+    'max'
+  ]);
+
+  const numberUnit = function (terms, i) {
+    let term = terms[i];
+    let parts = term.text.match(numUnit);
+    if (parts !== null) {
+      // is it a recognized unit, like 'km'?
+      let unit = parts[2].toLowerCase().trim();
+      // don't split '3rd'
+      if (notUnit.has(unit)) {
+        return null
+      }
+      return [parts[1], unit] //split it
+    }
+    return null
+  };
+  var numberUnit$1 = numberUnit;
+
   const byApostrophe = /'/;
   const numDash = /^[0-9][^-–—]*[-–—].*?[0-9]/;
 
@@ -1809,10 +1831,6 @@
       end += 1;
     }
     tmp.ptrs = [[0, start, end]];
-    tmp.compute('lexicon');
-    if (tmp.world.compute.preTagger) {
-      tmp.compute('preTagger');
-    }
   };
 
   const byEnd = {
@@ -1854,7 +1872,7 @@
 
   const toDocs = function (words, view) {
     let doc = view.fromText(words.join(' '));
-    doc.compute('id');
+    doc.compute(['id', 'alias']);
     return doc.docs[0]
   };
 
@@ -1863,6 +1881,7 @@
     let { world, document } = view;
     const { model, methods } = world;
     let list = model.one.contractions || [];
+    new Set(model.one.units || []);
     // each sentence
     document.forEach((terms, n) => {
       // loop through terms backwards
@@ -1898,10 +1917,18 @@
             methods.one.setTag(words, 'NumberRange', world);//add custom tag
             // is it a time-range, like '5-9pm'
             if (words[2] && words[2].tags.has('Time')) {
-              methods.one.setTag([words[0]], 'Time', world);
+              methods.one.setTag([words[0]], 'Time', world, null, 'time-range');
             }
             reTag(document[n], view, i, words.length);
           }
+          continue
+        }
+        // split-apart '4km'
+        words = numberUnit$1(terms, i);
+        if (words) {
+          words = toDocs(words, view);
+          splice(document, [n, i], words);
+          methods.one.setTag([words[1]], 'Unit', world, null, 'contraction-unit');
         }
       }
     });
@@ -2002,7 +2029,7 @@
 
   // tag any words in our lexicon - even if it hasn't been filled-up yet
   // rest of pre-tagger is in ./two/preTagger
-  const firstPass$1 = function (view) {
+  const lexicon$3 = function (view) {
     const world = view.world;
     view.docs.forEach(terms => {
       for (let i = 0; i < terms.length; i += 1) {
@@ -2017,7 +2044,7 @@
   };
 
   var compute$3 = {
-    lexicon: firstPass$1
+    lexicon: lexicon$3
   };
 
   // derive clever things from our lexicon key-value pairs
@@ -2026,12 +2053,12 @@
     let lex = {};
     // console.log('start:', Object.keys(lex).length)
     let _multi = {};
-
     // go through each word in this key-value obj:
     Object.keys(words).forEach(word => {
       let tag = words[word];
       // normalize lexicon a little bit
       word = word.toLowerCase().trim();
+      word = word.replace(/'s\b/, '');
       // cache multi-word terms
       let split = word.split(/ /);
       if (split.length > 1) {
@@ -2103,7 +2130,7 @@
   // edited by Spencer Kelly
   // credit to https://github.com/BrunoRB/ahocorasick by Bruno Roberto Búrigo.
 
-  const tokenize$3 = function (phrase, world) {
+  const tokenize$5 = function (phrase, world) {
     const { methods, model } = world;
     let terms = methods.one.tokenize.splitTerms(phrase, model).map(methods.one.tokenize.splitWhitespace);
     return terms.map(term => term.text.toLowerCase())
@@ -2122,7 +2149,7 @@
     phrases.forEach(function (phrase) {
       let curr = 0;
       // let wordsB = phrase.split(/ /g).filter(w => w)
-      let words = tokenize$3(phrase, world);
+      let words = tokenize$5(phrase, world);
       for (let i = 0; i < words.length; i++) {
         let word = words[i];
         if (goNext[curr] && goNext[curr].hasOwnProperty(word)) {
@@ -2241,7 +2268,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$a (View) {
+  function api$c (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2290,14 +2317,16 @@
   /** pre-compile a list of matches to lookup */
   const lib$4 = {
     /** turn an array or object into a compressed trie*/
-    compile: function (input) {
+    buildTrie: function (input) {
       const trie = build(input, this.world());
       return compress$1(trie)
     }
   };
+  // add alias
+  lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$a,
+    api: api$c,
     lib: lib$4
   };
 
@@ -2348,6 +2377,19 @@
   //   return false
   // }
 
+  const parseRegs = function (regs, opts, world) {
+    const one = world.methods.one;
+    if (typeof regs === 'number') {
+      regs = String(regs);
+    }
+    // support param as string
+    if (typeof regs === 'string') {
+      regs = one.killUnicode(regs, world);
+      regs = one.parseMatch(regs, opts, world);
+    }
+    return regs
+  };
+
   const match$2 = function (regs, group, opts) {
     const one = this.methods.one;
     // support param as view object
@@ -2358,25 +2400,12 @@
     if (isNet(regs)) {
       return this.sweep(regs, { tagger: false }).view.settle()
     }
-    // support param as string
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group };
     let res = one.match(this.docs, todo, this._cache);
     let { ptrs, byGroup } = fixPointers(res, this.fullPointer);
     let view = this.toView(ptrs);
     view._groups = byGroup;
-    // try to keep some of the cache
-    // if (this._cache) {
-    //   view._cache = view.ptrs.map(ptr => {
-    //     if (isFull(ptr, this.document)) {
-    //       return this._cache[ptr[0]]
-    //     }
-    //     return null
-    //   })
-    // }
     return view
   };
 
@@ -2390,10 +2419,7 @@
     if (isNet(regs)) {
       return this.sweep(regs, { tagger: false, matchOne: true }).view
     }
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group, justOne: true };
     let res = one.match(this.docs, todo, this._cache);
     let { ptrs, byGroup } = fixPointers(res, this.fullPointer);
@@ -2413,10 +2439,7 @@
     if (isNet(regs)) {
       return this.sweep(regs, { tagger: false }).view.found
     }
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group, justOne: true };
     let ptrs = one.match(this.docs, todo, this._cache).ptrs;
     return ptrs.length > 0
@@ -2434,10 +2457,7 @@
       let m = this.sweep(regs, { tagger: false }).view.settle();
       return this.if(m)//recurse with result
     }
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group, justOne: true };
     let ptrs = this.fullPointer;
     let cache = this._cache || [];
@@ -2467,10 +2487,7 @@
       return this.ifNo(m)
     }
     // otherwise parse the match string
-    if (typeof regs === 'string') {
-      regs = one.killUnicode(regs, this.world);
-      regs = one.parseMatch(regs, opts, this.world);
-    }
+    regs = parseRegs(regs, opts, this.world);
     let cache = this._cache || [];
     let view = this.filter((m, i) => {
       let todo = { regs, group, justOne: true };
@@ -2669,7 +2686,7 @@
   const matchAPI = function (View) {
     Object.assign(View.prototype, methods$d);
   };
-  var api$9 = matchAPI;
+  var api$b = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -2849,14 +2866,24 @@
         return obj
       }
 
-      //machine/sense overloaded
+      //root/sense overloaded
       if (start(w) === '{' && end(w) === '}') {
         w = stripBoth(w);
+        obj.id = w;
+        obj.root = w;
         if (/\//.test(w)) {
-          obj.sense = w;
-          obj.greedy = true;
-        } else {
-          obj.machine = w;
+          let split = obj.root.split(/\//);
+          obj.root = split[0];
+          obj.pos = split[1];
+          if (obj.pos === 'adj') {
+            obj.pos = 'Adjective';
+          }
+          // titlecase
+          obj.pos = obj.pos.charAt(0).toUpperCase() + obj.pos.substr(1).toLowerCase();
+          // add sense-number too
+          if (split[2] !== undefined) {
+            obj.num = split[2];
+          }
         }
         return obj
       }
@@ -2964,6 +2991,60 @@
     return regs
   };
   var splitHyphens$2 = splitHyphens$1;
+
+  const addVerbs$1 = function (token, world) {
+    let { verbConjugate } = world.methods.two.transform;
+    let res = verbConjugate(token.root, world.model);
+    delete res.FutureTense;
+    return Object.values(res).filter(str => str)
+  };
+
+  const addNoun = function (token, world) {
+    let { nounToPlural } = world.methods.two.transform;
+    let res = [token.root];
+    res.push(nounToPlural(token.root, world.model));
+    return res
+  };
+
+  const addAdjective = function (token, world) {
+    let { adjToSuperlative, adjToComparative, adjToAdverb } = world.methods.two.transform;
+    let res = [token.root];
+    res.push(adjToSuperlative(token.root, world.model));
+    res.push(adjToComparative(token.root, world.model));
+    res.push(adjToAdverb(token.root, world.model));
+    return res
+  };
+
+  // turn '{walk}' into 'walking', 'walked', etc
+  const inflectRoot = function (regs, world) {
+    // do we have compromise/two?
+    if (world.methods.two && world.methods.two.transform) {
+      regs = regs.map(token => {
+        // a reg to convert '{foo}'
+        if (token.root) {
+          let choices = [];
+          if (!token.pos || token.pos === 'Verb') {
+            choices = choices.concat(addVerbs$1(token, world));
+          }
+          if (!token.pos || token.pos === 'Noun') {
+            choices = choices.concat(addNoun(token, world));
+          }
+          // don't run these by default
+          if (!token.pos || token.pos === 'Adjective') {
+            choices = choices.concat(addAdjective(token, world));
+          }
+          choices = choices.filter(str => str);
+          if (choices.length > 0) {
+            token.operator = 'or';
+            token.fastOr = new Set(choices);
+          }
+        }
+        return token
+      });
+    }
+    return regs
+  };
+  var inflectRoot$1 = inflectRoot;
 
   // name any [unnamed] capture-groups with a number
   const nameGroups = function (regs) {
@@ -3073,6 +3154,8 @@
     tokens = tokens.map(str => parseToken$1(str, opts));
     // '~re-do~'
     tokens = splitHyphens$2(tokens, world);
+    // '{walk}'
+    tokens = inflectRoot$1(tokens, world);
     //clean up anything weird
     tokens = postProcess$1(tokens);
     // console.log(tokens)
@@ -3328,6 +3411,10 @@
     }
     // support optimized (one|two)
     if (reg.fastOr !== undefined) {
+      // {work/verb} must be a verb
+      if (reg.pos && !term.tags.has(reg.pos)) {
+        return null
+      }
       return reg.fastOr.has(term.implicit) || reg.fastOr.has(term.normal) || reg.fastOr.has(term.text) || reg.fastOr.has(term.machine)
     }
     //support slower (one|two)
@@ -3991,7 +4078,7 @@
   };
 
   var match = {
-    api: api$9,
+    api: api$b,
     methods: methods$b,
     lib: lib$3,
   };
@@ -4531,7 +4618,7 @@
   };
   var debug$1 = debug;
 
-  const toText$1 = function (term) {
+  const toText$3 = function (term) {
     let pre = term.pre || '';
     let post = term.post || '';
     return pre + term.text + post
@@ -4563,7 +4650,7 @@
           i = end - 1;
           text += terms[i].post || '';
         } else {
-          text += toText$1(t);
+          text += toText$3(t);
         }
       }
     });
@@ -4600,6 +4687,9 @@
     }
     if (method === 'normal') {
       return this.text('normal')
+    }
+    if (method === 'root') {
+      return this.text('root')
     }
     if (method === 'machine' || method === 'reduced') {
       return this.text('machine')
@@ -4700,10 +4790,10 @@
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$7);
   };
-  var api$8 = addAPI$1;
+  var api$a = addAPI$1;
 
   var output = {
-    api: api$8,
+    api: api$a,
     methods: {
       one: {
         hash: md5
@@ -5115,11 +5205,11 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$5);
   };
-  var api$7 = addAPI;
+  var api$9 = addAPI;
 
   var pointers = {
     methods: methods$6,
-    api: api$7,
+    api: api$9,
   };
 
   var lib$2 = {
@@ -5132,7 +5222,7 @@
     }
   };
 
-  const api$5 = function (View) {
+  const api$7 = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5176,7 +5266,7 @@
     };
 
   };
-  var api$6 = api$5;
+  var api$8 = api$7;
 
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
@@ -5240,7 +5330,7 @@
     return { wants, count }
   };
 
-  const parse = function (matches, world) {
+  const parse$2 = function (matches, world) {
     const parseMatch = world.methods.one.parseMatch;
     matches.forEach(obj => {
       obj.regs = parseMatch(obj.match, {}, world);
@@ -5259,12 +5349,12 @@
     return matches
   };
 
-  var parse$1 = parse;
+  var parse$3 = parse$2;
 
   // do some indexing on the list of matches
-  const compile = function (matches, world) {
+  const buildNet = function (matches, world) {
     // turn match-syntax into json
-    matches = parse$1(matches, world);
+    matches = parse$3(matches, world);
 
     // collect by wants and needs
     let hooks = {};
@@ -5300,7 +5390,7 @@
     }
   };
 
-  var buildNet = compile;
+  var buildNet$1 = buildNet;
 
   // for each cached-sentence, find a list of possible matches
   const getHooks = function (docCaches, hooks) {
@@ -5456,7 +5546,7 @@
       console.log(`\n\n  \x1b[32m→ ${list.length} post-tagger:\x1b[0m`); //eslint-disable-line
     }
     return list.map(todo => {
-      if (!todo.tag && !todo.chunk) {
+      if (!todo.tag && !todo.chunk && !todo.unTag) {
         return
       }
       let reason = todo.reason || todo.match;
@@ -5493,14 +5583,14 @@
   var bulkTagger = tagger$1;
 
   var methods$4 = {
-    buildNet,
+    buildNet: buildNet$1,
     bulkMatch,
     bulkTagger
   };
 
   var sweep = {
     lib: lib$2,
-    api: api$6,
+    api: api$8,
     methods: {
       one: methods$4,
     }
@@ -5549,7 +5639,7 @@
     }
     // finally, add our tag
     term.tags.add(tag);
-    // now it's dirty
+    // now it's dirty?
     term.dirty = true;
     // add a chunk too, if it's easy
     addChunk(term, tag);
@@ -5638,7 +5728,7 @@
   };
   var unTag$1 = unTag;
 
-  const e=function(e){return e.children=e.children||[],e._cache=e._cache||{},e.props=e.props||{},e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],e},t=/^ *(#|\/\/)/,n=function(t){let n=t.trim().split(/->/),r=[];n.forEach((t=>{r=r.concat(function(t){if(!(t=t.trim()))return null;if(/^\[/.test(t)&&/\]$/.test(t)){let n=(t=(t=t.replace(/^\[/,"")).replace(/\]$/,"")).split(/,/);return n=n.map((e=>e.trim())).filter((e=>e)),n=n.map((t=>e({id:t}))),n}return [e({id:t})]}(t));})),r=r.filter((e=>e));let i=r[0];for(let e=1;e<r.length;e+=1)i.children.push(r[e]),i=r[e];return r[0]},r=(e,t)=>{let n=[],r=[e];for(;r.length>0;){let e=r.pop();n.push(e),e.children&&e.children.forEach((n=>{t&&t(e,n),r.push(n);}));}return n},i=e=>"[object Array]"===Object.prototype.toString.call(e),c=e=>(e=e||"").trim(),s=function(c=[]){return "string"==typeof c?function(r){let i=r.split(/\r?\n/),c=[];i.forEach((e=>{if(!e.trim()||t.test(e))return;let r=(e=>{const t=/^( {2}|\t)/;let n=0;for(;t.test(e);)e=e.replace(t,""),n+=1;return n})(e);c.push({indent:r,node:n(e)});}));let s=function(e){let t={children:[]};return e.forEach(((n,r)=>{0===n.indent?t.children=t.children.concat(n.node):e[r-1]&&function(e,t){let n=e[t].indent;for(;t>=0;t-=1)if(e[t].indent<n)return e[t];return e[0]}(e,r).node.children.push(n.node);})),t}(c);return s=e(s),s}(c):i(c)?function(t){let n={};t.forEach((e=>{n[e.id]=e;}));let r=e({});return t.forEach((t=>{if((t=e(t)).parent)if(n.hasOwnProperty(t.parent)){let e=n[t.parent];delete t.parent,e.children.push(t);}else console.warn(`[Grad] - missing node '${t.parent}'`);else r.children.push(t);})),r}(c):(r(s=c).forEach(e),s);var s;},h=e=>"[31m"+e+"[0m",o=e=>"[2m"+e+"[0m",l=function(e,t){let n="-> ";t&&(n=o("→ "));let i="";return r(e).forEach(((e,r)=>{let c=e.id||"";if(t&&(c=h(c)),0===r&&!e.id)return;let s=e._cache.parents.length;i+="    ".repeat(s)+n+c+"\n";})),i},a=function(e){let t=r(e);t.forEach((e=>{delete(e=Object.assign({},e)).children;}));let n=t[0];return n&&!n.id&&0===Object.keys(n.props).length&&t.shift(),t},p={text:l,txt:l,array:a,flat:a},d=function(e,t){return "nested"===t||"json"===t?e:"debug"===t?(console.log(l(e,!0)),null):p.hasOwnProperty(t)?p[t](e):e},u=e=>{r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],t._cache.parents=e._cache.parents.concat([e.id]));}));},f=(e,t)=>(Object.keys(t).forEach((n=>{if(t[n]instanceof Set){let r=e[n]||new Set;e[n]=new Set([...r,...t[n]]);}else {if((e=>e&&"object"==typeof e&&!Array.isArray(e))(t[n])){let r=e[n]||{};e[n]=Object.assign({},t[n],r);}else i(t[n])?e[n]=t[n].concat(e[n]||[]):void 0===e[n]&&(e[n]=t[n]);}})),e),j=/\//;class g$1{constructor(e={}){Object.defineProperty(this,"json",{enumerable:!1,value:e,writable:!0});}get children(){return this.json.children}get id(){return this.json.id}get found(){return this.json.id||this.json.children.length>0}props(e={}){let t=this.json.props||{};return "string"==typeof e&&(t[e]=!0),this.json.props=Object.assign(t,e),this}get(t){if(t=c(t),!j.test(t)){let e=this.json.children.find((e=>e.id===t));return new g$1(e)}let n=((e,t)=>{let n=(e=>"string"!=typeof e?e:(e=e.replace(/^\//,"")).split(/\//))(t=t||"");for(let t=0;t<n.length;t+=1){let r=e.children.find((e=>e.id===n[t]));if(!r)return null;e=r;}return e})(this.json,t)||e({});return new g$1(n)}add(t,n={}){if(i(t))return t.forEach((e=>this.add(c(e),n))),this;t=c(t);let r=e({id:t,props:n});return this.json.children.push(r),new g$1(r)}remove(e){return e=c(e),this.json.children=this.json.children.filter((t=>t.id!==e)),this}nodes(){return r(this.json).map((e=>(delete(e=Object.assign({},e)).children,e)))}cache(){return (e=>{let t=r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],t._cache.parents=e._cache.parents.concat([e.id]));})),n={};t.forEach((e=>{e.id&&(n[e.id]=e);})),t.forEach((e=>{e._cache.parents.forEach((t=>{n.hasOwnProperty(t)&&n[t]._cache.children.push(e.id);}));})),e._cache.children=Object.keys(n);})(this.json),this}list(){return r(this.json)}fillDown(){var e;return e=this.json,r(e,((e,t)=>{t.props=f(t.props,e.props);})),this}depth(){u(this.json);let e=r(this.json),t=e.length>1?1:0;return e.forEach((e=>{if(0===e._cache.parents.length)return;let n=e._cache.parents.length+1;n>t&&(t=n);})),t}out(e){return u(this.json),d(this.json,e)}debug(){return u(this.json),d(this.json,"debug"),this}}const _=function(e){let t=s(e);return new g$1(t)};_.prototype.plugin=function(e){e(this);};
+  const e=function(e){return e.children=e.children||[],e._cache=e._cache||{},e.props=e.props||{},e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],e},t=/^ *(#|\/\/)/,n=function(t){let n=t.trim().split(/->/),r=[];n.forEach((t=>{r=r.concat(function(t){if(!(t=t.trim()))return null;if(/^\[/.test(t)&&/\]$/.test(t)){let n=(t=(t=t.replace(/^\[/,"")).replace(/\]$/,"")).split(/,/);return n=n.map((e=>e.trim())).filter((e=>e)),n=n.map((t=>e({id:t}))),n}return [e({id:t})]}(t));})),r=r.filter((e=>e));let i=r[0];for(let e=1;e<r.length;e+=1)i.children.push(r[e]),i=r[e];return r[0]},r=(e,t)=>{let n=[],r=[e];for(;r.length>0;){let e=r.pop();n.push(e),e.children&&e.children.forEach((n=>{t&&t(e,n),r.push(n);}));}return n},i=e=>"[object Array]"===Object.prototype.toString.call(e),c=e=>(e=e||"").trim(),s=function(c=[]){return "string"==typeof c?function(r){let i=r.split(/\r?\n/),c=[];i.forEach((e=>{if(!e.trim()||t.test(e))return;let r=(e=>{const t=/^( {2}|\t)/;let n=0;for(;t.test(e);)e=e.replace(t,""),n+=1;return n})(e);c.push({indent:r,node:n(e)});}));let s=function(e){let t={children:[]};return e.forEach(((n,r)=>{0===n.indent?t.children=t.children.concat(n.node):e[r-1]&&function(e,t){let n=e[t].indent;for(;t>=0;t-=1)if(e[t].indent<n)return e[t];return e[0]}(e,r).node.children.push(n.node);})),t}(c);return s=e(s),s}(c):i(c)?function(t){let n={};t.forEach((e=>{n[e.id]=e;}));let r=e({});return t.forEach((t=>{if((t=e(t)).parent)if(n.hasOwnProperty(t.parent)){let e=n[t.parent];delete t.parent,e.children.push(t);}else console.warn(`[Grad] - missing node '${t.parent}'`);else r.children.push(t);})),r}(c):(r(s=c).forEach(e),s);var s;},h=e=>"[31m"+e+"[0m",o=e=>"[2m"+e+"[0m",l=function(e,t){let n="-> ";t&&(n=o("→ "));let i="";return r(e).forEach(((e,r)=>{let c=e.id||"";if(t&&(c=h(c)),0===r&&!e.id)return;let s=e._cache.parents.length;i+="    ".repeat(s)+n+c+"\n";})),i},a=function(e){let t=r(e);t.forEach((e=>{delete(e=Object.assign({},e)).children;}));let n=t[0];return n&&!n.id&&0===Object.keys(n.props).length&&t.shift(),t},p={text:l,txt:l,array:a,flat:a},d=function(e,t){return "nested"===t||"json"===t?e:"debug"===t?(console.log(l(e,!0)),null):p.hasOwnProperty(t)?p[t](e):e},u=e=>{r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],t._cache.parents=e._cache.parents.concat([e.id]));}));},f$1=(e,t)=>(Object.keys(t).forEach((n=>{if(t[n]instanceof Set){let r=e[n]||new Set;e[n]=new Set([...r,...t[n]]);}else {if((e=>e&&"object"==typeof e&&!Array.isArray(e))(t[n])){let r=e[n]||{};e[n]=Object.assign({},t[n],r);}else i(t[n])?e[n]=t[n].concat(e[n]||[]):void 0===e[n]&&(e[n]=t[n]);}})),e),j=/\//;class g$1{constructor(e={}){Object.defineProperty(this,"json",{enumerable:!1,value:e,writable:!0});}get children(){return this.json.children}get id(){return this.json.id}get found(){return this.json.id||this.json.children.length>0}props(e={}){let t=this.json.props||{};return "string"==typeof e&&(t[e]=!0),this.json.props=Object.assign(t,e),this}get(t){if(t=c(t),!j.test(t)){let e=this.json.children.find((e=>e.id===t));return new g$1(e)}let n=((e,t)=>{let n=(e=>"string"!=typeof e?e:(e=e.replace(/^\//,"")).split(/\//))(t=t||"");for(let t=0;t<n.length;t+=1){let r=e.children.find((e=>e.id===n[t]));if(!r)return null;e=r;}return e})(this.json,t)||e({});return new g$1(n)}add(t,n={}){if(i(t))return t.forEach((e=>this.add(c(e),n))),this;t=c(t);let r=e({id:t,props:n});return this.json.children.push(r),new g$1(r)}remove(e){return e=c(e),this.json.children=this.json.children.filter((t=>t.id!==e)),this}nodes(){return r(this.json).map((e=>(delete(e=Object.assign({},e)).children,e)))}cache(){return (e=>{let t=r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],t._cache.parents=e._cache.parents.concat([e.id]));})),n={};t.forEach((e=>{e.id&&(n[e.id]=e);})),t.forEach((e=>{e._cache.parents.forEach((t=>{n.hasOwnProperty(t)&&n[t]._cache.children.push(e.id);}));})),e._cache.children=Object.keys(n);})(this.json),this}list(){return r(this.json)}fillDown(){var e;return e=this.json,r(e,((e,t)=>{t.props=f$1(t.props,e.props);})),this}depth(){u(this.json);let e=r(this.json),t=e.length>1?1:0;return e.forEach((e=>{if(0===e._cache.parents.length)return;let n=e._cache.parents.length+1;n>t&&(t=n);})),t}out(e){return u(this.json),d(this.json,e)}debug(){return u(this.json),d(this.json,"debug"),this}}const _=function(e){let t=s(e);return new g$1(t)};_.prototype.plugin=function(e){e(this);};
 
   // i just made these up
   const colors = {
@@ -5890,7 +5980,7 @@
   const tagAPI = function (View) {
     Object.assign(View.prototype, tag$1);
   };
-  var api$4 = tagAPI;
+  var api$6 = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
@@ -5944,7 +6034,7 @@
       tagRank: tagRank$1
     },
     methods: methods$3,
-    api: api$4,
+    api: api$6,
     lib: lib$1
   };
 
@@ -5964,71 +6054,20 @@
     }
     return all
   };
-  var basicSplit$1 = basicSplit;
+  var simpleSplit = basicSplit;
 
-  const isAcronym$2 = /[ .][A-Z]\.? *$/i;
-  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
-  const hasLetter$1 = /\p{L}/u;
+  const hasLetter$1 = /[a-z0-9\u00C0-\u00FF\u00a9\u00ae\u2000-\u3300\ud000-\udfff]/i;
+  const hasSomething$1 = /\S/;
 
-  /** does this look like a sentence? */
-  const isSentence = function (str, abbrevs) {
-    // must have a letter
-    if (hasLetter$1.test(str) === false) {
-      return false
-    }
-    // check for 'F.B.I.'
-    if (isAcronym$2.test(str) === true) {
-      return false
-    }
-    //check for '...'
-    if (hasEllipse.test(str) === true) {
-      return false
-    }
-    let txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
-    let words = txt.split(' ');
-    let lastWord = words[words.length - 1].toLowerCase();
-    // check for 'Mr.'
-    if (abbrevs.hasOwnProperty(lastWord) === true) {
-      return false
-    }
-    // //check for jeopardy!
-    // if (blacklist.hasOwnProperty(lastWord)) {
-    //   return false
-    // }
-    return true
-  };
-  var isSentence$1 = isSentence;
-
-  //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
-  // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
-  //regs-
-  const hasSomething = /\S/;
-  const startWhitespace = /^\s+/;
-  const hasLetter = /[a-z0-9\u00C0-\u00FF\u00a9\u00ae\u2000-\u3300\ud000-\udfff]/i;
-
-  const splitSentences = function (text, model) {
-    let abbrevs = model.one.abbreviations || new Set();
-    text = text || '';
-    text = String(text);
-    let sentences = [];
-    // First do a greedy-split..
+  const notEmpty = function (splits) {
     let chunks = [];
-    // Ensure it 'smells like' a sentence
-    if (!text || typeof text !== 'string' || hasSomething.test(text) === false) {
-      return sentences
-    }
-    // cleanup unicode-spaces
-    text = text.replace('\xa0', ' ');
-    // Start somewhere:
-    let splits = basicSplit$1(text);
-    // Filter-out the crap ones
     for (let i = 0; i < splits.length; i++) {
       let s = splits[i];
       if (s === undefined || s === '') {
         continue
       }
       //this is meaningful whitespace
-      if (hasSomething.test(s) === false || hasLetter.test(s) === false) {
+      if (hasSomething$1.test(s) === false || hasLetter$1.test(s) === false) {
         //add it to the last one
         if (chunks[chunks.length - 1]) {
           chunks[chunks.length - 1] += s;
@@ -6042,12 +6081,20 @@
       //else, only whitespace, no terms, no sentence
       chunks.push(s);
     }
-    //detection of non-sentence chunks:
-    //loop through these chunks, and join the non-sentence chunks back together..
+    return chunks
+  };
+  var simpleMerge = notEmpty;
+
+  //loop through these chunks, and join the non-sentence chunks back together..
+  const smartMerge = function (chunks, world) {
+    const isSentence = world.methods.one.tokenize.isSentence;
+    const abbrevs = world.model.one.abbreviations || new Set();
+
+    let sentences = [];
     for (let i = 0; i < chunks.length; i++) {
       let c = chunks[i];
       //should this chunk be combined with the next one?
-      if (chunks[i + 1] && isSentence$1(c, abbrevs) === false) {
+      if (chunks[i + 1] && isSentence(c, abbrevs) === false) {
         chunks[i + 1] = c + (chunks[i + 1] || '');
       } else if (c && c.length > 0) {
         //this chunk is a proper sentence..
@@ -6055,6 +6102,31 @@
         chunks[i] = '';
       }
     }
+    return sentences
+  };
+  var smartMerge$1 = smartMerge;
+
+  //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
+  // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
+  //regs-
+  const hasSomething = /\S/;
+  const startWhitespace = /^\s+/;
+
+  const splitSentences = function (text, world) {
+    text = text || '';
+    text = String(text);
+    // Ensure it 'smells like' a sentence
+    if (!text || typeof text !== 'string' || hasSomething.test(text) === false) {
+      return []
+    }
+    // cleanup unicode-spaces
+    text = text.replace('\xa0', ' ');
+    // First do a greedy-split..
+    let splits = simpleSplit(text);
+    // Filter-out the crap ones
+    let chunks = simpleMerge(splits);
+    //detection of non-sentence chunks:
+    let sentences = smartMerge$1(chunks, world);
     //if we never got a sentence, return the given text
     if (sentences.length === 0) {
       return [text]
@@ -6070,7 +6142,7 @@
     }
     return sentences
   };
-  var sentence = splitSentences;
+  var splitSentences$1 = splitSentences;
 
   const hasHyphen = function (str, model) {
     let parts = str.split(/[-–—]/);
@@ -6218,12 +6290,12 @@
     result = result.filter(s => s);
     return result
   };
-  var term = splitWords;
+  var splitTerms = splitWords;
 
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
   //we have slightly different rules for start/end - like #hashtags.
   const startings =
-    /^[ \n\t.[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*•^†‡°¡¿※№÷×ºª%‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u0027\u201C\u201F\u201B\u201E\u2E42\u201A\u2035\u2036\u2037\u301D\u0060\u301F]+/;
+    /^[ \n\t.[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*•^†‡¡¿※№÷×ºª%‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u0027\u201C\u201F\u201B\u201E\u2E42\u201A\u2035\u2036\u2037\u301D\u0060\u301F]+/;
   const endings =
     /[ \n\t.'[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*@•^†‡°¡¿※#№÷×ºª‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u201D\u00B4\u301E]+$/;
   const hasApostrophe$1 = /['’]/;
@@ -6276,11 +6348,11 @@
     }
     return { str, pre, post }
   };
-  var tokenize$2 = normalizePunctuation;
+  var tokenize$4 = normalizePunctuation;
 
   const parseTerm = txt => {
     // cleanup any punctuation as whitespace
-    let { str, pre, post } = tokenize$2(txt);
+    let { str, pre, post } = tokenize$4(txt);
     const parsed = {
       text: str,
       pre: pre,
@@ -6289,7 +6361,21 @@
     };
     return parsed
   };
-  var whitespace = parseTerm;
+  var splitWhitespace = parseTerm;
+
+  // 'Björk' to 'Bjork'.
+  const killUnicode = function (str, world) {
+    const unicode = world.model.one.unicode || {};
+    str = str || '';
+    let chars = str.split('');
+    chars.forEach((s, i) => {
+      if (unicode[s]) {
+        chars[i] = unicode[s];
+      }
+    });
+    return chars.join('')
+  };
+  var killUnicode$1 = killUnicode;
 
   /** some basic operations on a string to reduce noise */
   const clean = function (str) {
@@ -6329,7 +6415,7 @@
   const noPeriodAcronym$1 = /[A-Z]{2,}('s|,)?$/;
   const lowerCaseAcronym$1 = /([a-z]\.)+[a-z]\.?$/;
 
-  const isAcronym$1 = function (str) {
+  const isAcronym$2 = function (str) {
     //like N.D.A
     if (periodAcronym$1.test(str) === true) {
       return true
@@ -6350,7 +6436,7 @@
   };
 
   const doAcronym = function (str) {
-    if (isAcronym$1(str)) {
+    if (isAcronym$2(str)) {
       str = str.replace(/\./g, '');
     }
     return str
@@ -6369,27 +6455,13 @@
   };
   var normal = normalize;
 
-  // 'Björk' to 'Bjork'.
-  const killUnicode = function (str, world) {
-    const unicode = world.model.one.unicode || {};
-    str = str || '';
-    let chars = str.split('');
-    chars.forEach((s, i) => {
-      if (unicode[s]) {
-        chars[i] = unicode[s];
-      }
-    });
-    return chars.join('')
-  };
-  var killUnicode$1 = killUnicode;
-
   // turn a string input into a 'document' json format
-  const fromString = function (input, world) {
+  const parse$1 = function (input, world) {
     const { methods, model } = world;
     const { splitSentences, splitTerms, splitWhitespace } = methods.one.tokenize;
     input = input || '';
     // split into sentences
-    let sentences = splitSentences(input, model);
+    let sentences = splitSentences(input, world);
     // split into word objects
     input = sentences.map((txt) => {
       let terms = splitTerms(txt, model);
@@ -6403,14 +6475,49 @@
     });
     return input
   };
+  var fromString = parse$1;
+
+  const isAcronym$1 = /[ .][A-Z]\.? *$/i;
+  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
+  const hasLetter = /\p{L}/u;
+
+  /** does this look like a sentence? */
+  const isSentence = function (str, abbrevs) {
+    // must have a letter
+    if (hasLetter.test(str) === false) {
+      return false
+    }
+    // check for 'F.B.I.'
+    if (isAcronym$1.test(str) === true) {
+      return false
+    }
+    //check for '...'
+    if (hasEllipse.test(str) === true) {
+      return false
+    }
+    let txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
+    let words = txt.split(' ');
+    let lastWord = words[words.length - 1].toLowerCase();
+    // check for 'Mr.'
+    if (abbrevs.hasOwnProperty(lastWord) === true) {
+      return false
+    }
+    // //check for jeopardy!
+    // if (blacklist.hasOwnProperty(lastWord)) {
+    //   return false
+    // }
+    return true
+  };
+  var isSentence$1 = isSentence;
 
   var methods$2 = {
     one: {
       killUnicode: killUnicode$1,
       tokenize: {
-        splitSentences: sentence,
-        splitTerms: term,
-        splitWhitespace: whitespace,
+        splitSentences: splitSentences$1,
+        isSentence: isSentence$1,
+        splitTerms,
+        splitWhitespace,
         fromString,
       },
     },
@@ -6606,7 +6713,7 @@
     'dl',
     'ml',
     'gal',
-    'ft', //ambiguous
+    // 'ft', //ambiguous
     'qt',
     'pt',
     'tbl',
@@ -6635,13 +6742,12 @@
     'kmph', //kilometers per hour
     'kb', //kilobyte
     'mb', //megabyte
-    'gb', //ambig
+    // 'gb', //ambig
     'tb', //terabyte
     'lx', //lux
     'lm', //lumen
-    'pa', //ambig
+    // 'pa', //ambig
     'fl oz', //
-
     'yb',
   ];
 
@@ -6719,7 +6825,7 @@
 
   // dashed suffixes that are not independent words
   //  'flower-like', 'president-elect'
-  var suffixes = {
+  var suffixes$1 = {
     'like': true,
     'ish': true,
     'less': true,
@@ -6761,7 +6867,7 @@
     r: 'ŔŕŖŗŘřƦȐȑȒȓɌɍЃГЯгяѓҐґ',
     s: 'ŚśŜŝŞşŠšƧƨȘșȿЅѕ',
     t: 'ŢţŤťŦŧƫƬƭƮȚțȶȾΓΤτϮТт',
-    u: 'µÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųƯưƱƲǓǔǕǖǗǘǙǚǛǜȔȕȖȗɄΰμυϋύ',
+    u: 'ÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųƯưƱƲǓǔǕǖǗǘǙǚǛǜȔȕȖȗɄΰυϋύ',
     v: 'νѴѵѶѷ',
     w: 'ŴŵƜωώϖϢϣШЩшщѡѿ',
     x: '×ΧχϗϰХхҲҳӼӽӾӿ',
@@ -6782,7 +6888,7 @@
       aliases: aliases$1,
       abbreviations,
       prefixes,
-      suffixes,
+      suffixes: suffixes$1,
       lexicon: lexicon$1, //give this one forward
       unicode: unicode$3,
     },
@@ -6795,7 +6901,7 @@
   // const hasApostrophe = /['’]s$/
 
   const addAliases = function (term, world) {
-    let str = term.normal || term.text;
+    let str = term.normal || term.text || term.machine;
     const aliases = world.model.one.aliases;
     // lookup known aliases like '&'
     if (aliases.hasOwnProperty(str)) {
@@ -6951,7 +7057,7 @@
   };
   var compute$1 = methods$1;
 
-  var tokenize$1 = {
+  var tokenize$3 = {
     compute: compute$1,
     methods: methods$2,
     model: model$3,
@@ -7015,10 +7121,10 @@
     return this
   };
 
-  const api$2 = function (View) {
+  const api$4 = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$3 = api$2;
+  var api$5 = api$4;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
@@ -7100,7 +7206,7 @@
   };
   var typeahead = {
     model: model$2,
-    api: api$3,
+    api: api$5,
     lib,
     compute,
     hooks: ['typeahead']
@@ -7113,7 +7219,7 @@
   nlp$1.extend(pointers); //2kb
   nlp$1.extend(tag); //2kb
   nlp$1.plugin(contractions$1); //~6kb
-  nlp$1.extend(tokenize$1); //7kb
+  nlp$1.extend(tokenize$3); //7kb
   nlp$1.plugin(cache$1); //~1kb
   nlp$1.extend(lookup); //7kb
   nlp$1.extend(typeahead); //1kb
@@ -7171,10 +7277,30 @@
   var unicode$1 = unicode;
 
   var contractions = [
+    // { word: 'del', out: ['di', 'il'] },
+    // { word: 'dello', out: ['di', 'lo'] },
+    // { word: 'della', out: ['di', 'la'] },
+    // { word: 'dell', out: ['di', 'l'] },
+    // { word: 'dei', out: ['di', 'i'] },
+    // { word: 'degli', out: ['di', 'gli'] },
+    // { word: 'delle', out: ['di', 'le'] },
+    // { word: 'col', out: ['con', 'il'] },
+    // { word: 'coi', out: ['con', 'i'] },
+    // { word: 'al', out: ['a', 'il'] },
+    // { word: 'allo', out: ['a', 'lo'] },
+    // { word: 'alla', out: ['a', 'la'] },
+    // { word: 'all', out: ['a', 'l'] },
+    // { word: 'ai', out: ['a', 'i'] },
+    // { word: 'agli', out: ['a', 'gli'] },
+    // { word: 'alle', out: ['a', 'le'] },
+    // { word: 'sul', out: ['su', 'il'] },
+    // { word: 'sulla', out: ['su', 'la'] },
+    // { word: 'sullo', out: ['su', 'lo'] },
+    // { word: 'sugli', out: ['su', 'gli'] },
 
   ];
 
-  var tokenize = {
+  var tokenize$2 = {
     mutate: (world) => {
       world.model.one.unicode = unicode$1;
 
@@ -7185,7 +7311,7 @@
     }
   };
 
-  var version = '0.0.1';
+  var version = '0.0.2';
 
   const prefix$1 = /^.([0-9]+)/;
 
@@ -7499,7 +7625,7 @@
 
   let { gerunds, pastParticiple } = model$1;
 
-  let m = {
+  let m$1 = {
     toGerund: gerunds.gerunds,
     fromGerund: reverse$1(gerunds.gerunds),
     toPastParticiple: pastParticiple.pastParticiple,
@@ -7507,16 +7633,16 @@
   };
 
   const fromGerund = function (str) {
-    return convert$1(str, m.fromGerund)
+    return convert$1(str, m$1.fromGerund)
   };
   const toGerund = function (str) {
-    return convert$1(str, m.toGerund)
+    return convert$1(str, m$1.toGerund)
   };
   const fromPastParticiple = function (str) {
-    return convert$1(str, m.fromPastParticiple)
+    return convert$1(str, m$1.fromPastParticiple)
   };
   const toPastParticiple = function (str) {
-    return convert$1(str, m.toPastParticiple)
+    return convert$1(str, m$1.toPastParticiple)
   };
 
   let { presentTense, pastTense, futureTense, conditional } = model$1;
@@ -7649,36 +7775,35 @@
   var lexData = {
     "Article": "true¦gli,i1la,un0;!a;!l",
     "Pronoun": "true¦ci,esso,io,lAmi8n5quest4su3t1v0;i,o5;i,u0;!a,e,o6;a,o5;a,i;e,o0;i,str0;a,e,i,o;!e0o;!i;e,o0ui;!ro",
-    "MaleAdjective": "true¦0:Q7;1:PX;2:PZ;3:PK;4:QA;5:QF;6:QD;7:PW;8:QC;9:OA;A:OP;B:KC;C:PF;D:Q6;E:OW;F:Q2;G:PS;H:KD;I:L3;J:PL;K:PE;*,/,\\,aM7bL3cHSdG7eEVfDRgCThCSiANjugoslaJTl9Zm86n7Jo6Up4Kqu4Gr3Ds1Gt0Pu0CvLwave,—,…,音;a07eZiPoMuL;lcaKPo5;calMlL;an6gaAonF9;e,iE;cTenP2gSnQoleGSrtuPsNtMvLzAU;aHen6o;a1to8J;coBiLua1;bi1v0;a1oB;cLta;en6itriH;en6oGZ;e,iOR;cchiO4geOBlRnNrLscovi1ttOD;a,ba1de,oLsaB5tiL1;!simi1;eNtL;enNTrL;a1i80;t0ziP5;enoBoH;c8lNno,riLst0;!aLo;!bi1n6;id0oGM;ffMBgP5ltWmSnPrNsMtilL;e,iMR;c3ua1;banLinN0;a,iLLo;aniIAgheL2iL;c0forI9laJ3ta6KversL;a1iEE;anMbKSiL;d0le;a,isODoL;!iGR;eMYim0;a09eViUoRrNuL;rLtt;c0iLA;aMemenP2iLopiKA;a2RbutMMdKDenJonfa1pMVs6;dizIg2nquill0sL;cu7Xpar3verIM;ller8rMsLta1;cOEsiC;iNUrentizMI;betaLTmiOVpLW;atJ0cnXdescLWleWmTnSoRrMsL;a,si1tOG;mNrL;eDEiLoJA;bi1tN9;a1iL;c0na1;lLQriE;aHeK4;aKi7pL;eFGoraL;le,ne0;f2NvisD;icLJolLK;citurLEli,rd0ttiL;c0le;!a1CbagliGc18e0Vf0Ui0Mo0Ap01tQuMvL;ariat20eJ2izz3N;ccNLdNe,ff9EggestDmeJUpLrrea1;erLplemN5rD6;!fL3ioA;-o5RdeO5o5Q;aSeRiKEorL9rLudIT;aNeMuL;mC2tFS;pi7Tt4;da1granFOnMordi1GtL;eg2igrafiE;a,i3Co;lMNri1ss0;bi1gImpa5nMtL;a1ic0unitHV;co,te;aSePiNlend62oL;ntaGHrLsa4;c0tD;cH3eGCnaO9rL;a1itNG;ciLr18sIWtta63;alLfKS;e,izzG;gnMRz9;ciUddisfaTfSggettF2lPnI2prannaFArpreKEsNttMvL;i89raKL;erG6i1oEL;peLtaET;so,t5;aWenLMfo0IiLu7;dLEs5tL;a4Po;fer4istica4;c3t4;alLetKJ;democraKe,istLD;cRgnificLPmQnMsLt0;miEtemEI;ceM2daIIf1FgListr0;le,olL;aLi;!re;bol2i1met05paK;iJHur0;avoFVeM1ortunG;cVdicenL6gUlRmQnPpOqueEBrNssMQttLv2D;eLima31;centesEntrI;a1ba,en0iKW;aDVoMR;eFsi7t0E;anM2icir58pCZ;eMvaL;g9ItiC;tM5zK8;rFSu3;c0oL;laAndAX;aF6eH7hiacci8iNoLrit6ur0;laIWnLrBzN0;fit4ta5;entifJOi5;crKMggiOlNnMpi3rMMtiL;riC;guinoHOiBNo,t0;entiLFi3;!o;a0Ge05iSoMuL;ra1ss0;bu49cciKVmaOsMtL;an6onAD;a,sL;a,i,oHR;gnLDnL;a,ic0o,t2;bel1cRdot4flesHDgQlev8nOpiA8sNtMvoluzioL;naFC;m2ua1;cont54er49orgMpetLHtreM2ult8;ascLnovGomGtraccEV;imA0;id0orKJ;cOoL;nLrr3;duLosL;ci7;a,hLo;e,i;al3NcUgTlSmot0na1pRsNttLv6H;aLilinI8o;ngoKG;iMpLt8;iratorJEo7B;dLst3;enCKua;e0WubbliJT;atDi0U;a1g3io1Mn8oK9;en6iproc0;diOgNpMr0zL;ioJz9;id0presentJW;giungi7io6O;a1ca1oL;atKRfLtelevi2M;on2;aMest’,oL;!tidiKU;drGlLntiHJr5;itaKMunque;a1De15i0Zl0Xo0JrPsicOuL;bblicMglHSlIKnLr0;g3k;a,he,iAAo;h2olI9;at2e06iZoL;bXduttWfUgTibi5lSmRnt0pPsOteMvL;a5enie1Ginc9visoE7;iEst8ttL;a,iKD;p62sJPtaK;orzIriL;a,etIJ;ett3ozI;iH5unga5;eDVrK4;essionLond0;a1isK;iv0riH;a7le7K;gionieJImOncipNvL;aLileg5Fo;!t0;a1e;aDQe,iMoL;genHWrd9;ssFKtD;cRdomK3es5XfeQgeJWlimiE8matuG1occupa4sOvLziIZ;al3eMiL;a,o,s5;di7ntD;en6ideBNtiLuB3;giIU;ri7;ed3is0oH;chiFAet2lVntifi3NpTrtRsNtenMvL;er0;tF7z9;itDsMtL;a1eHZum0;eLi7;n6s1B;aLoF9ua1;n6ti1;!olL;aAoF5;aMemiCiLmoDP;goJtH0zi6L;cc0re;aLuE3;sJ1uI8;aOcMeLramiFZsaGTttor2;monteFn0;cLeIP;an6ol0;ceJ4nLtt0;eg76ta;cu86dagBHgg3BnRrMsLtrolifeF7;an6sHF;du5enHQfeJJiOman3petuo,sL;iMoL;!na1;an0st3;colHZfeIGodiE;a1ti4ultH9;c00daIDgaIDlesZnoraHNpa1rQsNtMuAKzL;i3zo;e87rimon9;sLtoDK;aLeggeI5iv0;n6t0;aRiQlaProcch9tLz9;eMiL;coHVgiaI5;cipaLnop3Q;nti;mI0n6t0;!gHV;gona7llel0noLssi5;iCrEV;e,tiI0;a4if2;bbligato08cc07die7Sffen06ggeAZl05mo04n01pXrRsPttMvL;a1vGL;aCHenMiLo0X;co,mGT;i7ne;c8Wpi6seLti1;o,rva7;aPbiHAchestCZdinaOgMiLmoJtodoGR;enH9gina2XzzonH9;aniLo1N;c0zzatA4;le,ri0ta;le,torHR;eMpoL;rtun0st0;n,raL;i0tD;es4liGMoLt19;masKrL;arG3eHU;geB1nG7sessI3;anD4fat4imp2;siHQ;asIid69ul4;!ri0;aYeVoNuL;cleaAd0lG4merLov0z9;ic0os0;b4DioBmRn0rMtL;a,eHKo,tu6Z;dMmaLvegeF;le,nn0tiBO;!-oMamer8Cic0oL;ri5Z;ccid5Yri5Y;a9LiJ;cess66gGDmiEoMpaleFrLtt0utr9FwyorkeF;a,o,vGF;classiCnG;!poleSrrGAsPtNva1ziL;onalLs5;e,is5;al7KiBDuralL;e,iE0;a1cL;en6oL;st0;on2tH6;a0Ue0Ci01oPuL;ltimed9nici6UrESsLto;coG8ea1icMulL;maEJ;a1is5;bi1deVlSnPrNstr1AtL;iLriH;va4;a1bLen6f06t8V;id0;aDLd9e6HtLum5A;anLuFT;o,te;eMle,tL;eplici,iC9;coFV;neFrn0st0;a,cid9gl0TlSnPsMtL;e,ic0;eFXtL;a,eLic0o;riFJ;eraMim0orL;!e,itE6;le,rG3;aFXiL;aAtaL;n6re;ccanic01dVlod2moUnTrQssiPtLzz0;aMeorLropolitGC;ol6N;fisiElL;!lDT;cG8neF;aLcan22idIo;!viL;glB9;si1ta1;ra7;esECiL;aOcNeMoLter94;!eL;va1;a,he;!na;he,o;es02fioBIgYlWnVrSsOtL;eLto,ur0;m7JrL;ia1n0;chiNsiL;cLmE5;ci0;le,o;cGgiJiMm8DxDTziaL;le,na;ano,no,ttET;ager9cGua1;a4edAUiL;ncoB4zAM;gMicD2nLro;eKiC8;iorL;!e;toB;!a05eYiUoRuL;minEAnMssL;uoB;aAgL;a,hLo;e,iL;!ssEE;ca1deF1giCmbar3NnLquaH;diELgLtF4;itudiJobard0;berDHeNgMmitGnLquidDLr2t9Ove;eaAguiBR;n01uA;to,ve;a1gNnt0ssiAPtL;a1teraL;le,riDP;aNgeMiL;slDQttE2;nda8Gr0;le,t0;ic0rMtLv8R;e9Fin0;g0va1;beE4d1Kgno1Jll1Fm0YnUoAApotTrQsNtaliL;aLca;!nDF;lEUola5raelABtL;antanLituzIruttoA;ea;l35on2reL;goDMvL;erDB;et2;a0Nc0Hd0Ce0Af04g02iz9n00quiet8sYtPuOvL;arMerLiD8;na1s0;ia4;sEGti1;at5eLim0;graRllQnPrMsL;o,tiJ;a,essa5QioAmedi0nLo;aLo;!zI;s0zC0;e7Lig3;le,n6to;oli4ta7uffL;ici3;a5oLumerevoli;c3vCT;anLen6Hius4leFombr8;neDR;anPeNinBOlu3ormaL;le,tiL;c0vo;liHrL;ioAna1;ti1;dBIsLviEB;ist3;iMuL;is5str9;an0caDEffer3geCZpeATreDZsLvidDQ;cusBpeL;nsa7;apaHeBHin5lOoLreW;mpMnL;dizBCfonU;iu4le4;inLuB;a4e;rresDYspettGtD5ugu80;barazz8mVpL;eRoPrL;eMoL;ba7vvis0;cisa4nditC8ssion8veL;di7;n48rtantLsBZ;e,iCA;gnatMrL;ia1mea7;iv0o;aginANePin3oMuL;nitB2ta5;bLrBX;ilL;e,iaA;diGns0;eMuL;minAYstA;ci4gL;a1itt89;r8t0;eNo5SrL;au77iCoL;elettC2g9D;a1ntiL;c0fica7;ardcoAorror;a0Ee07iYlXoWrL;aPeOiNoL;ss0ttL;esC;gi0;c9Yzzo;dPf2mOndMsBtuA6vL;e,itazI;e,iL;oBssBH;maBW;eC3ua1;t2vernB2;ac9oba1;aQgante1EoMuL;diz0Wrid2st0;ioBrna8RvL;anLiC1;e,iL;le,ssB7;llLppoBF;a,oL;!blu,ros7J;loBnNoMrL;archiEman2;g3Ilog9Dmetr2;eLia1o05til21;rLt2;alLic0oB;e,izCR;lLssoB;atKleL;gLse;gi8;a0Ge0Ai03l00oSrOuL;nLorvi8so,t23;ebAzionaL;le,n6;aMeLonAG;dd0qu3sc0;gi1ncesLzion92;ca8Ue;ca1lCAndaQrLtog31;!liOmNtLza5;e,iLuCH;fi51ss9J;a1ida7;veF;!mLto;enA5;es9ZuL;iLv9;da;duc65eAClosof2nNorentMsLt5;ca1ic8Ls0;e,in0;aMe,i5lLto;an65;le,nziL;ari9O;dePliHmmini1rLu7H;m0oHrLti1v3;aMovL;ia4E;reFta;le,ra1;cRlPmMntasLrmaceuACsc8Uta1vo3Y;cientif2t2;iMosL;a,i63o;liaA;liLsa;m9Vto;en6i1;br0Vc0Qd0Mff0Kg0Il0Bm09n07p04qu03r01sStPuOvNxtraL;terreLurba9U;stA;entAJid3olut49;clid78rope0;c,eMic0n2ruL;sc0;rn0;aANclusSeRist1KpQse1ZtL;eMiv0rL;em0;nu8rLt2;a,iLn0;!oA;anBlic7Wone1Tressi44;c3Emp96;i9Vo;ediLo2ra5;ta3L;at8Zival3;a9KiL;c0scoL;pa1;ergLnes91or39;et2iC;erg3oLpi97;!ti3S;a6FeMlL;e9Bit9C;g8m90ttMvatL;a,iss7Wo;o4ArL;ic75oL;magne97n2;iziaLua1;!n0;e1YicL;aHi3;iLuc8A;lMtL;or9riH;e,iz7G;cNoL;lLnom6T;ogiE;eLlesia5X;ll3ssDzI;a2e0;a13e0KiXoQramm0UuL;a1bb8Pca1pOrL;aLo;!tL;ur0;liH;c3lQmNppi0rMtL;a4triJ;at0iCsa1;eLin8;nLst2;ica6A;ce,oro4F;alet7Rchia06datKf00gZn90pXrUsNur86vL;erLin0;s0t3;aQcPpOtL;an6intLrut5;e,iL;!vo;erGoni7;e5Sipli2Rog08r21u2M;bita5st04;ettMigL;en6i7;a,i8Ao;e5NiLlom04;nt0;es86i7C;ensPfL;erMicLus0;i1olto3W;enL;te,z9;iv0oA;ra5;bo1cZd5YfYgn0lWmRns0presBsPtNvL;aLozI;st8;erminaLtaglia5;n6to;er4ideLt7A;roB;eOoL;crMgLni4Q;raf2;at2;nz9;ega4iLud3;cGz2V;initDor16un4;ad3enJiLora7J;mMsL;a,iv0;a1o;nLrk,ta7;eFnoB;a2Ce26hi24i1Wl1UoYrPuL;ba4ZlNp0rMstoL;de;i6Fve;tu24;an9eSiQoNuL;c9dLen4;a,e1;at0ciGma6ZnL;iEolL;ogiC;miJstLt2;alli6Mi77;atDd3sc3;er3l19m0PnYperXrSsL;ci3idde7JmQpicPtL;an6iMos0ruL;ttD;er0tuL;en6zI;ua;ic0opoli5;aOea6CpNrLt0;eLispo45;n6t4;ore0;gg1Xle;n6Rta;c08f06gen9iuga1n05osciu4sXtOvL;enMinL;c3to;i3zI;aSempoQinPrL;aMoveL;rs0;en6ri0sLtt6Q;ta4;en5Iu0;raL;ne0;bi1di5U;ape6AePiMuL;e4l3;deMglLst3;ia7;re66;cMgu3rvatL;oAriH;utD;azIesB;in8orLuB;me;eMlusDorr3rL;et0;tt67;a74bus03iEmeZpOunL;a1e,iL;st4HtaL;ri0;atUetTlNosMreL;n4Qs0;iVto;eMiL;ca5;m54ssNtL;aLo;!m3;a,iv0o;en6itD;i7t0;mLrc9;oraL;tiL;va;ti7;lNoLpe5Cto;n9ra5sL;sa1;aNeMiL;naA;g9ttD;teZ;aLin2;mor47ndest4Hss2S;cReClindr2nPrcoNstercMttadi2OviL;ca,le;enF;laLst8;n6ri;eLiC;matograf2Lse,tiE;liC;ar0m2JrLus0;urg2;co,lNntMrL;ebLt0;ra1;eLt2;bLs6;err40re;!d02l00mpa46nYot2pUrNsMttLu1Evo;iv0ol2;aling0ua1;aPboOdiNiMnivLo,s2tes0E;or0;c0no,smaK;ac0na1;niE;!tteL;risK;aHriccL;ioB;so;ce;aLon2t8;deF;cLd0mo,vo;ar16i10;et4;a0Fe07i00lu,oTrLuon31;aRevOiNuL;sCtL;a2Lt0;ll8tann1O;e,iL;ssL;imo;si0Vvo;cQlOrNsMtaL;niC;sa;gheF;ivLog3C;ia1B;ca1;ancPbl2dNenJoMzL;ant30zar32;l1Cn49;imensI;ioJ;a,hi,oL;!neN;lPnNrL;beLgamasC;ra;edettLig0Z;i0Yo;!ga,lL;a,iLo;c0ss2M;bilo2Unc1HrSsPttMvaL;reF;eLu5;riEsiL;ma1;a1i17sL;a,isLo;s1Gta;bu4occ0;b3Xc3Kd3Eer38f31g2Nl28m1Wn15p0Vr0Es07t01uOvMzL;ienQzurr0;anza5versL;ar2No;rWstrTtL;ent2oL;biogPmMnom0straL;da1;at2obiL;liL;st2;raL;fiC;aMiL;ac0;li2P;eo;enPle2Bmosfer2om2tL;aNeLiv0ua1;nLso;di7t0;!cc8;ieF;cPiaKpr0sNtrL;aLonom2;le,tt0;en6iLolut0ur2X;cura4mila7st3;eLiut4;nd3;aZbitrYcSgentiRiPmOrog8tiL;coMfLgiaJstT;ic9;!lG;at0en0on2;aMstoL;cra1Ste03;no;aPhL;eolNitettonL;icL;a,he,o;og2;de,ic0;ar1I;bLgo1Cncio0H;a,iEo;eTostoSpL;aOlicaNosMreL;zza7;it0;bi1ta;rMssL;iona4;en6ten3;liE;rt0;a07g03ima01nXoVtLzi1J;eTiL;cOfascNorLst8;arL;io;is5;a,hLo;e,iL;!ssL;ima;rioA;maLn0G;lo;eNuL;aLo;!le;ss0;le,tL;a,i;lLo05;iMosassoL;ne;ca0C;lMrchiCtoL;miE;e,i0IogL;a,hi,ic0o;aTbiQer0RicPmiMpiL;!a,o;nistrMsL;si7;atD;a,he0J;enMziL;os0;ta1;ra,tL;or9;ia1;aAbaXfabeKgeUiSleQpPtMveoL;laA;a,erna08iLo,r0;ssL;im0;in0;a4gL;ro;en0mL;entaA;bMriL;na;riE;neF;re;eXgSiRoOrL;arMicL;ol0;ia;nisL;tiE;ca;a5le;iMrL;essD;or0YunL;tiL;vo;vo1;fOrL;icMoamerL;icL;an0;ascMiLlu3;da7ne;in8;e0oL;dinOnauKportL;ua1;tiC;co;am2;aPdomiJeMiac3olesc3uL;lt0;guGr3spo5;en6;na1;tt0;cOiNquMuL;st2ta;at2eo;do;aReMurG;at0;ntua5sMtL;ta7;a,o,si7;bi1;le;dem2ttiv8;ic0;bSiNruzL;zeF;se;le,tL;atDuaL;le,to;iv0;a,o;andoQoNronL;za4;to;nd8;an6;te;na5;ta",
+    "MaleAdjective": "true¦0:Q8;1:PY;2:Q0;3:PL;4:QG;5:QB;6:QE;7:PX;8:QD;9:OB;A:OQ;B:KD;C:PG;D:Q7;E:OX;F:Q3;G:PT;H:KE;I:L4;J:PM;K:PF;*,/,\\,aM8bL4cHUdGAeEYfDTgCVhCUiAPjugoslaJVlA1m87n7Ko6Vp4Lqu4Hr3Es1Gt0Pu0CvLwave,—,…,音;a07eZiPoMuL;lcaKQo4;calMlL;an6gaAonFC;e,iE;cTenP3gSnQoleGVrtuPsNtMvLzAW;aHen6o;a1to8L;coBiLua1;bi1v0;a1oB;cLta;en6itriH;en6oH2;e,iOS;cchiO5geOClRnNrLscovi1ttOE;a,ba1de,oLsaB7tiL2;!simi1;eNtL;enNUrL;a1i82;t0ziP6;enoBoH;c8lNno,riLst0;!aLo;!bi1n6;id0oGP;ffMCgP6ltWmSnPrNsMtilL;e,iMS;c3ua1;banLinN1;a,iLMo;aniICgheL3iL;c0forIBlaJ5ta6LversL;a1iEH;anMbKTiL;d0le;a,isOEoL;!iGT;eMZim0;a09eViUoRrNuL;rLtt;c0iLB;aMemenP3iLopiKB;a2SbutMNdKEenJonfa1pMWs6;dizIg2nquill0sL;cu7Zpar3verIO;ller8rMsLta1;cOFsiC;iNVrentizMJ;betaLUmiOWpLX;atJ2cnXdescLXleWmTnSoRrMsL;a,si1tOH;mNrL;eDHiLoJB;bi1tNA;a1iL;c0na1;lLRriE;aHeK5;aKi7pL;eFJoraL;le,ne0;f2OvisD;icLKolLL;citurLFli,rd0ttiL;c0le;!a1DbagliGc19e0Wf0Vi0No0Ap01tQuMvL;ariat21eJ3izz3O;ccNMdNe,ff9GggestDmeJVpLrrea1;erLplemN6rD9;!fL4ioA;-o5SdeO6o5R;aSeRiKForLArLudIU;aNeMuL;mC4tFU;pi7Vt5;da1granFQnMordi1HtL;eg2igrafiE;a,i3Do;lMOri1ss0;bi1gImpa4nMtL;a1ic0unitHX;co,te;aSePiNlend64oL;ntaGJrLsa5;c0tD;cH5eGEnaOArL;a1itNH;ciLr19sIXtta65;alLfKT;e,izzG;gnMSz9;ciVddisfaUfTggettF5lQnorPprannaFCrpreKFsNttMvL;i8BraKM;erG8i1oEO;peLtaEW;so,t4;a,e,o;aWenLMfo0IiLu7;dLEs4tL;a4Po;fer5istica5;c3t5;alLetKJ;democraKe,istLD;cRgnificLPmQnMsLt0;miEtemEK;ceM2daIIf1FgListr0;le,olL;aLi;!re;bol2i1met05paK;iJHur0;avBJeM1ortunG;cVdicenL6gUlRmQnPpOqueEDrNssMQttLv2D;eLima31;centesEntrI;a1ba,en0iKW;aDXoMR;eFsi7t0E;anM2icir59pD1;eMvaL;g9JtiC;tM5zK8;rFTu3;c0oL;laAndAY;aF7eH7hiacci8iNoLrit6ur0;laIWnLrBzN0;fit5ta4;entifJOi4;crKMggiOlNnMpi3rMMtiL;riC;guinoHOiBPo,t0;entiLFi3;!o;a0Ge05iSoMuL;ra1ss0;bu49cciKVmaOsMtL;an6onAE;a,sL;a,i,oHR;gnLDnL;a,ic0o,t2;bel1cRdot5flesHDgQlev8nOpiA9sNtMvoluzioL;naFD;m2ua1;cont55er49orgMpetLHtreM2ult8;ascLnovGomGtraccEW;imA1;id0orKJ;cOoL;nLrr3;duLosL;ci7;a,hLo;e,i;al3NcUgTlSmot0na1pRsNttLv6I;aLilinI8o;ngoKG;iMpLt8;iratorJEo7C;dLst3;enCMua;e0WubbliJT;atDi0U;a1g3io1Mn8oK9;en6iproc0;diOgNpMr0zL;ioJz9;id0presentJW;giungi7io6P;a1ca1oL;atKRfLtelevi2M;on2;aMest’,oL;!tidiKU;drGlLntiHJr4;itaKMunque;a1De15i0Zl0Xo0JrPsicOuL;bblicMglHSlIKnLr0;g3k;a,he,iACo;h2olI9;at2e06iZoL;bXduttWfUgTibi4lSmRnt0pPsOteMvL;a4enie1Ginc9visoE8;iEst8ttL;a,iKD;p63sJPtaK;orzIriL;a,etIJ;ett3ozI;iH5unga4;eDWrK4;essionLond0;a1isK;iv0riH;a7le7L;gionieJImOncipNvL;aLileg5Go;!t0;a1e;aDRe,iMoL;genHWrd9;ssFKtD;cRdomK3es5YfeQgeJWlimiE9matuG1occupa5sOvLziIZ;al3eMiL;a,o,s4;di7ntD;en6ideBPtiLuB5;giIU;ri7;ed3is0oH;chiFAet2lVntifi3OpTrtRsNtenMvL;er0;tF7z9;itDsMtL;a1eHZum0;eLi7;n6s1B;aLoF9ua1;n6ti1;!olL;aAoF5;aMemiCiLmoDQ;goJtH0zi6M;cc0re;aLuE4;netHHsJ1uI8;aOcMeLramiFZsaGTttor2;monteFn0;cLeIP;an6ol0;ceJ4nLtt0;eg77ta;cu88dagBIgg3CnRrMsLtrolifeF7;an6sHF;du4enHQfeJJiOman3petuo,sL;iMoL;!na1;an0st3;colHZfeIGodiE;a1ti5ultH9;c00daIDgaIDlesZnoraHNpa1rQsNtMuAMzL;i3zo;e89rimon9;sLtoDL;aLeggeI5iv0;n6t0;aRiQlaProcch9tLz9;eMiL;coHVgiaI5;cipaLnop3R;nti;mI0n6t0;!gHV;gona7llel0noLssi4;iCrEV;e,tiI0;a5if2;bbligato08cc07die7Uffen06ggeB0l05mo04n01pXrRsPttMvL;a1vGL;aCIenMiLo0X;co,mGT;i7ne;c8Ypi6seLti1;o,rva7;aPbiHAchestD0dinaOgMiLmoJtodoGR;enH9gina2YzzonH9;aniLo1O;c0zzatA6;le,ri0ta;le,torHR;eMpoL;rtun0st0;n,raL;i0tD;es5liGMoLt1A;masKrL;arG3eHU;geB2nG7sessI3;anD4fat5imp2;siHQ;asIid6Aul5;!ri0;aYeVoNuL;cleaAd0lG4merLov0z9;ic0os0;b4EioBmRna,rMtL;a,eHKo,tu71;dMmaLvegeF;le,nn0tiBP;!-oMamer8Eic0oL;ri60;ccid5Zri5Z;a9MiJ;cess67gGDmiEoMpaleFrLtt0utr05wyorkeF;a,o,vGF;classiCnG;!poleSrrGAsPtNva1ziL;onalLs4;e,is4;al7MiBEuralL;e,iE0;a1cL;en6oL;st0;on2tH6;a0Ve0Di02oPuL;ltimed9nici6WrESsLto;coG8ea1icMulL;maEJ;a1is4;bi1deWlTnQrNstr1BtL;iLriH;va5;a1bMen6f07tL;a1o;id0;aDKd9e6ItLum5A;anLuFS;o,te;eMle,tL;eplici,iC8;coFU;neFrn0st0;a,cid9gl0TlSnPsMtL;e,ic0;eFWtL;a,eLic0o;riFI;eraMim0orL;!e,itE5;le,rG2;aFWiL;aAtaL;n6re;ccanic01dVlod2moUnTrQssiPtLzz0;aMeorLropolitGB;ol6O;fisiElL;!lDS;cG7neF;aLcan22idIo;!viL;glB8;si1ta1;ra7;esEBiL;aOcNeMoLter94;!eL;va1;a,he;!na;he,o;es02fioBHgYlWnVrSsOtL;eLto,ur0;m7KrL;ia1n0;chiNsiL;cLmE4;ci0;le,o;cGgiJiMm8DxDSziaL;le,na;ano,no,ttES;ager9cGua1;a5edATiL;ncoB3zAL;gMicD1nLro;eKiC7;iorL;!e;toB;!a05eYiUoRuL;minE9nMssL;uoB;aAgL;a,hLo;e,iL;!ssED;ca1deF0giCmbar3NnLquaH;diEKgLtF3;itudiJobard0;berDGeNgMmitGnLquidDKr2t9Ove;eaAguiBQ;n01uA;to,ve;a1gNnt0ssiAOtL;a1teraL;le,riDO;aNgeMiL;slDPttE1;nda8Gr0;le,t0;ic0rMtLv8R;e9Fin0;g0va1;beE3d1Kgno1Jll1Fm0YnUoA9potTrQsNtaliL;aLca;!nDE;lETola4raelAAtL;antanLituzIruttoA;ea;l35on2reL;goDLvL;erDA;et2;a0Nc0Hd0Ce0Af04g02iz9n00quiet8sYtPuOvL;arMerLiD7;na1s0;ia5;sEFti1;at4eLim0;graRllQnPrMsL;o,tiJ;a,essa5RioAmedi0nLo;aLo;!zI;s0zBZ;e7Lig3;le,n6to;oli5ta7uffL;ici3;a4oLumerevoli;c3vCS;anLen6Hius5leFombr8;neDQ;anPeNinBNlu3ormaL;le,tiL;c0vo;liHrL;ioAna1;ti1;dBHsLviEA;ist3;iMuL;is4str9;an0caDDffer3geCYpeASreDYsLvidDP;cusBpeL;nsa7;apaHeBGin4lOoLreW;mpMnL;dizBBfonU;iu5le5;inLuB;a5e;rresDXspettGtD4ugu80;barazz8mVpL;eRoPrL;eMoL;ba7vvis0;cisa5nditC7ssion8veL;di7;n49rtantLsBY;e,iC9;gnatMrL;ia1mea7;iv0o;aginAMePin3oMuL;nitB1ta4;bLrBW;ilL;e,iaA;diGns0;eMuL;minAXstA;ci5gL;a1itt88;r8t0;eNo5SrL;au77iCoL;elettC1g9C;a1ntiL;c0fica7;ardcoAorror;a0Ee07iYlXoWrL;aPeOiNoL;ss0ttL;esC;gi0;c9Xzzo;dPf2mOndMsBtuA5vL;e,itazI;e,iL;oBssBG;maBV;eC2ua1;t2vernB1;ac9oba1;aQgante1FoMuL;diz0Wrid2st0;ioBrna8QvL;anLiC0;e,iL;le,ssB6;llLppoBE;a,oL;!blu,ros7I;loBnNoMrL;archiEman2;g3Jlog9Cmetr2;eLia1o05til22;rLt2;alLic0oB;e,izCQ;lLssoB;atKleL;gLse;gi8;a0Ge0Ai03l00oSrOuL;nLorvi8so,t24;ebAzionaL;le,n6;aMeLonAF;dd0qu3sc0;gi1ncesLzion91;ca8Te;ca1lC9ndaQrLtog32;!liOmNtLza4;e,iLuCG;fi51ss9I;a1ida7;veF;!mLto;enA4;es9YuL;iLv9;da;duc64eABlosof2nNorentMsLt4;ca1ic8Ks0;e,in0;aMe,i4lLto;an64;le,nziL;ari9N;dePliHmmini1rLu7G;m0oHrLti1v3;aMovL;ia4E;reFta;le,ra1;cSlQmNntasMrmaceuABsc8Tta1vL;oreAI;cientif2t2;iMosL;a,i61o;liaA;liLsa;m9Tto;en6i1;br0Vc0Qd0Mff0Kg0Il0Bm09n07p04qu03r01sStPuOvNxtraL;terreLurba9S;stA;entAHid3olut48;clid76rope0;c,eMic0n2ruL;sc0;rn0;aALclusSeRist1KpQse1ZtL;eMiv0rL;em0;nu8rLt2;a,iLn0;!oA;anBlic7Uone1Tressi43;c3Dmp94;i9To;ediLo2ra4;ta3K;at8Xival3;a9IiL;c0scoL;pa1;ergLnes8Zor38;et2iC;erg3oLpi95;!ti3R;a6DeMlL;e99it9A;g8m8YttMvatL;a,iss7Uo;o49rL;ic73oL;magne95n2;iziaLua1;!n0;e1XicL;aHi3;iLuc88;lMtL;or9riH;e,iz7E;cNoL;lLnom6R;ogiE;eLlesia5V;ll3ssDzI;a2e0;a12e0KiXoQramm0UuL;a1bb8Nca1pOrL;aLo;!tL;ur0;liH;c3lQmNppi0rMtL;a5triJ;at0iCsa1;eLin8;nLst2;ica68;ce,oro4D;alet7Pchia06datKf00gZn8YpXrUsNur84vL;erLin0;s0t3;aQcPpOtL;an6intLrut4;e,iL;!vo;erGoni7;e5Qipli2Qog08r20u2L;bita4st04;ettMigL;en6i7;a,i88o;e5LiLlom04;nt0;es84i7A;ensPfL;erMicLus0;i1olto3U;enL;te,z9;iv0oA;ra4;bo1cZd5WfYgn0lWmRns0presBsPtNvL;aLozI;st8;erminaLtaglia4;n6to;er5ideLt78;roB;eOoL;crMgLni4O;raf2;at2;nz9;ega5iLud3;cGz2T;initDor15un5;ad3enJiLora7H;ma1sL;a,iv0;nLrk,ta7;eFnoB;a2Ce26hi24i1Wl1UoYrPuL;ba4YlNp0rMstoL;de;i6Eve;tu24;an9eSiQoNuL;c9dLen5;a,e1;at0ciGma6YnL;iEolL;ogiC;miJstLt2;alli6Li76;atDd3sc3;er3l19m0PnYperXrSsL;ci3idde7ImQpicPtL;an6iMos0ruL;ttD;er0tuL;en6zI;ua;ic0opoli4;aOea6BpNrLt0;eLispo44;n6t5;ore0;gg1Wle;n6Qta;c08f06gen9iuga1n05osciu5sXtOvL;enMinL;c3to;i3zI;aSempoQinPrL;aMoveL;rs0;en6ri0sLtt6P;ta5;en5Hu0;raL;ne0;bi1di5T;ape69ePiMuL;e5l3;derMglLst3;ia7;a4e65;cMgu3rvatL;oAriH;utD;azIesB;in8orLuB;me;eMlusDorr3rL;et0;tt66;a73bus03iEmeZpOunL;a1e,iL;st4GtaL;ri0;atUetTlNosMreL;n4Ps0;iVto;eMiL;ca4;m53ssNtL;aLo;!m3;a,iv0o;en6itD;i7t0;mLrc9;oraL;tiL;va;ti7;lNoLpe5Bto;n9ra4sL;sa1;aNeMiL;naA;g9ttD;teZ;aLin2;mor46ndest4Gss2R;cReClindr2nPrcoNstercMttadi2NviL;ca,le;enF;laLst8;n6ri;eLiC;matograf2Kse,tiE;liC;ar0m2IrLus0;urg2;co,lNntMrL;ebLt0;ra1;eLt2;bLs6;err3Zre;!d01lZmpa45nXot2pTrNsMttLu1Dvo;iv0ol2;aling0ua1;aOboNdiMiLnivor0o,s2tes0D;c0no,smaK;ac0na1;niE;!tteL;risK;aHital2NriccL;ioB;so;ce;aLon2t8;deF;cLd0mo,vo;ar16i10;et5;a0Fe07i00lu,oTrLuon31;aRevOiNuL;sCtL;a2Lt0;ll8tann1O;e,iL;ssL;imo;si0Vvo;cQlOrNsMtaL;niC;sa;gheF;ivLog3C;ia1B;ca1;ancPbl2dNenJoMzL;ant30zar32;l1Cn49;imensI;ioJ;a,hi,oL;!neN;lPnNrL;beLgamasC;ra;edettLig0Z;i0Yo;!ga,lL;a,iLo;c0ss2M;bilo2Unc1HrSsPttMvaL;reF;eLu4;riEsiL;ma1;a1i17sL;a,isLo;s1Gta;bu5occ0;b3Xc3Kd3Eer38f31g2Nl28m1Wn15p0Vr0Es07t01uOvMzL;ienQzurr0;anza4versL;ar2No;rWstrTtL;ent2oL;biogPmMnom0straL;da1;at2obiL;liL;st2;raL;fiC;aMiL;ac0;li2P;eo;enPle2Bmosfer2om2tL;aNeLiv0ua1;nLso;di7t0;!cc8;ieF;cPiaKpr0sNtrL;aLonom2;le,tt0;en6iLolut0ur2X;cura5mila7st3;eLiut5;nd3;aZbitrYcSgentiRiPmOrog8tiL;coMfLgiaJstT;ic9;!lG;at0en0on2;aMstoL;cra1Ste03;no;aPhL;eolNitettonL;icL;a,he,o;og2;de,ic0;ar1I;bLgo1Cncio0H;a,iEo;eTostoSpL;aOlicaNosMreL;zza7;it0;bi1ta;rMssL;iona5;en6ten3;liE;rt0;a07g03ima01nXoVtLzi1J;eTiL;cOfascNorLst8;arL;io;is4;a,hLo;e,iL;!ssL;ima;rioA;maLn0G;lo;eNuL;aLo;!le;ss0;le,tL;a,i;lLo05;iMosassoL;ne;ca0C;lMrchiCtoL;miE;e,i0IogL;a,hi,ic0o;aTbiQer0RicPmiMpiL;!a,o;nistrMsL;si7;atD;a,he0J;enMziL;os0;ta1;ra,tL;or9;ia1;aAbaXfabeKgeUiSleQpPtMveoL;laA;a,erna08iLo,r0;ssL;im0;in0;a5gL;ro;en0mL;entaA;bMriL;na;riE;neF;re;eXgSiRoOrL;arMicL;ol0;ia;nisL;tiE;ca;a4le;iMrL;essD;or0YunL;tiL;vo;vo1;fOrL;icMoamerL;icL;an0;ascMiLlu3;da7ne;in8;e0oL;dinOnauKportL;ua1;tiC;co;am2;aPdomiJeMiac3olesc3uL;lt0;guGr3spo4;en6;na1;tt0;cOiNquMuL;st2ta;at2eo;do;aReMurG;at0;ntua4sMtL;ta7;a,o,si7;bi1;le;dem2ttiv8;ic0;bSiNruzL;zeF;se;le,tL;atDuaL;le,to;iv0;a,o;andoQoNronL;za5;to;nd8;an6;te;na4;ta",
     "Preposition": "true¦a9c6d2f1in,molti,ne4p0su5tra;er,rima;ino,ra;a2e1i,o0;po,ve;g7i,l5;!g6i,l4;he,o0;i,l,n0;!tro;!d,g2i,l0;!l0;!a,e,o;li",
-    "Cardinal": "true¦cOdFmilDnovPottCqu9se8tre2un1vent0;i4otQu3;diHo;!diGnt0;a1otNu0;no;!cinq1d1nHquattro,se0tré;i,tF;ue;diAi,ssaHttG;a0in7;raFtt0;or5ro;aDo;i0le;ardo,one;i2o1ue0;!cenAmila;di1;ci1e0;ci;a0ot6;nn1sset0;te;ove;en2inqu0;a0e;nta;to",
+    "Cardinal": "true¦cPdGmilEnovQottDquAse9tre2un1vent0ze7;i4otKu3;dGo;!dFnt0;a1otHu0;no;!cinq2d2nIquatt1se0tré;i,tG;ro;ue;d8i,ssaHttG;a0ind7;raFtt0;ord5ro;aDo;i0le;ardo,one;i2od1ue0;!cen3mB;ici;ci0eci8;a1ot0;to;nn1sset0;te;ove;ento2inqu0;a0e;nta;!m0;ila",
     "Possessive": "true¦mi4n2su1tu0v2;a,e,o4;a,o3;ostr0;a,e,i,o;e0o;!i",
     "Condition": "true¦nel caso che,si",
     "Negative": "true¦n0;essuno,iente,on,ulla",
     "Adverb": "true¦aZbenYcVdSecc,fRgià,inPlOmLno,oIpDquAs4t1vi0;a,ci06;a1roppo,utto0;!ra;lvolta,n05rdi;e4in,o1pe0ubi04ì;cie,sW;l1pra0t02;!ttut01;o,tZ;conda,mpA;a0i;l0nXsi;e,i;er3i2o1r0ur;esUopr8;co,i;uttosSù;alBsiP;lt1r0ve;a,mai;re;ai,e0olN;gl0no;io;à,ì;die3fine,siEt0vece;anIorG;a,orse,uori;a1ie0;tro;pprima,v5;irca,o0;m0sì;e,unque;!e;bbastanza,cc8ddirittura,lme7nc5ppun9ss3tt1v0;anti;or5raver0;so;ai,i0;eme;h',or0;!a;no;an0;to",
-    "Verb": "true¦aQchiamata,deve,ebbOf3h1può,stat0;a,i;a0o 06; 05i 05nn04;a1ec0;e5i;c7i,n6r0te;a4e0à,ò;bbe2i,m1st0te;e,i;mo,o;!ro;i,n0;no;ci8e0;mmo,s2v0;a0i,o;!mo,no,te;s1t0;eRi;e1i0;cSmR;cRro;a0o;cPmoMno,tecP;e0i J; IrH;bbiaFv0;e5r0;a3e0à Fò F;bb6i Em1st0t6;e Di D;mBo C;i BnnA;mm9s3t2v0;a0i 9o 9; 8m7n7t0;e 7;s1t0;e6i 5;e1i0; 6mo 6; 5r1; 4mo2n0te 4;o 0;fatto; fatto0;!c2;fatt0;oc0;he",
+    "PresentTense": "true¦aOdIhFpBs4v0è;o1uo0;i,le;gli0leM;aNoJ;a4i2oIt0;a0iaLo;!i,nAte;a0eH;mo,no,te;!i,n7p0;eEpF;o1u0;oi,ò;ss0teB;a8ia5o8;a0o;!i,n0;no;e2o0;bbia0ve5;mo,te;bba1v0;e,o0;!no;bb1ve0;te;ia0;!mo,no,te",
     "Date": "true¦domani,ieri,oggi",
-    "Noun": "true¦formula",
-    "MaleNoun": "true¦0:0P;animali,battagl0Rc0Fdati,f0Cg06iniz0Ql02mWnUoperTpIrFs7t5v1;i2ol1;o,ta;sKt1;a,tor0N;est1itol00;a,i,o;co7e6i4paz0JquadUt1vilup7;a0or0Jr2udi1;!o;aXutL;gnifiOstem1;a,i;de,gui0rie;po;appor0egUi1;cerHs1torT;pet0ulta0;ar8erioQia6o4r1untN;em07o1;cesXg1;et0ramma;r1s0tP;ta;n1zza;o,te;co,t1;e,i1;!to;a,e;a1omi,umeQ;tu6;a4er3iliRo2usi1;ca;dell7nArte,vimen0;ca0;cchina,estKnie1re;ra;a2egge,i1uce;bHveJ;to,vor1;i,o;en5ioc4over3ra2ui1;da;do;no;hi,o;ere;at0igli2or1;ma,za;!a,o;a6ent5o1;n2r1;so;dizi5sigl8t1;o,ro3;ro;lc5mp3nz2po,usa,va1;llo;oni;iona0o;to;io;ia",
-    "Copula": "true¦erKfCs0è8;ar6ei Li4ono2t0;a0iamo,o;!i,nno,te;! stat0;e,i,o;a0eteJi; LmoInoJteI;a3e1à0òD;! J;bbe9iBm0st6teF;moEoE;i9n2;os2u0;! Ei7mmoBro0;noB;s1t0;e8i4;e1i0;! 3mo6;! 8ro6;a2i0o0;! 0;stato;! 4no2va0;mo0te0;! stati;! stat0;e,i;stat0;a,o",
-    "PresentTense": "true¦s0è;are2i0ono;a0ete,i;mo,no,te;bbe1i,mmo,st0;e,i;!ro",
-    "PastTense": "true¦erGf6s0è Q;are3ei Gi1ono stat0;e,i,o;a0etH; MmHnJtG;bbeAi CmmGst0;e Gi B;os2u0;! Ii3mmo4rono0;! F;s3t0;e1i0;! 5;! 9;e1i0; 2m6; Ar7;a1i 0o 0;stato; 7n4va0;m1t0;e 1;o 0;stati;o 0;stat0;e,i;stat0;a,o",
-    "FutureTense": "true¦sar0;a1e0à,ò;mo,te;i,nno",
+    "Noun": "true¦0:1K;1:19;a1Dbattagl1Cc0Zd0Ye0Xf0Tg0Kin0Jl0Dm04n02oper01pNrJsAt6v2;a0Ri3ol2;o,ta;sta,t2;a,tor18;e2itol0Draffi0;o3st2;a,i,o;do1Bri0;c8e7i5paz12quad03t2vilup9;a1or12r3udi2;!o;a09utR;gnifiVstem2;a,i;de,gui1rie;a13o2;po;appor1eg05i2;c3s2tor04;pet1ulta1;erKo;aBer9ia7las0Yo5r2untW;em0Oo2;ces0Dg2;et1ramma;litec0Rrt2s1t01;a,i0;n2zza;o,te;iod2si0;i0o;lcosce0Lni0r2;co,t2;e,i2;!to;a,e;a2emi0omi,ume04;tuA;a6e4ili05o3usi2;ca;dellDnHrte,s0Avimen1;di0r2sJ;ca1;cchina,estXni3r2;e,si0;co,e2;ra;a5e4i3odoSu2;ce,doR;bRveT;gge,sA;to,vor2;i,o;ca01izT;ae9en8i5over4ra3ui2;da;do;no;oc3uras2;si0;hi,o;ere;li0;at1edeRigli4or2;m2za;a,ula;!a,o;nNreO;ati,emoNomeK;a8ent7hi0i6o2;mi0n3perIr2;so;dizi7siglAt2;o,ro5;vi0;ro;lc6mp4nz3po,usa,va2;llo;oni;iona1o;to;io;ia;dria8la7m6n4ram3t2;lan7ti0;ai0;dro2imali,tibio5;ni0;al2i0;ri0;ti0;co",
+    "Verb": "true¦avvenuUchiamSdebboRf8stSutilizzaUv0;a,e0ienJ;n1rr0;aBe3à,ò;g3i1n5ut0;a,e,i,o;a0mIsDte,vC;mo,te;aJoJ;a1ec0;eDi;c5i,n4r0te;a2e0à,ò;bbeAi,m0st7te;mo,o;i,n0;no;ci8e0;m6s1v0;a7i,o;s1t0;e,i;e1i0;!mo;!ro;mo;a0o;!mo,no,te;!no;at0;a,i;ta",
+    "Adjective": "true¦d2fonda4lega1p0situa4;erse,resen0ubblica3;ti;efini1o0;ta0vu0;ta",
     "Conjunction": "true¦aLbenKcIdGeDgrazie a,inCmBn9o7p4qu3s0tuttav8vi5;e1i0;a,ccome;!bbene;ando,inM;er1iutto0rima CuA;stoD;cIò;!p6ss0;ia;e0é;ancDmmeno,p3;a,ent3;fatti,olt2;!d,p0;pu0;re;opo 0unque;c6di;ioè,osí0; c4;c4sì; causa 4ffinc3llora,n0ppena;c1zi0;!c1;he;hé;di",
-    "Auxiliary": "true¦a3ebb2h0lei ha;a0oG;! GiFn6;eCiE;bbiaCv0;e4r0;a1e0àBòB;moAteA;i,n0;no8;mmo7s1te7v0;a5i,o6;s1t0;e4i4;e1i0;! 3mo2;! 2ro1;! 1mo0no0te0;! 0;avuto",
-    "FirstName": "true¦aEblair,cCdevBj8k6lashawn,m3nelly,quinn,re2sh0;ay,e0iloh;a,lby;g1ne;ar1el,org0;an;ion,lo;as8e0r9;ls7nyatta,rry;am0ess1ude;ie,m0;ie;an,on;as0heyenne;ey,sidy;lex1ndra,ubr0;ey;is",
+    "PastTense": "true¦aveFdoveDe9f6pot4s1vol0;eElD;apeDeppCt0;avDe0;mJsEttA;e0é;i,mHr2sCvA;osBu0;!i,mFr0;ono;bb4r0;a0i,o;!no,va0;mo,te;m9s4tt0v2;e7i;m7s2v0;a0i,o;!mo,no,te;s1t0;e,i;e1i0;!mo;!ro;mo",
+    "FutureTense": "true¦a2do2potr3s0vorr3;a0tar2;pr1r1;vr0;a1e0à,ò;mo,te;i,nno",
+    "ConditionalVerb": "true¦av2dov2pot2s0vor2;a0ta1;p0re1;re0;bbe1i,mmo,st0;e,i;!ro",
     "LastName": "true¦0:32;1:39;2:37;3:2W;4:2C;a38b2Yc2Ld2Be28f22g1Wh1Mi1Hj1Bk14l0Wm0Ln0Ho0Ep04rXsLtGvEwBxAy7zh5;a5ou,u;ng,o;a5eun2Roshi1Hun;ma5ng;da,guc1Wmo24sh1YzaQ;iao,u;a6eb0il5o3right,u;li38s2;gn0lk0ng,tanabe;a5ivaldi;ssilj34zqu1;a8h7i2Do6r5sui,urn0;an,ynisI;lst0Mrr1Rth;at1Romps2;kah0Snaka,ylor;aDchCeBhimizu,iAmi9o8t6u5zabo;ar1lliv27zuD;a5ein0;l20rm0;sa,u3;rn4th;lva,mmo21ngh;mjon4rrano;midt,neid0ulz;ito,n6sa5to;ki;ch1dJtos,z;amAeag1Wi8o6u5;bio,iz;b5dri1JgGj0Qme21osevelt,ux;erts,ins2;c5ve0C;ci,hards2;ir1os;aCe8h6ic5ow1X;asso,hl0;a5illips;m,n1R;ders1Yet7r6t5;e0Lr4;ez,ry;ers;h1Zrk0t5vl4;el,te0H;baAg09liveiZr5;t5w1M;ega,iz;a5eils2guy1Pix2owak,ym1C;gy,ka5var1I;ji5muU;ma;aDeBiAo7u5;ll0n5rr09ssolini,ñ5;oz;lina,oIr5zart;al0Ke5r0S;au,no;hhail4ll0;rci0ssi5y0;!er;eUmmad4r5tsu05;in,tin1;aBe7i5op1uo;n5u;coln,dholm;fe6n0Pr5w0I;oy;bv5v5;re;mmy,rs13u;aAennedy,imu9le0Ko7u6wo5;k,n;mar,znets4;bay5vacs;asX;ra;hn,rl8to,ur,zl4;a9en8ha3imen1o5u3;h5nXu3;an5ns2;ss2;ki0Ds0R;cks2nsse0C;glesi8ke7noue,shik6to,vano5;u,v;awa;da;as;aAe7itchcock,o6u5;!a3b0ghMynh;a3ffmann,rvat;mingw6nde5rM;rs2;ay;ns0ErrPs6y5;asCes;an4hi5;moI;a8il,o7r6u5;o,tierr1;ayli3ub0;m1nzal1;nd5o,rcia;hi;er9is8lor7o6uj5;ita;st0urni0;es;ch0;nand1;d6insteGsposi5vaK;to;is2wards;aBeAi8omin7u5;bo5rand;is;gu1;az,mitr4;ov;lgado,vi;nkula,rw6vi5;es,s;in;aEhAlark9o5;hKl5op0rbyn,x;em6li5;ns;an;!e;an7e6iu,o5ristensFu3we;i,ng,u3w,y;n,on5u3;!g;mpb6rt0st5;ro;ell;aAe7ha3lanco,oyko,r5yrne;ooks,yant;ng;ck6ethov5nnett;en;er,ham;ch,h7iley,rn5;es,i0;er;k,ng;dCl8nd5;ers5r9;en,on,s2;on;eks6iy7var1;ez;ej5;ev;ams",
+    "FirstName": "true¦aEblair,cCdevBj8k6lashawn,m3nelly,quinn,re2sh0;ay,e0iloh;a,lby;g1ne;ar1el,org0;an;ion,lo;as8e0r9;ls7nyatta,rry;am0ess1ude;ie,m0;ie;an,on;as0heyenne;ey,sidy;lex1ndra,ubr0;ey;is",
     "Determiner": "true¦altri,li,tale",
-    "MaleName": "true¦0:CD;1:BK;2:C1;3:BS;4:B4;5:BY;6:AS;7:9U;8:BC;9:AW;A:AN;aB3bA7c96d86e7Ff6Xg6Fh5Vi5Hj4Kk4Al3Qm2On2Do28p22qu20r1As0Qt06u05v00wNxavi3yGzB;aBor0;cBh8Hne;hCkB;!aB0;ar50eAZ;ass2i,oCuB;sDu24;nEsDusB;oBsC;uf;ef;at0g;aJeHiCoByaAO;lfgang,odrow;lBn1O;bDey,frBIlB;aA4iB;am,e,s;e88ur;i,nde7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a92y;aEern1iB;cCha0nceBrg9Ava0;!nt;ente,t59;lentin48n8Xughn;lyss4Lsm0;aTeOhKiIoErCyB;!l3ro8s1;av9PeBist0oy,um0;nt9Hv53y;bDd7WmBny;!as,mBoharu;aAXie,y;i82y;mBt9;!my,othy;adDeoCia7ComB;!as;!do7L;!de9;dErB;en8GrB;an8FeBy;ll,n8E;!dy;dgh,ic9Snn3req,ts44;aRcotPeNhJiHoFpenc3tBur1Nylve8Gzym1;anDeBua7A;f0phAEvBwa79;e56ie;!islaw,l6;lom1nA2uB;leyma8ta;dBl7Im1;!n6;aDeB;lBrm0;d1t1;h6Rne,qu0Tun,wn,y8;aBbasti0k1Wl40rg3Zth,ymo9H;m9n;!tB;!ie,y;lCmBnti20q4Hul;!mAu4;ik,vato6U;aWeShe91iOoFuCyB;an,ou;b6KdCf9pe6PssB;!elAH;ol2Ty;an,bIcHdGel,geFh0landA8mEnDry,sCyB;!ce;coe,s;!a94nA;an,eo;l3Ir;e4Pg3n6olfo,ri67;co,ky;bAe9T;cBl6;ar5Nc5MhCkBo;!ey,ie,y;a84ie;gCid,ub5x,yBza;ansh,nR;g8ViB;na8Rs;ch5Xfa4lDmCndBpha4sh6Tul,ymo6Z;al9Xol2Ay;i9Hon;f,ph;ent2inB;cy,t1;aFeDhilCier61ol,reB;st1;!ip,lip;d9Arcy,tB;ar,e2U;b3Rdra6Et43ul;ctav2Uliv3m95rEsBt7Pum8Tw5;aCc8SvB;al52;ma;i,l49vJ;athJeHiDoB;aBel,l0ma0r2X;h,m;cCg4i3IkB;h6Uola;hol5XkBol5X;!ol5W;al,d,il,ls1vB;il50;anBy;!a4i4;aWeTiKoFuCyB;l21r1;hamCr5ZstaB;fa,p4G;ed,mF;dibo,e,hamDis1XntCsBussa;es,he;e,y;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;a78ik;house,o03t1;e,olB;aj;ah,hBk6;a4eB;al,l;hClv2rB;le,ri7v2;di,met;ck,hNlLmOnu4rHs1tDuricCxB;!imilian8Cwe7;e,io;eo,hCi52tB;!eo,hew,ia;eBis;us,w;cDio,k86lCqu6Gsha7tBv2;i2Hy;in,on;!el,oKus;achBcolm,ik;ai,y;amBdi,moud;adB;ou;aReNiMlo2RoIuCyB;le,nd1;cEiDkBth3;aBe;!s;gi,s;as,iaB;no;g0nn6RrenDuBwe7;!iB;e,s;!zo;am,on4;a7Bevi,la4SnDoBst3vi;!nB;!a60el;!ny;mCnBr67ur4Twr4T;ce,d1;ar,o4N;aIeDhaled,iBrist4Vu48y3B;er0p,rB;by,k,ollos;en0iEnBrmit,v2;!dCnBt5C;e0Yy;a7ri4N;r,th;na68rBthem;im,l;aYeQiOoDuB;an,liBst2;an,o,us;aqu2eJhnInGrEsB;eChBi7Bue;!ua;!ph;dBge;an,i,on;!aBny;h,s,th4X;!ath4Wie,nA;!l,sBy;ph;an,e,mB;!mA;d,ffGrDsB;sBus;!e;a5JemCmai8oBry;me,ni0O;i6Uy;!e58rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;on,p3;ed,od,rBv4M;e4Zod;al,es,is1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aBha0i6Fma4sac;ac,iaB;h,s;a,vinBw2;!g;k,nngu52;!r;nacBor;io;im;in,n;aJeFina4VoDuByd56;be25gBmber4CsD;h,o;m3ra33sBwa3X;se2;aDctCitCn4ErB;be20m0;or;th;bKlJmza,nIo,rDsCyB;a43d5;an,s0;lEo4FrDuBv6;hi40ki,tB;a,o;is1y;an,ey;k,s;!im;ib;aQeMiLlenKoIrEuB;illerCsB;!tavo;mo;aDegBov3;!g,orB;io,y;dy,h57nt;nzaBrd1;lo;!n;lbe4Qno,ovan4R;ne,oDrB;aBry;ld,rd4U;ffr6rge;bri4l5rBv2;la1Zr3Eth,y;aReNiLlJorr0IrB;anDedBitz;!dAeBri24;ri23;cDkB;!ie,lB;in,yn;esJisB;!co,zek;etch3oB;yd;d4lBonn;ip;deriDliCng,rnB;an01;pe,x;co;bi0di;arZdUfrTit0lNmGnFo2rCsteb0th0uge8vBym5zra;an,ere2V;gi,iCnBrol,v2w2;est45ie;c07k;och,rique,zo;aGerFiCmB;aFe2P;lCrB;!h0;!io;s1y;nu4;be09d1iEliDmCt1viBwood;n,s;er,o;ot1Ts;!as,j43sB;ha;a2en;dAg32mEuCwB;a25in;arB;do;o0Su0S;l,nB;est;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0st2;ag0ew;minFnDri0ugCyB;le;!l03;!a29nBov0;e7ie,y;go,icB;!k;armuCeBll1on,rk;go;id;anIj0lbeHmetri9nFon,rEsDvCwBxt3;ay8ey;en,in;hawn,mo08;ek,ri0F;is,nBv3;is,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;en,iDne7rByl;eBin,yl;l2Vn;n,o,us;!e,i4ny;iBon;an,en,on;e,lB;as;a06e04hWiar0lLoGrEuCyrB;il,us;rtB;!is;aBistobal;ig;dy,lEnCrB;ey,neli9y;or,rB;ad;by,e,in,l2t1;aGeDiByI;fBnt;fo0Ct1;meCt9velaB;nd;nt;rDuCyB;!t1;de;enB;ce;aFeErisCuB;ck;!tB;i0oph3;st3;d,rlBs;eBie;s,y;cBdric,s11;il;lEmer1rB;ey,lCro7y;ll;!os,t1;eb,v2;ar02eUilTlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;an,ce,on;ce,no;an,ce;nCtB;!t;dCtB;!on;an,on;dCndB;en,on;!foBl6y;rd;bCrByd;is;!by;i8ke;al,lA;nFrBshoi;at,nCtB;!r10;aBie;rd0S;edict,iCjam2nA;ie,y;to;n6rBt;eBy;tt;ey;ar0Xb0Nd0Jgust2hm0Gid5ja0ElZmXnPputsiOrFsaEuCveBya0ziz;ry;gust9st2;us;hi;aIchHi4jun,maFnDon,tBy0;hBu06;ur;av,oB;ld;an,nd0A;el;ie;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!as,s,w;ir,mBos;ar;an,beOd5eIfFi,lEonDphonHt1vB;aMin;on;so,zo;an,en;onCrB;edP;so;c,jaEksandDssaExB;!and3;er;ar,er;ndB;ro;rtH;ni;en;ad,eB;d,t;in;aColfBri0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;allEel,oulaye,ulB;!lCrahm0;an;ah,o;ah;av,on",
+    "MaleName": "true¦0:CB;1:BI;2:BZ;3:BQ;4:B2;5:BW;6:AQ;7:9S;8:BA;9:AU;A:AL;aB1bA5c94d84e7Df6Wg6Eh5Ui5Gj4Jk49l3Pm2Nn2Co27p21qu1Zr19s0Pt05u04v00wNxavi3yGzB;aBor0;cBh8Fne;hCkB;!aAY;ar4ZeAX;ass2i,oCuB;sDu23;nEsDusB;oBsC;uf;ef;at0g;aJeHiCoByaAM;lfgang,odrow;lBn1N;bDey,frBGlB;aA2iB;am,e,s;e86ur;i,nde7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a90y;aDern1iB;cBha0nce8Trg98va0;ente,t59;lentin48n8Wughn;lyss4Lsm0;aTeOhKiIoErCyB;!l3ro8s1;av9OeBist0oy,um0;nt9Gv53y;bDd7VmBny;!as,mBoharu;aAWie,y;i81y;mBt9;!my,othy;adDeoCia7BomB;!as;!do7K;!de9;dErB;en8FrB;an8EeBy;ll,n8D;!dy;dgh,ic9Rnn3req,ts44;aRcotPeNhJiHoFpenc3tBur1Nylve8Fzym1;anDeBua79;f0phADvBwa78;e56ie;!islaw,l6;lom1nA1uB;leyma8ta;dBl7Hm1;!n6;aDeB;lBrm0;d1t1;h6Qne,qu0Tun,wn,y8;aBbasti0k1Wl40rg3Zth,ymo9G;m9n;!tB;!ie,y;lCmBnti20q4Hul;!mAu4;ik,vato6T;aWeShe90iOoFuCyB;an,ou;b6JdCf9pe6OssB;!elAG;ol2Ty;an,bIcHdGel,geFh0landA7mEnDry,sCyB;!ce;coe,s;!a93nA;an,eo;l3Ir;e4Pg3n6olfo,ri66;co,ky;bAe9S;cBl6;ar5Mc5LhCkB;!ey,ie,y;a83ie;gCid,ub5x,yBza;ansh,nR;g8UiB;na8Qs;ch5Wfa4lDmCndBpha4sh6Sul,ymo6Y;al9Wol2Ay;i9Gon;f,ph;ent2inB;cy,t1;aFeDhilCier60ol,reB;st1;!ip,lip;d99rcy,tB;ar,e2U;b3Rdra6Dt43ul;ctav2Uliv3m94rEsBt7Oum8Sw5;aCc8RvB;al51;ma;i,l49vJ;athJeHiDoB;aBel,l0ma0r2X;h,m;cCg4i3IkB;h6Tola;hol5WkBol5W;!ol5V;al,d,il,ls1vB;il4Z;anBy;!a4i4;aWeTiKoFuCyB;l21r1;hamCr5YstaB;fa,p4F;ed,mF;dibo,e,hamDis1XntCsBussa;es,he;e,y;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;a77ik;house,o03t1;e,olB;aj;ah,hBk6;a4eB;al,l;hClv2rB;le,ri7v2;di,met;ck,hNlLmOnu4rHs1tDuricCxB;!imilian8Bwe7;e,io;eo,hCi51tB;!eo,hew,ia;eBis;us,w;cDio,k85lCqu6Fsha7tBv2;i2Hy;in,on;!el,oKus;achBcolm,ik;ai,y;amBdi,moud;adB;ou;aReNiMlo2RoIuCyB;le,nd1;cEiDkBth3;aBe;!s;gi,s;as,iaB;no;g0nn6QrenDuBwe7;!iB;e,s;!zo;am,on4;a7Aevi,la4RnDoBst3vi;!nB;!a5Zel;!ny;mCnBr66ur4Swr4S;ce,d1;ar,o4M;aIeDhaled,iBrist4Uu47y3A;er0p,rB;by,k,ollos;en0iEnBrmit,v2;!dCnBt5B;e0Yy;a7ri4M;r,th;na67rBthem;im,l;aYeQiOoDuB;an,liBst2;an,o,us;aqu2eJhnInGrEsB;eChBi7Aue;!ua;!ph;dBge;an,i,on;!aBny;h,s,th4W;!ath4Vie,nA;!l,sBy;ph;an,e,mB;!mA;d,ffGrDsB;sBus;!e;a5IemCmai8oBry;me,ni0O;i6Ty;!e57rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;on,p3;ed,od,rBv4L;e4Yod;al,es,is1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aBha0i6Ema4sac;ac,iaB;h,s;a,vinBw2;!g;k,nngu51;!r;nacBor;io;im;in,n;aJeFina4UoDuByd55;be24gBmber4BsD;h,o;m3ra32sBwa3W;se2;aDctCitCn4DrB;be1Zm0;or;th;bKlJmza,nIo,rDsCyB;a42d5;an,s0;lEo4ErDuBv6;hi3Zki,tB;a,o;is1y;an,ey;k,s;!im;ib;aQeMiLlenKoIrEuB;illerCsB;!tavo;mo;aDegBov3;!g,orB;io,y;dy,h56nt;nzaBrd1;lo;!n;lbe4Pno,ovan4Q;ne,oDrB;aBry;ld,rd4T;ffr6rge;bri4l5rBv2;la1Yr3Dth,y;aQeNiLlJorr0HrB;anDedBitz;!dAeBri23;ri22;cDkB;!ie,lB;in,yn;esco,isB;!co,zek;etch3oB;yd;d4lBonn;ip;liCng,rnB;an00;pe,x;bi0di;arZdUfrTit0lNmGnFo2rCsteb0th0uge8vBym5zra;an,ere2V;gi,iCnBrol,v2w2;est45ie;c07k;och,rique,zo;aGerFiCmB;aFe2P;lCrB;!h0;!io;s1y;nu4;be09d1iEliDmCt1viBwood;n,s;er,o;ot1Ts;!as,j43sB;ha;a2en;dAg32mEuCwB;a25in;arB;do;o0Su0S;l,nB;est;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0st2;ag0ew;minFnDri0ugCyB;le;!l03;!a29nBov0;e7ie,y;go,icB;!k;armuCeBll1on,rk;go;id;anIj0lbeHmetri9nFon,rEsDvCwBxt3;ay8ey;en,in;hawn,mo08;ek,ri0F;is,nBv3;is,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;en,iDne7rByl;eBin,yl;l2Vn;n,o,us;!e,i4ny;iBon;an,en,on;e,lB;as;a06e04hWiar0lLoGrEuCyrB;il,us;rtB;!is;aBistobal;ig;dy,lEnCrB;ey,neli9y;or,rB;ad;by,e,in,l2t1;aGeDiByI;fBnt;fo0Ct1;meCt9velaB;nd;nt;rDuCyB;!t1;de;enB;ce;aFeErisCuB;ck;!tB;i0oph3;st3;d,rlBs;eBie;s,y;cBdric,s11;il;lEmer1rB;ey,lCro7y;ll;!os,t1;eb,v2;ar02eUilTlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;an,ce,on;ce,no;an,ce;nCtB;!t;dCtB;!on;an,on;dCndB;en,on;!foBl6y;rd;bCrByd;is;!by;i8ke;al,lA;nFrBshoi;at,nCtB;!r10;aBie;rd0S;edict,iCjam2nA;ie,y;to;n6rBt;eBy;tt;ey;ar0Xb0Nd0Jgust2hm0Gid5ja0ElZmXnPputsiOrFsaEuCveBya0ziz;ry;gust9st2;us;hi;aIchHi4jun,maFnDon,tBy0;hBu06;ur;av,oB;ld;an,nd0A;el;ie;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!as,s,w;ir,mBos;ar;an,beOd5eIfFi,lEonDphonHt1vB;aMin;on;so,zo;an,en;onCrB;edP;so;c,jaEksandDssaExB;!and3;er;ar,er;ndB;ro;rtH;ni;en;ad,eB;d,t;in;aColfBri0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;allEel,oulaye,ulB;!lCrahm0;an;ah,o;ah;av,on",
     "FemaleName": "true¦0:FV;1:FZ;2:FO;3:FA;4:F9;5:FP;6:EO;7:GC;8:EW;9:EM;A:G8;B:E2;C:G5;D:FL;E:FI;F:ED;aDZbD2cB7dAHe9Ff8Zg8Fh81i7Qj6Sk5Yl4Mm36n2Ro2Op2Dqu2Cr1Ms0Pt03ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7CeHol1RvG;et9onB8;le0sen3;an8endBMhiB3iG;lInG;if38niGo0;e,f37;a,helmi0lGma;a,ow;aLeIiG;ckCZviG;an9WenFY;da,l8Vnus,rG;nGoni8M;a,iDA;leGnesEA;nDJrG;i1y;aSePhNiMoJrGu6y4;acG1iGu0E;c3na,sG;h9Mta;nHrG;a,i;i9Jya;a5HffaCFna,s5;al3eGomasi0;a,l8Go6Wres1;g7To6VrHssG;!a,ie;eFi,ri7;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC9ra;!ka;a,t5;at5it5;a04carlet2Xel6MhUiSkye,oQtMuHyG;bFHlvi1;sHzG;an2Set9ie,y;anGi7;!a,e,nG;aEe;aIeG;fGl3CphG;an2;cF6r6;nGphi1;d4ia,ja,ya;er4lv3mon1nGobh74;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d6Z;ia,lBT;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBMome;e,ie;in1ri0;a02eXhViToHuG;by,thBJ;bQcPlOnNsHwe0xG;an95ie,y;aHeGie,lC;ann7ll1marBEtB;lGnn1;iGyn;e,nG;a,d7X;da,i,na;an8;hel53io;bin,erByn;a,cGkki,na,ta;helBYki;ea,iannDWoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;c6CkaE;chGe,i0mo0n5EquCCvDy0;aCBelGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAV;scil1Uyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Oo6rvaBAtHulG;a,et9in1;ricGsy,tA8;a,e,ia;ctav3deHfAVlGphAV;a,ga,iv3;l3t9;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoB1k8ColG;a,eBG;!mh;ll2na,risF;dIi5QnHo23taG;li1s5;cy,et9;eAiCN;a01ckenz2eViLoIrignayani,uriBFyG;a,rG;a,na,tAR;i4ll9WnG;a,iG;ca,ka,qB3;chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi54lG;iGy;cent,e;red;!e6;ae6el3G;ag4KgKi,lHrG;edi62isFyl;an2iGliF;nGsAL;a,da;!an,han;b08c9Dd06e,g04i03l01nZrKtJuHv6Tx87yGz2;a,bell,ra;de,rG;a,eD;h76il8t2;a,cSgOiJjor2l6Jn2s5tIyG;!aGbe5RjaAlou;m,n9R;a,ha,i0;!aIbAKeHja,lCna,sGt54;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Kueri9;!t;!ry;et3IiB;elGi62y;a,l1;dGon,ue6;akranBy;iGlo36;a,ka,n8;a,re,s2;daGg2;!l2W;alCd2elGge,isBFon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9RnGsAP;!a,e9Q;a,sAN;aB0cJelIiFlHna,pGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi7na,rG;a6Zi7;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Let9z2;a,et9;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8Fe;!n4G;b7Serty;!n5S;aNda,e0iLla,nKoIslAQtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4O;cNdon7Ri6kes5na,rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5C;a,en,iGy;!e,n49;ri,urtn99;aMerLl98mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6OiJlInHrG;a,i,ri;d4na;ey,i,l9Ps2y;ra,s5;c8Vi5XlOma6nyakumari,rMss5LtJviByG;!e,lG;a,eG;e,i77;a5EeHhGi3QlCri0y;ar5Cer5Cie,leDr9Ey;!lyn72;a,en,iGl4Vyn;!ma,n32sF;ei71i,l2;a04eVilToMuG;anKdJliGst56;aHeGsF;!nAt0W;!n8W;i2Sy;a,iB;!anLcelCd5Vel70han6HlJni,sHva0yG;a,ce;eGie;fi0lCph4X;eGie;en,n1;!a,e,n37;!i10lG;!i0Z;anLle0nIrHsG;i1Bsi1B;i,ri;!a,el6Oif1SnG;a,et9iGy;!e,f1Q;a,e71iHnG;a,e70iG;e,n1;cLd1mi,nHqueliAsmin2Vvie4yAzG;min7;a7eHiG;ce,e,n1s;!lGsFt06;e,le;inHk2lCquelG;in1yn;da,ta;da,lPmNnMo0rLsHvaG;!na;aHiGob6T;do4;!belGdo4;!a,e,l2H;en1i0ma;a,di4es,gr5Q;el8ogG;en1;a,eAia0o0se;aNeKilHoGyacin1O;ll2rten1I;aHdGlaH;a,egard;ry;ath0XiHlGnrietBrmiAst0X;en25ga;di;il74lKnJrGtt2yl74z6C;iGmo4Fri4G;etG;!te;aEnaE;ey,l2;aYeTiOlMold13rIwG;enGyne19;!dolC;acHetGisel8;a,chD;e,ieG;!la;adys,enGor3yn1Z;a,da,na;aJgi,lHna,ov70selG;a,e,le;da,liG;an;!n0;mZnIorgHrG;ald35i,m2Ttru72;et9i5S;a,eGna;s1Ovieve;briel3Fil,le,rnet,yle;aSePio0loNrG;anHe8iG;da,e8;!cG;esIiGoi0H;n1sG;ca;!ca;!rG;a,en41;lHrnG;!an8;ec3ic3;rHtiGy7;ma;ah,rah;d0FileDkBl00mUn48rRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2G;geni1la,ni3P;h50ta;meral8peranJtG;eHhGrel6;er;l2Or;za;iGma,nest28yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;a,en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aWeKiJoGul2S;lor4Zminiq3Wn2YrGtt2;a,eDis,la,othGthy;ea,y;an09naEonAx2;anPbOde,eNiLja,lImetr3nGsir4S;a,iG;ce,se;a,iHorGphiA;es,is;a,l5H;dGrdG;re;!d4Kna;!b2AoraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1VyG;le,na;a,by,cHia,lG;a,en1;ey,ie;a,et9iG;!ca,el19ka;arGia;is;a0Pe0Mh04i02lUoJrHynG;di,th3;istGy04;al,i0;lOnLrHurG;tn1C;aId26iGn26riA;!nG;a,e,n1;!l1Q;n2sG;tanGuelo;ce,za;eGleD;en,t9;aIeoHotG;il49;!pat4;ir7rIudG;et9iG;a,ne;a,e,iG;ce,sX;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;!i7yl;a,y;nLrG;isJlHmG;aiA;a,eGot9;n1t9;!sa;d4el1NtG;al,el1M;cGli3E;el3ilG;e,ia,y;iYlXmilWndVrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2FsG;a2Eie;iMlKmeIolHrG;ie,ol;!e,in1yn;lGn;!a,la;a,eGie,y;ne,y;na,sF;a0Ci0C;a,e,l1;isBl2;tlG;in,yn;arb0BeXlVoTrG;andRePiIoHyG;an0nn;nwCok7;an2MdgKg0HtG;n26tG;!aHnG;ey,i,y;ny;etG;!t7;an0e,nG;da,na;i7y;bbi7nG;iBn2;ancGossom,ythe;a,he;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Zy7;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et9iA;!triG;ce,z;a4ie,ra;aliy29b24d1Lg1Hi19l0Sm0Nn01rWsNthe0uJvIyG;anGes5;a,na;a,r25;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi7yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t9;an19elG;le;aYdWeUgQiOja,nHtoGya;inet9n3;!aJeHiGmI;e,ka;!mGt9;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t9;te;je6rea;la;!bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i7y;!e;il;ah",
     "City": "true¦0:62;1:5U;2:5A;a5Ib4Dc3Ud3Je3Hf3Dg31h2Ui2Qjak36k2Bl1Ym1Fn14o12p0Kqui1Tr0DsYtKuJvEw8y5z3;ag3uri45;abr1reb;a4e3okoha3K;katerin30r3E;moussouk47ng3Noundé;a6e5i3rocl18;ckl25n3;dho4Pnipeg,terth27;ll4xford;rs14sh3;ingt3H;a5i3;c09en3lni5T;na,tia56;duz,lenc1ncouv1Gr3;na,sav1;lan bat1Btrecht;aDbilisi,eBh9i8o7r6u3;nis4r3;in,ku;!i;ipo32ondheim;kyo,ron16ulouse;anj05l2Gmisoa5Cra2;e3imphu; hague,ssaloni28;gucigalpa,h3l av1V;er0r0;i4llinn,mpe4Ongi12r3shk2E;awa s0Etu;chu4Cn0p0G;a7e6h5ingapo4Lkopje,of1ri jayawardenapura kot0Ut3u3Yydn0Bão tomé;oc3uttga2J;col2Pkholm;angh3Aenzh44;oul,ul,v3S;int Al8n3ppo3Braje4Q; 5a'a,t3;iago3o domin35;! del ci3P;jos3salv5;e,é;v3z1X;ad0K;george3john3peters1V;'s;a8eykjav7i6o3;m4s3t4H;ar08e3L;a,e;ad,ga,o de janei2X;ik,ík;b47mallah;aGeEhDiCo7r3ueb3Tyongya3P;a4e3;tor1;g3ia;a,ue;dgori26rt3zn0; 4-au-prin0Qo3;!-no42;elizabe7louis,moresby,of spa3vi3L;in;ls3Brae4E;iladelph1nom pe13oenix;chi29r3tah tik30;th;l5na1Rr3tr2K;amari23i3;gi,s;ermo,ik0S;des0Js3ttawa,uagadoug13;a3Elo;'djame2aBe7gerulm6i4ouakchott,u3;ova d9r-sult0;am3cos1;ey;ud;ssu2w 3;d4taip3york;ei;el0F;goya,iro3Snt2Apl2Ass2Nv0ypyid3;aw;aBba2BeAi9o4u3;mb1Vni1S;gadisc6n4roni,sc3;a,ow;a1Nrov1t3;evideo,real;io;l0n0Qskolc;dellín,lbour2Z;drid,juro (delap-uliga-djarrit),lBn8pu7r5s3;ca3eru;te;ib3se23;or;to;a4chest3dal0Ki2J;er;gua,ma;a15mo,é;'ava2aBi7o5u3vQy0W;anJbia2s3;a2Hsembur1A;mé,nd3s angel1M;on,ra;brev1Rege,longwe,ma4nz,sbon3verpo5;!a;!ss3;ol; 3usan2F;p4v3;allet0Rel24;az,la0Q;aEharCi8laipe7o4rak3uala lump6;ow;be,pavog4si3;ce;ur;da;ev,ga09n3;gsto4sha3;sa;n,wn;k3tum;iv;b8mpa1Qndy,ohsiu1Mra3tmandu,un0V;c3j;hi;l cai0Onche04s4̇zm3;ir;lam27tanb3;ul;a7e5o3; chi mi3ms,nia27ustZ;nh;lsin3rakliX;ki;ifa,m3noi,ra1Kva2;bu29iltU;aCdanBe9h8i6othen5raz,ua3;dalaja20ngzh3;ou;bu25;ac3bBtega,u1Wza;arU;ent;n3or0Jrusalemme ov0C;e0Noa,ève;sk;boro1Blw3;ay;es,r4unaf3;uti;ankfu3ee0D;rt;dmontDindhov0Or3;ev0;a8ha0Yi7o5u3;bl0Jrb0sh3š3;anbe;do3ha;ma;li;c6e4kar,masc3ugavpiZ;o,us;gu,je3;on;ca;aIebu,hDittà d9o3raio02uriti17;lo6n4pen3rk;agh09hag09;akGstan3;ta;g0Nm3;bo;el 3i san mari4;guatema0Bmessi4vatica3;no;co;enn6i4ristchur3;ch;ang m4ca3ttago02șinău;go;ai;i4lga3nber0Spe Irac8striD;ry;ro;aXeOiLogotKr8u3;c5dap6enos air9r3s0;g3sa;as;ar3har3;est;aAi6u3;sse4xell3;es;ls;d4s3;baY;ge3;town;sil1tisla5zzav3;il3;le;va;a,à;rmingh00ss4šk3;ek;au;i9l7r3;g5l3n;in3;!o;en;grad3mop0;e,o;ji3rut;ng;ghdSku,mako,n7r4s3;el,seterA;celo2ranquil3;la;na;dar seri begaw0g5j3;a lu3ul;ka;alo3kok,ui;re;aPbLccKddis abeJhmedHlFmCn9p1qaJs5t3uckland,şg7;e3hens;ne;h3maHunción;dod,g3;ab3;at;kaDt3;ananari3werp;vo;m0s3;terd3;am; kuwait,exandr1geri,maty;ia;ab3;ad;ba;ra;idj0u3; dha3ja;bi;an;lbo4rh3;us;rg",
     "Honorific": "true¦aPbrigadiOcHdGexcellency,fiBjudge,king,liDmaAofficOp6queen,r3s0taoiseach,vice5;e0ultK;c0rgeaC;ond liAretary;abbi,e0;ar0verend; adK;astGr0;eside6i0ofessF;me ministFnce0;!ss;gistrate,r4yC;eld mar3rst l0;ady,i0;eutena0;nt;shB;oct6utchess;aptain,hance4o0;lonel,mmand5ngress1un0;ci2t;m0wom0;an;ll0;or;er;d0yatullah;mir0;al",
     "Person": "true¦ashton kutchRbQcLdJeHgastMhFinez,jDkCleBmAnettIoprah winfrPp8r4s3t2v0;a0irgin maF;lentino rossi,n go3;heresa may,iger woods,yra banks;addam hussain,carlett johanssIlobodan milosevic,uA;ay romano,eese witherspoHo1ush limbau0;gh;d stewart,nald0;inho,o;a0ipI;lmHris hiltC;essiaen,itt romnEubarek;bron james,e;anye west,iefer sutherland,obe bryant;aime,effers8k rowli0;ng;alle ber0itlBulk hogan;ry;ff0meril lagasse,zekiel;ie;a0enzel washingt2ick wolf;lt1nte;ar1lint0ruz;on;dinal wols1son0;! palm2;ey;arack obama,rock;er",
-    "Country": "true¦0:35;1:2S;2:37;a2Qb29c1Yd1Ve1Sf1Rg1Ih1Ci12jama34k0Xl0Rm0En07o06pYrQsFt8u6v4wallis et futu1xiānggǎng costa sud della ci1z3éi0Lís1Fösterreich;a21imbabwe;a3enezue2Ziệt nam;nuatu,ticanæ;gNkraji1n3ru01zbe0X;gher0ited states virgin islands;a8hailand0i7o6u3;nis0Nr3valu;ch0k3;meni2s e caic2F;go,ke2Rnga;bet,mor est;gi0Piw2Ynz2U;aBeAi9lov8oomaali0Mpag1ri lan10tat6u3vez0wazi12ão tomé e príncipe,ām2I;da4omi,ri3;name,yah0V;fr2On kusini;i 3o di pales2C;baltici,uni0Z;ac1Men0;erra leo15ngapu2I;negRrb0ychelles;ha2Gint 3kartweEmoa0Kn mari0P;kitts and nevis,luc0vincent e grenadi12;e4om2Iu3;an29;gno uni13pubblica 3;centrafr6d3;e3ominicana república domin5;l3mocratica del3; congo;ica1;a8e7ilipin1To3uerto rN;l4rtogal3;lo;inesia3onia pols0E;! francese;nisola ib22rù;ki2pua nuova guinea,ra3;guay;ceano india07m26;a8e6i4o3;rveg0uvelle calédonie;caragua,ger3;!ia;der06p3;al;mib0ur19;a8e6i19o3yanm0L;ldova,n3zamb6çambA;gol0t3;eneg0Pserr11;la16ss3;ico;c8dagasc0Fl6rtinica martin5urit4yotte como3;re;an0i0Q;ique;a3dive,i,ta;wi,ys0;au,ed8;a0Ze6i3;b3echtenste0S;aKer0iyah3; nordafr1C;sotho,tt3;on0;a5en4ir3osovo,uwait;ghizi2ibaL;ya;laallit nuna0Iza3;ki2;ndonesia un,ra9s3;ol3raele;a di natale christm0Ne 3;c5falkCmar4vergini3; americaL;ianKshall;aym14ook;k,n (persia) īrān3; vici3;no;a6o4rvats3;ka;l3ndur0D;land;i3ya2;ti;aAha1i8olfo di guinea e,re7u3;a5in4yan3;a,e;ea,é bissau;dalupa,m,tema0H;c0na0D;appo3ordania al urdunn;ne;bKmb0;igi,ranc0øroy8;cu4esti vabariik,git3l salv4mirati arabi,tiop0;to;ador;a3omin0B;nmark,wlat qat3;ar;aAe9i7o3uW;lo5morRrea4sta 3;d'avorio,r06;! del nord;mb0;ad,le,na,p3;ro;ch0;m3naUpo verV;bog0erun camero3;on;aGeAh8irmZo7r6u4yelar3;us;lgar0r3;kina faso,undi;asile brasil,unei;liv0snia ed erzegovi1tswa1;utXār3;at;l4n3rmuJ;in;a3gium,ize;u mi3;cro3;nes0;ham4ngladesh,rbad3;os;as;fghane2lHmFn8otear7r3s sudMustral0zerbaigiM;abia saudita,gen4u3;ba;ti1;na;oa;dor8g6t3;arti4igua and barbu3;da;de;o3uil3;la;ra;er3;ica; 5b3;an0;ia;bahrayn,jaza'ir,maghrib,yam4;st3;an",
+    "Country": "true¦0:34;1:2R;2:36;a2Pb28c1Xd1Ue1Rf1Qg1Hh1Bi11jama33k0Wl0Qm0En07o06pYrQsFt8u6v4wallis et futu1xiānggǎng costa sud della ci1z3éi0Kís1Eösterreich;a20imbabwe;a3enezue2Yiệt nam;nuatu,ticanæ;gNkraji1n3ru01zbe0W;gher0ited states virgin islands;a8hailand0i7o6u3;nis0Mr3valu;ch0k3;meni2s e caic2E;go,ke2Qnga;bet,mor est;gi0Oiw2Xnz2T;aBeAi9lov8oomaali0Lpag1ri lan0Ztat6u3vez0wazi11ão tomé e príncipe,ām2H;da4omi,ri3;name,yah0U;fr2Nn kusini;i 3o di pales2B;baltici,uni0Y;ac1Len0;erra leo14ngapu2H;negRrb0ychelles;ha2Fint 3kartweEmoa0Jn mari0O;kitts and nevis,luc0vincent e grenadi11;e4om2Hu3;an28;gno uni12pubblica 3;centrafr6d3;e3ominicana república domin5;l3mocratica del3; congo;ica1;a8e7ilipin1So3uerto rK;l4rtogal3;lo;inesia3onia pols0D;! francese;nisola ib21rù;ki2pua nuova guinea,ra3;guay;ceano india06m25;a8e6i4o3;rveg0uvelle calédonie;caragua,ger3;!ia;der05p3;al;mib0ur18;a7ela19i18o3yanm0K;ldova,n4zamb3çamb9;ico;gol0t3;eneg0Nserr0Z;c8dagasc0Fl6rtinica martin5urit4yotte como3;re;an0i0Q;ique;a3dive,i,ta;wi,ys0;au,ed8;a0Ze6i3;b3echtenste0S;aKer0iyah3; nordafr1C;sotho,tt3;on0;a5en4ir3osovo,uwait;ghizi2ibaL;ya;laallit nuna0Iza3;ki2;ndonesia un,ra9s3;ol3raele;a di natale christm0Ne 3;c5falkCmar4vergini3; americaL;ianKshall;aym14ook;k,n (persia) īrān3; vici3;no;a6o4rvats3;ka;l3ndur0D;land;i3ya2;ti;aAha1i8olfo di guinea e,re7u3;a5in4yan3;a,e;ea,é bissau;dalupa,m,tema0H;c0na0D;appo3ordania al urdunn;ne;bKmb0;igi,ranc0øroy8;cu4esti vabariik,git3l salv4mirati arabi,tiop0;to;ador;a3omin0B;nmark,wlat qat3;ar;aAe9i7o3uW;lo5morRrea4sta 3;d'avorio,r06;! del nord;mb0;ad,le,na,p3;ro;ch0;m3naUpo verV;bog0erun camero3;on;aGeAh8irmZo7r6u4yelar3;us;lgar0r3;kina faso,undi;asile brasil,unei;liv0snia ed erzegovi1tswa1;utXār3;at;l4n3rmuJ;in;a3gium,ize;u mi3;cro3;nes0;ham4ngladesh,rbad3;os;as;fghane2lHmFn8otear7r3s sudMustral0zerbaigiM;abia saudita,gen4u3;ba;ti1;na;oa;dor8g6t3;arti4igua and barbu3;da;de;o3uil3;la;ra;er3;ica; 5b3;an0;ia;bahrayn,jaza'ir,maghrib,yam4;st3;an",
     "Place": "true¦aHbFcDdCeuropBfco,gAh9i8jfk,kul,l6m4ord,p2s1the 0upEyyz;bronx,hamptons;fo,oho,underland,yd;ek,h0;l,x;a0co,id9uc;libu,nhattan;a0gw,hr;s,x;ax,cn,st;arlem,kg,nd;ay village,reenwich;a,e;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m0sia,tl;erica0s; 0s;centr0meridion0;ale",
     "Region": "true¦a1Xb1Pc1Fd1Aes19f16g10h0Xi0Vj0Tk0Rl0Om0DnXoVpQqNrKsBt8ut7v4w2y0zacatec1Z;o03u0;cat15kX;a0est vi2isconsin,yomi11;rwick1Nshington dc;er1i0;rgin1Q;acruz,mont;ah,tar pradesh;a1e0laxca1Busca9;nnessee,x1P;bas0Jmaulip1OsmI;a5i3o1taf0Mu0ylh11;ffUrrZs0W;me0Yuth 0;cRdQ;ber1Gc0naloa;hu0Qily;n1skatchew0Pxo0;ny; luis potosi,ta catari1G;a0hode6;j0ngp01;asth0Kshahi;inghai,u0;e0intana roo;bec,ensVreta0C;ara3e1rince edward0; isT;i,nnsylv0rnambu01;an12;!na;axa0Ldisha,h0klaho19ntar0reg3x02;io;ayarit,eAo2u0;evo le0nav0J;on;r0tt0Pva scot0V;f5mandy,th0; 0ampton0O;c2d1yo0;rk0M;ako0W;aroli0T;olk;bras0VvaZw0; 1foundland0;! and labrador;brunswick,hamp0Fjers0mexiIyork state;ey;a5i1o0;nta0Lrelos;ch2dlanAn1ss0;issippi,ouri;as geraEneso0K;igOoacO;dhya,harasht02ine,ni2r0ssachusetts;anhao,y0;land;p0toba;ur;anca02e0incoln02ouisia0B;e0iF;ds;a0entucky,hul08;ns06rnata0Bshmir;alis0iangxi;co;daho,llino0owa;is;a1ert0idalDun9;fordS;mpRwaii;ansu,eorgVlou4u0;an1erre0izhou,jarat;ro;ajuato,gdo0;ng;cesterL;lori1uji0;an;da;sex;e3o1uran0;go;rs0;et;lawaDrbyC;a7ea6hi5o0umbrG;ahui3l2nnectic1rsi0ventry;ca;ut;iLorado;la;apDhuahua;ra;l7m0;bridge2peche;a4r3uck0;ingham0;shi0;re;emen,itish columb2;h1ja cal0sque,var1;iforn0;ia;guascalientes,l3r0;izo1kans0;as;na;a1ber0;ta;ba1s0;ka;ma",
     "Currency": "true¦$,aud,bTcRdMeurLfKgbp,hkd,iJjpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotyTł;en,uanS;af,of;h0t6;e0il6;k0q0;elN;iel,oubleMp,upeeM;e3ound0;! st0s;er0;lingI;n0soH;ceGn0;ies,y;e0i8;i,mpi7;n,r0wanzaCyatC;!onaBw;ls,nr;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
-    "Ordinal": "true¦cDd8mil6ottavo,prGqu2se1t0und9veE;erzo,red8;condo,d7s3ttE;a1in0;d5to;r0ttord4;to;i0l8;ard7on7;ici1od0;ic5;a0o1;nnov3sse0;tt2;e0inqua0;nt0;es0;imo",
+    "Ordinal": "true¦cIdDmilBnoAotta9priLqu5se2t0undEveJ;erzo,re0;dCntI;condo,dBs1tt0;aFiH;saEto;a1in0;d7to;r0ttord6;aAto;ntAvo;no,va8;i0l8;ard7on7;eci7ici1od0;ic5;a0o1;nnov3sse0;tt2;e0inqua0;nt0;esi0;mo",
     "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
     "Infinitive": "true¦0:0LA;1:0L9;2:0KS;3:0KW;4:0L6;5:0L8;6:0L4;7:0K4;8:0KK;9:0JF;A:0J8;B:0IQ;C:0KA;D:0K7;E:0FN;F:0JD;G:0JZ;H:0KH;I:0II;J:0GO;K:0KZ;L:0I3;M:0L2;N:0JN;O:0L5;a0C8b0AQc04Vd00OeYQfX4gVQiQ9lP9mNTnNEoMHpIFquICrC1s3Ht1Eu0WvVzP;aSe4iRoQuP;ccOSfo4ma0;c0JWmGpp0FA;mb0K3ttH;mpPpGvor3;et2il4;a0Ie04iWoPuo2;cTga0lPmi0F2r04ZtH;aQe0gPle0t09Zve0;arBe0;nJCre,tiP;lBz8;a0iP;a0fe3;aEb3ci5diFe2gVlUncTol0JDra0sRtQvPz1;e0i0AR;a0tor1u03J;a0iPta0u05X;o5ta0;e0i0o4;ip0J8leE;e0i4l1;cLd01gZi0JClYnUrRsQtriPzzeE;fi6oXU;ci6sa0ti0;b05Pdi0gQi0AHnPsa0te0;a0ic1;a0e0og5;a0dQe3g1i0tP;a0i4o4;ePi6;mm1re;a0eEle0ocB;e2gPl1;h1ia0;e0o0JI;cUda0gSlRnQrP;a0ca0ia0;a0eEga0i089ta097;ca0e0iAHla0or0FEu2;aPheEi0l1;b0CQre;a0ci5il4;b02cc01di0f00gZlYmXnUrTsPt05A;a0ciUNo4tRuP;caG7fr0BXrP;a0pa0;io5o4;ge0i5la0ta0;ge0iPta0;fPre;i6orF;et2il1;tiFu4;gi09LuaO;fic06Jiz1;ellNRi7;bQiPrR;ca0di0;i0EWrP;ia6;a1Ke17i13o0WrSuP;ba0f093o5rQtP;a0e4;a0bNJna0;a00eZiWoRuP;cPfM;c0HUiA;gl1mbRnQttPva0;a0er0I9o4;a0ca0eE;a0ePiz8;gg1t2;bQl4ncPonMpYOs2t0ANunM;a0e3;o4u2;bb1m08ZpiA;b0Fc0Ed0De0f0Cg0Bi02Ula0JBm09n06p04r03sWttUum0CHvP;aReQi3OolP;ge0ta0ve0;rCsN;gl1lPsa0;ca0i6;a0eP;gg1ne0;a0J7borAcTe0HLfRgre0E6lQm057pPtul4uA;aJi3or0CV;a0o6;eJiRRoP;n7rF;en7i5oPri0BKu3;la0rOZ;re,uG;aPe4iZI;na0sC;c1gug1quill0DUsP;a0corOUfPi0F9por2;eJorF;aYBetKoPu2;n2rN;ge0h0C1;eJfi6ig9uD;e0i0ur0;an5c1iF;al4oc6;c6el0BWg0H0lUma0nTrQsPt03H;a0si07Zta0;ce0m0BQnPreMtu3;a0ePiTK;a0gg1;a0da0i084;et2l0AP;fa0g0EUmb3nQra0tP;o4u0FY;ge0tP;eEin5;d1leZmWnUrRsPt2;a0se0tP;a0imon1;gQmi5rPza0;i0orB;e0iv09V;d0B0e0tP;aTFen5;atBe0pP;ePo0CSra0;ra0s2;fo5gPm0B3trasm041;raMuiA;cTfa5gliSmRn9ppQrPs0I2t0FBvo4;a0da0la0taO;a0ez8;bur0GIpo5;a0uz8;cPe0i2;a0ia0o5;a7Vb7Bc5Pd5Me55f4Qg4Gi48l46m3Xn3Uo2Gp1Gqu1Cr1Bt0Iu01vP;aYeSiRoPuo2;gl1lP;a07We0ge0ta0ve0;a0g5l08Nn0G2ta0;cLgli0AHlTnRrPsNt2z8;gPna0;i5og5;a0de0i0tP;a0o4ra0;a0le0ti0;ga0lPni0r1;ig1u2;b04cc03d02f00gYiciAme0nT9oXpUrTsP;ci2sPtit090ur3;eg08ZiQuP;l2me0r3;d1sK;clTCgeEEroD;erQpP;li07Kor0AX;a0bi0va2K;la0na0;a0geP;l4rC6;fPo4;o6raD;a0divi7;e7h1ia0;affit2ent3iYRliFor015;a0Ce09i07o05rSuP;c6d1fa0pPra0z072;eMiPra0;di0re;aVeTiSoQuP;c6g9sc1t0ES;fi5mb5QnPpi0GJz8;ca0za0;a0de0g0F9l4ng09Ksc1to4z8;ga0ma0pPsC;e0i0AD;b0BOcc0ESda0fa0go7lTm5LnSpRrQsci6t0GBvPz1;ac6e7in0ENol9;iGre;az8pa0;a0go4iRJ;c1la0;c6ia0na0pGrP;ce0di0ia0mi0na0p1;gm09Hl0AYm05Yn9pPra05Sva0z07C;a0end1u4;ccQ9mYSnQrPsse0;eotiGilBmi5za0;d095ta0;bili06Hcc0EFgSl4mGnRpGrPsa0t07WzI;a0e,nP;a06FutH;a0ca0ga0z1;io5l1na0;a03AoCI;aQiP;l4tN;d3gl1li05OrPsC;c1ta0;a0He07i00l0E8oVrRuP;lc1ma0n2tP;a05Bta5;anDeRiQoPuz8;f087loqu1na0vve7;gIz8;ca0g1me0z8;d04Sgl1lSnsIWpo4rRsP;a0sPta0;a0eDU;ca0ge0re,t51;pa0ver0AM;aTcRega05VfDGgQl4nPo086rZD;a0g08Hto5;a0ne0o4;a0cP;a0i03Y;cPgg1na0re,z8;ci6e0;cWd05Sgn08BlUnTrSsRttQzP;ia0z05Y;a0e081i5;a0sa0;a04Gde0eq0CPge0im08Io5pe3;de0ge0n4Nsa0;aPla0;cLga0re;ch1iPu4;alBfi6;cc0DCgl1lTn7rSsRuJv08CzP;iPz04P;a0enN;iFsa0;a0e04Gge0i0la0paOti0;aPleEma0;n6re;bb10c0Xd0Wf0Sg0Pl0Mm0Jn0Ip08r04s00ttVvP;eTrRveP;nPrN;i0zI;aPiQX;ccaRZpp092s2;ni0rL;a0CUeSiQUoQraP;g9r0;lin0AEm00Rp08YsPva04;c023ta0;n7r3;pRtP;aPen5Wit069;n0B3re;eWBiZV;bi0ge0mZXpRrQs037tRCvP;eOo4;eg9i7;asCr0CP;i0pVrP;aPiQG;fMggiV0nnoMZre,sSvP;an8vP;aPe0BYi06U;lu2;se7ta0;eQiUSor07YrP;esCi009;ri0sa0;a0da0nB5;atBiOmP;a0ePini09B;r9tK;a0DTca0da0e02RlPve0;ePiR2;ci2ti6va0;gPna0;et2hVGiP;a0BYo0ACun9;fPis0BD;erZEiQo6riP;g9re;a0t2;disMisMomB;cPiYL;hUMoP;mbe0rJN;aPol0DO;l8r6;eQifMoP;b0B4ccX4da0;l0DKr0CH;aVeTiRoQuP;o060sC;n2r8;cc1nuPs2;i0z8;nNrPtKz8;c1da0;gMIltHnPrW7scGL;ia0t0BX;aPeDit2og08V;cc1nc1;bi4cu3de0gVlUmSnPsteFt0CK;cQda6ghioz8tP;etBonB;e3ronB;bolPp066u4;eEiz8;eURla0AL;il4la0ni02N;aWe4hign1YoUrRuP;aPsc1;lOKrAz8;aPe9AiA;nPva0;a0c04PocL;b0ADccWDla0mPnf1rDz8;b09Yen2i5ma0;mPnc1r3ttaWB;a0b060;a00erZiXoTrQuP;gRJma0;aQePi05Aut2;cc1g0AS;c0B8t2;c0AQde3gRlQnArPtK;a0ma0na0za0;la0ti0;a0g1l1;an6dPgu3la0ni0orH;a0uc1;ra0za0;ccQma0re,sc1ta0vP;il4oJ;hi5ia0;c04d02g01l00mYnWpUque07IrTsRtQvPzI;e3iz1;a0C0ta0;sa0tP;a0upRC;ba0e5ia0peEra0vH;a3e0C5pP;el0C4ia0;sibX0tP;a0eTRi0;bPen2i5pQ4;ia0ra0;c1ezIla0;a0na92reG3ui05N;a0ePim052u09B;nt00Kre;a0ca0er089onAre2;a0eg5oga5rP;a1ucP;cVBi0;a0We0Sh0Mi0Fle3oXrTuP;ci0lRoQrPsa0;a0eEi0;ce0ia0te0;a0BEet2;eRiQoPutFD;c6l4sc1;cchV3t09Jve0;di2po4;cc09Nd05glIl03m01nWorVOpUrQsPt2Rva0;c09Psa0ta0;aRc1da0eEge0rQtP;a0e0B6i6;az8e003;ggiMDre,z8;a0ePi0Api01Uri0;rLt2;cer2fRgQnXAos09BquNCsiOtPvZT;a0en2ra0;e4iu3;esCiP;g9na0;busso4mX5oApPuX0;ar0ANiOor0;a0lPorHpHta0;a0eD;a0el4inLZ;aTmmi00NnSoQpPre,uGvo4;a0i05Ypa0;c6g09Bpe3rP;i5re;de0tLZ;cq087laPma0re;cq086re;eSiP;aPe3fa0oc6uXMva0z8;cc1ffZEmPn2rHt2v05O;az8;da0gg1rP;mHni0za0;g090lRmQ1nQrP;ne0re,v098;de0eE;e3le3;cc68deZMg01l00mZnVpTrRssEAtQvaPz8;l6re;e5o4ta0uJ;aPce3di5i6pa0seEta0;bHFv03K;a0pP;a0el4;dQnPsa0;a0erB;aPe0i0;gl1lB;b1pa0;a0c1da0fi0pi2za0;az8io5l1;a01e00iYloc6oVrQuP;c092d08QfMr3;aSiQoP;do4gl1n8;cTKgPna0;a0l1;cc1i2na0;cc083lQrPs6tt007;n1ra0sa0;l07Cog5;aPgGWla06Drc1zJQ;di0n6;ffeElOY;ci9IdiOgl1iafMlTnSrQtPva0;acLte0;aPba0ca0ra0;gl1z8;ca0da0;lPor04Mza0;a0ot2;b00cZet2gYlTnSpQtPve0z1;isMu3;e0oP;niZ4rH;a0ci0gFUtiZ3zI;a0da0iSpa0tQu2vaP;guarAre;a0eP;l4r07Z;re,va0;g1oF;c2SriYW;b1o2;a4Ve3Xi00oSuP;bQgO1l4mPo2sCt2zK5;i5o03V;a0ri6;d01Yga0l4mVnUsStRvP;e08ZiP;na0s2;a0ea0o4taF;icPo4;a0ch1;cZ1fa0za0;ba0pe0;a33b31c2Kd2Fe2Af24g20l1Wm1Fn11or10p0Ps07tZuXvPz8;alVeRiQolP;a0e0ge0ta0uzIve0;n06Usi2ve0;de0la0nQrPsN;be3i0sa0;dPi0;e0i6;eXDu2;ni0sPtTK;a0ci0;aVeTi3ma0oRrP;aPo07H;e0g9r0smUJt2;c6na0rP;ce0na0re;leVPnP;e0ta0;gl1rA;a05c02e00iZoXpTsa0tQuPveO;cLl2o5sLD;aQo3rP;in9ut069;bi089g5re;arm1eRiQl06GoP;l0Tn7sa0;arFeDn9;cLdi0n7t2;lPna0r9;le070ve0;ca0e7;de0nNrP;ba0vH;aQen7hiar057iacq05BoPri00HuoK;nt3pJte0;lAt2;l05Sna0pe0rJI;aXeViUoSrQuP;d1g5li0;e3Xis5VoP;dD5mTSp01Zva0;ne0r01GsPta0;a0izIse7;an9eDgl1o007re;nCrcPs6te0;orDLuoK;ga0rPsCti0;a0la0ti0;di5gJ2;as05KcZevi6fXgWnVoUsavi0tSun01VvP;eQiP;a0goJ;ni0r02F;a5oPra076;c6m04X;mi5va0;eDo069;agliar02Ah1iova04Xraz1;a071or8rP;an6es6;aQhO4oPres059uo3;glio04Tmi03Pnt3rD5;ra0sa0;a02bZeXi3oVpQuP;gi5ne3oZM;atr1iQroP;ve3;aQccio071nP;g04Cza0;g03Dn9z8;n2rPve0;ch1de0;d1mb3na0sPtK;co4ta0;aQec6oP;c6m04CrC;l8mDP;nQrPs048;ca0e,gi5;da0e0g1;aQePu04P;gQXva0;nc1sP;c1sa0;a0eRi3ov01KuP;aPrKQ;d04SrA;ne3t2;a0eJiTlP9oRran9uP;gPl9sa0;gi0ia0;cHGndZ7rP;ma0ni0;la0ni0oJu2;cSde0lRmQnt3piloDsPvo6;aEUci0se0uF;er9pi03J;abo3eg9;heE;aVIda0eSiQoPu03J;na0t2ve0;cSTme4Mp0Zre,sPven03Z;c04AtribXO;fi03Nre,s2terEM;a03e02h00ic4oRreQuP;ci0o040pe3sa0;a0de0s03Z;g04AlleDmVnSpRrQstPve3;itXIrXI;da0i6re0;ia0ri0;c00UdB6fQgiMFnRTos03Uq0DsPtaW7;eg5ide3;erFor2;anAi028pP;aJenCor0ra0;eBMiP;aFe7u7;de0r6t2ve0;cc1de0l6mPpi1Yri6s6t2va0;a0b1;aPel4ol05Jut2;di0l2sCtteVP;b03c00ddormYMffZgga01ZlYnXpUr7sSttRvP;e0vP;i02Col9;ac6i04B;cN0sP;i1CorC9uRD;pPri0;aPen7;ciUVri0;da0iF;la04Yza0;erFio3;cQqP;uis2;a7en7omp03D;bQiP;li2t02D;asCra04R;a0Lc0Fd0Cf0Ag08i06l05m04n02pZqL2sStQvP;e4isIo6;a0oI1rPtST;ar0ibWIoce7;cin7et2isKolXDpTtQuP;l2sHV;aQitWFrP;in9;re,u3;iQ0onP;de0sabPM;ePli6riQPu2;lVWrPte0;e,i0;a0dPo03I;e0icPX;a0uNA;azIeD;nPte3;seJteg3vXL;a4ge0iZMna0olaPreZE;mXJrB;eJlQDuP;l9ta0;arQdi0iPu01P;ge0mXGre;e,gVVre;aTeSiRlPuMN;amZ4i5uP;de0ta0;de0n00Ita0;de0nK8pXAre;lcXDpi2re;gi0lB;bb0Rc0Ld0Jff0Hg0Blle0Am08n06p03reMsYtUvRzP;ionOUzP;ia0o4;a5vP;e7iP;a0ci5sa0va0;ea0iTHtP;opGrP;apPistH;pi0;a0ch1en2pa0sPtr02D;eRiQoP;da0miO;cu3;g5re5t2;a0e0iN1pP;or2reP;n7sWP;nPto4;icLu001;a0mPpi6;aGKenPZol03G;g3n2;gPio5l1;iRomiQrPuaO;inU9upG;to4;a0ra0uP;gZNnZM;iPor8redA;gu3na0;dPe0iRKu5;o029rB;cPimo4;aRhJZoP;g01FmanAn2pp1rP;c1da0re;pPt2;ez8ri02Q;erc1o00KriviXXu1;aQePie2o2;re4stI;d3gl1liSHnCZ;a38e2Mi25la24o1Ur00uP;bYgnWlVnRrQtPz8;a0reM;a0ga0iSD;ge0i0tQzP;ecL;a0eP;gg1l4;i0lu4sa0;aPe0;la0re;blicXGli6;a1Ge0Oi0MoQuP;de0ri0;c0Gd0Ff0Cg0Ai09l07m04n03pXro8AsTtRvP;a0ePo6ve7;de0ni0;ePocDHrKB;g9n7s2;ciRegTXpeQsiFtP;itTWra0;ra0t2;og00LuD;aDeTiSoQuP;g5lC;ne0rP;re,zI;na0z1;lTBn7;osZIta0unWD;a5e0NoQuP;lDoUH;ve0zI;iPunD;fe3;bi0et2;et2rP;amFeWS;a5eQfeJiPon7uF;la0t2;ri0sCtWN;iDuZ3;a01FeRlaFrPu3;asPea0;ti5;de0sC;meEncip1vP;a0ileg1;a0Fc0Dd0Bf09g07l06m03n02ocHVp00riscalAsTteJWvPz8;aReP;de0nP;i0ti00C;le0ri6;aG7cUeSiRsa0taQuP;me0ppVJ;bi01Bre;d1e7;de0l4nPr006;tHz1;egZKin7riTP;a3ePor0;nsI;asZ5de0o2uIT;eQia0uP;ni0ra0;re,tK;eZXu7;a0iPus2;a0uO3;a0eJiP;gMDsC;a0iPo9G;cTOli9re,spV1;e7iPlu7or6R;de0pi2sa0;ccen5mbo4nnuX9;li5nPti6;de0za0;e2gg1lXmWnVpGrTsQtP;a0eIC;a0izIpUTse7tP;aS4ePiUQu4;gg1rD;ge0pore,re,tP;a0en7;de3e0;ic1pa0;emBi0la0tJvOW;cOSg1na0sFuVD;aXccWeVgUlTnSoQpa0roTMsPttRHzzU5;c1o4;mXUvP;e0igQR;ge0za0;a0o2;ia0l1no3o4;ga0na0t3Z;a0hiQN;cTgRl4nPre,t2z8;a0eEgPiPPta0;e0iSo4;a0e0g1nP;e0uYE;eQiP;ucL;re,voCU;c6d09gg3Hla0n07pa0rSsRtP;e0tP;egolOHi5;a0ca0ta0;c01d00egri5fZiYluUZmWnPFo3petVqFVsStRvP;a7eP;ni0rN;eW3urX8;eQisKonPua7;alBiP9;guiTBve3;ra0ua0;aVYePu2;a0tK;co4oAre;ezIo3;e0o5u3;epSLoPuoK;r5Cte0;aQWd2Cet3iKnXZsPtSJzo4;a0io5;a4i5;c05dro04ga0l03na0pGrXsTtRuCvQzP;iSEz1;en2o02;iIMroW4tP;a0eEi5ui0;c24qWHsQtP;iYVu3;a0eEiP;o5re,va0;aTcP4eNQiONlSod1tP;eQiPoJuJ;ciGre;ciGgg1ne0;a0ot2ucL;fraCgo5lBre;a0eClNIpIK;neE;a0ch1iTH;b0Icc0Gd0Fff0EggetV9l0Cm0An08p05r00sSttPvv1z1;a0eQimTOuP;n7ra0;mH4ne0;aVcUpi2sRtP;a9XePi5rQ9;gg1n2;eQiP;da0ge5;qu1rXGssI;il4u3;n5re;a0bi2diHVecLgRiPla0mN3na0;en2gPna0;i5l1;aPoO;nBsF;e3i5pPri0ta0;oPriKB;ne0r0;dPo3;a0eEu4;aEbrMTetKoP;geneBloD;ez8ia0trP;aEepA5;eGGic1ri0us6;i91o3;asIhiMNi7lu7or3YuP;l2pa0;bQeSXiettWUliPnubi4;a0ga0te3;eSViR5liD;aYeUiToRuP;da0me3oPtriO6;ce0ta0;ce0ia0leEm1JrmIMtP;a0iNDta0;cLdiNCtJ;cessi2gRt2utrIJvP;a0iP;ca0sL;a0li9oz1;r3sRtQuPviD;fraDsT7;a0u8W;a0cPt3;e0on7;a0Ke0Ci03oUuP;da0gRltQnUPoPXra0sR7tP;a0i4ua0;a0ipCI;gPo4ug5;h1i0;biliWdTlSnRrQst3tiW7vPz8;e0imQE;a0d1Ii0mo3si6tiMU;da0itorS4ta0;a0ce0es2la0tipCB;ePiMRu4;l4rP;a0nB;ta0z8;aWeKgVllDKmUnSra0sPtiD;cQe2Ysa0tPu3;iMLu3;e4h1;aWQge0iP;mBst3;a0etB;l0Fra0;go4u4;diSHgl0Dla0mVnUrSsQtP;odBte0;cPta0u3;e0o4;a7AcaPenAge0i2;n8Hre;a0dQEoFti0zI;orB;c06eRRg04l03mFnXpGrUsQtP;erJ1riUXt0AurH;cRsaQtP;erBi6urU0;c3gg1re;he3;a70cQi0VtP;el4or1;a0h1i7C;ca0dTeL0gSiRoQtePu1S;ca0ne0;mI9v3;ca0e3fL7po4;anUTiMR;a0u6;a0di0eR4ig5trat2;a0gPl1nK0;io3;chiT6ePi5;l4ra0;a0Ce03iXoUuP;bScRmQnDsPtRO;inDsa0t3;a0i5;ci6e0iAra0;riLH;cQda0gPnRErAt2;i6o3ra0;aNBuple2;bTceSevi2mRnc1quQsPtiDvUD;a0c1ta0;eMiA;a0i2o5;nz1re;a0e3ra0;cWde0gTnTHsRvP;a0iP;ga0ta0;iPsa0;na0o5;aMZgQiPna0;fe3ttiF;e0icL;ca0e0;cZg5mXnWpiArVsUtSuRvP;a0orP;a0icL;da0rQW;e0iPra0ta0;na0ta0;cTBsa0t8A;ga0va0;c1gMQ;a0biPen2pJQ;c6re;cT6e3riF;bQ0d52gno3llu51m3QnZpYrUsPtalia5;cICo4pRsa0tP;al4iPrMK;ga0tMJ;ePi3;sAZzI;a0e,onBrP;ad1eNiQoP;busNga0mEUra0;de0gPPta0;notBotB;a3Bc2Ld2Be29f1Tg1Ei1Dl1Cn17o15qu13s0StYumiPOvPzupG;aVeSiRoP;ca0gl1lP;a0ge0ta0ve0;a0d1gi4sLta0zLI;cLi0ntarQrPstiD9tJ;a0ti0;e,ia0;de0gMBlPsa0;e0iA;a0He03i01oYrPui0;aTeU5iSoQuP;de0fo4;dPmGC;ur0;de0ga0sN;lc1pRre,tQvP;e7ve7;teQL;po4rSE;nQrPsAM;bidHpiP3;aKFti0;epiP1mPn9rizKZto4;a0iP0oJ;g3n01rRsP;se0tarP;di0e;aXcUdi0esCfTloqLJna0pSrQse6vP;eRIis2;a0oP;ga0mDW;el4or0re2;aTJeJ;a4eQorP;re0;de0t2;gi0re;de0eJsiJ9ta0;c6gl1rs1sI0vo4;aWcVeUiToSpi3tQuP;d1Pl2;aPitL5rL5;l4re,u3;r9spetN;d1gR2nQSsK;d1gEKri0;e5riLW;ngQpoP;na0ri0;ui5;ad3iP;e2na0si0;lt3nArP;gogT7riO6;aSePoS3;gg1rvQsP;ca0ta0;a0o97;ff1l8mo3;e1ib3;bi0et2mi6zFI;a02e01hi00iXloQIoUrQuP;a1r75;aQesCoP;pGsC;nPsCviAz1;a0di0;bQia0lPmb3rDz8;fa0la0;bi0;alSQganNnQuP;n9r1;ocL;otN;g5lo8QntiSMri0sC;bb1gg1n5rbuO;a02e00iWlUoSrQuP;o6r1;aPeddoSI;d0Mn9;ca0n7rP;ca0ma0na0tu5;ig9uP;en8i0;aRc1eJg9lQnPsLtN;i2ocL;a0t3za0;ccK3mF;rPs2t2;i0ma0o3Tvo3;ma0nDrPstiN5tPI;ci0i5;br1rP;i0pi6;aDeWiSoRuP;ce0g1l9rPstriCV;a0i0re;sCvi5;a0cMVetMNgRrQspPvidPA;etNor0;e,iz8;e0na0;bPnnBt2;i2oRT;a07e04hi03i02l01oVrRuP;ba0lG5nNEpi0rPte0;io7Uva0;eRiQoP;c1s2;mi5na0;mKRsG;gPYlSmRnt3rP;aG9nPo5po3re0;ic1;be0iO0oA;lPpa0;a0eJ;i5u7;amGde0n9pr1ta0;appKMna0oA;de0nPpGra0sKC;dPVeJtP;iQ7ra0;gl1l8mUnTpSrRsPte5vo4z8;i5sa0tP;o5ra0;ce3i6na0ta0;oORpa0;ta0uN;mi5;b62ciM1ff1lRrQspJuP;gu3;ca0iLZ;a0be3za0;aHFb0Li2m0FpP;a09e06i02l01oWrRuP;g5lCn2tP;a0riLU;aticIOeRiQoP;n2vviC;gIme0;ca0g5n7sPzio6V;sIta0;ne0rRsPveJ;sPta0;esCibi9R;re,tP;a0u5;emJPi6o4D;an2ccOOeQgPla0;l1ri0;ga0tP;o6Kri0;di0g5lHOnQrP;a0maQEn1so5vI2;na0sieJ;ccSdroNYlRnQrPs2t2uJzzH;a0en2ti0;a0ta5;a0liL8;a0hJHia0;aSeRiQoP;bB3la0rta4;g3sL;deJMr9tK;gPtriOH;azzi5i5;aZeYiVoUrQuP;ca0r3;aRoQuP;ni0tN;gl1nc1;cc1t2;c6s6ttiGH;ancQbi0onKTzP;zarJ;a0hi0;lPRstiaPRve0;cuc6lQnKPrPsNtKvaO;az8ca0;la0saF;de0mi5st3;ePolat3ra2;aH4nP;tiF6;a0Ye0Rh0Oi0Al09o04rWuP;aRerQfa0iPs2;da0na0z8;i0reE;daRiQl11rPs2ta0;da0enNi0ni0;o4re;gnFWre;aQe0IiPonAugMX;da0gl1;cTdSff1n9FtPva0z1;iQtP;a0ug1;fi6na0;a0i8Kua0;ch1iA;cciEMdSff3mi2nRrgQvK3zzoP;viO;heEoO;f1go4;e0ro5;isCoriJM;aMYb01ng00oWrTt2uP;bi4ca0di6gLAlebMFnRo6ra0stP;appJ2iP;fi6z1;ca0ge0ta0;a0eDLoP;nPvaD;zo4;cQiPst3va0;a0re;a0hPo4;erN8icL;il4;ol4;erQiP;aO9g5;mi0;la0meUnSrmRsPt2;sa0tiP;co4re;i5oO;ePuflAC;raFU;l4re;bLSlQrPsa0tNXu7;anNba0eEri0;lCUopGvP;anB;a0Ve0Si0Jl0Ho08rVuP;ci4gTlSma0nRorPra0stiD;iusPv1;ci0;es2ge0zI;ge0mi5;a0gi0;aXeWiToRuP;ga0i0l4sPt2;c1tLL;da0nP;teE;gQni0zP;io5za0;ge0na0;cc1dAgLVme0na0quGVs6t2;cRg3iQmmGUnPppHWstor5tLOzI;a0ca0ge0tuF;ntLV;asC;c8Fde3gWlVmGQndUrRtP;oPte0;cop1g6Q;aC7bi0g1mPniDUtiD4za0;aPiLVu4;lBre,t2;a1Ae0;go3la0;g1l1;agLYetKir2ot2uP;i0ttKN;aWc6daCDgVlUnSoQrFsPt2u2;a0chiDRsa0;ccPnAri0;a0hGG;aPge0i0ta0;lBnz1;a0ma0osoMt3;ge0l1u3;c6mmeEncD5ta0;cFCli02n7rQsPte0;su3tBN;i0mL6ra0t7Wve0;b01c00gYlXmWntasKFrTsStRvP;el4orP;eEi0;a0i6tu3;ciJYtid1;ci0e,fPneKA;alPuO;leE;a0iliBE;c1lHsAL;l1oP;ci2;e0i5QoltB;bPri6;ri6;c1Id1Fff1EguaOiacu4l18m14n11qui0Yr0UsVtUvP;aSiRoP;ca0lP;ui0ve0;de44nKGra0ta0;cJQde0ngelBpo3;er5ichFM;a0Lc0He0Ei0Co09p00sXtPulI1;as1eUiToSrP;aQoPu7;m89v6Q;da0n1po4r0;lDGrK8;ma0ng6WrGva0;nPr5;de0ua0;ePic6uA;gDOrP;ci2e;aWeUiJPlSoRrQuP;g5n9;i7Zopr1;ne0rFM;e2ic5LoP;de0ra0;di0lD3riPt2;mEYre;n7tr1;nQrP;cBdi0ta0;da0e3;bi0ge0lPme0sKta0;a3ia0;cQgD8mpPn2rciFB;liB7;ra0u2;i0lRoQuP;sa0te0;gi2;aFu7;cerIYge3lH4mi5s3UuP;di0ri0to3;eRge0i9oQra0uP;di0t2;de0ga0m5D;d4Zg9;lib3paQvP;aCHo6;gg1ra0;com1fE8tQuP;clGSme3nc1;ra0usiasF;aQePig3ozIpiIEu4;nAr9tK;nPrBI;a0ciG;aSeRiQog1uP;cub3de0;de0ge0mi5;g9moD9n6va0;bo3rP;gi0;ettI5ig1on7;iQuP;cDLlco3r0;fi6ta0;cQheElPonomB;isC;ePi2;de0lBVpi0ttHY;a3Qe2Fi05oVrSuP;bQce0el4pPra0;li6;b1i2;aQe5iPoD;bb4z8;ga0mmDHpG;cXlWmTnKBpSrPsa0tG3ve6Z;a0mP;en2iP;cLre,ta0;a0p1;aQesHQiP;cF9na0;nAre;a0e0o3;c1e0umDA;a1Xb4Mc1Vf1Og1Ll1Gm1Bp19r14sWt2vP;aUeSiQorPulD;a0z1;de0e2nPsa0;a0co4;de0lB8nHVrPz8;be3ge0s7Uti0;ga0mGri6;a0Ubos6c0Nd0Le0Jfa0g0Hi0Alo6m5Wo07p01qZsVtPubbiEV;aTen7iSoRrPurHE;ar0iPug9;bBFca0;gI5rHT;l4ng4H;c6nz1re;angH1eRiQoPua7;c1da0lC6;mu4pa0;mi5nNppelJMr2ta0;uiP;si0;arHeSiRoQrePu2;g1z8;ne0r0sa0;aHHeDn9;nPrDBt2;de0sa0;bbeECcQno3rP;di5iCH;cuG;dUllu7mp3WnP;cSfCItP;eQosP;si6;g3resC;an2;e3ra2;e4iPreDus2;un9;g5rP;eAta0;a0ePi0;g5t2;eUhTiogHAoRriQuP;sCte0;mi5ve0;lGnPpJr4Ks2;n4TosGU;iu7;n7rF5;g1pproHNrFttP;en7iHM;aSeRiQoP;c6m2Pt2;ge0me0;!da0g9zI;da0ma0z8;aPen7i2EloFor0;na0rN;aSeRiQoP;ra0st3;nA1ssI;n20sFVtKz8;grHnA;aSeQi9uP;i0nDv1;gPt2;g1ua0;ga0n1ta0;eJiQrP;ig5;ta0u5;eUfP;aFerRiPon7;cPda0;ol2;ePi0;nz1;n7t2;a0ePhia3;re,sC;gnosFCloD;ambu4b0Xc0QdH8f0Mg0Kl0Gm0Dn0Ap04r01sVtRvP;as2ia0oP;lAAra0;eQrPta8DurG;ar0;ne0rPs2;ge0io3mi5;c50iTo4tPu3O;aRiQrP;a0eEug9;na0t96;b2Gre;a0de3g5la0na0ra0sK;aQiPoDuF0;de0me0va0;gl1pa0;auTeSiRlo3oQrPu3;eAi3E;ne0rB1si2;la0n9;n7ri0;pe3;ig3oQta0uP;da0nBJ;mi5ta0;anAoP;li0rP;alBde0;eRiPu7;be3mi2nPra0z1;ea0q1Q;ga0re;ePluNna0raAus2;ne3;al6eRiQlPorFrauAun9;etKui0;la0ni0;ca0ri0;aUe7hi5iTlSoQrePur2;sESta0;l4mpAXrP;a0re0;aFi5;de0fDSma0;de0n2pi2;b1el4iPut2;li2;ma0nSrRtPz1;a0tilogP;raM;deEe;n52za0;a4Ge47h3Yi3Kl3Ho04rUuP;cRlQmu4oEEpe0rPstoBC;a0ioCva0;la0mi5;c1iPul1;na0re;apu4eViUoQucP;c1ia0;cQgPl4;io4;ch1iP;a0fig9;a0ti6;a0de0ma0pQsPt2;ce0iF;a0i2;a30c2Zdi5KesisKg2Xi2Vl2Mm1Sn05o03p02rXsPva0z8;a0pVtP;a9LeTiSrQuP;di0ma0;iPui0;gC7n9;pa0t7E;gg1l4r5;ar9i3;az8bEBi6o5rPteE;eRispon7oPuD;bo3de0mP;pe0;da0g9la0re;ia0pE6ri0u4;pe3rP;di5;c15d12f0Tg0Pi81n0OosDIqui0Ns0FtVvP;aliAeSiRoP;ca0gl1lP;a0ge0;nDEta0ve0;ni0rP;ge0sa0ti0;a06e02inCMor01rPun7;aTiSoP;bQl4vP;erK;atK;b6Rre;ccamb1dSfMpp9BrRsPt2vveCQ;sPta0;eg5;e,ia0re;diPi0;re,stingP;ue0;ce0na0;gg1mp4nRstP;a0uP;alB;de0e0ne0ta0;bPg1mi5re,t2;ilB;ac3eUiTolStQuP;l2m7J;a8Dit6ArP;in9ui0;a0iA;de3gl1sK;gPnNrDH;na0ui0;de0s2;etKo2uAR;eRiuQrP;atu4eD;n9ra0;da0g5la0stItCC;aWeUiSl5YoQrPu2;on2;n7rP;ma0ta0;c6da0gPna0s6;ge0u3;rPsCzI;i0ma0;bu4re;an5enCiQoPuBH;le0na0t2;re,vi7zI;eSiRlu7orQret8XuP;pi0sC;da0re0;a0l1ma0ta0;de0nt3pi0rP;ne0ta0;anAb0Ge0Fi0Em07oApQuP;ni6;a03e01iZlWoVrQuP;n9ta0;aSen7iRoP;mPva0;etK;me0;re,vBU;ne0r7As2;eQiPot2;ca0m6Ore;sCta0;aPe0la0re,ta0;ce0n9;nPra0te0;d1et3sa0;g5rPtB9;a0i0ti0;eSiQo5TuP;o5Sta0;na0sP;e3sIu3;d1mo3nQrcPtK;ia4P;da0ta0;nc1sC;n2re;aPi5;c1tK;a0e0lSma0oRpPtiBX;a0evPi0;olB;nBrH;aSeRiQoPu7;ca0qu1;de0ma0;ga0t2zI;bo3re,sCuAzI;nPre;ci7v19;i2liPnosAQ;e0o5;co4e0;bi2diuBJgu4;aPic6o5;ma0n9ssi26uP;di6;a01ba0c00f3gZmAPnXondo4rcStQuPv5R;cc1r4;a0oP;fo5;oQuP;i0la0mnaviDnA;la0nQscP;ri4T;ci7da0;cisLgPta0;e0u5H;ne0o4;atrBca0;ba2Jnci0Jr4;eWiP;aSeRna0oQta0uP;de0r4;cc1da0sa0;de0re0;cchie3ma0pGrPva0;a0iP;fi6re;re0ta0;ca0de0lWm50nTpGrQsP;el4sa0ti5;a0cQn4ZtP;a0i1E;a0hi29i5;a0na0sQtP;elli5ra0;i0u3;a0eb3ia0;b0QcAKd0Of9Wg0Nl0Km0Hn0Dp04rZsXtUuTvQzzP;a0eEia0;aPil4;lPre;ca0la0;sa0te4;aQtP;a0iACu3;loDp2T;ca0sa0tP;iDra0;aRbQca0ez8iPpi0;a0ca0;onBu3;m9UttP;erB;aWeViQovPp0Tta0;ol9;llSre,tP;aPo4;lBnPre;a0eE;arB;gg1re;ci2re;c9JdiRg1na0sa0tPzo5;arePer9IicL;!l4;da0re;b1i5mi5oAPpPufM;a0eEiP;cLo5re;a0cQe0ib3ma0pPunn1za0;es2;a0ia0o4;a0io5l1;ePu6;n8re;a4ra0;a0Ne0Gi0Bl09o03rTuP;ca0fRgQli5r4sPt2;ca0sa0;ge3ia0;a0fa0;aVev3NiTonSuP;cPli6ni0s6t2;a0iaP;cLre;to4za0;ga0l4nP;a0da0;cc8CmHnPsa0va0;cPdi0;a0o4;cSfonLicRllHmbar20niQrPt5Txa0;bQda0ra0seE;fi6;ot2;cPia0;a0heEia0;aPinAoc6;n4WsfeFte3;aRgQla6Enas7XsPv5C;biOog5ti9M;hello5ia0;da0n6sP;ci6iF;a0ccUfMl4AnRrQstemm1vP;az8er6YicL;c1e,go4linDsaO;da0ePvo0X;a25diPfic7S;ce0re;a0heE;c03da0g5ia0l00nZrUsSttQzP;zi6;aOeP;re,z8;a0c1i0sa0tP;a0o5;aSba0cRda0rP;a0iP;ca0re;ame5ol4;re,t2;ch2Idi0;b2He5lQoc6uPza0;gi5;a0et2;a0cQiP;a0ucL;aPh1;gl1re;b86c6Sd61er60ff5Lg51i50l4Em3Nn34p2Dr1Ms0Yt0Hu0CvUzP;io5zP;aReQiPufM;ma0tN;c6ra0;n5rA;a05e02in6Wo6vP;aZeViQolP;ge0to4ve0;a0cSlRnQs4Hta0va0zP;zi0;a0ce0gh1;i0upG;enAi5;de0le5nQrPz8;a0sa0ti0;i0tP;a0u3;lPmGntaE;e0la0o3;lQrP;e,te0;le0;l4n8r1;di0gu3li0m1Ira0sRtP;en5ToP;m1DrB;cPpi6;ul2;a0tP;a02eZiYorWrRuP;aPti0;lBre;aRez8iP;bPs2;ui0;c6e0r0vP;erC;cPn1;e0iO;g4Bn9ra0va0z8;ccQgg1nPrrHs2;d0Pe0ta0ua0;hi0;c6gl1naOrP;da0e;c08f07o4p05sStP;eQrP;ar0in9;ne0r9;aZeWiUoQuP;eMme0r9;c1da0gg0UlRmQn5pi0rPttiO;bi0dHge0ti0;iOma0;da0ve0;cu3dPeGl4mi4sK;er4O;cQd1g5mb4ntHrPs2t34ve3;i0vi0;onA;gg1l58po3sP;si5;ePi3or2;r9t2;al2iss1;en7iRoQriP;ve0;l2n7;a0uD;a0Eb0Dc0Ad09e47g07ieEm06om05rQti5HzigoP;go4;aZeYiWoQuP;fMggi4Mo4;cc54gTsStQveP;l4n2;a0oP;la0nA;a0sHtH;a0e0;ccPde0nDsLva0;hi0ia0;ca0da0n7s2t3;bRfMmQnPpa0;ca0g1;pi6;at2b1;atB;a0eEonB;i5omPui0;en2;e0i0;a0hiP;tPv1;et2;it3;bes6re;ostroMpPri0;a08e05i02l01oZrQuP;ntHra0;eVoP;ba0cc1da0fTn2pRsQvP;a0vigI;siF;iPr1;a0nq3G;it2ondH;n7sPz8;en2sa0ta0;gg1lla1rPs2;re,ta0;au0Xi6;aQccPgl1opGso4;a0i6;na0ttH;l4nQsPti0z8;anNta0;a0de0;ga0ia0lTn5rQssiP;o5re;a0eQi0tP;a0e22;cLn2;eCta0;alBc06d05e03g02iFnVsTtP;eQiP;ciG;ce7pP;or0;a0iP;a0ma0;aUeTiSoRuP;i0l4nPsa0vo4;c1z1;da0ia0ma0t10ve3;chi5Ada0en2;bb1ga0rHtK;cq2Kff1sG;e0o53uY;lPst11;a0la0;a0icapG;heEo3;a0Cb0Ai6mUniToRpP;liPu2;a0fi6;reE;gg1;st1;a01eZiYoRuP;cLffi0tP;i5o4U;bUdTgl1llHn2PrP;bQtP;a0iz8;a0iP;di0;er5;il1;c6niTra0;nAtP;a0te0;c6eQi5l2OnPra0sCtNz8;et2sHta0;st3;a4CiPu4;a0en2re;lgaFrP;ePi6;!gg1;be08e07fab06ge0i05lSmanRtPza0;ale5erP;a0ca0na0;ac6;aZeViToQuP;ci5de0n04;ca0gQnP;ta5;a0g1;bi0e2nP;ea0;a0gQnPr2sNt2v25;a0ta0;a0geJra0;ri0;cc1ga0pGrPt2;ga0ma0;a0e5ta0;etB;gg1na0re;gg1rP;a0ga0;ta0u2z8;e07gSiRoQuP;ra0z8;g5nB;a0re,ta0;a02et01hi00iVloUrQuaP;n2ta0;aReQoPupG;t2viO;di0ga0;dHpGva0;me3;oSra0uP;di6gQnPs2;ge0ta0;ne0;ga0r5;a2ZnA;ti24;nc1;vo4;a00eYiVlUoTrPumi6;aQePon2;s6t2;nPt1N;ca0ge0;ca0ga0l4nA;ig9o2Uui0;aQbb1da0evo2XgPl12na0o3sCt2;e0ge0;n6ta0;rPt2zI;i0ma0ra0;ccQma0n5re,sPti6;ci5;enAia0;a0ea0;a0Ed01eXiVoRuP;lPna0;a0te3;cLmb3pQrPt2;a0na0;e3ra0;ch1;bi0rP;a0e;gRmpiQrPs6;ge0i0;e0re;ua0;a0eYiVoQuP;ce0r0;bSlRmesQrmPsC;en2i0;ti6;ci0o3;ba0;re,ta0veQzI;io5;ni0;bi2nPst3;sa0tP;a0ra0;g1t2;cUeNquRuP;i0tB;iz8;at2e2iP;e2sP;i0ta0;a0Le0Gh0Ei08l06oTreRuP;cc1di0lPmu4ra0sa0;tu3;di2sP;ce0;c00da0gZlYmVnSppRrQstPva1D;a0uF;a0c1da0ge0pa0re0;a0ia0;c1discQsenNtP;a0en2;en7;ia2oApPu5;ag5;da0;la0tY;lie0;co4;aFima2u7;ma0;aSdRe6gQn9ufM;ge0;l1ne0;e0ia0;c6mbP;el4;e2iP;apGta0u7;ca0de0le3nRrQsNt2;ti0;ch1ta0;de0na0tP;a0ra0ua0;de0lXmGnVpUrTsStPval4;as2tP;a0iP;va0;a0c1;ez8to0G;ar3iOpo5;i0to5;pa0;aPca0da0o3;pp1;bYdXer3iUneDoRrPuC;a7oD;de0;li0mi5rP;ri0ti0;ga0;li2sCtPu3;a0ua0;sa0;i6ur0;a0Ae07i03oVrQuP;fMia0o5;aSev1on8uP;nHsto06tP;i0ti0;a0i0;cc1n6;c6nUrRtQz8;za0;to5;da0rP;aPi0;cc1;aPda0i0;cc1re;gl1nRoQsog5t2;ta0;sc1;a0do4;lQve3;ra0;li0;cXgl1ia0l4ndo5rRsQtK;te0;sa0ta0;bQca0ufM;fa0;aOi6;ca0;gl1;la0;a0ch1i5;na0;ia0;re",
     "Organization": "true¦0:42;a37b2Oc28d20e1Wf1Sg1Kh1Fi1Cj18k16l12m0Sn0Go0Dp07qu06rZsStGuCv9w4y1;amaha,m2ou1w2;gov,tu2P;ca;a3e1orld trade organizati3W;lls fargo,st1;fie20inghou14;l1rner br38;-m0Zgree2Xl street journ22m0Z;an halMeriz3Risa,o1;dafo2Dl1;kswagKvo;bs,kip,n2ps,s1;a tod2Nps;es30i1;lev2Tted natio2Q; mobi2Gaco beOd bLeAgi frida9h3im horto2Pmz,o1witt2S;shiba,y1;ota,s r X;e 1in lizzy;b3carpen2Ydaily ma2Sguess w2holli0rolling st1Ks1w2;mashing pumpki2Kuprem0;ho;ea1lack eyed pe3Ayrds;ch bo1tl0;ys;lPs1;co,la m10;a6e4ieme2Dnp,o2pice gir5ta1ubaru;rbucks,to2J;ny,undgard1;en;a2Nx pisto1;ls;few22insbu23msu1U;.e.m.,adiohead,b6e3oyal 1yan2T;b1dutch she4;ank;/max,aders dige1Cd 1vl2Y;bu1c1Rhot chili peppe2Globst25;ll;c,s;ant2Rizno2B;an5bs,e3fiz21hilip morrBi2r1;emier23octer & gamb1Oudenti12;nk floyd,zza hut;psi24tro1uge07;br2Mchina,n2M; 2ason1Uda2C;ld navy,pec,range juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,tre dame,vart1;is;ke,ntendo,ss0J;l,s;c,st1Btflix,w1; 1sweek;kids on the block,york07;a,c;nd1Qs2t1;ional aca2Bo,we0O;a,cXd0M;a9cdonald8e5i3lb,o1tv,yspace;b1Jnsanto,ody blu0t1;ley crue,or0M;crosoft,t1;as,subisN;dica2rcedes1;!-benz;id,re;'s,s;c's milk,tt11z1V;'ore08a3e1g,ittle caesa1H;novo,x1;is,mark; pres5-z-boy,bour party;atv,fc,kk,m1od1H;art;iffy lu0Jo3pmorgan1sa;! cha1;se;hnson & johns1Py d1O;bm,hop,n1tv;g,te1;l,rpol; & m,asbro,ewlett-packaSi3o1sbc,yundai;me dep1n1G;ot;tac1zbollah;hi;eneral 6hq,l5mb,o2reen d0Gu1;cci,ns n ros0;ldman sachs,o1;dye1g09;ar;axo smith kliYencore;electr0Gm1;oto0S;a3bi,da,edex,i1leetwood mac,oFrito-l08;at,nancial1restoU; tim0;cebook,nnie mae;b04sa,u3xxon1; m1m1;ob0E;!rosceptics;aiml08e5isney,o3u1;nkin donuts,po0Tran dur1;an;j,w j1;on0;a,f leppa2peche mode,r spiegXstiny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eedence clearwater reviv1ossra03;al;ca c5l4m1o08st03;ca2p1;aq;st;dplLgate;ola;a,sco1tigroup;! systems;ev2i1;ck fil-a,na daily;r0Fy;dbury,pital o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,rexiteeV;ei3mbardiJston 1;glo1pizza;be;ng;ack & deckFo2ue c1;roW;ckbuster video,omingda1;le; g1g1;oodriM;cht3e ge0n & jer2rkshire hathaw1;ay;ryG;el;nana republ3s1xt5y5;f,kin robbi1;ns;ic;bWcRdidQerosmith,ig,lKmEnheuser-busDol,pple9r6s3t&t,v2y1;er;is,on;hland1sociated F; o1;il;by4g2m1;co;os; compu2bee1;'s;te1;rs;ch;c,d,erican3t1;!r1;ak; ex1;pre1;ss; 4catel2t1;air;!-luce1;nt;jazeera,qae1;da;as;/dc,a3er,t1;ivisi1;on;demy of scienc0;es;ba,c",
@@ -7962,7 +8087,7 @@
   };
 
   const root = function (view) {
-    const { verb, noun, adjective } = view.world.methods.two.transform;
+    const { verb, adjective } = view.world.methods.two.transform;
     view.docs.forEach(terms => {
       terms.forEach(term => {
         let str = term.implicit || term.normal || term.text;
@@ -8628,30 +8753,28 @@
   var fallback$1 = fallback;
 
   //sweep-through all suffixes
-  const suffixLoop = function (str = '', suffixes = []) {
+  const suffixLoop$2 = function (str = '', suffixes = []) {
     const len = str.length;
     let max = 7;
     if (len <= max) {
       max = len - 1;
     }
     for (let i = max; i > 1; i -= 1) {
-      let suffix = str.substr(len - i, len);
+      let suffix = str.substring(len - i, len);
       if (suffixes[suffix.length].hasOwnProperty(suffix) === true) {
-        // console.log(suffix)
         let tag = suffixes[suffix.length][suffix];
         return tag
       }
     }
     return null
   };
-
   // decide tag from the ending of the word
   const suffixCheck = function (terms, i, world) {
     let setTag = world.methods.one.setTag;
     let suffixes = world.model.two.suffixPatterns;
     let term = terms[i];
     if (term.tags.size === 0) {
-      let tag = suffixLoop(term.normal, suffixes);
+      let tag = suffixLoop$2(term.normal, suffixes);
       if (tag !== null) {
         setTag([term], tag, world, false, '2-suffix');
         term.confidence = 0.7;
@@ -8659,7 +8782,7 @@
       }
       // try implicit form of word, too
       if (term.implicit) {
-        tag = suffixLoop(term.implicit, suffixes);
+        tag = suffixLoop$2(term.implicit, suffixes);
         if (tag !== null) {
           setTag([term], tag, world, false, '2-implicit-suffix');
           term.confidence = 0.7;
@@ -8671,9 +8794,92 @@
   };
   var suffixCheck$1 = suffixCheck;
 
+  //sweep-through all suffixes
+  const suffixLoop = function (str = '', suffixes = []) {
+    const len = str.length;
+    let max = 7;
+    if (len <= max) {
+      max = len - 1;
+    }
+    for (let i = max; i >= 1; i -= 1) {
+      let suffix = str.substring(len - i, len);
+      if (suffixes[suffix.length].hasOwnProperty(suffix) === true) {
+        let tag = suffixes[suffix.length][suffix];
+        return tag
+      }
+    }
+    return null
+  };
+
+  var suffixLoop$1 = suffixLoop;
+
+  const f = 'FemaleNoun';
+  const m = 'MaleNoun';
+
+  // https://en.wiktionary.org/wiki/Category:Italian_feminine_suffixes
+  let suffixes = [
+    null,
+    {
+      'a': f,
+      'o': m,
+    },
+    // two
+    {},
+    // three
+    {
+      // 'are': m,
+      'ese': m,
+      'ile': m,
+      'oma': m,
+      'one': m,
+      'ore': m,
+      // 'are': f,
+      'ime': f,
+      'ite': f,
+    },
+    //four
+    {
+      'arca': m,
+      'cida': m,
+      'iere': m,
+      'ista': m,
+      'eide': f,
+      'poli': f,
+
+    },
+    // five
+    {
+      'crate': f,
+      'gione': f,
+      // 'mante': f,
+      'opoli': f,
+      'ptosi': f,
+      // 'mante': m,
+      'nauta': m,
+      // 'crate': m,
+    },
+    //six
+    {
+      'cinesi': f,
+    },
+    {}
+  ];
+
+  const nounGender = function (terms, i, world) {
+    let setTag = world.methods.one.setTag;
+    let term = terms[i];
+    let tags = term.tags;
+    let str = term.normal || term.implicit || '';
+    if (tags.has('Noun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
+      let tag = suffixLoop$1(str, suffixes);
+      if (tag) {
+        setTag([term], tag, world, false, '2-guess-gender');
+      }
+    }
+  };
+  var guessNounGender = nounGender;
+
   // 1st pass
-  // // 3rd
-  // import guessNounGender from './3rd-pass/noun-gender.js'
   // import guessPlural from './3rd-pass/noun-plural.js'
   // import adjPlural from './3rd-pass/adj-plural.js'
   // import adjGender from './3rd-pass/adj-gender.js'
@@ -8700,15 +8906,15 @@
     }
   };
 
-  // const thirdPass = function (terms, world) {
-  //   for (let i = 0; i < terms.length; i += 1) {
-  //     guessNounGender(terms, i, world)
-  //     guessPlural(terms, i, world)
-  //     adjPlural(terms, i, world)
-  //     adjGender(terms, i, world)
-  //     verbForm(terms, i, world)
-  //   }
-  // }
+  const thirdPass = function (terms, world) {
+    for (let i = 0; i < terms.length; i += 1) {
+      guessNounGender(terms, i, world);
+      //     guessPlural(terms, i, world)
+      //     adjPlural(terms, i, world)
+      //     adjGender(terms, i, world)
+      //     verbForm(terms, i, world)
+    }
+  };
 
 
   const tagger = function (view) {
@@ -8716,7 +8922,7 @@
     view.docs.forEach(terms => {
       firstPass(terms, world);
       secondPass(terms, world);
-      // thirdPass(terms, world)
+      thirdPass(terms, world);
     });
     return view
   };
@@ -8826,13 +9032,18 @@
 
   const rb = 'Adverb';
   const nn = 'Noun';
-  // const vb = 'Verb'
+  const fn = 'FemaleNoun';
+  const mn = 'MaleNoun';
+  const vb = 'Verb';
   const jj = 'Adjective';
   // const cond = 'ConditionalVerb'
-  // const fut = 'FutureTense'
+  const fut = 'FutureTense';
   const inf = 'Infinitive';
   const g = 'Gerund';
   const ref = 'Reflexive';
+  const imp = 'Imperative';
+  const pres = 'PresentTense';
+  const val = ['TextValue', 'Cardinal'];
   // const first = 'FirstPerson'
 
   var suffixPatterns = [
@@ -8842,33 +9053,771 @@
     },
     {
       // two-letter suffixes
+      io: nn,
+      tà: fn,
+      tù: fn,
+      rà: fut,
+      uo: jj,
+      na: nn,
+      ta: nn,
+      ne: nn,
+      ze: nn,
+      pi: nn,
+      ti: nn,
+      bo: nn,
+      fo: nn,
+      lo: nn,
+      to: nn,
     },
     {
       // three-letter suffixes
+
+      uno: val,
+      due: val,
+      tre: val,
+      tré: val,
+      sei: val,
+
       are: inf,
       ire: inf,
       ere: inf,
+      umi: nn,
+      ine: nn,
+      età: nn,
+      ico: jj,
+      one: nn,
+      oni: nn,
+      ore: mn,
+      ema: mn,
+      eva: vb,
+      arà: fut,
+      erà: fut,
+      irà: fut,
+      rrà: fut,
+      vrà: fut,
+      irò: fut,
+      ava: imp,
+      bbe: vb,
+      sce: vb,
+      ono: vb,
+      oso: jj,
+      ior: jj,
+
+      mba: nn,
+      ada: nn,
+      fia: nn,
+      mia: nn,
+      tia: nn,
+      mma: nn,
+      rra: nn,
+      cce: nn,
+      fie: nn,
+      gie: nn,
+      nie: nn,
+      sie: nn,
+      tie: nn,
+      zie: nn,
+      ule: nn,
+      ame: nn,
+      ing: nn,
+      adi: nn,
+      odi: nn,
+      udi: nn,
+      uli: nn,
+      ami: nn,
+      emi: nn,
+      mmi: nn,
+      omi: nn,
+      smi: nn,
+      nni: nn,
+      dri: nn,
+      iri: nn,
+      zzi: nn,
+      ion: nn,
+      rco: nn,
+      odo: nn,
+      igo: nn,
+      ogo: nn,
+      smo: nn,
+      umo: nn,
+      gno: nn,
+      ipo: nn,
+      mpo: nn,
+      bro: nn,
+      zzo: nn,
+      ier: nn,
+      ans: nn,
+      bus: nn,
+      ort: nn,
     },
     { // four-letter suffixes
+      otto: val,
+      nove: val,
+      mila: val,
+
       arsi: ref,
       irsi: ref,
       ersi: ref,
       endo: g,
       ando: g,
       ante: jj,
-      iere: nn
+      iere: nn,
+      icci: nn,//or adj
+      ezze: nn,
+      ista: nn,
+      tore: nn,
+      zolo: nn,
+      lino: nn,
+      zone: nn,
+      eone: nn,
+      lone: nn,
+      cone: nn,
+      lona: nn,
+      ione: fn,
+
+      enga: vb,
+      para: vb,
+      ntra: vb,
+      tata: vb,
+      izza: vb,
+      iace: vb,
+      duce: vb,
+      cede: pres,
+      iede: pres,
+      lude: pres,
+      inge: vb,
+      iene: vb,
+      enne: vb,
+      dete: vb,
+      vete: vb,
+      duto: vb,
+      vuto: vb,
+      cevo: vb,
+      terò: vb,
+      vrei: vb,
+      sati: vb,
+      iamo: vb,
+      vamo: vb,
+      emmo: vb,
+      vano: vb,
+      anno: vb,
+      zato: vb,
+      sero: vb,
+
+      sivo: jj,
+      pica: jj,
+      sima: jj,
+      iosa: jj,
+      tosa: jj,
+      siva: jj,
+      nghe: jj,
+      cale: jj,
+      gale: jj,
+      pale: jj,
+      bile: jj,
+      cile: jj,
+      mile: jj,
+      sime: jj,
+      cane: jj,
+      iane: jj,
+      iore: jj,
+      dese: jj,
+      lese: jj,
+      iose: jj,
+      nose: jj,
+      rose: jj,
+      tose: jj,
+      uose: jj,
+      sive: jj,
+      gici: jj,
+      pici: jj,
+      sici: jj,
+      cali: jj,
+      iali: jj,
+      rali: jj,
+      bili: jj,
+      timi: jj,
+      iori: jj,
+      rosi: jj,
+      sivi: jj,
+      gico: jj,
+      tico: jj,
+      lido: jj,
+      anea: jj,
+
+      teca: nn,
+      iaia: nn,
+      naia: nn,
+      acia: nn,
+      rdia: nn,
+      egia: nn,
+      ogia: nn,
+      rgia: nn,
+      glia: nn,
+      eria: nn,
+      oria: nn,
+      tria: nn,
+      esia: nn,
+      azia: nn,
+      tela: nn,
+      sola: nn,
+      tola: nn,
+      uola: nn,
+      orma: nn,
+      oppa: nn,
+      iera: nn,
+      etra: nn,
+      sura: nn,
+      tura: nn,
+      anza: nn,
+      azza: nn,
+      ezza: nn,
+      ombe: nn,
+      ance: nn,
+      inee: nn,
+      rche: nn,
+      eghe: nn,
+      erie: nn,
+      stie: nn,
+      iole: nn,
+      sole: nn,
+      nome: nn,
+      tume: nn,
+      appe: nn,
+      mbre: nn,
+      adre: nn,
+      sure: nn,
+      ture: nn,
+      onte: nn,
+      arte: nn,
+      ordi: nn,
+      aggi: nn,
+      eggi: nn,
+      rchi: nn,
+      ighi: nn,
+      igli: nn,
+      alli: nn,
+      poli: nn,
+      reni: nn,
+      agni: nn,
+      egni: nn,
+      cini: nn,
+      gini: nn,
+      mini: nn,
+      sini: nn,
+      orni: nn,
+      atoi: nn,
+      mbri: nn,
+      neri: nn,
+      lori: nn,
+      mori: nn,
+      sori: nn,
+      tori: nn,
+      etri: nn,
+      ntri: nn,
+      lisi: nn,
+      ussi: nn,
+      eusi: nn,
+      dizi: nn,
+      orzi: nn,
+      orum: nn,
+      alco: nn,
+      ioco: nn,
+      uoco: nn,
+      reno: nn,
+      mino: nn,
+      fono: nn,
+      uppo: nn,
+      naro: nn,
+      pero: nn,
+      voro: nn,
+      itro: nn,
+      orso: nn,
+      ievo: nn,
+      arzo: nn,
+      nter: nn,
+      gnor: nn,
+      port: nn,
+      vedì: nn,
+      vitù: nn,
     },
     { // five-letter suffixes
+
+      sette: val,
+      cento: val,
+      esimo: ['TextValue', 'Ordinal'],
+
       mente: rb,
+      tipie: nn,
+      toria: nn,
+      ucchi: nn,
+      ucoli: nn,
+      gioni: nn,
+      celli: nn,
+      celle: nn,
+      astri: nn,
+      archi: nn,
+      arche: nn,
+      acchi: nn,
+      nauta: nn,
+      crate: nn,
+      zione: nn,
+      mento: nn,
+      dromo: nn,
+      accio: nn,
+      cetto: nn,
+
+      tacca: vb,
+      plica: vb,
+      nvoca: vb,
+      calda: vb,
+      uarda: vb,
+      corda: vb,
+      ambia: vb,
+      rolla: vb,
+      sogna: vb,
+      embra: vb,
+      ndata: vb,
+      sulta: vb,
+      senta: vb,
+      venta: vb,
+      porta: vb,
+      catta: vb,
+      dotta: vb,
+      ciuta: vb,
+      rriva: vb,
+      lizza: vb,
+      rizza: vb,
+      piace: vb,
+      fende: vb,
+      pende: vb,
+      rende: vb,
+      tende: vb,
+      ponde: vb,
+      sorge: vb,
+      prime: vb,
+      rompe: vb,
+      mpare: vb,
+      corre: vb,
+      iasse: vb,
+      cesse: imp,
+      vesse: imp,
+      usate: vb,
+      edete: vb,
+      ndete: vb,
+      irete: vb,
+      rrete: vb,
+      otete: vb,
+      guite: vb,
+      siste: vb,
+      mette: vb,
+      crive: vb,
+      muove: vb,
+      derai: fut,
+      herai: fut,
+      nosci: vb,
+      orrei: vb,
+      ntati: vb,
+      nosco: vb,
+      pongo: vb,
+      gnamo: vb,
+      aremo: vb,
+      dremo: vb,
+      eremo: vb,
+      iremo: vb,
+      rremo: vb,
+      vremo: vb,
+      ccano: vb,
+      ncano: vb,
+      ndano: vb,
+      rlano: vb,
+      inano: vb,
+      orano: vb,
+      trano: vb,
+      rtano: vb,
+      stano: vb,
+      ttano: vb,
+      utano: vb,
+      avano: vb,
+      evano: vb,
+      ivano: vb,
+      ovano: vb,
+      bbero: vb,
+      rdato: vb,
+      agato: vb,
+      biato: vb,
+      ciato: vb,
+      viato: vb,
+      llato: vb,
+      amato: vb,
+      gnato: vb,
+      rnato: vb,
+      prato: vb,
+      ntato: vb,
+      otato: vb,
+      stato: vb,
+      ovato: vb,
+      scito: vb,
+      ntito: vb,
+      tuito: vb,
+      iunto: vb,
+      iesto: vb,
+      visto: vb,
+      enuto: vb,
+      ttuto: vb,
+      otevo: vb,
+      ovevo: vb,
+      crivo: vb,
+      overò: vb,
+
+
+      pleto: jj,
+      sueto: jj,
+      ggior: jj,
+      ibica: jj,
+      afica: jj,
+      agica: jj,
+      olica: jj,
+      omica: jj,
+      irica: jj,
+      orica: jj,
+      trica: jj,
+      isica: jj,
+      ntica: jj,
+      otica: jj,
+      tesca: jj,
+      alida: jj,
+      maria: jj,
+      naria: jj,
+      raria: jj,
+      inima: jj,
+      ltima: jj,
+      rbana: jj,
+      icana: jj,
+      derna: jj,
+      terna: jj,
+      inosa: jj,
+      erosa: jj,
+      orosa: jj,
+      carsa: jj,
+      guata: jj,
+      osita: jj,
+      itiva: jj,
+      utiva: jj,
+      apace: jj,
+      plice: jj,
+      rande: jj,
+      ranee: jj,
+      iache: jj,
+      diche: jj,
+      giche: jj,
+      piche: jj,
+      esche: jj,
+      darie: jj,
+      iarie: jj,
+      rarie: jj,
+      tarie: jj,
+      idale: jj,
+      ciale: jj,
+      diale: jj,
+      niale: jj,
+      ziale: jj,
+      rmale: jj,
+      orale: jj,
+      urale: jj,
+      rsale: jj,
+      ssale: jj,
+      ntale: jj,
+      guale: jj,
+      nuale: jj,
+      suale: jj,
+      tuale: jj,
+      utile: jj,
+      evole: jj,
+      ltime: jj,
+      ovane: jj,
+      terne: jj,
+      leare: jj,
+      ustre: jj,
+      onese: jj,
+      zzese: jj,
+      tense: jj,
+      olose: jj,
+      cente: jj,
+      uente: jj,
+      leste: jj,
+      fette: jj,
+      ntive: jj,
+      apaci: jj,
+      afici: jj,
+      plici: jj,
+      omici: jj,
+      onici: jj,
+      erici: jj,
+      irici: jj,
+      etici: jj,
+      stici: jj,
+      egali: jj,
+      rmali: jj,
+      enali: jj,
+      onali: jj,
+      ipali: jj,
+      rsali: jj,
+      ntali: jj,
+      guali: jj,
+      nuali: jj,
+      suali: jj,
+      abili: jj,
+      ibili: jj,
+      evoli: jj,
+      ssimi: jj,
+      terni: jj,
+      leari: jj,
+      ziari: jj,
+      olari: jj,
+      ecisi: jj,
+      tensi: jj,
+      giosi: jj,
+      siosi: jj,
+      ziosi: jj,
+      inosi: jj,
+      benti: jj,
+      uenti: jj,
+      stivi: jj,
+      afico: jj,
+      olico: jj,
+      amico: jj,
+      imico: jj,
+      omico: jj,
+      onico: jj,
+      drico: jj,
+      irico: jj,
+      trico: jj,
+      tesco: jj,
+      ccolo: jj,
+      ibero: jj,
+
+
+      onaca: nn,
+      oteca: nn,
+      cerca: nn,
+      cenda: nn,
+      genda: nn,
+      mblea: nn,
+      agoga: nn,
+      abbia: nn,
+      occia: nn,
+      ancia: nn,
+      arcia: nn,
+      oscia: nn,
+      ducia: nn,
+      ardia: nn,
+      rchia: nn,
+      agnia: nn,
+      fonia: nn,
+      lizia: nn,
+      tizia: nn,
+      anzia: nn,
+      cella: nn,
+      della: nn,
+      rella: nn,
+      egola: nn,
+      avola: nn,
+      sfera: nn,
+      diera: nn,
+      niera: nn,
+      riera: nn,
+      antra: nn,
+      estra: nn,
+      atura: nn,
+      itura: nn,
+      ltura: nn,
+      ntura: nn,
+      rtura: nn,
+      scesa: nn,
+      regua: nn,
+      benza: nn,
+      cenza: nn,
+      denza: nn,
+      genza: nn,
+      ienza: nn,
+      lenza: nn,
+      nenza: nn,
+      renza: nn,
+      senza: nn,
+      tenza: nn,
+      uenza: nn,
+      venza: nn,
+      alice: nn,
+      trade: nn,
+      grafe: nn,
+      hegge: nn,
+      erche: nn,
+      aglie: nn,
+      iglie: nn,
+      nomie: nn,
+      lerie: nn,
+      terie: nn,
+      estie: nn,
+      rovie: nn,
+      gnale: nn,
+      quile: nn,
+      relle: nn,
+      telle: nn,
+      egole: nn,
+      nsole: nn,
+      uvole: nn,
+      uttle: nn,
+      larme: nn,
+      stume: nn,
+      embre: nn,
+      diere: nn,
+      hiere: nn,
+      riere: nn,
+      tiere: nn,
+      ziere: nn,
+      amere: nn,
+      arere: nn,
+      otere: nn,
+      amate: nn,
+      rdite: nn,
+      llite: nn,
+      corte: nn,
+      forte: nn,
+      ieste: nn,
+      teste: nn,
+      hette: nn,
+      iette: nn,
+      notte: nn,
+      abyte: nn,
+      ollah: nn,
+      cambi: nn,
+      efici: nn,
+      ffici: nn,
+      rnici: nn,
+      ssidi: nn,
+      iardi: nn,
+      cordi: nn,
+      lutei: nn,
+      grafi: nn,
+      ologi: nn,
+      occhi: nn,
+      richi: nn,
+      ischi: nn,
+      oschi: nn,
+      lighi: nn,
+      sigli: nn,
+      igili: nn,
+      delli: nn,
+      pelli: nn,
+      relli: nn,
+      telli: nn,
+      rolli: nn,
+      acoli: nn,
+      icoli: nn,
+      ncoli: nn,
+      scoli: nn,
+      cioli: nn,
+      itoli: nn,
+      rreni: nn,
+      segni: nn,
+      adini: nn,
+      udini: nn,
+      chini: nn,
+      alini: nn,
+      lmini: nn,
+      omini: nn,
+      trini: nn,
+      ttini: nn,
+      verni: nn,
+      iorni: nn,
+      latoi: nn,
+      atari: nn,
+      embri: nn,
+      lberi: nn,
+      dieri: nn,
+      lieri: nn,
+      zieri: nn,
+      sseri: nn,
+      tteri: nn,
+      averi: nn,
+      alori: nn,
+      olori: nn,
+      ssori: nn,
+      bitri: nn,
+      istri: nn,
+      sensi: nn,
+      cessi: nn,
+      ressi: nn,
+      lievi: nn,
+      udizi: nn,
+      rvizi: nn,
+      egozi: nn,
+      sorzi: nn,
+      tacco: nn,
+      ffico: nn,
+      arico: nn,
+      ssido: nn,
+      iardo: nn,
+      uardo: nn,
+      piego: nn,
+      onimo: nn,
+      rreno: nn,
+      mbino: nn,
+      ncino: nn,
+      rdino: nn,
+      amino: nn,
+      verno: nn,
+      iorno: nn,
+      loppo: nn,
+      luppo: nn,
+      ruppo: nn,
+      sacro: nn,
+      uadro: nn,
+      umero: nn,
+      stero: nn,
+      spiro: nn,
+      esoro: nn,
+      avoro: nn,
+      metro: nn,
+      senso: nn,
+      basso: nn,
+      passo: nn,
+      cesso: nn,
+      sesso: nn,
+      lusso: nn,
+      lievo: nn,
+      forzo: nn,
+      onder: nn,
+      orter: nn,
+      ignor: nn,
+      tress: nn,
+      xport: nn,
+      uency: nn,
+      ility: nn,
     },
     {
       // six-letter suffixes
+      cinque: val,
+
       andoci: g,//reflexive gerund
       endoci: g,
       endomi: g,
+      icelli: nn,
+      icelle: nn,
+      erelli: nn,
+      erelle: nn,
+      grafia: nn,
+      ellino: nn,
+      itorio: nn,
+      logico: jj,
     },
     {
       // seven-letter suffixes
+      quattro: val,
+
+      grafico: jj,
+      ectomia: nn,
     }
   ];
 
@@ -8902,9 +9851,12 @@
     doc.match('nella [#Verb]', 0).tag('Noun', 'nella-verb');
     // al negozio
     doc.match('al [#FirstPerson]', 0).tag('Noun', 'al-verb');
+    // i ginocchi
+    doc.match('i [#Noun]', 0).tag('PluralNoun', 'i-plural');
 
     // auxiliary verbs
-    doc.match('[(sono|sei|lei|siamo|siete|ho|hai|abbiamo|avete|hanno)] #Verb', 0).tag('Auxiliary', 0);
+    doc.match('[(abbia|abbiamo|abbiano|abbiate|avemmo|avesse|avessero|avessi|avessimo|aveste|avesti|avete|aveva|avevamo|avevano|avevate|avevo|avrà|avrai|avranno|avrebbe|avrei|avremmo|avremo|avreste|avresti|avrete|avrò|ebbe|ebbero|ebbi|ha|hai|hanno|ho)] #Verb', 0).tag('Auxiliary', 'aux-verb');
+
   };
   var postTagger$2 = postTagger$1;
 
@@ -8953,7 +9905,7 @@
     // ensure it's not two verbs
     return m
   };
-  var find = findVerbs;
+  var find$1 = findVerbs;
 
   // split adverbs as before/after the root
   const getAdverbs = function (vb, root) {
@@ -9052,7 +10004,7 @@
     return m.json(opts).map(s => s.normal)
   };
 
-  const toText = function (m) {
+  const toText$2 = function (m) {
     if (!m || !m.isView) {
       return ''
     }
@@ -9073,9 +10025,9 @@
       root: parsed.root,
       preAdverbs: toArray(parsed.adverbs.pre),
       postAdverbs: toArray(parsed.adverbs.post),
-      auxiliary: toText(parsed.auxiliary),
+      auxiliary: toText$2(parsed.auxiliary),
       negative: parsed.negative.found,
-      prefix: toText(parsed.prefix),
+      prefix: toText$2(parsed.prefix),
       infinitive: parsed.root,
       // grammar: info,
     }
@@ -9089,19 +10041,19 @@
 
 
   // return the nth elem of a doc
-  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api = function (View) {
+  const api$2 = function (View) {
     class Verbs extends View {
       constructor(document, pointer, groups) {
         super(document, pointer, groups);
         this.viewType = 'Verbs';
       }
       parse(n) {
-        return getNth(this, n).map(parseVerb$1)
+        return getNth$1(this, n).map(parseVerb$1)
       }
       json(opts, n) {
-        let m = getNth(this, n);
+        let m = getNth$1(this, n);
         let arr = m.map(vb => {
           let json = vb.toView().json(opts)[0] || {};
           json.verb = toJSON$1(vb);
@@ -9171,7 +10123,7 @@
           toPresent, toPast, toFuture,
           toConditional, toGerund, toPastParticiple
         } = this.methods.two.transform.verb;
-        return getNth(this, n).map(vb => {
+        return getNth$1(this, n).map(vb => {
           let parsed = parseVerb$1(vb);
           let root = parsed.root || '';
           return {
@@ -9221,23 +10173,653 @@
     Verbs.prototype.toFuture = Verbs.prototype.toFutureTense;
 
     View.prototype.verbs = function (n) {
-      let vb = find(this);
-      vb = getNth(vb, n);
+      let vb = find$1(this);
+      vb = getNth$1(vb, n);
       return new Verbs(this.document, vb.pointer)
     };
   };
-  var api$1 = api;
+  var api$3 = api$2;
 
   var verbs = {
-    api: api$1,
+    api: api$3,
   };
 
-  nlp$1.plugin(tokenize);
+  const findNumbers = function (view) {
+    let m = view.match('#Value+');
+    //5-8
+    m = m.splitAfter('#NumberRange');
+    // june 5th 1999
+    m = m.splitBefore('#Year');
+    return m
+  };
+  var find = findNumbers;
+
+  let data = {
+    ones: [
+      [1, 'uno', 'primo'],
+      [2, 'due', 'secondo'],
+      [3, 'tre', 'terzo'],
+      [4, 'quattro', 'quarto'],
+      [5, 'cinque', 'quinto'],
+      [6, 'sei', 'sesto'],
+      [7, 'sette', 'settimo'],
+      [8, 'otto', 'ottavo'],
+      [9, 'nove', 'nono'],
+      [10, 'dieci', 'decimo'],
+      [11, 'undici', 'undicesimo'],
+      [12, 'dodici', 'dodicesimo'],
+      [13, 'tredici', 'tredicesimo'],
+      [14, 'quattordici', 'quattordicesimo'],
+      [15, 'quindici', 'quindicesimo'],
+      [16, 'sedici', 'sedicesimo'],
+      [17, 'diciassette', 'diciassettesimo'],
+      [18, 'diciotto', 'diciottesimo'],
+      [19, 'diciannove', 'diciannovesimo'],
+    ],
+    tens: [
+      [20, 'venti', 'ventesimo'],
+      [30, 'trenta', 'trentesimo'],
+      [40, 'quaranta', 'quarantesimo'],
+      [50, 'cinquanta', 'cinquantesimo'],
+      [60, 'sessanta', 'sessantesimo'],
+      [70, 'settanta', 'settantesimo'],
+      [80, 'ottanta', 'ottantesimo'],
+      [90, 'novanta', 'novantesimo'],
+    ],
+    hundreds: [
+      [100, 'cento', 'centesimo'],
+      [200, 'duecento', 'duecentesimo'],
+      [300, 'trecento', 'trecentesimo'],
+      [400, 'quattrocento', 'quattrocentesimo'],
+      [500, 'cinquecento', 'cinquecentesimo'],
+      [600, 'seicento', 'seicentesimo'],
+      [700, 'settecento', 'settecentesimo'],
+      [800, 'ottocento', 'ottocentesimo'],
+      [900, 'novecento', 'novecentesimo'],
+    ],
+    multiples: [
+      [1000, 'mille', 'millesimo'],
+      [10000, 'diecimila', 'decimillesimo'],
+      [100000, 'centomila', 'centomillesimo'],
+      [1000000, 'milione', 'milionesimo'],
+      [1000000000, 'miliardo', 'miliardesimo']
+    ]
+  };
+
+
+  const toCardinal = {};
+  const toOrdinal = {};
+  const toNumber = {};
+  // add 'quarantuno'
+  data.tens.forEach(a => {
+    let str = a[1].replace(/[ia]$/, 'uno');
+    data.ones.push([a[0] + 1, str, str]);
+    str = a[1].replace(/[ia]$/, '');
+    toNumber[str] = a[0]; //'vent' = 20
+  });
+
+
+  Object.keys(data).forEach(k => {
+    data[k].forEach(a => {
+      let [num, card, ord] = a;
+      toCardinal[ord] = card;
+      toNumber[card] = num;
+      toOrdinal[card] = ord;
+    });
+  });
+  toNumber['tré'] = 3;
+  toNumber['mila'] = 1000;
+  toNumber['zero'] = 0;
+
+  // list end-strings, for tokenization
+  let ends = ['cento', 'mille', 'milione', 'tré', 'mila'];
+  data.ones.forEach(a => {
+    ends.push(a[1]);
+  });
+  data.tens.forEach(a => {
+    ends.push(a[1]);
+  });
+  data.hundreds.forEach(a => {
+    ends.push(a[1]);
+  });
+  // sort by length (longest first)
+  ends = ends.sort((a, b) => {
+    if (a.length > b.length) {
+      return -1
+    } else if (a.length < b.length) {
+      return 1
+    }
+    return 0
+  });
+
+  let multiples$1 = {
+    mila: 1000
+  };
+  data.multiples.forEach(a => {
+    multiples$1[a[1]] = a[0];
+  });
+
+  // split 'centosessantasette' into  [ 'cento', 'sessanta', 'sette' ]
+  const tokenize = function (str) {
+    let tokens = [];
+    let going = true;
+    while (going) {
+      let found = ends.find(end => str.endsWith(end));
+      if (found) {
+        tokens.push(found);
+        str = str.substr(0, str.length - found.length);
+      } else {
+        going = false;
+      }
+    }
+    if (str) {
+      tokens.push(str);
+    }
+    return tokens.filter(s => s).reverse()
+  };
+  var tokenize$1 = tokenize;
+
+  const fromText = function (terms) {
+    let sum = 0;
+    let carry = 0;
+    let minus = false;
+    // get proper word tokens
+    let str = terms.reduce((h, t) => {
+      h += t.normal || '';
+      return h
+    }, '');
+    let tokens = tokenize$1(str);
+    // console.log(tokens)
+
+    for (let i = 0; i < tokens.length; i += 1) {
+      let w = tokens[i] || '';
+      // minus eight
+      if (w === 'meno') {
+        minus = true;
+        continue
+      }
+      // 'huitieme'
+      if (toCardinal.hasOwnProperty(w)) {
+        w = toCardinal[w];
+      }
+      // 'cent'
+      if (multiples$1.hasOwnProperty(w)) {
+        let mult = multiples$1[w] || 1;
+        if (carry === 0) {
+          carry = 1;
+        }
+        // console.log('carry', carry, 'mult', mult, 'sum', sum)
+        sum += mult * carry;
+        carry = 0;
+        continue
+      }
+      // 'tres'
+      if (toNumber.hasOwnProperty(w)) {
+        carry += toNumber[w];
+      } else {
+        console.log('missing', w);
+      }
+    }
+    // include any remaining
+    if (carry !== 0) {
+      sum += carry;
+    }
+    if (minus === true) {
+      sum *= -1;
+    }
+    return sum
+  };
+  var fromText$1 = fromText;
+
+  const fromNumber = function (m) {
+    let str = m.text('normal').toLowerCase();
+    str = str.replace(/(e|er)$/, '');
+    let hasComma = false;
+    if (/,/.test(str)) {
+      hasComma = true;
+      str = str.replace(/,/g, '');
+    }
+    // get prefix/suffix
+    let arr = str.split(/([0-9.,]*)/);
+    let [prefix, num] = arr;
+    let suffix = arr.slice(2).join('');
+    if (num !== '' && m.length < 2) {
+      num = Number(num || str);
+      //ensure that num is an actual number
+      if (typeof num !== 'number') {
+        num = null;
+      }
+      // strip an ordinal off the suffix
+      if (suffix === 'e' || suffix === 'er') {
+        suffix = '';
+      }
+    }
+    return {
+      hasComma,
+      prefix,
+      num,
+      suffix,
+    }
+  };
+
+  const parseNumber = function (m) {
+    let terms = m.docs[0];
+    let num = null;
+    let prefix = '';
+    let suffix = '';
+    let hasComma = false;
+    let isText = m.has('#TextValue');
+    if (isText) {
+      num = fromText$1(terms);
+    } else {
+      let res = fromNumber(m);
+      prefix = res.prefix;
+      suffix = res.suffix;
+      num = res.num;
+      hasComma = res.hasComma;
+    }
+    return {
+      hasComma,
+      prefix,
+      num,
+      suffix,
+      isText,
+      isOrdinal: m.has('#Ordinal'),
+      isFraction: m.has('#Fraction'),
+      isMoney: m.has('#Money'),
+    }
+  };
+  var parse = parseNumber;
+
+  let { ones, tens } = data;
+  ones = [].concat(ones).reverse();
+  tens = [].concat(tens).reverse();
+
+  const multiples = [
+    [1000000000, 'miliardo'],
+    [1000000, 'milione'],
+    [100000, 'centomila'],
+    [1000, 'mila'],
+    [100, 'cento'],
+    [1, ''],
+  ];
+
+  //turn number into an array of magnitudes, like [[5, mila], [2, cento]]
+  const getMagnitudes = function (num) {
+    let working = num;
+    let have = [];
+    multiples.forEach(a => {
+      if (num >= a[0]) {
+        let howmany = Math.floor(working / a[0]);
+        working -= howmany * a[0];
+        if (howmany) {
+          have.push({
+            unit: a[1],
+            num: howmany,
+          });
+        }
+      }
+    });
+    return have
+  };
+
+
+  // 25 -> ['venti', 'cinque']
+  const twoDigit = function (num) {
+    let words = [];
+    // 20-90
+    for (let i = 0; i < tens.length; i += 1) {
+      if (tens[i][0] <= num) {
+        words.push(tens[i][1]);
+        num -= tens[i][0];
+        break
+      }
+    }
+    if (num === 0) {
+      return words
+    }
+    // 0-19
+    for (let i = 0; i < ones.length; i += 1) {
+      if (ones[i][0] <= num) {
+        let w = ones[i][1];
+        if (words.length > 0) {
+          // 'ventuno' not 'ventiuno'
+          if (w === 'uno') {
+            words[0] = words[0].replace(/[ia]$/, '');
+          }
+          // 'ventotto' not 'ventiotto'
+          if (w === 'otto') {
+            words[0] = words[0].replace(/[ia]$/, '');
+          }
+          // 'ventitré', not 'ventitre'
+          if (w === 'tre') {
+            w = w.replace(/e$/, 'é');
+          }
+        }
+        words.push(w);
+        num -= ones[i][0];
+        break
+      }
+    }
+    return words
+  };
+
+  const toText = function (num) {
+    if (num === 0) {
+      return ['zero']
+    }
+    let words = [];
+    if (num < 0) {
+      words.push('moins');
+      num = Math.abs(num);
+    }
+    // handle multiples
+    let found = getMagnitudes(num);
+    found.forEach(obj => {
+      // just 'cento', not 'unocento'
+      if (obj.num === 1 && obj.unit) {
+        // 1 'mille', not 'mila'
+        if (obj.unit === 'mila') {
+          words.push('mille');
+          return
+        }
+        words.push(obj.unit);
+        return
+      }
+      let res = twoDigit(obj.num);
+      words = words.concat(res);
+      if (obj.unit !== '') {
+        words.push(obj.unit);
+      }
+    });
+    return words
+  };
+  var toText$1 = toText;
+
+  const formatNumber = function (parsed, fmt) {
+    if (fmt === 'TextOrdinal') {
+      let words = toText$1(parsed.num);
+      // only convert the last word
+      let last = words[words.length - 1];
+      if (toOrdinal.hasOwnProperty(last)) {
+        words[words.length - 1] = toOrdinal[last];
+      }
+      return words.join('')
+    }
+    if (fmt === 'TextCardinal') {
+      return toText$1(parsed.num).join('')
+    }
+    // numeric format - 107 -> '107°'
+    if (fmt === 'Ordinal') {
+      return String(parsed.num) + '°'
+    }
+    if (fmt === 'Cardinal') {
+      return String(parsed.num)
+    }
+    return String(parsed.num || '')
+  };
+  var format = formatNumber;
+
+  // return the nth elem of a doc
+  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  const api = function (View) {
+    /**   */
+    class Numbers extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Numbers';
+      }
+      parse(n) {
+        return getNth(this, n).map(parse)
+      }
+      get(n) {
+        return getNth(this, n).map(parse).map(o => o.num)
+      }
+      json(n) {
+        let doc = getNth(this, n);
+        return doc.map(p => {
+          let json = p.toView().json(n)[0];
+          let parsed = parse(p);
+          json.number = {
+            prefix: parsed.prefix,
+            num: parsed.num,
+            suffix: parsed.suffix,
+            hasComma: parsed.hasComma,
+          };
+          return json
+        }, [])
+      }
+      /** any known measurement unit, for the number */
+      units() {
+        return this.growRight('#Unit').match('#Unit$')
+      }
+      /** return only ordinal numbers */
+      isOrdinal() {
+        return this.if('#Ordinal')
+      }
+      /** return only cardinal numbers*/
+      isCardinal() {
+        return this.if('#Cardinal')
+      }
+
+      /** convert to numeric form like '8' or '8th' */
+      toNumber() {
+        let m = this.if('#TextValue');
+        m.forEach(val => {
+          let obj = parse(val);
+          if (obj.num === null) {
+            return
+          }
+          let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('NumericValue');
+          }
+        });
+        return this
+      }
+      /** convert to numeric form like 'eight' or 'eighth' */
+      toText() {
+        let m = this;
+        let res = m.map(val => {
+          if (val.has('#TextValue')) {
+            return val
+          }
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('TextValue');
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      /** convert ordinal to cardinal form, like 'eight', or '8' */
+      toCardinal() {
+        let m = this;
+        let res = m.map(val => {
+          if (!val.has('#Ordinal')) {
+            return val
+          }
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('Cardinal');
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      /** convert cardinal to ordinal form, like 'eighth', or '8th' */
+      toOrdinal() {
+        let m = this;
+        let res = m.map(val => {
+          if (val.has('#Ordinal')) {
+            return val
+          }
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal';
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            val.tag('Ordinal');
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+
+      /** return only numbers that are == n */
+      isEqual(n) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num === n
+        })
+      }
+      /** return only numbers that are > n*/
+      greaterThan(n) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num > n
+        })
+      }
+      /** return only numbers that are < n*/
+      lessThan(n) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num < n
+        })
+      }
+      /** return only numbers > min and < max */
+      between(min, max) {
+        return this.filter((val) => {
+          let num = parse(val).num;
+          return num > min && num < max
+        })
+      }
+      /** set these number to n */
+      set(n) {
+        if (n === undefined) {
+          return this // don't bother
+        }
+        if (typeof n === 'string') {
+          n = parse(n).num;
+        }
+        let m = this;
+        let res = m.map((val) => {
+          let obj = parse(val);
+          obj.num = n;
+          if (obj.num === null) {
+            return val
+          }
+          let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
+          if (val.has('#TextValue')) {
+            fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
+          }
+          let str = format(obj, fmt);
+          // add commas to number
+          if (obj.hasComma && fmt === 'Cardinal') {
+            str = Number(str).toLocaleString();
+          }
+          if (str) {
+            val = val.not('#Currency');
+            val.replaceWith(str, { tags: true });
+            // handle plural/singular unit
+            // agreeUnits(agree, val, obj)
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      add(n) {
+        if (!n) {
+          return this // don't bother
+        }
+        if (typeof n === 'string') {
+          n = parse(n).num;
+        }
+        let m = this;
+        let res = m.map((val) => {
+          let obj = parse(val);
+          if (obj.num === null) {
+            return val
+          }
+          obj.num += n;
+          let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
+          if (obj.isText) {
+            fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
+          }
+          let str = format(obj, fmt);
+          if (str) {
+            val.replaceWith(str, { tags: true });
+            // handle plural/singular unit
+            // agreeUnits(agree, val, obj)
+          }
+          return val
+        });
+        return new Numbers(res.document, res.pointer)
+      }
+      /** decrease each number by n*/
+      subtract(n, agree) {
+        return this.add(n * -1, agree)
+      }
+      /** increase each number by 1 */
+      increment(agree) {
+        return this.add(1, agree)
+      }
+      /** decrease each number by 1 */
+      decrement(agree) {
+        return this.add(-1, agree)
+      }
+      // overloaded - keep Numbers class
+      update(pointer) {
+        let m = new Numbers(this.document, pointer);
+        m._cache = this._cache; // share this full thing
+        return m
+      }
+    }
+    // aliases
+    Numbers.prototype.isBetween = Numbers.prototype.between;
+    Numbers.prototype.minus = Numbers.prototype.subtract;
+    Numbers.prototype.plus = Numbers.prototype.add;
+    Numbers.prototype.equals = Numbers.prototype.isEqual;
+
+    View.prototype.numbers = function (n) {
+      let m = find(this);
+      m = getNth(m, n);
+      return new Numbers(this.document, m.pointer)
+    };
+    // alias
+    View.prototype.values = View.prototype.numbers;
+  };
+  var api$1 = api;
+
+  var numbers = {
+    api: api$1
+  };
+
+  nlp$1.plugin(tokenize$2);
   nlp$1.plugin(tagset);
   nlp$1.plugin(lexicon);
   nlp$1.plugin(preTagger);
   nlp$1.plugin(postTagger);
   nlp$1.plugin(verbs);
+  nlp$1.plugin(numbers);
 
   const it = function (txt, lex) {
     let doc = nlp$1(txt, lex);

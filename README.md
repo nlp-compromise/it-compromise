@@ -40,7 +40,7 @@
 L'obiettivo di questo progetto è fornire un tagger POS piccolo, di base e basato su regole. 
 
 <p><i ><sub>
-  this project is a small, basic, rules-based POS tagger.
+  (this project is a small, basic, rules-based POS tagger!)
 </sub></i></p>
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
@@ -239,7 +239,7 @@ doc.text()
   <a href="https://docs.compromise.cool/compromise-numbers">number docs</a>
 </div>
 <div align="center">
-  <img height="50px" src="https://user-images.githubusercontent.com/399657/68221837-0d142480-ffb8-11e9-9d30-90669f1b897c.png"/>
+  <img height="50px" src="https://user-images.githubusercontent.com/399657/68221814-05ed1680-ffb8-11e9-8b6b-c7528d163871.png"/>
 </div>
 <!-- spacer -->
 <img height="30px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
@@ -282,5 +282,7 @@ npm watch
 </div>
 
 #### See Also:
+- &nbsp; **[opennlp-italian](https://github.com/aparo/opennlp-italian-models)** - tagger w/ italian model
+- &nbsp; **[TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/)** - Perl tagger w/ italian model
 
 MIT

@@ -74,8 +74,6 @@ o lato cliente:
 <details>
   <summary><h3>Clicca per vedere</h3></summary>
 
-### Compromise/one
-
 ##### Output
 
 - **[.text()](https://observablehq.com/@spencermountain/compromise-text)** - return the document as text
@@ -253,20 +251,14 @@ doc.compute('root')
 doc.has('{guidare} al #Noun')
 //true
 ```
-
-see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.
-
-per favore unisciti per aiutare! - please join to help!
-
+<div align="right">
+  <a href="https://docs.compromise.cool/compromise-root">root docs</a>
+</div>
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-<!-- <h2 align="center">
-  <a href="https://rawgit.com/nlp-compromise/it-compromise/master/demo/index.html">Demo</a>
-</h2> -->
-
-
 ###  Contributing
+per favore unisciti per aiutare! - please join to help!
 *help with first PR[1](https://github.com/spencermountain/compromise/wiki/Contributing)*
 ```
 git clone https://github.com/nlp-compromise/it-compromise.git
@@ -275,7 +267,6 @@ npm install
 npm test
 npm watch
 ```
-
 
 
 <div align="center">

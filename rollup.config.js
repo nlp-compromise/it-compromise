@@ -10,12 +10,12 @@ export default [
   // === Main ==
   {
     input: 'src/index.js',
-    output: [{ file: 'builds/it-compromise.cjs', format: 'umd', name: 'frCompromise' }],
+    output: [{ file: 'builds/it-compromise.cjs', format: 'umd', name: 'itCompromise' }],
     plugins: [nodeResolve()],
   },
   {
     input: 'src/index.js',
-    output: [{ file: 'builds/it-compromise.min.js', format: 'umd', name: 'frCompromise' }],
+    output: [{ file: 'builds/it-compromise.min.js', format: 'umd', name: 'itCompromise' }],
     plugins: [nodeResolve(), terser(opts)],
   },
   {

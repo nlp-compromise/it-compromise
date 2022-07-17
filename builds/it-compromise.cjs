@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.frCompromise = factory());
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.itCompromise = factory());
 })(this, (function () { 'use strict';
 
   let methods$n = {
@@ -7311,7 +7311,7 @@
     }
   };
 
-  var version = '0.0.2';
+  var version = '0.0.3';
 
   const prefix$1 = /^.([0-9]+)/;
 

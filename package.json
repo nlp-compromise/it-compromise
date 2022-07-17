@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "it-compromise",
   "description": "modesta elaborazione del linguaggio naturale per javascript",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./builds/it-compromise.mjs",
   "unpkg": "./builds/it-compromise.min.js",
   "type": "module",

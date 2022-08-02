@@ -54,6 +54,38 @@ txt = '27°'
 
 /*
 
+i vantaggi possibili. {possibile} //adjective
+ogni turno possibile
+
+ho mai comprato? {comprare} //verb
+e compra o scegli 
+
+fritte sono deliziosi! {delizioso} //adjective
+che era deliziosa
+
+sulla misteriosa uccisione {misterioso} //adjective
+
+Ho visitato  {visitare} //verb
+Con che frequenza visiti 
+
+Cervelli avvistati {cervello} //noun
+
+se lo meritano {meritare} //verb
+che ti meriti 
+Chi di noi merita
+
+di personale insufficienti {insufficiente} //adj
+giuridicamente insufficiente.
+
+ventuno candeline {candela} //noun
+
+i cuscini del divano. {cuscino} //noun
+
+e altre malattie mortali. {mortale} //adj
+
+è stato demolito {demolire} //verb
+
+ sono gravemente carenti {carente} //adjective
 */
 let doc = nlp(txt).debug()
 // doc.numbers().toCardinal()

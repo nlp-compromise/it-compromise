@@ -268,12 +268,17 @@ npm test
 npm watch
 ```
 
+### Sources 
+- [Morph-it](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it) - by  Marco Baroni and Eros Zanchetta
+- [PoSTWITA-UD italian tweets dataaset](https://github.com/datquocnguyen/RDRPOSTagger/tree/master/Models/ud-treebanks-v2.4/UD_Italian-PoSTWITA) - by Manuela Sanguinetti et al
+- [ian-hamlin/verb-data](https://github.com/ian-hamlin/verb-data) - italian verb conjugations scraped from wiktionary
 
 <div align="center">
   <img src="https://user-images.githubusercontent.com/399657/68221731-e8b84800-ffb7-11e9-8453-6395e0e903fa.png"/>
 </div>
 
 #### See Also:
+- &nbsp; **[RDRPOSTagger](https://github.com/datquocnguyen/RDRPOSTagger)** - rule-based tagger in python & java w/ italian model
 - &nbsp; **[opennlp-italian](https://github.com/aparo/opennlp-italian-models)** - Java tagger w/ italian model
 - &nbsp; **[TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/)** - Perl tagger w/ italian model
 

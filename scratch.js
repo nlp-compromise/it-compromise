@@ -92,5 +92,6 @@ e altre malattie mortali. {mortale} //adj
 
 let doc = nlp(txt).debug()
 doc.compute('root')
-console.log(doc.docs[0])
+// console.log(doc.docs[0])
 doc.match('{possibile}').debug()
+console.log(nlp.parseMatch('{possibile}'))

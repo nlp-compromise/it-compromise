@@ -1,4 +1,5 @@
 import nlp from 'compromise/one'
+// import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import tokenize from './01-one/tokenize/plugin.js'
 import version from './_version.js'
 import lexicon from './01-one/lexicon/plugin.js'
@@ -21,24 +22,12 @@ const it = function (txt, lex) {
   return doc
 }
 
-it.world = function () {
-  return nlp.world()
-}
-it.model = function () {
-  return nlp.model()
-}
-it.methods = function () {
-  return nlp.methods()
-}
-it.tokenize = function () {
-  return nlp.tokenize()
-}
-it.plugin = function () {
-  return nlp.plugin()
-}
-it.extend = function () {
-  return nlp.extend()
-}
+it.world = () => nlp.world()
+it.model = () => nlp.model()
+it.methods = () => nlp.methods()
+it.tokenize = (str, lex) => nlp.tokenize(str, lex)
+it.plugin = (plg) => nlp.plugin(plg)
+it.parseMatch = (str) => nlp.parseMatch(str)
 
 
 /** log the decision-making to console */

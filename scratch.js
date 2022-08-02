@@ -48,6 +48,7 @@ txt = 'centosessantasette'
 txt = 'quaranta'
 txt = 'tremila'
 txt = '27°'
+txt = 'i vantaggi possibili.'
 // all’
 // nell’
 // sull’
@@ -87,7 +88,9 @@ e altre malattie mortali. {mortale} //adj
 
  sono gravemente carenti {carente} //adjective
 */
+// let doc = nlp('trasporranno').debug()
+
 let doc = nlp(txt).debug()
-// doc.numbers().toCardinal()
+doc.compute('root')
 console.log(doc.docs[0])
-console.log(doc.text())
+doc.match('{possibile}').debug()

@@ -19,7 +19,7 @@ const stripReflexive = function (str) {
 }
 
 const root = function (view) {
-  const { verb, adjective } = view.world.methods.two.transform
+  const { verb, adjective, noun } = view.world.methods.two.transform
   view.docs.forEach(terms => {
     terms.forEach(term => {
       let str = term.implicit || term.normal || term.text
@@ -49,13 +49,9 @@ const root = function (view) {
 
       // nouns -> singular masculine form
       if (term.tags.has('Noun')) {
-        // if (term.tags.has('Plural')) {
-        //   str = noun.toSingular(str)
-        // }
-        // if (term.tags.has('FemaleNoun')) {
-        //   // not sure about this
-        //   str = noun.toMasculine(str)
-        // }
+        if (term.tags.has('PluralNoun')) {
+          str = noun.fromPlural(str)
+        }
         term.root = str
       }
 

@@ -1,19 +1,17 @@
-// -o, the ending changes to –i in the plural.
-// -a, the ending changes to –e in the plural.
-// -e, the ending changes to –i in the plural.
-// -ca, the ending changes to –che in the plural. 
-// -ga, the ending changes to -ghe in the plural.
-let rules = [
-  ['ca', 'che'],
-  ['ga', 'ghe'],
-  ['e', 'i'],
-  ['a', 'e'],
-  ['o', 'i'],
-]
-const fromPlural = function (str) {
-  return str
+import { convert, reverse } from 'suffix-thumb'
+import model from '../models.js'
+let { plural } = model.nouns
+
+const revPlural = reverse(plural)
+
+const toPlural = (str) => convert(str, plural)
+
+const fromPlural = (str) => convert(str, revPlural)
+
+export default {
+  toPlural, fromPlural,
 }
-const toPlural = function (str) {
-  return str
-}
-export { fromPlural, toPlural }
+
+
+// console.log(toPlural('abboccamento'))
+// console.log(fromPlural('abboccamenti'))

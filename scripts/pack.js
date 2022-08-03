@@ -40,7 +40,7 @@ const steps = [
       let nouns = learn(Object.entries(models.nouns))
       nouns = compress(nouns)
       packed.nouns = {
-        nouns
+        plural: nouns
       }
       console.log('adjectives')
       packed.adjectives = {

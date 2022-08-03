@@ -1,5 +1,5 @@
-import nlp from 'compromise/one'
-// import nlp from '/Users/spencer/mountain/compromise/src/one.js'
+// import nlp from 'compromise/one'
+import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import tokenize from './01-one/tokenize/plugin.js'
 import version from './_version.js'
 import lexicon from './01-one/lexicon/plugin.js'

@@ -1,12 +1,12 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { female, plural } = model.adjective
+let { fs, mp } = model.adjectives
 
-const revFemale = reverse(female)
-const revPlural = reverse(plural)
+const revFemale = reverse(fs)
+const revPlural = reverse(mp)
 
-const toFemale = (str) => convert(str, female)
-const toPlural = (str) => convert(str, plural)
+const toFemale = (str) => convert(str, fs)
+const toPlural = (str) => convert(str, mp)
 const toFemalePlural = (str) => toPlural(toFemale(str))
 
 const fromFemale = (str) => convert(str, revFemale)

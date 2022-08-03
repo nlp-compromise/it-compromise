@@ -36,11 +36,25 @@ const steps = [
     path: './src/01-one/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
+      console.log('adjectives')
+      packed.adjectives = {
+        fs: [],
+        mp: [],
+      }
+      Object.keys(models.adjectives).forEach(k => {
+        let a = models.adjectives[k]
+        packed.adjectives.fs.push([k, a[0]])
+        packed.adjectives.mp.push([k, a[1]])
+      })
+      Object.keys(packed.adjectives).forEach(k => {
+        packed.adjectives[k] = compress(learn(packed.adjectives[k]))
+      })
+      console.log('verbs')
       Object.keys(models.verbs).forEach(k => {
         packed[k] = {}
         Object.keys(models.verbs[k]).forEach(form => {
           let pairs = models.verbs[k][form]
-          console.log(k, form)
+          console.log('-', k, form)
           packed[k][form] = learn(pairs)
           packed[k][form] = compress(packed[k][form])
         })
@@ -57,6 +71,7 @@ const steps = [
       packed.pastParticiple = {
         pastParticiple
       }
+
       return packed
     },
   }

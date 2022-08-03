@@ -47,7 +47,7 @@ txt = 'cinquantasei'
 txt = 'centosessantasette'
 txt = 'quaranta'
 txt = 'tremila'
-txt = '27°'
+txt = 'che era deliziosa'
 // txt = 'i vantaggi possibili.'
 // all’
 // nell’
@@ -60,7 +60,6 @@ txt = '27°'
 // let doc = nlp('trasporranno').debug()
 
 let doc = nlp(txt).debug()
-doc.debug()
-// doc.compute('root')
-// console.log(doc.docs[0])
-// doc.match('{possibile}').debug()
+doc.compute('root')
+console.log(doc.docs[0])
+doc.match('{delizioso}').debug()

@@ -64,6 +64,9 @@ const root = function (view) {
         if (term.tags.has('PluralAdjective')) {
           str = adjective.fromPlural(str)
         }
+        if (term.tags.has('FemaleAdjective')) {
+          str = adjective.fromFemale(str)
+        }
         // str = adjective.toRoot(str)
         term.root = str
       }

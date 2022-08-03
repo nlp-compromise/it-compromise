@@ -36,6 +36,12 @@ const steps = [
     path: './src/01-one/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
+      console.log('nouns')
+      let nouns = learn(Object.entries(models.nouns))
+      nouns = compress(nouns)
+      packed.nouns = {
+        nouns
+      }
       console.log('adjectives')
       packed.adjectives = {
         fs: [],

@@ -8,6 +8,7 @@ import fallback from './2nd-pass/fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
 // // 3rd
 import guessNounGender from './3rd-pass/noun-gender.js'
+import guessNounNumber from './3rd-pass/noun-number.js'
 import guessAdjGender from './3rd-pass/adj-gender.js'
 import guessAdjNumber from './3rd-pass/adj-number.js'
 // import guessPlural from './3rd-pass/noun-plural.js'
@@ -39,6 +40,7 @@ const secondPass = function (terms, world) {
 const thirdPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     guessNounGender(terms, i, world)
+    guessNounNumber(terms, i, world)
     guessAdjGender(terms, i, world)
     guessAdjNumber(terms, i, world)
     //     guessPlural(terms, i, world)

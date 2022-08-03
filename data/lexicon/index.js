@@ -26,7 +26,9 @@ import organizations from './nouns/organizations.js'
 import possessives from './nouns/possessives.js'
 import pronouns from './nouns/pronouns.js'
 
-import masc from './adjectives/masc.js'
+import adj from './adjectives/index.js'
+import maleAdj from './adjectives/male.js'
+import femAdj from './adjectives/female.js'
 
 import dates from './dates/dates.js'
 import months from './dates/months.js'
@@ -64,7 +66,9 @@ const data = [
   [possessives, 'Possessive'],
   [pronouns, 'Pronoun'],
 
-  [masc, 'MaleAdjective'],
+  [adj, 'Adjective'],
+  [maleAdj, 'MaleAdjective'],
+  [femAdj, 'FemaleAdjective'],
 
   [adverbs, 'Adverb'],
   [conjunctions, 'Conjunction'],

@@ -13,6 +13,8 @@ const postTagger = function (doc) {
   doc.match('al [#FirstPerson]', 0).tag('Noun', 'al-verb')
   // i ginocchi
   doc.match('i [#Noun]', 0).tag('PluralNoun', 'i-plural')
+  // 27° - '27th'
+  doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal')
 
   // auxiliary verbs
   doc.match('[(abbia|abbiamo|abbiano|abbiate|avemmo|avesse|avessero|avessi|avessimo|aveste|avesti|avete|aveva|avevamo|avevano|avevate|avevo|avrà|avrai|avranno|avrebbe|avrei|avremmo|avremo|avreste|avresti|avrete|avrò|ebbe|ebbero|ebbi|ha|hai|hanno|ho)] #Verb', 0).tag('Auxiliary', 'aux-verb')

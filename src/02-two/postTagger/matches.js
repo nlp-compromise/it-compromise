@@ -1,6 +1,9 @@
 const postTagger = function (doc) {
   doc.match('una [#Verb]', 0).tag('FemaleNoun', 'una-adj')
   doc.match('(un|uno) [#Verb]', 0).tag('MaleNoun', 'uno-adj')
+  // noun gender aggrement
+  doc.match('(il|lo|i|gli|uno) [#Noun]', 0).tag('MaleNoun', 'm-noun')
+  doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun')
 
 
   // Come ti chiami?

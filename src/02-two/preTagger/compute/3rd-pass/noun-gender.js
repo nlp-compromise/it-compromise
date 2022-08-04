@@ -3,14 +3,31 @@ const f = 'FemaleNoun'
 const m = 'MaleNoun'
 
 // https://en.wiktionary.org/wiki/Category:Italian_feminine_suffixes
+
+/*
+
+
+
+
+
+
+
+
+*/
+
 let suffixes = [
   null,
   {
     'a': f,
     'o': m,
+    'i': f,
   },
   // two
-  {},
+  {
+    'tà': f,
+    'tù': f,
+    'ie': f,
+  },
   // three
   {
     // 'are': m,
@@ -22,6 +39,10 @@ let suffixes = [
     // 'are': f,
     'ime': f,
     'ite': f,
+    'ame': m,
+    'ale': m,
+    'ere': m,
+    'ice': f,
   },
   //four
   {
@@ -31,6 +52,8 @@ let suffixes = [
     'ista': m,
     'eide': f,
     'poli': f,
+    'essa': f,
+    'ione': f,
 
   },
   // five
@@ -43,6 +66,9 @@ let suffixes = [
     // 'mante': m,
     'nauta': m,
     // 'crate': m,
+    'trice': f,
+    'igine': f,
+    'udine': f,
   },
   //six
   {

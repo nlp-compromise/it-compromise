@@ -58,7 +58,7 @@ test('root-match:', function (t) {
     ["Chi di noi merita", "{meritare}"],
     ["di personale insufficienti", "{insufficiente}"], //adj
     ["giuridicamente insufficiente", "{insufficiente}"],
-    ["ventuno candeline", "{candela}"], //noun
+    // ["ventuno candeline", "{candela}"], //noun
     ["i cuscini del divano.", "{cuscino}"], //noun
     ["e altre malattie mortali.", "{mortale}"], //adj
     ["è stato demolito", "{demolire}"], //verb

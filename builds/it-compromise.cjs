@@ -263,7 +263,7 @@
 
   // aliases
   methods$m.get = methods$m.eq;
-  var api$f = methods$m;
+  var api$h = methods$m;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -388,10 +388,10 @@
       return m
     }
   }
-  Object.assign(View.prototype, api$f);
+  Object.assign(View.prototype, api$h);
   var View$1 = View;
 
-  var version$1 = '14.4.0';
+  var version$1 = '14.4.4';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -661,7 +661,7 @@
   const addAPI$3 = function (View) {
     Object.assign(View.prototype, methods$k);
   };
-  var api$e = addAPI$3;
+  var api$g = addAPI$3;
 
   var compute$7 = {
     cache: function (view) {
@@ -670,7 +670,7 @@
   };
 
   var cache$1 = {
-    api: api$e,
+    api: api$g,
     compute: compute$7,
     methods: methods$l,
   };
@@ -1540,7 +1540,7 @@
   const addAPI$2 = function (View) {
     Object.assign(View.prototype, methods$g);
   };
-  var api$d = addAPI$2;
+  var api$f = addAPI$2;
 
   const compute$5 = {
     id: function (view) {
@@ -1557,11 +1557,11 @@
   var compute$6 = compute$5;
 
   var change = {
-    api: api$d,
+    api: api$f,
     compute: compute$6,
   };
 
-  var contractions$4 = [
+  var contractions$5 = [
     // simple mappings
     { word: '@', out: ['at'] },
     { word: 'alot', out: ['a', 'lot'] },
@@ -1620,7 +1620,7 @@
     { before: 't', out: ['tu'] }, // t'aime
   ];
 
-  var model$5 = { one: { contractions: contractions$4 } };
+  var model$5 = { one: { contractions: contractions$5 } };
 
   // put n new words where 1 word was
   const insertContraction = function (document, point, words) {
@@ -1787,7 +1787,7 @@
   };
   var numberRange$1 = numberRange;
 
-  const numUnit = /^([0-9.,+-]+)([a-z°²³µ/]+)$/i;
+  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/i;
 
   const notUnit = new Set([
     'st',
@@ -1877,7 +1877,7 @@
   };
 
   //really easy ones
-  const contractions$2 = (view) => {
+  const contractions$3 = (view) => {
     let { world, document } = view;
     const { model, methods } = world;
     let list = model.one.contractions || [];
@@ -1933,16 +1933,16 @@
       }
     });
   };
-  var contractions$3 = contractions$2;
+  var contractions$4 = contractions$3;
 
-  var compute$4 = { contractions: contractions$3 };
+  var compute$4 = { contractions: contractions$4 };
 
   const plugin = {
     model: model$5,
     compute: compute$4,
     hooks: ['contractions'],
   };
-  var contractions$1 = plugin;
+  var contractions$2 = plugin;
 
   // scan-ahead to match multiple-word terms - 'jack rabbit'
   const checkMulti = function (terms, i, lexicon, setTag, world) {
@@ -2268,7 +2268,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$c (View) {
+  function api$e (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2326,7 +2326,7 @@
   lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$c,
+    api: api$e,
     lib: lib$4
   };
 
@@ -2686,7 +2686,7 @@
   const matchAPI = function (View) {
     Object.assign(View.prototype, methods$d);
   };
-  var api$b = matchAPI;
+  var api$d = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -2994,6 +2994,9 @@
 
   const addVerbs$1 = function (token, world) {
     let { verbConjugate } = world.methods.two.transform;
+    if (!verbConjugate) {
+      return []
+    }
     let res = verbConjugate(token.root, world.model);
     delete res.FutureTense;
     return Object.values(res).filter(str => str)
@@ -3002,6 +3005,9 @@
   const addNoun = function (token, world) {
     let { nounToPlural } = world.methods.two.transform;
     let res = [token.root];
+    if (!nounToPlural) {
+      return res
+    }
     res.push(nounToPlural(token.root, world.model));
     return res
   };
@@ -3009,6 +3015,9 @@
   const addAdjective = function (token, world) {
     let { adjToSuperlative, adjToComparative, adjToAdverb } = world.methods.two.transform;
     let res = [token.root];
+    if (!adjToSuperlative || !adjToComparative || !adjToAdverb) {
+      return res
+    }
     res.push(adjToSuperlative(token.root, world.model));
     res.push(adjToComparative(token.root, world.model));
     res.push(adjToAdverb(token.root, world.model));
@@ -3018,10 +3027,11 @@
   // turn '{walk}' into 'walking', 'walked', etc
   const inflectRoot = function (regs, world) {
     // do we have compromise/two?
-    if (world.methods.two && world.methods.two.transform) {
-      regs = regs.map(token => {
-        // a reg to convert '{foo}'
-        if (token.root) {
+    regs = regs.map(token => {
+      // a reg to convert '{foo}'
+      if (token.root) {
+        // check if compromise/two is loaded
+        if (world.methods.two && world.methods.two.transform && world.methods.two.transform.verbConjugate) {
           let choices = [];
           if (!token.pos || token.pos === 'Verb') {
             choices = choices.concat(addVerbs$1(token, world));
@@ -3038,10 +3048,16 @@
             token.operator = 'or';
             token.fastOr = new Set(choices);
           }
+        } else {
+          // if no compromise/two, drop down into 'machine' lookup
+          token.machine = token.root;
+          delete token.id;
+          delete token.root;
         }
-        return token
-      });
-    }
+      }
+      return token
+    });
+
     return regs
   };
   var inflectRoot$1 = inflectRoot;
@@ -3685,12 +3701,40 @@
   const doNegative = function (state) {
     const { regs } = state;
     let reg = regs[state.r];
+
+
+
+    // match *anything* but this term
     let tmpReg = Object.assign({}, reg);
     tmpReg.negative = false; // try removing it
-    let foundNeg = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
-    if (foundNeg === true) {
-      return null //bye!
+    let found = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
+    if (found) {
+      return false//die
     }
+
+    // should we skip the term too?
+    // "before after"
+    //  match("before !foo? after")
+    if (reg.optional) {
+      // does the next reg match the this term?
+      let nextReg = regs[state.r + 1];
+      if (nextReg) {
+        let fNext = matchTerm(state.terms[state.t], nextReg, state.start_i + state.t, state.phrase_length);
+        if (fNext) {
+          state.r += 1;
+        } else if (nextReg.optional && regs[state.r + 2]) {
+          // ugh. ok,
+          // support "!foo? extra? need"
+          // but don't scan ahead more than that.
+          let fNext2 = matchTerm(state.terms[state.t], regs[state.r + 2], state.start_i + state.t, state.phrase_length);
+          if (fNext2) {
+            state.r += 2;
+          }
+        }
+      }
+    }
+
+    state.t += 1;
     return true
   };
   var doNegative$1 = doNegative;
@@ -3822,6 +3866,7 @@
    * starting at this certain term.
    */
   const tryHere = function (terms, regs, start_i, phrase_length) {
+    // console.log(`\n\n:start: '${terms[0].text}':`)
     if (terms.length === 0 || regs.length === 0) {
       return null
     }
@@ -3884,6 +3929,10 @@
       }
       // support '.' as any-single
       if (reg.anything === true) {
+        // '!.' negative anything should insta-fail
+        if (reg.negative && reg.anything) {
+          return null
+        }
         let alive = simpleMatch$1(state);
         if (!alive) {
           return null
@@ -3898,7 +3947,17 @@
         }
         continue
       }
+      // ok, it doesn't match - but maybe it wasn't *supposed* to?
+      if (reg.negative) {
+        // we want *anything* but this term
+        let alive = doNegative$1(state);
+        if (!alive) {
+          return null
+        }
+        continue
+      }
       // ok, finally test the term-reg
+      // console.log('   - ' + state.terms[state.t].text)
       let hasMatch = matchTerm(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length);
       if (hasMatch === true) {
         let alive = simpleMatch$1(state);
@@ -3907,13 +3966,8 @@
         }
         continue
       }
-      // ok, it doesn't match - but maybe it wasn't *supposed* to?
-      if (reg.negative) {
-        let alive = doNegative$1(state);
-        if (!alive) {
-          return null
-        }
-      }
+      // console.log('=-=-=-= here -=-=-=-')
+
       //ok who cares, keep going
       if (reg.optional === true) {
         continue
@@ -4078,7 +4132,7 @@
   };
 
   var match = {
-    api: api$b,
+    api: api$d,
     methods: methods$b,
     lib: lib$3,
   };
@@ -4790,10 +4844,10 @@
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$7);
   };
-  var api$a = addAPI$1;
+  var api$c = addAPI$1;
 
   var output = {
-    api: api$a,
+    api: api$c,
     methods: {
       one: {
         hash: md5
@@ -5205,11 +5259,11 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$5);
   };
-  var api$9 = addAPI;
+  var api$b = addAPI;
 
   var pointers = {
     methods: methods$6,
-    api: api$9,
+    api: api$b,
   };
 
   var lib$2 = {
@@ -5222,7 +5276,7 @@
     }
   };
 
-  const api$7 = function (View) {
+  const api$9 = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5266,7 +5320,7 @@
     };
 
   };
-  var api$8 = api$7;
+  var api$a = api$9;
 
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
@@ -5590,7 +5644,7 @@
 
   var sweep = {
     lib: lib$2,
-    api: api$8,
+    api: api$a,
     methods: {
       one: methods$4,
     }
@@ -5980,7 +6034,7 @@
   const tagAPI = function (View) {
     Object.assign(View.prototype, tag$1);
   };
-  var api$6 = tagAPI;
+  var api$8 = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
@@ -6034,12 +6088,16 @@
       tagRank: tagRank$1
     },
     methods: methods$3,
-    api: api$6,
+    api: api$8,
     lib: lib$1
   };
 
-  const initSplit = /(\S.+?[.!?\u203D\u2E18\u203C\u2047-\u2049])(?=\s|$)/g; //!TODO: speedup this regex
+  // split by periods, question marks, unicode ⁇, etc
+  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049]+\s)/g;
+  // merge these back into prev sentence
+  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049]+\s$/;
   const newLine = /((?:\r?\n|\r)+)/; // Match different new-line formats
+
   // Start with a regex:
   const basicSplit = function (text) {
     let all = [];
@@ -6049,7 +6107,14 @@
       //split by period, question-mark, and exclamation-mark
       let arr = lines[i].split(initSplit);
       for (let o = 0; o < arr.length; o++) {
-        all.push(arr[o]);
+        // merge 'foo' + '.'
+        if (arr[o + 1] && splitsOnly.test(arr[o + 1]) === true) {
+          arr[o] += arr[o + 1];
+          arr[o + 1] = '';
+        }
+        if (arr[o] !== '') {
+          all.push(arr[o]);
+        }
       }
     }
     return all
@@ -6106,6 +6171,114 @@
   };
   var smartMerge$1 = smartMerge;
 
+  // merge embedded quotes into 1 sentence
+  // like - 'he said "no!" and left.' 
+  const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
+
+  // don't support single-quotes for multi-sentences
+  const pairs = {
+    '\u0022': '\u0022', // 'StraightDoubleQuotes'
+    '\uFF02': '\uFF02', // 'StraightDoubleQuotesWide'
+    // '\u0027': '\u0027', // 'StraightSingleQuotes'
+    '\u201C': '\u201D', // 'CommaDoubleQuotes'
+    // '\u2018': '\u2019', // 'CommaSingleQuotes'
+    '\u201F': '\u201D', // 'CurlyDoubleQuotesReversed'
+    // '\u201B': '\u2019', // 'CurlySingleQuotesReversed'
+    '\u201E': '\u201D', // 'LowCurlyDoubleQuotes'
+    '\u2E42': '\u201D', // 'LowCurlyDoubleQuotesReversed'
+    '\u201A': '\u2019', // 'LowCurlySingleQuotes'
+    '\u00AB': '\u00BB', // 'AngleDoubleQuotes'
+    '\u2039': '\u203A', // 'AngleSingleQuotes'
+    '\u2035': '\u2032', // 'PrimeSingleQuotes'
+    '\u2036': '\u2033', // 'PrimeDoubleQuotes'
+    '\u2037': '\u2034', // 'PrimeTripleQuotes'
+    '\u301D': '\u301E', // 'PrimeDoubleQuotes'
+    // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
+    '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
+  };
+  const openQuote = RegExp('(' + Object.keys(pairs).join('|') + ')', 'g');
+  const closeQuote = RegExp('(' + Object.values(pairs).join('|') + ')', 'g');
+
+  const closesQuote = function (str) {
+    if (!str) {
+      return false
+    }
+    let m = str.match(closeQuote);
+    if (m !== null && m.length === 1) {
+      return true
+    }
+    return false
+  };
+
+  // allow micro-sentences when inside a quotation, like:
+  // the doc said "no sir. i will not beg" and walked away.
+  const quoteMerge = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      // do we have an open-quote and not a closed one?
+      let m = split.match(openQuote);
+      if (m !== null && m.length === 1) {
+
+        // look at the next sentence for a closing quote,
+        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
+          splits[i] += splits[i + 1];// merge them
+          arr.push(splits[i]);
+          splits[i + 1] = '';
+          i += 1;
+          continue
+        }
+        // look at n+2 for a closing quote,
+        if (closesQuote(splits[i + 2])) {
+          let toAdd = splits[i + 1] + splits[i + 2];// merge them all
+          //make sure it's not too-long
+          if (toAdd.length < MAX_QUOTE) {
+            splits[i] += toAdd;
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            splits[i + 2] = '';
+            i += 2;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var quoteMerge$1 = quoteMerge;
+
+  const MAX_LEN = 250;// ¯\_(ツ)_/¯
+
+  // support unicode variants?
+  // https://stackoverflow.com/questions/13535172/list-of-all-unicodes-open-close-brackets
+  const hasOpen = /\(/g;
+  const hasClosed = /\)/g;
+  const mergeParens = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      let m = split.match(hasOpen);
+      if (m !== null && m.length === 1) {
+        // look at next sentence, for closing parenthesis
+        if (splits[i + 1] && splits[i + 1].length < MAX_LEN) {
+          let m2 = splits[i + 1].match(hasClosed);
+          if (m2 !== null && m.length === 1 && !hasOpen.test(splits[i + 1])) {
+            // merge in 2nd sentence
+            splits[i] += splits[i + 1];
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            i += 1;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var parensMerge = mergeParens;
+
   //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
   // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
   //regs-
@@ -6124,9 +6297,13 @@
     // First do a greedy-split..
     let splits = simpleSplit(text);
     // Filter-out the crap ones
-    let chunks = simpleMerge(splits);
+    let sentences = simpleMerge(splits);
     //detection of non-sentence chunks:
-    let sentences = smartMerge$1(chunks, world);
+    sentences = smartMerge$1(sentences, world);
+    // allow 'he said "no sir." and left.'
+    sentences = quoteMerge$1(sentences);
+    // allow 'i thought (no way!) and left.'
+    sentences = parensMerge(sentences);
     //if we never got a sentence, return the given text
     if (sentences.length === 0) {
       return [text]
@@ -6292,38 +6469,60 @@
   };
   var splitTerms = splitWords;
 
+  const allowBefore = [
+    '#', //#hastag
+    '@', //@atmention
+    '_',//underscore
+    '\\-',//-4  (escape)
+    '+',//+4
+    '.',//.4
+  ];
+  const allowAfter = [
+    '%',//88%
+    '_',//underscore
+    // '\'',// \u0027
+  ];
+
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
+  let beforeReg = new RegExp(`[${allowBefore.join('')}]+$`, '');
+  let afterReg = new RegExp(`^[${allowAfter.join('')}]+`, '');
+
   //we have slightly different rules for start/end - like #hashtags.
-  const startings =
-    /^[ \n\t.[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*•^†‡¡¿※№÷×ºª%‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u0027\u201C\u201F\u201B\u201E\u2E42\u201A\u2035\u2036\u2037\u301D\u0060\u301F]+/;
-  const endings =
-    /[ \n\t.'[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*@•^†‡°¡¿※#№÷×ºª‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u201D\u00B4\u301E]+$/;
+  const endings = /[\p{Punctuation}\s]+$/u;
+  const startings = /^[\p{Punctuation}\s]+/u;
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
-  const minusNumber = /^[-+.][0-9]/;
   const shortYear = /^'[0-9]{2}/;
 
   const normalizePunctuation = function (str) {
     let original = str;
     let pre = '';
     let post = '';
-    // number cleanups
+    // adhoc cleanup for pre
     str = str.replace(startings, found => {
-      pre = found;
-      // support '-40'
-      if ((pre === '-' || pre === '+' || pre === '.') && minusNumber.test(str)) {
-        pre = '';
-        return found
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(beforeReg);
+      if (m) {
+        pre = found.replace(beforeReg, '');
+        return m
       }
       // support years like '97
       if (pre === `'` && shortYear.test(str)) {
         pre = '';
         return found
       }
+      pre = found; //keep it
       return ''
     });
+    // ad-hoc cleanup for post 
     str = str.replace(endings, found => {
-      post = found;
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(afterReg);
+      if (m) {
+        post = found.replace(afterReg, '');
+        return m
+      }
+
       // keep s-apostrophe - "flanders'" or "chillin'"
       if (hasApostrophe$1.test(found) && /[sn]['’]$/.test(original) && hasApostrophe$1.test(pre) === false) {
         post = post.replace(hasApostrophe$1, '');
@@ -6331,9 +6530,10 @@
       }
       //keep end-period in acronym
       if (hasAcronym.test(str) === true) {
-        post = post.replace(/\./, '');
+        post = found.replace(/^\./, '');
         return '.'
       }
+      post = found;//keep it
       return ''
     });
     //we went too far..
@@ -6477,9 +6677,10 @@
   };
   var fromString = parse$1;
 
-  const isAcronym$1 = /[ .][A-Z]\.? *$/i;
-  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
+  const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
+  const hasEllipse = /(?:\u2026|\.{2,}) *$/; // '...'
   const hasLetter = /\p{L}/u;
+  const leadInit = /^[A-Z]\. $/; // "W. Kensington"
 
   /** does this look like a sentence? */
   const isSentence = function (str, abbrevs) {
@@ -6489,6 +6690,10 @@
     }
     // check for 'F.B.I.'
     if (isAcronym$1.test(str) === true) {
+      return false
+    }
+    // check for leading initial - "W. Kensington"
+    if (str.length === 3 && leadInit.test(str)) {
       return false
     }
     //check for '...'
@@ -7121,10 +7326,10 @@
     return this
   };
 
-  const api$4 = function (View) {
+  const api$6 = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$5 = api$4;
+  var api$7 = api$6;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
@@ -7206,7 +7411,7 @@
   };
   var typeahead = {
     model: model$2,
-    api: api$5,
+    api: api$7,
     lib,
     compute,
     hooks: ['typeahead']
@@ -7218,7 +7423,7 @@
   nlp$1.extend(match); //10kb
   nlp$1.extend(pointers); //2kb
   nlp$1.extend(tag); //2kb
-  nlp$1.plugin(contractions$1); //~6kb
+  nlp$1.plugin(contractions$2); //~6kb
   nlp$1.extend(tokenize$3); //7kb
   nlp$1.plugin(cache$1); //~1kb
   nlp$1.extend(lookup); //7kb
@@ -7276,7 +7481,7 @@
   });
   var unicode$1 = unicode;
 
-  var contractions = [
+  var contractions$1 = [
     // { word: 'del', out: ['di', 'il'] },
     // { word: 'dello', out: ['di', 'lo'] },
     // { word: 'della', out: ['di', 'la'] },
@@ -7304,14 +7509,14 @@
     mutate: (world) => {
       world.model.one.unicode = unicode$1;
 
-      world.model.one.contractions = contractions;
+      world.model.one.contractions = contractions$1;
 
       // 'que' -> 'quebec'
       delete world.model.one.lexicon.que;
     }
   };
 
-  var version = '0.0.3';
+  var version = '0.0.5';
 
   const prefix$1 = /^.([0-9]+)/;
 
@@ -7454,6 +7659,25 @@
 
   // generated in ./lib/models
   var model$1 = {
+    "nouns": {
+      "plural": {
+        "rules": "ffaire|6s,ailamme|7s,arbecue|7,attage|6s,eige|4s,nestare|7,ridge|5,yte|3s,lophane|7,ampagne|7,harme|5s,ollege|6s,tagocce|7,ruise|5,atabase|7,iesse|5,ivenire|7,ugstore|7,nsemble|7,dovalle|7,iclasse|7,rilegge|7,olpe|4,dacoste|7,tafeste|7,afiamme|7,granate|7,passare|7,ngomare|7,ascarpe|7,aitre|5,arine|5s,gastore|7,ronotte|7,ovolume|7,ouse|4,arterre|7,astiche|7s,eluche|6,ercome|6,taborse|7,rtavoce|7,uzzle|5,eggae|5,portage|7s,sidence|7,scatole|7,eguente|2g.,lagente|7,huttle|6,zzaneve|7,urplace|7,ackle|5,tasette|7,deville|7s,deogame|7s,deotape|7,elfare|6,ankee|5s,amine|5,ute|3,llage|5s,tive|4,ware|4s,ingle|5,ze|2,agazine|7,vice|4,palle|5,ke|2,ie|2,age|3,e|i,cionado|7s,ggeggio|6,lterco|5hi,tifurto|7,rchivio|6,rmadio|5,ssedio|5,stio|3,usilio|5,vorio|4,acio|3,agaglio|6,arrio|5s,sofondo|1ifondi,rsaglio|6,scevico|6hi,ttegaio|6,mpesino|7s,opopolo|ipopolo,poluogo|7,abinero|7s,esio|3,spuglio|6,irco|3hi,labrodo|7,ommando|7s,mpendio|6,ultorio|6,nvoglio|6,opeco|4hi,rifuoco|7,rdoglio|6,escendo|7,ecennio|6,eclivio|6,elirio|5,emanio|5,emiurgo|6hi,arecido|7s,idietro|7,ileggio|6,spendio|6,issidio|6,stinguo|7,iofondo|1fondo,mporio|5,astidio|6,ebbraio|7,rmaglio|6,ccanaso|7,lamenco|7s,ribordo|7,rigioco|7,antuomo|6ini,anglio|5,rbuglio|6,asolio|5,azebo|5,ennaio|6,rmoglio|6,innasio|6,iogo|3hi,ramondo|7,iugno|5,ranchio|6,uaio|3,malteco|6hi,fondaio|6,nzaglio|6,dillio|5,gloo|4,dezzaio|6,mpervio|6,ncendio|6,nciucio|6,ortunio|6,ntarsio|6,umbo|4,imono|5,ratorio|6,ogorio|5,ombrico|6hi,ngolago|7,acho|4s,anubrio|6,antonio|6,arsupio|6,icro|4,llennio|6,scuglio|6,condrio|6,onologo|6hi,nopolio|6,egozio|5,unzio|4,gopolio|6,mbelico|6hi,paco|3hi,rmeggio|6,ssequio|6,alio|3,lleggio|6,igiorno|7,etrolio|6,izzico|5hi,oboviro|2iviri,ontorio|6,udico|4hi,ueblo|5s,uattro|6,ertorio|6,rotreno|7,igoglio|6,asuglio|6,inghio|5,sveglio|6,ovescio|6,abato|5,erdozio|6,natorio|6,coglio|5,emidio|4ei,zatetto|7,tecento|7,fogo|3hi,cciolio|6,hampoo|6,ilenzio|6,lletico|6hi,onaglio|6,pago|3hi,preco|4hi,oloquio|6,tereo|5,erminio|6,torpio|5,rascico|6hi,truscio|6,tudio|5s,bbuglio|6,peruomo|6ini,rassaco|6hi,ornio|4,ocalcio|7,rasloco|6hi,richeco|6hi,urco|3hi,briaco|5hi,espaio|5,ideo|4,olgo|3hi,ergo|3hi,matorio|6,lago|3hi,oleggio|6,ieco|3hi,amaio|4,oscio|4,prio|3,elio|3,ntuno|5,ttorio|5,cilio|4,guaglio|6,orzio|4,icapo|5,ranio|4,agogo|4hi,iscio|4,maturgo|6hi,pisodio|6,ordio|4,frago|4hi,caio|3,rocio|4,iluomo|5ini,osio|3,broglio|6,conscio|6,medio|4,gatorio|6,ruglio|5,caco|3hi,neggio|5,stadio|5,eriggio|6,icipio|5,vaio|3,obrio|4,ocento|6,areggio|6,ugo|2hi,ntotto|6,epilogo|6hi,ezio|3,iloquio|6,luogo|4hi,ipendio|6,gioco|4hi,baglio|5,sorio|4,avio|3,vaglio|5,alcio|4,alogo|4hi,uoco|3hi,luvio|4,logio|4,empio|4,atrio|4,vago|3hi,heggio|5,oggio|4,peggio|5,itorio|5,urio|3,ao|2,orgo|3hi,seggio|5,uco|2hi,ppio|3,taglio|5,argo|3hi,ascio|4,udio|3,monio|4,igo|2hi,iego|3hi,librio|5,ugio|3,cinio|4,raglio|5,mio|2,scopio|5,rchio|4,azio|3,rcio|3,iaio|3,arco|3hi,fio|2,arico|4hi,igio|3,schio|4,teggio|5,raio|3,lco|2hi,laio|3,cidio|4,erio|3,ngo|2hi,naio|3,taio|3,egio|3,nco|2hi,bio|2,agio|3,ncio|3,oio|2,iglio|4,cchio|4,izio|3,icio|3,sco|2hi,cco|2hi,ccio|3,aggio|4,ario|3,o|i,chorman|5en,nessman|5en,apoclan|2iclan,ntleman|5en,ooligan|7s,howman|4en,logan|5s,n|1,ripista|7,asciuga|7,azooka|6,oa|2,pobanda|1ibanda,pocosca|1icosca,pomafia|1imafia,oscuola|iscuola,arovita|7,wattora|7,inema|5,obra|4,ollega|5hi,civerba|7,elta|4,partita|7,vviva|5,xtra|4,otha|4,ranata|6,rdaroba|7,antra|5,itra|4,inja|4,llaosta|7,abrezza|7,iatesta|7,bottega|7,abba|4,amba|4,ilingua|7,herpa|5,tratega|6hi,rodanza|1idanza,stacoda|7,ansfuga|6hi,ltra|4,istrada|7,stra|4,era|3,sa|2,anta|4,erra|4,ca|1hi,la|2,na|2,ia|2,a|i,sset|4s,xploit|6s,adget|5s,t|1,tseller|7s,okmaker|7s,roker|5s,ntainer|7s,ealer|5s,angster|7s,eader|5s,artner|6s,ponsor|6s,quatter|7s,pporter|7s,eenager|7s,r|1,log|3s,g|1,ntinuum|6a,m|1,orpus|3ora,ogos|3i,esaurus|5i,opos|3i,ulnus|3era,s|1,j|1,ink|3s,k|1,enu|3s,ketch|5es,h|1,kinhead|7s,tandard|7s,d|1,olumi|2l.,i|1,u'|2,uppy|3ies,y|1,v|1,ow|2,z|1,f|1,x|1,b|1,c|1,p|1,l|1",
+        "exceptions": "ago|2hi,ambulatorio|10,antico|5hi,antiterrorismo|14,apologo|6hi,assolo|6,auto|4,baco|3hi,baciamano|9,biennio|6,bue|2oi,buio|3,capocorrente|3icorrente,capodelegazione|3idelegazione,capofamiglia|3ifamiglia,capogabinetto|3igabinetto,capogruppo|10,capolista|9,capopattuglia|3ipattuglia,caporeparto|3ireparto,caposervizio|3iservizio,caposquadra|3isquadra,capostazione|3istazione,capostruttura|3istruttura,capoufficio|3iufficio,capufficio|10,cardiochirurgo|13hi,cargo|5,cda|3,ceco|3hi,centimetro|1m.,club|4s,computer|8s,conio|4,dio|1ei,do|2,drago|4hi,eco|2hi,ego|3,eloquio|6,euro|4,fico|3hi,file|4,film|4s,foglio|5,frigo|5,game|4s,guscio|5,hacker|6s,indio|5s,intrico|6hi,killer|6s,kilometro|1m.,ko|2,lama|4,lettorato|9,list|4s,logo|3hi,luglio|6,maggio|6,manager|7s,marzo|5,mega|4,meglio|6,memento|7,metro|5,mille|5,millimetri|1m.,neurochirurgo|12hi,no|2,omologo|6hi,orco|3hi,orgoglio|7,ozio|3,panda|5,patio|4,pendaglio|8,peone|5s,piano|5,plico|4hi,podio|4,poliambulatorio|14,porno|5,predominio|9,prologo|6hi,promo|5,puma|4,quarantennio|11,rambo|5,ratio|5s,rave|4,re|2,reporter|8s,rogo|3hi,rompighiaccio|13,saio|3,score|5s,scudocrociato|4icrociati,socio|4,sporco|5hi,stage|5s,triennio|7,turbo|5,ulema|5,uomo|3ini,uscio|4,valico|5hi,vicecapogruppo|7igruppo,zoo|3,abate|4i,abete|4i,accessorio|9,agio|3,agrume|5i,alibi|5,alimentari|10,alzacristalli|13,analfabeta|9i,antinfiammatorio|15,apice|4i,armamentario|11,aroma|4i,artigliere|9i,asse|3i,astio|4,atrio|4,auditorio|8,auspicio|7,avere|4i,avorio|5,bacio|4,bancarottiere|12i,battente|7i,batterio|7,bene|3i,bicchiere|8i,binario|6,binomio|6,bolide|5i,burocrate|8i,cafone|5i,calice|5i,camice|5i,cane|3i,canottiere|9i,cappio|5,cardine|6i,carisma|6i,carpentiere|10i,cavaliere|8i,cementiere|9i,cesio|4,clima|4i,cocchio|6,cocchiere|8i,codice|5i,colle|4i,coma|3i,combattente|10i,comma|4i,commentario|10,consigliere|10i,contachilometri|15,conte|4i,conversare|9i,cotonificio|10,cranio|5,crematorio|9,crisma|5i,crocchio|7,culmine|6i,cuoio|4,debitucci|9,demente|6i,documentario|11,doge|3i,dolente|6i,domani|6,dormitorio|9,dovere|5i,ds|2,elettrocardiogramma|18i,elogio|5,empio|4,ente|3i,erede|4i,eremita|6i,esordio|6,europarlamentare|15i,extraparlamentare|16i,fenicio|6,finanziere|9i,fine|3i,fischio|6,folle|4i,fonogramma|9i,forte|4i,fotogramma|9i,frate|4i,frocio|5,fronte|5i,gasolio|6,gene|3i,geranio|6,germe|4i,giroscopio|9,gonfio|5,granchio|7,grande|5i,gregge|5i,guardasigilli|13,ideogramma|9i,idillio|6,interrogatorio|13,laboratorio|10,latte|4i,legale|5i,livore|5i,lunario|6,macchinario|10,male|3i,malocchio|8,mare|3i,marcantonio|10,marchio|6,maschio|6,mastice|6i,mestiere|7i,miasma|5i,micio|4,microscopio|10,miele|4i,mini|4,molle|4i,montacarichi|12,monte|4i,movente|6i,mucchio|6,muone|4i,muschio|6,nazi|4,nome|3i,nonsense|7i,nume|3i,obitorio|7,occhio|5,odore|4i,oggi|4,ologramma|8i,onere|4i,onore|4i,ordine|5i,orologio|7,oste|3i,otre|3i,padre|4i,palio|4,pallore|6i,pane|3i,paniere|6i,papa|3i,parlamentare|11i,parrucchiere|11i,pastore|6i,pateracchio|10,pci|3,pds|3,pene|3i,pesce|4i,pettine|6i,pioniere|7i,pirata|5i,pistacchio|9,podere|5i,polline|6i,ponte|4i,portabagagli|12,premio|5,pressi|6,prisma|5i,prode|4i,programma|8i,pronome|6i,psi|3,pube|3i,purgatorio|9,ragioniere|9i,ralenti|7,raschio|6,rene|3i,repulisti|9,ribelle|6i,rigore|5i,ringhio|6,rischio|6,romanziere|9i,rude|3i,saccente|7i,salame|5i,salice|5i,sanatorio|8,sapere|5i,sari|4,saudita|6i,savio|4,scacchiere|9i,sci|3,scialle|6i,scisma|5i,secchio|6,seme|3i,servente|7i,sestiere|7i,settario|7,sgocciolio|9,sicario|6,sipario|6,sisma|4i,soffio|5,sofisma|6i,sole|3i,solone|5i,sorcio|5,spedizioniere|12i,spicchio|7,sterminio|8,strizzacervelli|15,sufi|4,superburocrate|13i,tale|3i,telefinanziere|13i,temine|5i,tendine|6i,termine|6i,territorio|9,teschio|6,teste|4i,timore|5i,torchio|6,tornio|5,torpore|6i,tritone|6i,turbine|6i,ufficio|6,vate|3i,vecchio|6,venti|5,ventre|5i,verdone|6i,verme|4i,vicario|6,vigore|5i,visone|5i,voce|3i,volere|5i,vortice|6i,zombi|5",
+        "rev": "udinari|7o,cmi|2e,crobati|6a,dulteri|7o,ffini|4e,fluenti|6e,forismi|6a,grari|5o,lbori|4e,lfieri|5e,lergeni|6e,lveari|5e,malgami|6a,anuensi|6e,montari|6e,rivieni|7,nfibi|5o,nnuari|6o,ntigeni|6e,isemiti|6a,hitravi|6e,rchivi|6o,rdori|4e,rmadi|5o,ruspici|6e,sceti|4a,ssianti|6e,ssedi|5o,istenti|6e,tleti|4a,accanti|6e,udaci|4e,usili|5o,siliari|7o,didatti|6a,utomi|4a,vverbi|6o,nchieri|6e,arbieri|6e,sifondi|1ofondo,ttimani|7,auli|3e,elgi|3a,enefici|7o,ficiari|7o,ensanti|6e,enzeni|5e,estiami|6e,celesti|6e,idoni|4e,ikini|5,isonti|5e,isturi|6,itumi|4e,occali|5e,onsai|5,acciali|6e,conieri|6e,reviari|7o,rindisi|7,canieri|6e,urloni|5e,tafuori|7,ciaviti|6e,adaveri|6e,doscopi|7o,alessi|5e,almanti|6e,alvari|6o,urifici|7o,aleonti|6e,runensi|6e,mpanili|6e,delieri|6e,nnibali|6e,antieri|6e,zonieri|6e,aparbi|6o,apri|4o,ratteri|6e,rcinomi|6a,arneadi|6e,arnieri|6e,ascami|5e,sellari|7o,assieri|6e,aclismi|6a,ateteri|6e,atrami|5e,elibi|4e,llulari|6e,ravanti|7,moniali|6e,ertami|5e,esenati|6e,altroni|6e,iarpami|6e,ifrari|6o,imeli|5o,ineasti|6a,ircensi|6e,ivili|4e,langori|6e,listeri|6e,ficenti|6e,ognomi|5e,llageni|6e,olleghi|5a,luttori|7o,ilitoni|6e,ompari|5e,rensori|7o,omuni|4e,oncili|6o,oncimi|5e,onclavi|6e,ducenti|6e,enzieri|6e,onfini|5e,oniugi|5e,onnubi|6o,onsorti|6e,onsorzi|7o,sultori|7o,ontagi|6o,traenti|6e,afforti|6e,ontrari|7o,ibuenti|6e,rordini|6e,operchi|7o,ordoni|5e,rollari|7o,orridoi|7o,orrieri|6e,rtisoni|6e,tumisti|6a,rateri|5e,retesi|5e,riteri|6o,ocicchi|7o,omosomi|6a,onicari|7o,uneesi|5e,upoloni|6e,ustodi|5e,eboli|4e,ecenni|6o,eclivi|6o,eformi|5e,nquenti|6e,eliri|5o,emani|5o,tifrici|7o,esideri|7o,espoti|5a,euteri|6o,iademi|5a,aframmi|6a,icembri|6e,novenni|6e,ffusori|6e,iplomi|5a,isonori|6e,sordini|6e,pensari|7o,issidi|6o,ivari|5o,iverbi|6o,ivorzi|6o,ganieri|6e,omicili|7o,iovanni|7,oghieri|6e,ubbi|4o,ccidi|5o,difici|6o,ettroni|6e,matomi|5a,mpori|5o,usiasti|6a,nzimi|4a,pinici|6o,stolari|7o,pitaffi|7o,piteli|6o,ibristi|6a,qulibri|7o,otomani|6e,sempi|5o,emplari|6e,ercenti|6e,spropri|7o,steti|4a,tiopi|4e,ansteri|7o,aldoni|5e,alsari|6o,igliari|6e,miliari|6e,antasmi|6a,araoni|5e,astidi|6o,ervori|5e,ibromi|5a,duciari|7o,rmatari|7o,laconi|5e,ocolari|6e,ogliami|6e,olclori|6e,olklori|6e,ondali|5e,restali|6e,fettari|7o,rmulari|7o,orzieri|6e,ragori|5e,fortesi|6e,rasari|6o,talieri|6e,ucili|4e,ulgori|5e,endarmi|6e,enocidi|7o,enomi|4a,eometri|6a,erarchi|5a,esuiti|5a,innasi|6o,nasiali|6e,innasti|6a,iovani|5e,adischi|7,irasoli|6e,iudici|5e,tizieri|6e,laucomi|6a,licini|5e,lucosi|6o,olfoni|5e,rnicchi|7o,racili|5e,raffi|5o,natieri|6e,ravami|5e,regari|6o,embiuli|6e,uardoni|6e,arakiri|7,oclasti|6a,becilli|6e,mberbi|5e,mmagini|6e,mmani|4e,mpervi|6o,postori|6e,presari|7o,properi|7o,ncendi|6o,nciuci|6o,ncroci|6o,rizzari|7o,nfami|4e,nfelici|6e,fortuni|7o,nsiemi|5e,nsigni|5e,nsonni|5e,ntarsi|6o,teressi|6e,ventari|7o,pocriti|6a,raeliti|6a,iwi|3,acunari|6e,iarazzi|7,anguori|6e,arici|4e,vavetri|7,egumi|4e,etami|4e,icheni|5e,iguri|4e,imiti|4e,infomi|5a,nguisti|6a,iquami|5e,iquori|5e,obbysti|6a,ocatari|7o,ogoi|3s,ogori|5o,cernari|7o,ugubri|5e,upanari|6e,drigali|6e,agnati|5e,aiali|4e,alefici|7o,altesi|5e,alvagi|6o,iapreti|7,anuali|5e,anubri|6o,arasmi|5a,atoneti|6a,arsupi|6o,artiri|5e,todonti|6e,ttocchi|7o,ecenati|6e,ievisti|6a,ediocri|6e,elanomi|6a,ercanti|6e,rcimoni|7o,ercuri|6o,aboliti|6a,teoriti|6e,opoliti|6a,iliti|4e,illenni|7o,ocondri|7o,itomani|6e,ilifici|7o,onarchi|5a,onoliti|6e,onopoli|7o,onsoni|5e,scoviti|6a,ufloni|5e,ufti|4,unicipi|7o,tandoni|6e,tuatari|7o,crologi|7o,ozianti|6e,eofiti|5a,eutroni|6e,evischi|7o,yorkesi|6e,omadi|4e,rvegesi|6e,ovembri|6e,unzi|4o,uraghi|5e,bici|3e,boi|2e,igarchi|5a,igopoli|7o,pifici|6o,natrofi|7o,izzonti|6e,ssequi|6o,ttobri|5e,agenari|7o,vociti|5a,hidermi|6a,aesi|3e,aesoni|5e,ndemoni|7o,nnoloni|6e,anorami|6a,apocchi|7o,bancari|7o,normali|6e,raocchi|7,rassiti|6a,araurti|7,areri|4e,armensi|6e,aroloni|6e,artenti|6e,rticipi|7o,rtitoni|6e,assanti|6e,ticceri|6e,trocchi|7o,riarchi|5a,avesi|4e,derasti|6a,ndolari|6e,nnacchi|7o,riscopi|7o,scecani|6e,sticidi|6a,etroli|6o,ezzenti|6e,ianeti|5a,noforti|6e,idocchi|7o,iduisti|6a,montesi|6e,ietroni|6e,igiami|5a,iromani|6e,oemi|3a,oeti|3a,etileni|6e,opileni|6e,ollici|5e,ompieri|6e,ontieri|6e,aceneri|6e,achiavi|7,tafogli|7,apacchi|7,avalori|7,edomini|7o,sbiteri|7o,stanomi|6e,rimati|5e,rimordi|7o,rincipi|6e,ipianti|6e,obiviri|2oviro,roclami|6a,ssoroni|6e,rofeti|5a,rogrami|6a,grammmi|6a,ettenti|6e,montori|7o,pulsori|6e,roverbi|7o,inciali|6e,ulsanti|6e,utiferi|7o,nquisti|6a,stuanti|6e,reddori|6e,anocchi|7o,vennati|6e,eami|3e,clusori|7o,fettori|7o,rattari|7o,iquiari|7o,pertori|7o,baltoni|6e,cettari|7o,ceventi|6e,attieri|6e,imorchi|7o,ceronti|6e,ervisti|6a,isparmi|7o,isucchi|7o,ivecchi|7,osoni|4e,uderi|4e,zzoloni|6e,cerdoti|6e,acrari|6o,crifici|7o,afari|5,alari|5o,iscendi|7,amurai|6,angui|4e,guinari|7o,llitari|6e,telliti|6e,caffali|6e,calpori|6e,abocchi|7o,cempi|5o,chemi|4a,acquoni|6e,ciami|4e,ciiti|4a,coppi|5o,corci|5o,cribi|4a,dentari|7o,ederi|4e,eguaci|5e,eminari|7o,erpenti|6e,ttembri|6e,finteri|6e,ilenzi|6o,llabari|7o,imposi|6o,rotroni|6e,odali|4e,offici|5e,olerti|5e,olventi|6e,rgibili|6e,rannomi|6e,rrisoni|6e,simanti|6e,uracchi|7o,passeri|7,pecchi|6o,permi|4a,acoloni|6e,lungoni|6e,ioventi|6e,pumanti|6e,adristi|6a,uallori|6e,torpi|5o,rateghi|5a,tregoni|6e,tupori|5e,ublimi|5e,uburbi|6o,uccubi|5e,unniti|5a,erstiti|6e,ertesti|6e,pplenti|6e,riffari|7o,axi|3,axisti|5a,nocrati|6e,egrammi|6a,empli|5,enaci|4e,endoni|5e,enori|4e,enutari|7o,eoremi|5a,epori|4e,sorieri|6e,hesauri|6us,rapiedi|7,opoi|3s,icomani|6e,otali|4e,nsfughi|5a,raumi|4a,ionfali|6e,ozkisti|6a,ubifici|7o,ubolari|6e,urgori|5e,urpi|3e,utsi|4,riaconi|6e,ruguagi|7o,tensili|6e,aticini|7o,egetali|6e,elari|5o,entisei|7,seienni|6e,treenni|6e,tunenni|6e,erbali|5e,ersanti|6e,iavai|5,tnamiti|6a,incenti|6e,isceri|5e,isconti|6e,terbesi|6e,ituperi|7o,abolari|7o,olgari|5e,lontari|7o,erifici|7o,quari|5o,dagi|4o,gravi|5o,ironi|4e,rgoni|4e,versari|7o,ipodi|4e,geti|3a,recchi|6o,rili|3e,edianti|6e,natari|6o,eisti|4a,benti|4e,teroidi|6e,onauti|5a,icolari|6e,tocrati|6e,alconi|5e,enieri|5e,rconi|4e,aroni|4e,cuori|4e,estiari|7o,ancori|5e,ecari|5o,ienni|5o,llenari|7o,gegneri|6e,pedi|3e,rsoni|4e,otrofi|6o,retoni|5e,gadieri|6e,ratesi|5e,erieri|5e,ndori|4e,nonieri|6e,pitoni|5e,proni|4e,eifici|6o,amisti|5a,monieri|6e,ilici|5o,uroni|4e,icali|4e,inomani|6e,statari|7o,evoli|4e,merci|5o,acenti|5e,mplici|5e,primari|7o,sulenti|6e,itolari|6e,altari|5e,piloti|5a,ituenti|6e,ttami|4e,amanti|5e,crimini|6e,piaceri|6e,ocenti|5e,rinari|6o,ellenti|6e,plasmi|5a,blemi|4a,igrammi|6a,pisodi|6o,valenti|6e,patri|5o,rrestri|6e,legnami|6e,emori|4e,inocchi|7o,iumi|3e,novisti|6a,ssili|4e,cesi|3e,ilieri|5e,ossari|6o,mmisti|5a,duchi|3a,ginari|6o,apaci|4e,petenti|6e,fedeli|5e,ludi|4o,medi|4o,preti|4e,golari|5e,anifici|7o,rosari|6o,egami|4e,iatari|6o,minari|5e,degenti|6e,orenni|5e,affari|5e,costumi|6e,gimi|3e,mifici|6o,arci|4o,argini|5e,trimoni|7o,lomani|5e,stadi|5o,eloni|4e,cenari|6o,ilitari|6e,ondiali|6e,signori|6e,atali|4e,obri|4o,essuali|6e,orari|5o,pedali|5e,fulmini|6e,epi|2e,lagi|4o,llami|4e,allarmi|6e,esuli|4e,rapeuti|6a,udori|4e,gili|3e,ntali|4e,doppi|5o,lescopi|7o,soi|3o,eggenti|6e,ioloni|5e,esami|4e,avisti|5a,ezi|3o,edili|4e,mestri|5e,cerchi|6o,dei|1io,verdi|4e,favori|5e,mili|3e,generi|5e,carceri|6e,indici|5e,utenti|5e,oraci|4e,ripudi|6o,zesi|3e,imisti|5a,lianti|5e,uci|2e,agrammi|6a,iomi|3a,imali|4e,cloni|4e,eroi|3e,rtieri|5e,senti|4e,rtori|4e,uguri|5o,omisti|5a,nconi|4e,esseri|5e,aglieri|6e,locali|5e,nipoti|5e,asoni|4e,ollori|5e,ardieri|6e,broni|4e,alci|4o,rristi|5a,hiali|4e,oisti|4a,itali|4e,omanti|5e,viali|4e,spiti|4e,amori|4e,missari|7o,ittenti|6e,ngenti|5e,ndieri|5e,idori|4e,uloni|4e,aisti|4a,ergenti|6e,luvi|4o,sagi|4o,banti|4e,apori|4e,comi|4o,emisti|5a,asori|4e,datari|6o,atoni|4e,leoni|4e,ggianti|6e,estori|5e,ortali|5e,nitenti|6e,erari|5o,vertici|6e,ettieri|6e,fragi|5o,ozi|3o,voloni|5e,potenti|6e,consoli|6e,agenti|5e,uenni|4e,scenti|5e,obili|4e,tuari|5o,temi|3a,droni|4e,ormisti|6a,iloni|4e,efici|4e,tifici|6o,iesi|3e,ntenari|7o,ipiti|4e,rroni|4e,zali|3e,rtoni|4e,stroni|5e,voni|3e,eali|3e,ntasei|6,ioti|3a,pendi|5o,abili|4e,piedi|4e,poteri|5e,iventi|5e,otoni|4e,ziali|4e,emmi|3a,uilibri|7o,gmi|2a,riali|4e,loqui|5o,etori|4e,adoni|4e,ifoni|4e,sconi|4e,ocini|5o,drammi|5a,ziari|5o,panti|4e,ficiali|6e,tuali|4e,ltori|4e,zanti|4e,mieri|4e,vieri|4e,ffoni|4e,lumi|3e,zzieri|5e,umori|4e,tristi|5a,danti|4e,cambi|5o,rsori|4e,dicenni|6e,agoni|4e,mesi|3e,diari|5o,uomini|3o,ugi|3o,edoni|4e,iatri|4a,rori|3e,fisti|4a,bisti|4a,ensori|5e,cconi|4e,boni|3e,olori|4e,toloni|5e,inieri|5e,alori|4e,azi|3o,fanti|4e,ivisti|5a,cieri|4e,hesi|3e,cianti|5e,histi|4a,vali|3e,sali|3e,tenni|4e,igi|3o,olieri|5e,icidi|5o,iconi|4e,ssoni|4e,llieri|5e,otori|4e,ganti|4e,uristi|5a,pisti|4a,igenti|5e,stoni|4e,tili|3e,isori|4e,gisti|4a,zisti|4a,iori|3e,desi|3e,oristi|5a,etari|5o,utori|4e,aloni|4e,ntori|4e,resi|3e,eristi|5a,egi|3o,itari|5o,nenti|4e,zoni|3e,aristi|5a,nanti|4e,lesi|3e,dari|4o,toi|3o,renti|4e,cisti|4a,poni|3e,sci|3o,sisti|4a,disti|4a,icanti|5e,nci|3o,ionari|6o,ntoni|4e,rali|3e,noni|3e,eroni|4e,lanti|4e,ssori|4e,moni|3e,ienti|4e,tanti|4e,lloni|4e,izi|3o,nesi|3e,ranti|4e,ttoni|4e,nali|3e,denti|4e,tisti|4a,ttori|4e,ai|2o,gli|3o,itori|4e,listi|4a,nisti|4a,ioni|3e,cci|3o,ggi|3o,hi|o,atori|4e,i|o,chormen|5an,nessmen|5an,apiclan|2oclan,ntlemen|5an,howmen|4an,n|1,logs|3,lues|4,aos|3,lubs|3,ilms|3,utures|6,uniores|7,inks|3,enus|3,urales|6,arcos|5,otes|4,almares|7,athos|5,evers|5,ilos|4,ketches|5,inheads|6,andards|6,hermos|6,iados|5,ilantes|7,uppies|3y,gans|3,sos|3,ss|2,ans|3,ts|1,as|2,is|2,os|1,rs|1,es|1,us|2,pibanda|1obanda,picosca|1ocosca,pimafia|1omafia,iscuola|oscuola,ntinuua|6m,orpora|3us,ridanza|1odanza,ulnera|3us,a|1,ipopolo|opopolo,pifondo|2ofondo,igruppo|ogruppo,o|1,j|1,egg\\.|2uente,oll\\.|2umi,u'|2,v|1,ow|2,h|1,z|1,f|1,x|1,b|1,c|1,d|1,k|1,p|1,y|1,m|1,l|1,g|1,e|1,t|1,r|1"
+      }
+    },
+    "adjectives": {
+      "fs": {
+        "rules": "iaborto|7,inaggio|7,ticarro|7,cemento|7,sterolo|7,ngresso|7,icorteo|7,anesimo|7,idebito|7,tifurto|7,ntigelo|7,iamento|7,nopolio|7,imostro|7,ncendio|7,otaggio|7,iscasso|7,ciopero|7,ndacato|7,ntiuomo|7,tivento|7,ampo|4,reddito|7,maggio|6,rsono|5,tacchio|7,remio|5,estio|4e,meraldo|7,erlusso|7,ango|4,ismo|4,o|a,cretore|4rice,cultore|4rice,ntore|2rice,omotore|4rice,utore|2rice,ttore|2rice,itore|2rice,atore|2rice,e|1,ezz|3,ew|2,ff|2,ualcun|6',n|1,ent'|4,u|1,v|1,op|2,im|2,s|1,x|1,g|1,d|1,y|1,c|1,h|1,k|1,t|1,i|1,l|1,r|1,a|1",
+        "exceptions": "antinfortunistico|17,bimotore|5rice,meglio|6,motore|3rice,peggio|6,radio|5,sotto|5,turbo|5,apposta|7,calcolatore|8rice,consolatore|8rice,isolatore|6rice,livellatore|8rice,manipolatore|9rice,ocra|4,oliva|5,pirata|6,regolatore|7rice,rivelatore|7rice,rosa|4,saudita|7,sobillatore|8rice,speculatore|8rice,spia|4,ultra|5,urlatore|5rice,ventilatore|8rice,viola|5",
+        "rev": "ocrazia|7,tidogma|7,tidonna|7,tidroga|7,rriglia|7,timafia|7,inebbia|7,riforma|7,scalata|7,siccita|7,ichezza|7,iulcera|7,valanga|7,ivipera|7,didatta|7,nomista|7,airota|6,traerea|7,opolita|7,almata|6,sivista|7,roclita|7,xtra|4,istrada|7,esuita|6,olpista|7,oclasta|7,pocrita|7,sabella|7,tamista|7,atoneta|7,aronita|7,aya|3,nomarca|7,timedia|7,cifista|7,rassita|7,erla|4,iuma|4,fortuna|7,ivoglia|7,abbia|5,ciita|5,eppia|5,toterra|7,tzkista|7,ssia|4,sumista|7,semita|6,tivista|7,bista|5,gista|5,vita|4,nnita|5,sopra|5,lfabeta|7,uista|5,oista|5,xista|5,tnamita|7,hista|5,timista|7,ormista|7,eista|5,iota|4,icida|5,cista|5,sista|5,dista|5,zista|5,tista|5,rista|5,nista|5,lista|5,a|o,eatrice|3ore,litrice|3ore,retrice|3ore,uitrice|3ore,datrice|3ore,pitrice|3ore,estie|4o,vitrice|3ore,ultrice|3ore,citrice|3ore,ntrice|2ore,satrice|3ore,bitrice|3ore,sitrice|3ore,ritrice|3ore,ditrice|3ore,utrice|2ore,nitrice|3ore,titrice|3ore,matrice|3ore,motrice|3ore,vatrice|3ore,zatrice|3ore,gatrice|3ore,natrice|3ore,iatrice|3ore,tatrice|3ore,ttrice|2ore,ratrice|3ore,catrice|3ore,e|1,ezz|3,ew|2,ff|2,ualcun'|6,ent'|4,u|1,v|1,op|2,im|2,s|1,x|1,g|1,d|1,y|1,c|1,h|1,k|1,t|1,n|1,i|1,l|1,r|1,o|1"
+      },
+      "mp": {
+        "rules": "eatorio|6,iaborto|7,inaggio|7,ticarro|7,cemento|7,sterolo|7,ngresso|7,icorteo|7,anesimo|7,idebito|7,tifurto|7,ntigelo|7,iamento|7,nopolio|7,imostro|7,ncendio|7,otaggio|7,iscasso|7,ciopero|7,ndacato|7,ntiuomo|7,tivento|7,lutorio|6,zatorio|6,uio|2,oppio|4,iatorio|6,ioco|3hi,datorio|6,ampo|4,reddito|7,otorio|5,maggio|6,rsono|5,atrio|4,tacchio|7,remio|5,retorio|6,batorio|6,adio|4,meraldo|7,obrio|4,purio|4,torpio|5,erlusso|7,ultorio|6,ango|4,anesio|5,satorio|6,ittorio|6,proprio|6,nio|2,oio|2,ntorio|5,matorio|6,mio|2,catorio|6,erio|3,dio|2,glio|3,mpio|3,bio|2,tatorio|6,gatorio|6,onfio|4,chio|3,rco|2hi,vio|2,itorio|5,latorio|6,nco|2hi,sorio|4,natorio|6,ismo|4,aio|2,cco|2hi,gio|2,go|1hi,zio|2,cio|2,sco|2hi,ario|3,o|i,ticlone|7,icosche|7,idolore|7,lusione|7,iettile|7,ruggine|7,ustione|7,lue|3,ouse|4,adre|4,nline|5,alunque|7,enape|5,lacrime|7,ttofare|7,ankee|5,azione|6,e|i,scalata|7,siccita|7,ichezza|7,pposta|6,istrada|7,aya|3,nomarca|7,cra|3,liva|4,irata|5,osa|3,lvavita|7,toterra|7,ltra|4,na|2,ga|2,era|3,sopra|5,ma|2,la|2,ia|2,a|i,ezz|3,ew|2,ff|2,ent'|4,u|1,v|1,op|2,im|2,s|1,x|1,g|1,d|1,y|1,c|1,h|1,k|1,t|1,n|1,i|1,l|1,r|1",
+        "exceptions": "antico|5hi,anticipatorio|12,anticonsumista|14,antimissile|11,antinfortunistico|17,antinucleare|12,bieco|4hi,carico|5hi,consacratorio|12,cospiratorio|11,dissacratorio|12,emigratorio|10,immigratorio|11,live|4,meglio|6,moratorio|8,novantenne|10,peggio|6,poco|3hi,preparatorio|11,respiratorio|11,sangue|6,sessantenne|11,settantenne|11,sotto|5,trimotore|9,turbo|5,ubriaco|6hi,accessorio|9,acre|3i,adulatorio|9,affine|5i,allettante|9i,allucinatorio|12,amatorio|7,anticonsumisti|14,antimissili|11,autocongratulatorio|18,autoesaltatorio|14,autogratificatorio|17,autoidentificatorio|18,autorizzatorio|13,avanti|6,binario|6,bonario|6,buio|3,cafone|5i,canzonatorio|11,cardiocircolatorio|17,cartario|7,censorio|7,circolatorio|11,combattente|10i,combinatorio|11,consumista|9i,convenevole|10i,credente|7i,davanti|7,declamatorio|11,denigratore|10i,deregolatorio|12,derogatorio|10,dilatorio|8,dilettante|9i,discriminatorio|14,disinfettante|12i,dittatorio|9,divagatorio|10,divinatorio|10,divisioniste|11i,documentario|11,dolente|6i,doppio|5,ebete|4i,elaboratore|10i,esimio|5,esploratore|10i,fenicio|6,fine|3i,folle|4i,forte|4i,fradicio|7,frammentario|11,futile|5i,giovane|6i,grave|4i,immane|5i,indolente|8i,intimidatorio|12,ionio|4,ispiratore|9i,lampante|7i,lanciamissili|13,liquidatore|10i,maschio|6,midi|4,migratore|8i,milionare|8i,militare|7i,mini|4,miscredente|10i,mite|3i,molitorio|8,movimentiste|11i,natatorio|8,nolente|6i,notorio|6,obbligatorio|11,ogni|4,oleario|6,ondulatorio|10,paramilitare|11i,pario|4,pontificio|9,pretorio|7,previo|5,revocatorio|10,riparatore|9i,ristoratore|10i,rogatorio|8,rotante|6i,rovente|6i,rude|3i,salutare|7i,sanatorio|8,sanzionatorio|12,saudita|6i,savio|4,senatorio|8,sensorio|7,serio|4,silente|6i,spurio|5,stampante|8i,sudicio|6,svenevole|8i,tenue|4i,testamentario|12,tracotante|9i,uditorio|7,unanime|6i,urinario|7,utile|4i,valevole|7i,vanesio|6,vecchio|6,vedente|6i,venatorio|8,vitale|5i,volente|6i,votante|6i,yuppi|5",
+        "rev": "inevoli|6e,usatori|7o,grari|5o,lacri|4e,leatori|7o,ltrui|5,mbedui|5e,nfibi|5o,nnonari|7o,ipatori|7o,idebiti|7,onopoli|7,iettili|7,polidi|5e,rcadi|4e,gentari|7o,ssianti|6e,olutori|7o,stemi|5o,troci|4e,dannari|6e,nferiri|6e,didatti|6a,nomisti|6a,vilenti|6e,eigi|3e,ficiari|7o,icipiti|6e,ifronti|6e,inomi|5o,ipedi|4e,irboni|5e,ivalvi|5e,gognoni|6e,rutali|5e,airoti|5a,labresi|6e,ambiari|7o,mpanari|7o,antori|5e,aparbi|6o,apresi|5e,zzevoli|6e,rtolari|7o,aseari|6o,sellari|7o,eleri|4e,elesti|5e,elibi|4e,cuitali|6e,oitali|5e,omitali|6e,missori|7o,onsorti|6e,sulenti|6e,andieri|6e,traerei|6a,ntumaci|6e,orinzi|6o,rridori|6e,opoliti|6a,reatori|6e,remisi|6,ulinari|7o,ustodi|5e,almati|5a,eboli|4e,eclivi|6o,egeneri|6e,eleteri|7o,latrici|6e,sivisti|6a,fensori|6e,ffusori|6e,igitali|6e,ppianti|6e,ispari|6,gitrici|6e,olciari|7o,trinari|7o,latanti|6e,dili|3e,gemoni|5e,quanimi|6e,questri|6e,cretori|6e,piatori|7o,lodenti|6e,tensori|6e,rocliti|6a,xtri|3a,eroci|4e,erventi|6e,eudali|5e,duciari|7o,ifoni|4e,osofali|6e,ognari|6o,rancesi|6e,riserii|6e,esuiti|5a,dinieri|6e,iovini|5e,olpisti|6a,ffianti|6e,regari|6o,oclasti|6a,llusori|7o,llustri|6e,becilli|6e,mbelli|5e,mberbi|5e,mpervi|6o,nclini|5e,ncolumi|6e,gruenti|6e,nermi|4e,nerti|4e,nfami|4e,mmatori|7o,nnevoli|6e,nglesi|5e,nsigni|5e,solenti|6e,nsonni|5e,nutili|5e,pocriti|6a,aki|3,tamisti|6a,acustri|6e,bertari|7o,ibrari|6o,ievi|3e,iguri|4e,ombari|5e,altesi|5e,iasoldi|7,vratori|6e,atoneti|6a,arci|4o,aroniti|6a,arzi|4o,aschili|6e,acranti|6e,axi|3,ediocri|6e,eritori|7o,inori|4e,scoviti|6a,pulsori|6e,urari|5o,useanti|6e,yorkesi|6e,aguensi|6e,omadi|4e,stili|4e,vvi|3o,cifisti|6a,alustri|6e,namensi|6e,rassiti|6a,arecchi|7o,cipanti|6e,atri|4o,cuniari|7o,edestri|6e,rentori|7o,montesi|6e,impanti|6e,luvi|4o,oltroni|6e,avalori|7,ecipiti|6e,recoci|5e,cursori|6e,iminari|6e,ndisoli|6e,rimari|6o,imigeni|7o,obatori|7o,roclivi|6e,rodi|3e,oditori|7o,ulsanti|6e,lvinari|6e,llanimi|6e,zolenti|6e,alsiasi|7,lmutesi|6e,dentori|6e,educi|4e,ovisori|6e,ibelli|5e,ceventi|6e,iedenti|6e,posanti|6e,scatoli|6e,otatori|7o,bacuori|7,uspanti|6e,guinari|7o,telliti|6e,azi|3o,attanti|6e,ciiti|4a,ottanti|6e,cultori|6e,olevoli|6e,emiseri|7o,ipedali|6e,ttitori|7o,lvestri|6e,oavi|3e,obri|4o,offici|5e,olerti|5e,ommari|6o,overchi|7o,ioventi|6e,nitensi|6e,torpi|5o,ottenti|6e,tralci|6o,azianti|6e,ublimi|5e,uicidi|6o,erstiti|6e,pplenti|6e,sultori|7o,amponi|5e,enaci|4e,raetili|6e,intori|6o,icomani|6e,nseunti|6e,nsitori|7o,chianti|6e,ionfali|6e,tzkisti|6a,ruci|3e,urpi|3e,cellesi|6e,erdoni|5e,ergini|5e,ersanti|6e,ssatori|7o,erinari|7o,icari|5o,ivaci|4e,olgari|5e,airesi|5e,zzesi|4e,tratori|6e,dolci|4e,utanti|5e,lomani|5e,rvegesi|6e,semiti|5a,iranti|5e,daci|3e,nfinari|6e,tradali|6e,iendali|6e,imevoli|6e,revi|3e,loni|3e,rensi|4e,fari|4o,rcensi|5e,tivisti|6a,nsatori|6e,planari|6e,muni|3e,cratori|7o,ittori|6o,iratori|7o,ituenti|6e,bisti|4a,bitali|5e,attoni|5e,beni|3e,vianti|5e,ettali|5e,nanzi|5,gisti|4a,ompenti|6e,etanti|5e,rtenti|5e,ssari|5o,bratori|6e,aranti|5e,iopi|3e,rrestri|6e,laci|3e,gaci|3e,allesi|5e,oppanti|6e,enitali|6e,ovevoli|6e,ginari|6o,memori|5e,mortali|6e,propri|6o,dubbi|5o,felici|5e,enzali|5e,ospiti|5e,olventi|6e,bancari|7o,medi|4o,lontari|7o,ecari|5o,atenti|5e,oi|2o,ritali|5e,cupanti|6e,cipi|3e,boanti|5e,otali|4e,nniti|4a,cortesi|6e,dentari|7o,grandi|5e,loquaci|6e,pesanti|6e,veloci|5e,raci|3e,dinari|6o,gili|3e,lfabeti|6a,pestri|5e,uisti|4a,nsanti|5e,cedenti|6e,oisti|4a,xisti|4a,orari|5o,tnamiti|6a,trari|5o,rdenti|5e,uratori|6e,benti|4e,iesi|3e,nuanti|5e,traenti|6e,gheresi|6e,histi|4a,apaci|4e,pitali|5e,ebri|3e,branti|5e,linari|5e,moventi|6e,etenti|5e,essori|5e,ettenti|6e,cordi|4e,eguenti|6e,rtili|4e,deli|3e,uttanti|6e,rimenti|6e,cevoli|5e,vesi|3e,ltanti|5e,mesi|3e,nili|3e,etali|4e,tuanti|5e,ttari|5o,ntili|4e,nitenti|6e,curanti|6e,rianti|5e,fanti|4e,ubri|3e,timisti|6a,gli|3o,utari|5o,fluenti|6e,mpi|3o,ormisti|6a,eisti|4a,viari|5o,coni|3e,onevoli|6e,ntanti|5e,ioti|3a,pevoli|5e,quenti|5e,isori|5o,utori|4e,ittenti|6e,ievoli|5e,diari|5o,verdi|4e,bali|3e,onfi|4o,odali|4e,unari|4e,nci|3o,stali|4e,assoni|5e,matori|5e,senti|4e,tranti|5e,icidi|4a,motori|5e,olesi|4e,pali|3e,erari|5o,ementi|5e,iventi|5e,banti|4e,eratori|6e,cili|3e,ttili|4e,caci|3e,vatori|5e,atili|4e,gevoli|5e,cianti|5e,oidi|3e,uari|4o,eari|3e,aresi|4e,olori|4e,ngui|3e,llenti|5e,adenti|5e,zzatori|6e,enari|5o,alesi|4e,atari|5o,rtanti|5e,mili|3e,idali|4e,ziari|5o,granti|5e,plici|4e,potenti|6e,ssanti|5e,dari|4o,valenti|6e,cisti|4a,sisti|4a,ioni|3e,vili|3e,devoli|5e,disti|4a,udenti|5e,etari|5o,atali|4e,lianti|5e,sali|3e,vanti|4e,hevoli|5e,rmali|4e,zisti|4a,tisti|4a,sci|3o,gatori|5e,sili|3e,vali|3e,entari|5e,iori|3e,ai|2o,manti|4e,imali|4e,liari|4e,ganti|4e,identi|5e,gali|3e,oranti|5e,natori|5e,itanti|5e,hesi|3e,istenti|6e,eali|3e,latori|5e,tevoli|5e,rili|3e,ormi|3e,desi|3e,iatori|5e,eranti|5e,revoli|5e,zanti|4e,risti|4a,danti|4e,tatori|5e,ionari|6o,ttori|4e,gi|2o,ndenti|5e,stanti|5e,catori|5e,nenti|4e,gianti|5e,izi|3o,enni|3e,itori|4e,canti|4e,cci|3o,itari|5o,renti|4e,nesi|3e,lanti|4e,nanti|4e,ienti|4e,genti|4e,ntali|4e,cali|3e,nisti|4a,listi|4a,centi|4e,uali|3e,lari|3e,rali|3e,hi|o,iali|3e,nali|3e,bili|3e,i|o,ezz|3,ew|2,ff|2,ent'|4,u|1,v|1,op|2,im|2,s|1,x|1,g|1,d|1,y|1,c|1,h|1,k|1,t|1,n|1,l|1,r|1,e|1,a|1,o|1"
+      }
+    },
     "presentTense": {
       "first": {
         "rules": "borrire|4o,ssalire|4go,ormire|3o,terdire|5co,anguire|4o,aledire|5co,anicare|2uco,iacere|3cio,otere|1sso,isalire|4go,ervire|3o,pparire|3io,mparire|3io,addire|4co,manere|3go,aprire|3o,bollire|4o,cucire|4o,empire|4o,sapere|1o,offrire|4o,olere|1glio,parere|2io,uscire|esco,fuggire|4o,valere|3go,coprire|4o,vestire|4o,sentire|4o,vertire|4o,seguire|4o,gliere|lgo,trarre|3ggo,durre|2co,tenere|3go,venire|3go,porre|2ngo,ire|1sco,ere|o,are|o",
@@ -7734,40 +7958,42 @@
     fromPresent, fromPast, fromFuture, fromConditional
   };
 
-  const toFem = function (str) {
-    str = str.replace(/o$/, 'a');
-    return str
+  let { plural } = model$1.nouns;
+
+  const revPlural$1 = reverse$1(plural);
+
+  const toPlural$1 = (str) => convert$1(str, plural);
+
+  const fromPlural$1 = (str) => convert$1(str, revPlural$1);
+
+  var noun = {
+    toPlural: toPlural$1, fromPlural: fromPlural$1,
   };
-  var toFemale = toFem;
 
-  const toPlural = function (str) {
-    str = str.replace(/o$/, 'i');//rosso->rossi
-    str = str.replace(/e$/, 'i');//triste -> tristi
-    str = str.replace(/a$/, 'e');//nera -> nere
-    return str
+
+  // console.log(toPlural('abboccamento'))
+  // console.log(fromPlural('abboccamenti'))
+
+  let { fs, mp } = model$1.adjectives;
+
+  const revFemale = reverse$1(fs);
+  const revPlural = reverse$1(mp);
+
+  const toFemale = (str) => convert$1(str, fs);
+  const toPlural = (str) => convert$1(str, mp);
+  const toFemalePlural = (str) => toPlural(toFemale(str));
+
+  const fromFemale = (str) => convert$1(str, revFemale);
+  const fromPlural = (str) => convert$1(str, revPlural);
+
+  var adjective = {
+    toFemale, toPlural, toFemalePlural,
+    fromFemale, fromPlural,
   };
-  var toPlural$1 = toPlural;
-
-  const toRoot = function (str) {
-    str = str.replace(/a$/, 'o');//to male
-    str = str.replace(/e$/, 'a');//nere -> nera
-    str = str.replace(/i$/, 'o');//rosso->rossi
-    // str = str.replace(/e$/, 'i')//triste -> tristi
-    return str
-  };
-  var toRoot$1 = toRoot;
-
-  const toFemalePlural = (str) => toPlural$1(toFemale(str));
-
-  var adjective = { toFemale, toPlural: toPlural$1, toFemalePlural, toRoot: toRoot$1 };
 
   var methods = {
     verb: verbs$2,
-    noun: {
-      // toPlural,
-      // toSingular,
-      // toMasculine,
-    },
+    noun,
     adjective,
   };
 
@@ -7775,10 +8001,11 @@
   var lexData = {
     "Article": "true¦gli,i1la,un0;!a;!l",
     "Pronoun": "true¦ci,esso,io,lAmi8n5quest4su3t1v0;i,o5;i,u0;!a,e,o6;a,o5;a,i;e,o0;i,str0;a,e,i,o;!e0o;!i;e,o0ui;!ro",
-    "MaleAdjective": "true¦0:Q8;1:PY;2:Q0;3:PL;4:QG;5:QB;6:QE;7:PX;8:QD;9:OB;A:OQ;B:KD;C:PG;D:Q7;E:OX;F:Q3;G:PT;H:KE;I:L4;J:PM;K:PF;*,/,\\,aM8bL4cHUdGAeEYfDTgCVhCUiAPjugoslaJVlA1m87n7Ko6Vp4Lqu4Hr3Es1Gt0Pu0CvLwave,—,…,音;a07eZiPoMuL;lcaKQo4;calMlL;an6gaAonFC;e,iE;cTenP3gSnQoleGVrtuPsNtMvLzAW;aHen6o;a1to8L;coBiLua1;bi1v0;a1oB;cLta;en6itriH;en6oH2;e,iOS;cchiO5geOClRnNrLscovi1ttOE;a,ba1de,oLsaB7tiL2;!simi1;eNtL;enNUrL;a1i82;t0ziP6;enoBoH;c8lNno,riLst0;!aLo;!bi1n6;id0oGP;ffMCgP6ltWmSnPrNsMtilL;e,iMS;c3ua1;banLinN1;a,iLMo;aniICgheL3iL;c0forIBlaJ5ta6LversL;a1iEH;anMbKTiL;d0le;a,isOEoL;!iGT;eMZim0;a09eViUoRrNuL;rLtt;c0iLB;aMemenP3iLopiKB;a2SbutMNdKEenJonfa1pMWs6;dizIg2nquill0sL;cu7Zpar3verIO;ller8rMsLta1;cOFsiC;iNVrentizMJ;betaLUmiOWpLX;atJ2cnXdescLXleWmTnSoRrMsL;a,si1tOH;mNrL;eDHiLoJB;bi1tNA;a1iL;c0na1;lLRriE;aHeK5;aKi7pL;eFJoraL;le,ne0;f2OvisD;icLKolLL;citurLFli,rd0ttiL;c0le;!a1DbagliGc19e0Wf0Vi0No0Ap01tQuMvL;ariat21eJ3izz3O;ccNMdNe,ff9GggestDmeJVpLrrea1;erLplemN6rD9;!fL4ioA;-o5SdeO6o5R;aSeRiKForLArLudIU;aNeMuL;mC4tFU;pi7Vt5;da1granFQnMordi1HtL;eg2igrafiE;a,i3Do;lMOri1ss0;bi1gImpa4nMtL;a1ic0unitHX;co,te;aSePiNlend64oL;ntaGJrLsa5;c0tD;cH5eGEnaOArL;a1itNH;ciLr19sIXtta65;alLfKT;e,izzG;gnMSz9;ciVddisfaUfTggettF5lQnorPprannaFCrpreKFsNttMvL;i8BraKM;erG8i1oEO;peLtaEW;so,t4;a,e,o;aWenLMfo0IiLu7;dLEs4tL;a4Po;fer5istica5;c3t5;alLetKJ;democraKe,istLD;cRgnificLPmQnMsLt0;miEtemEK;ceM2daIIf1FgListr0;le,olL;aLi;!re;bol2i1met05paK;iJHur0;avBJeM1ortunG;cVdicenL6gUlRmQnPpOqueEDrNssMQttLv2D;eLima31;centesEntrI;a1ba,en0iKW;aDXoMR;eFsi7t0E;anM2icir59pD1;eMvaL;g9JtiC;tM5zK8;rFTu3;c0oL;laAndAY;aF7eH7hiacci8iNoLrit6ur0;laIWnLrBzN0;fit5ta4;entifJOi4;crKMggiOlNnMpi3rMMtiL;riC;guinoHOiBPo,t0;entiLFi3;!o;a0Ge05iSoMuL;ra1ss0;bu49cciKVmaOsMtL;an6onAE;a,sL;a,i,oHR;gnLDnL;a,ic0o,t2;bel1cRdot5flesHDgQlev8nOpiA9sNtMvoluzioL;naFD;m2ua1;cont55er49orgMpetLHtreM2ult8;ascLnovGomGtraccEW;imA1;id0orKJ;cOoL;nLrr3;duLosL;ci7;a,hLo;e,i;al3NcUgTlSmot0na1pRsNttLv6I;aLilinI8o;ngoKG;iMpLt8;iratorJEo7C;dLst3;enCMua;e0WubbliJT;atDi0U;a1g3io1Mn8oK9;en6iproc0;diOgNpMr0zL;ioJz9;id0presentJW;giungi7io6P;a1ca1oL;atKRfLtelevi2M;on2;aMest’,oL;!tidiKU;drGlLntiHJr4;itaKMunque;a1De15i0Zl0Xo0JrPsicOuL;bblicMglHSlIKnLr0;g3k;a,he,iACo;h2olI9;at2e06iZoL;bXduttWfUgTibi4lSmRnt0pPsOteMvL;a4enie1Ginc9visoE8;iEst8ttL;a,iKD;p63sJPtaK;orzIriL;a,etIJ;ett3ozI;iH5unga4;eDWrK4;essionLond0;a1isK;iv0riH;a7le7L;gionieJImOncipNvL;aLileg5Go;!t0;a1e;aDRe,iMoL;genHWrd9;ssFKtD;cRdomK3es5YfeQgeJWlimiE9matuG1occupa5sOvLziIZ;al3eMiL;a,o,s4;di7ntD;en6ideBPtiLuB5;giIU;ri7;ed3is0oH;chiFAet2lVntifi3OpTrtRsNtenMvL;er0;tF7z9;itDsMtL;a1eHZum0;eLi7;n6s1B;aLoF9ua1;n6ti1;!olL;aAoF5;aMemiCiLmoDQ;goJtH0zi6M;cc0re;aLuE4;netHHsJ1uI8;aOcMeLramiFZsaGTttor2;monteFn0;cLeIP;an6ol0;ceJ4nLtt0;eg77ta;cu88dagBIgg3CnRrMsLtrolifeF7;an6sHF;du4enHQfeJJiOman3petuo,sL;iMoL;!na1;an0st3;colHZfeIGodiE;a1ti5ultH9;c00daIDgaIDlesZnoraHNpa1rQsNtMuAMzL;i3zo;e89rimon9;sLtoDL;aLeggeI5iv0;n6t0;aRiQlaProcch9tLz9;eMiL;coHVgiaI5;cipaLnop3R;nti;mI0n6t0;!gHV;gona7llel0noLssi4;iCrEV;e,tiI0;a5if2;bbligato08cc07die7Uffen06ggeB0l05mo04n01pXrRsPttMvL;a1vGL;aCIenMiLo0X;co,mGT;i7ne;c8Ypi6seLti1;o,rva7;aPbiHAchestD0dinaOgMiLmoJtodoGR;enH9gina2YzzonH9;aniLo1O;c0zzatA6;le,ri0ta;le,torHR;eMpoL;rtun0st0;n,raL;i0tD;es5liGMoLt1A;masKrL;arG3eHU;geB2nG7sessI3;anD4fat5imp2;siHQ;asIid6Aul5;!ri0;aYeVoNuL;cleaAd0lG4merLov0z9;ic0os0;b4EioBmRna,rMtL;a,eHKo,tu71;dMmaLvegeF;le,nn0tiBP;!-oMamer8Eic0oL;ri60;ccid5Zri5Z;a9MiJ;cess67gGDmiEoMpaleFrLtt0utr05wyorkeF;a,o,vGF;classiCnG;!poleSrrGAsPtNva1ziL;onalLs4;e,is4;al7MiBEuralL;e,iE0;a1cL;en6oL;st0;on2tH6;a0Ve0Di02oPuL;ltimed9nici6WrESsLto;coG8ea1icMulL;maEJ;a1is4;bi1deWlTnQrNstr1BtL;iLriH;va5;a1bMen6f07tL;a1o;id0;aDKd9e6ItLum5A;anLuFS;o,te;eMle,tL;eplici,iC8;coFU;neFrn0st0;a,cid9gl0TlSnPsMtL;e,ic0;eFWtL;a,eLic0o;riFI;eraMim0orL;!e,itE5;le,rG2;aFWiL;aAtaL;n6re;ccanic01dVlod2moUnTrQssiPtLzz0;aMeorLropolitGB;ol6O;fisiElL;!lDS;cG7neF;aLcan22idIo;!viL;glB8;si1ta1;ra7;esEBiL;aOcNeMoLter94;!eL;va1;a,he;!na;he,o;es02fioBHgYlWnVrSsOtL;eLto,ur0;m7KrL;ia1n0;chiNsiL;cLmE4;ci0;le,o;cGgiJiMm8DxDSziaL;le,na;ano,no,ttES;ager9cGua1;a5edATiL;ncoB3zAL;gMicD1nLro;eKiC7;iorL;!e;toB;!a05eYiUoRuL;minE9nMssL;uoB;aAgL;a,hLo;e,iL;!ssED;ca1deF0giCmbar3NnLquaH;diEKgLtF3;itudiJobard0;berDGeNgMmitGnLquidDKr2t9Ove;eaAguiBQ;n01uA;to,ve;a1gNnt0ssiAOtL;a1teraL;le,riDO;aNgeMiL;slDPttE1;nda8Gr0;le,t0;ic0rMtLv8R;e9Fin0;g0va1;beE3d1Kgno1Jll1Fm0YnUoA9potTrQsNtaliL;aLca;!nDE;lETola4raelAAtL;antanLituzIruttoA;ea;l35on2reL;goDLvL;erDA;et2;a0Nc0Hd0Ce0Af04g02iz9n00quiet8sYtPuOvL;arMerLiD7;na1s0;ia5;sEFti1;at4eLim0;graRllQnPrMsL;o,tiJ;a,essa5RioAmedi0nLo;aLo;!zI;s0zBZ;e7Lig3;le,n6to;oli5ta7uffL;ici3;a4oLumerevoli;c3vCS;anLen6Hius5leFombr8;neDQ;anPeNinBNlu3ormaL;le,tiL;c0vo;liHrL;ioAna1;ti1;dBHsLviEA;ist3;iMuL;is4str9;an0caDDffer3geCYpeASreDYsLvidDP;cusBpeL;nsa7;apaHeBGin4lOoLreW;mpMnL;dizBBfonU;iu5le5;inLuB;a5e;rresDXspettGtD4ugu80;barazz8mVpL;eRoPrL;eMoL;ba7vvis0;cisa5nditC7ssion8veL;di7;n49rtantLsBY;e,iC9;gnatMrL;ia1mea7;iv0o;aginAMePin3oMuL;nitB1ta4;bLrBW;ilL;e,iaA;diGns0;eMuL;minAXstA;ci5gL;a1itt88;r8t0;eNo5SrL;au77iCoL;elettC1g9C;a1ntiL;c0fica7;ardcoAorror;a0Ee07iYlXoWrL;aPeOiNoL;ss0ttL;esC;gi0;c9Xzzo;dPf2mOndMsBtuA5vL;e,itazI;e,iL;oBssBG;maBV;eC2ua1;t2vernB1;ac9oba1;aQgante1FoMuL;diz0Wrid2st0;ioBrna8QvL;anLiC0;e,iL;le,ssB6;llLppoBE;a,oL;!blu,ros7I;loBnNoMrL;archiEman2;g3Jlog9Cmetr2;eLia1o05til22;rLt2;alLic0oB;e,izCQ;lLssoB;atKleL;gLse;gi8;a0Ge0Ai03l00oSrOuL;nLorvi8so,t24;ebAzionaL;le,n6;aMeLonAF;dd0qu3sc0;gi1ncesLzion91;ca8Te;ca1lC9ndaQrLtog32;!liOmNtLza4;e,iLuCG;fi51ss9I;a1ida7;veF;!mLto;enA4;es9YuL;iLv9;da;duc64eABlosof2nNorentMsLt4;ca1ic8Ks0;e,in0;aMe,i4lLto;an64;le,nziL;ari9N;dePliHmmini1rLu7G;m0oHrLti1v3;aMovL;ia4E;reFta;le,ra1;cSlQmNntasMrmaceuABsc8Tta1vL;oreAI;cientif2t2;iMosL;a,i61o;liaA;liLsa;m9Tto;en6i1;br0Vc0Qd0Mff0Kg0Il0Bm09n07p04qu03r01sStPuOvNxtraL;terreLurba9S;stA;entAHid3olut48;clid76rope0;c,eMic0n2ruL;sc0;rn0;aALclusSeRist1KpQse1ZtL;eMiv0rL;em0;nu8rLt2;a,iLn0;!oA;anBlic7Uone1Tressi43;c3Dmp94;i9To;ediLo2ra4;ta3K;at8Xival3;a9IiL;c0scoL;pa1;ergLnes8Zor38;et2iC;erg3oLpi95;!ti3R;a6DeMlL;e99it9A;g8m8YttMvatL;a,iss7Uo;o49rL;ic73oL;magne95n2;iziaLua1;!n0;e1XicL;aHi3;iLuc88;lMtL;or9riH;e,iz7E;cNoL;lLnom6R;ogiE;eLlesia5V;ll3ssDzI;a2e0;a12e0KiXoQramm0UuL;a1bb8Nca1pOrL;aLo;!tL;ur0;liH;c3lQmNppi0rMtL;a5triJ;at0iCsa1;eLin8;nLst2;ica68;ce,oro4D;alet7Pchia06datKf00gZn8YpXrUsNur84vL;erLin0;s0t3;aQcPpOtL;an6intLrut4;e,iL;!vo;erGoni7;e5Qipli2Qog08r20u2L;bita4st04;ettMigL;en6i7;a,i88o;e5LiLlom04;nt0;es84i7A;ensPfL;erMicLus0;i1olto3U;enL;te,z9;iv0oA;ra4;bo1cZd5WfYgn0lWmRns0presBsPtNvL;aLozI;st8;erminaLtaglia4;n6to;er5ideLt78;roB;eOoL;crMgLni4O;raf2;at2;nz9;ega5iLud3;cGz2T;initDor15un5;ad3enJiLora7H;ma1sL;a,iv0;nLrk,ta7;eFnoB;a2Ce26hi24i1Wl1UoYrPuL;ba4YlNp0rMstoL;de;i6Eve;tu24;an9eSiQoNuL;c9dLen5;a,e1;at0ciGma6YnL;iEolL;ogiC;miJstLt2;alli6Li76;atDd3sc3;er3l19m0PnYperXrSsL;ci3idde7ImQpicPtL;an6iMos0ruL;ttD;er0tuL;en6zI;ua;ic0opoli4;aOea6BpNrLt0;eLispo44;n6t5;ore0;gg1Wle;n6Qta;c08f06gen9iuga1n05osciu5sXtOvL;enMinL;c3to;i3zI;aSempoQinPrL;aMoveL;rs0;en6ri0sLtt6P;ta5;en5Hu0;raL;ne0;bi1di5T;ape69ePiMuL;e5l3;derMglLst3;ia7;a4e65;cMgu3rvatL;oAriH;utD;azIesB;in8orLuB;me;eMlusDorr3rL;et0;tt66;a73bus03iEmeZpOunL;a1e,iL;st4GtaL;ri0;atUetTlNosMreL;n4Ps0;iVto;eMiL;ca4;m53ssNtL;aLo;!m3;a,iv0o;en6itD;i7t0;mLrc9;oraL;tiL;va;ti7;lNoLpe5Bto;n9ra4sL;sa1;aNeMiL;naA;g9ttD;teZ;aLin2;mor46ndest4Gss2R;cReClindr2nPrcoNstercMttadi2NviL;ca,le;enF;laLst8;n6ri;eLiC;matograf2Kse,tiE;liC;ar0m2IrLus0;urg2;co,lNntMrL;ebLt0;ra1;eLt2;bLs6;err3Zre;!d01lZmpa45nXot2pTrNsMttLu1Dvo;iv0ol2;aling0ua1;aOboNdiMiLnivor0o,s2tes0D;c0no,smaK;ac0na1;niE;!tteL;risK;aHital2NriccL;ioB;so;ce;aLon2t8;deF;cLd0mo,vo;ar16i10;et5;a0Fe07i00lu,oTrLuon31;aRevOiNuL;sCtL;a2Lt0;ll8tann1O;e,iL;ssL;imo;si0Vvo;cQlOrNsMtaL;niC;sa;gheF;ivLog3C;ia1B;ca1;ancPbl2dNenJoMzL;ant30zar32;l1Cn49;imensI;ioJ;a,hi,oL;!neN;lPnNrL;beLgamasC;ra;edettLig0Z;i0Yo;!ga,lL;a,iLo;c0ss2M;bilo2Unc1HrSsPttMvaL;reF;eLu4;riEsiL;ma1;a1i17sL;a,isLo;s1Gta;bu5occ0;b3Xc3Kd3Eer38f31g2Nl28m1Wn15p0Vr0Es07t01uOvMzL;ienQzurr0;anza4versL;ar2No;rWstrTtL;ent2oL;biogPmMnom0straL;da1;at2obiL;liL;st2;raL;fiC;aMiL;ac0;li2P;eo;enPle2Bmosfer2om2tL;aNeLiv0ua1;nLso;di7t0;!cc8;ieF;cPiaKpr0sNtrL;aLonom2;le,tt0;en6iLolut0ur2X;cura5mila7st3;eLiut5;nd3;aZbitrYcSgentiRiPmOrog8tiL;coMfLgiaJstT;ic9;!lG;at0en0on2;aMstoL;cra1Ste03;no;aPhL;eolNitettonL;icL;a,he,o;og2;de,ic0;ar1I;bLgo1Cncio0H;a,iEo;eTostoSpL;aOlicaNosMreL;zza7;it0;bi1ta;rMssL;iona5;en6ten3;liE;rt0;a07g03ima01nXoVtLzi1J;eTiL;cOfascNorLst8;arL;io;is4;a,hLo;e,iL;!ssL;ima;rioA;maLn0G;lo;eNuL;aLo;!le;ss0;le,tL;a,i;lLo05;iMosassoL;ne;ca0C;lMrchiCtoL;miE;e,i0IogL;a,hi,ic0o;aTbiQer0RicPmiMpiL;!a,o;nistrMsL;si7;atD;a,he0J;enMziL;os0;ta1;ra,tL;or9;ia1;aAbaXfabeKgeUiSleQpPtMveoL;laA;a,erna08iLo,r0;ssL;im0;in0;a5gL;ro;en0mL;entaA;bMriL;na;riE;neF;re;eXgSiRoOrL;arMicL;ol0;ia;nisL;tiE;ca;a4le;iMrL;essD;or0YunL;tiL;vo;vo1;fOrL;icMoamerL;icL;an0;ascMiLlu3;da7ne;in8;e0oL;dinOnauKportL;ua1;tiC;co;am2;aPdomiJeMiac3olesc3uL;lt0;guGr3spo4;en6;na1;tt0;cOiNquMuL;st2ta;at2eo;do;aReMurG;at0;ntua4sMtL;ta7;a,o,si7;bi1;le;dem2ttiv8;ic0;bSiNruzL;zeF;se;le,tL;atDuaL;le,to;iv0;a,o;andoQoNronL;za5;to;nd8;an6;te;na4;ta",
+    "Adjective": "true¦0:AG;1:A3;2:AI;3:9Q;4:AJ;5:AA;6:9V;7:A5;8:AF;9:8Z;A:8P;B:AD;C:8D;D:97;E:9U;F:9S;G:9X;a98b8Wc7Hd6Ve6Gf5Ug5Hh5Gi4El43m3Bn2Zo2Rp1Squ1Rr19s0Et00uUvHwa8Z;aReNiJoH;ca0lH;an4ga6;ce,enEg1ncJrt8sIta0vH;aCen4;i5ua0;en4it38;ge9WloCntIrHscovi0tt9X;ba0de,osimi0sa4Nti8T;en9RrH;a0i38;c2riaH;bi0n4;ff97g8lter9KmLnJsItilH;e,i9C;c1ua0;ani7Qghe8QiH;f65la82vN;anoi95i0;at4CeNipDoMrHutt;aIiHopi8H;a0Xd8Ien7onfa0s4;dizAsH;cu35par1vH;er7S;ller2riEta0;at9cnDdesc96mMnaCrIsH;si0t8;mJrH;e5NiH;bi0t9A;a0i7;i5po9;!a0Ac09e04favo73i01oYpTtMuIvH;aria4e7W;dJe,ff3QpHrrea0;erHplem98;!f8Jio6;-o22o21;aLeKorDrH;aIuH;m8Xt6D;da0gran8H;lFri0;bi0gAn4tH;a0unit7C;az3eJiH;na0rH;a0it8;ciHrZtta25;a0fD;c3ddisf92lIno6pranna63rpre82sta5WttH;i0o5U;a6en8Ji7Ru5;mi0nHtua5V;da7IgH;le,oF;coFdicen8Fgu1mKnJque5QrIss8ttH;entrAima7;a0ia0;eBsi5tO;icir1Tp57;hiacci2ientifDo91rit4;li1pi1;aUePiHot2u9;bel0cKlev2nIsHt8;cont1YorgIult2;ascHtracc64;im86;c7ZoH;nHrr1;duHosH;ci5;a0c1gKna0p03sIttaHv2G;ngoF;iHpo2Xt2;d52st1;a0g1io7n2oF;diJgIzH;io7z3;giungi5io2J;a0ca0;alunque,est’;a09e06i04l03oVrKuH;bblicIgl70nH;g1k;a4Zhe;eLiJoH;ba5dutt0YfessAge5SmHporzAsp29te4Uvinc3;ett1ozA;mHncip5S;e,ord3;cLdom7Vesi2DfKgeGlimi5YsIvH;al1e6Q;entHide4P;e,i;eri5;ed1oC;lMpLrtJsHt4G;s4CtH;a0er75;aHo67ua0;n4ti0;!oF;a6iHmo5M;go7tD;au7Qu9;aHcc2emonteBrami69;ceGneg2S;cu3Cgg0Zna0rHs2;en6Yman1sH;e,i1Uo7;lesLpa0rIsHtrimon3zi1;s2to9;aIlaHrocch3ti0Cz3;m71n4;gona5nor6Q;e,tiE;ccNl2Ymosess8nMpen,rKsJttHva0;enHi6N;i5ne;pi4serva5ti0;a0bi6Pchest9di7iHmo7;en6Ogi7zzon6O;li6Ko4K;asAid6L;aPeOoIuH;cl0Oz3;b1RmLrHteG;dHma0vegeB;!-oIoH;ri6F;ccid6Eri6E;a5Yi7;paleBut9wyorkeB;sItHva0zA;a0u9;a0c1;a00eUiPoJuH;ltimed3nici2QsH;coFea0i55;bi0deElKnJrItH;riC;a0en4ta0;d3t2um62;eHle;coF;cid3glXlInHte;e9orX;aEiH;a6taH;n4re;ccanDdiLmoKnJrIssiEtalH;!lD;can0LidA;si0ta0;ra5;c5JeZoeZ;gLnJrIsHtK;chi0si5J;gi7z3;agHua0;er3;gHic5D;iorH;!e;!aPeMiKoIunH;a6g59;ca0deGnHquaC;diEgitu42;be9eve,gu6nHve;ea6;a0gaIssi49tH;a0te9;le,ti;rHte9;va0;de0Hgnor2ll0Gm06nLrIstHtalian;ituzArutto6;l19reH;goFvH;er5N;a00cZdWeUfQgOiz3noc1quiet2sMteJuIvH;er7i5L;s8ti0;gra0RllIrHsti7;ess2io6n2X;e31ig1;ta5uffH;ici1;anHleBombr2;neG;anJeHlu1or4M;liCrH;io6na0;ti0;siHvi57;st1;iHustr3;ffer1pe3YspeHvid8;nsa5;apaCli4Fonfon3Qre3Q;rres51ugu9;barazz2mMpH;erKoJrH;eHoba5;ndit4Ession2ve3L;n1Crt2s4X;ia0mea5;in1oH;bHr49;ilH;e,ia6;e27u0J;a0ntif3T;ardco6orror;alleRePiMlLrH;aHec3V;dIn3LvH;e,it20;eGua0;ac3oba0;aIovanH;e,i0;lloblu,ppoE;nHologD;e9ia0oSti0;gHse;gi2;aZeWiSlRoMrKuH;nHorvi2;eb6zionaH;le,n4;aHequ1on3M;gi0nceB;ca0l0ndaKrH;!liImHte;a0ida5;veB;m3Fta;es40uv3;nIor1sH;ca0ic36;a0e,lH;an22;deIliCmmini0rHu2F;oCra2Cti0v1;le,ra0;cIllim3CmiHta0vo14;lia6;en4i0;cTdiRfficQg8leOmerg1nNpiscoMquLsJtc,vIxtraterreH;st6;ent8id1;empFist04pone09se09teH;nu2r2U;at30ival1;pa0;or10;g2m31ttH;o9rD;aCi1;le,tH;or3riC;ceHonomD;ll1zA;a01eUiLoJuH;a0ca0pH;liC;c1lCm2Yr0ZtHvuW;aVtri7;alet2KfLgi2Kpe1YrigKsHvert1;cIponi5tH;an4in4;e1Vipli0Wu0R;en4i5;enso6fH;erHici0;enH;te,z3;bo0cMfKlud1meJterm2NvH;aHozA;st2;nz3;iniHor0A;ta;ad1en7i20;neBrk,ta5;a0Qe0OhimDi0KlassDoMrJuH;lHr0Xsto1M;tu9;an3eIi2GuH;c3de0;d1sc1;er1l08m03nMrKsH;ci1tH;an4ituH;en4zA;a0rH;en4ispo16;cVfTgen3iuSnRsLtJvH;enHinc1;i1zA;a5in1NraH;en4tt8;apeGeKiHul1;deIglHst1;ia5;reG;gu1rvatH;o6riC;azA;ga0;in2orH;me;eHorr1;tt8;a23busKmerc3pIunH;a0e;aIet1leHren1T;m1Ctam1;ti5;lJoHpeG;n3sH;sa0;aIeg3iH;na6;te9;neJrcoIstercHvi0;enB;l2st2;matografDse;leHnt9reb9;b6s4;nJpaCrHs8uY;di7;ce;aHt2;deB;aQel,iNlu,oKrHuon;eIiHu0N;ll2tannD;ve;cIlogErH;gheB;ca0;dHen7;imensA;io7;biloEsa0ttesi09vaH;reB;b0Zcc0Ud0Peroport8ff0Mg0Kl0Fm0An02ppYrRsMtIutostraHzienH;da0;enJtH;acc2enHua0;di5;ieB;ceKsIt9;ra0;en4iH;mila5st1;nd1;aMcJrog2tiH;fHgia7stD;ic3;aIhitettonD;icQ;de;goEncioS;arJlIreH;zza5;ica5;en4ten1;a0gMiLn8tH;erJiH;cHst2;he;io6;ma0;losassoHoF;ne;atJbiHicheGmis03;enH;ta0;or3;ia0;a6baEimIveoF;la6;enta6;neB;re;eGi0;vo0;ascIiHlu1;da5ne;in2;doJer1iHolesc1;ac1;en4;mi7;na0;attiv2eH;sItH;ta5;si5;bi0;boMiJruH;zzeB;se;le,t8;ua0;le;nd2;an4;te",
     "Preposition": "true¦a9c6d2f1in,molti,ne4p0su5tra;er,rima;ino,ra;a2e1i,o0;po,ve;g7i,l5;!g6i,l4;he,o0;i,l,n0;!tro;!d,g2i,l0;!l0;!a,e,o;li",
     "Cardinal": "true¦cPdGmilEnovQottDquAse9tre2un1vent0ze7;i4otKu3;dGo;!dFnt0;a1otHu0;no;!cinq2d2nIquatt1se0tré;i,tG;ro;ue;d8i,ssaHttG;a0ind7;raFtt0;ord5ro;aDo;i0le;ardo,one;i2od1ue0;!cen3mB;ici;ci0eci8;a1ot0;to;nn1sset0;te;ove;ento2inqu0;a0e;nta;!m0;ila",
     "Possessive": "true¦mi4n2su1tu0v2;a,e,o4;a,o3;ostr0;a,e,i,o;e0o;!i",
+    "FemaleAdjective": "true¦0:A5;1:A1;2:9Y;3:9Q;4:9D;5:9E;6:9B;7:8R;8:9O;9:9U;A:68;B:9I;C:9K;D:8O;a8Hb82c6Id62e5Cf4Sg49i3Qjugosla9l3Dm2Tn2Go24p19qu17r0UsYtPuLvE;aJeHiGoFuE;lcaDo0;ca96lont7;ci2n0olen0si9ttor9L;cch8neEra;ta,z95;liAr8s0;l3FmFniErbanG;ca,ta04vers5C;anEb5iA;a,is3;aLeGi21os9YraFurE;ca,is3;gi1nquil9M;cnHd46leGmpFne5oEr9Ysa;lo8Nri1;e6Zor6N;foDvi9O;i1o8J;rAt3;a07b5Vc04eZfYiUoPpKtFuEvizze5;cc9Jdd69gges6me5preB;aHes4il9FoCraE;nFord3JtE;e8Eig70;a,ie5;mpa0ti1;ag07eGic8GlendiAoE;nt6BrE;ca,ti9;ciEs4;aliz7Nfi1;ciHggett6HlEno5sp5Ytt2Avie3;a,iE;da,s0taE;!r8;al8Cet7;cGgnifi4Umbo87nFsEta;mi1te59;foDgo8Wist5;il86u5;eCortu9B;cHgre0lvagg8man3pGrFttEve5;ece3CiB;ba,e2ia;a66ol0;ca,ond7;ar4eDiFoEu5;l4Nn4X;e3Xi0;c5l3PnE;gu1Zit7ta;aOeMiJoEus4;bus0cc87maFsEtZ;a,s6O;gFnE;a,i1ti1;no8E;c1fles4gFnEpiAstr58t8Qvolu39;nova0o7T;iAo5W;al8Ccipro1lEmo0pubb7Ssid5D;a6ig7Y;diofoDpEra;iApresenta6;aEotid7H;d5Lnt87r0;a03eZiWl44oTrHsicGuE;bblicEli0ra;a,it7;hi1o73;a3eLiIoE;ble4Bd4SfGgr84ibi0lunga0n0pr8s7TteFvE;a0vis0D;i1t0;onA;mFvaE;!ta;ar8i6oge1S;ci4ma2LsGvEz7H;en6iE;a,s0;tig7Eun0;e3lFntific8pMsEve5;i6tuB;ac1i3;aFcEe2ttoC;co7Ke2;n0t0;nul15rEs7Ctrolife5;du0f4CiEs6S;cEfeCo1W;olo4;ci54da2ga2nora7RrFssEtS;a0i9;aFigi2la0tE;en2Oig6M;lle7As6H;bbligatOdiNgg4QlimMmoLnto6BpIrFscu5ttE;a9iB;atMdinaFganiEig1Etod1U;ca,zzat4K;r8ta;eraFpoE;rtu2s0;ia,ti9;gen46niB;pi1;er2;or8;aMeKoGuE;da,merEo9;i1o4;na,rFtE;a,tur2;di1maE;n2ti9;cess7ga6mi1o77rEt0;a,vo4;!poleGr6Bscos0tFziE;on4Ns0;i9ur15;oDta2;aSeMiJoFuE;r7sic5W;deGnFrE;biAfo5J;as3et7tuo4;r2s0;a,nFstEti1;a,er62i1;er7iBor1X;dGlo0Rra,ssi6LtEzza;aEeoro5Cropolita2;fi3Tl5I;e62iE;a22ca,tE;err3A;f5Ugi1n5DrHssiGtE;eEu5;ma3r2;cc8ma;ca0itOm2Yx5Ez5C;aPeKiJoGuE;mEng5D;ino4;mFnE;goEta2;barA;be5gn2Zmi24ngu5Wq0Vri1t3M;gEn0tter7;a0geGiE;sla6tE;tiB;nd7ra;i1r3Lti2vo5B;beCdVgno0llumin50mQnGpote3roDsFtaliE;a1Hca;la5Yo4Gtant2P;aspet1UcMdKedi0fIgen2NnHtEv2M;at0eEiB;n4rE;a,med8na;a0ova6;iEor1R;ni0;iEu4Q;a2ge2r27;er0in0;mFpE;egMortant4Orovvi4;agFeEu1I;d1Un4;in7;en3on2AroelettC;eSiIoGrE;aEe1ig8os4;fi1m1End4Htui0;ti1verE;na6;allLgaJoGuE;di04riEs0;di1;rnFvE;an4Aia2;al4W;ntE;es1;a,orE;os4;neGoFrE;archi1maD;g2Clo3QmetC;ri1ti1;aUerSiNlMoIrFuE;tu5;aFeE;dAs1;zion7;nArEt24;tEza0;iEu4V;fi3Ls47;uiA;loso21nGorFsEt0;i1sa;en2F;anEi0;zi7;ma,rE;a0ovi7;l4mo4ntasErmaceu3sc3H;cieEti1;nti1S;br02cYduXff1IgiziaWlQmPnOpNrLsGtFurEvolut1Fxtraurba2;op15;er2i1ni1rus1;at0e15pHtE;eEi9reB;rEti1;a,na;lici0r3Z;edEoi1ra0;it7;a3i1;erge3ne3K;o6piC;as3eFlE;en3Pit3;ttrFvatE;a,is3F;i1oE;magne3ni1;!na;ca6;cFoE;lo2Ino3S;es3KlesiE;as3;ai1ea;eQiHoGramNuE;bb8raE;!tu5;lo0Tmes3pp8ra0;chia0NfKna3KpIr02sFur2vE;er4i2;abiFcEpe0Ltrut0;og0Tre0;ta0;in0loE;ma3;en36fE;icolto4u4;cis0Cdi0fini6g2li26moFn4ttE;aglK;c1Ug0Ln0V;a0Qe0Ohi0Mi0Hl0DoLrFuE;pa,r2J;ea6iHoFuA;da;a0cEma3ni1;ia0;stEti1;alli2ia2;l02mWnMperLrJsE;iddHmGpicPtE;ie5o4rE;ut6;i1opoli0;et0;ea2pEta;orL;ni2Pta;cMsKtE;adi2emporHinGrE;ar8ovE;er4;ua;anE;ea;eEideN;cu6;lu2Bre0;i1memo1RpFuniE;s0t7;at0eti6lEosi6re4;eEi19;ssEta;a,i9;lFoE;ra0;et6;aEiD;moFndes00sE;si1;ro4;lindCneEvi1;matEti1;ogE;raE;fi1;a5mi1rEu4;ur0O;lEr0;eberriBti1;!lJmpa2noDo3pitIrGsalinFttE;i9o0Q;ga;a,boDdEi1nivo5si1;ia1;al0Q;c1Eda;aNeJiGos4rEuo2;asil0LitanDutE;a,ta;ancFb0Ho0AzanE;ti2;a,one5;lErbe5;ga,lE;a,iE;ca,s0W;roc1sFttE;eCu0;i08sE;a,isE;siBta;bbando1Dc1Cd1Ber18fr14g0Ul0Om0In06p01rPsNtLuGvEzzur5;anEvers7;za0;strHtE;en3oE;mEnoB;a3obil0S;al00ia1;le3mosfeCo11tE;a,en0i9;p5solu0trE;at0ono0Y;ab05bitr7cJistoHmGtiE;coEs3;la0;a0e2oD;cEteP;ra3;ai1hE;eoFitettoD;ni1;loE;gi1;ar8;er0ostoHpE;liFoE;si0;ca0;li1;aMgLiKnJoniBtiFzE;ia2;cFfascE;is0;a,hE;isS;es4ua;ma0;li05;lEto07;i3ogE;a,i1;a5bizGe00i1ministEp8;ra6;ti9;io4;sa;ra;geHie2pi2tE;a,isEra;siB;ma;bCri2;ri1;gJia0onHrE;ar8icoE;la;ia;is3;ti1;iorQrE;esE;si9;va;iFoameE;riE;ca2;na;ea,odinaE;mi1;ca;at0espo0ul0;centua0u0;na0;ta",
     "Condition": "true¦nel caso che,si",
     "Negative": "true¦n0;essuno,iente,on,ulla",
     "Adverb": "true¦aZbenYcVdSecc,fRgià,inPlOmLno,oIpDquAs4t1vi0;a,ci06;a1roppo,utto0;!ra;lvolta,n05rdi;e4in,o1pe0ubi04ì;cie,sW;l1pra0t02;!ttut01;o,tZ;conda,mpA;a0i;l0nXsi;e,i;er3i2o1r0ur;esUopr8;co,i;uttosSù;alBsiP;lt1r0ve;a,mai;re;ai,e0olN;gl0no;io;à,ì;die3fine,siEt0vece;anIorG;a,orse,uori;a1ie0;tro;pprima,v5;irca,o0;m0sì;e,unque;!e;bbastanza,cc8ddirittura,lme7nc5ppun9ss3tt1v0;anti;or5raver0;so;ai,i0;eme;h',or0;!a;no;an0;to",
@@ -7786,7 +8013,7 @@
     "Date": "true¦domani,ieri,oggi",
     "Noun": "true¦0:1K;1:19;a1Dbattagl1Cc0Zd0Ye0Xf0Tg0Kin0Jl0Dm04n02oper01pNrJsAt6v2;a0Ri3ol2;o,ta;sta,t2;a,tor18;e2itol0Draffi0;o3st2;a,i,o;do1Bri0;c8e7i5paz12quad03t2vilup9;a1or12r3udi2;!o;a09utR;gnifiVstem2;a,i;de,gui1rie;a13o2;po;appor1eg05i2;c3s2tor04;pet1ulta1;erKo;aBer9ia7las0Yo5r2untW;em0Oo2;ces0Dg2;et1ramma;litec0Rrt2s1t01;a,i0;n2zza;o,te;iod2si0;i0o;lcosce0Lni0r2;co,t2;e,i2;!to;a,e;a2emi0omi,ume04;tuA;a6e4ili05o3usi2;ca;dellDnHrte,s0Avimen1;di0r2sJ;ca1;cchina,estXni3r2;e,si0;co,e2;ra;a5e4i3odoSu2;ce,doR;bRveT;gge,sA;to,vor2;i,o;ca01izT;ae9en8i5over4ra3ui2;da;do;no;oc3uras2;si0;hi,o;ere;li0;at1edeRigli4or2;m2za;a,ula;!a,o;nNreO;ati,emoNomeK;a8ent7hi0i6o2;mi0n3perIr2;so;dizi7siglAt2;o,ro5;vi0;ro;lc6mp4nz3po,usa,va2;llo;oni;iona1o;to;io;ia;dria8la7m6n4ram3t2;lan7ti0;ai0;dro2imali,tibio5;ni0;al2i0;ri0;ti0;co",
     "Verb": "true¦avvenuUchiamSdebboRf8stSutilizzaUv0;a,e0ienJ;n1rr0;aBe3à,ò;g3i1n5ut0;a,e,i,o;a0mIsDte,vC;mo,te;aJoJ;a1ec0;eDi;c5i,n4r0te;a2e0à,ò;bbeAi,m0st7te;mo,o;i,n0;no;ci8e0;m6s1v0;a7i,o;s1t0;e,i;e1i0;!mo;!ro;mo;a0o;!mo,no,te;!no;at0;a,i;ta",
-    "Adjective": "true¦d2fonda4lega1p0situa4;erse,resen0ubblica3;ti;efini1o0;ta0vu0;ta",
+    "MaleAdjective": "true¦0:BR;1:BL;2:BJ;3:B9;4:BF;5:AY;6:BO;7:AG;8:AH;9:BG;A:AR;B:A6;C:BP;D:AE;E:AV;a9Sb9Bc7Ud77e6Lf66g5Ji4Ol4Bm3En30o2Jp1Nqu1Jr13s04tQuLvF;aJeHiFolont7;go8Rol7Vrt4BsFttorAvo,z7X;co2iC;cchiAZle7PneFro;to,zD;l16no,riAXs0;l59mIniHrF;banFin7;is4o;co,t7vers6K;a3i9;aReMiLoJrGurF;co,is4;aGemen9iF;but7pB0;gi1nquilAZ;rrent6LsF;ca3si1;be3Ami9pi1;cnId5DleHmGoA1rF;mi1ror9D;a4p7R;foBviAV;i1o9X;cit2Gli,r9t4;a0Bbagl79c09e03fortuA0iZoSpNtHuGvF;ariaA8izze5;ccAPdd8Igg6QpreE;aJes2il95o9ErFudA;aGeF;pi3Ft0;nFord1Ute9Q;ie5o;n1ti1;ag09eciIiHlendi9oF;nt7ErFsa0;co,tiC;e79na0;a51fi1;cialKddisf1TfJgg7LlGno5spe2tt2TvF;ie4ra3;fo91iF;do,tF;ar8o;fer0isti2W;democ6Eis9P;cHgnifi5QmGnFste7Vto;ce5foBg3List5;bo87m4Npa4;ilDu5;cJgre0lGpol0rFve5;e3io;eGvaF;gg8ti1;t6z96;co,ond4U;ar2i4XoFu5;l5Jnfit0r2;c78ggi9GnFr9ti8K;it7o,to;aReOiKoFus2;b38ccAmaGssF;i,o;gGnF;i1o,ti1;no9L;cc91dot0gHnGsFtA3voluzion7;er1Mp6Ttr7E;no1Loma0;i9o6V;al7Zcipro1g8lGmo0spiratVttF;ilin83o;a6igA;dioGpFro;i9presenJ;at6foBtelevi9E;aGoF;!tidD;d9PliFnt7R;ta6;a04e01i00lanZoVrIsicHuF;bblicFli0ro;it7o;hi1o89;a4eOiKoF;d5QfIgr93li7Nn0priUsHt6BvF;enien8KvisF;or8;siEta4;ession7Gon9;gionie5mGvF;a0ileg5Fo;ar8iFoge2G;s8MtiC;ci2occupa0sGvFzA;en6io;tigAun0;ch6Oe4lGntific8sFte2Mve5;i6s8QtuE;ac1e96iF;ti1zi34;et7;at0c8Je3sa3tto7C;dago7Qnti0rF;f6Dicolo2pet5FsF;ia3o;cJrGssFtZu5Uz2O;a0egge5iC;aGiFla0tecipan7Y;!gi3;lle8Cnoi1;a0i6X;bbligatoUccul0diTffen8Dgg5KlRmogen6YnPpMrIsHttFvv8;iFo0A;co,mo;cu5s6V;dHgFigin35todos2;aniFo0L;co,zza6;in7;eraGpoF;rtu3s0;io,tiC;es0oF;m3Or7;fFimpi1;at0;er3;!r8;aPeMoHuF;do,l7SmerFoC;i1o2;io2rHtF;o,tF;ur3;dFman3;a7Ri1;cess2Kga6oGrFt0ut5;o,vo2;clas4Wna0;poleGr77scos0tF;al34ur1Y;oBta3;aYeRiOoHuF;sulFto;ma3;deKltJnHrGstr0AtiF;va0;bi9to;as4et7tF;a3uo2;eplici,is70;r3s0;niEsFti1;e5tF;erAi1o;ccaBdiJlo1GrHssi79tFz1A;al56ropoliF;ta3;aviFo;glA;o,tF;err3V;esQgOlMnLrJsHtF;eFto,u5;ma4r3;ch8siF;cc8mo;ca0iFm3H;a3no,t0Q;ca0;a0ed4IiF;ncoBzA;i1nFro;e4i56;to2;aQeMiLoJuF;mi2VngGssF;uo2;hiFo;!s67;gi1nF;gobar9ta3;be5e0mi37ngu4Uquidi,ri1t3U;gFn0tter19;a0geGiF;sla6t09;nd7ro;i1r3Uti3;d07gno0lle05mYnGoBpote4roBsFtalD;la6NraelD;aVcRdiQedi0fNgiMnKso18tGvF;ar2Mer2;eFiE;g6HnGrFso;esVmed8no,o;so,z58;ova6umerevF;oli;us0;iGormatiF;co,vo;ni0;a3ca6r3Mscus2;er0lHoF;mpFndiz4Z;iu0le0;i4Yu2;spet2It6;mJpF;egnat2SortaHrF;eciFovvi2;sa0;nt3G;eFun0V;d1Zn2;ci0gitF;tiE;en4on40rF;au3Gi1og3W;a00eTiMoLrF;aIeGig8oF;s2ttQ;co,zF;zo;fi1ndiFs2tui0;o2s4X;ti1ve4Y;al52gantKoHuF;dizi7riFs0;di1;io2rnGvF;an2Xia3;al3G;es1;lo2nHoFrmaB;g3Flo41mF;et3L;eFtil0F;rFti1;aFi1o2;liz5E;l0Tsso2;aOerNiJoIrGuF;so,tu5;ances4SeF;d9s1;l0nda0t33;ducAe5loso34nGor3JsF;i1so;anziFto;ari43;mo,rovi7;lImosHntasF;ciFti1;enti2X;is43o;li0;brZcWdTff1IgizDlQmo,nOpi1rMsHtGuFvolut1G;clid2Vrop2V;er3i1ni1rus1;at0clus1De16pItF;eFiCreE;rFti1;i,no;an2lici0;edFoi1;it7;ergFne3R;e4i1;as4eF;ttrFva0;i1oB;ilGuF;ca6;iz8;cFo2L;es3SlesiF;as4;ai1eo;an00eSiJoGram1DurF;atu5o;meGpp8rFta0;a0i1;ni3Ps4;dMfLgKna40pJrett0PsGvF;er2i3;ast0TcGpe3WtintiF;!vo;og1Yre0;in0lo13;es6;en3Dfu2;at4;cLdi0fKg3lImoGn2pr0AsFtermi2J;er0ide0Lt5;cFg1Rn0Y;ra4;ega0iF;ca0zA;ini6un0;i34o2Q;no2;a0Le0Jhi0Hi0El0AoLrGuF;ba3po,rA;ea6iIoGuF;en0;a0cFno21;ia0;stDti1;l01mWnKperni2ZrIsF;idd0Mmi1tF;ie5o2rF;ut6;aggApFr0Jto;or1B;cPfu2nOosciu0sMtFvin0;empJinIrF;aFo0Y;r8sF;ta0;uo;orF;an13;eFue0;cu6;es2;lu2Ere0;pGuniF;s1Tt7;at0eti6leFos0re2;ssFto;iCo;lFto;et6;aFiB;moGndes14sF;si1;ro2;c04e1lind0RnGrcolaFttadi3;ri;emat0Hi1;a5mi1rFu2;ur12;co,lFr0;eberriEti1;dNlLnoBo4priccArHsalinGttFvo;iCoW;go;atter08dHiFnivo5o,si1tesD;co,no,sF;ma4;ia1;cFdo,mo,vo;ar08is4;et0;aTeOiKoJrFuo3;aHevGitanBuF;s1t0;is18;silDvo;livDtaB;anc0TbHoGzF;an0Dzar5;lo0Hn9;li1;llHnFrgamas1;edettFig3;i3o;iFo;co,s0X;nc7rFs2;bu0oc1;b1Mc1Dd1Cer1Afr15g0Zl0Sm0On0Dp09rYsUtQuGvFzzur5;ver2;rNstrMtF;en4oF;biHmFnoE;a4obilF;is4;ogF;raF;fi1;alDia1;eo;mosfeHo18tF;eFiC;n0so;ri1;ciut0ia4p5sHtrF;at0oF;no12;icu0Zolu0ur9;abo,cKgIia3mHtiF;coFs4;!la0;a0e3oB;enF;ti3;ai1hF;eoGitettoB;ni1;loF;gi1;er0pF;assFosi0;ioF;na0;aNimaMnLoKtiGzD;ia3;cHor7;ar8;io;hi,o;maWniE;es2uo;ti;logFrchi1;hi,i1o;bizAeXministGpiF;!o;ra6;io2;fabe4ie3leJpi3tF;eHisFo,ro;siE;mo;rna6;a0g5;ro;gHriF;coF;lo;iun6rF;esF;siC;iHoaF;meF;riF;ca3;no;eo,oF;dinaNnau4;at0egua0ul0;cIi9quFus4;a4eo;ti1;do;adeHe2uF;ra0;so;mi1;co;bronIitF;a6ua0;tiC;vo;za0;to",
     "Conjunction": "true¦aLbenKcIdGeDgrazie a,inCmBn9o7p4qu3s0tuttav8vi5;e1i0;a,ccome;!bbene;ando,inM;er1iutto0rima CuA;stoD;cIò;!p6ss0;ia;e0é;ancDmmeno,p3;a,ent3;fatti,olt2;!d,p0;pu0;re;opo 0unque;c6di;ioè,osí0; c4;c4sì; causa 4ffinc3llora,n0ppena;c1zi0;!c1;he;hé;di",
     "PastTense": "true¦aveFdoveDe9f6pot4s1vol0;eElD;apeDeppCt0;avDe0;mJsEttA;e0é;i,mHr2sCvA;osBu0;!i,mFr0;ono;bb4r0;a0i,o;!no,va0;mo,te;m9s4tt0v2;e7i;m7s2v0;a0i,o;!mo,no,te;s1t0;e,i;e1i0;!mo;!ro;mo",
     "FutureTense": "true¦a2do2potr3s0vorr3;a0tar2;pr1r1;vr0;a1e0à,ò;mo,te;i,nno",
@@ -8087,7 +8314,7 @@
   };
 
   const root = function (view) {
-    const { verb, adjective } = view.world.methods.two.transform;
+    const { verb, adjective, noun } = view.world.methods.two.transform;
     view.docs.forEach(terms => {
       terms.forEach(term => {
         let str = term.implicit || term.normal || term.text;
@@ -8117,19 +8344,21 @@
 
         // nouns -> singular masculine form
         if (term.tags.has('Noun')) {
-          // if (term.tags.has('Plural')) {
-          //   str = noun.toSingular(str)
-          // }
-          // if (term.tags.has('FemaleNoun')) {
-          //   // not sure about this
-          //   str = noun.toMasculine(str)
-          // }
+          if (term.tags.has('PluralNoun')) {
+            str = noun.fromPlural(str);
+          }
           term.root = str;
         }
 
         // nouns -> singular masculine form
         if (term.tags.has('Adjective')) {
-          str = adjective.toRoot(str);
+          if (term.tags.has('PluralAdjective')) {
+            str = adjective.fromPlural(str);
+          }
+          if (term.tags.has('FemaleAdjective')) {
+            str = adjective.fromFemale(str);
+          }
+          // str = adjective.toRoot(str)
           term.root = str;
         }
       });
@@ -8817,14 +9046,31 @@
   const m = 'MaleNoun';
 
   // https://en.wiktionary.org/wiki/Category:Italian_feminine_suffixes
+
+  /*
+
+
+
+
+
+
+
+
+  */
+
   let suffixes = [
     null,
     {
       'a': f,
       'o': m,
+      'i': f,
     },
     // two
-    {},
+    {
+      'tà': f,
+      'tù': f,
+      'ie': f,
+    },
     // three
     {
       // 'are': m,
@@ -8836,6 +9082,10 @@
       // 'are': f,
       'ime': f,
       'ite': f,
+      'ame': m,
+      'ale': m,
+      'ere': m,
+      'ice': f,
     },
     //four
     {
@@ -8845,6 +9095,8 @@
       'ista': m,
       'eide': f,
       'poli': f,
+      'essa': f,
+      'ione': f,
 
     },
     // five
@@ -8857,6 +9109,9 @@
       // 'mante': m,
       'nauta': m,
       // 'crate': m,
+      'trice': f,
+      'igine': f,
+      'udine': f,
     },
     //six
     {
@@ -8878,6 +9133,79 @@
     }
   };
   var guessNounGender = nounGender;
+
+  const checkSuffix$2 = function (str) {
+    if (str.endsWith('i')) {
+      return 'PluralNoun'
+    }
+    return null
+  };
+
+  const nounNumber = function (terms, i, world) {
+    let setTag = world.methods.one.setTag;
+    let term = terms[i];
+    let tags = term.tags;
+    let str = term.normal || term.implicit || '';
+    if (tags.has('Noun') && !tags.has('PluralNoun')) {
+      let tag = checkSuffix$2(str);
+      if (tag) {
+        setTag([term], tag, world, false, '2-noun-number');
+      }
+    }
+  };
+  var guessNounNumber = nounNumber;
+
+  // str = str.replace(/o$/, 'i')//rosso->rossi
+  // str = str.replace(/e$/, 'i')//triste -> tristi
+  // str = str.replace(/a$/, 'e')//nera -> nere
+
+  const checkSuffix$1 = function (str) {
+    let m = 'MaleAdjective';
+    let f = 'FemaleAdjective';
+    if (str.endsWith('o') || str.endsWith('i')) {
+      return m
+    }
+    // la signora italiana
+    if (str.endsWith('a') || str.endsWith('e')) {
+      return f
+    }
+    return null
+  };
+
+  const adjGender = function (terms, i, world) {
+    let setTag = world.methods.one.setTag;
+    let term = terms[i];
+    let tags = term.tags;
+    let str = term.normal || term.implicit || '';
+    if (tags.has('Adjective') && !tags.has('MaleAdjective') && !tags.has('FemaleAdjective')) {
+      let tag = checkSuffix$1(str);
+      if (tag) {
+        setTag([term], tag, world, false, '2-adj-gender');
+      }
+    }
+  };
+  var guessAdjGender = adjGender;
+
+  const checkSuffix = function (str) {
+    if (str.endsWith('e') || str.endsWith('i')) {
+      return 'PluralAdjective'
+    }
+    return null
+  };
+
+  const adjNumber = function (terms, i, world) {
+    let setTag = world.methods.one.setTag;
+    let term = terms[i];
+    let tags = term.tags;
+    let str = term.normal || term.implicit || '';
+    if (tags.has('Adjective') && !tags.has('PluralAdjective')) {
+      let tag = checkSuffix(str);
+      if (tag) {
+        setTag([term], tag, world, false, '2-adj-number');
+      }
+    }
+  };
+  var guessAdjNumber = adjNumber;
 
   // 1st pass
   // import guessPlural from './3rd-pass/noun-plural.js'
@@ -8909,9 +9237,10 @@
   const thirdPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
       guessNounGender(terms, i, world);
+      guessNounNumber(terms, i, world);
+      guessAdjGender(terms, i, world);
+      guessAdjNumber(terms, i, world);
       //     guessPlural(terms, i, world)
-      //     adjPlural(terms, i, world)
-      //     adjGender(terms, i, world)
       //     verbForm(terms, i, world)
     }
   };
@@ -9841,6 +10170,9 @@
   const postTagger$1 = function (doc) {
     doc.match('una [#Verb]', 0).tag('FemaleNoun', 'una-adj');
     doc.match('(un|uno) [#Verb]', 0).tag('MaleNoun', 'uno-adj');
+    // noun gender aggrement
+    doc.match('(il|lo|i|gli|uno) [#Noun]', 0).tag('MaleNoun', 'm-noun');
+    doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun');
 
 
     // Come ti chiami?
@@ -9853,6 +10185,8 @@
     doc.match('al [#FirstPerson]', 0).tag('Noun', 'al-verb');
     // i ginocchi
     doc.match('i [#Noun]', 0).tag('PluralNoun', 'i-plural');
+    // 27° - '27th'
+    doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal');
 
     // auxiliary verbs
     doc.match('[(abbia|abbiamo|abbiano|abbiate|avemmo|avesse|avessero|avessi|avessimo|aveste|avesti|avete|aveva|avevamo|avevano|avevate|avevo|avrà|avrai|avranno|avrebbe|avrei|avremmo|avremo|avreste|avresti|avrete|avrò|ebbe|ebbero|ebbi|ha|hai|hanno|ho)] #Verb', 0).tag('Auxiliary', 'aux-verb');
@@ -10041,19 +10375,19 @@
 
 
   // return the nth elem of a doc
-  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api$2 = function (View) {
+  const api$4 = function (View) {
     class Verbs extends View {
       constructor(document, pointer, groups) {
         super(document, pointer, groups);
         this.viewType = 'Verbs';
       }
       parse(n) {
-        return getNth$1(this, n).map(parseVerb$1)
+        return getNth$2(this, n).map(parseVerb$1)
       }
       json(opts, n) {
-        let m = getNth$1(this, n);
+        let m = getNth$2(this, n);
         let arr = m.map(vb => {
           let json = vb.toView().json(opts)[0] || {};
           json.verb = toJSON$1(vb);
@@ -10123,7 +10457,7 @@
           toPresent, toPast, toFuture,
           toConditional, toGerund, toPastParticiple
         } = this.methods.two.transform.verb;
-        return getNth$1(this, n).map(vb => {
+        return getNth$2(this, n).map(vb => {
           let parsed = parseVerb$1(vb);
           let root = parsed.root || '';
           return {
@@ -10174,14 +10508,14 @@
 
     View.prototype.verbs = function (n) {
       let vb = find$1(this);
-      vb = getNth$1(vb, n);
+      vb = getNth$2(vb, n);
       return new Verbs(this.document, vb.pointer)
     };
   };
-  var api$3 = api$2;
+  var api$5 = api$4;
 
   var verbs = {
-    api: api$3,
+    api: api$5,
   };
 
   const findNumbers = function (view) {
@@ -10561,9 +10895,9 @@
   var format = formatNumber;
 
   // return the nth elem of a doc
-  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api = function (View) {
+  const api$2 = function (View) {
     /**   */
     class Numbers extends View {
       constructor(document, pointer, groups) {
@@ -10571,13 +10905,13 @@
         this.viewType = 'Numbers';
       }
       parse(n) {
-        return getNth(this, n).map(parse)
+        return getNth$1(this, n).map(parse)
       }
       get(n) {
-        return getNth(this, n).map(parse).map(o => o.num)
+        return getNth$1(this, n).map(parse).map(o => o.num)
       }
       json(n) {
-        let doc = getNth(this, n);
+        let doc = getNth$1(this, n);
         return doc.map(p => {
           let json = p.toView().json(n)[0];
           let parsed = parse(p);
@@ -10801,16 +11135,50 @@
 
     View.prototype.numbers = function (n) {
       let m = find(this);
-      m = getNth(m, n);
+      m = getNth$1(m, n);
       return new Numbers(this.document, m.pointer)
     };
     // alias
     View.prototype.values = View.prototype.numbers;
   };
-  var api$1 = api;
+  var api$3 = api$2;
 
   var numbers = {
-    api: api$1
+    api: api$3
+  };
+
+  // return the nth elem of a doc
+  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  const api = function (View) {
+    /**   */
+    class Contractions extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Contraction';
+      }
+
+      expand() {
+        return this
+      }
+      // overloaded - keep Contraction class
+      update(pointer) {
+        let m = new Contractions(this.document, pointer);
+        m._cache = this._cache; // share this full thing
+        return m
+      }
+    }
+
+    View.prototype.contractions = function (n) {
+      let m = this.match('@hasContraction');
+      m = getNth(m, n);
+      return new Contractions(this.document, m.pointer)
+    };
+  };
+  var api$1 = api;
+
+  var contractions = {
+    api: api$1,
   };
 
   nlp$1.plugin(tokenize$2);
@@ -10820,30 +11188,19 @@
   nlp$1.plugin(postTagger);
   nlp$1.plugin(verbs);
   nlp$1.plugin(numbers);
+  nlp$1.plugin(contractions);
 
   const it = function (txt, lex) {
     let doc = nlp$1(txt, lex);
     return doc
   };
 
-  it.world = function () {
-    return nlp$1.world()
-  };
-  it.model = function () {
-    return nlp$1.model()
-  };
-  it.methods = function () {
-    return nlp$1.methods()
-  };
-  it.tokenize = function () {
-    return nlp$1.tokenize()
-  };
-  it.plugin = function () {
-    return nlp$1.plugin()
-  };
-  it.extend = function () {
-    return nlp$1.extend()
-  };
+  it.world = () => nlp$1.world();
+  it.model = () => nlp$1.model();
+  it.methods = () => nlp$1.methods();
+  it.tokenize = (str, lex) => nlp$1.tokenize(str, lex);
+  it.plugin = (plg) => nlp$1.plugin(plg);
+  it.parseMatch = (str) => nlp$1.parseMatch(str);
 
 
   /** log the decision-making to console */

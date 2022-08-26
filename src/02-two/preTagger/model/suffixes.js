@@ -31,7 +31,7 @@ export default [
     ne: nn,
     ze: nn,
     pi: nn,
-    ti: nn,
+    // ti: nn,
     bo: nn,
     fo: nn,
     lo: nn,
@@ -564,6 +564,7 @@ export default [
     tesco: jj,
     ccolo: jj,
     ibero: jj,
+    manti: jj,
 
 
     onaca: nn,

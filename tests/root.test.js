@@ -63,6 +63,8 @@ test('root-match:', function (t) {
     ["e altre malattie mortali.", "{mortale}"], //adj
     ["è stato demolito", "{demolire}"], //verb
     ["sono gravemente carenti", "{carente}"], //adjective
+
+    ['sfruttato dalla massiccia effusione', '{massiccio}'], // adj
   ]
   arr.forEach(function (a) {
     let [str, match] = a

@@ -13,9 +13,19 @@ txt = 'ventuno candeline'
 /*
 
 
+* Una retirada repentina {repentino} //adj
+* di stato furono assassinati  {assassinare} //verb
+  *  è stato assassinato
+  * 
+* dovresti fissarla {fissare} //verb
+  * ma è pericoloso fissarlo
+
+*  in particolare erano allarmanti e sono stati {allarmante} //adj
 */
 
+txt = ' diecimila'
 let doc = nlp(txt).debug()
 doc.compute('root')
-console.log(doc.docs[0])
-doc.match('{candela}').debug()
+console.log()
+// console.log(doc.docs[0])
+doc.match('{massiccio}').debug()

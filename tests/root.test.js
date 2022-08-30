@@ -110,6 +110,10 @@ test('root-match:', function (t) {
     ['Tra i mammiferi colorati ', '{colorato}'],
     ['branco di astuti runts', '{astuto}'],
     ['moglie era sorda', '{sordo}'],
+    ['Le belle donne', '{donna}'],
+    ['dove gli inverni sono umidi', '{inverno}'],
+    ['tasche sono vuote', '{vuoto}'],
+    ['un miglio nelle tue scarpe', '{scarpo}'],
 
   ]
   arr.forEach(function (a) {

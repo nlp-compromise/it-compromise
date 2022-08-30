@@ -1042,7 +1042,6 @@ export default [
   "predatore",// predatory
   "incinta",// pregnant
   "precedente",// previous
-  "primo",// prime
   "promettente",// promising
   "psicotico",// psychotic
   "viola",// purple

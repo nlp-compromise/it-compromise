@@ -66,13 +66,19 @@ Object.keys(lexData).forEach(tag => {
     if (tag === 'Ordinal') {
       words[w] = ['TextValue', 'Ordinal']
     }
-    if (tag === 'MaleAdjective') {
+    if (tag === 'MaleAdjective' || tag === 'Adjective') {
       let adj = adjective.toFemale(w)
       words[adj] = words[adj] || 'FemaleAdjective'
       adj = adjective.toPlural(w)
       words[adj] = words[adj] || 'PluralAdjective'
       adj = adjective.toFemalePlural(w)
       words[adj] = words[adj] || 'FemaleAdjective'
+    }
+    if (tag === 'FemaleAdjective') {
+      let adj = adjective.fromFemale(w)
+      words[adj] = words[adj] || 'MaleAdjective'
+      adj = adjective.toPlural(w)
+      words[adj] = words[adj] || 'PluralAdjective'
     }
     if (tag === 'Infinitive') {
       addVerbs(w)

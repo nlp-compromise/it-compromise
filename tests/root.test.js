@@ -113,15 +113,13 @@ test('root-match:', function (t) {
     ['Le belle donne', '{donna}'],
     ['dove gli inverni sono umidi', '{inverno}'],
     ['tasche sono vuote', '{vuoto}'],
-    ['un miglio nelle tue scarpe', '{scarpo}'],
+    ['un miglio nelle tue scarpe', '{scarpa}'],
 
   ]
   arr.forEach(function (a) {
     let [str, match] = a
     let doc = nlp(str).compute('root')
-    let tags = doc.json()[0].terms.map(term => term.tags[0])
-    let msg = `'${(str + "' ").padEnd(20, ' ')}  - '${tags.join(', ')}'`
-    t.equal(doc.has(match), true, here + msg)
+    t.equal(doc.has(match), true, here + a.join(' '))
   })
   t.end()
 })

@@ -9,7 +9,8 @@ txt = 'Sto venendo ora dall’ufficio'//I’m coming from the office
 txt = 'Il treno è arrivato ora da Milano'//The train just arrived from Milan
 txt = 'Nel pomeriggio vado da Marco'//In the afternoon I’ll go to Marco’s place
 txt = 'ventuno candeline'
-txt = 'moglie era sorda'
+txt = ' tue ossa '
+txt = ' Andando come torte calde'
 
 /*
 advice-noun-01
@@ -19,10 +20,12 @@ clock-noun-01
 woman-noun-01
 empty-adjective-01
 shoe-noun-01
+auction-noun-01
+snow-verb-01
 */
 
 let doc = nlp(txt).debug()
 doc.compute('root')
 console.log()
 // console.log(doc.docs[0])
-doc.match('{sordo}').debug()
+doc.match('{torta}').debug()

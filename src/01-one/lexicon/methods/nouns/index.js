@@ -15,3 +15,6 @@ export default {
 
 // console.log(toPlural('abboccamento'))
 // console.log(fromPlural('abboccamenti'))
+// console.log(fromPlural('scarpe'))
+// console.log(toPlural('scarpa'))
+// console.log(fromPlural('nuvole'))

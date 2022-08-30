@@ -20,7 +20,8 @@ let suffixes = [
   {
     'a': f,
     'o': m,
-    'i': f,
+    'i': m,
+    'e': f,
   },
   // two
   {

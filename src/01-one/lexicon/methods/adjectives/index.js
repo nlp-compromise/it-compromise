@@ -17,3 +17,8 @@ export default {
   fromFemale, fromPlural,
 }
 
+// "ridicola",
+// "ridicoli",
+// "ridicole"
+// console.log(toFemale(toPlural("ridicolo")))
+// console.log(toPlural("ridicolo"))

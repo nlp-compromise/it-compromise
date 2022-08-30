@@ -67,26 +67,26 @@ test('root-match:', function (t) {
 
 
 
-    ['Una retirada repentina', '{repentino}'], //adj
-    ['di stato furono assassinati ', '{assassinare}'], //verb
-    [' è stato assassinato', '{assassinare}'],
-    ['dovresti fissarla', '{fissare}'], //verb
-    ['ma è pericoloso fissarlo', '{fissare}'],
-    [' in particolare erano allarmanti e sono stati', '{allarmante}'], //adj
-    ['dichiarazioni più lucide mai girate', '{lucido}'],
-    ['una pensierosa Caterina ', '{pensieroso}'], //adj
-    [' questi pezzi musicali pensosi  ', '{pensieroso}'],
-    ['risiede nella natura ripetitiva', '{ripetitivo}'], //adj
-    ['in avanti rendendo retroattivi', '{retroattivo}'], //adj
-    ['la concessione di prestazioni retroattive fino', '{retroattivo}'],
-    ['indossare oggetti lucidi', '{lucido}'],  //adj
-    ['Un paio di versi successivi', '{successivo}'], //adj
-    ['eventi degli anni successivi', '{successivo}'],
-    ['le generazioni successive', '{successivo}'],
-    ['mescolati con solenni interviste', '{solenne}'], //adj
-    ['La fastidiosa necessità', '{fastidioso}'],  //adj
-    ['delle persone fastidiose', '{fastidioso}'],
-    ['per i veicoli', '{veicolo}'], //noun
+    // ['Una retirada repentina', '{repentino}'], //adj
+    // ['di stato furono assassinati ', '{assassinare}'], //verb
+    // [' è stato assassinato', '{assassinare}'],
+    // ['dovresti fissarla', '{fissare}'], //verb
+    // ['ma è pericoloso fissarlo', '{fissare}'],
+    // [' in particolare erano allarmanti e sono stati', '{allarmante}'], //adj
+    // ['dichiarazioni più lucide mai girate', '{lucido}'],
+    // ['una pensierosa Caterina ', '{pensieroso}'], //adj
+    // [' questi pezzi musicali pensosi  ', '{pensieroso}'],
+    // ['risiede nella natura ripetitiva', '{ripetitivo}'], //adj
+    // ['in avanti rendendo retroattivi', '{retroattivo}'], //adj
+    // ['la concessione di prestazioni retroattive fino', '{retroattivo}'],
+    // ['indossare oggetti lucidi', '{lucido}'],  //adj
+    // ['Un paio di versi successivi', '{successivo}'], //adj
+    // ['eventi degli anni successivi', '{successivo}'],
+    // ['le generazioni successive', '{successivo}'],
+    // ['mescolati con solenni interviste', '{solenne}'], //adj
+    // ['La fastidiosa necessità', '{fastidioso}'],  //adj
+    // ['delle persone fastidiose', '{fastidioso}'],
+    // ['per i veicoli', '{veicolo}'], //noun
     ['Sono entrambe ottime risorse', '{risorsa}'], //noun
     ['impegnate nei principi democratici', '{principio}'], //noun
     ['inclini a fare cose ridicole', '{ridicolo}'], //adj

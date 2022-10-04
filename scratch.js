@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 let txt = ''
 txt = `Il libro dell’insegnante`
 txt = `sedicesimo`
@@ -24,8 +24,5 @@ auction-noun-01
 snow-verb-01
 */
 
-let doc = nlp(txt).debug()
-doc.compute('root')
-console.log()
-// console.log(doc.docs[0])
-doc.match('{torta}').debug()
+let doc = nlp(`ascendo`).debug()
+console.log(doc.verbs().conjugate())

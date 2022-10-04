@@ -25,29 +25,8 @@ const getPhrasal = function (root) {
 }
 
 const getRoot = function (view) {
-  const {
-    fromPastParticiple,
-    fromPresent,
-    fromPast,
-    fromFuture,
-    fromConditional
-  } = view.methods.two.transform.verb
-  let str = view.text('normal')
-  if (view.has('#PastParticiple')) {
-    return fromPastParticiple(str)
-  }
-  if (view.has('#PresentTense')) {
-    return fromPresent(str)
-  }
-  if (view.has('#PastTense')) {
-    return fromPast(str)
-  }
-  if (view.has('#FutureTense')) {
-    return fromFuture(str)
-  }
-  if (view.has('#ConditionalVerb')) {
-    return fromConditional(str)
-  }
+  view.compute('root')
+  let str = view.text('root')
   return str
 }
 

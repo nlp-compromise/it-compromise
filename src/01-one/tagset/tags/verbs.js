@@ -24,6 +24,9 @@ export default {
   Copula: {
     is: 'Verb',
   },
+  Reflexive: {
+    is: 'Verb',
+  },
   Modal: {
     is: 'Verb',
     not: ['Infinitive'],

@@ -24,5 +24,5 @@ auction-noun-01
 snow-verb-01
 */
 
-let doc = nlp(`ascendo`).debug()
+let doc = nlp(`scusarsi`).debug()
 console.log(doc.verbs().conjugate())

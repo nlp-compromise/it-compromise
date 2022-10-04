@@ -26,6 +26,10 @@ test('noun-conjugate:', function (t) {
   o = nlp(all[1]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-plural')
 
+  all = ["arachide", "arachidi"]
+  o = nlp(all[0]).nouns().conjugate()[0]
+  t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
+
   all = ["salsiccia", "salsiccia"]
   o = nlp(all[0]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-sing')

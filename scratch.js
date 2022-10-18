@@ -1,8 +1,5 @@
 import nlp from './src/index.js'
 
-
-console.log(nlp.world().methods.two)
-
 // nlp.verbose('tagger')
 let txt = ''
 txt = `Il libro dell’insegnante`
@@ -27,5 +24,7 @@ auction-noun-01
 snow-verb-01
 */
 
-let doc = nlp(`scusarsi`).debug()
-console.log(doc.verbs().conjugate())
+
+let doc = nlp('anche se dubiti delle prove')
+console.log(nlp.parseMatch('{dubitare}'))
+doc.match('{dubitare}').debug()

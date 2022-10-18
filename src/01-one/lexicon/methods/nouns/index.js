@@ -10,6 +10,7 @@ const fromPlural = (str) => convert(str, revPlural)
 
 export default {
   toPlural, fromPlural,
+  all: toPlural
 }
 
 

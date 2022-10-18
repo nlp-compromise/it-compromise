@@ -12,7 +12,17 @@ const toFemalePlural = (str) => toPlural(toFemale(str))
 const fromFemale = (str) => convert(str, revFemale)
 const fromPlural = (str) => convert(str, revPlural)
 
+const all = function (str) {
+  let arr = [
+    toFemale(str),
+    toPlural(str),
+    toFemalePlural(str),
+  ].filter(s => s)
+  return arr
+}
+
 export default {
+  all,
   toFemale, toPlural, toFemalePlural,
   fromFemale, fromPlural,
 }

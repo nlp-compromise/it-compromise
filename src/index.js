@@ -24,16 +24,17 @@ nlp.plugin(nouns)
 nlp.plugin(contractions)
 
 const it = function (txt, lex) {
-  let doc = nlp(txt, lex)
-  return doc
+  return nlp(txt, lex)
 }
 
+// copy constructor methods over
+Object.keys(nlp).forEach(k => {
+  if (nlp.hasOwnProperty(k)) {
+    it[k] = nlp[k]
+  }
+})
+
 it.world = () => nlp.world()
-it.model = () => nlp.model()
-it.methods = () => nlp.methods()
-it.tokenize = (str, lex) => nlp.tokenize(str, lex)
-it.plugin = (plg) => nlp.plugin(plg)
-it.parseMatch = (str) => nlp.parseMatch(str)
 
 
 /** log the decision-making to console */

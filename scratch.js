@@ -1,5 +1,8 @@
 import nlp from './src/index.js'
 
+
+console.log(nlp.world().methods.two)
+
 // nlp.verbose('tagger')
 let txt = ''
 txt = `Il libro dell’insegnante`

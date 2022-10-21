@@ -263,7 +263,7 @@
 
   // aliases
   methods$m.get = methods$m.eq;
-  var api$h = methods$m;
+  var api$l = methods$m;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -388,10 +388,10 @@
       return m
     }
   }
-  Object.assign(View.prototype, api$h);
+  Object.assign(View.prototype, api$l);
   var View$1 = View;
 
-  var version$1 = '14.5.0';
+  var version$1 = '14.6.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -712,7 +712,7 @@
   const addAPI$3 = function (View) {
     Object.assign(View.prototype, methods$k);
   };
-  var api$g = addAPI$3;
+  var api$k = addAPI$3;
 
   var compute$7 = {
     cache: function (view) {
@@ -721,7 +721,7 @@
   };
 
   var cache$1 = {
-    api: api$g,
+    api: api$k,
     compute: compute$7,
     methods: methods$l,
   };
@@ -967,7 +967,7 @@
     }
     //allow a view object
     if (typeof input === 'object' && input.isView) {
-      return input.clone().docs[0] //assume one sentence
+      return input.clone().docs[0] || [] //assume one sentence
     }
     //allow an array of terms, too
     if (isArray$7(input)) {
@@ -988,6 +988,10 @@
       // add-in the words
       let home = document[n];
       let terms = getTerms(input, world);
+      // are we inserting nothing?
+      if (terms.length === 0) {
+        return
+      }
       terms = addIds$2(terms);
       if (prepend) {
         expand$2(view.update([ptr]).firstTerm());
@@ -1114,6 +1118,7 @@
     if (!m.found) {
       return this
     }
+    this.soften();
     return m.replaceWith(input, keep)
   };
   var replace = fns$2;
@@ -1223,9 +1228,10 @@
         self = this;
         not = this.match(reg);
       }
+      let isFull = !self.ptrs;
       // is it part of a contraction?
-      if (self.has('@hasContraction') && self.contractions) {
-        let more = self.grow('@hasContraction');
+      if (not.has('@hasContraction') && not.contractions) {
+        let more = not.grow('@hasContraction');
         more.contractions().expand();
       }
 
@@ -1236,11 +1242,14 @@
       // repair our pointers
       let gonePtrs = indexN(nots);
       ptrs = fixPointers$1(ptrs, gonePtrs);
-
       // clean up our original inputs
       self.ptrs = ptrs;
       self.document = document;
       self.compute('index');
+      // if we started zoomed-out, try to end zoomed-out
+      if (isFull) {
+        self.ptrs = undefined;
+      }
       if (!reg) {
         this.ptrs = [];
         return self.none()
@@ -1591,7 +1600,7 @@
   const addAPI$2 = function (View) {
     Object.assign(View.prototype, methods$g);
   };
-  var api$f = addAPI$2;
+  var api$j = addAPI$2;
 
   const compute$5 = {
     id: function (view) {
@@ -1608,7 +1617,7 @@
   var compute$6 = compute$5;
 
   var change = {
-    api: api$f,
+    api: api$j,
     compute: compute$6,
   };
 
@@ -1838,7 +1847,7 @@
   };
   var numberRange$1 = numberRange;
 
-  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/i;
+  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/; //(must be lowercase)
 
   const notUnit = new Set([
     'st',
@@ -1847,7 +1856,10 @@
     'th',
     'am',
     'pm',
-    'max'
+    'max',
+    '°',
+    's', // 1990s
+    'e' // 18e - french/spanish ordinal
   ]);
 
   const numberUnit = function (terms, i) {
@@ -2319,7 +2331,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$e (View) {
+  function api$i (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2377,7 +2389,7 @@
   lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$e,
+    api: api$i,
     lib: lib$4
   };
 
@@ -2737,7 +2749,7 @@
   const matchAPI = function (View) {
     Object.assign(View.prototype, methods$d);
   };
-  var api$d = matchAPI;
+  var api$h = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -3043,36 +3055,35 @@
   };
   var splitHyphens$2 = splitHyphens$1;
 
+  // add all conjugations of this verb
   const addVerbs$1 = function (token, world) {
-    let { verbConjugate } = world.methods.two.transform;
-    if (!verbConjugate) {
+    let { all } = world.methods.two.transform.verb || {};
+    let str = token.root;
+    // if (toInfinitive) {
+    //   str = toInfinitive(str, world.model)
+    // }
+    if (!all) {
       return []
     }
-    let res = verbConjugate(token.root, world.model);
-    delete res.FutureTense;
-    return Object.values(res).filter(str => str)
+    return all(str, world.model)
   };
 
+  // add all inflections of this noun
   const addNoun = function (token, world) {
-    let { nounToPlural } = world.methods.two.transform;
-    let res = [token.root];
-    if (!nounToPlural) {
-      return res
+    let { all } = world.methods.two.transform.noun || {};
+    if (!all) {
+      return [token.root]
     }
-    res.push(nounToPlural(token.root, world.model));
-    return res
+    return all(token.root, world.model)
   };
 
+  // add all inflections of this adjective
   const addAdjective = function (token, world) {
-    let { adjToSuperlative, adjToComparative, adjToAdverb } = world.methods.two.transform;
-    let res = [token.root];
-    if (!adjToSuperlative || !adjToComparative || !adjToAdverb) {
-      return res
+    let { all } = world.methods.two.transform.adjective || {};
+    if (!all) {
+      return [token.root]
     }
-    res.push(adjToSuperlative(token.root, world.model));
-    res.push(adjToComparative(token.root, world.model));
-    res.push(adjToAdverb(token.root, world.model));
-    return res
+    return all(token.root, world.model)
   };
 
   // turn '{walk}' into 'walking', 'walked', etc
@@ -3082,16 +3093,21 @@
       // a reg to convert '{foo}'
       if (token.root) {
         // check if compromise/two is loaded
-        if (world.methods.two && world.methods.two.transform && world.methods.two.transform.verbConjugate) {
+        if (world.methods.two && world.methods.two.transform) {
           let choices = [];
-          if (!token.pos || token.pos === 'Verb') {
+          // have explicitly set from POS - '{sweet/adjective}'
+          if (token.pos) {
+            if (token.pos === 'Verb') {
+              choices = choices.concat(addVerbs$1(token, world));
+            } else if (token.pos === 'Noun') {
+              choices = choices.concat(addNoun(token, world));
+            } else if (token.pos === 'Adjective') {
+              choices = choices.concat(addAdjective(token, world));
+            }
+          } else {
+            // do verb/noun/adj by default
             choices = choices.concat(addVerbs$1(token, world));
-          }
-          if (!token.pos || token.pos === 'Noun') {
             choices = choices.concat(addNoun(token, world));
-          }
-          // don't run these by default
-          if (!token.pos || token.pos === 'Adjective') {
             choices = choices.concat(addAdjective(token, world));
           }
           choices = choices.filter(str => str);
@@ -3343,7 +3359,7 @@
   const endQuote = /([\u0022\uFF02\u0027\u201D\u2019\u00BB\u203A\u2032\u2033\u2034\u301E\u00B4])/;
 
   const hasHyphen$1 = /^[-–—]$/;
-  const hasDash$1 = / [-–—] /;
+  const hasDash$1 = / [-–—]{1,3} /;
 
   /** search the term's 'post' punctuation  */
   const hasPost = (term, punct) => term.post.indexOf(punct) !== -1;
@@ -3365,6 +3381,8 @@
     hasEllipses: term => hasPost(term, '..') || hasPost(term, '…') || hasPre(term, '..') || hasPre(term, '…'),
     /** is there a semicolon after term word? */
     hasSemicolon: term => hasPost(term, ';'),
+    /** is there a colon after term word? */
+    hasColon: term => hasPost(term, ':'),
     /** is there a slash '/' in term word? */
     hasSlash: term => /\//.test(term.text),
     /** a hyphen connects two words like-term */
@@ -4220,7 +4238,7 @@
   };
 
   var match = {
-    api: api$d,
+    api: api$h,
     methods: methods$b,
     lib: lib$3,
   };
@@ -4910,7 +4928,7 @@
       if (fmt && typeof fmt === 'string' && fmts$1.hasOwnProperty(fmt)) {
         opts = Object.assign({}, fmts$1[fmt]);
       } else if (fmt && isObject$1(fmt)) {
-        opts = Object.assign({}, fmt, opts);//todo: fixme
+        opts = Object.assign({}, opts, fmt);//todo: fixme
       }
       if (this.pointer) {
         opts.keepSpace = false;
@@ -4932,10 +4950,10 @@
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$7);
   };
-  var api$c = addAPI$1;
+  var api$g = addAPI$1;
 
   var output = {
-    api: api$c,
+    api: api$g,
     methods: {
       one: {
         hash: md5
@@ -5071,7 +5089,7 @@
 
   var splitAll$1 = splitAll;
 
-  const max$1 = 4;
+  const max$1 = 20;
 
   // sweep-around looking for our start term uuid
   const blindSweep = function (id, doc, n) {
@@ -5347,11 +5365,11 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$5);
   };
-  var api$b = addAPI;
+  var api$f = addAPI;
 
   var pointers = {
     methods: methods$6,
-    api: api$b,
+    api: api$f,
   };
 
   var lib$2 = {
@@ -5364,7 +5382,7 @@
     }
   };
 
-  const api$9 = function (View) {
+  const api$d = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5408,7 +5426,7 @@
     };
 
   };
-  var api$a = api$9;
+  var api$e = api$d;
 
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
@@ -5568,7 +5586,7 @@
       });
       // ensure nothing matches in our 'ifNo' property
       list = list.filter(obj => {
-        if (obj.ifNo !== undefined && obj.ifNo.some(no => docCache[n].has(no)) === true) {
+        if (obj.ifNo !== undefined && obj.ifNo.some(no => haves.has(no)) === true) {
           return false
         }
         return true
@@ -5589,7 +5607,7 @@
 
   // finally,
   // actually run these match-statements on the terms
-  const runMatch = function (maybeList, document, methods, opts) {
+  const runMatch = function (maybeList, document, docCache, methods, opts) {
     let results = [];
     for (let n = 0; n < maybeList.length; n += 1) {
       for (let i = 0; i < maybeList[n].length; i += 1) {
@@ -5598,9 +5616,23 @@
         let res = methods.one.match([document[n]], m);
         // found something.
         if (res.ptrs.length > 0) {
-          // let index=document[n][0].index
           res.ptrs.forEach(ptr => {
             ptr[0] = n; // fix the sentence pointer
+            // check ifNo
+            // if (m.ifNo !== undefined) {
+            //   let terms = document[n].slice(ptr[1], ptr[2])
+            //   for (let k = 0; k < m.ifNo.length; k += 1) {
+            //     const no = m.ifNo[k]
+            //     // quick-check cache
+            //     if (docCache[n].has(no)) {
+            //       // console.log(no)
+            //       if (terms.find(t => t.normal === no || t.tags.has(no))) {
+            //         // console.log('+' + no)
+            //         return
+            //       }
+            //     }
+            //   }
+            // }
             let todo = Object.assign({}, m, { pointer: ptr });
             if (m.unTag !== undefined) {
               todo.unTag = m.unTag;
@@ -5642,16 +5674,8 @@
     // if we don't have enough words
     maybeList = tooSmall(maybeList, document);
 
-    // maybeList.forEach((arr, i) => {
-    //   let txt = document[i].map(t => t.text).join(' ')
-    //   console.log(`==== ${txt} ====`)
-    //   arr.forEach(m => {
-    //     console.log(`    - ${m.match}`)
-    //   })
-    // })
-
     // now actually run the matches
-    let results = runMatch$1(maybeList, document, methods, opts);
+    let results = runMatch$1(maybeList, document, docCache, methods, opts);
     // console.dir(results, { depth: 5 })
     return results
   };
@@ -5708,11 +5732,12 @@
       if (todo.tag !== undefined) {
         setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
         // quick and dirty plural tagger
-        if (terms.length === 1 && todo.tag === 'Noun') {
-          if (looksPlural(terms[0].text)) {
-            setTag(terms, 'Plural', world, todo.safe, 'quick-plural');
+        if (todo.tag === 'Noun') {
+          let term = terms[terms.length - 1];
+          if (looksPlural(term.text)) {
+            setTag([term], 'Plural', world, todo.safe, 'quick-plural');
           } else {
-            setTag(terms, 'Singular', world, todo.safe, 'quick-singular');
+            setTag([term], 'Singular', world, todo.safe, 'quick-singular');
           }
         }
       }
@@ -5735,7 +5760,7 @@
 
   var sweep = {
     lib: lib$2,
-    api: api$a,
+    api: api$e,
     methods: {
       one: methods$4,
     }
@@ -6129,7 +6154,7 @@
   const tagAPI = function (View) {
     Object.assign(View.prototype, tag$1);
   };
-  var api$8 = tagAPI;
+  var api$c = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
@@ -6183,7 +6208,7 @@
       tagRank: tagRank$1
     },
     methods: methods$3,
-    api: api$8,
+    api: api$c,
     lib: lib$1
   };
 
@@ -6498,7 +6523,7 @@
   const isBoundary = /^[!?.]+$/;
   const naiiveSplit = /(\S+)/;
 
-  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`'];
+  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`', '«', '»', '*'];
   notWord = notWord.reduce((h, c) => {
     h[c] = true;
     return h
@@ -6568,13 +6593,14 @@
     '#', //#hastag
     '@', //@atmention
     '_',//underscore
-    '\\-',//-4  (escape)
+    // '\\-',//-4  (escape)
     '+',//+4
     '.',//.4
   ];
   const allowAfter = [
     '%',//88%
     '_',//underscore
+    '°',//degrees, italian ordinal
     // '\'',// \u0027
   ];
 
@@ -6588,6 +6614,7 @@
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const shortYear = /^'[0-9]{2}/;
+  const isNumber = /^-[0-9]/;
 
   const normalizePunctuation = function (str) {
     let original = str;
@@ -6604,6 +6631,10 @@
       // support years like '97
       if (pre === `'` && shortYear.test(str)) {
         pre = '';
+        return found
+      }
+      // support prefix negative signs like '-45'
+      if (found === '-' && isNumber.test(str)) {
         return found
       }
       pre = found; //keep it
@@ -6936,7 +6967,7 @@
 
   var months = ['jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'sept', 'oct', 'nov', 'dec'];
 
-  var nouns$1 = [
+  var nouns$2 = [
     'ad',
     'al',
     'arc',
@@ -7054,7 +7085,7 @@
   let list = [
     [misc$2],
     [units, 'Unit'],
-    [nouns$1, 'Noun'],
+    [nouns$2, 'Noun'],
     [honorifics, 'Honorific'],
     [months, 'Month'],
     [organizations, 'Organization'],
@@ -7420,10 +7451,10 @@
     return this
   };
 
-  const api$6 = function (View) {
+  const api$a = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$7 = api$6;
+  var api$b = api$a;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
@@ -7505,7 +7536,7 @@
   };
   var typeahead = {
     model: model$2,
-    api: api$7,
+    api: api$b,
     lib,
     compute,
     hooks: ['typeahead']
@@ -7610,7 +7641,7 @@
     }
   };
 
-  var version = '0.0.6';
+  var version = '0.1.0';
 
   const prefix$1 = /^.([0-9]+)/;
 
@@ -8046,7 +8077,21 @@
     return stripReflexive$1(str)
   };
 
+  const all$1 = function (str) {
+    let arr = [str].concat(
+      Object.values(toPresent(str)),
+      Object.values(toPast(str)),
+      Object.values(toFuture(str)),
+      Object.values(toConditional(str)),
+    );
+    arr.push(toPastParticiple(str));
+    arr = arr.filter(s => s);
+    arr = new Set(arr);
+    return Array.from(arr)
+  };
+
   var verbs$2 = {
+    all: all$1,
     toPresent, toPast, toFuture, toConditional,
     fromGerund, toGerund, fromPastParticiple, toPastParticiple,
     fromPresent, fromPast, fromFuture, fromConditional
@@ -8062,6 +8107,7 @@
 
   var noun = {
     toPlural: toPlural$1, fromPlural: fromPlural$1,
+    all: toPlural$1
   };
 
 
@@ -8083,7 +8129,17 @@
   const fromFemale = (str) => convert$1(str, revFemale);
   const fromPlural = (str) => convert$1(str, revPlural);
 
+  const all = function (str) {
+    let arr = [
+      toFemale(str),
+      toPlural(str),
+      toFemalePlural(str),
+    ].filter(s => s);
+    return arr
+  };
+
   var adjective = {
+    all,
     toFemale, toPlural, toFemalePlural,
     fromFemale, fromPlural,
   };
@@ -8494,7 +8550,7 @@
 
   const entity = ['Person', 'Place', 'Organization'];
 
-  var nouns = {
+  var nouns$1 = {
     Noun: {
       not: ['Verb', 'Adjective', 'Adverb', 'Value', 'Determiner'],
     },
@@ -8629,6 +8685,9 @@
       not: ['PresentTense', 'Gerund'],
     },
     Copula: {
+      is: 'Verb',
+    },
+    Reflexive: {
       is: 'Verb',
     },
     Modal: {
@@ -8873,7 +8932,7 @@
     },
   };
 
-  let tags = Object.assign({}, nouns, verbs$1, values, dates, misc);
+  let tags = Object.assign({}, nouns$1, verbs$1, values, dates, misc);
 
   var tagset = {
     tags
@@ -9446,7 +9505,7 @@
     //numbers
     // 50 | -50 | 3.23  | 5,999.0  | 10+
     [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?\+?$/, ['Cardinal', 'NumericValue'], '5,999'],
-    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(st|nd|rd|r?th)$/, ['Ordinal', 'NumericValue'], '53rd'],
+    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(st|nd|rd|r?th|°)$/, ['Ordinal', 'NumericValue'], '53rd'],
     // .73th
     [/^\.[0-9]+\+?$/, ['Cardinal', 'NumericValue'], '.73th'],
     //percent
@@ -10404,37 +10463,16 @@
     return vb.match('#Negative')
   };
 
-  const getRoot = function (view) {
-    const {
-      fromPastParticiple,
-      fromPresent,
-      fromPast,
-      fromFuture,
-      fromConditional
-    } = view.methods.two.transform.verb;
-    let str = view.text('normal');
-    if (view.has('#PastParticiple')) {
-      return fromPastParticiple(str)
-    }
-    if (view.has('#PresentTense')) {
-      return fromPresent(str)
-    }
-    if (view.has('#PastTense')) {
-      return fromPast(str)
-    }
-    if (view.has('#FutureTense')) {
-      return fromFuture(str)
-    }
-    if (view.has('#ConditionalVerb')) {
-      return fromConditional(str)
-    }
+  const getRoot$2 = function (view) {
+    view.compute('root');
+    let str = view.text('root');
     return str
   };
 
   const parseVerb = function (view) {
     let vb = view.clone();
     // vb.contractions().expand()
-    const root = getRoot(vb);
+    const root = getRoot$2(vb);
     let res = {
       root: root,
       prefix: vb.match('#Prefix'),
@@ -10495,19 +10533,19 @@
 
 
   // return the nth elem of a doc
-  const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$4 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api$4 = function (View) {
+  const api$8 = function (View) {
     class Verbs extends View {
       constructor(document, pointer, groups) {
         super(document, pointer, groups);
         this.viewType = 'Verbs';
       }
       parse(n) {
-        return getNth$2(this, n).map(parseVerb$1)
+        return getNth$4(this, n).map(parseVerb$1)
       }
       json(opts, n) {
-        let m = getNth$2(this, n);
+        let m = getNth$4(this, n);
         let arr = m.map(vb => {
           let json = vb.toView().json(opts)[0] || {};
           json.verb = toJSON$1(vb);
@@ -10573,21 +10611,18 @@
       //   })
       // }
       conjugate(n) {
-        const {
-          toPresent, toPast, toFuture,
-          toConditional, toGerund, toPastParticiple
-        } = this.methods.two.transform.verb;
-        return getNth$2(this, n).map(vb => {
+        const m = this.methods.two.transform.verb;
+        return getNth$4(this, n).map(vb => {
           let parsed = parseVerb$1(vb);
           let root = parsed.root || '';
           return {
             Infinitive: root,
-            PastTense: toPast(root),
-            PresentTense: toPresent(root),
-            FutureTense: toFuture(root),
-            Gerund: toGerund(root),
-            Conditional: toConditional(root),
-            PastParticiple: toPastParticiple(root),
+            PastTense: m.toPast(root),
+            PresentTense: m.toPresent(root),
+            FutureTense: m.toFuture(root),
+            Gerund: m.toGerund(root),
+            Conditional: m.toConditional(root),
+            PastParticiple: m.toPastParticiple(root),
           }
         }, [])
       }
@@ -10628,14 +10663,14 @@
 
     View.prototype.verbs = function (n) {
       let vb = find$1(this);
-      vb = getNth$2(vb, n);
+      vb = getNth$4(vb, n);
       return new Verbs(this.document, vb.pointer)
     };
   };
-  var api$5 = api$4;
+  var api$9 = api$8;
 
   var verbs = {
-    api: api$5,
+    api: api$9,
   };
 
   const findNumbers = function (view) {
@@ -10752,6 +10787,9 @@
   data.multiples.forEach(a => {
     multiples$1[a[1]] = a[0];
   });
+
+  // 'dieci|mila'
+  toOrdinal['mila'] = 'millesimo';
 
   // split 'centosessantasette' into  [ 'cento', 'sessanta', 'sette' ]
   const tokenize = function (str) {
@@ -10993,6 +11031,9 @@
   const formatNumber = function (parsed, fmt) {
     if (fmt === 'TextOrdinal') {
       let words = toText$1(parsed.num);
+      if (words.length === 2 && words[0] === 'dieci' && words[1] === 'mila') {
+        return 'decimillesimo'
+      }
       // only convert the last word
       let last = words[words.length - 1];
       if (toOrdinal.hasOwnProperty(last)) {
@@ -11015,9 +11056,9 @@
   var format = formatNumber;
 
   // return the nth elem of a doc
-  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$3 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api$2 = function (View) {
+  const api$6 = function (View) {
     /**   */
     class Numbers extends View {
       constructor(document, pointer, groups) {
@@ -11025,13 +11066,13 @@
         this.viewType = 'Numbers';
       }
       parse(n) {
-        return getNth$1(this, n).map(parse)
+        return getNth$3(this, n).map(parse)
       }
       get(n) {
-        return getNth$1(this, n).map(parse).map(o => o.num)
+        return getNth$3(this, n).map(parse).map(o => o.num)
       }
       json(n) {
-        let doc = getNth$1(this, n);
+        let doc = getNth$3(this, n);
         return doc.map(p => {
           let json = p.toView().json(n)[0];
           let parsed = parse(p);
@@ -11255,16 +11296,131 @@
 
     View.prototype.numbers = function (n) {
       let m = find(this);
-      m = getNth$1(m, n);
+      m = getNth$3(m, n);
       return new Numbers(this.document, m.pointer)
     };
     // alias
     View.prototype.values = View.prototype.numbers;
   };
-  var api$3 = api$2;
+  var api$7 = api$6;
 
   var numbers = {
-    api: api$3
+    api: api$7
+  };
+
+  const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot$1 = function (m) {
+    m.compute('root');
+    let str = m.text('root');
+    return str
+  };
+
+  const api$4 = function (View) {
+    class Adjectives extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Adjectives';
+      }
+      conjugate(n) {
+        const methods = this.methods.two.transform.adjective;
+        return getNth$2(this, n).map(m => {
+          let str = getRoot$1(m);
+          return {
+            male: str,
+            female: methods.toFemale(str),
+            plural: methods.toPlural(str),
+            femalePlural: methods.toFemalePlural(str),
+          }
+        }, [])
+      }
+    }
+
+    View.prototype.adjectives = function (n) {
+      let m = this.match('#Adjective');
+      m = getNth$2(m, n);
+      return new Adjectives(this.document, m.pointer)
+    };
+  };
+  var api$5 = api$4;
+
+  var adjectives = {
+    api: api$5,
+  };
+
+  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot = function (m) {
+    m.compute('root');
+    let str = m.text('root');
+    // let isPlural = m.has('#PluralNoun')
+    // if (isPlural) {
+    //   return transform.adjective.fromPlural(str)
+    // }
+    return str
+  };
+
+  const api$2 = function (View) {
+    class Nouns extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Nouns';
+      }
+      conjugate(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth$1(this, n).map(m => {
+          let str = m.text();
+          if (m.has('#PluralNoun')) {
+            return {
+              plural: str,
+              singular: methods.fromPlural(str)
+            }
+          }
+          if (m.has('#Uncountable')) {
+            return {
+              singular: str,
+              plural: str,
+            }
+          }
+          return {
+            singular: str,
+            plural: methods.toPlural(str)
+          }
+        }, [])
+      }
+      isPlural(n) {
+        return getNth$1(this, n).if('#PluralNoun')
+      }
+      toPlural(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth$1(this, n).if('#Singular').map(m => {
+          let str = getRoot(m);
+          let plural = methods.toPlural(str);
+          return m.replaceWith(plural)
+        })
+      }
+      toSingular(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth$1(this, n).if('#PluralNoun').map(m => {
+          let str = getRoot(m);
+          let singular = methods.fromPlural(str);
+          return m.replaceWith(singular)
+        })
+      }
+    }
+
+    View.prototype.nouns = function (n) {
+      let m = this.match('#Noun');
+      m = getNth$1(m, n);
+      return new Nouns(this.document, m.pointer)
+    };
+  };
+  var api$3 = api$2;
+
+  var nouns = {
+    api: api$3,
   };
 
   // return the nth elem of a doc
@@ -11308,19 +11464,22 @@
   nlp$1.plugin(postTagger);
   nlp$1.plugin(verbs);
   nlp$1.plugin(numbers);
+  nlp$1.plugin(adjectives);
+  nlp$1.plugin(nouns);
   nlp$1.plugin(contractions);
 
   const it = function (txt, lex) {
-    let doc = nlp$1(txt, lex);
-    return doc
+    return nlp$1(txt, lex)
   };
 
+  // copy constructor methods over
+  Object.keys(nlp$1).forEach(k => {
+    if (nlp$1.hasOwnProperty(k)) {
+      it[k] = nlp$1[k];
+    }
+  });
+
   it.world = () => nlp$1.world();
-  it.model = () => nlp$1.model();
-  it.methods = () => nlp$1.methods();
-  it.tokenize = (str, lex) => nlp$1.tokenize(str, lex);
-  it.plugin = (plg) => nlp$1.plugin(plg);
-  it.parseMatch = (str) => nlp$1.parseMatch(str);
 
 
   /** log the decision-making to console */

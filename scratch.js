@@ -24,7 +24,10 @@ auction-noun-01
 snow-verb-01
 */
 
+let doc = nlp('diecimila').debug()
+doc.numbers().toOrdinal()
+console.log(doc.text())
 
-let doc = nlp('anche se dubiti delle prove')
-console.log(nlp.parseMatch('{dubitare}'))
-doc.match('{dubitare}').debug()
+// let doc = nlp('anche se dubiti delle prove')
+// console.log(nlp.parseMatch('{dubitare}'))
+// doc.match('{dubitare}').debug()

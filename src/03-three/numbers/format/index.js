@@ -4,6 +4,9 @@ import { toOrdinal } from '../data.js'
 const formatNumber = function (parsed, fmt) {
   if (fmt === 'TextOrdinal') {
     let words = toText(parsed.num)
+    if (words.length === 2 && words[0] === 'dieci' && words[1] === 'mila') {
+      return 'decimillesimo'
+    }
     // only convert the last word
     let last = words[words.length - 1]
     if (toOrdinal.hasOwnProperty(last)) {

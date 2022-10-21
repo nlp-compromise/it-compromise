@@ -102,4 +102,7 @@ let multiples = {
 data.multiples.forEach(a => {
   multiples[a[1]] = a[0]
 })
+
+// 'dieci|mila'
+toOrdinal['mila'] = 'millesimo'
 export { toCardinal, toOrdinal, toNumber, data, ends, multiples }

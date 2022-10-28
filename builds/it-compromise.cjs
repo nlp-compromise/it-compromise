@@ -7641,7 +7641,7 @@
     }
   };
 
-  var version = '0.1.1';
+  var version = '0.1.2';
 
   const prefix$1 = /^.([0-9]+)/;
 
@@ -8077,7 +8077,7 @@
     return stripReflexive$1(str)
   };
 
-  const all$1 = function (str) {
+  const all$2 = function (str) {
     let arr = [str].concat(
       Object.values(toPresent(str)),
       Object.values(toPast(str)),
@@ -8091,7 +8091,7 @@
   };
 
   var verbs$2 = {
-    all: all$1,
+    all: all$2,
     toPresent, toPast, toFuture, toConditional,
     fromGerund, toGerund, fromPastParticiple, toPastParticiple,
     fromPresent, fromPast, fromFuture, fromConditional
@@ -8105,9 +8105,16 @@
 
   const fromPlural$1 = (str) => convert$1(str, revPlural$1);
 
+  const all$1 = (str) => {
+    let plur = toPlural$1(str);
+    if (plur === str) {
+      return [str]
+    }
+    return [str, plur]
+  };
+
   var noun = {
-    toPlural: toPlural$1, fromPlural: fromPlural$1,
-    all: toPlural$1
+    toPlural: toPlural$1, fromPlural: fromPlural$1, all: all$1
   };
 
 
@@ -8131,6 +8138,7 @@
 
   const all = function (str) {
     let arr = [
+      str,
       toFemale(str),
       toPlural(str),
       toFemalePlural(str),

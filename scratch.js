@@ -14,33 +14,6 @@ txt = ' Andando come torte calde'
 txt = ' odiamo la sabbia'
 
 
-let words = [
-  {
-    "id": "sand-noun-01",
-    "pos": "Noun",
-    "lemon": "sabbia"
-  },
-  {
-    "id": "sandwich-noun-01",
-    "pos": "Noun",
-    "lemon": "panino"
-  },
-  {
-    "id": "yell-verb-01",
-    "pos": "Verb",
-    "lemon": "urlare"
-  },
-]
-
-const buildNet = function (arr) {
-  let matches = arr.map(doc => {
-    let w = doc.lemon
-    return { match: `{${w}/${doc.pos}}`, val: doc.id }
-  })
-  let net = nlp.buildNet(matches)
-  return net
-}
-console.log(buildNet(words))
 
 /*
 advice-noun-01
@@ -54,9 +27,8 @@ auction-noun-01
 snow-verb-01
 */
 
-let doc = nlp('diecimila').debug()
-doc.numbers().toOrdinal()
-console.log(doc.text())
+let doc = nlp('scritto').debug()
+console.log(doc.adjectives().all())
 
 // let doc = nlp('anche se dubiti delle prove')
 // console.log(nlp.parseMatch('{dubitare}'))

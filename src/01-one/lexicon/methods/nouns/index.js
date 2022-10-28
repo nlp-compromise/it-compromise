@@ -8,9 +8,16 @@ const toPlural = (str) => convert(str, plural)
 
 const fromPlural = (str) => convert(str, revPlural)
 
+const all = (str) => {
+  let plur = toPlural(str)
+  if (plur === str) {
+    return [str]
+  }
+  return [str, plur]
+}
+
 export default {
-  toPlural, fromPlural,
-  all: toPlural
+  toPlural, fromPlural, all
 }
 
 

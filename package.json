@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "it-compromise",
   "description": "modesta elaborazione del linguaggio naturale per javascript",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./builds/it-compromise.mjs",
   "unpkg": "./builds/it-compromise.min.js",
   "type": "module",
@@ -42,7 +42,7 @@
     "rollup": "2.78.1",
     "rollup-plugin-terser": "7.0.2",
     "tap-dancer": "0.3.4",
-    "tape": "5.6.0"
+    "tape": "5.6.1"
   },
   "license": "MIT"
 }

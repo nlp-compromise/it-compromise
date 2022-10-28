@@ -7641,7 +7641,7 @@
     }
   };
 
-  var version = '0.1.0';
+  var version = '0.1.1';
 
   const prefix$1 = /^.([0-9]+)/;
 
@@ -11479,8 +11479,11 @@
     }
   });
 
-  it.world = () => nlp$1.world();
-
+  // this one is hidden
+  Object.defineProperty(it, '_world', {
+    value: nlp$1._world,
+    writable: true,
+  });
 
   /** log the decision-making to console */
   it.verbose = function (set) {

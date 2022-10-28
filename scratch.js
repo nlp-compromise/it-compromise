@@ -11,6 +11,36 @@ txt = 'Nel pomeriggio vado da Marco'//In the afternoon I’ll go to Marco’s pl
 txt = 'ventuno candeline'
 txt = ' tue ossa '
 txt = ' Andando come torte calde'
+txt = ' odiamo la sabbia'
+
+
+let words = [
+  {
+    "id": "sand-noun-01",
+    "pos": "Noun",
+    "lemon": "sabbia"
+  },
+  {
+    "id": "sandwich-noun-01",
+    "pos": "Noun",
+    "lemon": "panino"
+  },
+  {
+    "id": "yell-verb-01",
+    "pos": "Verb",
+    "lemon": "urlare"
+  },
+]
+
+const buildNet = function (arr) {
+  let matches = arr.map(doc => {
+    let w = doc.lemon
+    return { match: `{${w}/${doc.pos}}`, val: doc.id }
+  })
+  let net = nlp.buildNet(matches)
+  return net
+}
+console.log(buildNet(words))
 
 /*
 advice-noun-01

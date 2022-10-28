@@ -34,8 +34,11 @@ Object.keys(nlp).forEach(k => {
   }
 })
 
-it.world = () => nlp.world()
-
+// this one is hidden
+Object.defineProperty(it, '_world', {
+  value: nlp._world,
+  writable: true,
+})
 
 /** log the decision-making to console */
 it.verbose = function (set) {

@@ -16,6 +16,7 @@ const tokenize = function (str) {
   if (str) {
     tokens.push(str)
   }
+  // console.log(tokens)
   return tokens.filter(s => s).reverse()
 }
 export default tokenize

@@ -26,11 +26,11 @@ shoe-noun-01
 auction-noun-01
 snow-verb-01
 */
-
-let doc = nlp('ventiseiesimo').debug()
+// 1,000,000
+let doc = nlp('decimilionesimo').debug()
 // let doc = nlp('ventunesimo').debug()
 // let doc = nlp('videocassette').debug()
-console.log(doc.numbers().get())
+console.log(doc.numbers().toNumber().text())
 
 // let doc = nlp('anche se dubiti delle prove')
 // console.log(nlp.parseMatch('{dubitare}'))

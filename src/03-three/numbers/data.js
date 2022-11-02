@@ -97,11 +97,12 @@ ends = ends.sort((a, b) => {
 })
 
 let multiples = {
-  mila: 1000
+  mila: 1000,
 }
 data.multiples.forEach(a => {
   multiples[a[1]] = a[0]
 })
+
 
 // 'dieci|mila'
 toOrdinal['mila'] = 'millesimo'

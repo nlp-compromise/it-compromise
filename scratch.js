@@ -11,7 +11,7 @@ txt = 'Nel pomeriggio vado da Marco'//In the afternoon I’ll go to Marco’s pl
 txt = 'ventuno candeline'
 txt = ' tue ossa '
 txt = ' Andando come torte calde'
-txt = ' odiamo la sabbia'
+txt = ' pietre'
 
 
 
@@ -27,8 +27,10 @@ auction-noun-01
 snow-verb-01
 */
 
-let doc = nlp('scritto').debug()
-console.log(doc.adjectives().all())
+let doc = nlp('ventiseiesimo').debug()
+// let doc = nlp('ventunesimo').debug()
+// let doc = nlp('videocassette').debug()
+console.log(doc.numbers().get())
 
 // let doc = nlp('anche se dubiti delle prove')
 // console.log(nlp.parseMatch('{dubitare}'))

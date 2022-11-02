@@ -14,6 +14,7 @@ const fromPlural = (str) => convert(str, revPlural)
 
 const all = function (str) {
   let arr = [
+    str,
     toFemale(str),
     toPlural(str),
     toFemalePlural(str),

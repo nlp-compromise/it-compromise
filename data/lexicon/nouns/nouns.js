@@ -190,5 +190,43 @@ export default [
   'antibiotico',
   'fantastico',
   'rico',
+  // wrongly-tagged as numbers
+  // -uno
+  'qualcuno',
+  'ognuno',
+  'ciascuno',
+  'tutt\'uno',
+  // -otto
+  'poliziotto',
+  'salotto',
+  'cerotto',
+  'motto',
+  'giubbotto',
+  'biscotto',
+  'cruscotto',
+  'gasdotto',
+  'lingotto',//
+  // -tre
+  'mostre',
+  'altre',
+  'giostre',
+  'pietre',
+  'finestre',
+  'piastre',
+  'sinistre',
+  'semestre',
+  'lastre',
+  'trimestre',
+  'palestre',
+  // 
+  'percento',
+  'fossette',
+  'incantesimo',
+  'cristianesimo',
+  'musei',
+  'perdue',// -?
+  'anatre',
+  'nutre',//verb
+  'videocassette',
 
 ]

@@ -5,6 +5,7 @@ tens = [].concat(tens).reverse()
 
 const multiples = [
   [1000000000, 'miliardo'],
+  [100000000, 'centomilion'],
   [1000000, 'milione'],
   [100000, 'centomila'],
   [1000, 'mila'],

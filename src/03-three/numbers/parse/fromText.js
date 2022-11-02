@@ -39,7 +39,8 @@ const fromText = function (terms) {
     if (toNumber.hasOwnProperty(w)) {
       carry += toNumber[w]
     } else {
-      console.log('missing', w)
+      // console.log('missing', w)
+      // console.log(terms.map(t => t.text))
     }
   }
   // include any remaining

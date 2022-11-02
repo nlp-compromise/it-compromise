@@ -86,6 +86,8 @@ let arr = [
   // [000, 'milioni'],
   [1000000000, 'miliardo'],
 
+  // quartoquarto
+  // $1 milion
 ]
 test('number-tag:', function (t) {
   arr.forEach(a => {

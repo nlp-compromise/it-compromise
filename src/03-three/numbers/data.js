@@ -1,14 +1,14 @@
 let data = {
   ones: [
-    [1, 'uno', 'primo'],
-    [2, 'due', 'secondo'],
-    [3, 'tre', 'terzo'],
-    [4, 'quattro', 'quarto'],
-    [5, 'cinque', 'quinto'],
-    [6, 'sei', 'sesto'],
-    [7, 'sette', 'settimo'],
-    [8, 'otto', 'ottavo'],
-    [9, 'nove', 'nono'],
+    [1, 'uno', 'primo', 'unesimo'],
+    [2, 'due', 'secondo', 'duesimo'],
+    [3, 'tre', 'terzo', 'treesimo'],
+    [4, 'quattro', 'quarto', 'quattresimo'],
+    [5, 'cinque', 'quinto', 'cinquesimo'],
+    [6, 'sei', 'sesto', 'seiesimo'],
+    [7, 'sette', 'settimo', 'settesimo'],
+    [8, 'otto', 'ottavo', 'ottesimo'],
+    [9, 'nove', 'nono', 'novesimo'],
     [10, 'dieci', 'decimo'],
     [11, 'undici', 'undicesimo'],
     [12, 'dodici', 'dodicesimo'],
@@ -46,6 +46,7 @@ let data = {
     [10000, 'diecimila', 'decimillesimo'],
     [100000, 'centomila', 'centomillesimo'],
     [1000000, 'milione', 'milionesimo'],
+    [100000000, 'centomilion', 'centomilionesimo'],
     [1000000000, 'miliardo', 'miliardesimo']
   ]
 }
@@ -53,39 +54,56 @@ let data = {
 
 const toCardinal = {}
 const toOrdinal = {}
-const toNumber = {}
+const tens = {
+  'trent': true,
+  'vent': true,
+  'cinquant': true,
+  'sessant': true,
+  'ottant': true,
+  'settant': true,
+  'quarant': true,
+  'novant': true,
+  'cento': true,
+  'mille': true
+}
+const toNumber = {
+  'dicias': 10,//diciassettesimo
+  'dician': 10,//diciannovesimo
+  'dici': 10,//diciottesimo
+  'deci': 10,//decimilionesimo
+  'cent': 100,//centottantesimo
+}
+// list end-strings, for tokenization
+let ends = ['cento', 'mille', 'milione', 'tré', 'mila', 'seiesimo', 'dodicesimo', 'decimo']
+
 // add 'quarantuno'
 data.tens.forEach(a => {
   let str = a[1].replace(/[ia]$/, 'uno')
   data.ones.push([a[0] + 1, str, str])
   str = a[1].replace(/[ia]$/, '')
   toNumber[str] = a[0] //'vent' = 20
+  tens[a[1]] = true
 })
-
 
 Object.keys(data).forEach(k => {
   data[k].forEach(a => {
-    let [num, card, ord] = a
+    let [num, card, ord, ord2] = a
+    ends.push(card)
+    ends.push(ord)
     toCardinal[ord] = card
     toNumber[card] = num
     toOrdinal[card] = ord
+    // 'twenty-sixth'
+    if (ord2) {
+      toCardinal[ord2] = card
+      ends.push(ord2)
+    }
   })
 })
 toNumber['tré'] = 3
 toNumber['mila'] = 1000
 toNumber['zero'] = 0
 
-// list end-strings, for tokenization
-let ends = ['cento', 'mille', 'milione', 'tré', 'mila']
-data.ones.forEach(a => {
-  ends.push(a[1])
-})
-data.tens.forEach(a => {
-  ends.push(a[1])
-})
-data.hundreds.forEach(a => {
-  ends.push(a[1])
-})
 // sort by length (longest first)
 ends = ends.sort((a, b) => {
   if (a.length > b.length) {
@@ -97,7 +115,7 @@ ends = ends.sort((a, b) => {
 })
 
 let multiples = {
-  mila: 1000
+  mila: 1000,
 }
 data.multiples.forEach(a => {
   multiples[a[1]] = a[0]
@@ -105,4 +123,9 @@ data.multiples.forEach(a => {
 
 // 'dieci|mila'
 toOrdinal['mila'] = 'millesimo'
-export { toCardinal, toOrdinal, toNumber, data, ends, multiples }
+// ventiseiesimo
+toOrdinal['seiesimo'] = 'sei'
+toNumber['seiesimo'] = 6
+
+
+export { toCardinal, toOrdinal, toNumber, data, ends, multiples, tens }

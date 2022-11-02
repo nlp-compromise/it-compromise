@@ -12,6 +12,7 @@ const ref = 'Reflexive'
 const imp = 'Imperative'
 const pres = 'PresentTense'
 const val = ['TextValue', 'Cardinal']
+const ord = ['TextValue', 'Ordinal']
 // const first = 'FirstPerson'
 
 export default [
@@ -313,8 +314,8 @@ export default [
 
     sette: val,
     cento: val,
-    esimo: ['TextValue', 'Ordinal'],
-
+    esimo: ord,
+    ecimo: ord,
     mente: rb,
     tipie: nn,
     toria: nn,
@@ -768,7 +769,6 @@ export default [
   {
     // six-letter suffixes
     cinque: val,
-
     andoci: g,//reflexive gerund
     endoci: g,
     endomi: g,

@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "it-compromise",
   "description": "modesta elaborazione del linguaggio naturale per javascript",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "main": "./builds/it-compromise.mjs",
   "unpkg": "./builds/it-compromise.min.js",
   "type": "module",
@@ -25,7 +25,8 @@
     "pack": "node ./scripts/pack.js",
     "watch": "amble ./scratch.js",
     "version": "node ./scripts/version.js",
-    "score": "node ./learn/tagger/test.js"
+    "score": "node ./learn/tagger/test.js",
+    "stress": "node scripts/stress.js"
   },
   "files": [
     "builds/",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "13.3.0",
     "amble": "1.3.0",
+    "it-corpus": "^0.0.1",
     "rollup": "2.78.1",
     "rollup-plugin-terser": "7.0.2",
     "tap-dancer": "0.3.4",

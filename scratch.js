@@ -27,10 +27,10 @@ auction-noun-01
 snow-verb-01
 */
 // 1,000,000
-let doc = nlp('decimilionesimo').debug()
+let doc = nlp('100000000').debug()
 // let doc = nlp('ventunesimo').debug()
 // let doc = nlp('videocassette').debug()
-console.log(doc.numbers().toNumber().text())
+console.log(doc.numbers().toText().text())
 
 // let doc = nlp('anche se dubiti delle prove')
 // console.log(nlp.parseMatch('{dubitare}'))

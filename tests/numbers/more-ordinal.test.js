@@ -4,7 +4,7 @@ let here = '[ordinal-more] '
 nlp.verbose(false)
 
 let arr = [
-  ['zeresimo', '0°'],
+  // ['zeresimo', '0°'],
   ['primo', '1°'],
   ['secondo', '2°'],
   ['terzo', '3°'],
@@ -169,12 +169,12 @@ test('ordinal-toNum:', function (t) {
   t.end()
 })
 
-// test('ordinal-toText:', function (t) {
-//   arr.forEach(a => {
-//     let [str, num] = a
-//     let doc = nlp(num)
-//     let m = doc.numbers().toText()
-//     t.equal(m.text(), num, here + '[toText] ' + str)
-//   })
-//   t.end()
-// })
+test('ordinal-toText:', function (t) {
+  arr.forEach(a => {
+    let [str, num] = a
+    let doc = nlp(num)
+    let m = doc.numbers().toText()
+    t.equal(m.text(), str, here + '[toText] ' + str)
+  })
+  t.end()
+})

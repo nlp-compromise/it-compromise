@@ -1,18 +1,11 @@
 import toText from './toText.js'
-import { toOrdinal } from '../data.js'
+import toTextOrdinal from './toOrdinal.js'
+
 
 const formatNumber = function (parsed, fmt) {
   if (fmt === 'TextOrdinal') {
     let words = toText(parsed.num)
-    if (words.length === 2 && words[0] === 'dieci' && words[1] === 'mila') {
-      return 'decimillesimo'
-    }
-    // only convert the last word
-    let last = words[words.length - 1]
-    if (toOrdinal.hasOwnProperty(last)) {
-      words[words.length - 1] = toOrdinal[last]
-    }
-    return words.join('')
+    return toTextOrdinal(words)
   }
   if (fmt === 'TextCardinal') {
     return toText(parsed.num).join('')

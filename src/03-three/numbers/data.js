@@ -46,6 +46,7 @@ let data = {
     [10000, 'diecimila', 'decimillesimo'],
     [100000, 'centomila', 'centomillesimo'],
     [1000000, 'milione', 'milionesimo'],
+    [100000000, 'centomilion', 'centomilionesimo'],
     [1000000000, 'miliardo', 'miliardesimo']
   ]
 }
@@ -53,6 +54,18 @@ let data = {
 
 const toCardinal = {}
 const toOrdinal = {}
+const tens = {
+  'trent': true,
+  'vent': true,
+  'cinquant': true,
+  'sessant': true,
+  'ottant': true,
+  'settant': true,
+  'quarant': true,
+  'novant': true,
+  'cento': true,
+  'mille': true
+}
 const toNumber = {
   'dicias': 10,//diciassettesimo
   'dician': 10,//diciannovesimo
@@ -69,6 +82,7 @@ data.tens.forEach(a => {
   data.ones.push([a[0] + 1, str, str])
   str = a[1].replace(/[ia]$/, '')
   toNumber[str] = a[0] //'vent' = 20
+  tens[a[1]] = true
 })
 
 Object.keys(data).forEach(k => {
@@ -114,4 +128,4 @@ toOrdinal['seiesimo'] = 'sei'
 toNumber['seiesimo'] = 6
 
 
-export { toCardinal, toOrdinal, toNumber, data, ends, multiples }
+export { toCardinal, toOrdinal, toNumber, data, ends, multiples, tens }

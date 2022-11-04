@@ -7685,8 +7685,6 @@
   nlp$1.extend(lexicon$2); //1kb
   nlp$1.extend(sweep); //1kb
 
-  console.log('local-path');
-
   //a hugely-ignorant, and widely subjective transliteration of latin, cryllic, greek unicode characters to english ascii.
   //approximate visual (not semantic or phonetic) relationship between unicode and ascii characters
   //http://en.wikipedia.org/wiki/List_of_Unicode_characters
@@ -7772,7 +7770,7 @@
     }
   };
 
-  var version = '0.1.4';
+  var version = '0.1.5';
 
   const prefix$1 = /^.([0-9]+)/;
 

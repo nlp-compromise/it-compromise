@@ -751,7 +751,21 @@ export default [
   'interiore',
   'conservatore',
 
-  // -ema
 
+
+  'continuando', //continuing
+  'al coperto', //indoor
+  'insieme', //together
+  'sopra', //above
+  'contro', //against
+  'oltre', //beyond
+  'avanti', //forward
+  'vicino', //near
+  'comunque', //nonetheless
+  'presto', //soon
+  'insieme', //together
+  'sotto', //under
+  'primo', //prime
+  'insieme', //together
 
 ]

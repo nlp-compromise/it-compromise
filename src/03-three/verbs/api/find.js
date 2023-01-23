@@ -29,7 +29,8 @@ const findVerbs = function (doc) {
     m = m.splitBefore('(#PresentTense|#PastTense) [#Infinitive]', 0)
   }
   // 'allow yourself'
-  m = m.not('#Reflexive$')
+  // m = m.not('#Reflexive$')
+  m = m.not('(mi|ti|si|ci|vi)')
   //ensure there's actually a verb
   m = m.if('#Verb')
   // the reason he will is ...

@@ -1,3 +1,5 @@
+
+let lex = {}
 let irreg = [
   //essere (to be; auxiliary)
   ['sono', 'ero', 'fui', 'sarò', 'sia', 'fossi', 'sarei'],
@@ -56,7 +58,6 @@ let irreg = [
   ['sanno', 'sapevano', 'seppero', 'sapranno', 'sappiano', 'sapessero', 'saprebbero'],
 ]
 
-let lex = {}
 let forms = [
   'PresentTense',
   'PastTense',

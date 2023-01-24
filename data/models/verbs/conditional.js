@@ -3518,4 +3518,6 @@ export default {
   "zuccherare": ["zucchererei", "zucchereresti", "zucchererebbe", "zucchereremmo", "zuccherereste", "zucchererebbero"],
   "zufolare": ["zufolerei", "zufoleresti", "zufolerebbe", "zufoleremmo", "zufolereste", "zufolerebbero"],
 
+  "permettersi": ["permetterei", "permetteresti", "permetterebbe", "permetteremmo", "permettereste", "permetterebbero"],
+  "essere": ['sarei', 'saresti', 'sarebbe', 'saremmo', 'sareste', 'sarebbero']
 }

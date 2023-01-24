@@ -3482,6 +3482,8 @@ export default {
   "zoccolare": ["zoccolo", "zoccoli", "zoccola", "zoccoliamo", "zoccolate", "zoccolano"],
   "zoppicare": ["zoppico", "zoppichi", "zoppica", "zoppichiamo", "zoppicate", "zoppicano"],
   "zuccherare": ["zucchero", "zuccheri", "zucchera", "zuccheriamo", "zuccherate", "zuccherano"],
-  "zufolare": ["zufolo", "zufoli", "zufola", "zufoliamo", "zufolate", "zufolano"]
+  "zufolare": ["zufolo", "zufoli", "zufola", "zufoliamo", "zufolate", "zufolano"],
 
+  "permettersi": ["permetto", "permetti", "permette", "permettiamo", "permettete", "permettono"],
+  "essere": ['sono', 'sei', 'è', 'siamo', 'siete', 'sono']
 }

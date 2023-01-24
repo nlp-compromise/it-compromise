@@ -25,3 +25,4 @@ export {
   toFuture,
   toConditional,
 }
+// console.log(toPast('permettersi'))

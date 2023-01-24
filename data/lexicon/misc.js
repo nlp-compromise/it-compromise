@@ -3,19 +3,19 @@ import aux from './aux.js'
 
 let misc = {
 
-  'il': 'Article',
-  'lo': 'Article',
-  'la': 'Article',
-  'l': 'Article',//l’
-  'i': 'Article',
-  'gli': 'Article',
-  'le': 'Article',
-  'dei': 'Article',
+  'il': 'Determiner',
+  'lo': 'Determiner',
+  'la': 'Determiner',
+  'l': 'Determiner',//l’
+  'i': 'Determiner',
+  'gli': 'Determiner',
+  'le': 'Determiner',
+  'dei': 'Determiner',
 
 
-  'un': 'Article',//un amico  »  a friend (m)
-  'una': 'Article',//una ragazza  »  a girl
-  'uno': 'Article',//uno stato  »  a state (m)
+  'un': 'Determiner',//un amico  »  a friend (m)
+  'una': 'Determiner',//una ragazza  »  a girl
+  'uno': 'Determiner',//uno stato  »  a state (m)
 
   // possessive pronous
   'mio': pr,	//	Mine

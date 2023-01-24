@@ -13,23 +13,22 @@ txt = ' tue ossa '
 txt = ' Andando come torte calde'
 txt = ' pietre'
 
+let arr = [
+  'è rimasto calmo',
+  'Sono stato nel parco',
+  'voglio vedere un vulcano',
+  'Priscilla Lane gli dice che il pezzo è bellissimo ',
+  'un accordo globale formale che porti livelli più elevati',
+  'In effetti in un mondo imprevedibile dove le vecchie minacce sono aggravate ',
+  'Inoltre tali informazioni dovrebbero ',
+  'Ma mi è stato detto che solo i pazienti bisognosi',
+  'Un recente rapporto del Pentagono non ha parsimonia La storia',
+  'Chiaramente però se nessuno ha sentito',
+  'Le misure di assistenza',
+]
+// let doc = nlp('permettersi').debug()
+// let doc = nlp('ripararsi').debug()
+// console.log(doc.verbs().conjugate())
 
-
-/*
-advice-noun-01
-amazing-adjective-01
-amazing-adjective-01
-clock-noun-01
-woman-noun-01
-empty-adjective-01
-shoe-noun-01
-auction-noun-01
-snow-verb-01
-*/
-// 1,000,000
-let doc = nlp('ti verifichi tu stesso').debug()
-console.log(doc.verbs().conjugate())
-
-// let doc = nlp('anche se dubiti delle prove')
-// console.log(nlp.parseMatch('{dubitare}'))
-// doc.match('{dubitare}').debug()
+let str = arr[0]
+nlp(str).debug().match('[({volere}|{dovere})]', 0).debug()

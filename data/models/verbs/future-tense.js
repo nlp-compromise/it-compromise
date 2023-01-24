@@ -3515,4 +3515,6 @@ export default {
   "zuccherare": ["zucchererò", "zucchererai", "zucchererà", "zucchereremo", "zucchererete", "zucchereranno"],
   "zufolare": ["zufolerò", "zufolerai", "zufolerà", "zufoleremo", "zufolerete", "zufoleranno"],
 
+  "permettersi": ["permetterò", "permetterai", "permetterà", "permetteremo", "permetterete", "permetteranno"],
+  "essere": ['sarò', 'sarai', 'sarà', 'saremo', 'sarete', 'saranno']
 }

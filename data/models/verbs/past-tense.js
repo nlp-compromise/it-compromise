@@ -3407,4 +3407,6 @@ export default {
   "zuccherare": ["zuccherai", "zuccherasti", "zuccherò", "zuccherammo", "zuccheraste", "zuccherarono"],
   "zufolare": ["zufolai", "zufolasti", "zufolò", "zufolammo", "zufolaste", "zufolarono"],
 
+  "permettersi": ["permisi", "permettesti", "permise", "permettemmo", "permetteste", "permisero"],
+  "essere": ['fui', 'fosti', 'fu', 'fummo', 'foste', 'furono']
 }

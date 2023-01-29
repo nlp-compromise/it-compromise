@@ -1,9 +1,4 @@
 export default {
-  "onorevole": [
-    "onorevole",
-    "onorevoli",
-    "onorevoli"
-  ],
   "abbagliante": [
     "abbagliante",
     "abbaglianti",
@@ -28,11 +23,6 @@ export default {
     "abbinabile",
     "abbinabili",
     "abbinabili"
-  ],
-  "abbonato": [
-    "abbonata",
-    "abbonati",
-    "abbonate"
   ],
   "abbondante": [
     "abbondante",
@@ -89,30 +79,15 @@ export default {
     "abitabili",
     "abitabili"
   ],
-  "abitato": [
-    "abitata",
-    "abitati",
-    "abitate"
-  ],
   "abitativo": [
     "abitativa",
     "abitativi",
     "abitative"
   ],
-  "abituale": [
-    "abituale",
-    "abituali",
-    "abituali"
-  ],
   "abituato": [
     "abituata",
     "abituati",
     "abituate"
-  ],
-  "abitudinario": [
-    "abitudinaria",
-    "abitudinari",
-    "abitudinarie"
   ],
   "abnorme": [
     "abnorme",
@@ -149,30 +124,10 @@ export default {
     "abrogativi",
     "abrogative"
   ],
-  "abruzzese": [
-    "abruzzese",
-    "abruzzesi",
-    "abruzzesi"
-  ],
-  "abulico": [
-    "abulica",
-    "abulici",
-    "abuliche"
-  ],
   "abusato": [
     "abusata",
     "abusati",
     "abusate"
-  ],
-  "abusivo": [
-    "abusiva",
-    "abusivi",
-    "abusive"
-  ],
-  "accademico": [
-    "accademica",
-    "accademici",
-    "accademiche"
   ],
   "accaduto": [
     "accaduta",
@@ -243,11 +198,6 @@ export default {
     "accessibile",
     "accessibili",
     "accessibili"
-  ],
-  "accessorio": [
-    "accessoria",
-    "accessori",
-    "accessorie"
   ],
   "accessoriato": [
     "accessoriata",
@@ -344,11 +294,6 @@ export default {
     "accordati",
     "accordate"
   ],
-  "accorso": [
-    "accorsa",
-    "accorsi",
-    "accorse"
-  ],
   "accorto": [
     "accorta",
     "accorti",
@@ -373,11 +318,6 @@ export default {
     "accurata",
     "accurati",
     "accurate"
-  ],
-  "accusato": [
-    "accusata",
-    "accusati",
-    "accusate"
   ],
   "accusatorio": [
     "accusatoria",
@@ -419,11 +359,6 @@ export default {
     "achmatoviani",
     "achmatoviane"
   ],
-  "acido": [
-    "acida",
-    "acidi",
-    "acide"
-  ],
   "acidulo": [
     "acidula",
     "aciduli",
@@ -464,11 +399,6 @@ export default {
     "acquiferi",
     "acquifere"
   ],
-  "acquirente": [
-    "acquirente",
-    "acquirenti",
-    "acquirenti"
-  ],
   "acquisito": [
     "acquisita",
     "acquisiti",
@@ -504,11 +434,6 @@ export default {
     "acustici",
     "acustiche"
   ],
-  "acuto": [
-    "acuta",
-    "acuti",
-    "acute"
-  ],
   "adamantino": [
     "adamantina",
     "adamantini",
@@ -543,16 +468,6 @@ export default {
     "addestrativa",
     "addestrativi",
     "addestrative"
-  ],
-  "addetto": [
-    "addetta",
-    "addetti",
-    "addette"
-  ],
-  "additivo": [
-    "additiva",
-    "additivi",
-    "additive"
   ],
   "addizionale": [
     "addizionale",
@@ -604,21 +519,6 @@ export default {
     "adempiti",
     "adempite"
   ],
-  "adepto": [
-    "adepta",
-    "adepti",
-    "adepte"
-  ],
-  "aderente": [
-    "aderente",
-    "aderenti",
-    "aderenti"
-  ],
-  "adesivo": [
-    "adesiva",
-    "adesivi",
-    "adesive"
-  ],
   "adiacente": [
     "adiacente",
     "adiacenti",
@@ -628,11 +528,6 @@ export default {
     "adiposa",
     "adiposi",
     "adipose"
-  ],
-  "adolescente": [
-    "adolescente",
-    "adolescenti",
-    "adolescenti"
   ],
   "adorabile": [
     "adorabile",
@@ -674,11 +569,6 @@ export default {
     "adulatori",
     "adulatorie"
   ],
-  "adulto": [
-    "adulta",
-    "adulti",
-    "adulte"
-  ],
   "adultero": [
     "adultera",
     "adulteri",
@@ -699,11 +589,6 @@ export default {
     "adusi",
     "aduse"
   ],
-  "aereo": [
-    "aerea",
-    "aerei",
-    "aeree"
-  ],
   "aerobico": [
     "aerobica",
     "aerobici",
@@ -723,11 +608,6 @@ export default {
     "aeronavale",
     "aeronavali",
     "aeronavali"
-  ],
-  "aeroportuale": [
-    "aeroportuale",
-    "aeroportuali",
-    "aeroportuali"
   ],
   "aeropostale": [
     "aeropostale",
@@ -819,11 +699,6 @@ export default {
     "afferrabili",
     "afferrabili"
   ],
-  "affetto": [
-    "affetta",
-    "affetti",
-    "affette"
-  ],
   "affettato": [
     "affettata",
     "affettati",
@@ -839,11 +714,6 @@ export default {
     "affettuosi",
     "affettuose"
   ],
-  "affezionato": [
-    "affezionata",
-    "affezionati",
-    "affezionate"
-  ],
   "affidabile": [
     "affidabile",
     "affidabili",
@@ -853,26 +723,6 @@ export default {
     "affilata",
     "affilati",
     "affilate"
-  ],
-  "affiliato": [
-    "affiliata",
-    "affiliati",
-    "affiliate"
-  ],
-  "affine": [
-    "affine",
-    "affini",
-    "affini"
-  ],
-  "afflitto": [
-    "afflitta",
-    "afflitti",
-    "afflitte"
-  ],
-  "affluente": [
-    "affluente",
-    "affluenti",
-    "affluenti"
   ],
   "affogato": [
     "affogata",
@@ -909,11 +759,6 @@ export default {
     "affusolati",
     "affusolate"
   ],
-  "afghano": [
-    "afghana",
-    "afghani",
-    "afghane"
-  ],
   "afono": [
     "afona",
     "afoni",
@@ -933,21 +778,6 @@ export default {
     "africa",
     "africi",
     "afriche"
-  ],
-  "africano": [
-    "africana",
-    "africani",
-    "africane"
-  ],
-  "afroamericano": [
-    "afroamericana",
-    "afroamericani",
-    "afroamericane"
-  ],
-  "agente": [
-    "agente",
-    "agenti",
-    "agenti"
   ],
   "agevolativo": [
     "agevolativa",
@@ -989,11 +819,6 @@ export default {
     "aggiuntivi",
     "aggiuntive"
   ],
-  "agglomerato": [
-    "agglomerata",
-    "agglomerati",
-    "agglomerate"
-  ],
   "aggravante": [
     "aggravante",
     "aggravanti",
@@ -1013,11 +838,6 @@ export default {
     "aggredibile",
     "aggredibili",
     "aggredibili"
-  ],
-  "aggregato": [
-    "aggregata",
-    "aggregati",
-    "aggregate"
   ],
   "aggressivo": [
     "aggressiva",
@@ -1069,11 +889,6 @@ export default {
     "agnelliani",
     "agnelliane"
   ],
-  "agnostico": [
-    "agnostica",
-    "agnostici",
-    "agnostiche"
-  ],
   "agonistico": [
     "agonistica",
     "agonistici",
@@ -1088,11 +903,6 @@ export default {
     "agra",
     "agri",
     "agre"
-  ],
-  "agrario": [
-    "agraria",
-    "agrari",
-    "agrarie"
   ],
   "agresto": [
     "agresta",
@@ -1154,11 +964,6 @@ export default {
     "aitanti",
     "aitanti"
   ],
-  "aiutante": [
-    "aiutante",
-    "aiutanti",
-    "aiutanti"
-  ],
   "alacre": [
     "alacre",
     "alacri",
@@ -1168,11 +973,6 @@ export default {
     "alare",
     "alari",
     "alari"
-  ],
-  "alato": [
-    "alata",
-    "alati",
-    "alate"
   ],
   "albanese": [
     "albanese",
@@ -1184,11 +984,6 @@ export default {
     "alberati",
     "alberate"
   ],
-  "alberghiero": [
-    "alberghiera",
-    "alberghieri",
-    "alberghiere"
-  ],
   "albino": [
     "albina",
     "albini",
@@ -1198,16 +993,6 @@ export default {
     "alchemica",
     "alchemici",
     "alchemiche"
-  ],
-  "alcolico": [
-    "alcolica",
-    "alcolici",
-    "alcoliche"
-  ],
-  "alcolizzato": [
-    "alcolizzata",
-    "alcolizzati",
-    "alcolizzate"
   ],
   "alcun": [
     "alcun",
@@ -1249,11 +1034,6 @@ export default {
     "algebrici",
     "algebriche"
   ],
-  "algerino": [
-    "algerina",
-    "algerini",
-    "algerine"
-  ],
   "algido": [
     "algida",
     "algidi",
@@ -1264,20 +1044,10 @@ export default {
     "alidi",
     "alide"
   ],
-  "alieno": [
-    "aliena",
-    "alieni",
-    "aliene"
-  ],
   "alienabile": [
     "alienabile",
     "alienabili",
     "alienabili"
-  ],
-  "alienato": [
-    "alienata",
-    "alienati",
-    "alienate"
   ],
   "alimentare": [
     "alimentare",
@@ -1304,25 +1074,10 @@ export default {
     "allarmistici",
     "allarmistiche"
   ],
-  "alleato": [
-    "alleata",
-    "alleati",
-    "alleate"
-  ],
-  "allegato": [
-    "allegata",
-    "allegati",
-    "allegate"
-  ],
   "allegorico": [
     "allegorica",
     "allegorici",
     "allegoriche"
-  ],
-  "allegro": [
-    "allegra",
-    "allegri",
-    "allegre"
   ],
   "allergico": [
     "allergica",
@@ -1333,11 +1088,6 @@ export default {
     "allettante",
     "allettanti",
     "allettanti"
-  ],
-  "allibito": [
-    "allibita",
-    "allibiti",
-    "allibite"
   ],
   "allineabile": [
     "allineabile",
@@ -1354,20 +1104,10 @@ export default {
     "allucinanti",
     "allucinanti"
   ],
-  "allucinato": [
-    "allucinata",
-    "allucinati",
-    "allucinate"
-  ],
   "allucinatorio": [
     "allucinatoria",
     "allucinatori",
     "allucinatorie"
-  ],
-  "allucinogeno": [
-    "allucinogena",
-    "allucinogeni",
-    "allucinogene"
   ],
   "allusivo": [
     "allusiva",
@@ -1409,16 +1149,6 @@ export default {
     "alpestri",
     "alpestri"
   ],
-  "alpino": [
-    "alpina",
-    "alpini",
-    "alpine"
-  ],
-  "alto": [
-    "alta",
-    "alti",
-    "alte"
-  ],
   "alterato": [
     "alterata",
     "alterati",
@@ -1433,11 +1163,6 @@ export default {
     "alternata",
     "alternati",
     "alternate"
-  ],
-  "alternativo": [
-    "alternativa",
-    "alternativi",
-    "alternative"
   ],
   "alternativistico": [
     "alternativistica",
@@ -1494,11 +1219,6 @@ export default {
     "altr",
     "altr"
   ],
-  "altro": [
-    "altra",
-    "altri",
-    "altre"
-  ],
   "altrettanto": [
     "altrettanta",
     "altrettanti",
@@ -1534,16 +1254,6 @@ export default {
     "amalgamabili",
     "amalgamabili"
   ],
-  "amante": [
-    "amante",
-    "amanti",
-    "amanti"
-  ],
-  "amaro": [
-    "amara",
-    "amari",
-    "amare"
-  ],
   "amarcordiano": [
     "amarcordiana",
     "amarcordiani",
@@ -1554,11 +1264,6 @@ export default {
     "amareggiati",
     "amareggiate"
   ],
-  "amato": [
-    "amata",
-    "amati",
-    "amate"
-  ],
   "amatorio": [
     "amatoria",
     "amatori",
@@ -1568,11 +1273,6 @@ export default {
     "amazzonica",
     "amazzonici",
     "amazzoniche"
-  ],
-  "ambo": [
-    "amba",
-    "ambi",
-    "ambe"
   ],
   "ambedue": [
     "ambedue",
@@ -1594,20 +1294,10 @@ export default {
     "ambigui",
     "ambigue"
   ],
-  "ambito": [
-    "ambita",
-    "ambiti",
-    "ambite"
-  ],
   "ambivalente": [
     "ambivalente",
     "ambivalenti",
     "ambivalenti"
-  ],
-  "ambizioso": [
-    "ambiziosa",
-    "ambiziosi",
-    "ambiziose"
   ],
   "ambrato": [
     "ambrata",
@@ -1618,11 +1308,6 @@ export default {
     "ambrosiana",
     "ambrosiani",
     "ambrosiane"
-  ],
-  "ambulante": [
-    "ambulante",
-    "ambulanti",
-    "ambulanti"
   ],
   "ambulatoriale": [
     "ambulatoriale",
@@ -1639,11 +1324,6 @@ export default {
     "amendoliani",
     "amendoliane"
   ],
-  "americano": [
-    "americana",
-    "americani",
-    "americane"
-  ],
   "americaneggiante": [
     "americaneggiante",
     "americaneggianti",
@@ -1659,11 +1339,6 @@ export default {
     "americanoidi",
     "americanoidi"
   ],
-  "amico": [
-    "amica",
-    "amici",
-    "amiche"
-  ],
   "amichevole": [
     "amichevole",
     "amichevoli",
@@ -1673,11 +1348,6 @@ export default {
     "amletica",
     "amletici",
     "amletiche"
-  ],
-  "ammalato": [
-    "ammalata",
-    "ammalati",
-    "ammalate"
   ],
   "amministrativo": [
     "amministrativa",
@@ -1724,11 +1394,6 @@ export default {
     "ammuffiti",
     "ammuffite"
   ],
-  "ammutinato": [
-    "ammutinata",
-    "ammutinati",
-    "ammutinate"
-  ],
   "amniotico": [
     "amniotica",
     "amniotici",
@@ -1764,11 +1429,6 @@ export default {
     "ampi",
     "ampie"
   ],
-  "amplificatore": [
-    "amplificatrice",
-    "amplificatori",
-    "amplificatrici"
-  ],
   "ampolloso": [
     "ampollosa",
     "ampollosi",
@@ -1783,11 +1443,6 @@ export default {
     "anabbagliante",
     "anabbaglianti",
     "anabbaglianti"
-  ],
-  "anabolizzante": [
-    "anabolizzante",
-    "anabolizzanti",
-    "anabolizzanti"
   ],
   "anacolutico": [
     "anacolutica",
@@ -1804,25 +1459,10 @@ export default {
     "anagrafici",
     "anagrafiche"
   ],
-  "analcolico": [
-    "analcolica",
-    "analcolici",
-    "analcoliche"
-  ],
   "anale": [
     "anale",
     "anali",
     "anali"
-  ],
-  "analfabeta": [
-    "analfabeta",
-    "analfabeti",
-    "analfabete"
-  ],
-  "analgesico": [
-    "analgesica",
-    "analgesici",
-    "analgesiche"
   ],
   "analitico": [
     "analitica",
@@ -1843,11 +1483,6 @@ export default {
     "analogica",
     "analogici",
     "analogiche"
-  ],
-  "anarchico": [
-    "anarchica",
-    "anarchici",
-    "anarchiche"
   ],
   "anarchicheggiante": [
     "anarchicheggiante",
@@ -1909,11 +1544,6 @@ export default {
     "andreotteschi",
     "andreottesche"
   ],
-  "andreottiano": [
-    "andreottiana",
-    "andreottiani",
-    "andreottiane"
-  ],
   "androgino": [
     "androgina",
     "androgini",
@@ -1939,11 +1569,6 @@ export default {
     "anelastici",
     "anelastiche"
   ],
-  "anemico": [
-    "anemica",
-    "anemici",
-    "anemiche"
-  ],
   "anestetico": [
     "anestetica",
     "anestetici",
@@ -1954,30 +1579,10 @@ export default {
     "anfetaminizzati",
     "anfetaminizzate"
   ],
-  "anfibio": [
-    "anfibia",
-    "anfibi",
-    "anfibie"
-  ],
   "angelico": [
     "angelica",
     "angelici",
     "angeliche"
-  ],
-  "anglicano": [
-    "anglicana",
-    "anglicani",
-    "anglicane"
-  ],
-  "angloamericano": [
-    "angloamericana",
-    "angloamericani",
-    "angloamericane"
-  ],
-  "anglofilo": [
-    "anglofila",
-    "anglofili",
-    "anglofile"
   ],
   "anglofono": [
     "anglofona",
@@ -2014,11 +1619,6 @@ export default {
     "anglonorvegesi",
     "anglonorvegesi"
   ],
-  "anglosassone": [
-    "anglosassone",
-    "anglosassoni",
-    "anglosassoni"
-  ],
   "anglosovietico": [
     "anglosovietica",
     "anglosovietici",
@@ -2033,11 +1633,6 @@ export default {
     "anglotedesca",
     "anglotedeschi",
     "anglotedesche"
-  ],
-  "angolano": [
-    "angolana",
-    "angolani",
-    "angolane"
   ],
   "angolare": [
     "angolare",
@@ -2064,11 +1659,6 @@ export default {
     "angusti",
     "anguste"
   ],
-  "animale": [
-    "animale",
-    "animali",
-    "animali"
-  ],
   "animalesco": [
     "animalesca",
     "animaleschi",
@@ -2093,16 +1683,6 @@ export default {
     "animosa",
     "animosi",
     "animose"
-  ],
-  "annegato": [
-    "annegata",
-    "annegati",
-    "annegate"
-  ],
-  "annesso": [
-    "annessa",
-    "annessi",
-    "annesse"
   ],
   "annientatore": [
     "annientatrice",
@@ -2139,11 +1719,6 @@ export default {
     "annullabili",
     "annullabili"
   ],
-  "annunciatore": [
-    "annunciatrice",
-    "annunciatori",
-    "annunciatrici"
-  ],
   "anodino": [
     "anodina",
     "anodini",
@@ -2153,11 +1728,6 @@ export default {
     "anomala",
     "anomali",
     "anomale"
-  ],
-  "anonimo": [
-    "anonima",
-    "anonimi",
-    "anonime"
   ],
   "anormale": [
     "anormale",
@@ -2169,16 +1739,6 @@ export default {
     "ansanti",
     "ansanti"
   ],
-  "ansioso": [
-    "ansiosa",
-    "ansiosi",
-    "ansiose"
-  ],
-  "antagonista": [
-    "antagonista",
-    "antagonisti",
-    "antagoniste"
-  ],
   "antagonistico": [
     "antagonistica",
     "antagonistici",
@@ -2189,20 +1749,10 @@ export default {
     "antartici",
     "antartiche"
   ],
-  "antecedente": [
-    "antecedente",
-    "antecedenti",
-    "antecedenti"
-  ],
   "antelucano": [
     "antelucana",
     "antelucani",
     "antelucane"
-  ],
-  "antenato": [
-    "antenata",
-    "antenati",
-    "antenate"
   ],
   "anteriore": [
     "anteriore",
@@ -2269,20 +1819,10 @@ export default {
     "antiberniniani",
     "antiberniniane"
   ],
-  "antibiotico": [
-    "antibiotica",
-    "antibiotici",
-    "antibiotiche"
-  ],
   "antiburocratico": [
     "antiburocratica",
     "antiburocratici",
     "antiburocratiche"
-  ],
-  "antico": [
-    "antica",
-    "antichi",
-    "antiche"
   ],
   "anticanonico": [
     "anticanonica",
@@ -2354,11 +1894,6 @@ export default {
     "anticoncentrazione",
     "anticoncentrazione"
   ],
-  "anticoncezionale": [
-    "anticoncezionale",
-    "anticoncezionali",
-    "anticoncezionali"
-  ],
   "anticonciliare": [
     "anticonciliare",
     "anticonciliari",
@@ -2368,11 +1903,6 @@ export default {
     "anticonfederale",
     "anticonfederali",
     "anticonfederali"
-  ],
-  "anticonformista": [
-    "anticonformista",
-    "anticonformisti",
-    "anticonformiste"
   ],
   "anticongiunturale": [
     "anticongiunturale",
@@ -2494,20 +2024,10 @@ export default {
     "antidolore",
     "antidolore"
   ],
-  "antidolorifico": [
-    "antidolorifica",
-    "antidolorifici",
-    "antidolorifiche"
-  ],
   "antidonna": [
     "antidonna",
     "antidonna",
     "antidonna"
-  ],
-  "antidoping": [
-    "antidoping",
-    "antidoping",
-    "antidoping"
   ],
   "antidroga": [
     "antidroga",
@@ -2544,20 +2064,10 @@ export default {
     "antiestetici",
     "antiestetiche"
   ],
-  "antifascista": [
-    "antifascista",
-    "antifascisti",
-    "antifasciste"
-  ],
   "antifemminista": [
     "antifemminista",
     "antifemministi",
     "antifemministe"
-  ],
-  "antifurto": [
-    "antifurto",
-    "antifurto",
-    "antifurto"
   ],
   "antigas": [
     "antigas",
@@ -2789,11 +2299,6 @@ export default {
     "antiproiettili",
     "antiproiettili"
   ],
-  "antiquario": [
-    "antiquaria",
-    "antiquari",
-    "antiquarie"
-  ],
   "antiquato": [
     "antiquata",
     "antiquati",
@@ -2869,11 +2374,6 @@ export default {
     "antisabotaggio",
     "antisabotaggio"
   ],
-  "antisandinista": [
-    "antisandinista",
-    "antisandinisti",
-    "antisandiniste"
-  ],
   "antiscalata": [
     "antiscalata",
     "antiscalata",
@@ -2893,11 +2393,6 @@ export default {
     "antisegregazionista",
     "antisegregazionisti",
     "antisegregazioniste"
-  ],
-  "antisemita": [
-    "antisemita",
-    "antisemiti",
-    "antisemite"
   ],
   "antiserbo": [
     "antiserba",
@@ -3024,11 +2519,6 @@ export default {
     "antitrionfalistici",
     "antitrionfalistiche"
   ],
-  "antitrust": [
-    "antitrust",
-    "antitrust",
-    "antitrust"
-  ],
   "antiulcera": [
     "antiulcera",
     "antiulcera",
@@ -3129,11 +2619,6 @@ export default {
     "anulari",
     "anulari"
   ],
-  "anziano": [
-    "anziana",
-    "anziani",
-    "anziane"
-  ],
   "apartitico": [
     "apartitica",
     "apartitici",
@@ -3158,11 +2643,6 @@ export default {
     "apocalittica",
     "apocalittici",
     "apocalittiche"
-  ],
-  "apocrifo": [
-    "apocrifa",
-    "apocrifi",
-    "apocrife"
   ],
   "apodittico": [
     "apodittica",
@@ -3234,16 +2714,6 @@ export default {
     "appartati",
     "appartate"
   ],
-  "appartenente": [
-    "appartenente",
-    "appartenenti",
-    "appartenenti"
-  ],
-  "appassionato": [
-    "appassionata",
-    "appassionati",
-    "appassionate"
-  ],
   "appellabile": [
     "appellabile",
     "appellabili",
@@ -3263,11 +2733,6 @@ export default {
     "appesa",
     "appesi",
     "appese"
-  ],
-  "appestato": [
-    "appestata",
-    "appestati",
-    "appestate"
   ],
   "appetibile": [
     "appetibile",
@@ -3379,16 +2844,6 @@ export default {
     "aquilini",
     "aquiline"
   ],
-  "arabo": [
-    "araba",
-    "arabi",
-    "arabe"
-  ],
-  "arabesco": [
-    "arabesca",
-    "arabeschi",
-    "arabesche"
-  ],
   "arabico": [
     "arabica",
     "arabici",
@@ -3414,11 +2869,6 @@ export default {
     "aranciati",
     "aranciate"
   ],
-  "arancione": [
-    "arancione",
-    "arancioni",
-    "arancioni"
-  ],
   "arbitrale": [
     "arbitrale",
     "arbitrali",
@@ -3428,11 +2878,6 @@ export default {
     "arbitraria",
     "arbitrari",
     "arbitrarie"
-  ],
-  "arbitrato": [
-    "arbitrata",
-    "arbitrati",
-    "arbitrate"
   ],
   "arboreo": [
     "arborea",
@@ -3464,16 +2909,6 @@ export default {
     "arcadici",
     "arcadiche"
   ],
-  "arcaico": [
-    "arcaica",
-    "arcaici",
-    "arcaiche"
-  ],
-  "arcano": [
-    "arcana",
-    "arcani",
-    "arcane"
-  ],
   "archeologico": [
     "archeologica",
     "archeologici",
@@ -3488,11 +2923,6 @@ export default {
     "archivistica",
     "archivistici",
     "archivistiche"
-  ],
-  "arcigno": [
-    "arcigna",
-    "arcigni",
-    "arcigne"
   ],
   "arcivescovile": [
     "arcivescovile",
@@ -3514,11 +2944,6 @@ export default {
     "ardimentosi",
     "ardimentose"
   ],
-  "ardito": [
-    "ardita",
-    "arditi",
-    "ardite"
-  ],
   "arduo": [
     "ardua",
     "ardui",
@@ -3538,11 +2963,6 @@ export default {
     "argentea",
     "argentei",
     "argentee"
-  ],
-  "argentino": [
-    "argentina",
-    "argentini",
-    "argentine"
   ],
   "argilloso": [
     "argillosa",
@@ -3579,11 +2999,6 @@ export default {
     "ariosi",
     "ariose"
   ],
-  "aristocratico": [
-    "aristocratica",
-    "aristocratici",
-    "aristocratiche"
-  ],
   "aristotelico": [
     "aristotelica",
     "aristotelici",
@@ -3599,40 +3014,15 @@ export default {
     "aritmici",
     "aritmiche"
   ],
-  "arlecchino": [
-    "arlecchina",
-    "arlecchini",
-    "arlecchine"
-  ],
   "arlecchinesco": [
     "arlecchinesca",
     "arlecchineschi",
     "arlecchinesche"
   ],
-  "armato": [
-    "armata",
-    "armati",
-    "armate"
-  ],
-  "armatore": [
-    "armatrice",
-    "armatori",
-    "armatrici"
-  ],
   "armatoriale": [
     "armatoriale",
     "armatoriali",
     "armatoriali"
-  ],
-  "armeno": [
-    "armena",
-    "armeni",
-    "armene"
-  ],
-  "armonico": [
-    "armonica",
-    "armonici",
-    "armoniche"
   ],
   "armonioso": [
     "armoniosa",
@@ -3644,25 +3034,10 @@ export default {
     "aromatici",
     "aromatiche"
   ],
-  "arrabbiato": [
-    "arrabbiata",
-    "arrabbiati",
-    "arrabbiate"
-  ],
   "arrendevole": [
     "arrendevole",
     "arrendevoli",
     "arrendevoli"
-  ],
-  "arrestato": [
-    "arrestata",
-    "arrestati",
-    "arrestate"
-  ],
-  "arretrato": [
-    "arretrata",
-    "arretrati",
-    "arretrate"
   ],
   "arricchito": [
     "arricchita",
@@ -3709,11 +3084,6 @@ export default {
     "arsi",
     "arse"
   ],
-  "artefatto": [
-    "artefatta",
-    "artefatti",
-    "artefatte"
-  ],
   "arterioso": [
     "arteriosa",
     "arteriosi",
@@ -3744,11 +3114,6 @@ export default {
     "artificiosi",
     "artificiose"
   ],
-  "artigiano": [
-    "artigiana",
-    "artigiani",
-    "artigiane"
-  ],
   "artigianale": [
     "artigianale",
     "artigianali",
@@ -3773,11 +3138,6 @@ export default {
     "asburgica",
     "asburgici",
     "asburgiche"
-  ],
-  "ascendente": [
-    "ascendente",
-    "ascendenti",
-    "ascendenti"
   ],
   "ascensionale": [
     "ascensionale",
@@ -3804,20 +3164,10 @@ export default {
     "asettici",
     "asettiche"
   ],
-  "asfissiante": [
-    "asfissiante",
-    "asfissianti",
-    "asfissianti"
-  ],
   "asfittico": [
     "asfittica",
     "asfittici",
     "asfittiche"
-  ],
-  "asiatico": [
-    "asiatica",
-    "asiatici",
-    "asiatiche"
   ],
   "asimmetrico": [
     "asimmetrica",
@@ -3849,20 +3199,10 @@ export default {
     "aspri",
     "aspre"
   ],
-  "aspirante": [
-    "aspirante",
-    "aspiranti",
-    "aspiranti"
-  ],
   "asprigno": [
     "asprigna",
     "asprigni",
     "asprigne"
-  ],
-  "assassino": [
-    "assassina",
-    "assassini",
-    "assassine"
   ],
   "assediato": [
     "assediata",
@@ -3883,16 +3223,6 @@ export default {
     "assennata",
     "assennati",
     "assennate"
-  ],
-  "assente": [
-    "assente",
-    "assenti",
-    "assenti"
-  ],
-  "assenteista": [
-    "assenteista",
-    "assenteisti",
-    "assenteiste"
   ],
   "assertivo": [
     "assertiva",
@@ -3919,20 +3249,10 @@ export default {
     "assicurabili",
     "assicurabili"
   ],
-  "assicurato": [
-    "assicurata",
-    "assicurati",
-    "assicurate"
-  ],
   "assicurativo": [
     "assicurativa",
     "assicurativi",
     "assicurative"
-  ],
-  "assicuratore": [
-    "assicuratrice",
-    "assicuratori",
-    "assicuratrici"
   ],
   "assiduo": [
     "assidua",
@@ -3959,11 +3279,6 @@ export default {
     "assisi",
     "assise"
   ],
-  "assistente": [
-    "assistente",
-    "assistenti",
-    "assistenti"
-  ],
   "assistenziale": [
     "assistenziale",
     "assistenziali",
@@ -3989,11 +3304,6 @@ export default {
     "assolti",
     "assolte"
   ],
-  "assoluto": [
-    "assoluta",
-    "assoluti",
-    "assolute"
-  ],
   "assolutorio": [
     "assolutoria",
     "assolutori",
@@ -4003,11 +3313,6 @@ export default {
     "assonnata",
     "assonnati",
     "assonnate"
-  ],
-  "assorbente": [
-    "assorbente",
-    "assorbenti",
-    "assorbenti"
   ],
   "assordante": [
     "assordante",
@@ -4024,25 +3329,10 @@ export default {
     "assortiti",
     "assortite"
   ],
-  "assurdo": [
-    "assurda",
-    "assurdi",
-    "assurde"
-  ],
   "astemio": [
     "astemia",
     "astemi",
     "astemie"
-  ],
-  "astensionista": [
-    "astensionista",
-    "astensionisti",
-    "astensioniste"
-  ],
-  "astenuto": [
-    "astenuta",
-    "astenuti",
-    "astenute"
   ],
   "astioso": [
     "astiosa",
@@ -4053,16 +3343,6 @@ export default {
     "astrale",
     "astrali",
     "astrali"
-  ],
-  "astratto": [
-    "astratta",
-    "astratti",
-    "astratte"
-  ],
-  "astrofisico": [
-    "astrofisica",
-    "astrofisici",
-    "astrofisiche"
   ],
   "astrologico": [
     "astrologica",
@@ -4079,40 +3359,15 @@ export default {
     "astronomici",
     "astronomiche"
   ],
-  "astruso": [
-    "astrusa",
-    "astrusi",
-    "astruse"
-  ],
-  "astuto": [
-    "astuta",
-    "astuti",
-    "astute"
-  ],
   "atavico": [
     "atavica",
     "atavici",
     "ataviche"
   ],
-  "ateo": [
-    "atea",
-    "atei",
-    "atee"
-  ],
-  "ateniese": [
-    "ateniese",
-    "ateniesi",
-    "ateniesi"
-  ],
   "atesino": [
     "atesina",
     "atesini",
     "atesine"
-  ],
-  "atipico": [
-    "atipica",
-    "atipici",
-    "atipiche"
   ],
   "atlantico": [
     "atlantica",
@@ -4154,16 +3409,6 @@ export default {
     "atrofici",
     "atrofiche"
   ],
-  "atto": [
-    "atta",
-    "atti",
-    "atte"
-  ],
-  "attaccante": [
-    "attaccante",
-    "attaccanti",
-    "attaccanti"
-  ],
   "attaccato": [
     "attaccata",
     "attaccati",
@@ -4179,20 +3424,10 @@ export default {
     "attendibili",
     "attendibili"
   ],
-  "attento": [
-    "attenta",
-    "attenti",
-    "attente"
-  ],
   "attenuante": [
     "attenuante",
     "attenuanti",
     "attenuanti"
-  ],
-  "atteso": [
-    "attesa",
-    "attesi",
-    "attese"
   ],
   "atticciato": [
     "atticciata",
@@ -4229,11 +3464,6 @@ export default {
     "attivistici",
     "attivistiche"
   ],
-  "attonito": [
-    "attonita",
-    "attoniti",
-    "attonite"
-  ],
   "attraente": [
     "attraente",
     "attraenti",
@@ -4269,25 +3499,10 @@ export default {
     "attuariali",
     "attuariali"
   ],
-  "audace": [
-    "audace",
-    "audaci",
-    "audaci"
-  ],
-  "audiovisivo": [
-    "audiovisiva",
-    "audiovisivi",
-    "audiovisive"
-  ],
   "augurale": [
     "augurale",
     "augurali",
     "augurali"
-  ],
-  "augusto": [
-    "augusta",
-    "augusti",
-    "auguste"
   ],
   "aulico": [
     "aulica",
@@ -4304,11 +3519,6 @@ export default {
     "aurei",
     "auree"
   ],
-  "auricolare": [
-    "auricolare",
-    "auricolari",
-    "auricolari"
-  ],
   "aurifero": [
     "aurifera",
     "auriferi",
@@ -4324,11 +3534,6 @@ export default {
     "ausiliari",
     "ausiliari"
   ],
-  "ausiliario": [
-    "ausiliaria",
-    "ausiliari",
-    "ausiliarie"
-  ],
   "ausiliatore": [
     "ausiliatrice",
     "ausiliatori",
@@ -4339,25 +3544,10 @@ export default {
     "auspicabili",
     "auspicabili"
   ],
-  "austero": [
-    "austera",
-    "austeri",
-    "austere"
-  ],
   "australe": [
     "australe",
     "australi",
     "australi"
-  ],
-  "australiano": [
-    "australiana",
-    "australiani",
-    "australiane"
-  ],
-  "austriaco": [
-    "austriaca",
-    "austriaci",
-    "austriache"
   ],
   "austrolussemburghese": [
     "austrolussemburghese",
@@ -4374,20 +3564,10 @@ export default {
     "austroungheresi",
     "austroungheresi"
   ],
-  "autarchico": [
-    "autarchica",
-    "autarchici",
-    "autarchiche"
-  ],
   "autentico": [
     "autentica",
     "autentici",
     "autentiche"
-  ],
-  "autoadesivo": [
-    "autoadesiva",
-    "autoadesivi",
-    "autoadesive"
   ],
   "autoattribuito": [
     "autoattribuita",
@@ -4474,11 +3654,6 @@ export default {
     "autoctoni",
     "autoctone"
   ],
-  "autodidatta": [
-    "autodidatta",
-    "autodidatti",
-    "autodidatte"
-  ],
   "autodistruttivo": [
     "autodistruttiva",
     "autodistruttivi",
@@ -4513,11 +3688,6 @@ export default {
     "autogena",
     "autogeni",
     "autogene"
-  ],
-  "autografo": [
-    "autografa",
-    "autografi",
-    "autografe"
   ],
   "autogratificante": [
     "autogratificante",
@@ -4584,16 +3754,6 @@ export default {
     "automuniti",
     "automunite"
   ],
-  "autonomo": [
-    "autonoma",
-    "autonomi",
-    "autonome"
-  ],
-  "autonomista": [
-    "autonomista",
-    "autonomisti",
-    "autonomiste"
-  ],
   "autonomistico": [
     "autonomistica",
     "autonomistici",
@@ -4633,11 +3793,6 @@ export default {
     "autorevole",
     "autorevoli",
     "autorevoli"
-  ],
-  "autoritario": [
-    "autoritaria",
-    "autoritari",
-    "autoritarie"
   ],
   "autoritaristico": [
     "autoritaristica",
@@ -4709,11 +3864,6 @@ export default {
     "avari",
     "avare"
   ],
-  "avido": [
-    "avida",
-    "avidi",
-    "avide"
-  ],
   "aviomotoristico": [
     "aviomotoristica",
     "aviomotoristici",
@@ -4769,11 +3919,6 @@ export default {
     "ayurvedici",
     "ayurvediche"
   ],
-  "azero": [
-    "azera",
-    "azeri",
-    "azere"
-  ],
   "azerbaigiano": [
     "azerbaigiana",
     "azerbaigiani",
@@ -4804,16 +3949,6 @@ export default {
     "azzerabili",
     "azzerabili"
   ],
-  "azzurro": [
-    "azzurra",
-    "azzurri",
-    "azzurre"
-  ],
-  "azzurrino": [
-    "azzurrina",
-    "azzurrini",
-    "azzurrine"
-  ],
   "bacillare": [
     "bacillare",
     "bacillari",
@@ -4834,11 +3969,6 @@ export default {
     "bagaglineschi",
     "bagaglinesche"
   ],
-  "bagnante": [
-    "bagnante",
-    "bagnanti",
-    "bagnanti"
-  ],
   "bagnato": [
     "bagnata",
     "bagnati",
@@ -4848,11 +3978,6 @@ export default {
     "bahiana",
     "bahiani",
     "bahiane"
-  ],
-  "baio": [
-    "baia",
-    "bai",
-    "baie"
   ],
   "balbo": [
     "balba",
@@ -4894,20 +4019,10 @@ export default {
     "ballabili",
     "ballabili"
   ],
-  "ballerino": [
-    "ballerina",
-    "ballerini",
-    "ballerine"
-  ],
   "balneare": [
     "balneare",
     "balneari",
     "balneari"
-  ],
-  "balordo": [
-    "balorda",
-    "balordi",
-    "balorde"
   ],
   "balsamico": [
     "balsamica",
@@ -4938,11 +4053,6 @@ export default {
     "bancaria",
     "bancari",
     "bancarie"
-  ],
-  "barbaro": [
-    "barbara",
-    "barbari",
-    "barbare"
   ],
   "barbaresco": [
     "barbaresca",
@@ -4979,11 +4089,6 @@ export default {
     "barcelloneggianti",
     "barcelloneggianti"
   ],
-  "barese": [
-    "barese",
-    "baresi",
-    "baresi"
-  ],
   "barico": [
     "barica",
     "barici",
@@ -5004,11 +4109,6 @@ export default {
     "bartaliani",
     "bartaliane"
   ],
-  "basco": [
-    "basca",
-    "baschi",
-    "basche"
-  ],
   "basico": [
     "basica",
     "basici",
@@ -5028,11 +4128,6 @@ export default {
     "bassosassone",
     "bassosassoni",
     "bassosassoni"
-  ],
-  "bastardo": [
-    "bastarda",
-    "bastardi",
-    "bastarde"
   ],
   "battagliero": [
     "battagliera",
@@ -5059,11 +4154,6 @@ export default {
     "battesimali",
     "battesimali"
   ],
-  "battista": [
-    "battista",
-    "battisti",
-    "battiste"
-  ],
   "battistiano": [
     "battistiana",
     "battistiani",
@@ -5079,30 +4169,15 @@ export default {
     "baudiani",
     "baudiane"
   ],
-  "bavarese": [
-    "bavarese",
-    "bavaresi",
-    "bavaresi"
-  ],
   "bearzottiano": [
     "bearzottiana",
     "bearzottiani",
     "bearzottiane"
   ],
-  "beato": [
-    "beata",
-    "beati",
-    "beate"
-  ],
   "beatlesiano": [
     "beatlesiana",
     "beatlesiani",
     "beatlesiane"
-  ],
-  "becero": [
-    "becera",
-    "beceri",
-    "becere"
   ],
   "beckettiano": [
     "beckettiana",
@@ -5118,11 +4193,6 @@ export default {
     "bella",
     "belli",
     "belle"
-  ],
-  "beige": [
-    "beige",
-    "beigi",
-    "beigi"
   ],
   "bejartiano": [
     "bejartiana",
@@ -5148,11 +4218,6 @@ export default {
     "bellicosa",
     "bellicosi",
     "bellicose"
-  ],
-  "belligerante": [
-    "belligerante",
-    "belligeranti",
-    "belligeranti"
   ],
   "bellino": [
     "bellina",
@@ -5199,45 +4264,20 @@ export default {
     "benedett",
     "benedett"
   ],
-  "benedetto": [
-    "benedetta",
-    "benedetti",
-    "benedette"
-  ],
-  "benedettino": [
-    "benedettina",
-    "benedettini",
-    "benedettine"
-  ],
   "beneducato": [
     "beneducata",
     "beneducati",
     "beneducate"
-  ],
-  "benefattore": [
-    "benefattrice",
-    "benefattori",
-    "benefattrici"
   ],
   "benefico": [
     "benefica",
     "benefici",
     "benefiche"
   ],
-  "beneficiario": [
-    "beneficiaria",
-    "beneficiari",
-    "beneficiarie"
-  ],
   "benemerito": [
     "benemerita",
     "benemeriti",
     "benemerite"
-  ],
-  "benestante": [
-    "benestante",
-    "benestanti",
-    "benestanti"
   ],
   "benevolo": [
     "benevola",
@@ -5259,16 +4299,6 @@ export default {
     "bennati",
     "bennate"
   ],
-  "benpensante": [
-    "benpensante",
-    "benpensanti",
-    "benpensanti"
-  ],
-  "benvenuto": [
-    "benvenuta",
-    "benvenuti",
-    "benvenute"
-  ],
   "benvisto": [
     "benvista",
     "benvisti",
@@ -5279,25 +4309,10 @@ export default {
     "benziani",
     "benziane"
   ],
-  "berbero": [
-    "berbera",
-    "berberi",
-    "berbere"
-  ],
-  "bergamasco": [
-    "bergamasca",
-    "bergamaschi",
-    "bergamasche"
-  ],
   "bergmaniano": [
     "bergmaniana",
     "bergmaniani",
     "bergmaniane"
-  ],
-  "berlinese": [
-    "berlinese",
-    "berlinesi",
-    "berlinesi"
   ],
   "berlusconizzato": [
     "berlusconizzata",
@@ -5319,16 +4334,6 @@ export default {
     "bestiali",
     "bestiali"
   ],
-  "bestseller": [
-    "bestseller",
-    "bestseller",
-    "bestseller"
-  ],
-  "bianco": [
-    "bianca",
-    "bianchi",
-    "bianche"
-  ],
   "biancastro": [
     "biancastra",
     "biancastri",
@@ -5348,11 +4353,6 @@ export default {
     "biblica",
     "biblici",
     "bibliche"
-  ],
-  "bibliofilo": [
-    "bibliofila",
-    "bibliofili",
-    "bibliofile"
   ],
   "bibliografico": [
     "bibliografica",
@@ -5374,26 +4374,6 @@ export default {
     "bicilindrici",
     "bicilindriche"
   ],
-  "bicipite": [
-    "bicipite",
-    "bicipiti",
-    "bicipiti"
-  ],
-  "bicolore": [
-    "bicolore",
-    "bicolori",
-    "bicolori"
-  ],
-  "bieco": [
-    "bieca",
-    "biechi",
-    "bieche"
-  ],
-  "bielorusso": [
-    "bielorussa",
-    "bielorussi",
-    "bielorusse"
-  ],
   "biennale": [
     "biennale",
     "biennali",
@@ -5414,25 +4394,10 @@ export default {
     "bifronti",
     "bifronti"
   ],
-  "big": [
-    "big",
-    "big",
-    "big"
-  ],
   "bigio": [
     "bigia",
     "bigi",
     "bigie"
-  ],
-  "bigotto": [
-    "bigotta",
-    "bigotti",
-    "bigotte"
-  ],
-  "bilanciato": [
-    "bilanciata",
-    "bilanciati",
-    "bilanciate"
   ],
   "bilaterale": [
     "bilaterale",
@@ -5464,25 +4429,10 @@ export default {
     "bimestrali",
     "bimestrali"
   ],
-  "bimotore": [
-    "bimotrice",
-    "bimotori",
-    "bimotrici"
-  ],
-  "binario": [
-    "binaria",
-    "binari",
-    "binarie"
-  ],
   "binato": [
     "binata",
     "binati",
     "binate"
-  ],
-  "binomio": [
-    "binomia",
-    "binomi",
-    "binomie"
   ],
   "biochimico": [
     "biochimica",
@@ -5514,11 +4464,6 @@ export default {
     "biomedici",
     "biomediche"
   ],
-  "biondo": [
-    "bionda",
-    "biondi",
-    "bionde"
-  ],
   "biondastro": [
     "biondastra",
     "biondastri",
@@ -5539,11 +4484,6 @@ export default {
     "biotecnologici",
     "biotecnologiche"
   ],
-  "bipede": [
-    "bipede",
-    "bipedi",
-    "bipedi"
-  ],
   "biplano": [
     "biplana",
     "biplani",
@@ -5563,26 +4503,6 @@ export default {
     "birbone",
     "birboni",
     "birboni"
-  ],
-  "bireattore": [
-    "bireattrice",
-    "bireattori",
-    "bireattrici"
-  ],
-  "birichino": [
-    "birichina",
-    "birichini",
-    "birichine"
-  ],
-  "birmano": [
-    "birmana",
-    "birmani",
-    "birmane"
-  ],
-  "bis": [
-    "bis",
-    "bis",
-    "bis"
   ],
   "bisbetico": [
     "bisbetica",
@@ -5634,16 +4554,6 @@ export default {
     "bivalvi",
     "bivalvi"
   ],
-  "bizantino": [
-    "bizantina",
-    "bizantini",
-    "bizantine"
-  ],
-  "bizzarro": [
-    "bizzarra",
-    "bizzarri",
-    "bizzarre"
-  ],
   "bizzoso": [
     "bizzosa",
     "bizzosi",
@@ -5668,11 +4578,6 @@ export default {
     "blesa",
     "blesi",
     "blese"
-  ],
-  "blindato": [
-    "blindata",
-    "blindati",
-    "blindate"
   ],
   "block": [
     "block",
@@ -5709,11 +4614,6 @@ export default {
     "boccacceschi",
     "boccaccesche"
   ],
-  "boccale": [
-    "boccale",
-    "boccali",
-    "boccali"
-  ],
   "boccheggiante": [
     "boccheggiante",
     "boccheggianti",
@@ -5723,11 +4623,6 @@ export default {
     "bocciofila",
     "bocciofili",
     "bocciofile"
-  ],
-  "boero": [
-    "boera",
-    "boeri",
-    "boere"
   ],
   "boliviano": [
     "boliviana",
@@ -5744,11 +4639,6 @@ export default {
     "bollenti",
     "bollenti"
   ],
-  "bollito": [
-    "bollita",
-    "bolliti",
-    "bollite"
-  ],
   "bolognese": [
     "bolognese",
     "bolognesi",
@@ -5758,16 +4648,6 @@ export default {
     "bolsa",
     "bolsi",
     "bolse"
-  ],
-  "bolscevico": [
-    "bolscevica",
-    "bolscevici",
-    "bolsceviche"
-  ],
-  "bomber": [
-    "bomber",
-    "bomber",
-    "bomber"
   ],
   "bonaccione": [
     "bonaccione",
@@ -5799,16 +4679,6 @@ export default {
     "boreali",
     "boreali"
   ],
-  "borghese": [
-    "borghese",
-    "borghesi",
-    "borghesi"
-  ],
-  "borgognone": [
-    "borgognone",
-    "borgognoni",
-    "borgognoni"
-  ],
   "borioso": [
     "boriosa",
     "boriosi",
@@ -5834,11 +4704,6 @@ export default {
     "boscosi",
     "boscose"
   ],
-  "botanico": [
-    "botanica",
-    "botanici",
-    "botaniche"
-  ],
   "bottaccio": [
     "bottaccia",
     "bottacci",
@@ -5848,16 +4713,6 @@ export default {
     "botticelliana",
     "botticelliani",
     "botticelliane"
-  ],
-  "bovino": [
-    "bovina",
-    "bovini",
-    "bovine"
-  ],
-  "boxer": [
-    "boxer",
-    "boxer",
-    "boxer"
   ],
   "brado": [
     "brada",
@@ -5874,11 +4729,6 @@ export default {
     "branchiali",
     "branchiali"
   ],
-  "brasiliano": [
-    "brasiliana",
-    "brasiliani",
-    "brasiliane"
-  ],
   "brav": [
     "brav",
     "brav",
@@ -5888,16 +4738,6 @@ export default {
     "brava",
     "bravi",
     "brave"
-  ],
-  "break": [
-    "break",
-    "break",
-    "break"
-  ],
-  "bresciano": [
-    "bresciana",
-    "bresciani",
-    "bresciane"
   ],
   "breve": [
     "breve",
@@ -5929,20 +4769,10 @@ export default {
     "brilli",
     "brille"
   ],
-  "brillante": [
-    "brillante",
-    "brillanti",
-    "brillanti"
-  ],
   "brioso": [
     "briosa",
     "briosi",
     "briose"
-  ],
-  "britanno": [
-    "britanna",
-    "britanni",
-    "britanne"
   ],
   "britannico": [
     "britannica",
@@ -5968,11 +4798,6 @@ export default {
     "bronzea",
     "bronzei",
     "bronzee"
-  ],
-  "bruciato": [
-    "bruciata",
-    "bruciati",
-    "bruciate"
   ],
   "brulicante": [
     "brulicante",
@@ -6009,11 +4834,6 @@ export default {
     "brut",
     "brut"
   ],
-  "bruto": [
-    "bruta",
-    "bruti",
-    "brute"
-  ],
   "brutale": [
     "brutale",
     "brutali",
@@ -6024,30 +4844,10 @@ export default {
     "brutt",
     "brutt"
   ],
-  "brutto": [
-    "brutta",
-    "brutti",
-    "brutte"
-  ],
   "bucolico": [
     "bucolica",
     "bucolici",
     "bucoliche"
-  ],
-  "buddhista": [
-    "buddhista",
-    "buddhisti",
-    "buddhiste"
-  ],
-  "buddista": [
-    "buddista",
-    "buddisti",
-    "buddiste"
-  ],
-  "buffo": [
-    "buffa",
-    "buffi",
-    "buffe"
   ],
   "buffonesco": [
     "buffonesca",
@@ -6059,50 +4859,20 @@ export default {
     "bugi",
     "bugie"
   ],
-  "bugiardo": [
-    "bugiarda",
-    "bugiardi",
-    "bugiarde"
-  ],
-  "buio": [
-    "buia",
-    "bui",
-    "buie"
-  ],
-  "bulgaro": [
-    "bulgara",
-    "bulgari",
-    "bulgare"
-  ],
   "buon": [
     "buon",
     "buon",
     "buon"
-  ],
-  "buono": [
-    "buona",
-    "buoni",
-    "buone"
   ],
   "burattinesco": [
     "burattinesca",
     "burattineschi",
     "burattinesche"
   ],
-  "burbero": [
-    "burbera",
-    "burberi",
-    "burbere"
-  ],
   "burlesco": [
     "burlesca",
     "burleschi",
     "burlesche"
-  ],
-  "burlone": [
-    "burlone",
-    "burloni",
-    "burloni"
   ],
   "burocratico": [
     "burocratica",
@@ -6129,11 +4899,6 @@ export default {
     "cabalistici",
     "cabalistiche"
   ],
-  "cabinato": [
-    "cabinata",
-    "cabinati",
-    "cabinate"
-  ],
   "cacofonico": [
     "cacofonica",
     "cacofonici",
@@ -6154,11 +4919,6 @@ export default {
     "cadenti",
     "cadenti"
   ],
-  "cadetto": [
-    "cadetta",
-    "cadetti",
-    "cadette"
-  ],
   "caduco": [
     "caduca",
     "caduci",
@@ -6169,11 +4929,6 @@ export default {
     "caffi",
     "caffe"
   ],
-  "cafone": [
-    "cafone",
-    "cafoni",
-    "cafoni"
-  ],
   "cafonesco": [
     "cafonesca",
     "cafoneschi",
@@ -6183,11 +4938,6 @@ export default {
     "cagionevole",
     "cagionevoli",
     "cagionevoli"
-  ],
-  "cagliaritano": [
-    "cagliaritana",
-    "cagliaritani",
-    "cagliaritane"
   ],
   "cagnesco": [
     "cagnesca",
@@ -6208,11 +4958,6 @@ export default {
     "calabra",
     "calabri",
     "calabre"
-  ],
-  "calabrese": [
-    "calabrese",
-    "calabresi",
-    "calabresi"
   ],
   "calamitato": [
     "calamitata",
@@ -6254,21 +4999,6 @@ export default {
     "calcolabili",
     "calcolabili"
   ],
-  "calcolatore": [
-    "calcolatrice",
-    "calcolatori",
-    "calcolatrici"
-  ],
-  "caldo": [
-    "calda",
-    "caldi",
-    "calde"
-  ],
-  "californiano": [
-    "californiana",
-    "californiani",
-    "californiane"
-  ],
   "caliginoso": [
     "caliginosa",
     "caliginosi",
@@ -6278,16 +5008,6 @@ export default {
     "calligrafica",
     "calligrafici",
     "calligrafiche"
-  ],
-  "calmo": [
-    "calma",
-    "calmi",
-    "calme"
-  ],
-  "calmante": [
-    "calmante",
-    "calmanti",
-    "calmanti"
   ],
   "calorico": [
     "calorica",
@@ -6299,11 +5019,6 @@ export default {
     "calorosi",
     "calorose"
   ],
-  "calunniatore": [
-    "calunniatrice",
-    "calunniatori",
-    "calunniatrici"
-  ],
   "calunnioso": [
     "calunniosa",
     "calunniosi",
@@ -6314,20 +5029,10 @@ export default {
     "calvi",
     "calve"
   ],
-  "calvinista": [
-    "calvinista",
-    "calvinisti",
-    "calviniste"
-  ],
   "calzante": [
     "calzante",
     "calzanti",
     "calzanti"
-  ],
-  "calzaturiero": [
-    "calzaturiera",
-    "calzaturieri",
-    "calzaturiere"
   ],
   "camaldolese": [
     "camaldolese",
@@ -6344,11 +5049,6 @@ export default {
     "cambiari",
     "cambiarie"
   ],
-  "cambogiano": [
-    "cambogiana",
-    "cambogiani",
-    "cambogiane"
-  ],
   "camerale": [
     "camerale",
     "camerali",
@@ -6363,11 +5063,6 @@ export default {
     "cameristica",
     "cameristici",
     "cameristiche"
-  ],
-  "camerunese": [
-    "camerunese",
-    "camerunesi",
-    "camerunesi"
   ],
   "camionabile": [
     "camionabile",
@@ -6389,11 +5084,6 @@ export default {
     "campali",
     "campali"
   ],
-  "campano": [
-    "campana",
-    "campani",
-    "campane"
-  ],
   "campanario": [
     "campanaria",
     "campanari",
@@ -6414,35 +5104,15 @@ export default {
     "campestri",
     "campestri"
   ],
-  "campionario": [
-    "campionaria",
-    "campionari",
-    "campionarie"
-  ],
   "camuso": [
     "camusa",
     "camusi",
     "camuse"
   ],
-  "canadese": [
-    "canadese",
-    "canadesi",
-    "canadesi"
-  ],
   "canapiero": [
     "canapiera",
     "canapieri",
     "canapiere"
-  ],
-  "canarino": [
-    "canarina",
-    "canarini",
-    "canarine"
-  ],
-  "cancerogeno": [
-    "cancerogena",
-    "cancerogeni",
-    "cancerogene"
   ],
   "canceroso": [
     "cancerosa",
@@ -6464,20 +5134,10 @@ export default {
     "canicolari",
     "canicolari"
   ],
-  "canino": [
-    "canina",
-    "canini",
-    "canine"
-  ],
   "cannibalesco": [
     "cannibalesca",
     "cannibaleschi",
     "cannibalesche"
-  ],
-  "canonico": [
-    "canonica",
-    "canonici",
-    "canoniche"
   ],
   "canoro": [
     "canora",
@@ -6488,11 +5148,6 @@ export default {
     "cantabile",
     "cantabili",
     "cantabili"
-  ],
-  "cantante": [
-    "cantante",
-    "cantanti",
-    "cantanti"
   ],
   "canterino": [
     "canterina",
@@ -6513,11 +5168,6 @@ export default {
     "cantoniera",
     "cantonieri",
     "cantoniere"
-  ],
-  "cantore": [
-    "cantrice",
-    "cantori",
-    "cantrici"
   ],
   "canuto": [
     "canuta",
@@ -6544,35 +5194,15 @@ export default {
     "capaci",
     "capaci"
   ],
-  "caparbio": [
-    "caparbia",
-    "caparbi",
-    "caparbie"
-  ],
   "capelluto": [
     "capelluta",
     "capelluti",
     "capellute"
   ],
-  "capiente": [
-    "capiente",
-    "capienti",
-    "capienti"
-  ],
   "capillare": [
     "capillare",
     "capillari",
     "capillari"
-  ],
-  "capitale": [
-    "capitale",
-    "capitali",
-    "capitali"
-  ],
-  "capitalista": [
-    "capitalista",
-    "capitalisti",
-    "capitaliste"
   ],
   "capitalistico": [
     "capitalistica",
@@ -6594,20 +5224,10 @@ export default {
     "capofitti",
     "capofitte"
   ],
-  "cappuccio": [
-    "cappuccia",
-    "cappucci",
-    "cappucce"
-  ],
   "caprese": [
     "caprese",
     "capresi",
     "capresi"
-  ],
-  "capriccioso": [
-    "capricciosa",
-    "capricciosi",
-    "capricciose"
   ],
   "caprino": [
     "caprina",
@@ -6618,11 +5238,6 @@ export default {
     "capziosa",
     "capziosi",
     "capziose"
-  ],
-  "caro": [
-    "cara",
-    "cari",
-    "care"
   ],
   "caramelloso": [
     "caramellosa",
@@ -6639,11 +5254,6 @@ export default {
     "caratteristici",
     "caratteristiche"
   ],
-  "carbonaro": [
-    "carbonara",
-    "carbonari",
-    "carbonare"
-  ],
   "carbonico": [
     "carbonica",
     "carbonici",
@@ -6659,20 +5269,10 @@ export default {
     "carcerari",
     "carcerarie"
   ],
-  "carcerato": [
-    "carcerata",
-    "carcerati",
-    "carcerate"
-  ],
   "cardiaco": [
     "cardiaca",
     "cardiaci",
     "cardiache"
-  ],
-  "cardinale": [
-    "cardinale",
-    "cardinali",
-    "cardinali"
   ],
   "cardinalizio": [
     "cardinalizia",
@@ -6709,20 +5309,10 @@ export default {
     "carezzevoli",
     "carezzevoli"
   ],
-  "carico": [
-    "carica",
-    "carichi",
-    "cariche"
-  ],
   "caricato": [
     "caricata",
     "caricati",
     "caricate"
-  ],
-  "caricatore": [
-    "caricatrice",
-    "caricatori",
-    "caricatrici"
   ],
   "caricaturale": [
     "caricaturale",
@@ -6744,11 +5334,6 @@ export default {
     "caritatevoli",
     "caritatevoli"
   ],
-  "carmelitano": [
-    "carmelitana",
-    "carmelitani",
-    "carmelitane"
-  ],
   "carnale": [
     "carnale",
     "carnali",
@@ -6763,11 +5348,6 @@ export default {
     "carnicina",
     "carnicini",
     "carnicine"
-  ],
-  "carnivoro": [
-    "carnivora",
-    "carnivori",
-    "carnivore"
   ],
   "carnoso": [
     "carnosa",
@@ -6849,50 +5429,15 @@ export default {
     "caseari",
     "casearie"
   ],
-  "casellario": [
-    "casellaria",
-    "casellari",
-    "casellarie"
-  ],
   "casereccio": [
     "casereccia",
     "caserecci",
     "caserecce"
   ],
-  "casertano": [
-    "casertana",
-    "casertani",
-    "casertane"
-  ],
-  "casto": [
-    "casta",
-    "casti",
-    "caste"
-  ],
-  "castano": [
-    "castana",
-    "castani",
-    "castane"
-  ],
-  "castellano": [
-    "castellana",
-    "castellani",
-    "castellane"
-  ],
   "castigato": [
     "castigata",
     "castigati",
     "castigate"
-  ],
-  "castigliano": [
-    "castigliana",
-    "castigliani",
-    "castigliane"
-  ],
-  "castrato": [
-    "castrata",
-    "castrati",
-    "castrate"
   ],
   "castrense": [
     "castrense",
@@ -6913,11 +5458,6 @@ export default {
     "catalitica",
     "catalitici",
     "catalitiche"
-  ],
-  "catalizzatore": [
-    "catalizzatrice",
-    "catalizzatori",
-    "catalizzatrici"
   ],
   "catanese": [
     "catanese",
@@ -6954,11 +5494,6 @@ export default {
     "categorici",
     "categoriche"
   ],
-  "catenaccio": [
-    "catenaccia",
-    "catenacci",
-    "catenacce"
-  ],
   "catodico": [
     "catodica",
     "catodici",
@@ -6983,11 +5518,6 @@ export default {
     "cattiva",
     "cattivi",
     "cattive"
-  ],
-  "cattolico": [
-    "cattolica",
-    "cattolici",
-    "cattoliche"
   ],
   "caucasico": [
     "caucasica",
@@ -7029,25 +5559,10 @@ export default {
     "cauzionali",
     "cauzionali"
   ],
-  "cavo": [
-    "cava",
-    "cavi",
-    "cave"
-  ],
   "cavalleresco": [
     "cavalleresca",
     "cavallereschi",
     "cavalleresche"
-  ],
-  "cavallino": [
-    "cavallina",
-    "cavallini",
-    "cavalline"
-  ],
-  "cavernicolo": [
-    "cavernicola",
-    "cavernicoli",
-    "cavernicole"
   ],
   "cavernoso": [
     "cavernosa",
@@ -7058,21 +5573,6 @@ export default {
     "cavillosa",
     "cavillosi",
     "cavillose"
-  ],
-  "ceco": [
-    "ceca",
-    "ceci",
-    "ceche"
-  ],
-  "ceceno": [
-    "cecena",
-    "ceceni",
-    "cecene"
-  ],
-  "cecoslovacco": [
-    "cecoslovacca",
-    "cecoslovacchi",
-    "cecoslovacche"
   ],
   "cedevole": [
     "cedevole",
@@ -7093,11 +5593,6 @@ export default {
     "celebre",
     "celebri",
     "celebri"
-  ],
-  "celebrante": [
-    "celebrante",
-    "celebranti",
-    "celebranti"
   ],
   "celebrativo": [
     "celebrativa",
@@ -7123,16 +5618,6 @@ export default {
     "celestina",
     "celestini",
     "celestine"
-  ],
-  "celibe": [
-    "celibe",
-    "celibi",
-    "celibi"
-  ],
-  "cellulare": [
-    "cellulare",
-    "cellulari",
-    "cellulari"
   ],
   "celluloso": [
     "cellulosa",
@@ -7178,16 +5663,6 @@ export default {
     "censurabile",
     "censurabili",
     "censurabili"
-  ],
-  "centenario": [
-    "centenaria",
-    "centenari",
-    "centenarie"
-  ],
-  "centesimo": [
-    "centesima",
-    "centesimi",
-    "centesime"
   ],
   "centesimale": [
     "centesimale",
@@ -7239,11 +5714,6 @@ export default {
     "centoventesimi",
     "centoventesime"
   ],
-  "centrale": [
-    "centrale",
-    "centrali",
-    "centrali"
-  ],
   "centralistico": [
     "centralistica",
     "centralistici",
@@ -7268,11 +5738,6 @@ export default {
     "centripeta",
     "centripeti",
     "centripete"
-  ],
-  "centrista": [
-    "centrista",
-    "centristi",
-    "centriste"
   ],
   "centroamericano": [
     "centroamericana",
@@ -7299,11 +5764,6 @@ export default {
     "cerati",
     "cerate"
   ],
-  "cercatore": [
-    "cercatrice",
-    "cercatori",
-    "cercatrici"
-  ],
   "cereo": [
     "cerea",
     "cerei",
@@ -7318,11 +5778,6 @@ export default {
     "cerebrale",
     "cerebrali",
     "cerebrali"
-  ],
-  "cerimoniale": [
-    "cerimoniale",
-    "cerimoniali",
-    "cerimoniali"
   ],
   "cerimonioso": [
     "cerimoniosa",
@@ -7349,11 +5804,6 @@ export default {
     "certificabili",
     "certificabili"
   ],
-  "certosino": [
-    "certosina",
-    "certosini",
-    "certosine"
-  ],
   "ceruleo": [
     "cerulea",
     "cerulei",
@@ -7374,11 +5824,6 @@ export default {
     "cervini",
     "cervine"
   ],
-  "cesareo": [
-    "cesarea",
-    "cesarei",
-    "cesaree"
-  ],
   "cespuglioso": [
     "cespugliosa",
     "cespugliosi",
@@ -7398,11 +5843,6 @@ export default {
     "chandleriana",
     "chandleriani",
     "chandleriane"
-  ],
-  "charter": [
-    "charter",
-    "charter",
-    "charter"
   ],
   "chassidico": [
     "chassidica",
@@ -7473,11 +5913,6 @@ export default {
     "chimerica",
     "chimerici",
     "chimeriche"
-  ],
-  "chimico": [
-    "chimica",
-    "chimici",
-    "chimiche"
   ],
   "chino": [
     "china",
@@ -7569,11 +6004,6 @@ export default {
     "ciclabili",
     "ciclabili"
   ],
-  "ciclamino": [
-    "ciclamina",
-    "ciclamini",
-    "ciclamine"
-  ],
   "ciclico": [
     "ciclica",
     "ciclici",
@@ -7594,25 +6024,10 @@ export default {
     "ciclopici",
     "ciclopiche"
   ],
-  "cieco": [
-    "cieca",
-    "cieci",
-    "cieche"
-  ],
-  "ciellino": [
-    "ciellina",
-    "ciellini",
-    "cielline"
-  ],
   "cifrato": [
     "cifrata",
     "cifrati",
     "cifrate"
-  ],
-  "cileno": [
-    "cilena",
-    "cileni",
-    "cilene"
   ],
   "cilestrino": [
     "cilestrina",
@@ -7649,35 +6064,15 @@ export default {
     "cinerei",
     "cineree"
   ],
-  "cinese": [
-    "cinese",
-    "cinesi",
-    "cinesi"
-  ],
   "cinetico": [
     "cinetica",
     "cinetici",
     "cinetiche"
   ],
-  "cingalese": [
-    "cingalese",
-    "cingalesi",
-    "cingalesi"
-  ],
   "cinghialesco": [
     "cinghialesca",
     "cinghialeschi",
     "cinghialesche"
-  ],
-  "cingolato": [
-    "cingolata",
-    "cingolati",
-    "cingolate"
-  ],
-  "cinico": [
-    "cinica",
-    "cinici",
-    "ciniche"
   ],
   "cinoamericano": [
     "cinoamericana",
@@ -7693,11 +6088,6 @@ export default {
     "cinocefala",
     "cinocefali",
     "cinocefale"
-  ],
-  "cinofilo": [
-    "cinofila",
-    "cinofili",
-    "cinofile"
   ],
   "cinquantacinquesimo": [
     "cinquantacinquesima",
@@ -7774,20 +6164,10 @@ export default {
     "cinti",
     "cinte"
   ],
-  "ciociaro": [
-    "ciociara",
-    "ciociari",
-    "ciociare"
-  ],
   "cipputiano": [
     "cipputiana",
     "cipputiani",
     "cipputiane"
-  ],
-  "cipriota": [
-    "cipriota",
-    "ciprioti",
-    "cipriote"
   ],
   "ciranesco": [
     "ciranesca",
@@ -7803,11 +6183,6 @@ export default {
     "circassa",
     "circassi",
     "circasse"
-  ],
-  "circense": [
-    "circense",
-    "circensi",
-    "circensi"
   ],
   "circolante": [
     "circolante",
@@ -7869,11 +6244,6 @@ export default {
     "circumvesuviani",
     "circumvesuviane"
   ],
-  "cireneo": [
-    "cirenea",
-    "cirenei",
-    "cirenee"
-  ],
   "cirillico": [
     "cirillica",
     "cirillici",
@@ -7888,11 +6258,6 @@ export default {
     "cisgiordana",
     "cisgiordani",
     "cisgiordane"
-  ],
-  "cislino": [
-    "cislina",
-    "cislini",
-    "cisline"
   ],
   "cispadano": [
     "cispadana",
@@ -7944,11 +6309,6 @@ export default {
     "citrici",
     "citriche"
   ],
-  "cittadino": [
-    "cittadina",
-    "cittadini",
-    "cittadine"
-  ],
   "civettuolo": [
     "civettuola",
     "civettuoli",
@@ -7959,11 +6319,6 @@ export default {
     "civici",
     "civiche"
   ],
-  "civile": [
-    "civile",
-    "civili",
-    "civili"
-  ],
   "civilistico": [
     "civilistica",
     "civilistici",
@@ -7973,16 +6328,6 @@ export default {
     "clamorosa",
     "clamorosi",
     "clamorose"
-  ],
-  "clandestino": [
-    "clandestina",
-    "clandestini",
-    "clandestine"
-  ],
-  "classico": [
-    "classica",
-    "classici",
-    "classiche"
   ],
   "classicistico": [
     "classicistica",
@@ -8018,11 +6363,6 @@ export default {
     "clemente",
     "clementi",
     "clementi"
-  ],
-  "clericale": [
-    "clericale",
-    "clericali",
-    "clericali"
   ],
   "clericofascista": [
     "clericofascista",
@@ -8064,11 +6404,6 @@ export default {
     "clintoneschi",
     "clintonesche"
   ],
-  "clintoniano": [
-    "clintoniana",
-    "clintoniani",
-    "clintoniane"
-  ],
   "clitorideo": [
     "clitoridea",
     "clitoridei",
@@ -8103,11 +6438,6 @@ export default {
     "coassiale",
     "coassiali",
     "coassiali"
-  ],
-  "coatto": [
-    "coatta",
-    "coatti",
-    "coatte"
   ],
   "coattivo": [
     "coattiva",
@@ -8154,11 +6484,6 @@ export default {
     "codificabili",
     "codificabili"
   ],
-  "codino": [
-    "codina",
-    "codini",
-    "codine"
-  ],
   "coercibile": [
     "coercibile",
     "coercibili",
@@ -8184,11 +6509,6 @@ export default {
     "coesivi",
     "coesive"
   ],
-  "coetaneo": [
-    "coetanea",
-    "coetanei",
-    "coetanee"
-  ],
   "coevo": [
     "coeva",
     "coevi",
@@ -8203,11 +6523,6 @@ export default {
     "cogitabonda",
     "cogitabondi",
     "cogitabonde"
-  ],
-  "coglione": [
-    "coglione",
-    "coglioni",
-    "coglioni"
   ],
   "cognitivo": [
     "cognitiva",
@@ -8249,11 +6564,6 @@ export default {
     "collaborativi",
     "collaborative"
   ],
-  "collaborazionista": [
-    "collaborazionista",
-    "collaborazionisti",
-    "collaborazioniste"
-  ],
   "collant": [
     "collant",
     "collant",
@@ -8289,11 +6599,6 @@ export default {
     "collerici",
     "colleriche"
   ],
-  "collettivo": [
-    "collettiva",
-    "collettivi",
-    "collettive"
-  ],
   "collettivista": [
     "collettivista",
     "collettivisti",
@@ -8303,11 +6608,6 @@ export default {
     "collettivistica",
     "collettivistici",
     "collettivistiche"
-  ],
-  "collettore": [
-    "collettrice",
-    "collettori",
-    "collettrici"
   ],
   "collezionabile": [
     "collezionabile",
@@ -8349,30 +6649,15 @@ export default {
     "collusivi",
     "collusive"
   ],
-  "colmo": [
-    "colma",
-    "colmi",
-    "colme"
-  ],
   "colmabile": [
     "colmabile",
     "colmabili",
     "colmabili"
   ],
-  "colombiano": [
-    "colombiana",
-    "colombiani",
-    "colombiane"
-  ],
   "coloniale": [
     "coloniale",
     "coloniali",
     "coloniali"
-  ],
-  "colonialista": [
-    "colonialista",
-    "colonialisti",
-    "colonialiste"
   ],
   "colonialistico": [
     "colonialistica",
@@ -8389,50 +6674,20 @@ export default {
     "colonscopici",
     "colonscopiche"
   ],
-  "color": [
-    "color",
-    "color",
-    "color"
-  ],
-  "colorato": [
-    "colorata",
-    "colorati",
-    "colorate"
-  ],
   "coloristico": [
     "coloristica",
     "coloristici",
     "coloristiche"
-  ],
-  "colorito": [
-    "colorita",
-    "coloriti",
-    "colorite"
-  ],
-  "colossal": [
-    "colossal",
-    "colossal",
-    "colossal"
   ],
   "colossale": [
     "colossale",
     "colossali",
     "colossali"
   ],
-  "colpevole": [
-    "colpevole",
-    "colpevoli",
-    "colpevoli"
-  ],
   "colposo": [
     "colposa",
     "colposi",
     "colpose"
-  ],
-  "colto": [
-    "colta",
-    "colti",
-    "colte"
   ],
   "coltivo": [
     "coltiva",
@@ -8454,11 +6709,6 @@ export default {
     "comandabili",
     "comandabili"
   ],
-  "comandante": [
-    "comandante",
-    "comandanti",
-    "comandanti"
-  ],
   "comandato": [
     "comandata",
     "comandati",
@@ -8468,11 +6718,6 @@ export default {
     "comatosa",
     "comatosi",
     "comatose"
-  ],
-  "combattente": [
-    "combattente",
-    "combattenti",
-    "combattenti"
   ],
   "combattivo": [
     "combattiva",
@@ -8509,11 +6754,6 @@ export default {
     "comic",
     "comic"
   ],
-  "comico": [
-    "comica",
-    "comici",
-    "comiche"
-  ],
   "comitale": [
     "comitale",
     "comitali",
@@ -8549,11 +6789,6 @@ export default {
     "commerciabili",
     "commerciabili"
   ],
-  "commerciale": [
-    "commerciale",
-    "commerciali",
-    "commerciali"
-  ],
   "commestibile": [
     "commestibile",
     "commestibili",
@@ -8563,11 +6798,6 @@ export default {
     "commissariale",
     "commissariali",
     "commissariali"
-  ],
-  "commosso": [
-    "commossa",
-    "commossi",
-    "commosse"
   ],
   "commovente": [
     "commovente",
@@ -8583,11 +6813,6 @@ export default {
     "commutatrice",
     "commutatori",
     "commutatrici"
-  ],
-  "comodo": [
-    "comoda",
-    "comodi",
-    "comode"
   ],
   "comparabile": [
     "comparabile",
@@ -8619,11 +6844,6 @@ export default {
     "compartimentali",
     "compartimentali"
   ],
-  "compassato": [
-    "compassata",
-    "compassati",
-    "compassate"
-  ],
   "compassionevole": [
     "compassionevole",
     "compassionevoli",
@@ -8633,11 +6853,6 @@ export default {
     "compatibile",
     "compatibili",
     "compatibili"
-  ],
-  "compatto": [
-    "compatta",
-    "compatti",
-    "compatte"
   ],
   "compensabile": [
     "compensabile",
@@ -8669,16 +6884,6 @@ export default {
     "competitivi",
     "competitive"
   ],
-  "compiacente": [
-    "compiacente",
-    "compiacenti",
-    "compiacenti"
-  ],
-  "compianto": [
-    "compianta",
-    "compianti",
-    "compiante"
-  ],
   "compiuto": [
     "compiuta",
     "compiuti",
@@ -8688,11 +6893,6 @@ export default {
     "complanare",
     "complanari",
     "complanari"
-  ],
-  "complesso": [
-    "complessa",
-    "complessi",
-    "complesse"
   ],
   "complessato": [
     "complessata",
@@ -8704,25 +6904,10 @@ export default {
     "complessivi",
     "complessive"
   ],
-  "completo": [
-    "completa",
-    "completi",
-    "complete"
-  ],
-  "complicato": [
-    "complicata",
-    "complicati",
-    "complicate"
-  ],
   "complimentoso": [
     "complimentosa",
     "complimentosi",
     "complimentose"
-  ],
-  "componente": [
-    "componente",
-    "componenti",
-    "componenti"
   ],
   "componibile": [
     "componibile",
@@ -8734,20 +6919,10 @@ export default {
     "comportamentali",
     "comportamentali"
   ],
-  "composito": [
-    "composita",
-    "compositi",
-    "composite"
-  ],
   "compositivo": [
     "compositiva",
     "compositivi",
     "compositive"
-  ],
-  "composto": [
-    "composta",
-    "composti",
-    "composte"
   ],
   "comprensibile": [
     "comprensibile",
@@ -8768,11 +6943,6 @@ export default {
     "compressa",
     "compressi",
     "compresse"
-  ],
-  "compressore": [
-    "compressore",
-    "compressori",
-    "compressori"
   ],
   "comprimibile": [
     "comprimibile",
@@ -8814,11 +6984,6 @@ export default {
     "comunardi",
     "comunarde"
   ],
-  "comune": [
-    "comune",
-    "comuni",
-    "comuni"
-  ],
   "comunicabile": [
     "comunicabile",
     "comunicabili",
@@ -8828,11 +6993,6 @@ export default {
     "comunicante",
     "comunicanti",
     "comunicanti"
-  ],
-  "comunicato": [
-    "comunicata",
-    "comunicati",
-    "comunicate"
   ],
   "comunicate": [
     "comunicate",
@@ -8844,25 +7004,10 @@ export default {
     "comunicativi",
     "comunicative"
   ],
-  "comunista": [
-    "comunista",
-    "comunisti",
-    "comuniste"
-  ],
-  "comunitario": [
-    "comunitaria",
-    "comunitari",
-    "comunitarie"
-  ],
   "concavo": [
     "concava",
     "concavi",
     "concave"
-  ],
-  "concentrato": [
-    "concentrata",
-    "concentrati",
-    "concentrate"
   ],
   "concentrico": [
     "concentrica",
@@ -8873,11 +7018,6 @@ export default {
     "concepibile",
     "concepibili",
     "concepibili"
-  ],
-  "concertato": [
-    "concertata",
-    "concertati",
-    "concertate"
   ],
   "concertatore": [
     "concertatrice",
@@ -8893,11 +7033,6 @@ export default {
     "concessa",
     "concessi",
     "concesse"
-  ],
-  "concessionario": [
-    "concessionaria",
-    "concessionari",
-    "concessionarie"
   ],
   "concettoso": [
     "concettosa",
@@ -8969,11 +7104,6 @@ export default {
     "concomitanti",
     "concomitanti"
   ],
-  "concordato": [
-    "concordata",
-    "concordati",
-    "concordate"
-  ],
   "concordatario": [
     "concordataria",
     "concordatari",
@@ -8983,11 +7113,6 @@ export default {
     "concorde",
     "concordi",
     "concordi"
-  ],
-  "concorrente": [
-    "concorrente",
-    "concorrenti",
-    "concorrenti"
   ],
   "concorrenziale": [
     "concorrenziale",
@@ -9008,16 +7133,6 @@ export default {
     "condannabile",
     "condannabili",
     "condannabili"
-  ],
-  "condannato": [
-    "condannata",
-    "condannati",
-    "condannate"
-  ],
-  "condensato": [
-    "condensata",
-    "condensati",
-    "condensate"
   ],
   "condiscendente": [
     "condiscendente",
@@ -9059,25 +7174,10 @@ export default {
     "condotti",
     "condotte"
   ],
-  "conducente": [
-    "conducente",
-    "conducenti",
-    "conducenti"
-  ],
-  "conduttore": [
-    "conduttrice",
-    "conduttori",
-    "conduttrici"
-  ],
   "confacente": [
     "confacente",
     "confacenti",
     "confacenti"
-  ],
-  "confederale": [
-    "confederale",
-    "confederali",
-    "confederali"
   ],
   "confederato": [
     "confederata",
@@ -9104,16 +7204,6 @@ export default {
     "confessabili",
     "confessabili"
   ],
-  "confessionale": [
-    "confessionale",
-    "confessionali",
-    "confessionali"
-  ],
-  "confidente": [
-    "confidente",
-    "confidenti",
-    "confidenti"
-  ],
   "confidenziale": [
     "confidenziale",
     "confidenziali",
@@ -9124,11 +7214,6 @@ export default {
     "configurabili",
     "configurabili"
   ],
-  "confinante": [
-    "confinante",
-    "confinanti",
-    "confinanti"
-  ],
   "confinare": [
     "confinare",
     "confinari",
@@ -9138,11 +7223,6 @@ export default {
     "confinaria",
     "confinari",
     "confinarie"
-  ],
-  "confinato": [
-    "confinata",
-    "confinati",
-    "confinate"
   ],
   "confindustriale": [
     "confindustriale",
@@ -9158,11 +7238,6 @@ export default {
     "conforme",
     "conformi",
     "conformi"
-  ],
-  "conformista": [
-    "conformista",
-    "conformisti",
-    "conformiste"
   ],
   "confortante": [
     "confortante",
@@ -9188,11 +7263,6 @@ export default {
     "confuciana",
     "confuciani",
     "confuciane"
-  ],
-  "confuso": [
-    "confusa",
-    "confusi",
-    "confuse"
   ],
   "confusionale": [
     "confusionale",
@@ -9224,11 +7294,6 @@ export default {
     "congestionati",
     "congestionate"
   ],
-  "congiunto": [
-    "congiunta",
-    "congiunti",
-    "congiunte"
-  ],
   "congiunturale": [
     "congiunturale",
     "congiunturali",
@@ -9238,16 +7303,6 @@ export default {
     "congiuturale",
     "congiuturali",
     "congiuturali"
-  ],
-  "conglomerato": [
-    "conglomerata",
-    "conglomerati",
-    "conglomerate"
-  ],
-  "congolese": [
-    "congolese",
-    "congolesi",
-    "congolesi"
   ],
   "congressuale": [
     "congressuale",
@@ -9284,11 +7339,6 @@ export default {
     "connaturati",
     "connaturate"
   ],
-  "connazionale": [
-    "connazionale",
-    "connazionali",
-    "connazionali"
-  ],
   "connesso": [
     "connessa",
     "connessi",
@@ -9303,11 +7353,6 @@ export default {
     "connivente",
     "conniventi",
     "conniventi"
-  ],
-  "conoscente": [
-    "conoscente",
-    "conoscenti",
-    "conoscenti"
   ],
   "conoscibile": [
     "conoscibile",
@@ -9368,11 +7413,6 @@ export default {
     "consensuale",
     "consensuali",
     "consensuali"
-  ],
-  "consenziente": [
-    "consenziente",
-    "consenzienti",
-    "consenzienti"
   ],
   "conserto": [
     "conserta",
@@ -9454,11 +7494,6 @@ export default {
     "consonanti",
     "consonanti"
   ],
-  "consorte": [
-    "consorte",
-    "consorti",
-    "consorti"
-  ],
   "consortile": [
     "consortile",
     "consortili",
@@ -9468,11 +7503,6 @@ export default {
     "consueta",
     "consueti",
     "consuete"
-  ],
-  "consulente": [
-    "consulente",
-    "consulenti",
-    "consulenti"
   ],
   "consultabile": [
     "consultabile",
@@ -9494,11 +7524,6 @@ export default {
     "consumati",
     "consumate"
   ],
-  "consumatore": [
-    "consumatrice",
-    "consumatori",
-    "consumatrici"
-  ],
   "consumer": [
     "consumer",
     "consumer",
@@ -9519,35 +7544,15 @@ export default {
     "consunti",
     "consunte"
   ],
-  "consuntivo": [
-    "consuntiva",
-    "consuntivi",
-    "consuntive"
-  ],
   "consustanziale": [
     "consustanziale",
     "consustanziali",
     "consustanziali"
   ],
-  "contabile": [
-    "contabile",
-    "contabili",
-    "contabili"
-  ],
-  "contadino": [
-    "contadina",
-    "contadini",
-    "contadine"
-  ],
   "contagioso": [
     "contagiosa",
     "contagiosi",
     "contagiose"
-  ],
-  "contante": [
-    "contante",
-    "contanti",
-    "contanti"
   ],
   "contato": [
     "contata",
@@ -9558,16 +7563,6 @@ export default {
     "contemplativa",
     "contemplativi",
     "contemplative"
-  ],
-  "contemporaneo": [
-    "contemporanea",
-    "contemporanei",
-    "contemporanee"
-  ],
-  "contendente": [
-    "contendente",
-    "contendenti",
-    "contendenti"
   ],
   "contendibile": [
     "contendibile",
@@ -9584,50 +7579,20 @@ export default {
     "contenitivi",
     "contenitive"
   ],
-  "contento": [
-    "contenta",
-    "contenti",
-    "contente"
-  ],
-  "contenuto": [
-    "contenuta",
-    "contenuti",
-    "contenute"
-  ],
   "contenutistico": [
     "contenutistica",
     "contenutistici",
     "contenutistiche"
-  ],
-  "contenzioso": [
-    "contenziosa",
-    "contenziosi",
-    "contenziose"
-  ],
-  "conterraneo": [
-    "conterranea",
-    "conterranei",
-    "conterranee"
   ],
   "conteso": [
     "contesa",
     "contesi",
     "contese"
   ],
-  "contesto": [
-    "contesta",
-    "contesti",
-    "conteste"
-  ],
   "contestabile": [
     "contestabile",
     "contestabili",
     "contestabili"
-  ],
-  "contestato": [
-    "contestata",
-    "contestati",
-    "contestate"
   ],
   "contestatario": [
     "contestataria",
@@ -9649,16 +7614,6 @@ export default {
     "continentali",
     "continentali"
   ],
-  "continente": [
-    "continente",
-    "continenti",
-    "continenti"
-  ],
-  "contingente": [
-    "contingente",
-    "contingenti",
-    "contingenti"
-  ],
   "continiano": [
     "continiana",
     "continiani",
@@ -9679,35 +7634,10 @@ export default {
     "continuativi",
     "continuative"
   ],
-  "contitolare": [
-    "contitolare",
-    "contitolari",
-    "contitolari"
-  ],
-  "contorto": [
-    "contorta",
-    "contorti",
-    "contorte"
-  ],
-  "contrabbandiere": [
-    "contrabbandiere",
-    "contrabbandieri",
-    "contrabbandieri"
-  ],
-  "contraccettivo": [
-    "contraccettiva",
-    "contraccettivi",
-    "contraccettive"
-  ],
   "contraddittorio": [
     "contraddittoria",
     "contraddittori",
     "contraddittorie"
-  ],
-  "contraente": [
-    "contraente",
-    "contraenti",
-    "contraenti"
   ],
   "contraerea": [
     "contraerea",
@@ -9723,11 +7653,6 @@ export default {
     "contrapposta",
     "contrapposti",
     "contrapposte"
-  ],
-  "contrario": [
-    "contraria",
-    "contrari",
-    "contrarie"
   ],
   "contrariato": [
     "contrariata",
@@ -9814,16 +7739,6 @@ export default {
     "conturbanti",
     "conturbanti"
   ],
-  "contuso": [
-    "contusa",
-    "contusi",
-    "contuse"
-  ],
-  "convalescente": [
-    "convalescente",
-    "convalescenti",
-    "convalescenti"
-  ],
   "convenevole": [
     "convenevole",
     "convenevoli",
@@ -9838,11 +7753,6 @@ export default {
     "conventuale",
     "conventuali",
     "conventuali"
-  ],
-  "convenuto": [
-    "convenuta",
-    "convenuti",
-    "convenute"
   ],
   "convenzionale": [
     "convenzionale",
@@ -9889,11 +7799,6 @@ export default {
     "convinti",
     "convinte"
   ],
-  "convivente": [
-    "convivente",
-    "conviventi",
-    "conviventi"
-  ],
   "conviviale": [
     "conviviale",
     "conviviali",
@@ -9919,11 +7824,6 @@ export default {
     "cooperativistici",
     "cooperativistiche"
   ],
-  "cooperatore": [
-    "cooperatrice",
-    "cooperatori",
-    "cooperatrici"
-  ],
   "coordinato": [
     "coordinata",
     "coordinati",
@@ -9934,11 +7834,6 @@ export default {
     "copernicani",
     "copernicane"
   ],
-  "coperto": [
-    "coperta",
-    "coperti",
-    "coperte"
-  ],
   "copioso": [
     "copiosa",
     "copiosi",
@@ -9948,11 +7843,6 @@ export default {
     "coppoliana",
     "coppoliani",
     "coppoliane"
-  ],
-  "copto": [
-    "copta",
-    "copti",
-    "copte"
   ],
   "coraggioso": [
     "coraggiosa",
@@ -9979,30 +7869,15 @@ export default {
     "cordiali",
     "cordiali"
   ],
-  "coreano": [
-    "coreana",
-    "coreani",
-    "coreane"
-  ],
   "coreografico": [
     "coreografica",
     "coreografici",
     "coreografiche"
   ],
-  "coriaceo": [
-    "coriacea",
-    "coriacei",
-    "coriacee"
-  ],
   "corinzio": [
     "corinzia",
     "corinzi",
     "corinzie"
-  ],
-  "cornuto": [
-    "cornuta",
-    "cornuti",
-    "cornute"
   ],
   "coronarico": [
     "coronarica",
@@ -10054,11 +7929,6 @@ export default {
     "correlativi",
     "correlative"
   ],
-  "correligionario": [
-    "correligionaria",
-    "correligionari",
-    "correligionarie"
-  ],
   "corrente": [
     "corrente",
     "correnti",
@@ -10073,31 +7943,6 @@ export default {
     "corresponsabile",
     "corresponsabili",
     "corresponsabili"
-  ],
-  "corretto": [
-    "corretta",
-    "corretti",
-    "corrette"
-  ],
-  "correttivo": [
-    "correttiva",
-    "correttivi",
-    "correttive"
-  ],
-  "corridore": [
-    "corridore",
-    "corridori",
-    "corridori"
-  ],
-  "corrispettivo": [
-    "corrispettiva",
-    "corrispettivi",
-    "corrispettive"
-  ],
-  "corrispondente": [
-    "corrispondente",
-    "corrispondenti",
-    "corrispondenti"
   ],
   "corrivo": [
     "corriva",
@@ -10114,11 +7959,6 @@ export default {
     "corrosivi",
     "corrosive"
   ],
-  "corrotto": [
-    "corrotta",
-    "corrotti",
-    "corrotte"
-  ],
   "corrusco": [
     "corrusca",
     "corruschi",
@@ -10129,35 +7969,10 @@ export default {
     "corruttibili",
     "corruttibili"
   ],
-  "corruttore": [
-    "corruttrice",
-    "corruttori",
-    "corruttrici"
-  ],
-  "corso": [
-    "corsa",
-    "corsi",
-    "corse"
-  ],
-  "corsaro": [
-    "corsara",
-    "corsari",
-    "corsare"
-  ],
-  "corto": [
-    "corta",
-    "corti",
-    "corte"
-  ],
   "cortese": [
     "cortese",
     "cortesi",
     "cortesi"
-  ],
-  "cortigiano": [
-    "cortigiana",
-    "cortigiani",
-    "cortigiane"
   ],
   "corvino": [
     "corvina",
@@ -10178,11 +7993,6 @@ export default {
     "cosiddetta",
     "cosiddetti",
     "cosiddette"
-  ],
-  "cosmetico": [
-    "cosmetica",
-    "cosmetici",
-    "cosmetiche"
   ],
   "cosmico": [
     "cosmica",
@@ -10208,11 +8018,6 @@ export default {
     "cospiratoria",
     "cospiratori",
     "cospiratorie"
-  ],
-  "cossuttiano": [
-    "cossuttiana",
-    "cossuttiani",
-    "cossuttiane"
   ],
   "costante": [
     "costante",
@@ -10244,11 +8049,6 @@ export default {
     "costituendi",
     "costituende"
   ],
-  "costituente": [
-    "costituente",
-    "costituenti",
-    "costituenti"
-  ],
   "costituito": [
     "costituita",
     "costituiti",
@@ -10268,11 +8068,6 @@ export default {
     "costituzionale",
     "costituzionali",
     "costituzionali"
-  ],
-  "costituzionalista": [
-    "costituzionalista",
-    "costituzionalisti",
-    "costituzionaliste"
   ],
   "costituzionalizzato": [
     "costituzionalizzata",
@@ -10299,11 +8094,6 @@ export default {
     "costruttivi",
     "costruttive"
   ],
-  "costruttore": [
-    "costruttrice",
-    "costruttori",
-    "costruttrici"
-  ],
   "costumato": [
     "costumata",
     "costumati",
@@ -10318,11 +8108,6 @@ export default {
     "cotoniera",
     "cotonieri",
     "cotoniere"
-  ],
-  "cotto": [
-    "cotta",
-    "cotti",
-    "cotte"
   ],
   "cragnottiano": [
     "cragnottiana",
@@ -10339,30 +8124,10 @@ export default {
     "crassi",
     "crasse"
   ],
-  "craxiano": [
-    "craxiana",
-    "craxiani",
-    "craxiane"
-  ],
   "craxista": [
     "craxista",
     "craxisti",
     "craxiste"
-  ],
-  "creativo": [
-    "creativa",
-    "creativi",
-    "creative"
-  ],
-  "creatore": [
-    "creatrice",
-    "creatori",
-    "creatrici"
-  ],
-  "credente": [
-    "credente",
-    "credenti",
-    "credenti"
   ],
   "credenziale": [
     "credenziale",
@@ -10379,11 +8144,6 @@ export default {
     "creditizi",
     "creditizie"
   ],
-  "creditore": [
-    "creditrice",
-    "creditori",
-    "creditrici"
-  ],
   "credulo": [
     "credula",
     "creduli",
@@ -10393,11 +8153,6 @@ export default {
     "cremisi",
     "cremisi",
     "cremisi"
-  ],
-  "cremonese": [
-    "cremonese",
-    "cremonesi",
-    "cremonesi"
   ],
   "cremoso": [
     "cremosa",
@@ -10418,16 +8173,6 @@ export default {
     "crespata",
     "crespati",
     "crespate"
-  ],
-  "cretino": [
-    "cretina",
-    "cretini",
-    "cretine"
-  ],
-  "criminale": [
-    "criminale",
-    "criminali",
-    "criminali"
   ],
   "criminogeno": [
     "criminogena",
@@ -10469,11 +8214,6 @@ export default {
     "cristallizzati",
     "cristallizzate"
   ],
-  "cristiano": [
-    "cristiana",
-    "cristiani",
-    "cristiane"
-  ],
   "cristianizzato": [
     "cristianizzata",
     "cristianizzati",
@@ -10483,11 +8223,6 @@ export default {
     "cristologica",
     "cristologici",
     "cristologiche"
-  ],
-  "critico": [
-    "critica",
-    "critici",
-    "critiche"
   ],
   "criticabile": [
     "criticabile",
@@ -10499,11 +8234,6 @@ export default {
     "criticati",
     "criticate"
   ],
-  "croato": [
-    "croata",
-    "croati",
-    "croate"
-  ],
   "croatobosniaco": [
     "croatobosniaca",
     "croatobosniaci",
@@ -10514,30 +8244,15 @@ export default {
     "croccanti",
     "croccanti"
   ],
-  "crocefisso": [
-    "crocefissa",
-    "crocefissi",
-    "crocefisse"
-  ],
   "crociano": [
     "crociana",
     "crociani",
     "crociane"
   ],
-  "crociato": [
-    "crociata",
-    "crociati",
-    "crociate"
-  ],
   "crocieristico": [
     "crocieristica",
     "crocieristici",
     "crocieristiche"
-  ],
-  "crocifisso": [
-    "crocifissa",
-    "crocifissi",
-    "crocifisse"
   ],
   "cromatico": [
     "cromatica",
@@ -10558,11 +8273,6 @@ export default {
     "cronachistica",
     "cronachistici",
     "cronachistiche"
-  ],
-  "cronico": [
-    "cronica",
-    "cronici",
-    "croniche"
   ],
   "cronistico": [
     "cronistica",
@@ -10619,20 +8329,10 @@ export default {
     "cruenti",
     "cruente"
   ],
-  "cubano": [
-    "cubana",
-    "cubani",
-    "cubane"
-  ],
   "cubico": [
     "cubica",
     "cubici",
     "cubiche"
-  ],
-  "cubista": [
-    "cubista",
-    "cubisti",
-    "cubiste"
   ],
   "cubitale": [
     "cubitale",
@@ -10679,16 +8379,6 @@ export default {
     "cuneiformi",
     "cuneiformi"
   ],
-  "cunicolo": [
-    "cunicola",
-    "cunicoli",
-    "cunicole"
-  ],
-  "cupo": [
-    "cupa",
-    "cupi",
-    "cupe"
-  ],
   "cupido": [
     "cupida",
     "cupidi",
@@ -10714,25 +8404,10 @@ export default {
     "curativi",
     "curative"
   ],
-  "curatore": [
-    "curatrice",
-    "curatori",
-    "curatrici"
-  ],
-  "curdo": [
-    "curda",
-    "curdi",
-    "curde"
-  ],
   "curiale": [
     "curiale",
     "curiali",
     "curiali"
-  ],
-  "curioso": [
-    "curiosa",
-    "curiosi",
-    "curiose"
   ],
   "curvo": [
     "curva",
@@ -10743,11 +8418,6 @@ export default {
     "cuspidale",
     "cuspidali",
     "cuspidali"
-  ],
-  "custode": [
-    "custode",
-    "custodi",
-    "custodi"
   ],
   "cutaneo": [
     "cutanea",
@@ -10774,11 +8444,6 @@ export default {
     "dabbeni",
     "dabbeni"
   ],
-  "dalemiano": [
-    "dalemiana",
-    "dalemiani",
-    "dalemiane"
-  ],
   "dalmata": [
     "dalmata",
     "dalmati",
@@ -10798,21 +8463,6 @@ export default {
     "dandystica",
     "dandystici",
     "dandystiche"
-  ],
-  "danese": [
-    "danese",
-    "danesi",
-    "danesi"
-  ],
-  "dannato": [
-    "dannata",
-    "dannati",
-    "dannate"
-  ],
-  "danneggiato": [
-    "danneggiata",
-    "danneggiati",
-    "danneggiate"
   ],
   "dannoso": [
     "dannosa",
@@ -10849,11 +8499,6 @@ export default {
     "darwiniani",
     "darwiniane"
   ],
-  "dato": [
-    "data",
-    "dati",
-    "date"
-  ],
   "databile": [
     "databile",
     "databili",
@@ -10868,16 +8513,6 @@ export default {
     "dattilica",
     "dattilici",
     "dattiliche"
-  ],
-  "dattiloscritto": [
-    "dattiloscritta",
-    "dattiloscritti",
-    "dattiloscritte"
-  ],
-  "davanti": [
-    "davanti",
-    "davanti",
-    "davanti"
   ],
   "daziario": [
     "daziaria",
@@ -10894,35 +8529,10 @@ export default {
     "debenedettiani",
     "debenedettiane"
   ],
-  "debito": [
-    "debita",
-    "debiti",
-    "debite"
-  ],
-  "debitore": [
-    "debitrice",
-    "debitori",
-    "debitrici"
-  ],
-  "debole": [
-    "debole",
-    "deboli",
-    "deboli"
-  ],
   "debosciato": [
     "debosciata",
     "debosciati",
     "debosciate"
-  ],
-  "debuttante": [
-    "debuttante",
-    "debuttanti",
-    "debuttanti"
-  ],
-  "decadente": [
-    "decadente",
-    "decadenti",
-    "decadenti"
   ],
   "decaduto": [
     "decaduta",
@@ -10938,11 +8548,6 @@ export default {
     "decappottabile",
     "decappottabili",
     "decappottabili"
-  ],
-  "deceduto": [
-    "deceduta",
-    "deceduti",
-    "decedute"
   ],
   "decennale": [
     "decennale",
@@ -10969,16 +8574,6 @@ export default {
     "decifrabili",
     "decifrabili"
   ],
-  "decimo": [
-    "decima",
-    "decimi",
-    "decime"
-  ],
-  "decimale": [
-    "decimale",
-    "decimali",
-    "decimali"
-  ],
   "deciso": [
     "decisa",
     "decisi",
@@ -10999,11 +8594,6 @@ export default {
     "declamatori",
     "declamatorie"
   ],
-  "declivio": [
-    "declivia",
-    "declivi",
-    "declivie"
-  ],
   "decorato": [
     "decorata",
     "decorati",
@@ -11018,11 +8608,6 @@ export default {
     "decorosa",
     "decorosi",
     "decorose"
-  ],
-  "decrepito": [
-    "decrepita",
-    "decrepiti",
-    "decrepite"
   ],
   "dedito": [
     "dedita",
@@ -11053,16 +8638,6 @@ export default {
     "defeliciana",
     "defeliciani",
     "defeliciane"
-  ],
-  "deferente": [
-    "deferente",
-    "deferenti",
-    "deferenti"
-  ],
-  "deficiente": [
-    "deficiente",
-    "deficienti",
-    "deficienti"
   ],
   "deficitario": [
     "deficitaria",
@@ -11104,11 +8679,6 @@ export default {
     "deformanti",
     "deformanti"
   ],
-  "deforme": [
-    "deforme",
-    "deformi",
-    "deformi"
-  ],
   "defunto": [
     "defunta",
     "defunti",
@@ -11134,16 +8704,6 @@ export default {
     "degeneri",
     "degeneri"
   ],
-  "degente": [
-    "degente",
-    "degenti",
-    "degenti"
-  ],
-  "degno": [
-    "degna",
-    "degni",
-    "degne"
-  ],
   "degradante": [
     "degradante",
     "degradanti",
@@ -11153,11 +8713,6 @@ export default {
     "deindustrializzata",
     "deindustrializzati",
     "deindustrializzate"
-  ],
-  "delegato": [
-    "delegata",
-    "delegati",
-    "delegate"
   ],
   "deleterio": [
     "deleteria",
@@ -11184,11 +8739,6 @@ export default {
     "delicati",
     "delicate"
   ],
-  "delinquente": [
-    "delinquente",
-    "delinquenti",
-    "delinquenti"
-  ],
   "delinquenziale": [
     "delinquenziale",
     "delinquenziali",
@@ -11209,11 +8759,6 @@ export default {
     "deludenti",
     "deludenti"
   ],
-  "deluso": [
-    "delusa",
-    "delusi",
-    "deluse"
-  ],
   "demagogico": [
     "demagogica",
     "demagogici",
@@ -11229,40 +8774,20 @@ export default {
     "demartiniani",
     "demartiniane"
   ],
-  "demente": [
-    "demente",
-    "dementi",
-    "dementi"
-  ],
   "demenziale": [
     "demenziale",
     "demenziali",
     "demenziali"
-  ],
-  "demitiano": [
-    "demitiana",
-    "demitiani",
-    "demitiane"
   ],
   "demiurgico": [
     "demiurgica",
     "demiurgici",
     "demiurgiche"
   ],
-  "democratico": [
-    "democratica",
-    "democratici",
-    "democratiche"
-  ],
   "democristano": [
     "democristana",
     "democristani",
     "democristane"
-  ],
-  "democristiano": [
-    "democristiana",
-    "democristiani",
-    "democristiane"
   ],
   "demoetnoantropologico": [
     "demoetnoantropologica",
@@ -11274,21 +8799,6 @@ export default {
     "demografici",
     "demografiche"
   ],
-  "demolitore": [
-    "demolitrice",
-    "demolitori",
-    "demolitrici"
-  ],
-  "demoniaco": [
-    "demoniaca",
-    "demoniaci",
-    "demoniache"
-  ],
-  "demoproletario": [
-    "demoproletaria",
-    "demoproletari",
-    "demoproletarie"
-  ],
   "demoralizzato": [
     "demoralizzata",
     "demoralizzati",
@@ -11298,11 +8808,6 @@ export default {
     "demoscopica",
     "demoscopici",
     "demoscopiche"
-  ],
-  "denigratore": [
-    "denigratrice",
-    "denigratori",
-    "denigratrici"
   ],
   "denigratorio": [
     "denigratoria",
@@ -11339,11 +8844,6 @@ export default {
     "denutriti",
     "denutrite"
   ],
-  "deodorante": [
-    "deodorante",
-    "deodoranti",
-    "deodoranti"
-  ],
   "deontologico": [
     "deontologica",
     "deontologici",
@@ -11369,20 +8869,10 @@ export default {
     "deplorevoli",
     "deplorevoli"
   ],
-  "deportato": [
-    "deportata",
-    "deportati",
-    "deportate"
-  ],
   "deprecabile": [
     "deprecabile",
     "deprecabili",
     "deprecabili"
-  ],
-  "depresso": [
-    "depressa",
-    "depressi",
-    "depresse"
   ],
   "depressivo": [
     "depressiva",
@@ -11398,11 +8888,6 @@ export default {
     "deprimibile",
     "deprimibili",
     "deprimibili"
-  ],
-  "depuratore": [
-    "depuratrice",
-    "depuratori",
-    "depuratrici"
   ],
   "depuratorio": [
     "depuratoria",
@@ -11423,11 +8908,6 @@ export default {
     "deregolatrice",
     "deregolatrici",
     "deregolatrici"
-  ],
-  "derelitto": [
-    "derelitta",
-    "derelitti",
-    "derelitte"
   ],
   "deriso": [
     "derisa",
@@ -11474,11 +8954,6 @@ export default {
     "descrivibili",
     "descrivibili"
   ],
-  "deserto": [
-    "deserta",
-    "deserti",
-    "deserte"
-  ],
   "desertico": [
     "desertica",
     "desertici",
@@ -11509,20 +8984,10 @@ export default {
     "desolanti",
     "desolanti"
   ],
-  "desolato": [
-    "desolata",
-    "desolati",
-    "desolate"
-  ],
   "desto": [
     "desta",
     "desti",
     "deste"
-  ],
-  "destabilizzatore": [
-    "destabilizzatrice",
-    "destabilizzatori",
-    "destabilizzatrici"
   ],
   "destagionalizzato": [
     "destagionalizzata",
@@ -11533,11 +8998,6 @@ export default {
     "destituita",
     "destituiti",
     "destituite"
-  ],
-  "destro": [
-    "destra",
-    "destri",
-    "destre"
   ],
   "destrorso": [
     "destrorsa",
@@ -11579,16 +9039,6 @@ export default {
     "determinati",
     "determinate"
   ],
-  "deterrente": [
-    "deterrente",
-    "deterrenti",
-    "deterrenti"
-  ],
-  "detersivo": [
-    "detersiva",
-    "detersivi",
-    "detersive"
-  ],
   "detestabile": [
     "detestabile",
     "detestabili",
@@ -11604,11 +9054,6 @@ export default {
     "dettagliati",
     "dettagliate"
   ],
-  "dettato": [
-    "dettata",
-    "dettati",
-    "dettate"
-  ],
   "deutsch": [
     "deutsch",
     "deutsch",
@@ -11619,35 +9064,15 @@ export default {
     "devastanti",
     "devastanti"
   ],
-  "devastatore": [
-    "devastatrice",
-    "devastatori",
-    "devastatrici"
-  ],
   "deviante": [
     "deviante",
     "devianti",
     "devianti"
   ],
-  "devoto": [
-    "devota",
-    "devoti",
-    "devote"
-  ],
   "devozionale": [
     "devozionale",
     "devozionali",
     "devozionali"
-  ],
-  "diabetico": [
-    "diabetica",
-    "diabetici",
-    "diabetiche"
-  ],
-  "diabolico": [
-    "diabolica",
-    "diabolici",
-    "diaboliche"
   ],
   "diaframmatico": [
     "diaframmatica",
@@ -11729,11 +9154,6 @@ export default {
     "dicianovenni",
     "dicianovenni"
   ],
-  "diciassettenne": [
-    "diciassettenne",
-    "diciassettenni",
-    "diciassettenni"
-  ],
   "diciassettesimo": [
     "diciassettesima",
     "diciassettesimi",
@@ -11743,11 +9163,6 @@ export default {
     "dicibile",
     "dicibili",
     "dicibili"
-  ],
-  "diciottenne": [
-    "diciottenne",
-    "diciottenni",
-    "diciottenni"
   ],
   "diciottesimo": [
     "diciottesima",
@@ -11779,16 +9194,6 @@ export default {
     "diecimillesimi",
     "diecimillesime"
   ],
-  "diesel": [
-    "diesel",
-    "diesel",
-    "diesel"
-  ],
-  "diessino": [
-    "diessina",
-    "diessini",
-    "diessine"
-  ],
   "dietetico": [
     "dietetica",
     "dietetici",
@@ -11809,20 +9214,10 @@ export default {
     "difensivi",
     "difensive"
   ],
-  "difensivista": [
-    "difensivista",
-    "difensivisti",
-    "difensiviste"
-  ],
   "difensivistico": [
     "difensivistica",
     "difensivistici",
     "difensivistiche"
-  ],
-  "difensore": [
-    "difensore",
-    "difensori",
-    "difensori"
   ],
   "difeso": [
     "difesa",
@@ -11834,11 +9229,6 @@ export default {
     "difettosi",
     "difettose"
   ],
-  "diffamatore": [
-    "diffamatrice",
-    "diffamatori",
-    "diffamatrici"
-  ],
   "diffamatorio": [
     "diffamatoria",
     "diffamatori",
@@ -11848,11 +9238,6 @@ export default {
     "differente",
     "differenti",
     "differenti"
-  ],
-  "differenziale": [
-    "differenziale",
-    "differenziali",
-    "differenziali"
   ],
   "differenziato": [
     "differenziata",
@@ -11874,11 +9259,6 @@ export default {
     "difficoltosi",
     "difficoltose"
   ],
-  "diffidente": [
-    "diffidente",
-    "diffidenti",
-    "diffidenti"
-  ],
   "difforme": [
     "difforme",
     "difformi",
@@ -11888,11 +9268,6 @@ export default {
     "diffusa",
     "diffusi",
     "diffuse"
-  ],
-  "diffusore": [
-    "diffusore",
-    "diffusori",
-    "diffusori"
   ],
   "digerente": [
     "digerente",
@@ -11904,25 +9279,10 @@ export default {
     "digeribili",
     "digeribili"
   ],
-  "digestivo": [
-    "digestiva",
-    "digestivi",
-    "digestive"
-  ],
-  "digitale": [
-    "digitale",
-    "digitali",
-    "digitali"
-  ],
   "digitalizzabile": [
     "digitalizzabile",
     "digitalizzabili",
     "digitalizzabili"
-  ],
-  "digiuno": [
-    "digiuna",
-    "digiuni",
-    "digiune"
   ],
   "dignitoso": [
     "dignitosa",
@@ -11964,16 +9324,6 @@ export default {
     "dilazionati",
     "dilazionate"
   ],
-  "diletto": [
-    "diletta",
-    "diletti",
-    "dilette"
-  ],
-  "dilettante": [
-    "dilettante",
-    "dilettanti",
-    "dilettanti"
-  ],
   "dilettantesco": [
     "dilettantesca",
     "dilettanteschi",
@@ -11993,11 +9343,6 @@ export default {
     "dilettosa",
     "dilettosi",
     "dilettose"
-  ],
-  "diligente": [
-    "diligente",
-    "diligenti",
-    "diligenti"
   ],
   "diluibile": [
     "diluibile",
@@ -12029,30 +9374,10 @@ export default {
     "dimenticati",
     "dimenticate"
   ],
-  "dimesso": [
-    "dimessa",
-    "dimessi",
-    "dimesse"
-  ],
-  "diminutivo": [
-    "diminutiva",
-    "diminutivi",
-    "diminutive"
-  ],
-  "dimissionario": [
-    "dimissionaria",
-    "dimissionari",
-    "dimissionarie"
-  ],
   "dimostrabile": [
     "dimostrabile",
     "dimostrabili",
     "dimostrabili"
-  ],
-  "dimostrante": [
-    "dimostrante",
-    "dimostranti",
-    "dimostranti"
   ],
   "dimostrativo": [
     "dimostrativa",
@@ -12064,11 +9389,6 @@ export default {
     "dinamici",
     "dinamiche"
   ],
-  "dinamitardo": [
-    "dinamitarda",
-    "dinamitardi",
-    "dinamitarde"
-  ],
   "dinanzi": [
     "dinanzi",
     "dinanzi",
@@ -12078,11 +9398,6 @@ export default {
     "dinastica",
     "dinastici",
     "dinastiche"
-  ],
-  "diniano": [
-    "diniana",
-    "diniani",
-    "diniane"
   ],
   "dinoccolato": [
     "dinoccolata",
@@ -12104,30 +9419,10 @@ export default {
     "dipartimentali",
     "dipartimentali"
   ],
-  "dipendente": [
-    "dipendente",
-    "dipendenti",
-    "dipendenti"
-  ],
   "dipietresco": [
     "dipietresca",
     "dipietreschi",
     "dipietresche"
-  ],
-  "dipietrista": [
-    "dipietrista",
-    "dipietristi",
-    "dipietriste"
-  ],
-  "dipinto": [
-    "dipinta",
-    "dipinti",
-    "dipinte"
-  ],
-  "diplomatico": [
-    "diplomatica",
-    "diplomatici",
-    "diplomatiche"
   ],
   "diro": [
     "dira",
@@ -12138,16 +9433,6 @@ export default {
     "diretta",
     "diretti",
     "dirette"
-  ],
-  "direttivo": [
-    "direttiva",
-    "direttivi",
-    "direttive"
-  ],
-  "direttore": [
-    "direttrice",
-    "direttori",
-    "direttrici"
   ],
   "direttoriale": [
     "direttoriale",
@@ -12199,11 +9484,6 @@ export default {
     "dirimpetti",
     "dirimpette"
   ],
-  "diritto": [
-    "diritta",
-    "diritti",
-    "diritte"
-  ],
   "diroccato": [
     "diroccata",
     "diroccati",
@@ -12239,11 +9519,6 @@ export default {
     "disaccoppianti",
     "disaccoppianti"
   ],
-  "disadattato": [
-    "disadattata",
-    "disadattati",
-    "disadattate"
-  ],
   "disadorno": [
     "disadorna",
     "disadorni",
@@ -12259,20 +9534,10 @@ export default {
     "disagiati",
     "disagiate"
   ],
-  "disarmato": [
-    "disarmata",
-    "disarmati",
-    "disarmate"
-  ],
   "disarmonico": [
     "disarmonica",
     "disarmonici",
     "disarmoniche"
-  ],
-  "disastrato": [
-    "disastrata",
-    "disastrati",
-    "disastrate"
   ],
   "disastroso": [
     "disastrosa",
@@ -12283,11 +9548,6 @@ export default {
     "disattenta",
     "disattenti",
     "disattente"
-  ],
-  "discendente": [
-    "discendente",
-    "discendenti",
-    "discendenti"
   ],
   "discente": [
     "discente",
@@ -12308,16 +9568,6 @@ export default {
     "disciplinata",
     "disciplinati",
     "disciplinate"
-  ],
-  "discografico": [
-    "discografica",
-    "discografici",
-    "discografiche"
-  ],
-  "discolo": [
-    "discola",
-    "discoli",
-    "discole"
   ],
   "discontinuo": [
     "discontinua",
@@ -12394,30 +9644,10 @@ export default {
     "diseguali",
     "diseguali"
   ],
-  "diserbante": [
-    "diserbante",
-    "diserbanti",
-    "diserbanti"
-  ],
-  "diseredato": [
-    "diseredata",
-    "diseredati",
-    "diseredate"
-  ],
-  "disfattista": [
-    "disfattista",
-    "disfattisti",
-    "disfattiste"
-  ],
   "disfunzionale": [
     "disfunzionale",
     "disfunzionali",
     "disfunzionali"
-  ],
-  "disgraziato": [
-    "disgraziata",
-    "disgraziati",
-    "disgraziate"
   ],
   "disgregatore": [
     "disgregatrice",
@@ -12434,20 +9664,10 @@ export default {
     "disideologizzati",
     "disideologizzate"
   ],
-  "disilluso": [
-    "disillusa",
-    "disillusi",
-    "disilluse"
-  ],
   "disincantato": [
     "disincantata",
     "disincantati",
     "disincantate"
-  ],
-  "disinfettante": [
-    "disinfettante",
-    "disinfettanti",
-    "disinfettanti"
   ],
   "disinformato": [
     "disinformata",
@@ -12464,11 +9684,6 @@ export default {
     "disinteressati",
     "disinteressate"
   ],
-  "disinvolto": [
-    "disinvolta",
-    "disinvolti",
-    "disinvolte"
-  ],
   "disneiano": [
     "disneiana",
     "disneiani",
@@ -12479,30 +9694,15 @@ export default {
     "disneyani",
     "disneyane"
   ],
-  "disoccupato": [
-    "disoccupata",
-    "disoccupati",
-    "disoccupate"
-  ],
   "disomogeneo": [
     "disomogenea",
     "disomogenei",
     "disomogenee"
   ],
-  "disonesto": [
-    "disonesta",
-    "disonesti",
-    "disoneste"
-  ],
   "disonorevole": [
     "disonorevole",
     "disonorevoli",
     "disonorevoli"
-  ],
-  "disordinato": [
-    "disordinata",
-    "disordinati",
-    "disordinate"
   ],
   "disorganico": [
     "disorganica",
@@ -12534,21 +9734,6 @@ export default {
     "dispendiosi",
     "dispendiose"
   ],
-  "dispensatore": [
-    "dispensatrice",
-    "dispensatori",
-    "dispensatrici"
-  ],
-  "disperato": [
-    "disperata",
-    "disperati",
-    "disperate"
-  ],
-  "disperso": [
-    "dispersa",
-    "dispersi",
-    "disperse"
-  ],
   "dispersivo": [
     "dispersiva",
     "dispersivi",
@@ -12568,11 +9753,6 @@ export default {
     "disponibile",
     "disponibili",
     "disponibili"
-  ],
-  "dispositivo": [
-    "dispositiva",
-    "dispositivi",
-    "dispositive"
   ],
   "disposto": [
     "disposta",
@@ -12599,16 +9779,6 @@ export default {
     "dissacratori",
     "dissacratorie"
   ],
-  "dissennato": [
-    "dissennata",
-    "dissennati",
-    "dissennate"
-  ],
-  "dissenziente": [
-    "dissenziente",
-    "dissenzienti",
-    "dissenzienti"
-  ],
   "dissepolto": [
     "dissepolta",
     "dissepolti",
@@ -12619,11 +9789,6 @@ export default {
     "dissetanti",
     "dissetanti"
   ],
-  "dissidente": [
-    "dissidente",
-    "dissidenti",
-    "dissidenti"
-  ],
   "dissimile": [
     "dissimile",
     "dissimili",
@@ -12633,11 +9798,6 @@ export default {
     "dissipata",
     "dissipati",
     "dissipate"
-  ],
-  "dissociato": [
-    "dissociata",
-    "dissociati",
-    "dissociate"
   ],
   "dissolto": [
     "dissolta",
@@ -12679,35 +9839,15 @@ export default {
     "distesi",
     "distese"
   ],
-  "distillato": [
-    "distillata",
-    "distillati",
-    "distillate"
-  ],
   "distinguibile": [
     "distinguibile",
     "distinguibili",
     "distinguibili"
   ],
-  "distinto": [
-    "distinta",
-    "distinti",
-    "distinte"
-  ],
-  "distintivo": [
-    "distintiva",
-    "distintivi",
-    "distintive"
-  ],
   "distorsivo": [
     "distorsiva",
     "distorsivi",
     "distorsive"
-  ],
-  "distratto": [
-    "distratta",
-    "distratti",
-    "distratte"
   ],
   "distrettuale": [
     "distrettuale",
@@ -12718,11 +9858,6 @@ export default {
     "distributiva",
     "distributivi",
     "distributive"
-  ],
-  "distributore": [
-    "distributrice",
-    "distributori",
-    "distributrici"
   ],
   "distruggitrice": [
     "distruggitrice",
@@ -12743,11 +9878,6 @@ export default {
     "distruttiva",
     "distruttivi",
     "distruttive"
-  ],
-  "distruttore": [
-    "distruttrice",
-    "distruttori",
-    "distruttrici"
   ],
   "disubbidiente": [
     "disubbidiente",
@@ -12794,11 +9924,6 @@ export default {
     "ditteri",
     "dittere"
   ],
-  "diuretico": [
-    "diuretica",
-    "diuretici",
-    "diuretiche"
-  ],
   "diurno": [
     "diurna",
     "diurni",
@@ -12808,11 +9933,6 @@ export default {
     "diuturna",
     "diuturni",
     "diuturne"
-  ],
-  "divo": [
-    "diva",
-    "divi",
-    "dive"
   ],
   "divagatorio": [
     "divagatoria",
@@ -12834,30 +9954,15 @@ export default {
     "diversi",
     "diverse"
   ],
-  "diversivo": [
-    "diversiva",
-    "diversivi",
-    "diversive"
-  ],
   "divertente": [
     "divertente",
     "divertenti",
     "divertenti"
   ],
-  "divertito": [
-    "divertita",
-    "divertiti",
-    "divertite"
-  ],
   "divin": [
     "divin",
     "divin",
     "divin"
-  ],
-  "divino": [
-    "divina",
-    "divini",
-    "divine"
   ],
   "divinatorio": [
     "divinatoria",
@@ -12894,11 +9999,6 @@ export default {
     "divistici",
     "divistiche"
   ],
-  "divorziato": [
-    "divorziata",
-    "divorziati",
-    "divorziate"
-  ],
   "divorzista": [
     "divorzista",
     "divorzisti",
@@ -12908,11 +10008,6 @@ export default {
     "divulgativa",
     "divulgativi",
     "divulgative"
-  ],
-  "docente": [
-    "docente",
-    "docenti",
-    "docenti"
   ],
   "docile": [
     "docile",
@@ -12929,11 +10024,6 @@ export default {
     "documentali",
     "documentali"
   ],
-  "documentario": [
-    "documentaria",
-    "documentari",
-    "documentarie"
-  ],
   "documentaristico": [
     "documentaristica",
     "documentaristici",
@@ -12948,11 +10038,6 @@ export default {
     "dodecafonica",
     "dodecafonici",
     "dodecafoniche"
-  ],
-  "dodicenne": [
-    "dodicenne",
-    "dodicenni",
-    "dodicenni"
   ],
   "dodicesimo": [
     "dodicesima",
@@ -12979,11 +10064,6 @@ export default {
     "dogmatici",
     "dogmatiche"
   ],
-  "dolce": [
-    "dolce",
-    "dolci",
-    "dolci"
-  ],
   "dolciario": [
     "dolciaria",
     "dolciari",
@@ -12993,11 +10073,6 @@ export default {
     "dolciastra",
     "dolciastri",
     "dolciastre"
-  ],
-  "dolente": [
-    "dolente",
-    "dolenti",
-    "dolenti"
   ],
   "dolomitico": [
     "dolomitica",
@@ -13029,16 +10104,6 @@ export default {
     "domenicali",
     "domenicali"
   ],
-  "domenicano": [
-    "domenicana",
-    "domenicani",
-    "domenicane"
-  ],
-  "domestico": [
-    "domestica",
-    "domestici",
-    "domestiche"
-  ],
   "domiciliare": [
     "domiciliare",
     "domiciliari",
@@ -13058,16 +10123,6 @@ export default {
     "dominante",
     "dominanti",
     "dominanti"
-  ],
-  "dominatore": [
-    "dominatrice",
-    "dominatori",
-    "dominatrici"
-  ],
-  "dominicano": [
-    "dominicana",
-    "dominicani",
-    "dominicane"
   ],
   "donativo": [
     "donativa",
@@ -13099,11 +10154,6 @@ export default {
     "dopolavoristici",
     "dopolavoristiche"
   ],
-  "doppio": [
-    "doppia",
-    "doppi",
-    "doppie"
-  ],
   "doppiato": [
     "doppiata",
     "doppiati",
@@ -13114,25 +10164,10 @@ export default {
     "dorati",
     "dorate"
   ],
-  "doriano": [
-    "doriana",
-    "doriani",
-    "doriane"
-  ],
   "dorico": [
     "dorica",
     "dorici",
     "doriche"
-  ],
-  "dormiente": [
-    "dormiente",
-    "dormienti",
-    "dormienti"
-  ],
-  "doroteo": [
-    "dorotea",
-    "dorotei",
-    "dorotee"
   ],
   "dorsale": [
     "dorsale",
@@ -13144,20 +10179,10 @@ export default {
     "dotati",
     "dotate"
   ],
-  "dotto": [
-    "dotta",
-    "dotti",
-    "dotte"
-  ],
   "dottrinale": [
     "dottrinale",
     "dottrinali",
     "dottrinali"
-  ],
-  "dottrinario": [
-    "dottrinaria",
-    "dottrinari",
-    "dottrinarie"
   ],
   "doveroso": [
     "doverosa",
@@ -13194,11 +10219,6 @@ export default {
     "drastici",
     "drastiche"
   ],
-  "dritto": [
-    "dritta",
-    "dritti",
-    "dritte"
-  ],
   "druidico": [
     "druidica",
     "druidici",
@@ -13213,16 +10233,6 @@ export default {
     "dry",
     "dry",
     "dry"
-  ],
-  "dubbio": [
-    "dubbia",
-    "dubbi",
-    "dubbie"
-  ],
-  "dubbioso": [
-    "dubbiosa",
-    "dubbiosi",
-    "dubbiose"
   ],
   "dubitativo": [
     "dubitativa",
@@ -13304,11 +10314,6 @@ export default {
     "duplici",
     "duplici"
   ],
-  "duro": [
-    "dura",
-    "duri",
-    "dure"
-  ],
   "duraturo": [
     "duratura",
     "duraturi",
@@ -13339,30 +10344,10 @@ export default {
     "ebraici",
     "ebraiche"
   ],
-  "ebreo": [
-    "ebrea",
-    "ebrei",
-    "ebree"
-  ],
-  "eccedente": [
-    "eccedente",
-    "eccedenti",
-    "eccedenti"
-  ],
-  "eccellente": [
-    "eccellente",
-    "eccellenti",
-    "eccellenti"
-  ],
   "eccelso": [
     "eccelsa",
     "eccelsi",
     "eccelse"
-  ],
-  "eccentrico": [
-    "eccentrica",
-    "eccentrici",
-    "eccentriche"
   ],
   "eccepibile": [
     "eccepibile",
@@ -13384,20 +10369,10 @@ export default {
     "eccitabili",
     "eccitabili"
   ],
-  "eccitante": [
-    "eccitante",
-    "eccitanti",
-    "eccitanti"
-  ],
   "ecclesiale": [
     "ecclesiale",
     "ecclesiali",
     "ecclesiali"
-  ],
-  "ecclesiastico": [
-    "ecclesiastica",
-    "ecclesiastici",
-    "ecclesiastiche"
   ],
   "eclatante": [
     "eclatante",
@@ -13413,11 +10388,6 @@ export default {
     "ecologica",
     "ecologici",
     "ecologiche"
-  ],
-  "ecologista": [
-    "ecologista",
-    "ecologisti",
-    "ecologiste"
   ],
   "economo": [
     "economa",
@@ -13454,11 +10424,6 @@ export default {
     "edificanti",
     "edificanti"
   ],
-  "edile": [
-    "edile",
-    "edili",
-    "edili"
-  ],
   "edilizio": [
     "edilizia",
     "edilizi",
@@ -13473,21 +10438,6 @@ export default {
     "edita",
     "editi",
     "edite"
-  ],
-  "editore": [
-    "editrice",
-    "editori",
-    "editrici"
-  ],
-  "editoriale": [
-    "editoriale",
-    "editoriali",
-    "editoriali"
-  ],
-  "edonista": [
-    "edonista",
-    "edonisti",
-    "edoniste"
   ],
   "edonistico": [
     "edonistica",
@@ -13504,11 +10454,6 @@ export default {
     "educativi",
     "educative"
   ],
-  "educatore": [
-    "educatrice",
-    "educatori",
-    "educatrici"
-  ],
   "efebico": [
     "efebica",
     "efebici",
@@ -13518,11 +10463,6 @@ export default {
     "effeminata",
     "effeminati",
     "effeminate"
-  ],
-  "efferato": [
-    "efferata",
-    "efferati",
-    "efferate"
   ],
   "effervescente": [
     "effervescente",
@@ -13549,11 +10489,6 @@ export default {
     "efficienti",
     "efficienti"
   ],
-  "effimero": [
-    "effimera",
-    "effimeri",
-    "effimere"
-  ],
   "egalitario": [
     "egalitaria",
     "egalitari",
@@ -13574,21 +10509,6 @@ export default {
     "egizi",
     "egizie"
   ],
-  "egiziano": [
-    "egiziana",
-    "egiziani",
-    "egiziane"
-  ],
-  "egocentrico": [
-    "egocentrica",
-    "egocentrici",
-    "egocentriche"
-  ],
-  "egoista": [
-    "egoista",
-    "egoisti",
-    "egoiste"
-  ],
   "egoistico": [
     "egoistica",
     "egoistici",
@@ -13598,11 +10518,6 @@ export default {
     "egra",
     "egri",
     "egre"
-  ],
-  "egregio": [
-    "egregia",
-    "egregi",
-    "egregie"
   ],
   "egual": [
     "egual",
@@ -13624,21 +10539,6 @@ export default {
     "einaudiani",
     "einaudiane"
   ],
-  "elaborato": [
-    "elaborata",
-    "elaborati",
-    "elaborate"
-  ],
-  "elaboratore": [
-    "elaboratrice",
-    "elaboratori",
-    "elaboratrici"
-  ],
-  "elastico": [
-    "elastica",
-    "elastici",
-    "elastiche"
-  ],
   "elasticizzato": [
     "elasticizzata",
     "elasticizzati",
@@ -13654,11 +10554,6 @@ export default {
     "elefantiaci",
     "elefantiache"
   ],
-  "elegante": [
-    "elegante",
-    "eleganti",
-    "eleganti"
-  ],
   "eleggibile": [
     "eleggibile",
     "eleggibili",
@@ -13673,11 +10568,6 @@ export default {
     "elementare",
     "elementari",
     "elementari"
-  ],
-  "eletto": [
-    "eletta",
-    "eletti",
-    "elette"
   ],
   "elettivo": [
     "elettiva",
@@ -13714,11 +10604,6 @@ export default {
     "elettrodinamici",
     "elettrodinamiche"
   ],
-  "elettrodomestico": [
-    "elettrodomestica",
-    "elettrodomestici",
-    "elettrodomestiche"
-  ],
   "elettrogeno": [
     "elettrogena",
     "elettrogeni",
@@ -13749,11 +10634,6 @@ export default {
     "elettrostatici",
     "elettrostatiche"
   ],
-  "elettrotecnico": [
-    "elettrotecnica",
-    "elettrotecnici",
-    "elettrotecniche"
-  ],
   "elevabile": [
     "elevabile",
     "elevabili",
@@ -13763,11 +10643,6 @@ export default {
     "elevata",
     "elevati",
     "elevate"
-  ],
-  "elevatore": [
-    "elevatrice",
-    "elevatori",
-    "elevatrici"
   ],
   "elicoidale": [
     "elicoidale",
@@ -13849,16 +10724,6 @@ export default {
     "elusivi",
     "elusive"
   ],
-  "elvetico": [
-    "elvetica",
-    "elvetici",
-    "elvetiche"
-  ],
-  "elzeviro": [
-    "elzevira",
-    "elzeviri",
-    "elzevire"
-  ],
   "emaciato": [
     "emaciata",
     "emaciati",
@@ -13868,11 +10733,6 @@ export default {
     "emancipata",
     "emancipati",
     "emancipate"
-  ],
-  "emarginato": [
-    "emarginata",
-    "emarginati",
-    "emarginate"
   ],
   "ematico": [
     "ematica",
@@ -13904,40 +10764,15 @@ export default {
     "emendativi",
     "emendative"
   ],
-  "emergente": [
-    "emergente",
-    "emergenti",
-    "emergenti"
-  ],
-  "emerito": [
-    "emerita",
-    "emeriti",
-    "emerite"
-  ],
   "emerso": [
     "emersa",
     "emersi",
     "emerse"
   ],
-  "emigrante": [
-    "emigrante",
-    "emigranti",
-    "emigranti"
-  ],
-  "emigrato": [
-    "emigrata",
-    "emigrati",
-    "emigrate"
-  ],
   "emigratorio": [
     "emigratoria",
     "emigratori",
     "emigratorie"
-  ],
-  "emiliano": [
-    "emiliana",
-    "emiliani",
-    "emiliane"
   ],
   "eminente": [
     "eminente",
@@ -13949,25 +10784,10 @@ export default {
     "emisferici",
     "emisferiche"
   ],
-  "emissario": [
-    "emissaria",
-    "emissari",
-    "emissarie"
-  ],
-  "emittente": [
-    "emittente",
-    "emittenti",
-    "emittenti"
-  ],
   "emodiagnostico": [
     "emodiagnostica",
     "emodiagnostici",
     "emodiagnostiche"
-  ],
-  "emofiliaco": [
-    "emofiliaca",
-    "emofiliaci",
-    "emofiliache"
   ],
   "emofilico": [
     "emofilica",
@@ -13984,11 +10804,6 @@ export default {
     "emostatici",
     "emostatiche"
   ],
-  "emotivo": [
-    "emotiva",
-    "emotivi",
-    "emotive"
-  ],
   "emozionale": [
     "emozionale",
     "emozionali",
@@ -13998,11 +10813,6 @@ export default {
     "emozionante",
     "emozionanti",
     "emozionanti"
-  ],
-  "empio": [
-    "empia",
-    "empi",
-    "empie"
   ],
   "empirico": [
     "empirica",
@@ -14038,11 +10848,6 @@ export default {
     "encomiastica",
     "encomiastici",
     "encomiastiche"
-  ],
-  "endecasillabo": [
-    "endecasillaba",
-    "endecasillabi",
-    "endecasillabe"
   ],
   "endemico": [
     "endemica",
@@ -14159,11 +10964,6 @@ export default {
     "epici",
     "epiche"
   ],
-  "epicureo": [
-    "epicurea",
-    "epicurei",
-    "epicuree"
-  ],
   "epidemico": [
     "epidemica",
     "epidemici",
@@ -14274,25 +11074,10 @@ export default {
     "equipollenti",
     "equipollenti"
   ],
-  "equivalente": [
-    "equivalente",
-    "equivalenti",
-    "equivalenti"
-  ],
-  "equivoco": [
-    "equivoca",
-    "equivoci",
-    "equivoche"
-  ],
   "erariale": [
     "erariale",
     "erariali",
     "erariali"
-  ],
-  "erbivoro": [
-    "erbivora",
-    "erbivori",
-    "erbivore"
   ],
   "erboso": [
     "erbosa",
@@ -14309,11 +11094,6 @@ export default {
     "ereditari",
     "ereditarie"
   ],
-  "eretico": [
-    "eretica",
-    "eretici",
-    "eretiche"
-  ],
   "eretto": [
     "eretta",
     "eretti",
@@ -14324,30 +11104,10 @@ export default {
     "erigendi",
     "erigende"
   ],
-  "eritreo": [
-    "eritrea",
-    "eritrei",
-    "eritree"
-  ],
-  "ermafrodito": [
-    "ermafrodita",
-    "ermafroditi",
-    "ermafrodite"
-  ],
-  "ermetico": [
-    "ermetica",
-    "ermetici",
-    "ermetiche"
-  ],
   "erogabile": [
     "erogabile",
     "erogabili",
     "erogabili"
-  ],
-  "erogatore": [
-    "erogatrice",
-    "erogatori",
-    "erogatrici"
   ],
   "eroico": [
     "eroica",
@@ -14389,11 +11149,6 @@ export default {
     "erronei",
     "erronee"
   ],
-  "erudito": [
-    "erudita",
-    "eruditi",
-    "erudite"
-  ],
   "erzegovese": [
     "erzegovese",
     "erzegovesi",
@@ -14408,11 +11163,6 @@ export default {
     "esagerata",
     "esagerati",
     "esagerate"
-  ],
-  "esagitato": [
-    "esagitata",
-    "esagitati",
-    "esagitate"
   ],
   "esagonale": [
     "esagonale",
@@ -14439,11 +11189,6 @@ export default {
     "esasperanti",
     "esasperanti"
   ],
-  "esasperato": [
-    "esasperata",
-    "esasperati",
-    "esasperate"
-  ],
   "esatto": [
     "esatta",
     "esatti",
@@ -14469,11 +11214,6 @@ export default {
     "esauriti",
     "esaurite"
   ],
-  "esausto": [
-    "esausta",
-    "esausti",
-    "esauste"
-  ],
   "esaustivo": [
     "esaustiva",
     "esaustivi",
@@ -14489,20 +11229,10 @@ export default {
     "escatologici",
     "escatologiche"
   ],
-  "eschimese": [
-    "eschimese",
-    "eschimesi",
-    "eschimesi"
-  ],
   "esclamativo": [
     "esclamativa",
     "esclamativi",
     "esclamative"
-  ],
-  "escluso": [
-    "esclusa",
-    "esclusi",
-    "escluse"
   ],
   "esclusivo": [
     "esclusiva",
@@ -14539,16 +11269,6 @@ export default {
     "esecrandi",
     "esecrande"
   ],
-  "esecutivo": [
-    "esecutiva",
-    "esecutivi",
-    "esecutive"
-  ],
-  "esecutore": [
-    "esecutrice",
-    "esecutori",
-    "esecutrici"
-  ],
   "esecutorio": [
     "esecutoria",
     "esecutori",
@@ -14558,11 +11278,6 @@ export default {
     "eseguibile",
     "eseguibili",
     "eseguibili"
-  ],
-  "esemplare": [
-    "esemplare",
-    "esemplari",
-    "esemplari"
   ],
   "esemplificativo": [
     "esemplificativa",
@@ -14574,30 +11289,15 @@ export default {
     "esenti",
     "esenti"
   ],
-  "esercente": [
-    "esercente",
-    "esercenti",
-    "esercenti"
-  ],
   "esercitabile": [
     "esercitabile",
     "esercitabili",
     "esercitabili"
   ],
-  "esibizionista": [
-    "esibizionista",
-    "esibizionisti",
-    "esibizioniste"
-  ],
   "esibizionistico": [
     "esibizionistica",
     "esibizionistici",
     "esibizionistiche"
-  ],
-  "esigente": [
-    "esigente",
-    "esigenti",
-    "esigenti"
   ],
   "esigibile": [
     "esigibile",
@@ -14619,11 +11319,6 @@ export default {
     "esili",
     "esili"
   ],
-  "esiliato": [
-    "esiliata",
-    "esiliati",
-    "esiliate"
-  ],
   "esimio": [
     "esimia",
     "esimi",
@@ -14638,11 +11333,6 @@ export default {
     "esistenziale",
     "esistenziali",
     "esistenziali"
-  ],
-  "esistenzialista": [
-    "esistenzialista",
-    "esistenzialisti",
-    "esistenzialiste"
   ],
   "esiziale": [
     "esiziale",
@@ -14663,11 +11353,6 @@ export default {
     "esorcistica",
     "esorcistici",
     "esorcistiche"
-  ],
-  "esordiente": [
-    "esordiente",
-    "esordienti",
-    "esordienti"
   ],
   "esoso": [
     "esosa",
@@ -14704,11 +11389,6 @@ export default {
     "espansivi",
     "espansive"
   ],
-  "esperto": [
-    "esperta",
-    "esperti",
-    "esperte"
-  ],
   "espiatorio": [
     "espiatoria",
     "espiatori",
@@ -14739,30 +11419,15 @@ export default {
     "esplorativi",
     "esplorative"
   ],
-  "esploratore": [
-    "esploratrice",
-    "esploratori",
-    "esploratrici"
-  ],
   "esploso": [
     "esplosa",
     "esplosi",
     "esplose"
   ],
-  "esplosivo": [
-    "esplosiva",
-    "esplosivi",
-    "esplosive"
-  ],
   "esplosivistico": [
     "esplosivistica",
     "esplosivistici",
     "esplosivistiche"
-  ],
-  "esponente": [
-    "esponente",
-    "esponenti",
-    "esponenti"
   ],
   "esponenziale": [
     "esponenziale",
@@ -14779,26 +11444,6 @@ export default {
     "espositivi",
     "espositive"
   ],
-  "espositore": [
-    "espositrice",
-    "espositori",
-    "espositrici"
-  ],
-  "esposto": [
-    "esposta",
-    "esposti",
-    "esposte"
-  ],
-  "espresso": [
-    "espressa",
-    "espressi",
-    "espresse"
-  ],
-  "espressionista": [
-    "espressionista",
-    "espressionisti",
-    "espressioniste"
-  ],
   "espressionistico": [
     "espressionistica",
     "espressionistici",
@@ -14808,16 +11453,6 @@ export default {
     "espressiva",
     "espressivi",
     "espressive"
-  ],
-  "espulso": [
-    "espulsa",
-    "espulsi",
-    "espulse"
-  ],
-  "esquimese": [
-    "esquimese",
-    "esquimesi",
-    "esquimesi"
   ],
   "essenziale": [
     "essenziale",
@@ -14854,40 +11489,20 @@ export default {
     "estensivi",
     "estensive"
   ],
-  "estensore": [
-    "estensore",
-    "estensori",
-    "estensori"
-  ],
   "estenuante": [
     "estenuante",
     "estenuanti",
     "estenuanti"
-  ],
-  "estero": [
-    "estera",
-    "esteri",
-    "estere"
   ],
   "esteriore": [
     "esteriore",
     "esteriori",
     "esteriori"
   ],
-  "esterno": [
-    "esterna",
-    "esterni",
-    "esterne"
-  ],
   "esterofilo": [
     "esterofila",
     "esterofili",
     "esterofile"
-  ],
-  "esterrefatto": [
-    "esterrefatta",
-    "esterrefatti",
-    "esterrefatte"
   ],
   "esteso": [
     "estesa",
@@ -14909,11 +11524,6 @@ export default {
     "esteuropei",
     "esteuropee"
   ],
-  "estinto": [
-    "estinta",
-    "estinti",
-    "estinte"
-  ],
   "estivo": [
     "estiva",
     "estivi",
@@ -14923,16 +11533,6 @@ export default {
     "estorsiva",
     "estorsivi",
     "estorsive"
-  ],
-  "estraneo": [
-    "estranea",
-    "estranei",
-    "estranee"
-  ],
-  "estratto": [
-    "estratta",
-    "estratti",
-    "estratte"
   ],
   "estrattivo": [
     "estrattiva",
@@ -14969,20 +11569,10 @@ export default {
     "estroversi",
     "estroverse"
   ],
-  "esuberante": [
-    "esuberante",
-    "esuberanti",
-    "esuberanti"
-  ],
   "etereo": [
     "eterea",
     "eterei",
     "eteree"
-  ],
-  "eterno": [
-    "eterna",
-    "eterni",
-    "eterne"
   ],
   "eteroclita": [
     "eteroclita",
@@ -15034,11 +11624,6 @@ export default {
     "etimologici",
     "etimologiche"
   ],
-  "etiope": [
-    "etiope",
-    "etiopi",
-    "etiopi"
-  ],
   "etiopico": [
     "etiopica",
     "etiopici",
@@ -15058,11 +11643,6 @@ export default {
     "etnologica",
     "etnologici",
     "etnologiche"
-  ],
-  "etrusco": [
-    "etrusca",
-    "etruschi",
-    "etrusche"
   ],
   "eucaristico": [
     "eucaristica",
@@ -15099,40 +11679,15 @@ export default {
     "eurofobici",
     "eurofobiche"
   ],
-  "europeo": [
-    "europea",
-    "europei",
-    "europee"
-  ],
-  "europeista": [
-    "europeista",
-    "europeisti",
-    "europeiste"
-  ],
   "europeistico": [
     "europeistica",
     "europeistici",
     "europeistiche"
   ],
-  "euroscettico": [
-    "euroscettica",
-    "euroscettici",
-    "euroscettiche"
-  ],
   "evanescente": [
     "evanescente",
     "evanescenti",
     "evanescenti"
-  ],
-  "evangelico": [
-    "evangelica",
-    "evangelici",
-    "evangeliche"
-  ],
-  "evaso": [
-    "evasa",
-    "evasi",
-    "evase"
   ],
   "evasivo": [
     "evasiva",
@@ -15179,16 +11734,6 @@ export default {
     "ex",
     "ex"
   ],
-  "extra": [
-    "extra",
-    "extri",
-    "extre"
-  ],
-  "extracomunitario": [
-    "extracomunitaria",
-    "extracomunitari",
-    "extracomunitarie"
-  ],
   "extraconiugale": [
     "extraconiugale",
     "extraconiugali",
@@ -15219,20 +11764,10 @@ export default {
     "extramatrimoniali",
     "extramatrimoniali"
   ],
-  "extraparlamentare": [
-    "extraparlamentare",
-    "extraparlamentari",
-    "extraparlamentari"
-  ],
   "extrasensoriale": [
     "extrasensoriale",
     "extrasensoriali",
     "extrasensoriali"
-  ],
-  "extraterrestre": [
-    "extraterrestre",
-    "extraterrestri",
-    "extraterrestri"
   ],
   "extraterritoriale": [
     "extraterritoriale",
@@ -15248,11 +11783,6 @@ export default {
     "fabbricabile",
     "fabbricabili",
     "fabbricabili"
-  ],
-  "fabbricato": [
-    "fabbricata",
-    "fabbricati",
-    "fabbricate"
   ],
   "facciale": [
     "facciale",
@@ -15329,55 +11859,15 @@ export default {
     "fallosi",
     "fallose"
   ],
-  "falso": [
-    "falsa",
-    "falsi",
-    "false"
-  ],
   "falsificabile": [
     "falsificabile",
     "falsificabili",
     "falsificabili"
   ],
-  "famelico": [
-    "famelica",
-    "famelici",
-    "fameliche"
-  ],
-  "famigerato": [
-    "famigerata",
-    "famigerati",
-    "famigerate"
-  ],
-  "famigliare": [
-    "famigliare",
-    "famigliari",
-    "famigliari"
-  ],
-  "familiare": [
-    "familiare",
-    "familiari",
-    "familiari"
-  ],
   "famoso": [
     "famosa",
     "famosi",
     "famose"
-  ],
-  "fanatico": [
-    "fanatica",
-    "fanatici",
-    "fanatiche"
-  ],
-  "fanciullo": [
-    "fanciulla",
-    "fanciulli",
-    "fanciulle"
-  ],
-  "fanfaniano": [
-    "fanfaniana",
-    "fanfaniani",
-    "fanfaniane"
   ],
   "fangoso": [
     "fangosa",
@@ -15388,21 +11878,6 @@ export default {
     "fantascientifica",
     "fantascientifici",
     "fantascientifiche"
-  ],
-  "fantasioso": [
-    "fantasiosa",
-    "fantasiosi",
-    "fantasiose"
-  ],
-  "fantasista": [
-    "fantasista",
-    "fantasisti",
-    "fantasiste"
-  ],
-  "fantasmagorico": [
-    "fantasmagorica",
-    "fantasmagorici",
-    "fantasmagoriche"
   ],
   "fantasmatico": [
     "fantasmatica",
@@ -15453,11 +11928,6 @@ export default {
     "fascinosa",
     "fascinosi",
     "fascinose"
-  ],
-  "fascista": [
-    "fascista",
-    "fascisti",
-    "fasciste"
   ],
   "fastidioso": [
     "fastidiosa",
@@ -15519,11 +11989,6 @@ export default {
     "fattuali",
     "fattuali"
   ],
-  "fatturato": [
-    "fatturata",
-    "fatturati",
-    "fatturate"
-  ],
   "fatuo": [
     "fatua",
     "fatui",
@@ -15564,16 +12029,6 @@ export default {
     "favorevoli",
     "favorevoli"
   ],
-  "favorito": [
-    "favorita",
-    "favoriti",
-    "favorite"
-  ],
-  "fazioso": [
-    "faziosa",
-    "faziosi",
-    "faziose"
-  ],
   "febbricitante": [
     "febbricitante",
     "febbricitanti",
@@ -15588,26 +12043,6 @@ export default {
     "fecale",
     "fecali",
     "fecali"
-  ],
-  "fecondo": [
-    "feconda",
-    "fecondi",
-    "feconde"
-  ],
-  "feddayn": [
-    "feddayn",
-    "feddayn",
-    "feddayn"
-  ],
-  "fedele": [
-    "fedele",
-    "fedeli",
-    "fedeli"
-  ],
-  "federale": [
-    "federale",
-    "federali",
-    "federali"
   ],
   "federato": [
     "federata",
@@ -15624,20 +12059,10 @@ export default {
     "federativi",
     "federative"
   ],
-  "fedifrago": [
-    "fedifraga",
-    "fedifraghi",
-    "fedifraghe"
-  ],
   "felice": [
     "felice",
     "felici",
     "felici"
-  ],
-  "felino": [
-    "felina",
-    "felini",
-    "feline"
   ],
   "felpato": [
     "felpata",
@@ -15658,16 +12083,6 @@ export default {
     "femorale",
     "femorali",
     "femorali"
-  ],
-  "fendente": [
-    "fendente",
-    "fendenti",
-    "fendenti"
-  ],
-  "fenicio": [
-    "fenicia",
-    "fenici",
-    "fenice"
   ],
   "fenomenale": [
     "fenomenale",
@@ -15704,16 +12119,6 @@ export default {
     "ferini",
     "ferine"
   ],
-  "ferito": [
-    "ferita",
-    "feriti",
-    "ferite"
-  ],
-  "fermo": [
-    "ferma",
-    "fermi",
-    "ferme"
-  ],
   "feroce": [
     "feroce",
     "feroci",
@@ -15728,16 +12133,6 @@ export default {
     "ferraia",
     "ferrai",
     "ferraie"
-  ],
-  "ferrarese": [
-    "ferrarese",
-    "ferraresi",
-    "ferraresi"
-  ],
-  "ferrarista": [
-    "ferrarista",
-    "ferraristi",
-    "ferrariste"
   ],
   "ferrato": [
     "ferrata",
@@ -15779,11 +12174,6 @@ export default {
     "fervidi",
     "fervide"
   ],
-  "fescennino": [
-    "fescennina",
-    "fescennini",
-    "fescennine"
-  ],
   "fesso": [
     "fessa",
     "fessi",
@@ -15819,11 +12209,6 @@ export default {
     "fetenti",
     "fetenti"
   ],
-  "feticista": [
-    "feticista",
-    "feticisti",
-    "feticiste"
-  ],
   "fetido": [
     "fetida",
     "fetidi",
@@ -15838,11 +12223,6 @@ export default {
     "fiabesca",
     "fiabeschi",
     "fiabesche"
-  ],
-  "fiacco": [
-    "fiacca",
-    "fiacchi",
-    "fiacche"
   ],
   "fiammante": [
     "fiammante",
@@ -15859,50 +12239,15 @@ export default {
     "fiammeggianti",
     "fiammeggianti"
   ],
-  "fiammingo": [
-    "fiamminga",
-    "fiamminghi",
-    "fiamminghe"
-  ],
-  "fiancheggiatore": [
-    "fiancheggiatrice",
-    "fiancheggiatori",
-    "fiancheggiatrici"
-  ],
   "fibroso": [
     "fibrosa",
     "fibrosi",
     "fibrose"
   ],
-  "fido": [
-    "fida",
-    "fidi",
-    "fide"
-  ],
-  "fidanzato": [
-    "fidanzata",
-    "fidanzati",
-    "fidanzate"
-  ],
-  "fidato": [
-    "fidata",
-    "fidati",
-    "fidate"
-  ],
-  "fiduciario": [
-    "fiduciaria",
-    "fiduciari",
-    "fiduciarie"
-  ],
   "fiducioso": [
     "fiduciosa",
     "fiduciosi",
     "fiduciose"
-  ],
-  "fiero": [
-    "fiera",
-    "fieri",
-    "fiere"
   ],
   "fieristico": [
     "fieristica",
@@ -15959,35 +12304,10 @@ export default {
     "filati",
     "filate"
   ],
-  "filatelico": [
-    "filatelica",
-    "filatelici",
-    "filateliche"
-  ],
-  "filiale": [
-    "filiale",
-    "filiali",
-    "filiali"
-  ],
   "filiforme": [
     "filiforme",
     "filiformi",
     "filiformi"
-  ],
-  "filippino": [
-    "filippina",
-    "filippini",
-    "filippine"
-  ],
-  "filisteo": [
-    "filistea",
-    "filistei",
-    "filistee"
-  ],
-  "filmato": [
-    "filmata",
-    "filmati",
-    "filmate"
   ],
   "filmico": [
     "filmica",
@@ -16034,16 +12354,6 @@ export default {
     "filosovietici",
     "filosovietiche"
   ],
-  "finale": [
-    "finale",
-    "finali",
-    "finali"
-  ],
-  "finalista": [
-    "finalista",
-    "finalisti",
-    "finaliste"
-  ],
   "finanziabile": [
     "finanziabile",
     "finanziabili",
@@ -16053,11 +12363,6 @@ export default {
     "finanziaria",
     "finanziari",
     "finanziarie"
-  ],
-  "fine": [
-    "fine",
-    "fini",
-    "fini"
   ],
   "finiano": [
     "finiana",
@@ -16069,21 +12374,6 @@ export default {
     "finiti",
     "finite"
   ],
-  "finlandese": [
-    "finlandese",
-    "finlandesi",
-    "finlandesi"
-  ],
-  "finnico": [
-    "finnica",
-    "finnici",
-    "finniche"
-  ],
-  "finto": [
-    "finta",
-    "finti",
-    "finte"
-  ],
   "fioco": [
     "fioca",
     "fiochi",
@@ -16093,11 +12383,6 @@ export default {
     "fiorente",
     "fiorenti",
     "fiorenti"
-  ],
-  "fiorentino": [
-    "fiorentina",
-    "fiorentini",
-    "fiorentine"
   ],
   "fiorito": [
     "fiorita",
@@ -16109,11 +12394,6 @@ export default {
     "firmati",
     "firmate"
   ],
-  "firmatario": [
-    "firmataria",
-    "firmatari",
-    "firmatarie"
-  ],
   "fiso": [
     "fisa",
     "fisi",
@@ -16123,11 +12403,6 @@ export default {
     "fiscale",
     "fiscali",
     "fiscali"
-  ],
-  "fisico": [
-    "fisica",
-    "fisici",
-    "fisiche"
   ],
   "fisiocratico": [
     "fisiocratica",
@@ -16234,11 +12509,6 @@ export default {
     "fluenti",
     "fluenti"
   ],
-  "fluido": [
-    "fluida",
-    "fluidi",
-    "fluide"
-  ],
   "fluorescente": [
     "fluorescente",
     "fluorescenti",
@@ -16299,11 +12569,6 @@ export default {
     "folk",
     "folk"
   ],
-  "folle": [
-    "folle",
-    "folli",
-    "folli"
-  ],
   "folto": [
     "folta",
     "folti",
@@ -16324,20 +12589,10 @@ export default {
     "fondenti",
     "fondenti"
   ],
-  "fondiario": [
-    "fondiaria",
-    "fondiari",
-    "fondiarie"
-  ],
   "fonetico": [
     "fonetica",
     "fonetici",
     "fonetiche"
-  ],
-  "fonico": [
-    "fonica",
-    "fonici",
-    "foniche"
   ],
   "fonografico": [
     "fonografica",
@@ -16353,16 +12608,6 @@ export default {
     "forense",
     "forensi",
     "forensi"
-  ],
-  "forestale": [
-    "forestale",
-    "forestali",
-    "forestali"
-  ],
-  "forfettario": [
-    "forfettaria",
-    "forfettari",
-    "forfettarie"
   ],
   "foriero": [
     "foriera",
@@ -16383,11 +12628,6 @@ export default {
     "formalistica",
     "formalistici",
     "formalistiche"
-  ],
-  "formato": [
-    "formata",
-    "formati",
-    "formate"
   ],
   "formativo": [
     "formativa",
@@ -16414,65 +12654,25 @@ export default {
     "forniti",
     "fornite"
   ],
-  "fornitore": [
-    "fornitrice",
-    "fornitori",
-    "fornitrici"
-  ],
-  "forsennato": [
-    "forsennata",
-    "forsennati",
-    "forsennate"
-  ],
-  "forte": [
-    "forte",
-    "forti",
-    "forti"
-  ],
   "fortuito": [
     "fortuita",
     "fortuiti",
     "fortuite"
-  ],
-  "fortunato": [
-    "fortunata",
-    "fortunati",
-    "fortunate"
   ],
   "fortunoso": [
     "fortunosa",
     "fortunosi",
     "fortunose"
   ],
-  "forzato": [
-    "forzata",
-    "forzati",
-    "forzate"
-  ],
   "forzoso": [
     "forzosa",
     "forzosi",
     "forzose"
   ],
-  "forzuto": [
-    "forzuta",
-    "forzuti",
-    "forzute"
-  ],
-  "fosco": [
-    "fosca",
-    "foschi",
-    "fosche"
-  ],
   "fosforescente": [
     "fosforescente",
     "fosforescenti",
     "fosforescenti"
-  ],
-  "fossile": [
-    "fossile",
-    "fossili",
-    "fossili"
   ],
   "fotoelettrico": [
     "fotoelettrica",
@@ -16504,11 +12704,6 @@ export default {
     "fotovoltaici",
     "fotovoltaiche"
   ],
-  "frac": [
-    "frac",
-    "frac",
-    "frac"
-  ],
   "fradicio": [
     "fradicia",
     "fradici",
@@ -16538,26 +12733,6 @@ export default {
     "frammista",
     "frammisti",
     "frammiste"
-  ],
-  "franco": [
-    "franca",
-    "franchi",
-    "franche"
-  ],
-  "francescano": [
-    "francescana",
-    "francescani",
-    "francescane"
-  ],
-  "francese": [
-    "francese",
-    "francesi",
-    "francesi"
-  ],
-  "francofono": [
-    "francofona",
-    "francofoni",
-    "francofone"
   ],
   "franoso": [
     "franosa",
@@ -16614,11 +12789,6 @@ export default {
     "freatici",
     "freatiche"
   ],
-  "freddo": [
-    "fredda",
-    "freddi",
-    "fredde"
-  ],
   "freddoloso": [
     "freddolosa",
     "freddolosi",
@@ -16633,11 +12803,6 @@ export default {
     "frenata",
     "frenati",
     "frenate"
-  ],
-  "frenatore": [
-    "frenatrice",
-    "frenatori",
-    "frenatrici"
   ],
   "frenetico": [
     "frenetica",
@@ -16664,11 +12829,6 @@ export default {
     "frettolosi",
     "frettolose"
   ],
-  "freudiano": [
-    "freudiana",
-    "freudiani",
-    "freudiane"
-  ],
   "friabile": [
     "friabile",
     "friabili",
@@ -16683,26 +12843,6 @@ export default {
     "frigida",
     "frigidi",
     "frigide"
-  ],
-  "frigorifero": [
-    "frigorifera",
-    "frigoriferi",
-    "frigorifere"
-  ],
-  "fritto": [
-    "fritta",
-    "fritti",
-    "fritte"
-  ],
-  "friulano": [
-    "friulana",
-    "friulani",
-    "friulane"
-  ],
-  "frivolo": [
-    "frivola",
-    "frivoli",
-    "frivole"
   ],
   "frizzante": [
     "frizzante",
@@ -16734,11 +12874,6 @@ export default {
     "frusti",
     "fruste"
   ],
-  "frustrato": [
-    "frustrata",
-    "frustrati",
-    "frustrate"
-  ],
   "fruttifero": [
     "fruttifera",
     "fruttiferi",
@@ -16764,16 +12899,6 @@ export default {
     "fuggevoli",
     "fuggevoli"
   ],
-  "fuggiasco": [
-    "fuggiasca",
-    "fuggiaschi",
-    "fuggiasche"
-  ],
-  "fuggitivo": [
-    "fuggitiva",
-    "fuggitivi",
-    "fuggitive"
-  ],
   "fujimoriano": [
     "fujimoriana",
     "fujimoriani",
@@ -16783,11 +12908,6 @@ export default {
     "fulgida",
     "fulgidi",
     "fulgide"
-  ],
-  "fulminante": [
-    "fulminante",
-    "fulminanti",
-    "fulminanti"
   ],
   "fulminato": [
     "fulminata",
@@ -16809,11 +12929,6 @@ export default {
     "fumanti",
     "fumanti"
   ],
-  "fumogeno": [
-    "fumogena",
-    "fumogeni",
-    "fumogene"
-  ],
   "fumoso": [
     "fumosa",
     "fumosi",
@@ -16833,11 +12948,6 @@ export default {
     "funerea",
     "funerei",
     "funeree"
-  ],
-  "funesto": [
-    "funesta",
-    "funesti",
-    "funeste"
   ],
   "funk": [
     "funk",
@@ -16859,25 +12969,10 @@ export default {
     "fuoriserii",
     "fuoriserii"
   ],
-  "fuoristrada": [
-    "fuoristrada",
-    "fuoristrada",
-    "fuoristrada"
-  ],
-  "fuoriuscito": [
-    "fuoriuscita",
-    "fuoriusciti",
-    "fuoriuscite"
-  ],
   "fuorviante": [
     "fuorviante",
     "fuorvianti",
     "fuorvianti"
-  ],
-  "furbo": [
-    "furba",
-    "furbi",
-    "furbe"
   ],
   "furbesco": [
     "furbesca",
@@ -16889,11 +12984,6 @@ export default {
     "furenti",
     "furenti"
   ],
-  "furibondo": [
-    "furibonda",
-    "furibondi",
-    "furibonde"
-  ],
   "furioso": [
     "furiosa",
     "furiosi",
@@ -16904,85 +12994,30 @@ export default {
     "furtivi",
     "furtive"
   ],
-  "fuso": [
-    "fusa",
-    "fusi",
-    "fuse"
-  ],
-  "fustigatore": [
-    "fustigatrice",
-    "fustigatori",
-    "fustigatrici"
-  ],
   "futile": [
     "futile",
     "futili",
     "futili"
-  ],
-  "futuro": [
-    "futura",
-    "futuri",
-    "future"
   ],
   "futuribile": [
     "futuribile",
     "futuribili",
     "futuribili"
   ],
-  "futurista": [
-    "futurista",
-    "futuristi",
-    "futuriste"
-  ],
   "gabonese": [
     "gabonese",
     "gabonesi",
     "gabonesi"
-  ],
-  "gagliardo": [
-    "gagliarda",
-    "gagliardi",
-    "gagliarde"
-  ],
-  "gaglioffo": [
-    "gaglioffa",
-    "gaglioffi",
-    "gaglioffe"
   ],
   "gaio": [
     "gaia",
     "gai",
     "gaie"
   ],
-  "galante": [
-    "galante",
-    "galanti",
-    "galanti"
-  ],
-  "galantuomo": [
-    "galantuoma",
-    "galantuomi",
-    "galantuome"
-  ],
   "galattico": [
     "galattica",
     "galattici",
     "galattiche"
-  ],
-  "galeotto": [
-    "galeotta",
-    "galeotti",
-    "galeotte"
-  ],
-  "galleggiante": [
-    "galleggiante",
-    "galleggianti",
-    "galleggianti"
-  ],
-  "gallese": [
-    "gallese",
-    "gallesi",
-    "gallesi"
   ],
   "gallico": [
     "gallica",
@@ -16998,11 +13033,6 @@ export default {
     "galvanica",
     "galvanici",
     "galvaniche"
-  ],
-  "garante": [
-    "garante",
-    "garanti",
-    "garanti"
   ],
   "garantito": [
     "garantita",
@@ -17064,25 +13094,10 @@ export default {
     "gattopardeschi",
     "gattopardesche"
   ],
-  "gaudente": [
-    "gaudente",
-    "gaudenti",
-    "gaudenti"
-  ],
   "gaudioso": [
     "gaudiosa",
     "gaudiosi",
     "gaudiose"
-  ],
-  "gay": [
-    "gay",
-    "gay",
-    "gay"
-  ],
-  "gelato": [
-    "gelata",
-    "gelati",
-    "gelate"
   ],
   "gelatinoso": [
     "gelatinosa",
@@ -17099,11 +13114,6 @@ export default {
     "gelosi",
     "gelose"
   ],
-  "gemello": [
-    "gemella",
-    "gemelli",
-    "gemelle"
-  ],
   "gemellare": [
     "gemellare",
     "gemellari",
@@ -17119,11 +13129,6 @@ export default {
     "genealogici",
     "genealogiche"
   ],
-  "generale": [
-    "generale",
-    "generali",
-    "generali"
-  ],
   "generalista": [
     "generalista",
     "generalisti",
@@ -17138,11 +13143,6 @@ export default {
     "generalizzata",
     "generalizzati",
     "generalizzate"
-  ],
-  "generatore": [
-    "generatrice",
-    "generatori",
-    "generatrici"
   ],
   "generazionale": [
     "generazionale",
@@ -17179,16 +13179,6 @@ export default {
     "genici",
     "geniche"
   ],
-  "genitale": [
-    "genitale",
-    "genitali",
-    "genitali"
-  ],
-  "genoano": [
-    "genoana",
-    "genoani",
-    "genoane"
-  ],
   "genomico": [
     "genomica",
     "genomici",
@@ -17218,11 +13208,6 @@ export default {
     "gentilizia",
     "gentilizi",
     "gentilizie"
-  ],
-  "genuino": [
-    "genuina",
-    "genuini",
-    "genuine"
   ],
   "geodetico": [
     "geodetica",
@@ -17264,11 +13249,6 @@ export default {
     "geopolitici",
     "geopolitiche"
   ],
-  "georgiano": [
-    "georgiana",
-    "georgiani",
-    "georgiane"
-  ],
   "georgico": [
     "georgica",
     "georgici",
@@ -17304,30 +13284,10 @@ export default {
     "gergali",
     "gergali"
   ],
-  "germano": [
-    "germana",
-    "germani",
-    "germane"
-  ],
-  "germanico": [
-    "germanica",
-    "germanici",
-    "germaniche"
-  ],
   "germinale": [
     "germinale",
     "germinali",
     "germinali"
-  ],
-  "geroglifico": [
-    "geroglifica",
-    "geroglifici",
-    "geroglifiche"
-  ],
-  "gessato": [
-    "gessata",
-    "gessati",
-    "gessate"
   ],
   "gessoso": [
     "gessosa",
@@ -17344,11 +13304,6 @@ export default {
     "gestuali",
     "gestuali"
   ],
-  "gesuita": [
-    "gesuita",
-    "gesuiti",
-    "gesuite"
-  ],
   "gesuitico": [
     "gesuitica",
     "gesuitici",
@@ -17358,11 +13313,6 @@ export default {
     "gettonata",
     "gettonati",
     "gettonate"
-  ],
-  "ghanese": [
-    "ghanese",
-    "ghanesi",
-    "ghanesi"
   ],
   "ghiacciato": [
     "ghiacciata",
@@ -17389,16 +13339,6 @@ export default {
     "giacenti",
     "giacenti"
   ],
-  "giacobino": [
-    "giacobina",
-    "giacobini",
-    "giacobine"
-  ],
-  "giallo": [
-    "gialla",
-    "gialli",
-    "gialle"
-  ],
   "giallastro": [
     "giallastra",
     "giallastri",
@@ -17409,40 +13349,15 @@ export default {
     "giallognoli",
     "giallognole"
   ],
-  "giallorosso": [
-    "giallorossa",
-    "giallorossi",
-    "giallorosse"
-  ],
   "gialloverde": [
     "gialloverde",
     "gialloverdi",
     "gialloverdi"
   ],
-  "giamaicano": [
-    "giamaicana",
-    "giamaicani",
-    "giamaicane"
-  ],
-  "giapponese": [
-    "giapponese",
-    "giapponesi",
-    "giapponesi"
-  ],
-  "giardiniere": [
-    "giardiniere",
-    "giardinieri",
-    "giardinieri"
-  ],
   "gibboso": [
     "gibbosa",
     "gibbosi",
     "gibbose"
-  ],
-  "gigante": [
-    "gigante",
-    "giganti",
-    "giganti"
   ],
   "gigantesco": [
     "gigantesca",
@@ -17458,11 +13373,6 @@ export default {
     "ginecologica",
     "ginecologici",
     "ginecologiche"
-  ],
-  "ginevrino": [
-    "ginevrina",
-    "ginevrini",
-    "ginevrine"
   ],
   "ginnastico": [
     "ginnastica",
@@ -17484,35 +13394,10 @@ export default {
     "giocosi",
     "giocose"
   ],
-  "gioioso": [
-    "gioiosa",
-    "gioiosi",
-    "gioiose"
-  ],
-  "giordano": [
-    "giordana",
-    "giordani",
-    "giordane"
-  ],
-  "giornaliero": [
-    "giornaliera",
-    "giornalieri",
-    "giornaliere"
-  ],
   "giornalistico": [
     "giornalistica",
     "giornalistici",
     "giornalistiche"
-  ],
-  "giovane": [
-    "giovane",
-    "giovani",
-    "giovani"
-  ],
-  "giovanile": [
-    "giovanile",
-    "giovanili",
-    "giovanili"
   ],
   "giovanneo": [
     "giovannea",
@@ -17548,16 +13433,6 @@ export default {
     "girevole",
     "girevoli",
     "girevoli"
-  ],
-  "girovago": [
-    "girovaga",
-    "girovaghi",
-    "girovaghe"
-  ],
-  "gitano": [
-    "gitana",
-    "gitani",
-    "gitane"
   ],
   "giudaico": [
     "giudaica",
@@ -17614,11 +13489,6 @@ export default {
     "giunti",
     "giunte"
   ],
-  "giurato": [
-    "giurata",
-    "giurati",
-    "giurate"
-  ],
   "giuridico": [
     "giuridica",
     "giuridici",
@@ -17634,11 +13504,6 @@ export default {
     "giurisprudenziali",
     "giurisprudenziali"
   ],
-  "giusto": [
-    "giusta",
-    "giusti",
-    "giuste"
-  ],
   "giustificabile": [
     "giustificabile",
     "giustificabili",
@@ -17649,20 +13514,10 @@ export default {
     "giustificativi",
     "giustificative"
   ],
-  "giustiziato": [
-    "giustiziata",
-    "giustiziati",
-    "giustiziate"
-  ],
   "glaciale": [
     "glaciale",
     "glaciali",
     "glaciali"
-  ],
-  "gladiatore": [
-    "gladiatrice",
-    "gladiatori",
-    "gladiatrici"
   ],
   "gladiatorio": [
     "gladiatoria",
@@ -17704,11 +13559,6 @@ export default {
     "gnostici",
     "gnostiche"
   ],
-  "gobbo": [
-    "gobba",
-    "gobbi",
-    "gobbe"
-  ],
   "godereccio": [
     "godereccia",
     "goderecci",
@@ -17718,11 +13568,6 @@ export default {
     "godibile",
     "godibili",
     "godibili"
-  ],
-  "goffo": [
-    "goffa",
-    "goffi",
-    "goffe"
   ],
   "goliardico": [
     "goliardica",
@@ -17734,20 +13579,10 @@ export default {
     "golosi",
     "golose"
   ],
-  "golpista": [
-    "golpista",
-    "golpisti",
-    "golpiste"
-  ],
   "gommoso": [
     "gommosa",
     "gommosi",
     "gommose"
-  ],
-  "gonfio": [
-    "gonfia",
-    "gonfi",
-    "gonfie"
   ],
   "gonfiato": [
     "gonfiata",
@@ -17758,11 +13593,6 @@ export default {
     "gongolante",
     "gongolanti",
     "gongolanti"
-  ],
-  "gonzo": [
-    "gonza",
-    "gonzi",
-    "gonze"
   ],
   "gorbacioviano": [
     "gorbacioviana",
@@ -17784,11 +13614,6 @@ export default {
     "governabili",
     "governabili"
   ],
-  "governante": [
-    "governante",
-    "governanti",
-    "governanti"
-  ],
   "governativo": [
     "governativa",
     "governativi",
@@ -17798,11 +13623,6 @@ export default {
     "gozzuta",
     "gozzuti",
     "gozzute"
-  ],
-  "gracile": [
-    "gracile",
-    "gracili",
-    "gracili"
   ],
   "gradevole": [
     "gradevole",
@@ -17819,11 +13639,6 @@ export default {
     "graduali",
     "graduali"
   ],
-  "graduato": [
-    "graduata",
-    "graduati",
-    "graduate"
-  ],
   "graffiante": [
     "graffiante",
     "graffianti",
@@ -17833,11 +13648,6 @@ export default {
     "grafic",
     "grafic",
     "grafic"
-  ],
-  "grafico": [
-    "grafica",
-    "grafici",
-    "grafiche"
   ],
   "gramo": [
     "grama",
@@ -17864,16 +13674,6 @@ export default {
     "granati",
     "granate"
   ],
-  "grande": [
-    "grande",
-    "grandi",
-    "grandi"
-  ],
-  "grandicello": [
-    "grandicella",
-    "grandicelli",
-    "grandicelle"
-  ],
   "grandioso": [
     "grandiosa",
     "grandiosi",
@@ -17888,11 +13688,6 @@ export default {
     "granulosa",
     "granulosi",
     "granulose"
-  ],
-  "grasso": [
-    "grassa",
-    "grassi",
-    "grasse"
   ],
   "grassetto": [
     "grassetta",
@@ -17944,16 +13739,6 @@ export default {
     "graziati",
     "graziate"
   ],
-  "grazioso": [
-    "graziosa",
-    "graziosi",
-    "graziose"
-  ],
-  "greco": [
-    "greca",
-    "greci",
-    "greche"
-  ],
   "grecale": [
     "grecale",
     "grecali",
@@ -17964,45 +13749,20 @@ export default {
     "grecanici",
     "grecaniche"
   ],
-  "gregario": [
-    "gregaria",
-    "gregari",
-    "gregarie"
-  ],
-  "greggio": [
-    "greggia",
-    "greggi",
-    "gregge"
-  ],
   "gregoriano": [
     "gregoriana",
     "gregoriani",
     "gregoriane"
-  ],
-  "gretto": [
-    "gretta",
-    "gretti",
-    "grette"
   ],
   "greve": [
     "greve",
     "grevi",
     "grevi"
   ],
-  "grezzo": [
-    "grezza",
-    "grezzi",
-    "grezze"
-  ],
   "grifagno": [
     "grifagna",
     "grifagni",
     "grifagne"
-  ],
-  "grigio": [
-    "grigia",
-    "grigi",
-    "grigie"
   ],
   "grigiastro": [
     "grigiastra",
@@ -18044,11 +13804,6 @@ export default {
     "grossolani",
     "grossolane"
   ],
-  "grottesco": [
-    "grottesca",
-    "grotteschi",
-    "grottesche"
-  ],
   "grullo": [
     "grulla",
     "grulli",
@@ -18069,50 +13824,15 @@ export default {
     "guaribili",
     "guaribili"
   ],
-  "guascone": [
-    "guascone",
-    "guasconi",
-    "guasconi"
-  ],
-  "guasto": [
-    "guasta",
-    "guasti",
-    "guaste"
-  ],
-  "guatemalteco": [
-    "guatemalteca",
-    "guatemalteci",
-    "guatemalteche"
-  ],
   "guazzalochiano": [
     "guazzalochiana",
     "guazzalochiani",
     "guazzalochiane"
   ],
-  "guelfo": [
-    "guelfa",
-    "guelfi",
-    "guelfe"
-  ],
-  "guerrafondaio": [
-    "guerrafondaia",
-    "guerrafondai",
-    "guerrafondaie"
-  ],
   "guerresco": [
     "guerresca",
     "guerreschi",
     "guerresche"
-  ],
-  "guerriero": [
-    "guerriera",
-    "guerrieri",
-    "guerriere"
-  ],
-  "guitto": [
-    "guitta",
-    "guitti",
-    "guitte"
   ],
   "gullottiano": [
     "gullottiana",
@@ -18139,16 +13859,6 @@ export default {
     "haiderizzati",
     "haiderizzate"
   ],
-  "haitiano": [
-    "haitiana",
-    "haitiani",
-    "haitiane"
-  ],
-  "handicappato": [
-    "handicappata",
-    "handicappati",
-    "handicappate"
-  ],
   "hard": [
     "hard",
     "hard",
@@ -18158,11 +13868,6 @@ export default {
     "hegeliana",
     "hegeliani",
     "hegeliane"
-  ],
-  "hippy": [
-    "hippy",
-    "hippy",
-    "hippy"
   ],
   "hitleriano": [
     "hitleriana",
@@ -18174,11 +13879,6 @@ export default {
     "hollywoodiani",
     "hollywoodiane"
   ],
-  "horror": [
-    "horror",
-    "horror",
-    "horror"
-  ],
   "house": [
     "house",
     "house",
@@ -18189,35 +13889,15 @@ export default {
     "iberici",
     "iberiche"
   ],
-  "ibrido": [
-    "ibrida",
-    "ibridi",
-    "ibride"
-  ],
   "iconico": [
     "iconica",
     "iconici",
     "iconiche"
   ],
-  "iconoclasta": [
-    "iconoclasta",
-    "iconoclasti",
-    "iconoclaste"
-  ],
   "iconografico": [
     "iconografica",
     "iconografici",
     "iconografiche"
-  ],
-  "ideale": [
-    "ideale",
-    "ideali",
-    "ideali"
-  ],
-  "idealista": [
-    "idealista",
-    "idealisti",
-    "idealiste"
   ],
   "idealistico": [
     "idealistica",
@@ -18248,21 +13928,6 @@ export default {
     "idillica",
     "idillici",
     "idilliche"
-  ],
-  "idiota": [
-    "idiota",
-    "idioti",
-    "idiote"
-  ],
-  "idoneo": [
-    "idonea",
-    "idonei",
-    "idonee"
-  ],
-  "idraulico": [
-    "idraulica",
-    "idraulici",
-    "idrauliche"
   ],
   "idrico": [
     "idrica",
@@ -18319,11 +13984,6 @@ export default {
     "igienici",
     "igieniche"
   ],
-  "ignaro": [
-    "ignara",
-    "ignari",
-    "ignare"
-  ],
   "ignavo": [
     "ignava",
     "ignavi",
@@ -18344,16 +14004,6 @@ export default {
     "ignoranti",
     "ignoranti"
   ],
-  "ignoto": [
-    "ignota",
-    "ignoti",
-    "ignote"
-  ],
-  "ignudo": [
-    "ignuda",
-    "ignudi",
-    "ignude"
-  ],
   "ilare": [
     "ilare",
     "ilari",
@@ -18363,11 +14013,6 @@ export default {
     "iliaca",
     "iliaci",
     "iliache"
-  ],
-  "illecito": [
-    "illecita",
-    "illeciti",
-    "illecite"
   ],
   "illegale": [
     "illegale",
@@ -18388,11 +14033,6 @@ export default {
     "illesa",
     "illesi",
     "illese"
-  ],
-  "illetterato": [
-    "illetterata",
-    "illetterati",
-    "illetterate"
   ],
   "illibato": [
     "illibata",
@@ -18424,20 +14064,10 @@ export default {
     "illuminati",
     "illuminate"
   ],
-  "illuminista": [
-    "illuminista",
-    "illuministi",
-    "illuministe"
-  ],
   "illuministico": [
     "illuministica",
     "illuministici",
     "illuministiche"
-  ],
-  "illuso": [
-    "illusa",
-    "illusi",
-    "illuse"
   ],
   "illusorio": [
     "illusoria",
@@ -18479,11 +14109,6 @@ export default {
     "imbarazzanti",
     "imbarazzanti"
   ],
-  "imbarazzato": [
-    "imbarazzata",
-    "imbarazzati",
-    "imbarazzate"
-  ],
   "imbattibile": [
     "imbattibile",
     "imbattibili",
@@ -18494,20 +14119,10 @@ export default {
     "imbattuti",
     "imbattute"
   ],
-  "imbecille": [
-    "imbecille",
-    "imbecilli",
-    "imbecilli"
-  ],
   "imbelle": [
     "imbelle",
     "imbelli",
     "imbelli"
-  ],
-  "imberbe": [
-    "imberbe",
-    "imberbi",
-    "imberbi"
   ],
   "imbiancato": [
     "imbiancata",
@@ -18559,20 +14174,10 @@ export default {
     "immaginabili",
     "immaginabili"
   ],
-  "immaginario": [
-    "immaginaria",
-    "immaginari",
-    "immaginarie"
-  ],
   "immaginativo": [
     "immaginativa",
     "immaginativi",
     "immaginative"
-  ],
-  "immaginifico": [
-    "immaginifica",
-    "immaginifici",
-    "immaginifiche"
   ],
   "immaginoso": [
     "immaginosa",
@@ -18583,11 +14188,6 @@ export default {
     "immancabile",
     "immancabili",
     "immancabili"
-  ],
-  "immane": [
-    "immane",
-    "immani",
-    "immani"
   ],
   "immanente": [
     "immanente",
@@ -18644,11 +14244,6 @@ export default {
     "immersi",
     "immerse"
   ],
-  "immigrato": [
-    "immigrata",
-    "immigrati",
-    "immigrate"
-  ],
   "immigratorio": [
     "immigratoria",
     "immigratori",
@@ -18658,11 +14253,6 @@ export default {
     "imminente",
     "imminenti",
     "imminenti"
-  ],
-  "immobile": [
-    "immobile",
-    "immobili",
-    "immobili"
   ],
   "immobiliare": [
     "immobiliare",
@@ -18678,21 +14268,6 @@ export default {
     "immodesta",
     "immodesti",
     "immodeste"
-  ],
-  "immondo": [
-    "immonda",
-    "immondi",
-    "immonde"
-  ],
-  "immorale": [
-    "immorale",
-    "immorali",
-    "immorali"
-  ],
-  "immortale": [
-    "immortale",
-    "immortali",
-    "immortali"
   ],
   "immoto": [
     "immota",
@@ -18774,11 +14349,6 @@ export default {
     "impavidi",
     "impavide"
   ],
-  "impaziente": [
-    "impaziente",
-    "impazienti",
-    "impazienti"
-  ],
   "impeccabile": [
     "impeccabile",
     "impeccabili",
@@ -18809,11 +14379,6 @@ export default {
     "impenetrabili",
     "impenetrabili"
   ],
-  "impenitente": [
-    "impenitente",
-    "impenitenti",
-    "impenitenti"
-  ],
   "impensabile": [
     "impensabile",
     "impensabili",
@@ -18824,11 +14389,6 @@ export default {
     "impensati",
     "impensate"
   ],
-  "imperativo": [
-    "imperativa",
-    "imperativi",
-    "imperative"
-  ],
   "impercettibile": [
     "impercettibile",
     "impercettibili",
@@ -18838,11 +14398,6 @@ export default {
     "imperdonabile",
     "imperdonabili",
     "imperdonabili"
-  ],
-  "imperfetto": [
-    "imperfetta",
-    "imperfetti",
-    "imperfette"
   ],
   "imperial": [
     "imperial",
@@ -18914,11 +14469,6 @@ export default {
     "imperturbati",
     "imperturbate"
   ],
-  "impervio": [
-    "impervia",
-    "impervi",
-    "impervie"
-  ],
   "impetuoso": [
     "impetuosa",
     "impetuosi",
@@ -18928,11 +14478,6 @@ export default {
     "impiccata",
     "impiccati",
     "impiccate"
-  ],
-  "impiegato": [
-    "impiegata",
-    "impiegati",
-    "impiegate"
   ],
   "impiegatizio": [
     "impiegatizia",
@@ -18948,11 +14493,6 @@ export default {
     "implacabile",
     "implacabili",
     "implacabili"
-  ],
-  "implicito": [
-    "implicita",
-    "impliciti",
-    "implicite"
   ],
   "implorante": [
     "implorante",
@@ -18988,11 +14528,6 @@ export default {
     "importante",
     "importanti",
     "importanti"
-  ],
-  "importatore": [
-    "importatrice",
-    "importatori",
-    "importatrici"
   ],
   "importuno": [
     "importuna",
@@ -19079,11 +14614,6 @@ export default {
     "impressionanti",
     "impressionanti"
   ],
-  "impressionista": [
-    "impressionista",
-    "impressionisti",
-    "impressioniste"
-  ],
   "impressionistico": [
     "impressionistica",
     "impressionistici",
@@ -19098,11 +14628,6 @@ export default {
     "imprevidente",
     "imprevidenti",
     "imprevidenti"
-  ],
-  "imprevisto": [
-    "imprevista",
-    "imprevisti",
-    "impreviste"
   ],
   "improbo": [
     "improba",
@@ -19154,11 +14679,6 @@ export default {
     "improvvisi",
     "improvvise"
   ],
-  "imprudente": [
-    "imprudente",
-    "imprudenti",
-    "imprudenti"
-  ],
   "impudente": [
     "impudente",
     "impudenti",
@@ -19173,11 +14693,6 @@ export default {
     "impulsiva",
     "impulsivi",
     "impulsive"
-  ],
-  "impunito": [
-    "impunita",
-    "impuniti",
-    "impunite"
   ],
   "impuro": [
     "impura",
@@ -19359,11 +14874,6 @@ export default {
     "inattuali",
     "inattuali"
   ],
-  "inaudito": [
-    "inaudita",
-    "inauditi",
-    "inaudite"
-  ],
   "inaugurale": [
     "inaugurale",
     "inaugurali",
@@ -19384,11 +14894,6 @@ export default {
     "incalcolabili",
     "incalcolabili"
   ],
-  "incallito": [
-    "incallita",
-    "incalliti",
-    "incallite"
-  ],
   "incancellabile": [
     "incancellabile",
     "incancellabili",
@@ -19404,30 +14909,15 @@ export default {
     "incantati",
     "incantate"
   ],
-  "incantatore": [
-    "incantatrice",
-    "incantatori",
-    "incantatrici"
-  ],
   "incantevole": [
     "incantevole",
     "incantevoli",
     "incantevoli"
   ],
-  "incapace": [
-    "incapace",
-    "incapaci",
-    "incapaci"
-  ],
   "incaricato": [
     "incaricata",
     "incaricati",
     "incaricate"
-  ],
-  "incarnato": [
-    "incarnata",
-    "incarnati",
-    "incarnate"
   ],
   "incasinato": [
     "incasinata",
@@ -19439,11 +14929,6 @@ export default {
     "incassati",
     "incassate"
   ],
-  "incauto": [
-    "incauta",
-    "incauti",
-    "incaute"
-  ],
   "incavato": [
     "incavata",
     "incavati",
@@ -19454,25 +14939,10 @@ export default {
     "incedibili",
     "incedibili"
   ],
-  "incendiario": [
-    "incendiaria",
-    "incendiari",
-    "incendiarie"
-  ],
   "incensurabile": [
     "incensurabile",
     "incensurabili",
     "incensurabili"
-  ],
-  "incensurato": [
-    "incensurata",
-    "incensurati",
-    "incensurate"
-  ],
-  "incerto": [
-    "incerta",
-    "incerti",
-    "incerte"
   ],
   "incessante": [
     "incessante",
@@ -19489,11 +14959,6 @@ export default {
     "incidentali",
     "incidentali"
   ],
-  "incidente": [
-    "incidente",
-    "incidenti",
-    "incidenti"
-  ],
   "incinto": [
     "incinta",
     "incinti",
@@ -19503,11 +14968,6 @@ export default {
     "incipiente",
     "incipienti",
     "incipienti"
-  ],
-  "incisivo": [
-    "incisiva",
-    "incisivi",
-    "incisive"
   ],
   "incitatore": [
     "incitatrice",
@@ -19538,11 +14998,6 @@ export default {
     "inclita",
     "incliti",
     "inclite"
-  ],
-  "incluso": [
-    "inclusa",
-    "inclusi",
-    "incluse"
   ],
   "inclusivo": [
     "inclusiva",
@@ -19613,16 +15068,6 @@ export default {
     "incompatibile",
     "incompatibili",
     "incompatibili"
-  ],
-  "incompetente": [
-    "incompetente",
-    "incompetenti",
-    "incompetenti"
-  ],
-  "incompiuto": [
-    "incompiuta",
-    "incompiuti",
-    "incompiute"
   ],
   "incompleto": [
     "incompleta",
@@ -19704,11 +15149,6 @@ export default {
     "inconsapevoli",
     "inconsapevoli"
   ],
-  "inconscio": [
-    "inconscia",
-    "inconsci",
-    "inconsce"
-  ],
   "inconsistente": [
     "inconsistente",
     "inconsistenti",
@@ -19779,11 +15219,6 @@ export default {
     "incontrovertibili",
     "incontrovertibili"
   ],
-  "inconveniente": [
-    "inconveniente",
-    "inconvenienti",
-    "inconvenienti"
-  ],
   "incoraggiante": [
     "incoraggiante",
     "incoraggianti",
@@ -19803,11 +15238,6 @@ export default {
     "incorruttibile",
     "incorruttibili",
     "incorruttibili"
-  ],
-  "incosciente": [
-    "incosciente",
-    "incoscienti",
-    "incoscienti"
   ],
   "incostante": [
     "incostante",
@@ -19838,11 +15268,6 @@ export default {
     "incriminabile",
     "incriminabili",
     "incriminabili"
-  ],
-  "incriminato": [
-    "incriminata",
-    "incriminati",
-    "incriminate"
   ],
   "incrollabile": [
     "incrollabile",
@@ -19879,20 +15304,10 @@ export default {
     "indaffarati",
     "indaffarate"
   ],
-  "indagatore": [
-    "indagatrice",
-    "indagatori",
-    "indagatrici"
-  ],
   "indagatorio": [
     "indagatoria",
     "indagatori",
     "indagatorie"
-  ],
-  "indebito": [
-    "indebita",
-    "indebiti",
-    "indebite"
   ],
   "indecente": [
     "indecente",
@@ -19903,11 +15318,6 @@ export default {
     "indecifrabile",
     "indecifrabili",
     "indecifrabili"
-  ],
-  "indeciso": [
-    "indecisa",
-    "indecisi",
-    "indecise"
   ],
   "indeclinabile": [
     "indeclinabile",
@@ -19944,11 +15354,6 @@ export default {
     "indeformabili",
     "indeformabili"
   ],
-  "indegno": [
-    "indegna",
-    "indegni",
-    "indegne"
-  ],
   "indelebile": [
     "indelebile",
     "indelebili",
@@ -19984,30 +15389,10 @@ export default {
     "indesiderabili",
     "indesiderabili"
   ],
-  "indesiderato": [
-    "indesiderata",
-    "indesiderati",
-    "indesiderate"
-  ],
   "indeterminato": [
     "indeterminata",
     "indeterminati",
     "indeterminate"
-  ],
-  "indio": [
-    "india",
-    "indi",
-    "indie"
-  ],
-  "indiano": [
-    "indiana",
-    "indiani",
-    "indiane"
-  ],
-  "indiavolato": [
-    "indiavolata",
-    "indiavolati",
-    "indiavolate"
   ],
   "indico": [
     "indica",
@@ -20023,11 +15408,6 @@ export default {
     "indicativa",
     "indicativi",
     "indicative"
-  ],
-  "indicatore": [
-    "indicatrice",
-    "indicatori",
-    "indicatrici"
   ],
   "indifendibile": [
     "indifendibile",
@@ -20054,25 +15434,10 @@ export default {
     "indifferibili",
     "indifferibili"
   ],
-  "indigeno": [
-    "indigena",
-    "indigeni",
-    "indigene"
-  ],
-  "indigente": [
-    "indigente",
-    "indigenti",
-    "indigenti"
-  ],
   "indigesto": [
     "indigesta",
     "indigesti",
     "indigeste"
-  ],
-  "indignato": [
-    "indignata",
-    "indignati",
-    "indignate"
   ],
   "indilazionabile": [
     "indilazionabile",
@@ -20093,11 +15458,6 @@ export default {
     "indipendente",
     "indipendenti",
     "indipendenti"
-  ],
-  "indipendentista": [
-    "indipendentista",
-    "indipendentisti",
-    "indipendentiste"
   ],
   "indiretto": [
     "indiretta",
@@ -20174,11 +15534,6 @@ export default {
     "individuali",
     "individuali"
   ],
-  "individualista": [
-    "individualista",
-    "individualisti",
-    "individualiste"
-  ],
   "individualistico": [
     "individualistica",
     "individualistici",
@@ -20214,16 +15569,6 @@ export default {
     "indomabili",
     "indomabili"
   ],
-  "indomito": [
-    "indomita",
-    "indomiti",
-    "indomite"
-  ],
-  "indonesiano": [
-    "indonesiana",
-    "indonesiani",
-    "indonesiane"
-  ],
   "indoor": [
     "indoor",
     "indoor",
@@ -20254,11 +15599,6 @@ export default {
     "indulgenti",
     "indulgenti"
   ],
-  "industriale": [
-    "industriale",
-    "industriali",
-    "industriali"
-  ],
   "industrializzabile": [
     "industrializzabile",
     "industrializzabili",
@@ -20283,11 +15623,6 @@ export default {
     "ineccepibile",
     "ineccepibili",
     "ineccepibili"
-  ],
-  "inedito": [
-    "inedita",
-    "inediti",
-    "inedite"
   ],
   "ineffabile": [
     "ineffabile",
@@ -20459,11 +15794,6 @@ export default {
     "inestricabili",
     "inestricabili"
   ],
-  "inetto": [
-    "inetta",
-    "inetti",
-    "inette"
-  ],
   "inevaso": [
     "inevasa",
     "inevasi",
@@ -20483,16 +15813,6 @@ export default {
     "infamante",
     "infamanti",
     "infamanti"
-  ],
-  "infame": [
-    "infame",
-    "infami",
-    "infami"
-  ],
-  "infante": [
-    "infante",
-    "infanti",
-    "infanti"
   ],
   "infantile": [
     "infantile",
@@ -20514,25 +15834,10 @@ export default {
     "infecondi",
     "infeconde"
   ],
-  "infedele": [
-    "infedele",
-    "infedeli",
-    "infedeli"
-  ],
-  "infelice": [
-    "infelice",
-    "infelici",
-    "infelici"
-  ],
   "inferiore": [
     "inferiore",
     "inferiori",
     "inferiori"
-  ],
-  "infermo": [
-    "inferma",
-    "infermi",
-    "inferme"
   ],
   "inferme": [
     "inferme",
@@ -20588,11 +15893,6 @@ export default {
     "infingarda",
     "infingardi",
     "infingarde"
-  ],
-  "infinito": [
-    "infinita",
-    "infiniti",
-    "infinite"
   ],
   "infinitesimale": [
     "infinitesimale",
@@ -20654,20 +15954,10 @@ export default {
     "informativi",
     "informative"
   ],
-  "informatore": [
-    "informatrice",
-    "informatori",
-    "informatrici"
-  ],
   "informe": [
     "informe",
     "informi",
     "informi"
-  ],
-  "infortunato": [
-    "infortunata",
-    "infortunati",
-    "infortunate"
   ],
   "infortunistico": [
     "infortunistica",
@@ -20774,40 +16064,20 @@ export default {
     "ingiustificati",
     "ingiustificate"
   ],
-  "inglese": [
-    "inglese",
-    "inglesi",
-    "inglesi"
-  ],
   "inglorioso": [
     "ingloriosa",
     "ingloriosi",
     "ingloriose"
-  ],
-  "ingombro": [
-    "ingombra",
-    "ingombri",
-    "ingombre"
   ],
   "ingombrante": [
     "ingombrante",
     "ingombranti",
     "ingombranti"
   ],
-  "ingordo": [
-    "ingorda",
-    "ingordi",
-    "ingorde"
-  ],
   "ingovernabile": [
     "ingovernabile",
     "ingovernabili",
     "ingovernabili"
-  ],
-  "ingrato": [
-    "ingrata",
-    "ingrati",
-    "ingrate"
   ],
   "inguardabile": [
     "inguardabile",
@@ -20828,11 +16098,6 @@ export default {
     "inibita",
     "inibiti",
     "inibite"
-  ],
-  "inibitore": [
-    "inibitrice",
-    "inibitori",
-    "inibitrici"
   ],
   "inibitorio": [
     "inibitoria",
@@ -20884,25 +16149,10 @@ export default {
     "iniqui",
     "inique"
   ],
-  "iniziale": [
-    "iniziale",
-    "iniziali",
-    "iniziali"
-  ],
   "iniziato": [
     "iniziata",
     "iniziati",
     "iniziate"
-  ],
-  "iniziatore": [
-    "iniziatrice",
-    "iniziatori",
-    "iniziatrici"
-  ],
-  "innamorato": [
-    "innamorata",
-    "innamorati",
-    "innamorate"
   ],
   "innanzi": [
     "innanzi",
@@ -20924,11 +16174,6 @@ export default {
     "innegabili",
     "innegabili"
   ],
-  "innocente": [
-    "innocente",
-    "innocenti",
-    "innocenti"
-  ],
   "innocuo": [
     "innocua",
     "innocui",
@@ -20943,11 +16188,6 @@ export default {
     "innovativa",
     "innovativi",
     "innovative"
-  ],
-  "innovatore": [
-    "innovatrice",
-    "innovatori",
-    "innovatrici"
   ],
   "innumerevole": [
     "innumerevole",
@@ -21034,35 +16274,15 @@ export default {
     "inquartati",
     "inquartate"
   ],
-  "inquieto": [
-    "inquieta",
-    "inquieti",
-    "inquiete"
-  ],
   "inquietante": [
     "inquietante",
     "inquietanti",
     "inquietanti"
   ],
-  "inquinante": [
-    "inquinante",
-    "inquinanti",
-    "inquinanti"
-  ],
   "inquinato": [
     "inquinata",
     "inquinati",
     "inquinate"
-  ],
-  "inquirente": [
-    "inquirente",
-    "inquirenti",
-    "inquirenti"
-  ],
-  "inquisitore": [
-    "inquisitrice",
-    "inquisitori",
-    "inquisitrici"
   ],
   "inquisitorio": [
     "inquisitoria",
@@ -21104,16 +16324,6 @@ export default {
     "inscindibili",
     "inscindibili"
   ],
-  "insegnante": [
-    "insegnante",
-    "insegnanti",
-    "insegnanti"
-  ],
-  "inseguitore": [
-    "inseguitrice",
-    "inseguitori",
-    "inseguitrici"
-  ],
   "insensato": [
     "insensata",
     "insensati",
@@ -21153,16 +16363,6 @@ export default {
     "insicura",
     "insicuri",
     "insicure"
-  ],
-  "insidioso": [
-    "insidiosa",
-    "insidiosi",
-    "insidiose"
-  ],
-  "insigne": [
-    "insigne",
-    "insigni",
-    "insigni"
   ],
   "insignificante": [
     "insignificante",
@@ -21214,11 +16414,6 @@ export default {
     "insoddisfatti",
     "insoddisfatte"
   ],
-  "insofferente": [
-    "insofferente",
-    "insofferenti",
-    "insofferenti"
-  ],
   "insolente": [
     "insolente",
     "insolenti",
@@ -21249,11 +16444,6 @@ export default {
     "insondabili",
     "insondabili"
   ],
-  "insonne": [
-    "insonne",
-    "insonni",
-    "insonni"
-  ],
   "insonnolito": [
     "insonnolita",
     "insonnoliti",
@@ -21278,11 +16468,6 @@ export default {
     "insormontabile",
     "insormontabili",
     "insormontabili"
-  ],
-  "insorto": [
-    "insorta",
-    "insorti",
-    "insorte"
   ],
   "insospettabile": [
     "insospettabile",
@@ -21394,11 +16579,6 @@ export default {
     "integrali",
     "integrali"
   ],
-  "integralista": [
-    "integralista",
-    "integralisti",
-    "integraliste"
-  ],
   "integrante": [
     "integrante",
     "integranti",
@@ -21419,20 +16599,10 @@ export default {
     "intellettivi",
     "intellettive"
   ],
-  "intellettuale": [
-    "intellettuale",
-    "intellettuali",
-    "intellettuali"
-  ],
   "intellettualistico": [
     "intellettualistica",
     "intellettualistici",
     "intellettualistiche"
-  ],
-  "intelligente": [
-    "intelligente",
-    "intelligenti",
-    "intelligenti"
   ],
   "intemerato": [
     "intemerata",
@@ -21458,11 +16628,6 @@ export default {
     "intensiva",
     "intensivi",
     "intensive"
-  ],
-  "intento": [
-    "intenta",
-    "intenti",
-    "intente"
   ],
   "intentato": [
     "intentata",
@@ -21519,11 +16684,6 @@ export default {
     "intercontinentali",
     "intercontinentali"
   ],
-  "interdetto": [
-    "interdetta",
-    "interdetti",
-    "interdette"
-  ],
   "interdipendente": [
     "interdipendente",
     "interdipendenti",
@@ -21538,11 +16698,6 @@ export default {
     "interessante",
     "interessanti",
     "interessanti"
-  ],
-  "interessato": [
-    "interessata",
-    "interessati",
-    "interessate"
   ],
   "interetnico": [
     "interetnica",
@@ -21564,30 +16719,10 @@ export default {
     "interiori",
     "interiori"
   ],
-  "interista": [
-    "interista",
-    "interisti",
-    "interiste"
-  ],
-  "interlocutore": [
-    "interlocutrice",
-    "interlocutori",
-    "interlocutrici"
-  ],
   "interlocutorio": [
     "interlocutoria",
     "interlocutori",
     "interlocutorie"
-  ],
-  "intermedio": [
-    "intermedia",
-    "intermedi",
-    "intermedie"
-  ],
-  "intermediario": [
-    "intermediaria",
-    "intermediari",
-    "intermediarie"
   ],
   "interminabile": [
     "interminabile",
@@ -21608,16 +16743,6 @@ export default {
     "intermodale",
     "intermodali",
     "intermodali"
-  ],
-  "interno": [
-    "interna",
-    "interni",
-    "interne"
-  ],
-  "internato": [
-    "internata",
-    "internati",
-    "internate"
   ],
   "internazionale": [
     "internazionale",
@@ -21679,20 +16804,10 @@ export default {
     "interrogati",
     "interrogate"
   ],
-  "interrogativo": [
-    "interrogativa",
-    "interrogativi",
-    "interrogative"
-  ],
   "interrogatore": [
     "interrogatrice",
     "interrogatori",
     "interrogatrici"
-  ],
-  "interrogatorio": [
-    "interrogatoria",
-    "interrogatori",
-    "interrogatorie"
   ],
   "interstellare": [
     "interstellare",
@@ -21704,20 +16819,10 @@ export default {
     "interurbani",
     "interurbane"
   ],
-  "interventista": [
-    "interventista",
-    "interventisti",
-    "interventiste"
-  ],
   "intervenuto": [
     "intervenuta",
     "intervenuti",
     "intervenute"
-  ],
-  "intervistato": [
-    "intervistata",
-    "intervistati",
-    "intervistate"
   ],
   "inteso": [
     "intesa",
@@ -21729,11 +16834,6 @@ export default {
     "intestati",
     "intestate"
   ],
-  "intestino": [
-    "intestina",
-    "intestini",
-    "intestine"
-  ],
   "intestinale": [
     "intestinale",
     "intestinali",
@@ -21743,11 +16843,6 @@ export default {
     "intiera",
     "intieri",
     "intiere"
-  ],
-  "intimo": [
-    "intima",
-    "intimi",
-    "intime"
   ],
   "intimidatorio": [
     "intimidatoria",
@@ -21784,11 +16879,6 @@ export default {
     "intonsi",
     "intonse"
   ],
-  "intossicato": [
-    "intossicata",
-    "intossicati",
-    "intossicate"
-  ],
   "intraducibile": [
     "intraducibile",
     "intraducibili",
@@ -21804,20 +16894,10 @@ export default {
     "intramuscolari",
     "intramuscolari"
   ],
-  "intransigente": [
-    "intransigente",
-    "intransigenti",
-    "intransigenti"
-  ],
   "intransitabile": [
     "intransitabile",
     "intransitabili",
     "intransitabili"
-  ],
-  "intraprendente": [
-    "intraprendente",
-    "intraprendenti",
-    "intraprendenti"
   ],
   "intrasferibile": [
     "intrasferibile",
@@ -21884,11 +16964,6 @@ export default {
     "introversi",
     "introverse"
   ],
-  "intruso": [
-    "intrusa",
-    "intrusi",
-    "intruse"
-  ],
   "intuibile": [
     "intuibile",
     "intuibili",
@@ -21934,11 +17009,6 @@ export default {
     "invalicabili",
     "invalicabili"
   ],
-  "invalido": [
-    "invalida",
-    "invalidi",
-    "invalide"
-  ],
   "invalso": [
     "invalsa",
     "invalsi",
@@ -21958,16 +17028,6 @@ export default {
     "invariata",
     "invariati",
     "invariate"
-  ],
-  "invaso": [
-    "invasa",
-    "invasi",
-    "invase"
-  ],
-  "invasato": [
-    "invasata",
-    "invasati",
-    "invasate"
   ],
   "invendibile": [
     "invendibile",
@@ -22024,20 +17084,10 @@ export default {
     "investigativi",
     "investigative"
   ],
-  "investitore": [
-    "investitrice",
-    "investitori",
-    "investitrici"
-  ],
   "inveterato": [
     "inveterata",
     "inveterati",
     "inveterate"
-  ],
-  "inviato": [
-    "inviata",
-    "inviati",
-    "inviate"
   ],
   "invido": [
     "invida",
@@ -22083,11 +17133,6 @@ export default {
     "invitante",
     "invitanti",
     "invitanti"
-  ],
-  "invitato": [
-    "invitata",
-    "invitati",
-    "invitate"
   ],
   "invitto": [
     "invitta",
@@ -22169,16 +17214,6 @@ export default {
     "ipnotici",
     "ipnotiche"
   ],
-  "ipocondriaco": [
-    "ipocondriaca",
-    "ipocondriaci",
-    "ipocondriache"
-  ],
-  "ipocrita": [
-    "ipocrita",
-    "ipocriti",
-    "ipocrite"
-  ],
   "ipogeo": [
     "ipogea",
     "ipogei",
@@ -22209,25 +17244,10 @@ export default {
     "ippici",
     "ippiche"
   ],
-  "iracheno": [
-    "irachena",
-    "iracheni",
-    "irachene"
-  ],
   "iracondo": [
     "iraconda",
     "iracondi",
     "iraconde"
-  ],
-  "irakeno": [
-    "irakena",
-    "irakeni",
-    "irakene"
-  ],
-  "iraniano": [
-    "iraniana",
-    "iraniani",
-    "iraniane"
   ],
   "iranico": [
     "iranica",
@@ -22253,11 +17273,6 @@ export default {
     "iridescente",
     "iridescenti",
     "iridescenti"
-  ],
-  "irlandese": [
-    "irlandese",
-    "irlandesi",
-    "irlandesi"
   ],
   "ironico": [
     "ironica",
@@ -22314,11 +17329,6 @@ export default {
     "irredenti",
     "irredenti"
   ],
-  "irredentista": [
-    "irredentista",
-    "irredentisti",
-    "irredentiste"
-  ],
   "irredentistico": [
     "irredentistica",
     "irredentistici",
@@ -22333,11 +17343,6 @@ export default {
     "irrefutabile",
     "irrefutabili",
     "irrefutabili"
-  ],
-  "irregolare": [
-    "irregolare",
-    "irregolari",
-    "irregolari"
   ],
   "irrelato": [
     "irrelata",
@@ -22363,11 +17368,6 @@ export default {
     "irreprensibile",
     "irreprensibili",
     "irreprensibili"
-  ],
-  "irrequieto": [
-    "irrequieta",
-    "irrequieti",
-    "irrequiete"
   ],
   "irresistibile": [
     "irresistibile",
@@ -22519,55 +17519,10 @@ export default {
     "ischitani",
     "ischitane"
   ],
-  "iscritto": [
-    "iscritta",
-    "iscritti",
-    "iscritte"
-  ],
   "islamico": [
     "islamica",
     "islamici",
     "islamiche"
-  ],
-  "islandese": [
-    "islandese",
-    "islandesi",
-    "islandesi"
-  ],
-  "isolano": [
-    "isolana",
-    "isolani",
-    "isolane"
-  ],
-  "isolante": [
-    "isolante",
-    "isolanti",
-    "isolanti"
-  ],
-  "isolato": [
-    "isolata",
-    "isolati",
-    "isolate"
-  ],
-  "isolatore": [
-    "isolatrice",
-    "isolatori",
-    "isolatrici"
-  ],
-  "isolazionista": [
-    "isolazionista",
-    "isolazionisti",
-    "isolazioniste"
-  ],
-  "isotopo": [
-    "isotopa",
-    "isotopi",
-    "isotope"
-  ],
-  "ispanico": [
-    "ispanica",
-    "ispanici",
-    "ispaniche"
   ],
   "ispettivo": [
     "ispettiva",
@@ -22583,16 +17538,6 @@ export default {
     "ispirata",
     "ispirati",
     "ispirate"
-  ],
-  "ispiratore": [
-    "ispiratrice",
-    "ispiratori",
-    "ispiratrici"
-  ],
-  "israeliano": [
-    "israeliana",
-    "israeliani",
-    "israeliane"
   ],
   "israelitico": [
     "israelitica",
@@ -22634,11 +17579,6 @@ export default {
     "istologici",
     "istologiche"
   ],
-  "istriano": [
-    "istriana",
-    "istriani",
-    "istriane"
-  ],
   "istrionico": [
     "istrionica",
     "istrionici",
@@ -22664,25 +17604,10 @@ export default {
     "itali",
     "itale"
   ],
-  "italiano": [
-    "italiana",
-    "italiani",
-    "italiane"
-  ],
-  "italico": [
-    "italica",
-    "italici",
-    "italiche"
-  ],
   "italiota": [
     "italiota",
     "italioti",
     "italiote"
-  ],
-  "italoamericano": [
-    "italoamericana",
-    "italoamericani",
-    "italoamericane"
   ],
   "iterativo": [
     "iterativa",
@@ -22729,11 +17654,6 @@ export default {
     "jospiniani",
     "jospiniane"
   ],
-  "jugoslavo": [
-    "jugoslava",
-    "jugoslavi",
-    "jugoslave"
-  ],
   "junior": [
     "junior",
     "junior",
@@ -22743,11 +17663,6 @@ export default {
     "junk",
     "junk",
     "junk"
-  ],
-  "juventino": [
-    "juventina",
-    "juventini",
-    "juventine"
   ],
   "kafkiano": [
     "kafkiana",
@@ -22769,11 +17684,6 @@ export default {
     "kantiani",
     "kantiane"
   ],
-  "keniano": [
-    "keniana",
-    "keniani",
-    "keniane"
-  ],
   "keniota": [
     "keniota",
     "kenioti",
@@ -22789,35 +17699,10 @@ export default {
     "kentuckiani",
     "kentuckiane"
   ],
-  "kenyano": [
-    "kenyana",
-    "kenyani",
-    "kenyane"
-  ],
-  "keynesiano": [
-    "keynesiana",
-    "keynesiani",
-    "keynesiane"
-  ],
   "khatamista": [
     "khatamista",
     "khatamisti",
     "khatamiste"
-  ],
-  "khmer": [
-    "khmer",
-    "khmer",
-    "khmer"
-  ],
-  "khomeinista": [
-    "khomeinista",
-    "khomeinisti",
-    "khomeiniste"
-  ],
-  "killer": [
-    "killer",
-    "killer",
-    "killer"
   ],
   "kitch": [
     "kitch",
@@ -22829,25 +17714,10 @@ export default {
     "kitsch",
     "kitsch"
   ],
-  "kolossal": [
-    "kolossal",
-    "kolossal",
-    "kolossal"
-  ],
   "kosher": [
     "kosher",
     "kosher",
     "kosher"
-  ],
-  "kosovaro": [
-    "kosovara",
-    "kosovari",
-    "kosovare"
-  ],
-  "kuwaitiano": [
-    "kuwaitiana",
-    "kuwaitiani",
-    "kuwaitiane"
   ],
   "labile": [
     "labile",
@@ -22879,11 +17749,6 @@ export default {
     "laceranti",
     "laceranti"
   ],
-  "laconico": [
-    "laconica",
-    "laconici",
-    "laconiche"
-  ],
   "lacrimale": [
     "lacrimale",
     "lacrimali",
@@ -22894,20 +17759,10 @@ export default {
     "lacrimevoli",
     "lacrimevoli"
   ],
-  "lacrimogeno": [
-    "lacrimogena",
-    "lacrimogeni",
-    "lacrimogene"
-  ],
   "lacrimoso": [
     "lacrimosa",
     "lacrimosi",
     "lacrimose"
-  ],
-  "lacunare": [
-    "lacunare",
-    "lacunari",
-    "lacunari"
   ],
   "lacunoso": [
     "lacunosa",
@@ -22919,16 +17774,6 @@ export default {
     "lacustri",
     "lacustri"
   ],
-  "ladino": [
-    "ladina",
-    "ladini",
-    "ladine"
-  ],
-  "ladro": [
-    "ladra",
-    "ladri",
-    "ladre"
-  ],
   "lagnoso": [
     "lagnosa",
     "lagnosi",
@@ -22939,20 +17784,10 @@ export default {
     "lagunari",
     "lagunari"
   ],
-  "laico": [
-    "laica",
-    "laici",
-    "laiche"
-  ],
   "laicale": [
     "laicale",
     "laicali",
     "laicali"
-  ],
-  "laicista": [
-    "laicista",
-    "laicisti",
-    "laiciste"
   ],
   "laido": [
     "laida",
@@ -22974,20 +17809,10 @@ export default {
     "lametini",
     "lametine"
   ],
-  "laminato": [
-    "laminata",
-    "laminati",
-    "laminate"
-  ],
   "lampante": [
     "lampante",
     "lampanti",
     "lampanti"
-  ],
-  "lampo": [
-    "lampo",
-    "lampo",
-    "lampo"
   ],
   "lanciamissili": [
     "lanciamissili",
@@ -23003,11 +17828,6 @@ export default {
     "lancinante",
     "lancinanti",
     "lancinanti"
-  ],
-  "languido": [
-    "languida",
-    "languidi",
-    "languide"
   ],
   "laniero": [
     "laniera",
@@ -23044,11 +17864,6 @@ export default {
     "lapidei",
     "lapidee"
   ],
-  "largo": [
-    "larga",
-    "larghi",
-    "larghe"
-  ],
   "lariano": [
     "lariana",
     "lariani",
@@ -23069,16 +17884,6 @@ export default {
     "lascivi",
     "lascive"
   ],
-  "laser": [
-    "laser",
-    "laser",
-    "laser"
-  ],
-  "lasso": [
-    "lassa",
-    "lassi",
-    "lasse"
-  ],
   "lassista": [
     "lassista",
     "lassisti",
@@ -23094,16 +17899,6 @@ export default {
     "latenti",
     "latenti"
   ],
-  "laterale": [
-    "laterale",
-    "laterali",
-    "laterali"
-  ],
-  "latino": [
-    "latina",
-    "latini",
-    "latine"
-  ],
   "latineggiante": [
     "latineggiante",
     "latineggianti",
@@ -23113,11 +17908,6 @@ export default {
     "latinoamericana",
     "latinoamericani",
     "latinoamericane"
-  ],
-  "latitante": [
-    "latitante",
-    "latitanti",
-    "latitanti"
   ],
   "latteo": [
     "lattea",
@@ -23139,16 +17929,6 @@ export default {
     "lattiginosi",
     "lattiginose"
   ],
-  "laureando": [
-    "laureanda",
-    "laureandi",
-    "laureande"
-  ],
-  "laureato": [
-    "laureata",
-    "laureati",
-    "laureate"
-  ],
   "lauto": [
     "lauta",
     "lauti",
@@ -23159,11 +17939,6 @@ export default {
     "lavici",
     "laviche"
   ],
-  "lavorante": [
-    "lavorante",
-    "lavoranti",
-    "lavoranti"
-  ],
   "lavorato": [
     "lavorata",
     "lavorati",
@@ -23173,21 +17948,6 @@ export default {
     "lavorativa",
     "lavorativi",
     "lavorative"
-  ],
-  "laziale": [
-    "laziale",
-    "laziali",
-    "laziali"
-  ],
-  "lazzo": [
-    "lazza",
-    "lazzi",
-    "lazze"
-  ],
-  "leader": [
-    "leader",
-    "leader",
-    "leader"
   ],
   "leale": [
     "leale",
@@ -23204,11 +17964,6 @@ export default {
     "leciti",
     "lecite"
   ],
-  "legale": [
-    "legale",
-    "legali",
-    "legali"
-  ],
   "legalitario": [
     "legalitaria",
     "legalitari",
@@ -23218,11 +17973,6 @@ export default {
     "legata",
     "legati",
     "legate"
-  ],
-  "leggendario": [
-    "leggendaria",
-    "leggendari",
-    "leggendarie"
   ],
   "leggero": [
     "leggera",
@@ -23244,16 +17994,6 @@ export default {
     "leggibili",
     "leggibili"
   ],
-  "leghista": [
-    "leghista",
-    "leghisti",
-    "leghiste"
-  ],
-  "legionario": [
-    "legionaria",
-    "legionari",
-    "legionarie"
-  ],
   "legislativo": [
     "legislativa",
     "legislativi",
@@ -23273,16 +18013,6 @@ export default {
     "lena",
     "leni",
     "lene"
-  ],
-  "leninista": [
-    "leninista",
-    "leninisti",
-    "leniniste"
-  ],
-  "lento": [
-    "lenta",
-    "lenti",
-    "lente"
   ],
   "lenticolare": [
     "lenticolare",
@@ -23334,11 +18064,6 @@ export default {
     "letargici",
     "letargiche"
   ],
-  "letto": [
-    "letta",
-    "letti",
-    "lette"
-  ],
   "letterale": [
     "letterale",
     "letterali",
@@ -23349,11 +18074,6 @@ export default {
     "letterari",
     "letterarie"
   ],
-  "letterato": [
-    "letterata",
-    "letterati",
-    "letterate"
-  ],
   "leucemico": [
     "leucemica",
     "leucemici",
@@ -23363,11 +18083,6 @@ export default {
     "levante",
     "levanti",
     "levanti"
-  ],
-  "levantino": [
-    "levantina",
-    "levantini",
-    "levantine"
   ],
   "levatoio": [
     "levatoia",
@@ -23384,40 +18099,10 @@ export default {
     "libanesi",
     "libanesi"
   ],
-  "libero": [
-    "libera",
-    "liberi",
-    "libere"
-  ],
-  "liberaldemocratico": [
-    "liberaldemocratica",
-    "liberaldemocratici",
-    "liberaldemocratiche"
-  ],
-  "liberale": [
-    "liberale",
-    "liberali",
-    "liberali"
-  ],
-  "liberatore": [
-    "liberatrice",
-    "liberatori",
-    "liberatrici"
-  ],
   "liberatorio": [
     "liberatoria",
     "liberatori",
     "liberatorie"
-  ],
-  "liberiano": [
-    "liberiana",
-    "liberiani",
-    "liberiane"
-  ],
-  "liberista": [
-    "liberista",
-    "liberisti",
-    "liberiste"
   ],
   "liberoscambista": [
     "liberoscambista",
@@ -23433,11 +18118,6 @@ export default {
     "liberticida",
     "liberticidi",
     "liberticide"
-  ],
-  "libertino": [
-    "libertina",
-    "libertini",
-    "libertine"
   ],
   "liberty": [
     "liberty",
@@ -23464,16 +18144,6 @@ export default {
     "libreschi",
     "libresche"
   ],
-  "liceale": [
-    "liceale",
-    "liceali",
-    "liceali"
-  ],
-  "licenziato": [
-    "licenziata",
-    "licenziati",
-    "licenziate"
-  ],
   "licenzioso": [
     "licenziosa",
     "licenziosi",
@@ -23489,30 +18159,15 @@ export default {
     "lievi",
     "lievi"
   ],
-  "ligio": [
-    "ligia",
-    "ligi",
-    "ligie"
-  ],
   "ligneo": [
     "lignea",
     "lignei",
     "lignee"
   ],
-  "ligure": [
-    "ligure",
-    "liguri",
-    "liguri"
-  ],
   "liliale": [
     "liliale",
     "liliali",
     "liliali"
-  ],
-  "lillipuziano": [
-    "lillipuziana",
-    "lillipuziani",
-    "lillipuziane"
   ],
   "limaccioso": [
     "limacciosa",
@@ -23528,11 +18183,6 @@ export default {
     "limitativa",
     "limitativi",
     "limitative"
-  ],
-  "limitrofo": [
-    "limitrofa",
-    "limitrofi",
-    "limitrofe"
   ],
   "limoso": [
     "limosa",
@@ -23564,40 +18214,20 @@ export default {
     "linguistici",
     "linguistiche"
   ],
-  "liquido": [
-    "liquida",
-    "liquidi",
-    "liquide"
-  ],
   "liquidabile": [
     "liquidabile",
     "liquidabili",
     "liquidabili"
-  ],
-  "liquidatore": [
-    "liquidatrice",
-    "liquidatori",
-    "liquidatrici"
   ],
   "liquidatorio": [
     "liquidatoria",
     "liquidatori",
     "liquidatorie"
   ],
-  "lirico": [
-    "lirica",
-    "lirici",
-    "liriche"
-  ],
   "liso": [
     "lisa",
     "lisi",
     "lise"
-  ],
-  "liscio": [
-    "liscia",
-    "lisci",
-    "lisce"
   ],
   "litigioso": [
     "litigiosa",
@@ -23608,11 +18238,6 @@ export default {
     "litografica",
     "litografici",
     "litografiche"
-  ],
-  "litorale": [
-    "litorale",
-    "litorali",
-    "litorali"
   ],
   "litoraneo": [
     "litoranea",
@@ -23639,16 +18264,6 @@ export default {
     "livellatori",
     "livellatrici"
   ],
-  "livido": [
-    "livida",
-    "lividi",
-    "livide"
-  ],
-  "locale": [
-    "locale",
-    "locali",
-    "locali"
-  ],
   "localizzabile": [
     "localizzabile",
     "localizzabili",
@@ -23663,11 +18278,6 @@ export default {
     "locativa",
     "locativi",
     "locative"
-  ],
-  "locomotore": [
-    "locomotrice",
-    "locomotori",
-    "locomotrici"
   ],
   "lodevole": [
     "lodevole",
@@ -23699,20 +18309,10 @@ export default {
     "logorroici",
     "logorroiche"
   ],
-  "lombardo": [
-    "lombarda",
-    "lombardi",
-    "lombarde"
-  ],
   "lombare": [
     "lombare",
     "lombari",
     "lombari"
-  ],
-  "londinese": [
-    "londinese",
-    "londinesi",
-    "londinesi"
   ],
   "longanimo": [
     "longanima",
@@ -23739,11 +18339,6 @@ export default {
     "longitudinali",
     "longitudinali"
   ],
-  "longobardo": [
-    "longobarda",
-    "longobardi",
-    "longobarde"
-  ],
   "lontano": [
     "lontana",
     "lontani",
@@ -23759,35 +18354,15 @@ export default {
     "lordi",
     "lorde"
   ],
-  "losco": [
-    "losca",
-    "loschi",
-    "losche"
-  ],
   "lubrico": [
     "lubrica",
     "lubrici",
     "lubriche"
   ],
-  "lubrificante": [
-    "lubrificante",
-    "lubrificanti",
-    "lubrificanti"
-  ],
-  "lucano": [
-    "lucana",
-    "lucani",
-    "lucane"
-  ],
   "lucente": [
     "lucente",
     "lucenti",
     "lucenti"
-  ],
-  "lucido": [
-    "lucida",
-    "lucidi",
-    "lucide"
   ],
   "lucrativo": [
     "lucrativa",
@@ -23808,11 +18383,6 @@ export default {
     "ludica",
     "ludici",
     "ludiche"
-  ],
-  "lugubre": [
-    "lugubre",
-    "lugubri",
-    "lugubri"
   ],
   "lumbard": [
     "lumbard",
@@ -23869,20 +18439,10 @@ export default {
     "luridi",
     "luride"
   ],
-  "lusinghiero": [
-    "lusinghiera",
-    "lusinghieri",
-    "lusinghiere"
-  ],
   "lusitano": [
     "lusitana",
     "lusitani",
     "lusitane"
-  ],
-  "lussemburghese": [
-    "lussemburghese",
-    "lussemburghesi",
-    "lussemburghesi"
   ],
   "lussuoso": [
     "lussuosa",
@@ -23899,20 +18459,10 @@ export default {
     "lussuriosi",
     "lussuriose"
   ],
-  "lustro": [
-    "lustra",
-    "lustri",
-    "lustre"
-  ],
   "lustrale": [
     "lustrale",
     "lustrali",
     "lustrali"
-  ],
-  "luterano": [
-    "luterana",
-    "luterani",
-    "luterane"
   ],
   "luttuoso": [
     "luttuosa",
@@ -23999,50 +18549,20 @@ export default {
     "madornali",
     "madornali"
   ],
-  "madre": [
-    "madre",
-    "madre",
-    "madre"
-  ],
   "madreperlato": [
     "madreperlata",
     "madreperlati",
     "madreperlate"
-  ],
-  "madrileno": [
-    "madrilena",
-    "madrileni",
-    "madrilene"
   ],
   "maestoso": [
     "maestosa",
     "maestosi",
     "maestose"
   ],
-  "maestro": [
-    "maestra",
-    "maestri",
-    "maestre"
-  ],
-  "mafioso": [
-    "mafiosa",
-    "mafiosi",
-    "mafiose"
-  ],
   "maggiorato": [
     "maggiorata",
     "maggiorati",
     "maggiorate"
-  ],
-  "maggiorenne": [
-    "maggiorenne",
-    "maggiorenni",
-    "maggiorenni"
-  ],
-  "maggioritario": [
-    "maggioritaria",
-    "maggioritari",
-    "maggioritarie"
   ],
   "magico": [
     "magica",
@@ -24074,20 +18594,10 @@ export default {
     "magnetici",
     "magnetiche"
   ],
-  "magnifico": [
-    "magnifica",
-    "magnifici",
-    "magnifiche"
-  ],
   "magniloquente": [
     "magniloquente",
     "magniloquenti",
     "magniloquenti"
-  ],
-  "magro": [
-    "magra",
-    "magri",
-    "magre"
   ],
   "magrolino": [
     "magrolina",
@@ -24114,25 +18624,10 @@ export default {
     "mali",
     "male"
   ],
-  "malandato": [
-    "malandata",
-    "malandati",
-    "malandate"
-  ],
-  "malandrino": [
-    "malandrina",
-    "malandrini",
-    "malandrine"
-  ],
   "malarico": [
     "malarica",
     "malarici",
     "malariche"
-  ],
-  "malato": [
-    "malata",
-    "malati",
-    "malate"
   ],
   "malaticcio": [
     "malaticcia",
@@ -24149,50 +18644,15 @@ export default {
     "malavitosi",
     "malavitose"
   ],
-  "malcapitato": [
-    "malcapitata",
-    "malcapitati",
-    "malcapitate"
-  ],
-  "malconcio": [
-    "malconcia",
-    "malconci",
-    "malconce"
-  ],
   "malcontento": [
     "malcontenta",
     "malcontenti",
     "malcontente"
   ],
-  "maldestro": [
-    "maldestra",
-    "maldestri",
-    "maldestre"
-  ],
-  "maledetto": [
-    "maledetta",
-    "maledetti",
-    "maledette"
-  ],
-  "maleducato": [
-    "maleducata",
-    "maleducati",
-    "maleducate"
-  ],
-  "malefico": [
-    "malefica",
-    "malefici",
-    "malefiche"
-  ],
   "maleodorante": [
     "maleodorante",
     "maleodoranti",
     "maleodoranti"
-  ],
-  "malese": [
-    "malese",
-    "malesi",
-    "malesi"
   ],
   "malevolo": [
     "malevola",
@@ -24234,40 +18694,15 @@ export default {
     "maliardi",
     "maliarde"
   ],
-  "maligno": [
-    "maligna",
-    "maligni",
-    "maligne"
-  ],
-  "malinconico": [
-    "malinconica",
-    "malinconici",
-    "malinconiche"
-  ],
   "malinformato": [
     "malinformata",
     "malinformati",
     "malinformate"
   ],
-  "malintenzionato": [
-    "malintenzionata",
-    "malintenzionati",
-    "malintenzionate"
-  ],
-  "malinteso": [
-    "malintesa",
-    "malintesi",
-    "malintese"
-  ],
   "malioso": [
     "maliosa",
     "maliosi",
     "maliose"
-  ],
-  "malizioso": [
-    "maliziosa",
-    "maliziosi",
-    "maliziose"
   ],
   "malleabile": [
     "malleabile",
@@ -24299,16 +18734,6 @@ export default {
     "malsicuri",
     "malsicure"
   ],
-  "maltese": [
-    "maltese",
-    "maltesi",
-    "maltesi"
-  ],
-  "malvagio": [
-    "malvagia",
-    "malvagi",
-    "malvagie"
-  ],
   "malvestito": [
     "malvestita",
     "malvestiti",
@@ -24318,16 +18743,6 @@ export default {
     "malvista",
     "malvisti",
     "malviste"
-  ],
-  "malvivente": [
-    "malvivente",
-    "malviventi",
-    "malviventi"
-  ],
-  "mammifero": [
-    "mammifera",
-    "mammiferi",
-    "mammifere"
   ],
   "manageriale": [
     "manageriale",
@@ -24349,20 +18764,10 @@ export default {
     "manchevoli",
     "manchevoli"
   ],
-  "mancino": [
-    "mancina",
-    "mancini",
-    "mancine"
-  ],
   "mandamentale": [
     "mandamentale",
     "mandamentali",
     "mandamentali"
-  ],
-  "mandante": [
-    "mandante",
-    "mandanti",
-    "mandanti"
   ],
   "mandibolare": [
     "mandibolare",
@@ -24394,11 +18799,6 @@ export default {
     "mangimistici",
     "mangimistiche"
   ],
-  "maniaco": [
-    "maniaca",
-    "maniaci",
-    "maniache"
-  ],
   "maniacale": [
     "maniacale",
     "maniacali",
@@ -24414,50 +18814,15 @@ export default {
     "manierati",
     "manierate"
   ],
-  "manierista": [
-    "manierista",
-    "manieristi",
-    "manieriste"
-  ],
   "manieroso": [
     "manierosa",
     "manierosi",
     "manierose"
   ],
-  "manifatturiero": [
-    "manifatturiera",
-    "manifatturieri",
-    "manifatturiere"
-  ],
-  "manifesto": [
-    "manifesta",
-    "manifesti",
-    "manifeste"
-  ],
-  "manifestante": [
-    "manifestante",
-    "manifestanti",
-    "manifestanti"
-  ],
-  "manipolatore": [
-    "manipolatrice",
-    "manipolatori",
-    "manipolatrici"
-  ],
   "mannaro": [
     "mannara",
     "mannari",
     "mannare"
-  ],
-  "manoscritto": [
-    "manoscritta",
-    "manoscritti",
-    "manoscritte"
-  ],
-  "manovratore": [
-    "manovratrice",
-    "manovratori",
-    "manovratrici"
   ],
   "mansueto": [
     "mansueta",
@@ -24469,50 +18834,20 @@ export default {
     "mantenuti",
     "mantenute"
   ],
-  "mantovano": [
-    "mantovana",
-    "mantovani",
-    "mantovane"
-  ],
-  "manuale": [
-    "manuale",
-    "manuali",
-    "manuali"
-  ],
   "manualistico": [
     "manualistica",
     "manualistici",
     "manualistiche"
-  ],
-  "manufatto": [
-    "manufatta",
-    "manufatti",
-    "manufatte"
   ],
   "manzoniano": [
     "manzoniana",
     "manzoniani",
     "manzoniane"
   ],
-  "maoista": [
-    "maoista",
-    "maoisti",
-    "maoiste"
-  ],
-  "maratoneta": [
-    "maratoneta",
-    "maratoneti",
-    "maratonete"
-  ],
   "marcato": [
     "marcata",
     "marcati",
     "marcate"
-  ],
-  "marcio": [
-    "marcia",
-    "marci",
-    "marce"
   ],
   "marcescente": [
     "marcescente",
@@ -24523,11 +18858,6 @@ export default {
     "marchiana",
     "marchiani",
     "marchiane"
-  ],
-  "marchigiano": [
-    "marchigiana",
-    "marchigiani",
-    "marchigiane"
   ],
   "marchionale": [
     "marchionale",
@@ -24543,11 +18873,6 @@ export default {
     "marezzata",
     "marezzati",
     "marezzate"
-  ],
-  "marginale": [
-    "marginale",
-    "marginali",
-    "marginali"
   ],
   "mariano": [
     "mariana",
@@ -24574,11 +18899,6 @@ export default {
     "maritali",
     "maritali"
   ],
-  "marittimo": [
-    "marittima",
-    "marittimi",
-    "marittime"
-  ],
   "marmifero": [
     "marmifera",
     "marmiferi",
@@ -24589,20 +18909,10 @@ export default {
     "marmorei",
     "marmoree"
   ],
-  "marocchino": [
-    "marocchina",
-    "marocchini",
-    "marocchine"
-  ],
   "maronita": [
     "maronita",
     "maroniti",
     "maronite"
-  ],
-  "marsigliese": [
-    "marsigliese",
-    "marsigliesi",
-    "marsigliesi"
   ],
   "marsupiale": [
     "marsupiale",
@@ -24629,20 +18939,10 @@ export default {
     "marziali",
     "marziali"
   ],
-  "marziano": [
-    "marziana",
-    "marziani",
-    "marziane"
-  ],
   "marzolino": [
     "marzolina",
     "marzolini",
     "marzoline"
-  ],
-  "maschio": [
-    "maschia",
-    "maschi",
-    "maschie"
   ],
   "maschile": [
     "maschile",
@@ -24659,35 +18959,10 @@ export default {
     "mascolini",
     "mascoline"
   ],
-  "masochista": [
-    "masochista",
-    "masochisti",
-    "masochiste"
-  ],
   "massacrante": [
     "massacrante",
     "massacranti",
     "massacranti"
-  ],
-  "massiccio": [
-    "massiccia",
-    "massicci",
-    "massicce"
-  ],
-  "massimo": [
-    "massima",
-    "massimi",
-    "massime"
-  ],
-  "massimale": [
-    "massimale",
-    "massimali",
-    "massimali"
-  ],
-  "massimalista": [
-    "massimalista",
-    "massimalisti",
-    "massimaliste"
   ],
   "massimalistico": [
     "massimalistica",
@@ -24703,26 +18978,6 @@ export default {
     "mastodontica",
     "mastodontici",
     "mastodontiche"
-  ],
-  "mastro": [
-    "mastra",
-    "mastri",
-    "mastre"
-  ],
-  "matematico": [
-    "matematica",
-    "matematici",
-    "matematiche"
-  ],
-  "materiale": [
-    "materiale",
-    "materiali",
-    "materiali"
-  ],
-  "materialista": [
-    "materialista",
-    "materialisti",
-    "materialiste"
   ],
   "materialistico": [
     "materialistica",
@@ -24754,20 +19009,10 @@ export default {
     "matronali",
     "matronali"
   ],
-  "matto": [
-    "matta",
-    "matti",
-    "matte"
-  ],
   "mattiniero": [
     "mattiniera",
     "mattinieri",
     "mattiniere"
-  ],
-  "mattone": [
-    "mattone",
-    "mattoni",
-    "mattoni"
   ],
   "mattutino": [
     "mattutina",
@@ -24794,11 +19039,6 @@ export default {
     "mazziniani",
     "mazziniane"
   ],
-  "meccanico": [
-    "meccanica",
-    "meccanici",
-    "meccaniche"
-  ],
   "meccanizzato": [
     "meccanizzata",
     "meccanizzati",
@@ -24824,11 +19064,6 @@ export default {
     "mediali",
     "mediali"
   ],
-  "mediano": [
-    "mediana",
-    "mediani",
-    "mediane"
-  ],
   "medianico": [
     "medianica",
     "medianici",
@@ -24844,11 +19079,6 @@ export default {
     "mediatici",
     "mediatiche"
   ],
-  "medico": [
-    "medica",
-    "medici",
-    "mediche"
-  ],
   "medicale": [
     "medicale",
     "medicali",
@@ -24863,26 +19093,6 @@ export default {
     "medicata",
     "medicati",
     "medicate"
-  ],
-  "medicinale": [
-    "medicinale",
-    "medicinali",
-    "medicinali"
-  ],
-  "medievale": [
-    "medievale",
-    "medievali",
-    "medievali"
-  ],
-  "mediocre": [
-    "mediocre",
-    "mediocri",
-    "mediocri"
-  ],
-  "medioevale": [
-    "medioevale",
-    "medioevali",
-    "medioevali"
   ],
   "mediorientale": [
     "mediorientale",
@@ -24913,21 +19123,6 @@ export default {
     "mefitica",
     "mefitici",
     "mefitiche"
-  ],
-  "megalomane": [
-    "megalomane",
-    "megalomani",
-    "megalomani"
-  ],
-  "meglio": [
-    "meglio",
-    "meglio",
-    "meglio"
-  ],
-  "melanconico": [
-    "melanconica",
-    "melanconici",
-    "melanconiche"
   ],
   "melato": [
     "melata",
@@ -24989,11 +19184,6 @@ export default {
     "menci",
     "mence"
   ],
-  "mendicante": [
-    "mendicante",
-    "mendicanti",
-    "mendicanti"
-  ],
   "meneghino": [
     "meneghina",
     "meneghini",
@@ -25019,25 +19209,10 @@ export default {
     "mentali",
     "mentali"
   ],
-  "mentecatto": [
-    "mentecatta",
-    "mentecatti",
-    "mentecatte"
-  ],
   "mentito": [
     "mentita",
     "mentiti",
     "mentite"
-  ],
-  "mentitore": [
-    "mentitrice",
-    "mentitori",
-    "mentitrici"
-  ],
-  "menzognero": [
-    "menzognera",
-    "menzogneri",
-    "menzognere"
   ],
   "mero": [
     "mera",
@@ -25048,16 +19223,6 @@ export default {
     "meravigliosa",
     "meravigliosi",
     "meravigliose"
-  ],
-  "mercantile": [
-    "mercantile",
-    "mercantili",
-    "mercantili"
-  ],
-  "mercenario": [
-    "mercenaria",
-    "mercenari",
-    "mercenarie"
   ],
   "merceologico": [
     "merceologica",
@@ -25073,21 +19238,6 @@ export default {
     "merdosa",
     "merdosi",
     "merdose"
-  ],
-  "meridiano": [
-    "meridiana",
-    "meridiani",
-    "meridiane"
-  ],
-  "meridionale": [
-    "meridionale",
-    "meridionali",
-    "meridionali"
-  ],
-  "meridionalista": [
-    "meridionalista",
-    "meridionalisti",
-    "meridionaliste"
   ],
   "meridionalistico": [
     "meridionalistica",
@@ -25124,30 +19274,15 @@ export default {
     "merlati",
     "merlate"
   ],
-  "meschino": [
-    "meschina",
-    "meschini",
-    "meschine"
-  ],
   "messo": [
     "messa",
     "messi",
     "messe"
   ],
-  "messaggero": [
-    "messaggera",
-    "messaggeri",
-    "messaggere"
-  ],
   "messianico": [
     "messianica",
     "messianici",
     "messianiche"
-  ],
-  "messicano": [
-    "messicana",
-    "messicani",
-    "messicane"
   ],
   "mesto": [
     "mesta",
@@ -25163,11 +19298,6 @@ export default {
     "metabolica",
     "metabolici",
     "metaboliche"
-  ],
-  "metafisico": [
-    "metafisica",
-    "metafisici",
-    "metafisiche"
   ],
   "metaforico": [
     "metaforica",
@@ -25198,11 +19328,6 @@ export default {
     "metallurgica",
     "metallurgici",
     "metallurgiche"
-  ],
-  "metalmeccanico": [
-    "metalmeccanica",
-    "metalmeccanici",
-    "metalmeccaniche"
   ],
   "metamorfico": [
     "metamorfica",
@@ -25244,11 +19369,6 @@ export default {
     "metodici",
     "metodiche"
   ],
-  "metodista": [
-    "metodista",
-    "metodisti",
-    "metodiste"
-  ],
   "metodologico": [
     "metodologica",
     "metodologici",
@@ -25269,11 +19389,6 @@ export default {
     "mezz",
     "mezz"
   ],
-  "mezzo": [
-    "mezza",
-    "mezzi",
-    "mezze"
-  ],
   "mezzadrile": [
     "mezzadrile",
     "mezzadrili",
@@ -25293,11 +19408,6 @@ export default {
     "microbica",
     "microbici",
     "microbiche"
-  ],
-  "microscopico": [
-    "microscopica",
-    "microscopici",
-    "microscopiche"
   ],
   "midi": [
     "midi",
@@ -25324,11 +19434,6 @@ export default {
     "migliori",
     "migliori"
   ],
-  "migliorista": [
-    "migliorista",
-    "miglioristi",
-    "miglioriste"
-  ],
   "mignon": [
     "mignon",
     "mignon",
@@ -25344,80 +19449,35 @@ export default {
     "migratori",
     "migratorie"
   ],
-  "milanese": [
-    "milanese",
-    "milanesi",
-    "milanesi"
-  ],
-  "milanista": [
-    "milanista",
-    "milanisti",
-    "milaniste"
-  ],
   "milenso": [
     "milensa",
     "milensi",
     "milense"
-  ],
-  "miliardario": [
-    "miliardaria",
-    "miliardari",
-    "miliardarie"
   ],
   "milionare": [
     "milionare",
     "milionari",
     "milionari"
   ],
-  "milionario": [
-    "milionaria",
-    "milionari",
-    "milionarie"
-  ],
   "militante": [
     "militante",
     "militanti",
     "militanti"
-  ],
-  "militare": [
-    "militare",
-    "militari",
-    "militari"
   ],
   "militaresco": [
     "militaresca",
     "militareschi",
     "militaresche"
   ],
-  "militarista": [
-    "militarista",
-    "militaristi",
-    "militariste"
-  ],
   "millantato": [
     "millantata",
     "millantati",
     "millantate"
   ],
-  "millantatore": [
-    "millantatrice",
-    "millantatori",
-    "millantatrici"
-  ],
-  "millenario": [
-    "millenaria",
-    "millenari",
-    "millenarie"
-  ],
   "millenne": [
     "millenne",
     "millenni",
     "millenni"
-  ],
-  "millesimo": [
-    "millesima",
-    "millesimi",
-    "millesime"
   ],
   "millimetrato": [
     "millimetrata",
@@ -25439,20 +19499,10 @@ export default {
     "mimici",
     "mimiche"
   ],
-  "minimo": [
-    "minima",
-    "minimi",
-    "minime"
-  ],
   "minaccioso": [
     "minacciosa",
     "minacciosi",
     "minacciose"
-  ],
-  "minatore": [
-    "minatrice",
-    "minatori",
-    "minatrici"
   ],
   "minatorio": [
     "minatoria",
@@ -25464,11 +19514,6 @@ export default {
     "minchioni",
     "minchioni"
   ],
-  "minerale": [
-    "minerale",
-    "minerali",
-    "minerali"
-  ],
   "minerario": [
     "mineraria",
     "minerari",
@@ -25479,20 +19524,10 @@ export default {
     "mingherlini",
     "mingherline"
   ],
-  "mini": [
-    "mini",
-    "mini",
-    "mini"
-  ],
   "minimale": [
     "minimale",
     "minimali",
     "minimali"
-  ],
-  "minimalista": [
-    "minimalista",
-    "minimalisti",
-    "minimaliste"
   ],
   "ministeriale": [
     "ministeriale",
@@ -25503,16 +19538,6 @@ export default {
     "minoica",
     "minoici",
     "minoiche"
-  ],
-  "minore": [
-    "minore",
-    "minori",
-    "minori"
-  ],
-  "minorenne": [
-    "minorenne",
-    "minorenni",
-    "minorenni"
   ],
   "minorile": [
     "minorile",
@@ -25528,11 +19553,6 @@ export default {
     "minuscola",
     "minuscoli",
     "minuscole"
-  ],
-  "minuto": [
-    "minuta",
-    "minuti",
-    "minute"
   ],
   "minuzioso": [
     "minuziosa",
@@ -25559,11 +19579,6 @@ export default {
     "mirabolanti",
     "mirabolanti"
   ],
-  "miracolato": [
-    "miracolata",
-    "miracolati",
-    "miracolate"
-  ],
   "miracoloso": [
     "miracolosa",
     "miracolosi",
@@ -25583,16 +19598,6 @@ export default {
     "miscellanea",
     "miscellanei",
     "miscellanee"
-  ],
-  "miscredente": [
-    "miscredente",
-    "miscredenti",
-    "miscredenti"
-  ],
-  "misero": [
-    "misera",
-    "miseri",
-    "misere"
   ],
   "miserabile": [
     "miserabile",
@@ -25624,45 +19629,15 @@ export default {
     "misogini",
     "misogine"
   ],
-  "missile": [
-    "missile",
-    "missili",
-    "missili"
-  ],
   "missilistico": [
     "missilistica",
     "missilistici",
     "missilistiche"
   ],
-  "missino": [
-    "missina",
-    "missini",
-    "missine"
-  ],
-  "missionario": [
-    "missionaria",
-    "missionari",
-    "missionarie"
-  ],
-  "misto": [
-    "mista",
-    "misti",
-    "miste"
-  ],
   "misterioso": [
     "misteriosa",
     "misteriosi",
     "misteriose"
-  ],
-  "mistico": [
-    "mistica",
-    "mistici",
-    "mistiche"
-  ],
-  "mistificatore": [
-    "mistificatrice",
-    "mistificatori",
-    "mistificatrici"
   ],
   "mistificatorio": [
     "mistificatoria",
@@ -25694,11 +19669,6 @@ export default {
     "mitologici",
     "mitologiche"
   ],
-  "mitragliatore": [
-    "mitragliatrice",
-    "mitragliatori",
-    "mitragliatrici"
-  ],
   "mitteleuropeo": [
     "mitteleuropea",
     "mitteleuropei",
@@ -25714,20 +19684,10 @@ export default {
     "mnemonici",
     "mnemoniche"
   ],
-  "mobile": [
-    "mobile",
-    "mobili",
-    "mobili"
-  ],
   "mobiliare": [
     "mobiliare",
     "mobiliari",
     "mobiliari"
-  ],
-  "moccioso": [
-    "mocciosa",
-    "mocciosi",
-    "mocciose"
   ],
   "modale": [
     "modale",
@@ -25744,21 +19704,6 @@ export default {
     "modellati",
     "modellate"
   ],
-  "modenese": [
-    "modenese",
-    "modenesi",
-    "modenesi"
-  ],
-  "moderato": [
-    "moderata",
-    "moderati",
-    "moderate"
-  ],
-  "moderatore": [
-    "moderatrice",
-    "moderatori",
-    "moderatrici"
-  ],
   "modern": [
     "modern",
     "modern",
@@ -25768,11 +19713,6 @@ export default {
     "moderna",
     "moderni",
     "moderne"
-  ],
-  "modernista": [
-    "modernista",
-    "modernisti",
-    "moderniste"
   ],
   "modesto": [
     "modesta",
@@ -25819,11 +19759,6 @@ export default {
     "molesti",
     "moleste"
   ],
-  "molisano": [
-    "molisana",
-    "molisani",
-    "molisane"
-  ],
   "molitorio": [
     "molitoria",
     "molitori",
@@ -25833,11 +19768,6 @@ export default {
     "molla",
     "molli",
     "molle"
-  ],
-  "molle": [
-    "molle",
-    "molli",
-    "molli"
   ],
   "molliccio": [
     "molliccia",
@@ -25859,11 +19789,6 @@ export default {
     "moltiplicativi",
     "moltiplicative"
   ],
-  "moltiplicatore": [
-    "moltiplicatrice",
-    "moltiplicatori",
-    "moltiplicatrici"
-  ],
   "momentaneo": [
     "momentanea",
     "momentanei",
@@ -25873,11 +19798,6 @@ export default {
     "monacale",
     "monacali",
     "monacali"
-  ],
-  "monarchico": [
-    "monarchica",
-    "monarchici",
-    "monarchiche"
   ],
   "monastico": [
     "monastica",
@@ -25889,35 +19809,15 @@ export default {
     "monchi",
     "monche"
   ],
-  "mondo": [
-    "monda",
-    "mondi",
-    "monde"
-  ],
   "mondano": [
     "mondana",
     "mondani",
     "mondane"
   ],
-  "mondiale": [
-    "mondiale",
-    "mondiali",
-    "mondiali"
-  ],
-  "monegasco": [
-    "monegasca",
-    "monegaschi",
-    "monegasche"
-  ],
   "monetario": [
     "monetaria",
     "monetari",
     "monetarie"
-  ],
-  "mongolo": [
-    "mongola",
-    "mongoli",
-    "mongole"
   ],
   "monocilindrico": [
     "monocilindrica",
@@ -25929,20 +19829,10 @@ export default {
     "monocoli",
     "monocole"
   ],
-  "monocolore": [
-    "monocolore",
-    "monocolori",
-    "monocolori"
-  ],
   "monocorde": [
     "monocorde",
     "monocordi",
     "monocordi"
-  ],
-  "monocromo": [
-    "monocroma",
-    "monocromi",
-    "monocrome"
   ],
   "monocromatico": [
     "monocromatica",
@@ -25984,16 +19874,6 @@ export default {
     "monomarca",
     "monomarca"
   ],
-  "monomotore": [
-    "monomotrice",
-    "monomotori",
-    "monomotrici"
-  ],
-  "monopolista": [
-    "monopolista",
-    "monopolisti",
-    "monopoliste"
-  ],
   "monopolistico": [
     "monopolistica",
     "monopolistici",
@@ -26008,11 +19888,6 @@ export default {
     "monoreddito",
     "monoreddito",
     "monoreddito"
-  ],
-  "monosillabo": [
-    "monosillaba",
-    "monosillabi",
-    "monosillabe"
   ],
   "monoteista": [
     "monoteista",
@@ -26038,11 +19913,6 @@ export default {
     "montana",
     "montani",
     "montane"
-  ],
-  "montanaro": [
-    "montanara",
-    "montanari",
-    "montanare"
   ],
   "montanino": [
     "montanina",
@@ -26074,30 +19944,15 @@ export default {
     "monumentali",
     "monumentali"
   ],
-  "moro": [
-    "mora",
-    "mori",
-    "more"
-  ],
   "morale": [
     "morale",
     "morali",
     "morali"
   ],
-  "moralista": [
-    "moralista",
-    "moralisti",
-    "moraliste"
-  ],
   "moralistico": [
     "moralistica",
     "moralistici",
     "moralistiche"
-  ],
-  "moralizzatore": [
-    "moralizzatrice",
-    "moralizzatori",
-    "moralizzatrici"
   ],
   "moratorio": [
     "moratoria",
@@ -26129,11 +19984,6 @@ export default {
     "morelli",
     "morelle"
   ],
-  "morente": [
-    "morente",
-    "morenti",
-    "morenti"
-  ],
   "moresco": [
     "moresca",
     "moreschi",
@@ -26143,11 +19993,6 @@ export default {
     "morfologica",
     "morfologici",
     "morfologiche"
-  ],
-  "moribondo": [
-    "moribonda",
-    "moribondi",
-    "moribonde"
   ],
   "morigerato": [
     "morigerata",
@@ -26164,21 +20009,6 @@ export default {
     "morosi",
     "morose"
   ],
-  "morso": [
-    "morsa",
-    "morsi",
-    "morse"
-  ],
-  "morto": [
-    "morta",
-    "morti",
-    "morte"
-  ],
-  "mortale": [
-    "mortale",
-    "mortali",
-    "mortali"
-  ],
   "mortifero": [
     "mortifera",
     "mortiferi",
@@ -26193,11 +20023,6 @@ export default {
     "moschicida",
     "moschicidi",
     "moschicide"
-  ],
-  "moscovita": [
-    "moscovita",
-    "moscoviti",
-    "moscovite"
   ],
   "mosso": [
     "mossa",
@@ -26234,11 +20059,6 @@ export default {
     "motopropulsori",
     "motopropulsori"
   ],
-  "motore": [
-    "motrice",
-    "motori",
-    "motrici"
-  ],
   "motorio": [
     "motoria",
     "motori",
@@ -26248,11 +20068,6 @@ export default {
     "motoristica",
     "motoristici",
     "motoristiche"
-  ],
-  "movente": [
-    "movente",
-    "moventi",
-    "moventi"
   ],
   "movibile": [
     "movibile",
@@ -26269,11 +20084,6 @@ export default {
     "mozartiani",
     "mozartiane"
   ],
-  "mozzo": [
-    "mozza",
-    "mozzi",
-    "mozze"
-  ],
   "mozzafiato": [
     "mozzafiata",
     "mozzafiati",
@@ -26283,16 +20093,6 @@ export default {
     "muffa",
     "muffi",
     "muffe"
-  ],
-  "mujahiddin": [
-    "mujahiddin",
-    "mujahiddin",
-    "mujahiddin"
-  ],
-  "mulatto": [
-    "mulatta",
-    "mulatti",
-    "mulatte"
   ],
   "mulattiero": [
     "mulattiera",
@@ -26334,20 +20134,10 @@ export default {
     "multilingui",
     "multilingui"
   ],
-  "multimedia": [
-    "multimedia",
-    "multimedia",
-    "multimedia"
-  ],
   "multimediale": [
     "multimediale",
     "multimediali",
     "multimediali"
-  ],
-  "multimiliardario": [
-    "multimiliardaria",
-    "multimiliardari",
-    "multimiliardarie"
   ],
   "multimilionario": [
     "multimilionaria",
@@ -26368,11 +20158,6 @@ export default {
     "multipla",
     "multipli",
     "multiple"
-  ],
-  "mundial": [
-    "mundial",
-    "mundial",
-    "mundial"
   ],
   "municipale": [
     "municipale",
@@ -26409,11 +20194,6 @@ export default {
     "music",
     "music"
   ],
-  "musico": [
-    "musica",
-    "musici",
-    "musiche"
-  ],
   "musicale": [
     "musicale",
     "musicali",
@@ -26424,25 +20204,10 @@ export default {
     "musivi",
     "musive"
   ],
-  "mussulmano": [
-    "mussulmana",
-    "mussulmani",
-    "mussulmane"
-  ],
   "musulmano": [
     "musulmana",
     "musulmani",
     "musulmane"
-  ],
-  "muto": [
-    "muta",
-    "muti",
-    "mute"
-  ],
-  "mutante": [
-    "mutante",
-    "mutanti",
-    "mutanti"
   ],
   "mutevole": [
     "mutevole",
@@ -26459,20 +20224,10 @@ export default {
     "mutilati",
     "mutilate"
   ],
-  "mutuo": [
-    "mutua",
-    "mutui",
-    "mutue"
-  ],
   "mutualistico": [
     "mutualistica",
     "mutualistici",
     "mutualistiche"
-  ],
-  "nano": [
-    "nana",
-    "nani",
-    "nane"
   ],
   "napoleonico": [
     "napoleonica",
@@ -26519,16 +20274,6 @@ export default {
     "nascosti",
     "nascoste"
   ],
-  "nato": [
-    "nata",
-    "nati",
-    "nate"
-  ],
-  "natale": [
-    "natale",
-    "natali",
-    "natali"
-  ],
   "natalizio": [
     "natalizia",
     "natalizi",
@@ -26538,11 +20283,6 @@ export default {
     "natatoria",
     "natatori",
     "natatorie"
-  ],
-  "nativo": [
-    "nativa",
-    "nativi",
-    "native"
   ],
   "naturale": [
     "naturale",
@@ -26579,20 +20319,10 @@ export default {
     "navigabili",
     "navigabili"
   ],
-  "navigante": [
-    "navigante",
-    "naviganti",
-    "naviganti"
-  ],
   "navigato": [
     "navigata",
     "navigati",
     "navigate"
-  ],
-  "navigatore": [
-    "navigatrice",
-    "navigatori",
-    "navigatrici"
   ],
   "navigatorio": [
     "navigatoria",
@@ -26604,16 +20334,6 @@ export default {
     "nazareni",
     "nazarene"
   ],
-  "nazionale": [
-    "nazionale",
-    "nazionali",
-    "nazionali"
-  ],
-  "nazionalista": [
-    "nazionalista",
-    "nazionalisti",
-    "nazionaliste"
-  ],
   "nazionalistico": [
     "nazionalistica",
     "nazionalistici",
@@ -26623,16 +20343,6 @@ export default {
     "nazionalsocialista",
     "nazionalsocialisti",
     "nazionalsocialiste"
-  ],
-  "naziskin": [
-    "naziskin",
-    "naziskin",
-    "naziskin"
-  ],
-  "nazista": [
-    "nazista",
-    "nazisti",
-    "naziste"
   ],
   "nebbioso": [
     "nebbiosa",
@@ -26649,11 +20359,6 @@ export default {
     "necessari",
     "necessarie"
   ],
-  "necrofilo": [
-    "necrofila",
-    "necrofili",
-    "necrofile"
-  ],
   "necroscopico": [
     "necroscopica",
     "necroscopici",
@@ -26664,25 +20369,10 @@ export default {
     "nefandi",
     "nefande"
   ],
-  "nefasto": [
-    "nefasta",
-    "nefasti",
-    "nefaste"
-  ],
   "negato": [
     "negata",
     "negati",
     "negate"
-  ],
-  "negativo": [
-    "negativa",
-    "negativi",
-    "negative"
-  ],
-  "negatore": [
-    "negatrice",
-    "negatori",
-    "negatrici"
   ],
   "neghittoso": [
     "neghittosa",
@@ -26709,110 +20399,30 @@ export default {
     "negoziali",
     "negoziali"
   ],
-  "negoziato": [
-    "negoziata",
-    "negoziati",
-    "negoziate"
-  ],
-  "negro": [
-    "negra",
-    "negri",
-    "negre"
-  ],
   "negromantico": [
     "negromantica",
     "negromantici",
     "negromantiche"
-  ],
-  "nemico": [
-    "nemica",
-    "nemici",
-    "nemiche"
   ],
   "neocapitalista": [
     "neocapitalista",
     "neocapitalisti",
     "neocapitaliste"
   ],
-  "neoclassico": [
-    "neoclassica",
-    "neoclassici",
-    "neoclassiche"
-  ],
-  "neocomunista": [
-    "neocomunista",
-    "neocomunisti",
-    "neocomuniste"
-  ],
-  "neofascista": [
-    "neofascista",
-    "neofascisti",
-    "neofasciste"
-  ],
-  "neogollista": [
-    "neogollista",
-    "neogollisti",
-    "neogolliste"
-  ],
-  "neolaureato": [
-    "neolaureata",
-    "neolaureati",
-    "neolaureate"
-  ],
-  "neonato": [
-    "neonata",
-    "neonati",
-    "neonate"
-  ],
   "neonatale": [
     "neonatale",
     "neonatali",
     "neonatali"
-  ],
-  "neonazista": [
-    "neonazista",
-    "neonazisti",
-    "neonaziste"
-  ],
-  "neorealista": [
-    "neorealista",
-    "neorealisti",
-    "neorealiste"
   ],
   "neorealistico": [
     "neorealistica",
     "neorealistici",
     "neorealistiche"
   ],
-  "neozelandese": [
-    "neozelandese",
-    "neozelandesi",
-    "neozelandesi"
-  ],
-  "nepalese": [
-    "nepalese",
-    "nepalesi",
-    "nepalesi"
-  ],
-  "nero": [
-    "nera",
-    "neri",
-    "nere"
-  ],
   "nerastro": [
     "nerastra",
     "nerastri",
     "nerastre"
-  ],
-  "nerazzurro": [
-    "nerazzurra",
-    "nerazzurri",
-    "nerazzurre"
-  ],
-  "nerboruto": [
-    "nerboruta",
-    "nerboruti",
-    "nerborute"
   ],
   "nervino": [
     "nervina",
@@ -26829,16 +20439,6 @@ export default {
     "nessun",
     "nessun"
   ],
-  "nessuno": [
-    "nessuna",
-    "nessuni",
-    "nessune"
-  ],
-  "netto": [
-    "netta",
-    "netti",
-    "nette"
-  ],
   "neurologico": [
     "neurologica",
     "neurologici",
@@ -26848,11 +20448,6 @@ export default {
     "neurovegetativa",
     "neurovegetativi",
     "neurovegetative"
-  ],
-  "neutro": [
-    "neutra",
-    "neutri",
-    "neutre"
   ],
   "neutrale": [
     "neutrale",
@@ -26889,55 +20484,20 @@ export default {
     "newyorchesi",
     "newyorchesi"
   ],
-  "newyorkese": [
-    "newyorkese",
-    "newyorkesi",
-    "newyorkesi"
-  ],
   "nicaraguense": [
     "nicaraguense",
     "nicaraguensi",
     "nicaraguensi"
-  ],
-  "nichilista": [
-    "nichilista",
-    "nichilisti",
-    "nichiliste"
-  ],
-  "nido": [
-    "nida",
-    "nidi",
-    "nide"
-  ],
-  "nigeriano": [
-    "nigeriana",
-    "nigeriani",
-    "nigeriane"
-  ],
-  "nipponico": [
-    "nipponica",
-    "nipponici",
-    "nipponiche"
   ],
   "nitido": [
     "nitida",
     "nitidi",
     "nitide"
   ],
-  "nitrato": [
-    "nitrata",
-    "nitrati",
-    "nitrate"
-  ],
   "nitrico": [
     "nitrica",
     "nitrici",
     "nitriche"
-  ],
-  "nobile": [
-    "nobile",
-    "nobili",
-    "nobili"
   ],
   "nocivo": [
     "nociva",
@@ -26954,25 +20514,10 @@ export default {
     "nodosi",
     "nodose"
   ],
-  "noioso": [
-    "noiosa",
-    "noiosi",
-    "noiose"
-  ],
-  "noir": [
-    "noir",
-    "noir",
-    "noir"
-  ],
   "nolente": [
     "nolente",
     "nolenti",
     "nolenti"
-  ],
-  "nomade": [
-    "nomade",
-    "nomadi",
-    "nomadi"
   ],
   "nominale": [
     "nominale",
@@ -26989,11 +20534,6 @@ export default {
     "nominati",
     "nominate"
   ],
-  "nominativo": [
-    "nominativa",
-    "nominativi",
-    "nominative"
-  ],
   "nono": [
     "nona",
     "noni",
@@ -27004,35 +20544,10 @@ export default {
     "noncuranti",
     "noncuranti"
   ],
-  "nordafricano": [
-    "nordafricana",
-    "nordafricani",
-    "nordafricane"
-  ],
   "nordamericano": [
     "nordamericana",
     "nordamericani",
     "nordamericane"
-  ],
-  "nordcoreano": [
-    "nordcoreana",
-    "nordcoreani",
-    "nordcoreane"
-  ],
-  "nordico": [
-    "nordica",
-    "nordici",
-    "nordiche"
-  ],
-  "nordirlandese": [
-    "nordirlandese",
-    "nordirlandesi",
-    "nordirlandesi"
-  ],
-  "nordista": [
-    "nordista",
-    "nordisti",
-    "nordiste"
   ],
   "nordoccidentale": [
     "nordoccidentale",
@@ -27054,50 +20569,20 @@ export default {
     "normali",
     "normali"
   ],
-  "normanno": [
-    "normanna",
-    "normanni",
-    "normanne"
-  ],
   "normativo": [
     "normativa",
     "normativi",
     "normative"
-  ],
-  "norvegese": [
-    "norvegese",
-    "norvegesi",
-    "norvegesi"
-  ],
-  "nostalgico": [
-    "nostalgica",
-    "nostalgici",
-    "nostalgiche"
-  ],
-  "nostrano": [
-    "nostrana",
-    "nostrani",
-    "nostrane"
   ],
   "noto": [
     "nota",
     "noti",
     "note"
   ],
-  "notabile": [
-    "notabile",
-    "notabili",
-    "notabili"
-  ],
   "notarile": [
     "notarile",
     "notarili",
     "notarili"
-  ],
-  "notebook": [
-    "notebook",
-    "notebook",
-    "notebook"
   ],
   "notevole": [
     "notevole",
@@ -27108,16 +20593,6 @@ export default {
     "notoria",
     "notori",
     "notorie"
-  ],
-  "nottambulo": [
-    "nottambula",
-    "nottambuli",
-    "nottambule"
-  ],
-  "notturno": [
-    "notturna",
-    "notturni",
-    "notturne"
   ],
   "novantacinquesimo": [
     "novantacinquesima",
@@ -27154,11 +20629,6 @@ export default {
     "novantatreesimi",
     "novantatreesime"
   ],
-  "novantenne": [
-    "novantenne",
-    "novantenne",
-    "novantenne"
-  ],
   "novantesimo": [
     "novantesima",
     "novantesimi",
@@ -27189,16 +20659,6 @@ export default {
     "novecentisti",
     "novecentiste"
   ],
-  "novello": [
-    "novella",
-    "novelli",
-    "novelle"
-  ],
-  "novellino": [
-    "novellina",
-    "novellini",
-    "novelline"
-  ],
   "novembrino": [
     "novembrina",
     "novembrini",
@@ -27218,11 +20678,6 @@ export default {
     "novissima",
     "novissimi",
     "novissime"
-  ],
-  "novizio": [
-    "novizia",
-    "novizi",
-    "novizie"
   ],
   "nozionistico": [
     "nozionistica",
@@ -27244,11 +20699,6 @@ export default {
     "nucleici",
     "nucleiche"
   ],
-  "nudo": [
-    "nuda",
-    "nudi",
-    "nude"
-  ],
   "nudista": [
     "nudista",
     "nudisti",
@@ -27259,20 +20709,10 @@ export default {
     "nulli",
     "nulle"
   ],
-  "nullatenente": [
-    "nullatenente",
-    "nullatenenti",
-    "nullatenenti"
-  ],
   "numerale": [
     "numerale",
     "numerali",
     "numerali"
-  ],
-  "numerato": [
-    "numerata",
-    "numerati",
-    "numerate"
   ],
   "numerico": [
     "numerica",
@@ -27289,20 +20729,10 @@ export default {
     "numismatici",
     "numismatiche"
   ],
-  "nuovo": [
-    "nuova",
-    "nuovi",
-    "nuove"
-  ],
   "nuovayorchese": [
     "nuovayorchese",
     "nuovayorchesi",
     "nuovayorchesi"
-  ],
-  "nutriente": [
-    "nutriente",
-    "nutrienti",
-    "nutrienti"
   ],
   "nutrito": [
     "nutrita",
@@ -27344,11 +20774,6 @@ export default {
     "obbligatori",
     "obbligatorie"
   ],
-  "obbligazionario": [
-    "obbligazionaria",
-    "obbligazionari",
-    "obbligazionarie"
-  ],
   "obbrobrioso": [
     "obbrobriosa",
     "obbrobriosi",
@@ -27358,16 +20783,6 @@ export default {
     "oberata",
     "oberati",
     "oberate"
-  ],
-  "obeso": [
-    "obesa",
-    "obesi",
-    "obese"
-  ],
-  "obiettivo": [
-    "obiettiva",
-    "obiettivi",
-    "obiettive"
   ],
   "obliquo": [
     "obliqua",
@@ -27383,16 +20798,6 @@ export default {
     "occasionale",
     "occasionali",
     "occasionali"
-  ],
-  "occhettiano": [
-    "occhettiana",
-    "occhettiani",
-    "occhettiane"
-  ],
-  "occhiale": [
-    "occhiale",
-    "occhiali",
-    "occhiali"
   ],
   "occhialuto": [
     "occhialuta",
@@ -27428,11 +20833,6 @@ export default {
     "occultabile",
     "occultabili",
     "occultabili"
-  ],
-  "occupante": [
-    "occupante",
-    "occupanti",
-    "occupanti"
   ],
   "occupato": [
     "occupata",
@@ -27479,11 +20879,6 @@ export default {
     "odierni",
     "odierne"
   ],
-  "odioso": [
-    "odiosa",
-    "odiosi",
-    "odiose"
-  ],
   "odontoiatrico": [
     "odontoiatrica",
     "odontoiatrici",
@@ -27509,11 +20904,6 @@ export default {
     "offesi",
     "offese"
   ],
-  "officiante": [
-    "officiante",
-    "officianti",
-    "officianti"
-  ],
   "officinale": [
     "officinale",
     "officinali",
@@ -27523,11 +20913,6 @@ export default {
     "oftalmica",
     "oftalmici",
     "oftalmiche"
-  ],
-  "oggetto": [
-    "oggetta",
-    "oggetti",
-    "oggette"
   ],
   "oggettivo": [
     "oggettiva",
@@ -27548,11 +20933,6 @@ export default {
     "ogni",
     "ogni",
     "ogni"
-  ],
-  "olandese": [
-    "olandese",
-    "olandesi",
-    "olandesi"
   ],
   "oleario": [
     "olearia",
@@ -27609,16 +20989,6 @@ export default {
     "olimpi",
     "olimpie"
   ],
-  "olimpico": [
-    "olimpica",
-    "olimpici",
-    "olimpiche"
-  ],
-  "olimpionico": [
-    "olimpionica",
-    "olimpionici",
-    "olimpioniche"
-  ],
   "oliva": [
     "oliva",
     "oliva",
@@ -27633,16 +21003,6 @@ export default {
     "oltraggiosa",
     "oltraggiosi",
     "oltraggiose"
-  ],
-  "oltranzista": [
-    "oltranzista",
-    "oltranzisti",
-    "oltranziste"
-  ],
-  "omaggio": [
-    "omaggio",
-    "omaggio",
-    "omaggio"
   ],
   "ombelicale": [
     "ombelicale",
@@ -27679,30 +21039,10 @@ export default {
     "omogenei",
     "omogenee"
   ],
-  "omogeneizzato": [
-    "omogeneizzata",
-    "omogeneizzati",
-    "omogeneizzate"
-  ],
-  "omologo": [
-    "omologa",
-    "omologhi",
-    "omologhe"
-  ],
   "omologabile": [
     "omologabile",
     "omologabili",
     "omologabili"
-  ],
-  "omonimo": [
-    "omonima",
-    "omonimi",
-    "omonime"
-  ],
-  "omosessuale": [
-    "omosessuale",
-    "omosessuali",
-    "omosessuali"
   ],
   "on": [
     "on",
@@ -27744,11 +21084,6 @@ export default {
     "onest",
     "onest"
   ],
-  "onesto": [
-    "onesta",
-    "onesti",
-    "oneste"
-  ],
   "onirico": [
     "onirica",
     "onirici",
@@ -27763,11 +21098,6 @@ export default {
     "onnicomprensiva",
     "onnicomprensivi",
     "onnicomprensive"
-  ],
-  "onnipotente": [
-    "onnipotente",
-    "onnipotenti",
-    "onnipotenti"
   ],
   "onnipresente": [
     "onnipresente",
@@ -27804,11 +21134,6 @@ export default {
     "onorabili",
     "onorabili"
   ],
-  "onorario": [
-    "onoraria",
-    "onorari",
-    "onorarie"
-  ],
   "onorato": [
     "onorata",
     "onorati",
@@ -27829,11 +21154,6 @@ export default {
     "onusti",
     "onuste"
   ],
-  "opaco": [
-    "opaca",
-    "opaci",
-    "opache"
-  ],
   "open": [
     "open",
     "open",
@@ -27844,20 +21164,10 @@ export default {
     "operabili",
     "operabili"
   ],
-  "operaio": [
-    "operaia",
-    "operai",
-    "operaie"
-  ],
   "operante": [
     "operante",
     "operanti",
     "operanti"
-  ],
-  "operato": [
-    "operata",
-    "operati",
-    "operate"
   ],
   "operatic": [
     "operatic",
@@ -27868,11 +21178,6 @@ export default {
     "operativa",
     "operativi",
     "operative"
-  ],
-  "operatore": [
-    "operatrice",
-    "operatori",
-    "operatrici"
   ],
   "operatorio": [
     "operatoria",
@@ -27914,16 +21219,6 @@ export default {
     "opportunistici",
     "opportunistiche"
   ],
-  "opposto": [
-    "opposta",
-    "opposti",
-    "opposte"
-  ],
-  "oppresso": [
-    "oppressa",
-    "oppressi",
-    "oppresse"
-  ],
   "oppressivo": [
     "oppressiva",
     "oppressivi",
@@ -27933,11 +21228,6 @@ export default {
     "opprimente",
     "opprimenti",
     "opprimenti"
-  ],
-  "opulento": [
-    "opulenta",
-    "opulenti",
-    "opulente"
   ],
   "opzionale": [
     "opzionale",
@@ -27949,20 +21239,10 @@ export default {
     "orali",
     "orali"
   ],
-  "orario": [
-    "oraria",
-    "orari",
-    "orarie"
-  ],
   "oratoro": [
     "oratora",
     "oratori",
     "oratore"
-  ],
-  "oratorio": [
-    "oratoria",
-    "oratori",
-    "oratorie"
   ],
   "oratoriale": [
     "oratoriale",
@@ -27994,40 +21274,15 @@ export default {
     "ordinati",
     "ordinate"
   ],
-  "ordinativo": [
-    "ordinativa",
-    "ordinativi",
-    "ordinative"
-  ],
-  "ordinatore": [
-    "ordinatrice",
-    "ordinatori",
-    "ordinatrici"
-  ],
-  "ordito": [
-    "ordita",
-    "orditi",
-    "ordite"
-  ],
   "orecchiabile": [
     "orecchiabile",
     "orecchiabili",
     "orecchiabili"
   ],
-  "orfano": [
-    "orfana",
-    "orfani",
-    "orfane"
-  ],
   "orfico": [
     "orfica",
     "orfici",
     "orfiche"
-  ],
-  "organico": [
-    "organica",
-    "organici",
-    "organiche"
   ],
   "organistico": [
     "organistica",
@@ -28043,11 +21298,6 @@ export default {
     "organizzativa",
     "organizzativi",
     "organizzative"
-  ],
-  "organizzatore": [
-    "organizzatrice",
-    "organizzatori",
-    "organizzatrici"
   ],
   "organolettico": [
     "organolettica",
@@ -28084,16 +21334,6 @@ export default {
     "orientativi",
     "orientative"
   ],
-  "originale": [
-    "originale",
-    "originali",
-    "originali"
-  ],
-  "originario": [
-    "originaria",
-    "originari",
-    "originarie"
-  ],
   "orizzontale": [
     "orizzontale",
     "orizzontali",
@@ -28129,11 +21369,6 @@ export default {
     "orografici",
     "orografiche"
   ],
-  "orrendo": [
-    "orrenda",
-    "orrendi",
-    "orrende"
-  ],
   "orribile": [
     "orribile",
     "orribili",
@@ -28159,11 +21394,6 @@ export default {
     "orticoli",
     "orticole"
   ],
-  "ortodosso": [
-    "ortodossa",
-    "ortodossi",
-    "ortodosse"
-  ],
   "ortofrutticolo": [
     "ortofrutticola",
     "ortofrutticoli",
@@ -28178,11 +21408,6 @@ export default {
     "ortografica",
     "ortografici",
     "ortografiche"
-  ],
-  "ortopedico": [
-    "ortopedica",
-    "ortopedici",
-    "ortopediche"
   ],
   "oscar": [
     "oscar",
@@ -28204,20 +21429,10 @@ export default {
     "oscurantisti",
     "oscurantiste"
   ],
-  "ospedaliero": [
-    "ospedaliera",
-    "ospedalieri",
-    "ospedaliere"
-  ],
   "ospitale": [
     "ospitale",
     "ospitali",
     "ospitali"
-  ],
-  "ospite": [
-    "ospite",
-    "ospiti",
-    "ospiti"
   ],
   "osseo": [
     "ossea",
@@ -28238,21 +21453,6 @@ export default {
     "osservante",
     "osservanti",
     "osservanti"
-  ],
-  "osservatore": [
-    "osservatrice",
-    "osservatori",
-    "osservatrici"
-  ],
-  "ossesso": [
-    "ossessa",
-    "ossessi",
-    "ossesse"
-  ],
-  "ossessivo": [
-    "ossessiva",
-    "ossessivi",
-    "ossessive"
   ],
   "ossiacetilenico": [
     "ossiacetilenica",
@@ -28279,11 +21479,6 @@ export default {
     "ostensibili",
     "ostensibili"
   ],
-  "ostetrico": [
-    "ostetrica",
-    "ostetrici",
-    "ostetriche"
-  ],
   "ostico": [
     "ostica",
     "ostici",
@@ -28293,11 +21488,6 @@ export default {
     "ostile",
     "ostili",
     "ostili"
-  ],
-  "ostinato": [
-    "ostinata",
-    "ostinati",
-    "ostinate"
   ],
   "ostrogoto": [
     "ostrogota",
@@ -28369,11 +21559,6 @@ export default {
     "ottantunesimi",
     "ottantunesime"
   ],
-  "ottavo": [
-    "ottava",
-    "ottavi",
-    "ottave"
-  ],
   "ottenibile": [
     "ottenibile",
     "ottenibili",
@@ -28388,11 +21573,6 @@ export default {
     "ottica",
     "ottici",
     "ottiche"
-  ],
-  "ottimo": [
-    "ottima",
-    "ottimi",
-    "ottime"
   ],
   "ottimale": [
     "ottimale",
@@ -28414,45 +21594,15 @@ export default {
     "ottocentesimi",
     "ottocentesime"
   ],
-  "ottomano": [
-    "ottomana",
-    "ottomani",
-    "ottomane"
-  ],
   "ottomillesimo": [
     "ottomillesima",
     "ottomillesimi",
     "ottomillesime"
   ],
-  "ottuagenario": [
-    "ottuagenaria",
-    "ottuagenari",
-    "ottuagenarie"
-  ],
-  "ottuso": [
-    "ottusa",
-    "ottusi",
-    "ottuse"
-  ],
-  "out": [
-    "out",
-    "out",
-    "out"
-  ],
-  "ovale": [
-    "ovale",
-    "ovali",
-    "ovali"
-  ],
   "ovino": [
     "ovina",
     "ovini",
     "ovine"
-  ],
-  "ovvio": [
-    "ovvia",
-    "ovvi",
-    "ovvie"
   ],
   "oxfordiano": [
     "oxfordiana",
@@ -28474,35 +21624,10 @@ export default {
     "pacchiani",
     "pacchiane"
   ],
-  "pacifico": [
-    "pacifica",
-    "pacifici",
-    "pacifiche"
-  ],
-  "pacificatore": [
-    "pacificatrice",
-    "pacificatori",
-    "pacificatrici"
-  ],
-  "pacifista": [
-    "pacifista",
-    "pacifisti",
-    "pacifiste"
-  ],
   "pacioso": [
     "paciosa",
     "paciosi",
     "paciose"
-  ],
-  "padano": [
-    "padana",
-    "padani",
-    "padane"
-  ],
-  "padovano": [
-    "padovana",
-    "padovani",
-    "padovane"
   ],
   "padronale": [
     "padronale",
@@ -28513,11 +21638,6 @@ export default {
     "paesaggistica",
     "paesaggistici",
     "paesaggistiche"
-  ],
-  "paesano": [
-    "paesana",
-    "paesani",
-    "paesane"
   ],
   "paesistico": [
     "paesistica",
@@ -28539,30 +21659,10 @@ export default {
     "pagabili",
     "pagabili"
   ],
-  "pagano": [
-    "pagana",
-    "pagani",
-    "pagane"
-  ],
-  "pagante": [
-    "pagante",
-    "paganti",
-    "paganti"
-  ],
-  "pagatore": [
-    "pagatrice",
-    "pagatori",
-    "pagatrici"
-  ],
   "paglierino": [
     "paglierina",
     "paglierini",
     "paglierine"
-  ],
-  "pakistano": [
-    "pakistana",
-    "pakistani",
-    "pakistane"
   ],
   "palatino": [
     "palatina",
@@ -28574,20 +21674,10 @@ export default {
     "paleolitici",
     "paleolitiche"
   ],
-  "palermitano": [
-    "palermitana",
-    "palermitani",
-    "palermitane"
-  ],
   "palese": [
     "palese",
     "palesi",
     "palesi"
-  ],
-  "palestinese": [
-    "palestinese",
-    "palestinesi",
-    "palestinesi"
   ],
   "pallado": [
     "pallada",
@@ -28614,11 +21704,6 @@ export default {
     "palpitanti",
     "palpitanti"
   ],
-  "paludato": [
-    "paludata",
-    "paludati",
-    "paludate"
-  ],
   "paludoso": [
     "paludosa",
     "paludosi",
@@ -28638,11 +21723,6 @@ export default {
     "paneuropea",
     "paneuropei",
     "paneuropee"
-  ],
-  "panico": [
-    "panica",
-    "panici",
-    "paniche"
   ],
   "pannelliano": [
     "pannelliana",
@@ -28683,11 +21763,6 @@ export default {
     "papalina",
     "papalini",
     "papaline"
-  ],
-  "paperback": [
-    "paperback",
-    "paperback",
-    "paperback"
   ],
   "pappagallesco": [
     "pappagallesca",
@@ -28739,35 +21814,10 @@ export default {
     "paralizzati",
     "paralizzate"
   ],
-  "parallelo": [
-    "parallela",
-    "paralleli",
-    "parallele"
-  ],
-  "paramedico": [
-    "paramedica",
-    "paramedici",
-    "paramediche"
-  ],
-  "paramilitare": [
-    "paramilitare",
-    "paramilitari",
-    "paramilitari"
-  ],
   "paranoico": [
     "paranoica",
     "paranoici",
     "paranoiche"
-  ],
-  "paranormale": [
-    "paranormale",
-    "paranormali",
-    "paranormali"
-  ],
-  "paraplegico": [
-    "paraplegica",
-    "paraplegici",
-    "paraplegiche"
   ],
   "parascolastico": [
     "parascolastica",
@@ -28778,11 +21828,6 @@ export default {
     "parasociale",
     "parasociali",
     "parasociali"
-  ],
-  "parassita": [
-    "parassita",
-    "parassiti",
-    "parassite"
   ],
   "parassitario": [
     "parassitaria",
@@ -28798,11 +21843,6 @@ export default {
     "parata",
     "parati",
     "parate"
-  ],
-  "parco": [
-    "parca",
-    "parchi",
-    "parche"
   ],
   "parecchio": [
     "parecchia",
@@ -28829,11 +21869,6 @@ export default {
     "parificati",
     "parificate"
   ],
-  "parigino": [
-    "parigina",
-    "parigini",
-    "parigine"
-  ],
   "paritario": [
     "paritaria",
     "paritari",
@@ -28844,11 +21879,6 @@ export default {
     "paritetici",
     "paritetiche"
   ],
-  "parlamentare": [
-    "parlamentare",
-    "parlamentari",
-    "parlamentari"
-  ],
   "parlante": [
     "parlante",
     "parlanti",
@@ -28858,11 +21888,6 @@ export default {
     "parlata",
     "parlati",
     "parlate"
-  ],
-  "parmigiano": [
-    "parmigiana",
-    "parmigiani",
-    "parmigiane"
   ],
   "parodistico": [
     "parodistica",
@@ -28889,11 +21914,6 @@ export default {
     "parsimoniosi",
     "parsimoniose"
   ],
-  "partecipante": [
-    "partecipante",
-    "partecipanti",
-    "partecipanti"
-  ],
   "partecipativo": [
     "partecipativa",
     "partecipativi",
@@ -28909,21 +21929,6 @@ export default {
     "partenogenetici",
     "partenogenetiche"
   ],
-  "partenopeo": [
-    "partenopea",
-    "partenopei",
-    "partenopee"
-  ],
-  "partente": [
-    "partente",
-    "partenti",
-    "partenti"
-  ],
-  "particolare": [
-    "particolare",
-    "particolari",
-    "particolari"
-  ],
   "particolareggiato": [
     "particolareggiata",
     "particolareggiati",
@@ -28933,16 +21938,6 @@ export default {
     "particolaristica",
     "particolaristici",
     "particolaristiche"
-  ],
-  "partigiano": [
-    "partigiana",
-    "partigiani",
-    "partigiane"
-  ],
-  "partito": [
-    "partita",
-    "partiti",
-    "partite"
   ],
   "partitico": [
     "partitica",
@@ -28959,30 +21954,10 @@ export default {
     "pasquali",
     "pasquali"
   ],
-  "passo": [
-    "passa",
-    "passi",
-    "passe"
-  ],
   "passabile": [
     "passabile",
     "passabili",
     "passabili"
-  ],
-  "passante": [
-    "passante",
-    "passanti",
-    "passanti"
-  ],
-  "passato": [
-    "passata",
-    "passati",
-    "passate"
-  ],
-  "passeggero": [
-    "passeggera",
-    "passeggeri",
-    "passeggere"
   ],
   "passibile": [
     "passibile",
@@ -28994,20 +21969,10 @@ export default {
     "passionali",
     "passionali"
   ],
-  "passivo": [
-    "passiva",
-    "passivi",
-    "passive"
-  ],
   "pasticciato": [
     "pasticciata",
     "pasticciati",
     "pasticciate"
-  ],
-  "pasticcione": [
-    "pasticcione",
-    "pasticcioni",
-    "pasticcioni"
   ],
   "pastorale": [
     "pastorale",
@@ -29033,11 +21998,6 @@ export default {
     "patavina",
     "patavini",
     "patavine"
-  ],
-  "patchwork": [
-    "patchwork",
-    "patchwork",
-    "patchwork"
   ],
   "patentato": [
     "patentata",
@@ -29068,11 +22028,6 @@ export default {
     "patinata",
     "patinati",
     "patinate"
-  ],
-  "patito": [
-    "patita",
-    "patiti",
-    "patite"
   ],
   "patogeno": [
     "patogena",
@@ -29114,11 +22069,6 @@ export default {
     "patriottici",
     "patriottiche"
   ],
-  "patrizio": [
-    "patrizia",
-    "patrizi",
-    "patrizie"
-  ],
   "patronale": [
     "patronale",
     "patronali",
@@ -29134,25 +22084,10 @@ export default {
     "paurosi",
     "paurose"
   ],
-  "pavese": [
-    "pavese",
-    "pavesi",
-    "pavesi"
-  ],
   "pavido": [
     "pavida",
     "pavidi",
     "pavide"
-  ],
-  "paziente": [
-    "paziente",
-    "pazienti",
-    "pazienti"
-  ],
-  "pazzo": [
-    "pazza",
-    "pazzi",
-    "pazze"
   ],
   "pazzerello": [
     "pazzerella",
@@ -29179,20 +22114,10 @@ export default {
     "peccaminosi",
     "peccaminose"
   ],
-  "pechinese": [
-    "pechinese",
-    "pechinesi",
-    "pechinesi"
-  ],
   "pecoreccio": [
     "pecoreccia",
     "pecorecci",
     "pecorecce"
-  ],
-  "pecorino": [
-    "pecorina",
-    "pecorini",
-    "pecorine"
   ],
   "pecuniario": [
     "pecuniaria",
@@ -29208,11 +22133,6 @@ export default {
     "pedalabile",
     "pedalabili",
     "pedalabili"
-  ],
-  "pedante": [
-    "pedante",
-    "pedanti",
-    "pedanti"
   ],
   "pedantesco": [
     "pedantesca",
@@ -29259,16 +22179,6 @@ export default {
     "peggiorativi",
     "peggiorative"
   ],
-  "pelato": [
-    "pelata",
-    "pelati",
-    "pelate"
-  ],
-  "pellegrino": [
-    "pellegrina",
-    "pellegrini",
-    "pellegrine"
-  ],
   "peloso": [
     "pelosa",
     "pelosi",
@@ -29283,11 +22193,6 @@ export default {
     "pendente",
     "pendenti",
     "pendenti"
-  ],
-  "pendolare": [
-    "pendolare",
-    "pendolari",
-    "pendolari"
   ],
   "pendulo": [
     "pendula",
@@ -29309,25 +22214,10 @@ export default {
     "peninsulari",
     "peninsulari"
   ],
-  "penitente": [
-    "penitente",
-    "penitenti",
-    "penitenti"
-  ],
   "penitenziale": [
     "penitenziale",
     "penitenziali",
     "penitenziali"
-  ],
-  "penitenziario": [
-    "penitenziaria",
-    "penitenziari",
-    "penitenziarie"
-  ],
-  "pennuto": [
-    "pennuta",
-    "pennuti",
-    "pennute"
   ],
   "penoso": [
     "penosa",
@@ -29359,11 +22249,6 @@ export default {
     "pensionabili",
     "pensionabili"
   ],
-  "pensionato": [
-    "pensionata",
-    "pensionati",
-    "pensionate"
-  ],
   "pensionistico": [
     "pensionistica",
     "pensionistici",
@@ -29374,25 +22259,10 @@ export default {
     "pensosi",
     "pensose"
   ],
-  "pentapartito": [
-    "pentapartita",
-    "pentapartiti",
-    "pentapartite"
-  ],
   "pentecostale": [
     "pentecostale",
     "pentecostali",
     "pentecostali"
-  ],
-  "pentito": [
-    "pentita",
-    "pentiti",
-    "pentite"
-  ],
-  "penultimo": [
-    "penultima",
-    "penultimi",
-    "penultime"
   ],
   "pepato": [
     "pepata",
@@ -29403,11 +22273,6 @@ export default {
     "perbene",
     "perbeni",
     "perbeni"
-  ],
-  "percentuale": [
-    "percentuale",
-    "percentuali",
-    "percentuali"
   ],
   "percepibile": [
     "percepibile",
@@ -29429,20 +22294,10 @@ export default {
     "percorribili",
     "percorribili"
   ],
-  "percorso": [
-    "percorsa",
-    "percorsi",
-    "percorse"
-  ],
   "percosso": [
     "percossa",
     "percossi",
     "percosse"
-  ],
-  "perdente": [
-    "perdente",
-    "perdenti",
-    "perdenti"
   ],
   "perdonabile": [
     "perdonabile",
@@ -29474,20 +22329,10 @@ export default {
     "perequativi",
     "perequative"
   ],
-  "perfetto": [
-    "perfetta",
-    "perfetti",
-    "perfette"
-  ],
   "perfettibile": [
     "perfettibile",
     "perfettibili",
     "perfettibili"
-  ],
-  "perfezionista": [
-    "perfezionista",
-    "perfezionisti",
-    "perfezioniste"
   ],
   "perfido": [
     "perfida",
@@ -29519,30 +22364,15 @@ export default {
     "perinatali",
     "perinatali"
   ],
-  "periodico": [
-    "periodica",
-    "periodici",
-    "periodiche"
-  ],
   "peripatetico": [
     "peripatetica",
     "peripatetici",
     "peripatetiche"
   ],
-  "perito": [
-    "perita",
-    "periti",
-    "perite"
-  ],
   "peritale": [
     "peritale",
     "peritali",
     "peritali"
-  ],
-  "perla": [
-    "perla",
-    "perla",
-    "perla"
   ],
   "perlaceo": [
     "perlacea",
@@ -29564,11 +22394,6 @@ export default {
     "permeabili",
     "permeabili"
   ],
-  "permesso": [
-    "permessa",
-    "permessi",
-    "permesse"
-  ],
   "permissivo": [
     "permissiva",
     "permissivi",
@@ -29583,11 +22408,6 @@ export default {
     "perniciosa",
     "perniciosi",
     "perniciose"
-  ],
-  "peronista": [
-    "peronista",
-    "peronisti",
-    "peroniste"
   ],
   "perpendicolare": [
     "perpendicolare",
@@ -29604,20 +22424,10 @@ export default {
     "perpetual",
     "perpetual"
   ],
-  "perplesso": [
-    "perplessa",
-    "perplessi",
-    "perplesse"
-  ],
   "perso": [
     "persa",
     "persi",
     "perse"
-  ],
-  "persecutore": [
-    "persecutrice",
-    "persecutori",
-    "persecutrici"
   ],
   "persecutorio": [
     "persecutoria",
@@ -29628,16 +22438,6 @@ export default {
     "perseguibile",
     "perseguibili",
     "perseguibili"
-  ],
-  "perseguitato": [
-    "perseguitata",
-    "perseguitati",
-    "perseguitate"
-  ],
-  "persiano": [
-    "persiana",
-    "persiani",
-    "persiane"
   ],
   "persico": [
     "persica",
@@ -29653,11 +22453,6 @@ export default {
     "personal",
     "personal",
     "personal"
-  ],
-  "personale": [
-    "personale",
-    "personali",
-    "personali"
   ],
   "personalistico": [
     "personalistica",
@@ -29689,16 +22484,6 @@ export default {
     "pertinenti",
     "pertinenti"
   ],
-  "perugino": [
-    "perugina",
-    "perugini",
-    "perugine"
-  ],
-  "peruviano": [
-    "peruviana",
-    "peruviani",
-    "peruviane"
-  ],
   "perverso": [
     "perversa",
     "perversi",
@@ -29714,21 +22499,6 @@ export default {
     "pesanti",
     "pesanti"
   ],
-  "pescarese": [
-    "pescarese",
-    "pescaresi",
-    "pescaresi"
-  ],
-  "pescatore": [
-    "pescatrice",
-    "pescatori",
-    "pescatrici"
-  ],
-  "peschereccio": [
-    "peschereccia",
-    "pescherecci",
-    "pescherecce"
-  ],
   "pessimo": [
     "pessima",
     "pessimi",
@@ -29739,11 +22509,6 @@ export default {
     "pessimistici",
     "pessimistiche"
   ],
-  "pesto": [
-    "pesta",
-    "pesti",
-    "peste"
-  ],
   "pestilenziale": [
     "pestilenziale",
     "pestilenziali",
@@ -29753,11 +22518,6 @@ export default {
     "petecchiale",
     "petecchiali",
     "petecchiali"
-  ],
-  "petrolchimico": [
-    "petrolchimica",
-    "petrolchimici",
-    "petrolchimiche"
   ],
   "petroliero": [
     "petroliera",
@@ -29774,35 +22534,15 @@ export default {
     "petrosi",
     "petrose"
   ],
-  "pettegolo": [
-    "pettegola",
-    "pettegoli",
-    "pettegole"
-  ],
   "pettinato": [
     "pettinata",
     "pettinati",
     "pettinate"
   ],
-  "pettorale": [
-    "pettorale",
-    "pettorali",
-    "pettorali"
-  ],
-  "petulante": [
-    "petulante",
-    "petulanti",
-    "petulanti"
-  ],
   "pezzato": [
     "pezzata",
     "pezzati",
     "pezzate"
-  ],
-  "pio": [
-    "pia",
-    "pii",
-    "pie"
   ],
   "piacevole": [
     "piacevole",
@@ -29813,11 +22553,6 @@ export default {
     "piagnucolosa",
     "piagnucolosi",
     "piagnucolose"
-  ],
-  "piano": [
-    "piana",
-    "piani",
-    "piane"
   ],
   "pianeggiante": [
     "pianeggiante",
@@ -29834,25 +22569,10 @@ export default {
     "pianistici",
     "pianistiche"
   ],
-  "pianto": [
-    "pianta",
-    "pianti",
-    "piante"
-  ],
   "piantato": [
     "piantata",
     "piantati",
     "piantate"
-  ],
-  "piatto": [
-    "piatta",
-    "piatti",
-    "piatte"
-  ],
-  "piazzato": [
-    "piazzata",
-    "piazzati",
-    "piazzate"
   ],
   "picaresco": [
     "picaresca",
@@ -29874,45 +22594,15 @@ export default {
     "picchiatelli",
     "picchiatelle"
   ],
-  "piccino": [
-    "piccina",
-    "piccini",
-    "piccine"
-  ],
-  "piccolo": [
-    "piccola",
-    "piccoli",
-    "piccole"
-  ],
-  "pidiessino": [
-    "pidiessina",
-    "pidiessini",
-    "pidiessine"
-  ],
   "pidocchioso": [
     "pidocchiosa",
     "pidocchiosi",
     "pidocchiose"
   ],
-  "piduista": [
-    "piduista",
-    "piduisti",
-    "piduiste"
-  ],
   "pieghevole": [
     "pieghevole",
     "pieghevoli",
     "pieghevoli"
-  ],
-  "piemontese": [
-    "piemontese",
-    "piemontesi",
-    "piemontesi"
-  ],
-  "pieno": [
-    "piena",
-    "pieni",
-    "piene"
   ],
   "pietoso": [
     "pietosa",
@@ -29929,30 +22619,15 @@ export default {
     "pigliatutti",
     "pigliatutte"
   ],
-  "pigmeo": [
-    "pigmea",
-    "pigmei",
-    "pigmee"
-  ],
   "pigmentoso": [
     "pigmentosa",
     "pigmentosi",
     "pigmentose"
   ],
-  "pignolo": [
-    "pignola",
-    "pignoli",
-    "pignole"
-  ],
   "pignoratizio": [
     "pignoratizia",
     "pignoratizi",
     "pignoratizie"
-  ],
-  "pigro": [
-    "pigra",
-    "pigri",
-    "pigre"
   ],
   "pilifero": [
     "pilifera",
@@ -29994,11 +22669,6 @@ export default {
     "piramidali",
     "piramidali"
   ],
-  "pirata": [
-    "pirata",
-    "pirata",
-    "pirata"
-  ],
   "piratesco": [
     "piratesca",
     "pirateschi",
@@ -30019,16 +22689,6 @@ export default {
     "pirotecnici",
     "pirotecniche"
   ],
-  "pisano": [
-    "pisana",
-    "pisani",
-    "pisane"
-  ],
-  "pistacchio": [
-    "pistacchio",
-    "pistacchio",
-    "pistacchio"
-  ],
   "pitagorico": [
     "pitagorica",
     "pitagorici",
@@ -30038,11 +22698,6 @@ export default {
     "pitocca",
     "pitocchi",
     "pitocche"
-  ],
-  "pittoresco": [
-    "pittoresca",
-    "pittoreschi",
-    "pittoresche"
   ],
   "pittorico": [
     "pittorica",
@@ -30059,11 +22714,6 @@ export default {
     "piumati",
     "piumate"
   ],
-  "pizzicato": [
-    "pizzicata",
-    "pizzicati",
-    "pizzicate"
-  ],
   "placentare": [
     "placentare",
     "placentari",
@@ -30074,20 +22724,10 @@ export default {
     "planari",
     "planari"
   ],
-  "planetario": [
-    "planetaria",
-    "planetari",
-    "planetarie"
-  ],
   "planimetrico": [
     "planimetrica",
     "planimetrici",
     "planimetriche"
-  ],
-  "plastico": [
-    "plastica",
-    "plastici",
-    "plastiche"
   ],
   "plateale": [
     "plateale",
@@ -30104,11 +22744,6 @@ export default {
     "plausibili",
     "plausibili"
   ],
-  "plebeo": [
-    "plebea",
-    "plebei",
-    "plebee"
-  ],
   "plebiscitario": [
     "plebiscitaria",
     "plebiscitari",
@@ -30118,11 +22753,6 @@ export default {
     "plenaria",
     "plenari",
     "plenarie"
-  ],
-  "plenipotenziario": [
-    "plenipotenziaria",
-    "plenipotenziari",
-    "plenipotenziarie"
   ],
   "pleonastico": [
     "pleonastica",
@@ -30143,11 +22773,6 @@ export default {
     "plumbea",
     "plumbei",
     "plumbee"
-  ],
-  "plurale": [
-    "plurale",
-    "plurali",
-    "plurali"
   ],
   "pluralista": [
     "pluralista",
@@ -30229,11 +22854,6 @@ export default {
     "pluviometrici",
     "pluviometriche"
   ],
-  "pneumatico": [
-    "pneumatica",
-    "pneumatici",
-    "pneumatiche"
-  ],
   "poco": [
     "poca",
     "pochi",
@@ -30259,11 +22879,6 @@ export default {
     "poetici",
     "poetiche"
   ],
-  "polacco": [
-    "polacca",
-    "polacchi",
-    "polacche"
-  ],
   "polare": [
     "polare",
     "polari",
@@ -30273,11 +22888,6 @@ export default {
     "polarizzata",
     "polarizzati",
     "polarizzate"
-  ],
-  "polemico": [
-    "polemica",
-    "polemici",
-    "polemiche"
   ],
   "policentrico": [
     "policentrica",
@@ -30319,11 +22929,6 @@ export default {
     "poliglotti",
     "poliglotte"
   ],
-  "poligrafico": [
-    "poligrafica",
-    "poligrafici",
-    "poligrafiche"
-  ],
   "polimerico": [
     "polimerica",
     "polimerici",
@@ -30344,25 +22949,10 @@ export default {
     "polisportivi",
     "polisportive"
   ],
-  "polista": [
-    "polista",
-    "polisti",
-    "poliste"
-  ],
   "politeista": [
     "politeista",
     "politeisti",
     "politeiste"
-  ],
-  "politico": [
-    "politica",
-    "politici",
-    "politiche"
-  ],
-  "politicante": [
-    "politicante",
-    "politicanti",
-    "politicanti"
   ],
   "politicizzato": [
     "politicizzata",
@@ -30383,16 +22973,6 @@ export default {
     "poliziana",
     "poliziani",
     "poliziane"
-  ],
-  "poliziesco": [
-    "poliziesca",
-    "polizieschi",
-    "poliziesche"
-  ],
-  "poliziotto": [
-    "poliziotta",
-    "poliziotti",
-    "poliziotte"
   ],
   "pollino": [
     "pollina",
@@ -30429,11 +23009,6 @@ export default {
     "pomeridiani",
     "pomeridiane"
   ],
-  "pomposo": [
-    "pomposa",
-    "pomposi",
-    "pompose"
-  ],
   "ponderato": [
     "ponderata",
     "ponderati",
@@ -30453,16 +23028,6 @@ export default {
     "pontificia",
     "pontifici",
     "pontifice"
-  ],
-  "pop": [
-    "pop",
-    "pop",
-    "pop"
-  ],
-  "popolano": [
-    "popolana",
-    "popolani",
-    "popolane"
   ],
   "popolare": [
     "popolare",
@@ -30489,11 +23054,6 @@ export default {
     "populistici",
     "populistiche"
   ],
-  "porco": [
-    "porca",
-    "porchi",
-    "porche"
-  ],
   "porcellanato": [
     "porcellanata",
     "porcellanati",
@@ -30503,11 +23063,6 @@ export default {
     "porcina",
     "porcini",
     "porcine"
-  ],
-  "porno": [
-    "porna",
-    "porni",
-    "porne"
   ],
   "pornografico": [
     "pornografica",
@@ -30519,30 +23074,15 @@ export default {
     "porosi",
     "porose"
   ],
-  "porporato": [
-    "porporata",
-    "porporati",
-    "porporate"
-  ],
   "porporino": [
     "porporina",
     "porporini",
     "porporine"
   ],
-  "porto": [
-    "porta",
-    "porti",
-    "porte"
-  ],
   "portabile": [
     "portabile",
     "portabili",
     "portabili"
-  ],
-  "portafortuna": [
-    "portafortuna",
-    "portafortuna",
-    "portafortuna"
   ],
   "portante": [
     "portante",
@@ -30554,40 +23094,10 @@ export default {
     "portati",
     "portate"
   ],
-  "portatile": [
-    "portatile",
-    "portatili",
-    "portatili"
-  ],
-  "portavalori": [
-    "portavalori",
-    "portavalori",
-    "portavalori"
-  ],
   "portentoso": [
     "portentosa",
     "portentosi",
     "portentose"
-  ],
-  "porticato": [
-    "porticata",
-    "porticati",
-    "porticate"
-  ],
-  "portinaio": [
-    "portinaia",
-    "portinai",
-    "portinaie"
-  ],
-  "portoghese": [
-    "portoghese",
-    "portoghesi",
-    "portoghesi"
-  ],
-  "portuale": [
-    "portuale",
-    "portuali",
-    "portuali"
   ],
   "portuario": [
     "portuaria",
@@ -30604,25 +23114,10 @@ export default {
     "positivi",
     "positive"
   ],
-  "positivista": [
-    "positivista",
-    "positivisti",
-    "positiviste"
-  ],
-  "possente": [
-    "possente",
-    "possenti",
-    "possenti"
-  ],
   "possessivo": [
     "possessiva",
     "possessivi",
     "possessive"
-  ],
-  "possessore": [
-    "possessore",
-    "possessori",
-    "possessori"
   ],
   "possessorio": [
     "possessoria",
@@ -30639,11 +23134,6 @@ export default {
     "possibilisti",
     "possibiliste"
   ],
-  "posto": [
-    "posta",
-    "posti",
-    "poste"
-  ],
   "postale": [
     "postale",
     "postali",
@@ -30653,11 +23143,6 @@ export default {
     "postbellica",
     "postbellici",
     "postbelliche"
-  ],
-  "postcomunista": [
-    "postcomunista",
-    "postcomunisti",
-    "postcomuniste"
   ],
   "postconciliare": [
     "postconciliare",
@@ -30674,11 +23159,6 @@ export default {
     "posteriori",
     "posteriori"
   ],
-  "posticcio": [
-    "posticcia",
-    "posticci",
-    "posticce"
-  ],
   "postindustriale": [
     "postindustriale",
     "postindustriali",
@@ -30689,45 +23169,20 @@ export default {
     "postmodern",
     "postmodern"
   ],
-  "postmoderno": [
-    "postmoderna",
-    "postmoderni",
-    "postmoderne"
-  ],
   "postprandiale": [
     "postprandiale",
     "postprandiali",
     "postprandiali"
-  ],
-  "postulato": [
-    "postulata",
-    "postulati",
-    "postulate"
-  ],
-  "postumo": [
-    "postuma",
-    "postumi",
-    "postume"
   ],
   "potabile": [
     "potabile",
     "potabili",
     "potabili"
   ],
-  "potente": [
-    "potente",
-    "potenti",
-    "potenti"
-  ],
   "potentino": [
     "potentina",
     "potentini",
     "potentine"
-  ],
-  "potenziale": [
-    "potenziale",
-    "potenziali",
-    "potenziali"
   ],
   "potenziato": [
     "potenziata",
@@ -30739,35 +23194,10 @@ export default {
     "pover",
     "pover"
   ],
-  "povero": [
-    "povera",
-    "poveri",
-    "povere"
-  ],
-  "poverello": [
-    "poverella",
-    "poverelli",
-    "poverelle"
-  ],
-  "poveretto": [
-    "poveretta",
-    "poveretti",
-    "poverette"
-  ],
-  "poverino": [
-    "poverina",
-    "poverini",
-    "poverine"
-  ],
   "praghese": [
     "praghese",
     "praghesi",
     "praghesi"
-  ],
-  "pragmatico": [
-    "pragmatica",
-    "pragmatici",
-    "pragmatiche"
   ],
   "pratico": [
     "pratica",
@@ -30778,11 +23208,6 @@ export default {
     "praticabile",
     "praticabili",
     "praticabili"
-  ],
-  "praticante": [
-    "praticante",
-    "praticanti",
-    "praticanti"
   ],
   "prativo": [
     "prativa",
@@ -30804,30 +23229,10 @@ export default {
     "preatletici",
     "preatletiche"
   ],
-  "precampionato": [
-    "precampionata",
-    "precampionati",
-    "precampionate"
-  ],
-  "precario": [
-    "precaria",
-    "precari",
-    "precarie"
-  ],
   "precauzionale": [
     "precauzionale",
     "precauzionali",
     "precauzionali"
-  ],
-  "precedente": [
-    "precedente",
-    "precedenti",
-    "precedenti"
-  ],
-  "precetto": [
-    "precetta",
-    "precetti",
-    "precette"
   ],
   "precipitato": [
     "precipitata",
@@ -30874,11 +23279,6 @@ export default {
     "precolombiani",
     "precolombiane"
   ],
-  "preconcetto": [
-    "preconcetta",
-    "preconcetti",
-    "preconcette"
-  ],
   "precongressuale": [
     "precongressuale",
     "precongressuali",
@@ -30889,40 +23289,10 @@ export default {
     "precorritori",
     "precorritrici"
   ],
-  "precotto": [
-    "precotta",
-    "precotti",
-    "precotte"
-  ],
-  "precursore": [
-    "precursore",
-    "precursori",
-    "precursori"
-  ],
   "predesertico": [
     "predesertica",
     "predesertici",
     "predesertiche"
-  ],
-  "predestinato": [
-    "predestinata",
-    "predestinati",
-    "predestinate"
-  ],
-  "predetto": [
-    "predetta",
-    "predetti",
-    "predette"
-  ],
-  "predicatore": [
-    "predicatrice",
-    "predicatori",
-    "predicatrici"
-  ],
-  "prediletto": [
-    "prediletta",
-    "prediletti",
-    "predilette"
   ],
   "predisposto": [
     "predisposta",
@@ -30944,11 +23314,6 @@ export default {
     "preesistenti",
     "preesistenti"
   ],
-  "prefabbricato": [
-    "prefabbricata",
-    "prefabbricati",
-    "prefabbricate"
-  ],
   "preferenziale": [
     "preferenziale",
     "preferenziali",
@@ -30958,11 +23323,6 @@ export default {
     "preferibile",
     "preferibili",
     "preferibili"
-  ],
-  "preferito": [
-    "preferita",
-    "preferiti",
-    "preferite"
   ],
   "prefestivo": [
     "prefestiva",
@@ -30984,16 +23344,6 @@ export default {
     "pregevoli",
     "pregevoli"
   ],
-  "pregiato": [
-    "pregiata",
-    "pregiati",
-    "pregiate"
-  ],
-  "pregiudicato": [
-    "pregiudicata",
-    "pregiudicati",
-    "pregiudicate"
-  ],
   "pregiudiziale": [
     "pregiudiziale",
     "pregiudiziali",
@@ -31009,11 +23359,6 @@ export default {
     "pregnanti",
     "pregnanti"
   ],
-  "pregresso": [
-    "pregressa",
-    "pregressi",
-    "pregresse"
-  ],
   "preistorico": [
     "preistorica",
     "preistorici",
@@ -31023,11 +23368,6 @@ export default {
     "prelibata",
     "prelibati",
     "prelibate"
-  ],
-  "preliminare": [
-    "preliminare",
-    "preliminari",
-    "preliminari"
   ],
   "prematrimoniale": [
     "prematrimoniale",
@@ -31053,11 +23393,6 @@ export default {
     "preminente",
     "preminenti",
     "preminenti"
-  ],
-  "premio": [
-    "premio",
-    "premio",
-    "premio"
   ],
   "premoderno": [
     "premoderna",
@@ -31099,11 +23434,6 @@ export default {
     "preparati",
     "preparate"
   ],
-  "preparativo": [
-    "preparativa",
-    "preparativi",
-    "preparative"
-  ],
   "preparatorio": [
     "preparatoria",
     "preparatori",
@@ -31118,11 +23448,6 @@ export default {
     "preposta",
     "preposti",
     "preposte"
-  ],
-  "prepotente": [
-    "prepotente",
-    "prepotenti",
-    "prepotenti"
   ],
   "preso": [
     "presa",
@@ -31149,30 +23474,15 @@ export default {
     "presentabili",
     "presentabili"
   ],
-  "presente": [
-    "presente",
-    "presenti",
-    "presenti"
-  ],
   "preserale": [
     "preserale",
     "preserali",
     "preserali"
   ],
-  "preservativo": [
-    "preservativa",
-    "preservativi",
-    "preservative"
-  ],
   "presidenziale": [
     "presidenziale",
     "presidenziali",
     "presidenziali"
-  ],
-  "presidenzialista": [
-    "presidenzialista",
-    "presidenzialisti",
-    "presidenzialiste"
   ],
   "pressante": [
     "pressante",
@@ -31234,11 +23544,6 @@ export default {
     "pretestuosi",
     "pretestuose"
   ],
-  "pretorio": [
-    "pretoria",
-    "pretori",
-    "pretorie"
-  ],
   "pretto": [
     "pretta",
     "pretti",
@@ -31249,11 +23554,6 @@ export default {
     "prevalenti",
     "prevalenti"
   ],
-  "prevaricatore": [
-    "prevaricatrice",
-    "prevaricatori",
-    "prevaricatrici"
-  ],
   "prevedibile": [
     "prevedibile",
     "prevedibili",
@@ -31263,11 +23563,6 @@ export default {
     "preveggente",
     "preveggenti",
     "preveggenti"
-  ],
-  "preventivo": [
-    "preventiva",
-    "preventivi",
-    "preventive"
   ],
   "prevenuto": [
     "prevenuta",
@@ -31299,35 +23594,15 @@ export default {
     "previsti",
     "previste"
   ],
-  "prezioso": [
-    "preziosa",
-    "preziosi",
-    "preziose"
-  ],
   "prezzolato": [
     "prezzolata",
     "prezzolati",
     "prezzolate"
   ],
-  "prigioniero": [
-    "prigioniera",
-    "prigionieri",
-    "prigioniere"
-  ],
   "prim": [
     "prim",
     "prim",
     "prim"
-  ],
-  "primo": [
-    "prima",
-    "primi",
-    "prime"
-  ],
-  "primario": [
-    "primaria",
-    "primari",
-    "primarie"
   ],
   "primaverile": [
     "primaverile",
@@ -31339,16 +23614,6 @@ export default {
     "primigeni",
     "primigenie"
   ],
-  "primitivo": [
-    "primitiva",
-    "primitivi",
-    "primitive"
-  ],
-  "primogenito": [
-    "primogenita",
-    "primogeniti",
-    "primogenite"
-  ],
   "primordiale": [
     "primordiale",
     "primordiali",
@@ -31358,16 +23623,6 @@ export default {
     "principal",
     "principal",
     "principal"
-  ],
-  "principale": [
-    "principale",
-    "principali",
-    "principali"
-  ],
-  "principe": [
-    "principe",
-    "principi",
-    "principi"
   ],
   "principesco": [
     "principesca",
@@ -31393,21 +23648,6 @@ export default {
     "priva",
     "privi",
     "prive"
-  ],
-  "privato": [
-    "privata",
-    "privati",
-    "private"
-  ],
-  "privilegiato": [
-    "privilegiata",
-    "privilegiati",
-    "privilegiate"
-  ],
-  "probo": [
-    "proba",
-    "probi",
-    "probe"
   ],
   "probabile": [
     "probabile",
@@ -31464,25 +23704,10 @@ export default {
     "proclivi",
     "proclivi"
   ],
-  "prode": [
-    "prode",
-    "prodi",
-    "prodi"
-  ],
-  "prodiano": [
-    "prodiana",
-    "prodiani",
-    "prodiane"
-  ],
   "prodigo": [
     "prodiga",
     "prodighi",
     "prodighe"
-  ],
-  "prodigio": [
-    "prodigia",
-    "prodigi",
-    "prodigie"
   ],
   "prodigioso": [
     "prodigiosa",
@@ -31498,16 +23723,6 @@ export default {
     "produttiva",
     "produttivi",
     "produttive"
-  ],
-  "produttore": [
-    "produttrice",
-    "produttori",
-    "produttrici"
-  ],
-  "profano": [
-    "profana",
-    "profani",
-    "profane"
   ],
   "professo": [
     "professa",
@@ -31544,25 +23759,10 @@ export default {
     "profilati",
     "profilate"
   ],
-  "profilattico": [
-    "profilattica",
-    "profilattici",
-    "profilattiche"
-  ],
   "profittevole": [
     "profittevole",
     "profittevoli",
     "profittevoli"
-  ],
-  "profondo": [
-    "profonda",
-    "profondi",
-    "profonde"
-  ],
-  "profugo": [
-    "profuga",
-    "profughi",
-    "profughe"
   ],
   "profumato": [
     "profumata",
@@ -31599,11 +23799,6 @@ export default {
     "progressivi",
     "progressive"
   ],
-  "proibito": [
-    "proibita",
-    "proibiti",
-    "proibite"
-  ],
   "proibitivo": [
     "proibitiva",
     "proibitivi",
@@ -31613,21 +23808,6 @@ export default {
     "proibizionista",
     "proibizionisti",
     "proibizioniste"
-  ],
-  "proletario": [
-    "proletaria",
-    "proletari",
-    "proletarie"
-  ],
-  "prolifico": [
-    "prolifica",
-    "prolifici",
-    "prolifiche"
-  ],
-  "prolisso": [
-    "prolissa",
-    "prolissi",
-    "prolisse"
   ],
   "prolungato": [
     "prolungata",
@@ -31639,25 +23819,10 @@ export default {
     "promessi",
     "promesse"
   ],
-  "promettente": [
-    "promettente",
-    "promettenti",
-    "promettenti"
-  ],
   "promiscuo": [
     "promiscua",
     "promiscui",
     "promiscue"
-  ],
-  "promosso": [
-    "promossa",
-    "promossi",
-    "promosse"
-  ],
-  "promotore": [
-    "promotrice",
-    "promotori",
-    "promotrici"
   ],
   "promozionale": [
     "promozionale",
@@ -31694,11 +23859,6 @@ export default {
     "propedeutici",
     "propedeutiche"
   ],
-  "propellente": [
-    "propellente",
-    "propellenti",
-    "propellenti"
-  ],
   "propenso": [
     "propensa",
     "propensi",
@@ -31718,11 +23878,6 @@ export default {
     "propiziatoria",
     "propiziatori",
     "propiziatorie"
-  ],
-  "proponente": [
-    "proponente",
-    "proponenti",
-    "proponenti"
   ],
   "proponibile": [
     "proponibile",
@@ -31748,11 +23903,6 @@ export default {
     "propria",
     "propri",
     "proprie"
-  ],
-  "proprietario": [
-    "proprietaria",
-    "proprietari",
-    "proprietarie"
   ],
   "propulsivo": [
     "propulsiva",
@@ -31799,11 +23949,6 @@ export default {
     "prospicienti",
     "prospicienti"
   ],
-  "prossimo": [
-    "prossima",
-    "prossimi",
-    "prossime"
-  ],
   "prostatico": [
     "prostatica",
     "prostatici",
@@ -31824,35 +23969,15 @@ export default {
     "protervi",
     "proterve"
   ],
-  "protestante": [
-    "protestante",
-    "protestanti",
-    "protestanti"
-  ],
   "protestatario": [
     "protestataria",
     "protestatari",
     "protestatarie"
   ],
-  "protetto": [
-    "protetta",
-    "protetti",
-    "protette"
-  ],
   "protettivo": [
     "protettiva",
     "protettivi",
     "protettive"
-  ],
-  "protettore": [
-    "protettrice",
-    "protettori",
-    "protettrici"
-  ],
-  "protezionista": [
-    "protezionista",
-    "protezionisti",
-    "protezioniste"
   ],
   "protezionistico": [
     "protezionistica",
@@ -31869,11 +23994,6 @@ export default {
     "protoromantici",
     "protoromantiche"
   ],
-  "prototipo": [
-    "prototipa",
-    "prototipi",
-    "prototipe"
-  ],
   "provato": [
     "provata",
     "provati",
@@ -31883,11 +24003,6 @@ export default {
     "proveniente",
     "provenienti",
     "provenienti"
-  ],
-  "provenzale": [
-    "provenzale",
-    "provenzali",
-    "provenzali"
   ],
   "proverbiale": [
     "proverbiale",
@@ -31899,20 +24014,10 @@ export default {
     "provetti",
     "provette"
   ],
-  "provinciale": [
-    "provinciale",
-    "provinciali",
-    "provinciali"
-  ],
   "provocante": [
     "provocante",
     "provocanti",
     "provocanti"
-  ],
-  "provocatore": [
-    "provocatrice",
-    "provocatori",
-    "provocatrici"
   ],
   "provocatorio": [
     "provocatoria",
@@ -31948,11 +24053,6 @@ export default {
     "prudenziale",
     "prudenziali",
     "prudenziali"
-  ],
-  "pseudonimo": [
-    "pseudonima",
-    "pseudonimi",
-    "pseudonime"
   ],
   "pseudopopolare": [
     "pseudopopolare",
@@ -32014,11 +24114,6 @@ export default {
     "psicotropi",
     "psicotrope"
   ],
-  "pubblico": [
-    "pubblica",
-    "pubblici",
-    "pubbliche"
-  ],
   "pubblicabile": [
     "pubblicabile",
     "pubblicabili",
@@ -32028,11 +24123,6 @@ export default {
     "pubblicistica",
     "pubblicistici",
     "pubblicistiche"
-  ],
-  "pubblicitario": [
-    "pubblicitaria",
-    "pubblicitari",
-    "pubblicitarie"
   ],
   "puberale": [
     "puberale",
@@ -32049,11 +24139,6 @@ export default {
     "pudibondi",
     "pudibonde"
   ],
-  "pudico": [
-    "pudica",
-    "pudici",
-    "pudiche"
-  ],
   "puerile": [
     "puerile",
     "puerili",
@@ -32069,21 +24154,6 @@ export default {
     "pugilistici",
     "pugilistiche"
   ],
-  "pugliese": [
-    "pugliese",
-    "pugliesi",
-    "pugliesi"
-  ],
-  "pulito": [
-    "pulita",
-    "puliti",
-    "pulite"
-  ],
-  "pulsante": [
-    "pulsante",
-    "pulsanti",
-    "pulsanti"
-  ],
   "pulvinare": [
     "pulvinare",
     "pulvinari",
@@ -32093,11 +24163,6 @@ export default {
     "pulviscolare",
     "pulviscolari",
     "pulviscolari"
-  ],
-  "pungente": [
-    "pungente",
-    "pungenti",
-    "pungenti"
   ],
   "punibile": [
     "punibile",
@@ -32113,11 +24178,6 @@ export default {
     "punk",
     "punk",
     "punk"
-  ],
-  "punto": [
-    "punta",
-    "punti",
-    "punte"
   ],
   "puntato": [
     "puntata",
@@ -32159,11 +24219,6 @@ export default {
     "purificatori",
     "purificatorie"
   ],
-  "puritano": [
-    "puritana",
-    "puritani",
-    "puritane"
-  ],
   "purosangue": [
     "purosangue",
     "purosangui",
@@ -32194,20 +24249,10 @@ export default {
     "puzzolenti",
     "puzzolenti"
   ],
-  "quadro": [
-    "quadra",
-    "quadri",
-    "quadre"
-  ],
   "quadrangolare": [
     "quadrangolare",
     "quadrangolari",
     "quadrangolari"
-  ],
-  "quadrato": [
-    "quadrata",
-    "quadrati",
-    "quadrate"
   ],
   "quadrettato": [
     "quadrettata",
@@ -32223,11 +24268,6 @@ export default {
     "quadrimestrale",
     "quadrimestrali",
     "quadrimestrali"
-  ],
-  "quadripartito": [
-    "quadripartita",
-    "quadripartiti",
-    "quadripartite"
   ],
   "quadruplo": [
     "quadrupla",
@@ -32279,11 +24319,6 @@ export default {
     "qualunque",
     "qualunque"
   ],
-  "qualunquista": [
-    "qualunquista",
-    "qualunquisti",
-    "qualunquiste"
-  ],
   "qualunquistico": [
     "qualunquistica",
     "qualunquistici",
@@ -32303,11 +24338,6 @@ export default {
     "quantificabile",
     "quantificabili",
     "quantificabili"
-  ],
-  "quantitativo": [
-    "quantitativa",
-    "quantitativi",
-    "quantitative"
   ],
   "quarant": [
     "quarant",
@@ -32379,25 +24409,10 @@ export default {
     "quart",
     "quart"
   ],
-  "quarto": [
-    "quarta",
-    "quarti",
-    "quarte"
-  ],
   "quatto": [
     "quatta",
     "quatti",
     "quatte"
-  ],
-  "quattordicenne": [
-    "quattordicenne",
-    "quattordicenni",
-    "quattordicenni"
-  ],
-  "quattordicesimo": [
-    "quattordicesima",
-    "quattordicesimi",
-    "quattordicesime"
   ],
   "quattrocentesco": [
     "quattrocentesca",
@@ -32469,40 +24484,20 @@ export default {
     "queruli",
     "querule"
   ],
-  "questuante": [
-    "questuante",
-    "questuanti",
-    "questuanti"
-  ],
   "quieto": [
     "quieta",
     "quieti",
     "quiete"
-  ],
-  "quindicenne": [
-    "quindicenne",
-    "quindicenni",
-    "quindicenni"
   ],
   "quindicesimo": [
     "quindicesima",
     "quindicesimi",
     "quindicesime"
   ],
-  "quindicinale": [
-    "quindicinale",
-    "quindicinali",
-    "quindicinali"
-  ],
   "quinquennale": [
     "quinquennale",
     "quinquennali",
     "quinquennali"
-  ],
-  "quinto": [
-    "quinta",
-    "quinti",
-    "quinte"
   ],
   "quintultimo": [
     "quintultima",
@@ -32518,11 +24513,6 @@ export default {
     "quotata",
     "quotati",
     "quotate"
-  ],
-  "quotidiano": [
-    "quotidiana",
-    "quotidiani",
-    "quotidiane"
   ],
   "rabbioso": [
     "rabbiosa",
@@ -32549,20 +24539,10 @@ export default {
     "raccogliticci",
     "raccogliticce"
   ],
-  "raccolto": [
-    "raccolta",
-    "raccolti",
-    "raccolte"
-  ],
   "raccomandabile": [
     "raccomandabile",
     "raccomandabili",
     "raccomandabili"
-  ],
-  "raccomandato": [
-    "raccomandata",
-    "raccomandati",
-    "raccomandate"
   ],
   "raccontabile": [
     "raccontabile",
@@ -32584,11 +24564,6 @@ export default {
     "radi",
     "rade"
   ],
-  "radar": [
-    "radar",
-    "radar",
-    "radar"
-  ],
   "raddoppiato": [
     "raddoppiata",
     "raddoppiati",
@@ -32604,20 +24579,10 @@ export default {
     "radiali",
     "radiali"
   ],
-  "radicale": [
-    "radicale",
-    "radicali",
-    "radicali"
-  ],
   "radicato": [
     "radicata",
     "radicati",
     "radicate"
-  ],
-  "radio": [
-    "radio",
-    "radio",
-    "radio"
   ],
   "radioattivo": [
     "radioattiva",
@@ -32668,11 +24633,6 @@ export default {
     "rafferma",
     "raffermi",
     "rafferme"
-  ],
-  "raffinato": [
-    "raffinata",
-    "raffinati",
-    "raffinate"
   ],
   "rafforzato": [
     "rafforzata",
@@ -32734,11 +24694,6 @@ export default {
     "rampanti",
     "rampante"
   ],
-  "rancio": [
-    "rancia",
-    "ranci",
-    "rance"
-  ],
   "rancido": [
     "rancida",
     "rancidi",
@@ -32748,21 +24703,6 @@ export default {
     "rancorosa",
     "rancorosi",
     "rancorose"
-  ],
-  "randagio": [
-    "randagia",
-    "randagi",
-    "randagie"
-  ],
-  "rapace": [
-    "rapace",
-    "rapaci",
-    "rapaci"
-  ],
-  "rapido": [
-    "rapida",
-    "rapidi",
-    "rapide"
   ],
   "rapinoso": [
     "rapinosa",
@@ -32774,11 +24714,6 @@ export default {
     "rapiti",
     "rapite"
   ],
-  "rapitore": [
-    "rapitrice",
-    "rapitori",
-    "rapitrici"
-  ],
   "rapportabile": [
     "rapportabile",
     "rapportabili",
@@ -32789,11 +24724,6 @@ export default {
     "rappresentabili",
     "rappresentabili"
   ],
-  "rappresentante": [
-    "rappresentante",
-    "rappresentanti",
-    "rappresentanti"
-  ],
   "rappresentativo": [
     "rappresentativa",
     "rappresentativi",
@@ -32803,16 +24733,6 @@ export default {
     "rapsodica",
     "rapsodici",
     "rapsodiche"
-  ],
-  "raro": [
-    "rara",
-    "rari",
-    "rare"
-  ],
-  "raso": [
-    "rasa",
-    "rasi",
-    "rase"
   ],
   "rasato": [
     "rasata",
@@ -32838,11 +24758,6 @@ export default {
     "rateale",
     "rateali",
     "rateali"
-  ],
-  "ratto": [
-    "ratta",
-    "ratti",
-    "ratte"
   ],
   "rautiano": [
     "rautiana",
@@ -32874,20 +24789,10 @@ export default {
     "razziali",
     "razziali"
   ],
-  "razzista": [
-    "razzista",
-    "razzisti",
-    "razziste"
-  ],
   "razzistico": [
     "razzistica",
     "razzistici",
     "razzistiche"
-  ],
-  "reo": [
-    "rea",
-    "rei",
-    "ree"
   ],
   "reaganiano": [
     "reaganiana",
@@ -32904,11 +24809,6 @@ export default {
     "reali",
     "reali"
   ],
-  "realista": [
-    "realista",
-    "realisti",
-    "realiste"
-  ],
   "realistico": [
     "realistica",
     "realistici",
@@ -32923,11 +24823,6 @@ export default {
     "reattiva",
     "reattivi",
     "reattive"
-  ],
-  "reazionario": [
-    "reazionaria",
-    "reazionari",
-    "reazionarie"
   ],
   "reboante": [
     "reboante",
@@ -32949,21 +24844,6 @@ export default {
     "recettivi",
     "recettive"
   ],
-  "recidivo": [
-    "recidiva",
-    "recidivi",
-    "recidive"
-  ],
-  "recinto": [
-    "recinta",
-    "recinti",
-    "recinte"
-  ],
-  "reciproco": [
-    "reciproca",
-    "reciproci",
-    "reciproche"
-  ],
   "reciso": [
     "recisa",
     "recisi",
@@ -32974,20 +24854,10 @@ export default {
     "recitanti",
     "recitanti"
   ],
-  "recitativo": [
-    "recitativa",
-    "recitativi",
-    "recitative"
-  ],
   "reclamistico": [
     "reclamistica",
     "reclamistici",
     "reclamistiche"
-  ],
-  "recluso": [
-    "reclusa",
-    "reclusi",
-    "recluse"
   ],
   "recondito": [
     "recondita",
@@ -33019,45 +24889,20 @@ export default {
     "redenti",
     "redente"
   ],
-  "redentore": [
-    "redentrice",
-    "redentori",
-    "redentrici"
-  ],
   "redimibile": [
     "redimibile",
     "redimibili",
     "redimibili"
-  ],
-  "redivivo": [
-    "rediviva",
-    "redivivi",
-    "redivive"
-  ],
-  "reduce": [
-    "reduce",
-    "reduci",
-    "reduci"
   ],
   "referendario": [
     "referendaria",
     "referendari",
     "referendarie"
   ],
-  "referente": [
-    "referente",
-    "referenti",
-    "referenti"
-  ],
   "refluo": [
     "reflua",
     "reflui",
     "reflue"
-  ],
-  "refrattario": [
-    "refrattaria",
-    "refrattari",
-    "refrattarie"
   ],
   "refrigerante": [
     "refrigerante",
@@ -33068,21 +24913,6 @@ export default {
     "regale",
     "regali",
     "regali"
-  ],
-  "reggente": [
-    "reggente",
-    "reggenti",
-    "reggenti"
-  ],
-  "reggiano": [
-    "reggiana",
-    "reggiani",
-    "reggiane"
-  ],
-  "reggino": [
-    "reggina",
-    "reggini",
-    "reggine"
   ],
   "regio": [
     "regia",
@@ -33104,16 +24934,6 @@ export default {
     "regionalistici",
     "regionalistiche"
   ],
-  "registratore": [
-    "registratrice",
-    "registratori",
-    "registratrici"
-  ],
-  "regnante": [
-    "regnante",
-    "regnanti",
-    "regnanti"
-  ],
   "regolabile": [
     "regolabile",
     "regolabili",
@@ -33134,20 +24954,10 @@ export default {
     "regolati",
     "regolate"
   ],
-  "regolatore": [
-    "regolatrice",
-    "regolatori",
-    "regolatrici"
-  ],
   "regressivo": [
     "regressiva",
     "regressivi",
     "regressive"
-  ],
-  "reietto": [
-    "reietta",
-    "reietti",
-    "reiette"
   ],
   "reiterato": [
     "reiterata",
@@ -33199,11 +25009,6 @@ export default {
     "renani",
     "renane"
   ],
-  "renitente": [
-    "renitente",
-    "renitenti",
-    "renitenti"
-  ],
   "repellente": [
     "repellente",
     "repellenti",
@@ -33224,30 +25029,10 @@ export default {
     "replicati",
     "replicate"
   ],
-  "represso": [
-    "repressa",
-    "repressi",
-    "represse"
-  ],
   "repressivo": [
     "repressiva",
     "repressivi",
     "repressive"
-  ],
-  "reprobo": [
-    "reproba",
-    "reprobi",
-    "reprobe"
-  ],
-  "repubblicano": [
-    "repubblicana",
-    "repubblicani",
-    "repubblicane"
-  ],
-  "repubblichino": [
-    "repubblichina",
-    "repubblichini",
-    "repubblichine"
   ],
   "repulso": [
     "repulsa",
@@ -33259,30 +25044,15 @@ export default {
     "requirenti",
     "requirenti"
   ],
-  "residente": [
-    "residente",
-    "residenti",
-    "residenti"
-  ],
   "residenziale": [
     "residenziale",
     "residenziali",
     "residenziali"
   ],
-  "residuo": [
-    "residua",
-    "residui",
-    "residue"
-  ],
   "residuale": [
     "residuale",
     "residuali",
     "residuali"
-  ],
-  "residuato": [
-    "residuata",
-    "residuati",
-    "residuate"
   ],
   "resinoso": [
     "resinosa",
@@ -33318,11 +25088,6 @@ export default {
     "respiratoria",
     "respiratori",
     "respiratorie"
-  ],
-  "responsabile": [
-    "responsabile",
-    "responsabili",
-    "responsabili"
   ],
   "restante": [
     "restante",
@@ -33389,45 +25154,15 @@ export default {
     "retrostanti",
     "retrostanti"
   ],
-  "retrovisore": [
-    "retrovisore",
-    "retrovisori",
-    "retrovisori"
-  ],
-  "retto": [
-    "retta",
-    "retti",
-    "rette"
-  ],
   "rettale": [
     "rettale",
     "rettali",
     "rettali"
   ],
-  "rettangolo": [
-    "rettangola",
-    "rettangoli",
-    "rettangole"
-  ],
   "rettangolare": [
     "rettangolare",
     "rettangolari",
     "rettangolari"
-  ],
-  "rettile": [
-    "rettile",
-    "rettili",
-    "rettili"
-  ],
-  "rettilineo": [
-    "rettilinea",
-    "rettilinei",
-    "rettilinee"
-  ],
-  "rettore": [
-    "rettrice",
-    "rettori",
-    "rettrici"
   ],
   "reumatico": [
     "reumatica",
@@ -33449,11 +25184,6 @@ export default {
     "reversibili",
     "reversibili"
   ],
-  "revisionista": [
-    "revisionista",
-    "revisionisti",
-    "revisioniste"
-  ],
   "revisionistico": [
     "revisionistica",
     "revisionistici",
@@ -33469,11 +25199,6 @@ export default {
     "revocatori",
     "revocatorie"
   ],
-  "rio": [
-    "ria",
-    "rii",
-    "rie"
-  ],
   "riabilitativo": [
     "riabilitativa",
     "riabilitativi",
@@ -33483,11 +25208,6 @@ export default {
     "rialzata",
     "rialzati",
     "rialzate"
-  ],
-  "rialzista": [
-    "rialzista",
-    "rialzisti",
-    "rialziste"
   ],
   "riarso": [
     "riarsa",
@@ -33499,11 +25219,6 @@ export default {
     "riassumibili",
     "riassumibili"
   ],
-  "riassunto": [
-    "riassunta",
-    "riassunti",
-    "riassunte"
-  ],
   "riassuntivo": [
     "riassuntiva",
     "riassuntivi",
@@ -33513,16 +25228,6 @@ export default {
     "ribaltabile",
     "ribaltabili",
     "ribaltabili"
-  ],
-  "ribassista": [
-    "ribassista",
-    "ribassisti",
-    "ribassiste"
-  ],
-  "ribelle": [
-    "ribelle",
-    "ribelli",
-    "ribelli"
   ],
   "ribellistico": [
     "ribellistica",
@@ -33539,30 +25244,10 @@ export default {
     "ributtanti",
     "ributtanti"
   ],
-  "ricattatore": [
-    "ricattatrice",
-    "ricattatori",
-    "ricattatrici"
-  ],
   "ricavabile": [
     "ricavabile",
     "ricavabili",
     "ricavabili"
-  ],
-  "ricavato": [
-    "ricavata",
-    "ricavati",
-    "ricavate"
-  ],
-  "ricco": [
-    "ricca",
-    "ricchi",
-    "ricche"
-  ],
-  "riccio": [
-    "riccia",
-    "ricci",
-    "ricce"
   ],
   "riccioluto": [
     "riccioluta",
@@ -33574,11 +25259,6 @@ export default {
     "ricciuti",
     "ricciute"
   ],
-  "ricercato": [
-    "ricercata",
-    "ricercati",
-    "ricercate"
-  ],
   "ricetrasmittente": [
     "ricetrasmittente",
     "ricetrasmittenti",
@@ -33589,25 +25269,10 @@ export default {
     "ricettivi",
     "ricettive"
   ],
-  "ricevente": [
-    "ricevente",
-    "riceventi",
-    "riceventi"
-  ],
-  "ricevitore": [
-    "ricevitrice",
-    "ricevitori",
-    "ricevitrici"
-  ],
   "richiamato": [
     "richiamata",
     "richiamati",
     "richiamate"
-  ],
-  "richiedente": [
-    "richiedente",
-    "richiedenti",
-    "richiedenti"
   ],
   "ricolmo": [
     "ricolma",
@@ -33639,16 +25304,6 @@ export default {
     "ricorrenti",
     "ricorrenti"
   ],
-  "ricorso": [
-    "ricorsa",
-    "ricorsi",
-    "ricorse"
-  ],
-  "ricostituente": [
-    "ricostituente",
-    "ricostituenti",
-    "ricostituenti"
-  ],
   "ricoverato": [
     "ricoverata",
     "ricoverati",
@@ -33674,20 +25329,10 @@ export default {
     "ridanciani",
     "ridanciane"
   ],
-  "ridicolo": [
-    "ridicola",
-    "ridicoli",
-    "ridicole"
-  ],
   "ridondante": [
     "ridondante",
     "ridondanti",
     "ridondanti"
-  ],
-  "ridotto": [
-    "ridotta",
-    "ridotti",
-    "ridotte"
   ],
   "riducibile": [
     "riducibile",
@@ -33703,11 +25348,6 @@ export default {
     "rieleggibile",
     "rieleggibili",
     "rieleggibili"
-  ],
-  "riempitivo": [
-    "riempitiva",
-    "riempitivi",
-    "riempitive"
   ],
   "rientrante": [
     "rientrante",
@@ -33734,11 +25374,6 @@ export default {
     "rifiutati",
     "rifiutate"
   ],
-  "riflesso": [
-    "riflessa",
-    "riflessi",
-    "riflesse"
-  ],
   "riflessivo": [
     "riflessiva",
     "riflessivi",
@@ -33764,30 +25399,10 @@ export default {
     "riformati",
     "riformate"
   ],
-  "riformatore": [
-    "riformatrice",
-    "riformatori",
-    "riformatrici"
-  ],
-  "riformista": [
-    "riformista",
-    "riformisti",
-    "riformiste"
-  ],
   "riformistico": [
     "riformistica",
     "riformistici",
     "riformistiche"
-  ],
-  "rifornitore": [
-    "rifornitrice",
-    "rifornitori",
-    "rifornitrici"
-  ],
-  "rifugiato": [
-    "rifugiata",
-    "rifugiati",
-    "rifugiate"
   ],
   "rigato": [
     "rigata",
@@ -33798,11 +25413,6 @@ export default {
     "rigenerata",
     "rigenerati",
     "rigenerate"
-  ],
-  "rigido": [
-    "rigida",
-    "rigidi",
-    "rigide"
   ],
   "rigoglioso": [
     "rigogliosa",
@@ -33834,21 +25444,6 @@ export default {
     "rilucenti",
     "rilucenti"
   ],
-  "riluttante": [
-    "riluttante",
-    "riluttanti",
-    "riluttanti"
-  ],
-  "rimandato": [
-    "rimandata",
-    "rimandati",
-    "rimandate"
-  ],
-  "rimanente": [
-    "rimanente",
-    "rimanenti",
-    "rimanenti"
-  ],
   "rimarchevole": [
     "rimarchevole",
     "rimarchevoli",
@@ -33874,30 +25469,10 @@ export default {
     "rimessi",
     "rimesse"
   ],
-  "riminese": [
-    "riminese",
-    "riminesi",
-    "riminesi"
-  ],
-  "rimorchiatore": [
-    "rimorchiatrice",
-    "rimorchiatori",
-    "rimorchiatrici"
-  ],
-  "rimpianto": [
-    "rimpianta",
-    "rimpianti",
-    "rimpiante"
-  ],
   "rinascimentale": [
     "rinascimentale",
     "rinascimentali",
     "rinascimentali"
-  ],
-  "rinchiuso": [
-    "rinchiusa",
-    "rinchiusi",
-    "rinchiuse"
   ],
   "rinfrescante": [
     "rinfrescante",
@@ -33914,20 +25489,10 @@ export default {
     "ringhiosi",
     "ringhiose"
   ],
-  "rinnegato": [
-    "rinnegata",
-    "rinnegati",
-    "rinnegate"
-  ],
   "rinnovabile": [
     "rinnovabile",
     "rinnovabili",
     "rinnovabili"
-  ],
-  "rinnovatore": [
-    "rinnovatrice",
-    "rinnovatori",
-    "rinnovatrici"
   ],
   "rinomato": [
     "rinomata",
@@ -33938,11 +25503,6 @@ export default {
     "rintracciabile",
     "rintracciabili",
     "rintracciabili"
-  ],
-  "rinunciatario": [
-    "rinunciataria",
-    "rinunciatari",
-    "rinunciatarie"
   ],
   "rionale": [
     "rionale",
@@ -33959,11 +25519,6 @@ export default {
     "riparati",
     "riparate"
   ],
-  "riparatore": [
-    "riparatrice",
-    "riparatori",
-    "riparatrici"
-  ],
   "ripetibile": [
     "ripetibile",
     "ripetibili",
@@ -33973,11 +25528,6 @@ export default {
     "ripetitiva",
     "ripetitivi",
     "ripetitive"
-  ],
-  "ripetitore": [
-    "ripetitrice",
-    "ripetitori",
-    "ripetitrici"
   ],
   "ripetuto": [
     "ripetuta",
@@ -34019,11 +25569,6 @@ export default {
     "riproduttivi",
     "riproduttive"
   ],
-  "riproduttore": [
-    "riproduttrice",
-    "riproduttori",
-    "riproduttrici"
-  ],
   "riproponibile": [
     "riproponibile",
     "riproponibili",
@@ -34048,11 +25593,6 @@ export default {
     "risanabile",
     "risanabili",
     "risanabili"
-  ],
-  "risanatore": [
-    "risanatrice",
-    "risanatori",
-    "risanatrici"
   ],
   "risaputo": [
     "risaputa",
@@ -34149,25 +25689,10 @@ export default {
     "rissosi",
     "rissose"
   ],
-  "ristoratore": [
-    "ristoratrice",
-    "ristoratori",
-    "ristoratrici"
-  ],
-  "ristretto": [
-    "ristretta",
-    "ristretti",
-    "ristrette"
-  ],
   "risultante": [
     "risultante",
     "risultanti",
     "risultanti"
-  ],
-  "ritardatario": [
-    "ritardataria",
-    "ritardatari",
-    "ritardatarie"
   ],
   "ritirato": [
     "ritirata",
@@ -34183,11 +25708,6 @@ export default {
     "ritorta",
     "ritorti",
     "ritorte"
-  ],
-  "ritratto": [
-    "ritratta",
-    "ritratti",
-    "ritratte"
   ],
   "ritrito": [
     "ritrita",
@@ -34209,30 +25729,15 @@ export default {
     "ritti",
     "ritte"
   ],
-  "rituale": [
-    "rituale",
-    "rituali",
-    "rituali"
-  ],
   "riunito": [
     "riunita",
     "riuniti",
     "riunite"
   ],
-  "rivale": [
-    "rivale",
-    "rivali",
-    "rivali"
-  ],
   "rivelato": [
     "rivelata",
     "rivelati",
     "rivelate"
-  ],
-  "rivelatore": [
-    "rivelatrice",
-    "rivelatori",
-    "rivelatrici"
   ],
   "rivendicativo": [
     "rivendicativa",
@@ -34284,11 +25789,6 @@ export default {
     "rivoltosi",
     "rivoltose"
   ],
-  "rivoluzionario": [
-    "rivoluzionaria",
-    "rivoluzionari",
-    "rivoluzionarie"
-  ],
   "roboante": [
     "roboante",
     "roboanti",
@@ -34334,16 +25834,6 @@ export default {
     "rognosi",
     "rognose"
   ],
-  "romagnolo": [
-    "romagnola",
-    "romagnoli",
-    "romagnole"
-  ],
-  "romano": [
-    "romana",
-    "romani",
-    "romane"
-  ],
   "romanesco": [
     "romanesca",
     "romaneschi",
@@ -34354,20 +25844,10 @@ export default {
     "romanici",
     "romaniche"
   ],
-  "romantico": [
-    "romantica",
-    "romantici",
-    "romantiche"
-  ],
   "romanticizzato": [
     "romanticizzata",
     "romanticizzati",
     "romanticizzate"
-  ],
-  "romanzo": [
-    "romanza",
-    "romanzi",
-    "romanze"
   ],
   "romanzesco": [
     "romanzesca",
@@ -34379,11 +25859,6 @@ export default {
     "romei",
     "romee"
   ],
-  "romeno": [
-    "romena",
-    "romeni",
-    "romene"
-  ],
   "romito": [
     "romita",
     "romiti",
@@ -34393,11 +25868,6 @@ export default {
     "romitiana",
     "romitiani",
     "romitiane"
-  ],
-  "rompiscatole": [
-    "rompiscatole",
-    "rompiscatoli",
-    "rompiscatoli"
   ],
   "rooseveltiano": [
     "rooseveltiana",
@@ -34409,35 +25879,15 @@ export default {
     "roridi",
     "roride"
   ],
-  "rosa": [
-    "rosa",
-    "rosa",
-    "rosa"
-  ],
   "rosato": [
     "rosata",
     "rosati",
     "rosate"
   ],
-  "roseo": [
-    "rosea",
-    "rosei",
-    "rosee"
-  ],
-  "rosso": [
-    "rossa",
-    "rossi",
-    "rosse"
-  ],
   "rossastro": [
     "rossastra",
     "rossastri",
     "rossastre"
-  ],
-  "rossonero": [
-    "rossonera",
-    "rossoneri",
-    "rossonere"
   ],
   "rostrato": [
     "rostrata",
@@ -34459,11 +25909,6 @@ export default {
     "rotatori",
     "rotatorie"
   ],
-  "rotondo": [
-    "rotonda",
-    "rotondi",
-    "rotonde"
-  ],
   "rotondeggiante": [
     "rotondeggiante",
     "rotondeggianti",
@@ -34479,11 +25924,6 @@ export default {
     "roventi",
     "roventi"
   ],
-  "rovescio": [
-    "rovescia",
-    "rovesci",
-    "rovesce"
-  ],
   "rovinoso": [
     "rovinosa",
     "rovinosi",
@@ -34493,16 +25933,6 @@ export default {
     "royal",
     "royal",
     "royal"
-  ],
-  "rozzo": [
-    "rozza",
-    "rozzi",
-    "rozze"
-  ],
-  "ruandese": [
-    "ruandese",
-    "ruandesi",
-    "ruandesi"
   ],
   "rubacuori": [
     "rubacuori",
@@ -34524,20 +25954,10 @@ export default {
     "rubizzi",
     "rubizze"
   ],
-  "rude": [
-    "rude",
-    "rudi",
-    "rudi"
-  ],
   "rudimentale": [
     "rudimentale",
     "rudimentali",
     "rudimentali"
-  ],
-  "ruffiano": [
-    "ruffiana",
-    "ruffiani",
-    "ruffiane"
   ],
   "ruggente": [
     "ruggente",
@@ -34559,16 +25979,6 @@ export default {
     "rugosi",
     "rugose"
   ],
-  "rumeno": [
-    "rumena",
-    "rumeni",
-    "rumene"
-  ],
-  "ruminante": [
-    "ruminante",
-    "ruminanti",
-    "ruminanti"
-  ],
   "rumoroso": [
     "rumorosa",
     "rumorosi",
@@ -34588,16 +25998,6 @@ export default {
     "rurale",
     "rurali",
     "rurali"
-  ],
-  "ruspante": [
-    "ruspante",
-    "ruspanti",
-    "ruspanti"
-  ],
-  "russo": [
-    "russa",
-    "russi",
-    "russe"
   ],
   "rustico": [
     "rustica",
@@ -34624,11 +26024,6 @@ export default {
     "sabbatici",
     "sabbatiche"
   ],
-  "sabbia": [
-    "sabbia",
-    "sabbia",
-    "sabbia"
-  ],
   "sabbioso": [
     "sabbiosa",
     "sabbiosi",
@@ -34638,11 +26033,6 @@ export default {
     "saccarifera",
     "saccariferi",
     "saccarifere"
-  ],
-  "saccente": [
-    "saccente",
-    "saccenti",
-    "saccenti"
   ],
   "sacerdotale": [
     "sacerdotale",
@@ -34684,20 +26074,10 @@ export default {
     "sacrosanti",
     "sacrosante"
   ],
-  "sadico": [
-    "sadica",
-    "sadici",
-    "sadiche"
-  ],
   "sagace": [
     "sagace",
     "sagaci",
     "sagaci"
-  ],
-  "saggio": [
-    "saggia",
-    "saggi",
-    "sagge"
   ],
   "saggistico": [
     "saggistica",
@@ -34714,25 +26094,10 @@ export default {
     "salariali",
     "salariali"
   ],
-  "salariato": [
-    "salariata",
-    "salariati",
-    "salariate"
-  ],
   "salato": [
     "salata",
     "salati",
     "salate"
-  ],
-  "saldo": [
-    "salda",
-    "saldi",
-    "salde"
-  ],
-  "salesiano": [
-    "salesiana",
-    "salesiani",
-    "salesiane"
   ],
   "salico": [
     "salica",
@@ -34769,11 +26134,6 @@ export default {
     "salsi",
     "salse"
   ],
-  "saltatore": [
-    "saltatrice",
-    "saltatori",
-    "saltatrici"
-  ],
   "saltuario": [
     "saltuaria",
     "saltuari",
@@ -34799,11 +26159,6 @@ export default {
     "salutiferi",
     "salutifere"
   ],
-  "salutista": [
-    "salutista",
-    "salutisti",
-    "salutiste"
-  ],
   "salvo": [
     "salva",
     "salvi",
@@ -34814,11 +26169,6 @@ export default {
     "salvabili",
     "salvabili"
   ],
-  "salvadoregno": [
-    "salvadoregna",
-    "salvadoregni",
-    "salvadoregne"
-  ],
   "salvavita": [
     "salvavita",
     "salvavita",
@@ -34828,11 +26178,6 @@ export default {
     "salvifica",
     "salvifici",
     "salvifiche"
-  ],
-  "samaritano": [
-    "samaritana",
-    "samaritani",
-    "samaritane"
   ],
   "sammarinese": [
     "sammarinese",
@@ -34849,40 +26194,15 @@ export default {
     "sanabili",
     "sanabili"
   ],
-  "sanatorio": [
-    "sanatoria",
-    "sanatori",
-    "sanatorie"
-  ],
   "sancarlino": [
     "sancarlina",
     "sancarlini",
     "sancarline"
   ],
-  "sandinista": [
-    "sandinista",
-    "sandinisti",
-    "sandiniste"
-  ],
-  "sangue": [
-    "sangue",
-    "sangue",
-    "sangue"
-  ],
-  "sanguigno": [
-    "sanguigna",
-    "sanguigni",
-    "sanguigne"
-  ],
   "sanguinante": [
     "sanguinante",
     "sanguinanti",
     "sanguinanti"
-  ],
-  "sanguinario": [
-    "sanguinaria",
-    "sanguinari",
-    "sanguinarie"
   ],
   "sanguinolento": [
     "sanguinolenta",
@@ -34894,20 +26214,10 @@ export default {
     "sanguinosi",
     "sanguinose"
   ],
-  "sanitario": [
-    "sanitaria",
-    "sanitari",
-    "sanitarie"
-  ],
   "sannita": [
     "sannita",
     "sanniti",
     "sannite"
-  ],
-  "santo": [
-    "santa",
-    "santi",
-    "sante"
   ],
   "sanzionatorio": [
     "sanzionatoria",
@@ -34918,11 +26228,6 @@ export default {
     "sapida",
     "sapidi",
     "sapide"
-  ],
-  "sapiente": [
-    "sapiente",
-    "sapienti",
-    "sapienti"
   ],
   "saponoso": [
     "saponosa",
@@ -34944,11 +26249,6 @@ export default {
     "saputi",
     "sapute"
   ],
-  "saraceno": [
-    "saracena",
-    "saraceni",
-    "saracene"
-  ],
   "saracino": [
     "saracina",
     "saracini",
@@ -34958,16 +26258,6 @@ export default {
     "sarcastica",
     "sarcastici",
     "sarcastiche"
-  ],
-  "sardo": [
-    "sarda",
-    "sardi",
-    "sarde"
-  ],
-  "sardista": [
-    "sardista",
-    "sardisti",
-    "sardiste"
   ],
   "sardonico": [
     "sardonica",
@@ -34979,11 +26269,6 @@ export default {
     "sartoriali",
     "sartoriali"
   ],
-  "sassone": [
-    "sassone",
-    "sassoni",
-    "sassoni"
-  ],
   "sassoso": [
     "sassosa",
     "sassosi",
@@ -34993,11 +26278,6 @@ export default {
     "satanica",
     "satanici",
     "sataniche"
-  ],
-  "satellite": [
-    "satellite",
-    "satelliti",
-    "satelliti"
   ],
   "satirico": [
     "satirica",
@@ -35014,20 +26294,10 @@ export default {
     "saturi",
     "sature"
   ],
-  "saudita": [
-    "saudita",
-    "sauditi",
-    "saudite"
-  ],
   "sauro": [
     "saura",
     "sauri",
     "saure"
-  ],
-  "savio": [
-    "savia",
-    "savi",
-    "savie"
   ],
   "savoiardo": [
     "savoiarda",
@@ -35058,11 +26328,6 @@ export default {
     "sbalorditiva",
     "sbalorditivi",
     "sbalorditive"
-  ],
-  "sbandato": [
-    "sbandata",
-    "sbandati",
-    "sbandate"
   ],
   "sbarazzino": [
     "sbarazzina",
@@ -35169,11 +26434,6 @@ export default {
     "scalognati",
     "scalognate"
   ],
-  "scaltro": [
-    "scaltra",
-    "scaltri",
-    "scaltre"
-  ],
   "scalzo": [
     "scalza",
     "scalzi",
@@ -35194,11 +26454,6 @@ export default {
     "scandalosi",
     "scandalose"
   ],
-  "scandinavo": [
-    "scandinava",
-    "scandinavi",
-    "scandinave"
-  ],
   "scanzonato": [
     "scanzonata",
     "scanzonati",
@@ -35214,25 +26469,10 @@ export default {
     "scapigliati",
     "scapigliate"
   ],
-  "scapolo": [
-    "scapola",
-    "scapoli",
-    "scapole"
-  ],
   "scaramantico": [
     "scaramantica",
     "scaramantici",
     "scaramantiche"
-  ],
-  "scarico": [
-    "scarica",
-    "scarici",
-    "scariche"
-  ],
-  "scaricatore": [
-    "scaricatrice",
-    "scaricatori",
-    "scaricatrici"
   ],
   "scarno": [
     "scarna",
@@ -35243,11 +26483,6 @@ export default {
     "scarsa",
     "scarsi",
     "scarse"
-  ],
-  "scatenato": [
-    "scatenata",
-    "scatenati",
-    "scatenate"
   ],
   "scattante": [
     "scattante",
@@ -35273,16 +26508,6 @@ export default {
     "scema",
     "scemi",
     "sceme"
-  ],
-  "scempio": [
-    "scempia",
-    "scempi",
-    "scempie"
-  ],
-  "sceneggiato": [
-    "sceneggiata",
-    "sceneggiati",
-    "sceneggiate"
   ],
   "scenico": [
     "scenica",
@@ -35344,11 +26569,6 @@ export default {
     "schiacciati",
     "schiacciate"
   ],
-  "schiavo": [
-    "schiava",
-    "schiavi",
-    "schiave"
-  ],
   "schiavistico": [
     "schiavistica",
     "schiavistici",
@@ -35379,11 +26599,6 @@ export default {
     "schivi",
     "schive"
   ],
-  "schizofrenico": [
-    "schizofrenica",
-    "schizofrenici",
-    "schizofreniche"
-  ],
   "schizoide": [
     "schizoide",
     "schizoidi",
@@ -35393,16 +26608,6 @@ export default {
     "schizzinosa",
     "schizzinosi",
     "schizzinose"
-  ],
-  "sciagurato": [
-    "sciagurata",
-    "sciagurati",
-    "sciagurate"
-  ],
-  "scialbo": [
-    "scialba",
-    "scialbi",
-    "scialbe"
   ],
   "sciallato": [
     "sciallata",
@@ -35424,11 +26629,6 @@ export default {
     "sciatici",
     "sciatiche"
   ],
-  "sciatore": [
-    "sciatrice",
-    "sciatori",
-    "sciatrici"
-  ],
   "sciatorio": [
     "sciatoria",
     "sciatori",
@@ -35449,16 +26649,6 @@ export default {
     "sciistici",
     "sciistiche"
   ],
-  "sciita": [
-    "sciita",
-    "sciiti",
-    "sciite"
-  ],
-  "sciocco": [
-    "sciocca",
-    "sciocchi",
-    "sciocche"
-  ],
   "scioglibile": [
     "scioglibile",
     "scioglibili",
@@ -35469,20 +26659,10 @@ export default {
     "sciolti",
     "sciolte"
   ],
-  "scioperante": [
-    "scioperante",
-    "scioperanti",
-    "scioperanti"
-  ],
   "scioperato": [
     "scioperata",
     "scioperati",
     "scioperate"
-  ],
-  "sciovinista": [
-    "sciovinista",
-    "sciovinisti",
-    "scioviniste"
   ],
   "sciovinistico": [
     "sciovinistica",
@@ -35508,11 +26688,6 @@ export default {
     "scissa",
     "scissi",
     "scisse"
-  ],
-  "scissionista": [
-    "scissionista",
-    "scissionisti",
-    "scissioniste"
   ],
   "scissionistico": [
     "scissionistica",
@@ -35574,11 +26749,6 @@ export default {
     "scombinati",
     "scombinate"
   ],
-  "scomodo": [
-    "scomoda",
-    "scomodi",
-    "scomode"
-  ],
   "scomparso": [
     "scomparsa",
     "scomparsi",
@@ -35594,11 +26764,6 @@ export default {
     "scomposti",
     "scomposte"
   ],
-  "sconcio": [
-    "sconcia",
-    "sconci",
-    "sconce"
-  ],
   "sconcertante": [
     "sconcertante",
     "sconcertanti",
@@ -35613,11 +26778,6 @@ export default {
     "sconclusionata",
     "sconclusionati",
     "sconclusionate"
-  ],
-  "sconfitto": [
-    "sconfitta",
-    "sconfitti",
-    "sconfitte"
   ],
   "sconfortante": [
     "sconfortante",
@@ -35654,20 +26814,10 @@ export default {
     "sconsolanti",
     "sconsolanti"
   ],
-  "sconsolato": [
-    "sconsolata",
-    "sconsolati",
-    "sconsolate"
-  ],
   "scontato": [
     "scontata",
     "scontati",
     "scontate"
-  ],
-  "scontento": [
-    "scontenta",
-    "scontenti",
-    "scontente"
   ],
   "scontroso": [
     "scontrosa",
@@ -35749,16 +26899,6 @@ export default {
     "scottanti",
     "scottanti"
   ],
-  "scout": [
-    "scout",
-    "scout",
-    "scout"
-  ],
-  "scozzese": [
-    "scozzese",
-    "scozzesi",
-    "scozzesi"
-  ],
   "scriteriato": [
     "scriteriata",
     "scriteriati",
@@ -35769,11 +26909,6 @@ export default {
     "scritti",
     "scritte"
   ],
-  "scrivente": [
-    "scrivente",
-    "scriventi",
-    "scriventi"
-  ],
   "scrosciante": [
     "scrosciante",
     "scroscianti",
@@ -35783,11 +26918,6 @@ export default {
     "scrupolosa",
     "scrupolosi",
     "scrupolose"
-  ],
-  "scultore": [
-    "scultrice",
-    "scultori",
-    "scultrici"
   ],
   "scultoreo": [
     "scultorea",
@@ -35839,11 +26969,6 @@ export default {
     "sdrucciolevoli",
     "sdrucciolevoli"
   ],
-  "secco": [
-    "secca",
-    "secchi",
-    "secche"
-  ],
   "seccante": [
     "seccante",
     "seccanti",
@@ -35859,11 +26984,6 @@ export default {
     "secenteschi",
     "secentesche"
   ],
-  "secessionista": [
-    "secessionista",
-    "secessionisti",
-    "secessioniste"
-  ],
   "secolare": [
     "secolare",
     "secolari",
@@ -35873,36 +26993,6 @@ export default {
     "second",
     "second",
     "second"
-  ],
-  "secondo": [
-    "seconda",
-    "secondi",
-    "seconde"
-  ],
-  "secondario": [
-    "secondaria",
-    "secondari",
-    "secondarie"
-  ],
-  "secondogenito": [
-    "secondogenita",
-    "secondogeniti",
-    "secondogenite"
-  ],
-  "sedativo": [
-    "sedativa",
-    "sedativi",
-    "sedative"
-  ],
-  "sedentario": [
-    "sedentaria",
-    "sedentari",
-    "sedentarie"
-  ],
-  "sedicenne": [
-    "sedicenne",
-    "sedicenni",
-    "sedicenni"
   ],
   "sedicente": [
     "sedicente",
@@ -35923,11 +27013,6 @@ export default {
     "seducente",
     "seducenti",
     "seducenti"
-  ],
-  "seduttore": [
-    "seduttrice",
-    "seduttori",
-    "seduttrici"
   ],
   "segaligno": [
     "segaligna",
@@ -35964,21 +27049,6 @@ export default {
     "segregazionisti",
     "segregazioniste"
   ],
-  "segreto": [
-    "segreta",
-    "segreti",
-    "segrete"
-  ],
-  "seguente": [
-    "seguente",
-    "seguenti",
-    "seguenti"
-  ],
-  "seguito": [
-    "seguita",
-    "seguiti",
-    "seguite"
-  ],
   "seicentesco": [
     "seicentesca",
     "seicenteschi",
@@ -35994,11 +27064,6 @@ export default {
     "seimillesimi",
     "seimillesime"
   ],
-  "selciato": [
-    "selciata",
-    "selciati",
-    "selciate"
-  ],
   "selettivo": [
     "selettiva",
     "selettivi",
@@ -36008,16 +27073,6 @@ export default {
     "selezionata",
     "selezionati",
     "selezionate"
-  ],
-  "selezionatore": [
-    "selezionatrice",
-    "selezionatori",
-    "selezionatrici"
-  ],
-  "selvaggio": [
-    "selvaggia",
-    "selvaggi",
-    "selvagge"
   ],
   "selvatico": [
     "selvatica",
@@ -36074,11 +27129,6 @@ export default {
     "semideserti",
     "semideserte"
   ],
-  "semilavorato": [
-    "semilavorata",
-    "semilavorati",
-    "semilavorate"
-  ],
   "semilunare": [
     "semilunare",
     "semilunari",
@@ -36093,11 +27143,6 @@ export default {
     "seminascosta",
     "seminascosti",
     "seminascoste"
-  ],
-  "seminato": [
-    "seminata",
-    "seminati",
-    "seminate"
   ],
   "seminfermo": [
     "seminferma",
@@ -36149,16 +27194,6 @@ export default {
     "semoventi",
     "semoventi"
   ],
-  "sempiterno": [
-    "sempiterna",
-    "sempiterni",
-    "sempiterne"
-  ],
-  "semplice": [
-    "semplice",
-    "semplici",
-    "semplici"
-  ],
   "sempliciotto": [
     "sempliciotta",
     "sempliciotti",
@@ -36173,11 +27208,6 @@ export default {
     "semplicistica",
     "semplicistici",
     "semplicistiche"
-  ],
-  "sempreverde": [
-    "sempreverde",
-    "sempreverdi",
-    "sempreverdi"
   ],
   "senape": [
     "senape",
@@ -36194,20 +27224,10 @@ export default {
     "senatoriali",
     "senatoriali"
   ],
-  "senegalese": [
-    "senegalese",
-    "senegalesi",
-    "senegalesi"
-  ],
   "senescente": [
     "senescente",
     "senescenti",
     "senescenti"
-  ],
-  "senese": [
-    "senese",
-    "senesi",
-    "senesi"
   ],
   "senile": [
     "senile",
@@ -36234,11 +27254,6 @@ export default {
     "sensibili",
     "sensibili"
   ],
-  "sensitivo": [
-    "sensitiva",
-    "sensitivi",
-    "sensitive"
-  ],
   "sensorio": [
     "sensoria",
     "sensori",
@@ -36253,11 +27268,6 @@ export default {
     "sensuale",
     "sensuali",
     "sensuali"
-  ],
-  "sentimentale": [
-    "sentimentale",
-    "sentimentali",
-    "sentimentali"
   ],
   "sentito": [
     "sentita",
@@ -36278,11 +27288,6 @@ export default {
     "sepolcrale",
     "sepolcrali",
     "sepolcrali"
-  ],
-  "sepolto": [
-    "sepolta",
-    "sepolti",
-    "sepolte"
   ],
   "seppellito": [
     "seppellita",
@@ -36399,11 +27404,6 @@ export default {
     "sessantatreesimi",
     "sessantatreesime"
   ],
-  "sessantenne": [
-    "sessantenne",
-    "sessantenne",
-    "sessantenne"
-  ],
   "sessantesimo": [
     "sessantesima",
     "sessantesimi",
@@ -36484,11 +27484,6 @@ export default {
     "settantatreesimi",
     "settantatreesime"
   ],
-  "settantenne": [
-    "settantenne",
-    "settantenne",
-    "settantenne"
-  ],
   "settantesimo": [
     "settantesima",
     "settantesimi",
@@ -36503,11 +27498,6 @@ export default {
     "settantunesima",
     "settantunesimi",
     "settantunesime"
-  ],
-  "settario": [
-    "settaria",
-    "settari",
-    "settarie"
   ],
   "settecentesco": [
     "settecentesca",
@@ -36534,20 +27524,10 @@ export default {
     "settennali",
     "settennali"
   ],
-  "settentrionale": [
-    "settentrionale",
-    "settentrionali",
-    "settentrionali"
-  ],
   "settimo": [
     "settima",
     "settimi",
     "settime"
-  ],
-  "settimanale": [
-    "settimanale",
-    "settimanali",
-    "settimanali"
   ],
   "settimino": [
     "settimina",
@@ -36629,11 +27609,6 @@ export default {
     "sfibrati",
     "sfibrate"
   ],
-  "sfidante": [
-    "sfidante",
-    "sfidanti",
-    "sfidanti"
-  ],
   "sfilacciato": [
     "sfilacciata",
     "sfilacciati",
@@ -36664,11 +27639,6 @@ export default {
     "sfolgoranti",
     "sfolgoranti"
   ],
-  "sfollato": [
-    "sfollata",
-    "sfollati",
-    "sfollate"
-  ],
   "sfondato": [
     "sfondata",
     "sfondati",
@@ -36678,11 +27648,6 @@ export default {
     "sformata",
     "sformati",
     "sformate"
-  ],
-  "sfortunato": [
-    "sfortunata",
-    "sfortunati",
-    "sfortunate"
   ],
   "sforzato": [
     "sforzata",
@@ -36729,11 +27694,6 @@ export default {
     "sfusi",
     "sfuse"
   ],
-  "sgangherato": [
-    "sgangherata",
-    "sgangherati",
-    "sgangherate"
-  ],
   "sgarbato": [
     "sgarbata",
     "sgarbati",
@@ -36763,11 +27723,6 @@ export default {
     "sgombra",
     "sgombri",
     "sgombre"
-  ],
-  "sgomento": [
-    "sgomenta",
-    "sgomenti",
-    "sgomente"
   ],
   "sgonfio": [
     "sgonfia",
@@ -36799,16 +27754,6 @@ export default {
     "sguaiati",
     "sguaiate"
   ],
-  "shock": [
-    "shock",
-    "shock",
-    "shock"
-  ],
-  "siamese": [
-    "siamese",
-    "siamesi",
-    "siamesi"
-  ],
   "siberiano": [
     "siberiana",
     "siberiani",
@@ -36823,11 +27768,6 @@ export default {
     "siccitosa",
     "siccitosi",
     "siccitose"
-  ],
-  "siciliano": [
-    "siciliana",
-    "siciliani",
-    "siciliane"
   ],
   "siculo": [
     "sicula",
@@ -36844,16 +27784,6 @@ export default {
     "siderali",
     "siderali"
   ],
-  "siderurgico": [
-    "siderurgica",
-    "siderurgici",
-    "siderurgiche"
-  ],
-  "sieropositivo": [
-    "sieropositiva",
-    "sieropositivi",
-    "sieropositive"
-  ],
   "siffatto": [
     "siffatta",
     "siffatti",
@@ -36864,11 +27794,6 @@ export default {
     "sifilitici",
     "sifilitiche"
   ],
-  "significante": [
-    "significante",
-    "significanti",
-    "significanti"
-  ],
   "significativo": [
     "significativa",
     "significativi",
@@ -36878,11 +27803,6 @@ export default {
     "signorile",
     "signorili",
     "signorili"
-  ],
-  "sikh": [
-    "sikh",
-    "sikh",
-    "sikh"
   ],
   "silente": [
     "silente",
@@ -36914,45 +27834,20 @@ export default {
     "simbolici",
     "simboliche"
   ],
-  "simbolista": [
-    "simbolista",
-    "simbolisti",
-    "simboliste"
-  ],
   "simbolistico": [
     "simbolistica",
     "simbolistici",
     "simbolistiche"
-  ],
-  "simile": [
-    "simile",
-    "simili",
-    "simili"
   ],
   "simmetrico": [
     "simmetrica",
     "simmetrici",
     "simmetriche"
   ],
-  "simpatico": [
-    "simpatica",
-    "simpatici",
-    "simpatiche"
-  ],
-  "simpatizzante": [
-    "simpatizzante",
-    "simpatizzanti",
-    "simpatizzanti"
-  ],
   "simultaneo": [
     "simultanea",
     "simultanei",
     "simultanee"
-  ],
-  "sincero": [
-    "sincera",
-    "sinceri",
-    "sincere"
   ],
   "sincopato": [
     "sincopata",
@@ -36983,26 +27878,6 @@ export default {
     "sinfonica",
     "sinfonici",
     "sinfoniche"
-  ],
-  "singalese": [
-    "singalese",
-    "singalesi",
-    "singalesi"
-  ],
-  "singolo": [
-    "singola",
-    "singoli",
-    "singole"
-  ],
-  "singolare": [
-    "singolare",
-    "singolari",
-    "singolari"
-  ],
-  "sinistro": [
-    "sinistra",
-    "sinistri",
-    "sinistre"
   ],
   "sinistrato": [
     "sinistrata",
@@ -37054,11 +27929,6 @@ export default {
     "sionisti",
     "sioniste"
   ],
-  "siriano": [
-    "siriana",
-    "siriani",
-    "siriane"
-  ],
   "sirianizzato": [
     "sirianizzata",
     "sirianizzati",
@@ -37079,25 +27949,10 @@ export default {
     "sistemici",
     "sistemiche"
   ],
-  "sito": [
-    "sita",
-    "siti",
-    "site"
-  ],
-  "skin": [
-    "skin",
-    "skin",
-    "skin"
-  ],
   "slanciato": [
     "slanciata",
     "slanciati",
     "slanciate"
-  ],
-  "slavo": [
-    "slava",
-    "slavi",
-    "slave"
   ],
   "slavato": [
     "slavata",
@@ -37113,11 +27968,6 @@ export default {
     "slegata",
     "slegati",
     "slegate"
-  ],
-  "slovacco": [
-    "slovacca",
-    "slovacchi",
-    "slovacche"
   ],
   "smaccato": [
     "smaccata",
@@ -37139,25 +27989,10 @@ export default {
     "smaniosi",
     "smaniose"
   ],
-  "smarrito": [
-    "smarrita",
-    "smarriti",
-    "smarrite"
-  ],
-  "smemorato": [
-    "smemorata",
-    "smemorati",
-    "smemorate"
-  ],
   "smeraldino": [
     "smeraldina",
     "smeraldini",
     "smeraldine"
-  ],
-  "smeraldo": [
-    "smeraldo",
-    "smeraldo",
-    "smeraldo"
   ],
   "smesso": [
     "smessa",
@@ -37239,45 +28074,10 @@ export default {
     "soavi",
     "soavi"
   ],
-  "sobillatore": [
-    "sobillatrice",
-    "sobillatori",
-    "sobillatrici"
-  ],
-  "sobrio": [
-    "sobria",
-    "sobri",
-    "sobrie"
-  ],
-  "soccombente": [
-    "soccombente",
-    "soccombenti",
-    "soccombenti"
-  ],
-  "soccorritore": [
-    "soccorritrice",
-    "soccorritori",
-    "soccorritrici"
-  ],
   "social": [
     "social",
     "social",
     "social"
-  ],
-  "socialdemocratico": [
-    "socialdemocratica",
-    "socialdemocratici",
-    "socialdemocratiche"
-  ],
-  "sociale": [
-    "sociale",
-    "sociali",
-    "sociali"
-  ],
-  "socialista": [
-    "socialista",
-    "socialisti",
-    "socialiste"
   ],
   "socialistico": [
     "socialistica",
@@ -37334,20 +28134,10 @@ export default {
     "sodici",
     "sodiche"
   ],
-  "sofferente": [
-    "sofferente",
-    "sofferenti",
-    "sofferenti"
-  ],
   "sofferto": [
     "sofferta",
     "sofferti",
     "sofferte"
-  ],
-  "soffice": [
-    "soffice",
-    "soffici",
-    "soffici"
   ],
   "soffocante": [
     "soffocante",
@@ -37379,11 +28169,6 @@ export default {
     "soft",
     "soft"
   ],
-  "soggetto": [
-    "soggetta",
-    "soggetti",
-    "soggette"
-  ],
   "soggettivo": [
     "soggettiva",
     "soggettivi",
@@ -37393,11 +28178,6 @@ export default {
     "sognante",
     "sognanti",
     "sognanti"
-  ],
-  "sognatore": [
-    "sognatrice",
-    "sognatori",
-    "sognatrici"
   ],
   "sol": [
     "sol",
@@ -37434,11 +28214,6 @@ export default {
     "solenni",
     "solenni"
   ],
-  "solerte": [
-    "solerte",
-    "solerti",
-    "solerti"
-  ],
   "solforato": [
     "solforata",
     "solforati",
@@ -37454,75 +28229,30 @@ export default {
     "solforosi",
     "solforose"
   ],
-  "solido": [
-    "solida",
-    "solidi",
-    "solide"
-  ],
   "solidale": [
     "solidale",
     "solidali",
     "solidali"
-  ],
-  "solista": [
-    "solista",
-    "solisti",
-    "soliste"
   ],
   "solistico": [
     "solistica",
     "solistici",
     "solistiche"
   ],
-  "solito": [
-    "solita",
-    "soliti",
-    "solite"
-  ],
-  "solitario": [
-    "solitaria",
-    "solitari",
-    "solitarie"
-  ],
-  "sollecito": [
-    "sollecita",
-    "solleciti",
-    "sollecite"
-  ],
   "sollevato": [
     "sollevata",
     "sollevati",
     "sollevate"
-  ],
-  "sollevatore": [
-    "sollevatrice",
-    "sollevatori",
-    "sollevatrici"
   ],
   "solubile": [
     "solubile",
     "solubili",
     "solubili"
   ],
-  "solvente": [
-    "solvente",
-    "solventi",
-    "solventi"
-  ],
   "solvibile": [
     "solvibile",
     "solvibili",
     "solvibili"
-  ],
-  "somalo": [
-    "somala",
-    "somali",
-    "somale"
-  ],
-  "somaro": [
-    "somara",
-    "somari",
-    "somare"
   ],
   "somatico": [
     "somatica",
@@ -37534,30 +28264,15 @@ export default {
     "somiglianti",
     "somiglianti"
   ],
-  "sommo": [
-    "somma",
-    "sommi",
-    "somme"
-  ],
   "sommario": [
     "sommaria",
     "sommari",
     "sommarie"
   ],
-  "sommergibile": [
-    "sommergibile",
-    "sommergibili",
-    "sommergibili"
-  ],
   "sommerso": [
     "sommersa",
     "sommersi",
     "sommerse"
-  ],
-  "sommesso": [
-    "sommessa",
-    "sommessi",
-    "sommesse"
   ],
   "sonante": [
     "sonante",
@@ -37589,20 +28304,10 @@ export default {
     "sonnambuli",
     "sonnambule"
   ],
-  "sonnifero": [
-    "sonnifera",
-    "sonniferi",
-    "sonnifere"
-  ],
   "sonnolento": [
     "sonnolenta",
     "sonnolenti",
     "sonnolente"
-  ],
-  "sonoro": [
-    "sonora",
-    "sonori",
-    "sonore"
   ],
   "sontuoso": [
     "sontuosa",
@@ -37618,11 +28323,6 @@ export default {
     "sopportabile",
     "sopportabili",
     "sopportabili"
-  ],
-  "soppresso": [
-    "soppressa",
-    "soppressi",
-    "soppresse"
   ],
   "sopra": [
     "sopra",
@@ -37644,11 +28344,6 @@ export default {
     "sopraffini",
     "sopraffine"
   ],
-  "soprano": [
-    "soprana",
-    "soprani",
-    "soprane"
-  ],
   "sopranazionale": [
     "sopranazionale",
     "sopranazionali",
@@ -37668,21 +28363,6 @@ export default {
     "soprannumera",
     "soprannumeri",
     "soprannumere"
-  ],
-  "sopravvissuto": [
-    "sopravvissuta",
-    "sopravvissuti",
-    "sopravvissute"
-  ],
-  "soprintendente": [
-    "soprintendente",
-    "soprintendenti",
-    "soprintendenti"
-  ],
-  "sordo": [
-    "sorda",
-    "sordi",
-    "sorde"
   ],
   "sordido": [
     "sordida",
@@ -37714,20 +28394,10 @@ export default {
     "sorpassati",
     "sorpassate"
   ],
-  "sorprendente": [
-    "sorprendente",
-    "sorprendenti",
-    "sorprendenti"
-  ],
   "sorpreso": [
     "sorpresa",
     "sorpresi",
     "sorprese"
-  ],
-  "sorridente": [
-    "sorridente",
-    "sorridenti",
-    "sorridenti"
   ],
   "sorto": [
     "sorta",
@@ -37738,16 +28408,6 @@ export default {
     "sospensiva",
     "sospensivi",
     "sospensive"
-  ],
-  "sospeso": [
-    "sospesa",
-    "sospesi",
-    "sospese"
-  ],
-  "sospetto": [
-    "sospetta",
-    "sospetti",
-    "sospette"
   ],
   "sospettabile": [
     "sospettabile",
@@ -37779,11 +28439,6 @@ export default {
     "sostenibili",
     "sostenibili"
   ],
-  "sostenitore": [
-    "sostenitrice",
-    "sostenitori",
-    "sostenitrici"
-  ],
   "sostenuto": [
     "sostenuta",
     "sostenuti",
@@ -37804,11 +28459,6 @@ export default {
     "sottani",
     "sottane"
   ],
-  "sotterraneo": [
-    "sotterranea",
-    "sotterranei",
-    "sotterranee"
-  ],
   "sotteso": [
     "sottesa",
     "sottesi",
@@ -37818,11 +28468,6 @@ export default {
     "sottile",
     "sottili",
     "sottili"
-  ],
-  "sottinteso": [
-    "sottintesa",
-    "sottintesi",
-    "sottintese"
   ],
   "sotto": [
     "sotto",
@@ -37839,11 +28484,6 @@ export default {
     "sottocutanei",
     "sottocutanee"
   ],
-  "sottomarino": [
-    "sottomarina",
-    "sottomarini",
-    "sottomarine"
-  ],
   "sottomesso": [
     "sottomessa",
     "sottomessi",
@@ -37854,20 +28494,10 @@ export default {
     "sottoposti",
     "sottoposte"
   ],
-  "sottoscritto": [
-    "sottoscritta",
-    "sottoscritti",
-    "sottoscritte"
-  ],
   "sottosopra": [
     "sottosopra",
     "sottosopra",
     "sottosopra"
-  ],
-  "sottostante": [
-    "sottostante",
-    "sottostanti",
-    "sottostanti"
   ],
   "sottosviluppato": [
     "sottosviluppata",
@@ -37889,20 +28519,10 @@ export default {
     "soverchi",
     "soverchie"
   ],
-  "sovietico": [
-    "sovietica",
-    "sovietici",
-    "sovietiche"
-  ],
   "sovrabbondante": [
     "sovrabbondante",
     "sovrabbondanti",
     "sovrabbondanti"
-  ],
-  "sovraccarico": [
-    "sovraccarica",
-    "sovraccarici",
-    "sovraccariche"
   ],
   "sovraffollato": [
     "sovraffollata",
@@ -37913,11 +28533,6 @@ export default {
     "sovralimentata",
     "sovralimentati",
     "sovralimentate"
-  ],
-  "sovrano": [
-    "sovrana",
-    "sovrani",
-    "sovrane"
   ],
   "sovranazionale": [
     "sovranazionale",
@@ -37949,11 +28564,6 @@ export default {
     "sovrumani",
     "sovrumane"
   ],
-  "sovversivo": [
-    "sovversiva",
-    "sovversivi",
-    "sovversive"
-  ],
   "sovvertitore": [
     "sovvertitrice",
     "sovvertitori",
@@ -37973,11 +28583,6 @@ export default {
     "spaesata",
     "spaesati",
     "spaesate"
-  ],
-  "spagnolo": [
-    "spagnola",
-    "spagnoli",
-    "spagnole"
   ],
   "spagnolesco": [
     "spagnolesca",
@@ -38079,16 +28684,6 @@ export default {
     "specchiati",
     "specchiate"
   ],
-  "special": [
-    "special",
-    "special",
-    "special"
-  ],
-  "speciale": [
-    "speciale",
-    "speciali",
-    "speciali"
-  ],
   "specialistico": [
     "specialistica",
     "specialistici",
@@ -38098,11 +28693,6 @@ export default {
     "specializzata",
     "specializzati",
     "specializzate"
-  ],
-  "specifico": [
-    "specifica",
-    "specifici",
-    "specifiche"
   ],
   "specificato": [
     "specificata",
@@ -38124,11 +28714,6 @@ export default {
     "speculativi",
     "speculative"
   ],
-  "speculatore": [
-    "speculatrice",
-    "speculatori",
-    "speculatrici"
-  ],
   "spedito": [
     "spedita",
     "spediti",
@@ -38148,11 +28733,6 @@ export default {
     "spendereccia",
     "spenderecci",
     "spenderecce"
-  ],
-  "spensierato": [
-    "spensierata",
-    "spensierati",
-    "spensierate"
   ],
   "spento": [
     "spenta",
@@ -38178,11 +28758,6 @@ export default {
     "sperequata",
     "sperequati",
     "sperequate"
-  ],
-  "spericolato": [
-    "spericolata",
-    "spericolati",
-    "spericolate"
   ],
   "sperimentale": [
     "sperimentale",
@@ -38218,11 +28793,6 @@ export default {
     "spettacolosa",
     "spettacolosi",
     "spettacolose"
-  ],
-  "spettatore": [
-    "spettatrice",
-    "spettatori",
-    "spettatrici"
   ],
   "spettrale": [
     "spettrale",
@@ -38269,11 +28839,6 @@ export default {
     "spicciativi",
     "spicciative"
   ],
-  "spicciolo": [
-    "spicciola",
-    "spiccioli",
-    "spicciole"
-  ],
   "spicciolato": [
     "spicciolata",
     "spicciolati",
@@ -38283,11 +28848,6 @@ export default {
     "spiegabile",
     "spiegabili",
     "spiegabili"
-  ],
-  "spietato": [
-    "spietata",
-    "spietati",
-    "spietate"
   ],
   "spigliato": [
     "spigliata",
@@ -38328,11 +28888,6 @@ export default {
     "spionistica",
     "spionistici",
     "spionistiche"
-  ],
-  "spiovente": [
-    "spiovente",
-    "spioventi",
-    "spioventi"
   ],
   "spirale": [
     "spirale",
@@ -38394,16 +28949,6 @@ export default {
     "sporadici",
     "sporadiche"
   ],
-  "sporco": [
-    "sporca",
-    "sporchi",
-    "sporche"
-  ],
-  "sporcaccione": [
-    "sporcaccione",
-    "sporcaccioni",
-    "sporcaccioni"
-  ],
   "sporgente": [
     "sporgente",
     "sporgenti",
@@ -38459,11 +29004,6 @@ export default {
     "sprezzanti",
     "sprezzanti"
   ],
-  "sprint": [
-    "sprint",
-    "sprint",
-    "sprint"
-  ],
   "sproporzionato": [
     "sproporzionata",
     "sproporzionati",
@@ -38473,11 +29013,6 @@ export default {
     "spropositata",
     "spropositati",
     "spropositate"
-  ],
-  "sprovveduto": [
-    "sprovveduta",
-    "sprovveduti",
-    "sprovvedute"
   ],
   "sprovvisto": [
     "sprovvista",
@@ -38494,11 +29029,6 @@ export default {
     "spugnosi",
     "spugnose"
   ],
-  "spumante": [
-    "spumante",
-    "spumanti",
-    "spumanti"
-  ],
   "spumeggiante": [
     "spumeggiante",
     "spumeggianti",
@@ -38509,25 +29039,10 @@ export default {
     "spuri",
     "spurie"
   ],
-  "squallido": [
-    "squallida",
-    "squallidi",
-    "squallide"
-  ],
   "squattrinato": [
     "squattrinata",
     "squattrinati",
     "squattrinate"
-  ],
-  "squilibrato": [
-    "squilibrata",
-    "squilibrati",
-    "squilibrate"
-  ],
-  "squillo": [
-    "squilla",
-    "squilli",
-    "squille"
   ],
   "squillante": [
     "squillante",
@@ -38554,30 +29069,15 @@ export default {
     "sregolati",
     "sregolate"
   ],
-  "stabile": [
-    "stabile",
-    "stabili",
-    "stabili"
-  ],
   "stabilito": [
     "stabilita",
     "stabiliti",
     "stabilite"
   ],
-  "stabilizzatore": [
-    "stabilizzatrice",
-    "stabilizzatori",
-    "stabilizzatrici"
-  ],
   "staccabile": [
     "staccabile",
     "staccabili",
     "staccabili"
-  ],
-  "staccato": [
-    "staccata",
-    "staccati",
-    "staccate"
   ],
   "stagionale": [
     "stagionale",
@@ -38588,11 +29088,6 @@ export default {
     "stagionata",
     "stagionati",
     "stagionate"
-  ],
-  "stagno": [
-    "stagna",
-    "stagni",
-    "stagne"
   ],
   "stagnante": [
     "stagnante",
@@ -38609,30 +29104,15 @@ export default {
     "staliniani",
     "staliniane"
   ],
-  "stalinista": [
-    "stalinista",
-    "stalinisti",
-    "staliniste"
-  ],
   "stampante": [
     "stampante",
     "stampanti",
     "stampanti"
   ],
-  "stampato": [
-    "stampata",
-    "stampati",
-    "stampate"
-  ],
   "stanco": [
     "stanca",
     "stanchi",
     "stanche"
-  ],
-  "standard": [
-    "standard",
-    "standard",
-    "standard"
   ],
   "stante": [
     "stante",
@@ -38649,20 +29129,10 @@ export default {
     "stanziali",
     "stanziali"
   ],
-  "statale": [
-    "statale",
-    "statali",
-    "statali"
-  ],
   "statico": [
     "statica",
     "statici",
     "statiche"
-  ],
-  "statistico": [
-    "statistica",
-    "statistici",
-    "statistiche"
   ],
   "statuale": [
     "statuale",
@@ -38719,11 +29189,6 @@ export default {
     "stenografici",
     "stenografiche"
   ],
-  "stento": [
-    "stenta",
-    "stenti",
-    "stente"
-  ],
   "stentato": [
     "stentata",
     "stentati",
@@ -38739,11 +29204,6 @@ export default {
     "stepposi",
     "steppose"
   ],
-  "stereo": [
-    "sterea",
-    "sterei",
-    "steree"
-  ],
   "stereofonico": [
     "stereofonica",
     "stereofonici",
@@ -38753,11 +29213,6 @@ export default {
     "stereoscopica",
     "stereoscopici",
     "stereoscopiche"
-  ],
-  "stereotipo": [
-    "stereotipa",
-    "stereotipi",
-    "stereotipe"
   ],
   "stereotipato": [
     "stereotipata",
@@ -38773,21 +29228,6 @@ export default {
     "sterilizzatrice",
     "sterilizzatori",
     "sterilizzatrici"
-  ],
-  "sterminato": [
-    "sterminata",
-    "sterminati",
-    "sterminate"
-  ],
-  "sterminatore": [
-    "sterminatrice",
-    "sterminatori",
-    "sterminatrici"
-  ],
-  "stesso": [
-    "stessa",
-    "stessi",
-    "stesse"
   ],
   "stilistico": [
     "stilistica",
@@ -38814,11 +29254,6 @@ export default {
     "stimati",
     "stimate"
   ],
-  "stimolante": [
-    "stimolante",
-    "stimolanti",
-    "stimolanti"
-  ],
   "stipendiato": [
     "stipendiata",
     "stipendiati",
@@ -38843,11 +29278,6 @@ export default {
     "stocastica",
     "stocastici",
     "stocastiche"
-  ],
-  "stoico": [
-    "stoica",
-    "stoici",
-    "stoiche"
   ],
   "stolido": [
     "stolida",
@@ -38879,25 +29309,10 @@ export default {
     "storditi",
     "stordite"
   ],
-  "storico": [
-    "storica",
-    "storici",
-    "storiche"
-  ],
   "storiografico": [
     "storiografica",
     "storiografici",
     "storiografiche"
-  ],
-  "storno": [
-    "storna",
-    "storni",
-    "storne"
-  ],
-  "storpio": [
-    "storpia",
-    "storpi",
-    "storpie"
   ],
   "storto": [
     "storta",
@@ -38929,11 +29344,6 @@ export default {
     "straccali",
     "straccali"
   ],
-  "straccio": [
-    "straccia",
-    "stracci",
-    "stracce"
-  ],
   "stracciato": [
     "stracciata",
     "stracciati",
@@ -38964,35 +29374,10 @@ export default {
     "stragrandi",
     "stragrandi"
   ],
-  "stralcio": [
-    "stralcia",
-    "stralci",
-    "stralce"
-  ],
   "stralunato": [
     "stralunata",
     "stralunati",
     "stralunate"
-  ],
-  "strambo": [
-    "stramba",
-    "strambi",
-    "strambe"
-  ],
-  "strampalato": [
-    "strampalata",
-    "strampalati",
-    "strampalate"
-  ],
-  "strano": [
-    "strana",
-    "strani",
-    "strane"
-  ],
-  "straniero": [
-    "straniera",
-    "stranieri",
-    "straniere"
   ],
   "stranito": [
     "stranita",
@@ -39154,11 +29539,6 @@ export default {
     "strutturati",
     "strutturate"
   ],
-  "stucco": [
-    "stucca",
-    "stucchi",
-    "stucche"
-  ],
   "stucchevole": [
     "stucchevole",
     "stucchevoli",
@@ -39173,11 +29553,6 @@ export default {
     "studiata",
     "studiati",
     "studiate"
-  ],
-  "studioso": [
-    "studiosa",
-    "studiosi",
-    "studiose"
   ],
   "stufo": [
     "stufa",
@@ -39199,11 +29574,6 @@ export default {
     "stupendi",
     "stupende"
   ],
-  "stupido": [
-    "stupida",
-    "stupidi",
-    "stupide"
-  ],
   "stupito": [
     "stupita",
     "stupiti",
@@ -39224,11 +29594,6 @@ export default {
     "suasivi",
     "suasive"
   ],
-  "subacqueo": [
-    "subacquea",
-    "subacquei",
-    "subacquee"
-  ],
   "subalpino": [
     "subalpina",
     "subalpini",
@@ -39238,16 +29603,6 @@ export default {
     "subalterna",
     "subalterni",
     "subalterne"
-  ],
-  "subconscio": [
-    "subconscia",
-    "subconsci",
-    "subconsce"
-  ],
-  "subdolo": [
-    "subdola",
-    "subdoli",
-    "subdole"
   ],
   "subito": [
     "subita",
@@ -39259,11 +29614,6 @@ export default {
     "subitanei",
     "subitanee"
   ],
-  "sublime": [
-    "sublime",
-    "sublimi",
-    "sublimi"
-  ],
   "subliminale": [
     "subliminale",
     "subliminali",
@@ -39273,11 +29623,6 @@ export default {
     "subnormale",
     "subnormali",
     "subnormali"
-  ],
-  "subordinato": [
-    "subordinata",
-    "subordinati",
-    "subordinate"
   ],
   "subsonico": [
     "subsonica",
@@ -39299,20 +29644,10 @@ export default {
     "suburbani",
     "suburbane"
   ],
-  "succedaneo": [
-    "succedanea",
-    "succedanei",
-    "succedanee"
-  ],
   "successivo": [
     "successiva",
     "successivi",
     "successive"
-  ],
-  "successore": [
-    "successore",
-    "successori",
-    "successori"
   ],
   "successorio": [
     "successoria",
@@ -39344,11 +29679,6 @@ export default {
     "sudafricani",
     "sudafricane"
   ],
-  "sudamericano": [
-    "sudamericana",
-    "sudamericani",
-    "sudamericane"
-  ],
   "sudanese": [
     "sudanese",
     "sudanesi",
@@ -39364,11 +29694,6 @@ export default {
     "sudaticci",
     "sudaticce"
   ],
-  "sudcoreano": [
-    "sudcoreana",
-    "sudcoreani",
-    "sudcoreane"
-  ],
   "suddetto": [
     "suddetta",
     "suddetti",
@@ -39378,11 +29703,6 @@ export default {
     "sudicia",
     "sudici",
     "sudice"
-  ],
-  "sudista": [
-    "sudista",
-    "sudisti",
-    "sudiste"
   ],
   "sudorientale": [
     "sudorientale",
@@ -39399,30 +29719,10 @@ export default {
     "sufficienti",
     "sufficienti"
   ],
-  "suggestivo": [
-    "suggestiva",
-    "suggestivi",
-    "suggestive"
-  ],
-  "suicidio": [
-    "suicidia",
-    "suicidi",
-    "suicidie"
-  ],
-  "suino": [
-    "suina",
-    "suini",
-    "suine"
-  ],
   "sulfureo": [
     "sulfurea",
     "sulfurei",
     "sulfuree"
-  ],
-  "sunnita": [
-    "sunnita",
-    "sunniti",
-    "sunnite"
   ],
   "suonato": [
     "suonata",
@@ -39454,35 +29754,10 @@ export default {
     "superati",
     "superate"
   ],
-  "superbo": [
-    "superba",
-    "superbi",
-    "superbe"
-  ],
   "superconduttivo": [
     "superconduttiva",
     "superconduttivi",
     "superconduttive"
-  ],
-  "superficiale": [
-    "superficiale",
-    "superficiali",
-    "superficiali"
-  ],
-  "superfluo": [
-    "superflua",
-    "superflui",
-    "superflue"
-  ],
-  "superiore": [
-    "superiore",
-    "superiori",
-    "superiori"
-  ],
-  "superlativo": [
-    "superlativa",
-    "superlativi",
-    "superlative"
   ],
   "superliquido": [
     "superliquida",
@@ -39639,16 +29914,6 @@ export default {
     "supersonici",
     "supersoniche"
   ],
-  "superstite": [
-    "superstite",
-    "superstiti",
-    "superstiti"
-  ],
-  "superstizioso": [
-    "superstiziosa",
-    "superstiziosi",
-    "superstiziose"
-  ],
   "superveloce": [
     "superveloce",
     "superveloci",
@@ -39658,11 +29923,6 @@ export default {
     "supina",
     "supini",
     "supine"
-  ],
-  "supplente": [
-    "supplente",
-    "supplenti",
-    "supplenti"
   ],
   "suppletivo": [
     "suppletiva",
@@ -39694,21 +29954,6 @@ export default {
     "supremi",
     "supreme"
   ],
-  "surgelato": [
-    "surgelata",
-    "surgelati",
-    "surgelate"
-  ],
-  "surreale": [
-    "surreale",
-    "surreali",
-    "surreali"
-  ],
-  "surrealista": [
-    "surrealista",
-    "surrealisti",
-    "surrealiste"
-  ],
   "surrealistico": [
     "surrealistica",
     "surrealistici",
@@ -39734,11 +29979,6 @@ export default {
     "surrogabili",
     "surrogabili"
   ],
-  "surrogato": [
-    "surrogata",
-    "surrogati",
-    "surrogate"
-  ],
   "suscettibile": [
     "suscettibile",
     "suscettibili",
@@ -39753,11 +29993,6 @@ export default {
     "susseguente",
     "susseguenti",
     "susseguenti"
-  ],
-  "sussidiario": [
-    "sussidiaria",
-    "sussidiari",
-    "sussidiarie"
   ],
   "sussiegoso": [
     "sussiegosa",
@@ -39834,11 +30069,6 @@ export default {
     "sventati",
     "sventate"
   ],
-  "sventurato": [
-    "sventurata",
-    "sventurati",
-    "sventurate"
-  ],
   "sveviano": [
     "sveviana",
     "sveviani",
@@ -39879,11 +30109,6 @@ export default {
     "taciti",
     "tacite"
   ],
-  "taciturno": [
-    "taciturna",
-    "taciturni",
-    "taciturne"
-  ],
   "tagliato": [
     "tagliata",
     "tagliati",
@@ -39914,16 +30139,6 @@ export default {
     "talentuosi",
     "talentuose"
   ],
-  "tamil": [
-    "tamil",
-    "tamil",
-    "tamil"
-  ],
-  "tampone": [
-    "tampone",
-    "tamponi",
-    "tamponi"
-  ],
   "tangente": [
     "tangente",
     "tangenti",
@@ -39939,11 +30154,6 @@ export default {
     "tangibili",
     "tangibili"
   ],
-  "tango": [
-    "tango",
-    "tango",
-    "tango"
-  ],
   "tant": [
     "tant",
     "tant",
@@ -39958,11 +30168,6 @@ export default {
     "tantina",
     "tantini",
     "tantine"
-  ],
-  "tapino": [
-    "tapina",
-    "tapini",
-    "tapine"
   ],
   "tarato": [
     "tarata",
@@ -39983,16 +30188,6 @@ export default {
     "tardiva",
     "tardivi",
     "tardive"
-  ],
-  "tariffario": [
-    "tariffaria",
-    "tariffari",
-    "tariffarie"
-  ],
-  "tartaro": [
-    "tartara",
-    "tartari",
-    "tartare"
   ],
   "tartareo": [
     "tartarea",
@@ -40049,20 +30244,10 @@ export default {
     "techni",
     "techne"
   ],
-  "tecnico": [
-    "tecnica",
-    "tecnici",
-    "tecniche"
-  ],
   "tecnologico": [
     "tecnologica",
     "tecnologici",
     "tecnologiche"
-  ],
-  "tedesco": [
-    "tedesca",
-    "tedeschi",
-    "tedesche"
   ],
   "tedioso": [
     "tediosa",
@@ -40129,11 +30314,6 @@ export default {
     "tematici",
     "tematiche"
   ],
-  "temerario": [
-    "temeraria",
-    "temerari",
-    "temerarie"
-  ],
   "temibile": [
     "temibile",
     "temibili",
@@ -40159,11 +30339,6 @@ export default {
     "templari",
     "templari"
   ],
-  "temporale": [
-    "temporale",
-    "temporali",
-    "temporali"
-  ],
   "temporalesco": [
     "temporalesca",
     "temporaleschi",
@@ -40178,11 +30353,6 @@ export default {
     "temuta",
     "temuti",
     "temute"
-  ],
-  "tenace": [
-    "tenace",
-    "tenaci",
-    "tenaci"
   ],
   "tendenziale": [
     "tendenziale",
@@ -40199,11 +30369,6 @@ export default {
     "tenebrosi",
     "tenebrose"
   ],
-  "tenero": [
-    "tenera",
-    "teneri",
-    "tenere"
-  ],
   "tennistico": [
     "tennistica",
     "tennistici",
@@ -40213,11 +30378,6 @@ export default {
     "tenorile",
     "tenorili",
     "tenorili"
-  ],
-  "tentatore": [
-    "tentatrice",
-    "tentatori",
-    "tentatrici"
   ],
   "tenue": [
     "tenue",
@@ -40244,11 +30404,6 @@ export default {
     "teoretici",
     "teoretiche"
   ],
-  "teorico": [
-    "teorica",
-    "teorici",
-    "teoriche"
-  ],
   "teosofico": [
     "teosofica",
     "teosofici",
@@ -40268,11 +30423,6 @@ export default {
     "termica",
     "termici",
     "termiche"
-  ],
-  "terminale": [
-    "terminale",
-    "terminali",
-    "terminali"
   ],
   "termoelettrico": [
     "termoelettrica",
@@ -40309,21 +30459,6 @@ export default {
     "terrei",
     "terree"
   ],
-  "terremotato": [
-    "terremotata",
-    "terremotati",
-    "terremotate"
-  ],
-  "terreno": [
-    "terrena",
-    "terreni",
-    "terrene"
-  ],
-  "terrestre": [
-    "terrestre",
-    "terrestri",
-    "terrestri"
-  ],
   "terribile": [
     "terribile",
     "terribili",
@@ -40349,11 +30484,6 @@ export default {
     "territoriali",
     "territoriali"
   ],
-  "terrorista": [
-    "terrorista",
-    "terroristi",
-    "terroriste"
-  ],
   "terroristico": [
     "terroristica",
     "terroristici",
@@ -40369,25 +30499,10 @@ export default {
     "tersi",
     "terse"
   ],
-  "terzo": [
-    "terza",
-    "terzi",
-    "terze"
-  ],
-  "terziario": [
-    "terziaria",
-    "terziari",
-    "terziarie"
-  ],
   "teso": [
     "tesa",
     "tesi",
     "tese"
-  ],
-  "tesserato": [
-    "tesserata",
-    "tesserati",
-    "tesserate"
   ],
   "tessile": [
     "tessile",
@@ -40398,11 +30513,6 @@ export default {
     "testamentaria",
     "testamentari",
     "testamentarie"
-  ],
-  "testardo": [
-    "testarda",
-    "testardi",
-    "testarde"
   ],
   "testatico": [
     "testatica",
@@ -40419,11 +30529,6 @@ export default {
     "testuali",
     "testuali"
   ],
-  "tetro": [
-    "tetra",
-    "tetri",
-    "tetre"
-  ],
   "tetraetile": [
     "tetraetile",
     "tetraetili",
@@ -40434,40 +30539,10 @@ export default {
     "tetragoni",
     "tetragone"
   ],
-  "teutonico": [
-    "teutonica",
-    "teutonici",
-    "teutoniche"
-  ],
-  "texano": [
-    "texana",
-    "texani",
-    "texane"
-  ],
-  "thailandese": [
-    "thailandese",
-    "thailandesi",
-    "thailandesi"
-  ],
-  "thriller": [
-    "thriller",
-    "thriller",
-    "thriller"
-  ],
-  "thrilling": [
-    "thrilling",
-    "thrilling",
-    "thrilling"
-  ],
   "tiberino": [
     "tiberina",
     "tiberini",
     "tiberine"
-  ],
-  "tibetano": [
-    "tibetana",
-    "tibetani",
-    "tibetane"
   ],
   "tiepido": [
     "tiepida",
@@ -40478,11 +30553,6 @@ export default {
     "tifoidea",
     "tifoidei",
     "tifoidee"
-  ],
-  "tifoso": [
-    "tifosa",
-    "tifosi",
-    "tifose"
   ],
   "tignoso": [
     "tignosa",
@@ -40498,11 +30568,6 @@ export default {
     "timbrica",
     "timbrici",
     "timbriche"
-  ],
-  "timido": [
-    "timida",
-    "timidi",
-    "timide"
   ],
   "timoniero": [
     "timoniera",
@@ -40534,11 +30599,6 @@ export default {
     "tintori",
     "tintorie"
   ],
-  "tipo": [
-    "tipa",
-    "tipi",
-    "tipe"
-  ],
   "tipico": [
     "tipica",
     "tipici",
@@ -40553,11 +30613,6 @@ export default {
     "tipologica",
     "tipologici",
     "tipologiche"
-  ],
-  "tiranno": [
-    "tiranna",
-    "tiranni",
-    "tiranne"
   ],
   "tirannesco": [
     "tirannesca",
@@ -40579,11 +30634,6 @@ export default {
     "tireostatici",
     "tireostatiche"
   ],
-  "tirolese": [
-    "tirolese",
-    "tirolesi",
-    "tirolesi"
-  ],
   "tirreno": [
     "tirrena",
     "tirreni",
@@ -40604,20 +30654,10 @@ export default {
     "titolati",
     "titolate"
   ],
-  "titubante": [
-    "titubante",
-    "titubanti",
-    "titubanti"
-  ],
   "tizianesco": [
     "tizianesca",
     "tizianeschi",
     "tizianesche"
-  ],
-  "tocco": [
-    "tocca",
-    "tocchi",
-    "tocche"
   ],
   "toccante": [
     "toccante",
@@ -40639,11 +30679,6 @@ export default {
     "tollerabili",
     "tollerabili"
   ],
-  "tollerante": [
-    "tollerante",
-    "tolleranti",
-    "tolleranti"
-  ],
   "tolto": [
     "tolta",
     "tolti",
@@ -40664,35 +30699,15 @@ export default {
     "tonanti",
     "tonanti"
   ],
-  "tondo": [
-    "tonda",
-    "tondi",
-    "tonde"
-  ],
   "tondeggiante": [
     "tondeggiante",
     "tondeggianti",
     "tondeggianti"
   ],
-  "tonico": [
-    "tonica",
-    "tonici",
-    "toniche"
-  ],
   "tonificante": [
     "tonificante",
     "tonificanti",
     "tonificanti"
-  ],
-  "tonto": [
-    "tonta",
-    "tonti",
-    "tonte"
-  ],
-  "top": [
-    "top",
-    "top",
-    "top"
   ],
   "topico": [
     "topica",
@@ -40709,11 +30724,6 @@ export default {
     "toracici",
     "toraciche"
   ],
-  "torbido": [
-    "torbida",
-    "torbidi",
-    "torbide"
-  ],
   "torinese": [
     "torinese",
     "torinesi",
@@ -40728,11 +30738,6 @@ export default {
     "tormentosa",
     "tormentosi",
     "tormentose"
-  ],
-  "tornante": [
-    "tornante",
-    "tornanti",
-    "tornanti"
   ],
   "tornito": [
     "tornita",
@@ -40764,11 +30769,6 @@ export default {
     "torsionali",
     "torsionali"
   ],
-  "torto": [
-    "torta",
-    "torti",
-    "torte"
-  ],
   "tortile": [
     "tortile",
     "tortili",
@@ -40789,45 +30789,15 @@ export default {
     "toschi",
     "tosche"
   ],
-  "toscano": [
-    "toscana",
-    "toscani",
-    "toscane"
-  ],
-  "tossico": [
-    "tossica",
-    "tossici",
-    "tossiche"
-  ],
-  "tossicodipendente": [
-    "tossicodipendente",
-    "tossicodipendenti",
-    "tossicodipendenti"
-  ],
   "tossicologico": [
     "tossicologica",
     "tossicologici",
     "tossicologiche"
   ],
-  "tossicomane": [
-    "tossicomane",
-    "tossicomani",
-    "tossicomani"
-  ],
   "tosto": [
     "tosta",
     "tosti",
     "toste"
-  ],
-  "tot": [
-    "tot",
-    "tot",
-    "tot"
-  ],
-  "totale": [
-    "totale",
-    "totali",
-    "totali"
   ],
   "totalitario": [
     "totalitaria",
@@ -40844,45 +30814,20 @@ export default {
     "totemici",
     "totemiche"
   ],
-  "tozzo": [
-    "tozza",
-    "tozzi",
-    "tozze"
-  ],
-  "trabocchetto": [
-    "trabocchetta",
-    "trabocchetti",
-    "trabocchette"
-  ],
   "tracagnotto": [
     "tracagnotta",
     "tracagnotti",
     "tracagnotte"
-  ],
-  "tracciato": [
-    "tracciata",
-    "tracciati",
-    "tracciate"
   ],
   "tracotante": [
     "tracotante",
     "tracotanti",
     "tracotanti"
   ],
-  "traditore": [
-    "traditrice",
-    "traditori",
-    "traditrici"
-  ],
   "tradizionale": [
     "tradizionale",
     "tradizionali",
     "tradizionali"
-  ],
-  "tradizionalista": [
-    "tradizionalista",
-    "tradizionalisti",
-    "tradizionaliste"
   ],
   "tradotto": [
     "tradotta",
@@ -40904,16 +30849,6 @@ export default {
     "trafelati",
     "trafelate"
   ],
-  "trafficante": [
-    "trafficante",
-    "trafficanti",
-    "trafficanti"
-  ],
-  "traghetto": [
-    "traghetta",
-    "traghetti",
-    "traghette"
-  ],
   "tragico": [
     "tragica",
     "tragici",
@@ -40934,16 +30869,6 @@ export default {
     "tranquilli",
     "tranquille"
   ],
-  "tranquillante": [
-    "tranquillante",
-    "tranquillanti",
-    "tranquillanti"
-  ],
-  "transalpino": [
-    "transalpina",
-    "transalpini",
-    "transalpine"
-  ],
   "transatlantico": [
     "transatlantica",
     "transatlantici",
@@ -40953,11 +30878,6 @@ export default {
     "transcontinentale",
     "transcontinentali",
     "transcontinentali"
-  ],
-  "transessuale": [
-    "transessuale",
-    "transessuali",
-    "transessuali"
   ],
   "transeunte": [
     "transeunte",
@@ -41014,11 +30934,6 @@ export default {
     "trascendentali",
     "trascendentali"
   ],
-  "trascendente": [
-    "trascendente",
-    "trascendenti",
-    "trascendenti"
-  ],
   "trascorso": [
     "trascorsa",
     "trascorsi",
@@ -41043,11 +30958,6 @@ export default {
     "trasformata",
     "trasformati",
     "trasformate"
-  ],
-  "trasformista": [
-    "trasformista",
-    "trasformisti",
-    "trasformiste"
   ],
   "trasfusionale": [
     "trasfusionale",
@@ -41089,16 +30999,6 @@ export default {
     "trasportati",
     "trasportate"
   ],
-  "trasportatore": [
-    "trasportatrice",
-    "trasportatori",
-    "trasportatrici"
-  ],
-  "trasversale": [
-    "trasversale",
-    "trasversali",
-    "trasversali"
-  ],
   "trattabile": [
     "trattabile",
     "trattabili",
@@ -41108,11 +31008,6 @@ export default {
     "traumatica",
     "traumatici",
     "traumatiche"
-  ],
-  "traumatizzato": [
-    "traumatizzata",
-    "traumatizzati",
-    "traumatizzate"
   ],
   "traumatologico": [
     "traumatologica",
@@ -41128,11 +31023,6 @@ export default {
     "traversa",
     "traversi",
     "traverse"
-  ],
-  "travestito": [
-    "travestita",
-    "travestiti",
-    "travestite"
   ],
   "travolgente": [
     "travolgente",
@@ -41193,11 +31083,6 @@ export default {
     "trecentoventesima",
     "trecentoventesimi",
     "trecentoventesime"
-  ],
-  "tredicenne": [
-    "tredicenne",
-    "tredicenni",
-    "tredicenni"
   ],
   "tredicesimo": [
     "tredicesima",
@@ -41274,25 +31159,10 @@ export default {
     "trentatreesimi",
     "trentatreesime"
   ],
-  "trentennale": [
-    "trentennale",
-    "trentennali",
-    "trentennali"
-  ],
-  "trentenne": [
-    "trentenne",
-    "trentenni",
-    "trentenni"
-  ],
   "trentesimo": [
     "trentesima",
     "trentesimi",
     "trentesime"
-  ],
-  "trentino": [
-    "trentina",
-    "trentini",
-    "trentine"
   ],
   "trentottesimo": [
     "trentottesima",
@@ -41334,11 +31204,6 @@ export default {
     "tributari",
     "tributarie"
   ],
-  "tricolore": [
-    "tricolore",
-    "tricolori",
-    "tricolori"
-  ],
   "tridimensionale": [
     "tridimensionale",
     "tridimensionali",
@@ -41354,11 +31219,6 @@ export default {
     "trienni",
     "trienni"
   ],
-  "triestino": [
-    "triestina",
-    "triestini",
-    "triestine"
-  ],
   "trilaterale": [
     "trilaterale",
     "trilaterali",
@@ -41368,11 +31228,6 @@ export default {
     "trilingue",
     "trilingui",
     "trilingui"
-  ],
-  "trimestrale": [
-    "trimestrale",
-    "trimestrali",
-    "trimestrali"
   ],
   "trimotore": [
     "trimotore",
@@ -41384,25 +31239,10 @@ export default {
     "trini",
     "trine"
   ],
-  "trionfale": [
-    "trionfale",
-    "trionfali",
-    "trionfali"
-  ],
   "trionfalistico": [
     "trionfalistica",
     "trionfalistici",
     "trionfalistiche"
-  ],
-  "trionfante": [
-    "trionfante",
-    "trionfanti",
-    "trionfanti"
-  ],
-  "tripartito": [
-    "tripartita",
-    "tripartiti",
-    "tripartite"
   ],
   "triplo": [
     "tripla",
@@ -41444,11 +31284,6 @@ export default {
     "triviali",
     "triviali"
   ],
-  "tronco": [
-    "tronca",
-    "tronchi",
-    "tronche"
-  ],
   "troncato": [
     "troncata",
     "troncati",
@@ -41474,11 +31309,6 @@ export default {
     "trotzkisti",
     "trotzkiste"
   ],
-  "truce": [
-    "truce",
-    "truci",
-    "truci"
-  ],
   "truculento": [
     "truculenta",
     "truculenti",
@@ -41498,11 +31328,6 @@ export default {
     "tubercolosa",
     "tubercolosi",
     "tubercolose"
-  ],
-  "tubolare": [
-    "tubolare",
-    "tubolari",
-    "tubolari"
   ],
   "tufaceo": [
     "tufacea",
@@ -41534,11 +31359,6 @@ export default {
     "tumultuosi",
     "tumultuose"
   ],
-  "tunisino": [
-    "tunisina",
-    "tunisini",
-    "tunisine"
-  ],
   "turbato": [
     "turbata",
     "turbati",
@@ -41553,21 +31373,6 @@ export default {
     "turbinosa",
     "turbinosi",
     "turbinose"
-  ],
-  "turbo": [
-    "turbo",
-    "turbo",
-    "turbo"
-  ],
-  "turbolento": [
-    "turbolenta",
-    "turbolenti",
-    "turbolente"
-  ],
-  "turco": [
-    "turca",
-    "turchi",
-    "turche"
   ],
   "turchese": [
     "turchese",
@@ -41589,11 +31394,6 @@ export default {
     "turistici",
     "turistiche"
   ],
-  "turpe": [
-    "turpe",
-    "turpi",
-    "turpi"
-  ],
   "turrito": [
     "turrita",
     "turriti",
@@ -41614,20 +31414,10 @@ export default {
     "tutelari",
     "tutelari"
   ],
-  "tutto": [
-    "tutta",
-    "tutti",
-    "tutte"
-  ],
   "tuttofare": [
     "tuttofare",
     "tuttofare",
     "tuttofare"
-  ],
-  "tv": [
-    "tv",
-    "tv",
-    "tv"
   ],
   "tzigano": [
     "tzigana",
@@ -41649,25 +31439,10 @@ export default {
     "ubiqui",
     "ubique"
   ],
-  "ubriaco": [
-    "ubriaca",
-    "ubriachi",
-    "ubriache"
-  ],
   "ubych": [
     "ubych",
     "ubych",
     "ubych"
-  ],
-  "ucciso": [
-    "uccisa",
-    "uccisi",
-    "uccise"
-  ],
-  "ucraino": [
-    "ucraina",
-    "ucraini",
-    "ucraine"
   ],
   "udibile": [
     "udibile",
@@ -41678,16 +31453,6 @@ export default {
     "uditiva",
     "uditivi",
     "uditive"
-  ],
-  "uditorio": [
-    "uditoria",
-    "uditori",
-    "uditorie"
-  ],
-  "ufficiale": [
-    "ufficiale",
-    "ufficiali",
-    "ufficiali"
   ],
   "ufficioso": [
     "ufficiosa",
@@ -41739,20 +31504,10 @@ export default {
     "ultim",
     "ultim"
   ],
-  "ultimo": [
-    "ultima",
-    "ultimi",
-    "ultime"
-  ],
   "ultimativo": [
     "ultimativa",
     "ultimativi",
     "ultimative"
-  ],
-  "ultra": [
-    "ultra",
-    "ultra",
-    "ultra"
   ],
   "ultracorto": [
     "ultracorta",
@@ -41784,16 +31539,6 @@ export default {
     "ultravioletti",
     "ultraviolette"
   ],
-  "umano": [
-    "umana",
-    "umani",
-    "umane"
-  ],
-  "umanista": [
-    "umanista",
-    "umanisti",
-    "umaniste"
-  ],
   "umanistico": [
     "umanistica",
     "umanistici",
@@ -41814,30 +31559,15 @@ export default {
     "umbertini",
     "umbertine"
   ],
-  "umbro": [
-    "umbra",
-    "umbri",
-    "umbre"
-  ],
   "umbratile": [
     "umbratile",
     "umbratili",
     "umbratili"
   ],
-  "umido": [
-    "umida",
-    "umidi",
-    "umide"
-  ],
   "umidiccio": [
     "umidiccia",
     "umidicci",
     "umidicce"
-  ],
-  "umile": [
-    "umile",
-    "umili",
-    "umili"
   ],
   "umiliante": [
     "umiliante",
@@ -41879,11 +31609,6 @@ export default {
     "undicenni",
     "undicenni"
   ],
-  "undicesimo": [
-    "undicesima",
-    "undicesimi",
-    "undicesime"
-  ],
   "undicimillesimo": [
     "undicimillesima",
     "undicimillesimi",
@@ -41893,16 +31618,6 @@ export default {
     "ungarettiana",
     "ungarettiani",
     "ungarettiane"
-  ],
-  "ungherese": [
-    "ungherese",
-    "ungheresi",
-    "ungheresi"
-  ],
-  "unico": [
-    "unica",
-    "unici",
-    "uniche"
   ],
   "unicamerale": [
     "unicamerale",
@@ -41934,11 +31649,6 @@ export default {
     "unificatori",
     "unificatrici"
   ],
-  "uniforme": [
-    "uniforme",
-    "uniformi",
-    "uniformi"
-  ],
   "unilaterale": [
     "unilaterale",
     "unilaterali",
@@ -41949,25 +31659,10 @@ export default {
     "uninominali",
     "uninominali"
   ],
-  "unionista": [
-    "unionista",
-    "unionisti",
-    "unioniste"
-  ],
-  "unisono": [
-    "unisona",
-    "unisoni",
-    "unisone"
-  ],
   "unito": [
     "unita",
     "uniti",
     "unite"
-  ],
-  "unitario": [
-    "unitaria",
-    "unitari",
-    "unitarie"
   ],
   "universo": [
     "universa",
@@ -41984,20 +31679,10 @@ export default {
     "universalistici",
     "universalistiche"
   ],
-  "universitario": [
-    "universitaria",
-    "universitari",
-    "universitarie"
-  ],
   "univoco": [
     "univoca",
     "univoci",
     "univoche"
-  ],
-  "unto": [
-    "unta",
-    "unti",
-    "unte"
   ],
   "untuoso": [
     "untuosa",
@@ -42044,40 +31729,15 @@ export default {
     "urologici",
     "urologiche"
   ],
-  "urto": [
-    "urta",
-    "urti",
-    "urte"
-  ],
   "urtante": [
     "urtante",
     "urtanti",
     "urtanti"
   ],
-  "uruguagio": [
-    "uruguagia",
-    "uruguagi",
-    "uruguagie"
-  ],
-  "uruguayano": [
-    "uruguayana",
-    "uruguayani",
-    "uruguayane"
-  ],
-  "uso": [
-    "usa",
-    "usi",
-    "use"
-  ],
   "usato": [
     "usata",
     "usati",
     "usate"
-  ],
-  "uscente": [
-    "uscente",
-    "uscenti",
-    "uscenti"
   ],
   "usto": [
     "usta",
@@ -42098,16 +31758,6 @@ export default {
     "usurpatoria",
     "usurpatorii",
     "usurpatorie"
-  ],
-  "utensile": [
-    "utensile",
-    "utensili",
-    "utensili"
-  ],
-  "utile": [
-    "utile",
-    "utili",
-    "utili"
   ],
   "utilitario": [
     "utilitaria",
@@ -42149,16 +31799,6 @@ export default {
     "vacui",
     "vacue"
   ],
-  "vago": [
-    "vaga",
-    "vaghi",
-    "vaghe"
-  ],
-  "vagabondo": [
-    "vagabonda",
-    "vagabondi",
-    "vagabonde"
-  ],
   "vaginale": [
     "vaginale",
     "vaginali",
@@ -42169,20 +31809,10 @@ export default {
     "vai",
     "vaie"
   ],
-  "valdese": [
-    "valdese",
-    "valdesi",
-    "valdesi"
-  ],
   "valdometodista": [
     "valdometodista",
     "valdometodisti",
     "valdometodiste"
-  ],
-  "valente": [
-    "valente",
-    "valenti",
-    "valenti"
   ],
   "valenziano": [
     "valenziana",
@@ -42214,11 +31844,6 @@ export default {
     "vallesi",
     "vallesi"
   ],
-  "valligiano": [
-    "valligiana",
-    "valligiani",
-    "valligiane"
-  ],
   "vallombrosiano": [
     "vallombrosiana",
     "vallombrosiani",
@@ -42228,11 +31853,6 @@ export default {
     "valorosa",
     "valorosi",
     "valorose"
-  ],
-  "valtellinese": [
-    "valtellinese",
-    "valtellinesi",
-    "valtellinesi"
   ],
   "valutabile": [
     "valutabile",
@@ -42249,20 +31869,10 @@ export default {
     "vampiristici",
     "vampiristiche"
   ],
-  "vano": [
-    "vana",
-    "vani",
-    "vane"
-  ],
   "vancaziero": [
     "vancaziera",
     "vancazieri",
     "vancaziere"
-  ],
-  "vandalo": [
-    "vandala",
-    "vandali",
-    "vandale"
   ],
   "vandalico": [
     "vandalica",
@@ -42299,16 +31909,6 @@ export default {
     "vaporosi",
     "vaporose"
   ],
-  "varo": [
-    "vara",
-    "vari",
-    "vare"
-  ],
-  "varesino": [
-    "varesina",
-    "varesini",
-    "varesine"
-  ],
   "vario": [
     "varia",
     "vari",
@@ -42334,11 +31934,6 @@ export default {
     "varicosi",
     "varicose"
   ],
-  "variegato": [
-    "variegata",
-    "variegati",
-    "variegate"
-  ],
   "variopinto": [
     "variopinta",
     "variopinti",
@@ -42353,11 +31948,6 @@ export default {
     "vascolare",
     "vascolari",
     "vascolari"
-  ],
-  "vassallo": [
-    "vassalla",
-    "vassalli",
-    "vassalle"
   ],
   "vasto": [
     "vasta",
@@ -42374,11 +31964,6 @@ export default {
     "vaticanofili",
     "vaticanofile"
   ],
-  "vecchio": [
-    "vecchia",
-    "vecchi",
-    "vecchie"
-  ],
   "vecchiotto": [
     "vecchiotta",
     "vecchiotti",
@@ -42388,11 +31973,6 @@ export default {
     "vedente",
     "vedenti",
     "vedenti"
-  ],
-  "vedovo": [
-    "vedova",
-    "vedovi",
-    "vedove"
   ],
   "vedovile": [
     "vedovile",
@@ -42409,25 +31989,10 @@ export default {
     "vegeti",
     "vegete"
   ],
-  "vegetale": [
-    "vegetale",
-    "vegetali",
-    "vegetali"
-  ],
-  "vegetariano": [
-    "vegetariana",
-    "vegetariani",
-    "vegetariane"
-  ],
   "vegetativo": [
     "vegetativa",
     "vegetativi",
     "vegetative"
-  ],
-  "veggente": [
-    "veggente",
-    "veggenti",
-    "veggenti"
   ],
   "veicolare": [
     "veicolare",
@@ -42449,25 +32014,10 @@ export default {
     "velici",
     "veliche"
   ],
-  "veliero": [
-    "veliera",
-    "velieri",
-    "veliere"
-  ],
-  "velivolo": [
-    "velivola",
-    "velivoli",
-    "velivole"
-  ],
   "velleitario": [
     "velleitaria",
     "velleitari",
     "velleitarie"
-  ],
-  "velluto": [
-    "velluta",
-    "velluti",
-    "vellute"
   ],
   "vellutato": [
     "vellutata",
@@ -42504,16 +32054,6 @@ export default {
     "vendicativi",
     "vendicative"
   ],
-  "vendicatore": [
-    "vendicatrice",
-    "vendicatori",
-    "vendicatrici"
-  ],
-  "venditore": [
-    "venditrice",
-    "venditori",
-    "venditrici"
-  ],
   "venduto": [
     "venduta",
     "venduti",
@@ -42534,21 +32074,6 @@ export default {
     "venerei",
     "veneree"
   ],
-  "veneto": [
-    "veneta",
-    "veneti",
-    "venete"
-  ],
-  "veneziano": [
-    "veneziana",
-    "veneziani",
-    "veneziane"
-  ],
-  "venezuelano": [
-    "venezuelana",
-    "venezuelani",
-    "venezuelane"
-  ],
   "veniale": [
     "veniale",
     "veniali",
@@ -42558,16 +32083,6 @@ export default {
     "vent'",
     "vent'",
     "vent'"
-  ],
-  "ventennale": [
-    "ventennale",
-    "ventennali",
-    "ventennali"
-  ],
-  "ventenne": [
-    "ventenne",
-    "ventenni",
-    "ventenni"
   ],
   "ventesimo": [
     "ventesima",
@@ -42588,11 +32103,6 @@ export default {
     "ventilata",
     "ventilati",
     "ventilate"
-  ],
-  "ventilatore": [
-    "ventilatrice",
-    "ventilatori",
-    "ventilatrici"
   ],
   "ventinovesimo": [
     "ventinovesima",
@@ -42659,35 +32169,15 @@ export default {
     "venuti",
     "venute"
   ],
-  "vero": [
-    "vera",
-    "veri",
-    "vere"
-  ],
   "verace": [
     "verace",
     "veraci",
     "veraci"
   ],
-  "verbale": [
-    "verbale",
-    "verbali",
-    "verbali"
-  ],
   "verboso": [
     "verbosa",
     "verbosi",
     "verbose"
-  ],
-  "vercellese": [
-    "vercellese",
-    "vercellesi",
-    "vercellesi"
-  ],
-  "verde": [
-    "verde",
-    "verdi",
-    "verdi"
   ],
   "verdeazzurro": [
     "verdeazzurra",
@@ -42723,11 +32213,6 @@ export default {
     "verdolina",
     "verdolini",
     "verdoline"
-  ],
-  "verdone": [
-    "verdone",
-    "verdoni",
-    "verdoni"
   ],
   "vergato": [
     "vergata",
@@ -42794,25 +32279,10 @@ export default {
     "veronelliani",
     "veronelliane"
   ],
-  "veronese": [
-    "veronese",
-    "veronesi",
-    "veronesi"
-  ],
   "verosimile": [
     "verosimile",
     "verosimili",
     "verosimili"
-  ],
-  "verso": [
-    "versa",
-    "versi",
-    "verse"
-  ],
-  "versante": [
-    "versante",
-    "versanti",
-    "versanti"
   ],
   "versato": [
     "versata",
@@ -42859,25 +32329,10 @@ export default {
     "vestibolari",
     "vestibolari"
   ],
-  "vestito": [
-    "vestita",
-    "vestiti",
-    "vestite"
-  ],
   "vesuviano": [
     "vesuviana",
     "vesuviani",
     "vesuviane"
-  ],
-  "veterano": [
-    "veterana",
-    "veterani",
-    "veterane"
-  ],
-  "veterinario": [
-    "veterinaria",
-    "veterinari",
-    "veterinarie"
   ],
   "vetrario": [
     "vetraria",
@@ -42889,20 +32344,10 @@ export default {
     "vetrati",
     "vetrate"
   ],
-  "vetrino": [
-    "vetrina",
-    "vetrini",
-    "vetrine"
-  ],
   "vetroso": [
     "vetrosa",
     "vetrosi",
     "vetrose"
-  ],
-  "vettore": [
-    "vettrice",
-    "vettori",
-    "vettrici"
   ],
   "vettoriale": [
     "vettoriale",
@@ -42919,16 +32364,6 @@ export default {
     "vezzosi",
     "vezzose"
   ],
-  "viaggiatore": [
-    "viaggiatrice",
-    "viaggiatori",
-    "viaggiatrici"
-  ],
-  "viareggino": [
-    "viareggina",
-    "viareggini",
-    "viareggine"
-  ],
   "viario": [
     "viaria",
     "viari",
@@ -42939,80 +32374,35 @@ export default {
     "vibranti",
     "vibranti"
   ],
-  "vibrato": [
-    "vibrata",
-    "vibrati",
-    "vibrate"
-  ],
   "vibratile": [
     "vibratile",
     "vibratili",
     "vibratili"
-  ],
-  "vibratore": [
-    "vibratrice",
-    "vibratori",
-    "vibratrici"
   ],
   "vibratorio": [
     "vibratoria",
     "vibratorii",
     "vibratorie"
   ],
-  "vicario": [
-    "vicaria",
-    "vicari",
-    "vicarie"
-  ],
-  "vicentino": [
-    "vicentina",
-    "vicentini",
-    "vicentine"
-  ],
   "vicepresidenziale": [
     "vicepresidenziale",
     "vicepresidenziali",
     "vicepresidenziali"
-  ],
-  "vichingo": [
-    "vichinga",
-    "vichinghi",
-    "vichinghe"
-  ],
-  "vicino": [
-    "vicina",
-    "vicini",
-    "vicine"
   ],
   "viciniano": [
     "viciniana",
     "viciniani",
     "viciniane"
   ],
-  "video": [
-    "videa",
-    "videi",
-    "videe"
-  ],
   "videoartistico": [
     "videoartistica",
     "videoartistici",
     "videoartistiche"
   ],
-  "viennese": [
-    "viennese",
-    "viennesi",
-    "viennesi"
-  ],
   "vietato": [
     "vietata",
     "vietati",
     "vietate"
-  ],
-  "vietnamita": [
-    "vietnamita",
-    "vietnamiti",
-    "vietnamite"
   ],
   "vigente": [
     "vigente",
@@ -43024,26 +32414,6 @@ export default {
     "vigevanesi",
     "vigevanesi"
   ],
-  "vigilante": [
-    "vigilante",
-    "vigilanti",
-    "vigilanti"
-  ],
-  "vigilato": [
-    "vigilata",
-    "vigilati",
-    "vigilate"
-  ],
-  "vigile": [
-    "vigile",
-    "vigili",
-    "vigili"
-  ],
-  "vigliacco": [
-    "vigliacca",
-    "vigliacchi",
-    "vigliacche"
-  ],
   "vigoroso": [
     "vigorosa",
     "vigorosi",
@@ -43054,11 +32424,6 @@ export default {
     "vili",
     "vili"
   ],
-  "villano": [
-    "villana",
-    "villani",
-    "villane"
-  ],
   "villereccio": [
     "villereccia",
     "villerecci",
@@ -43068,16 +32433,6 @@ export default {
     "villosa",
     "villosi",
     "villose"
-  ],
-  "vincente": [
-    "vincente",
-    "vincenti",
-    "vincenti"
-  ],
-  "vincitore": [
-    "vincitrice",
-    "vincitori",
-    "vincitrici"
   ],
   "vincolante": [
     "vincolante",
@@ -43108,11 +32463,6 @@ export default {
     "vinta",
     "vinti",
     "vinte"
-  ],
-  "viola": [
-    "viola",
-    "viola",
-    "viola"
   ],
   "violaceo": [
     "violacea",
@@ -43159,11 +32509,6 @@ export default {
     "virtuali",
     "virtuali"
   ],
-  "virtuoso": [
-    "virtuosa",
-    "virtuosi",
-    "virtuose"
-  ],
   "virulento": [
     "virulenta",
     "virulenti",
@@ -43209,11 +32554,6 @@ export default {
     "visibili",
     "visibili"
   ],
-  "visionario": [
-    "visionaria",
-    "visionari",
-    "visionarie"
-  ],
   "visitabile": [
     "visitabile",
     "visitabili",
@@ -43228,11 +32568,6 @@ export default {
     "vispa",
     "vispi",
     "vispe"
-  ],
-  "vissuto": [
-    "vissuta",
-    "vissuti",
-    "vissute"
   ],
   "vistoso": [
     "vistosa",
@@ -43254,20 +32589,10 @@ export default {
     "vitali",
     "vitali"
   ],
-  "vitalizio": [
-    "vitalizia",
-    "vitalizi",
-    "vitalizie"
-  ],
   "vitaminico": [
     "vitaminica",
     "vitaminici",
     "vitaminiche"
-  ],
-  "vitellino": [
-    "vitellina",
-    "vitellini",
-    "vitelline"
   ],
   "viticolo": [
     "viticola",
@@ -43288,11 +32613,6 @@ export default {
     "vittoriana",
     "vittoriani",
     "vittoriane"
-  ],
-  "vittorioso": [
-    "vittoriosa",
-    "vittoriosi",
-    "vittoriose"
   ],
   "vitulanese": [
     "vitulanese",
@@ -43319,11 +32639,6 @@ export default {
     "vivaldiani",
     "vivaldiane"
   ],
-  "vivente": [
-    "vivente",
-    "viventi",
-    "viventi"
-  ],
   "vivianesco": [
     "vivianesca",
     "vivianeschi",
@@ -43348,11 +32663,6 @@ export default {
     "viziata",
     "viziati",
     "viziate"
-  ],
-  "vizioso": [
-    "viziosa",
-    "viziosi",
-    "viziose"
   ],
   "vizzo": [
     "vizza",
@@ -43379,16 +32689,6 @@ export default {
     "vogliosi",
     "vogliose"
   ],
-  "volante": [
-    "volante",
-    "volanti",
-    "volanti"
-  ],
-  "volatile": [
-    "volatile",
-    "volatili",
-    "volatili"
-  ],
   "volente": [
     "volente",
     "volenti",
@@ -43399,20 +32699,10 @@ export default {
     "volenterosi",
     "volenterose"
   ],
-  "volgare": [
-    "volgare",
-    "volgari",
-    "volgari"
-  ],
   "volitivo": [
     "volitiva",
     "volitivi",
     "volitive"
-  ],
-  "volontario": [
-    "volontaria",
-    "volontari",
-    "volontarie"
   ],
   "volontaristico": [
     "volontaristica",
@@ -43433,11 +32723,6 @@ export default {
     "volponiana",
     "volponiani",
     "volponiane"
-  ],
-  "volto": [
-    "volta",
-    "volti",
-    "volte"
   ],
   "voltairiano": [
     "voltairiana",
@@ -43479,11 +32764,6 @@ export default {
     "vomitevoli",
     "vomitevoli"
   ],
-  "vorace": [
-    "vorace",
-    "voraci",
-    "voraci"
-  ],
   "voraginoso": [
     "voraginosa",
     "voraginosi",
@@ -43493,11 +32773,6 @@ export default {
     "vorticosa",
     "vorticosi",
     "vorticose"
-  ],
-  "votante": [
-    "votante",
-    "votanti",
-    "votanti"
   ],
   "votato": [
     "votata",
@@ -43523,11 +32798,6 @@ export default {
     "vulnerabile",
     "vulnerabili",
     "vulnerabili"
-  ],
-  "vuoto": [
-    "vuota",
-    "vuoti",
-    "vuote"
   ],
   "walseriano": [
     "walseriana",
@@ -43559,11 +32829,6 @@ export default {
     "wertheriani",
     "wertheriane"
   ],
-  "western": [
-    "western",
-    "western",
-    "western"
-  ],
   "whitmaniano": [
     "whitmaniana",
     "whitmaniani",
@@ -43573,16 +32838,6 @@ export default {
     "wojtyliana",
     "wojtyliani",
     "wojtyliane"
-  ],
-  "xenofobo": [
-    "xenofoba",
-    "xenofobi",
-    "xenofobe"
-  ],
-  "yankee": [
-    "yankee",
-    "yankee",
-    "yankee"
   ],
   "yemenito": [
     "yemenita",
@@ -43613,11 +32868,6 @@ export default {
     "zadanoviana",
     "zadanoviani",
     "zadanoviane"
-  ],
-  "zairese": [
-    "zairese",
-    "zairesi",
-    "zairesi"
   ],
   "zambiano": [
     "zambiana",
@@ -43674,11 +32924,6 @@ export default {
     "zeppi",
     "zeppe"
   ],
-  "zero": [
-    "zera",
-    "zeri",
-    "zere"
-  ],
   "zichiano": [
     "zichiana",
     "zichiani",
@@ -43693,11 +32938,6 @@ export default {
     "zigomatica",
     "zigomatici",
     "zigomatiche"
-  ],
-  "zingaro": [
-    "zingara",
-    "zingari",
-    "zingare"
   ],
   "zingaresco": [
     "zingaresca",
@@ -43743,11 +32983,6 @@ export default {
     "zoppa",
     "zoppi",
     "zoppe"
-  ],
-  "zoppicante": [
-    "zoppicante",
-    "zoppicanti",
-    "zoppicanti"
   ],
   "zuavo": [
     "zuava",

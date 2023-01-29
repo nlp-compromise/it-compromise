@@ -1,6 +1,15 @@
-import male from './data/lexicon/adjectives/male.js'
-import adj from './data/lexicon/adjectives/index.js'
+import adj from '/Users/spencer/mountain/it-compromise/data/models/adjectives.js'
+import nouns from '/Users/spencer/mountain/it-compromise/data/models/nouns.js'
+import nlp from './src/index.js'
 
-let already = new Set(male)
-let out = adj.filter(s => !already.has(s))
-console.log(JSON.stringify(out, null, 2))
+let count = 0
+Object.keys(adj).forEach(k => {
+  if (k.match(' ')) {
+    delete adj[k]
+    // delete nouns[k]
+    count += 1
+    console.log(k)
+  }
+})
+console.log(count)
+// console.log(JSON.stringify(adj, null, 2))

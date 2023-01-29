@@ -311,7 +311,9 @@ export default [
     vitù: nn,
   },
   { // five-letter suffixes
-
+    tante: jj,
+    tanti: jj,
+    ibile: jj,
     sette: val,
     cento: val,
     esimo: ord,
@@ -769,6 +771,7 @@ export default [
   {
     // six-letter suffixes
     cinque: val,
+    ionale: jj,
     andoci: g,//reflexive gerund
     endoci: g,
     endomi: g,

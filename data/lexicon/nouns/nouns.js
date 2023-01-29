@@ -1,93 +1,88 @@
 export default [
 
-  'acqua', //water
+  'acqua',
   'adriatico',
-  'ala', //wing
+  'ala',
   'alarico',
-  'albero', //tree
-  'alleato', //ally
+  'albero',
+  'alleato',
   'altre',
   'amalrico',
-  'ambito', //scope
+  'ambito',
   'amico',
-  'amico', //buddy
-  'amico', //friend
   'anatre',
   'andronico',
-  'anima', //soul
-  'animale domestico', //pet
+  'anima',
+  'animale domestico',
   'animali',
-  'ansia', //anxiety
+  'ansia',
   'antibiotico',
   'antico',
-  'ape', //bee
-  'appassionato', //enthusiast
+  'ape',
+  'appassionato',
   'aramaico',
   'archeologico',
   'atlantico',
   'attico',
-  'atto', //deed
-  'auto', //car
-  'avversario', //adversary
-  'avversario', //opponent
-  'bagno', //bathroom
-  'barca', //boat
+  'atto',
+  'auto',
+  'avversario',
+  'bagno',
+  'barca',
   'battaglia',
-  'bene', //asset
-  'birra', //beer
+  'bene',
+  'birra',
   'biscotto',
-  'bocca', //mouth
-  'bolla', //bubble
-  'braccio', //arm
+  'bocca',
+  'bolla',
+  'braccio',
   'britannico',
-  'buco', //hole
+  'buco',
   'calcio',
   'campionato',
   'campo',
-  'cancello', //gate
-  'candidato', //applicant
-  'candidato', //nominee
-  'cane', //dog
+  'cancello',
+  'candidato',
+  'cane',
   'canzoni',
-  'capitano', //captain
-  'capitolo', //chapter
+  'capitano',
+  'capitolo',
   'capo',
-  'capo', //boss
   'carica',
   'carico',
-  'carne', //meat
+  'carne',
   'causa',
-  'cavaliere', //knight
+  'cavaliere',
   'cavallo',
-  'cavo', //cable
-  'cenere', //ash
+  'cavo',
+  'cenere',
   'centro',
-  'cerchio', //hoop
+  'cerchio',
   'cerotto',
   'chico',
   'ciascuno',
-  'cibo', //food
-  'cittadino', //citizen
+  'cibo',
+  'cittadino',
   'civico',
-  'civile', //civilian
-  'classe', //classroom
+  'civile',
+  'classe',
   'classico',
-  'colpa', //fault
+  'colpa',
   'comico',
-  'commerciante', //tradesman
-  'compito', //task
-  'compleanno', //birthday
-  'composto', //compound
-  'computer', //computer
+  'commerciante',
+  'compito',
+  'compleanno',
+  'composto',
+  'computer',
   'comune',
   'condizioni',
-  'consegna', //delivery
+  'consegna',
   'consiglio',
   'conto',
   'controllo',
   'copernico',
-  'corda', //rope
-  'corona', //crown
+  'corda',
+  'corona',
   'corso',
   'cristianesimo',
   'critico',
@@ -95,53 +90,50 @@ export default [
   'dati',
   'democratico',
   'demotico',
-  'detenuto', //inmate
-  'difetto', //flaw
-  'dio', //god
-  'dipendente', //employee
-  'divano', //couch
-  'dolce', //dessert
-  'domani', //tomorrow
+  'detenuto',
+  'difetto',
+  'dio',
+  'dipendente',
+  'divano',
+  'dolce',
+  'domani',
   'domenico',
-  'durata', //duration
+  'durata',
   'enrico',
-  'entrate', //revenue
+  'entrate',
   'eretico',
-  'estate', //summer
-  'fabbrica', //factory
+  'estate',
+  'fabbrica',
   'fantastico',
-  'fata', //fairy
-  'fatto',
-  'fattura', //invoice
+  'fata',
+  'fattura',
   'federico',
   'figli',
   'figlia',
   'figlio',
-  'file', //file
-  'film', //film
-  'film', //movie
+  'file',
+  'film',
   'fine',
   'finestre',
-  'fiore', //blossom
-  'fiore', //flower
+  'fiore',
   'fisico',
-  'flotta', //fleet
-  'foglia', //leaf
-  'fonte', //source
+  'flotta',
+  'foglia',
+  'fonte',
   'forma',
   'forza',
   'fossette',
-  'freccia', //arrow
-  'frutti di mare', //seafood
-  'fungo', //mushroom
-  'futuro', //future
+  'freccia',
+  'frutti di mare',
+  'fungo',
+  'futuro',
   'gaelico',
   'galattico',
   'gasdotto',
   'generale',
   'genere',
   'germanico',
-  'giacca', //jacket
+  'giacca',
   'giochi',
   'gioco',
   'giostre',
@@ -150,228 +142,224 @@ export default [
   'governo',
   'grado',
   'grande',
-  'griglia', //grill
+  'griglia',
   'guida',
-  'gusto', //taste
-  'ieri', //yesterday
-  'importo', //amount
-  'impronta', //footprint
+  'gusto',
+  'ieri',
+  'importo',
+  'impronta',
   'in',
   'incantesimo',
   'incarico',
-  'incentivo', //incentive
-  'inglese', //english
+  'incentivo',
+  'inglese',
   'inizio',
   'italia',
-  'lacrima', //tear
+  'lacrima',
   'lastre',
   'lato',
-  'latte', //milk
+  'latte',
   'lavori',
   'lavoro',
-  'lega', //league
+  'lega',
   'legge',
-  'legno', //wood
+  'legno',
   'lessico',
-  'letto', //bed
+  'letto',
   'libro',
-  'linea guida', //guideline
-  'lingotto',//
+  'linea guida',
+  'lingotto',
   'livello',
   'lodovico',
   'luce',
   'ludovico',
   'macchina',
-  'madre', //mother
+  'madre',
   'maestro',
-  'mago', //wizard
-  'mamma', //mom
+  'mago',
+  'mamma',
   'manico',
   'maniera',
-  'mappa', //map
-  'marca', //brand
+  'mappa',
+  'marca',
   'mare',
-  'marito', //husband
+  'marito',
   'marsico',
   'matematico',
   'materiale',
-  'mattino', //morning
+  'mattino',
   'meccanico',
   'medico',
-  'medico', //physician
   'mercato',
   'messico',
   'mezzo',
-  'miliardo', //billion
+  'miliardo',
   'milioni',
-  'miscela', //mixture
-  'misura', //extent
-  'mobile', //furniture
+  'miscela',
+  'misura',
+  'mobile',
   'modelli',
   'modello',
   'mondo',
   'morte',
   'mosaico',
-  'mostra', //exhibition
+  'mostra',
   'mostre',
-  'motore', //engine
+  'motore',
   'motto',
   'movimento',
-  'muro', //wall
+  'muro',
   'musei',
   'musica',
-  'nascita', //birth
-  'naso', //nose
-  'nastro', //tape
-  'natale', //christmas
+  'nascita',
+  'naso',
+  'nastro',
+  'natale',
   'natura',
-  'nave', //ship
+  'nave',
   'nazionale',
-  'negozio', //store
+  'negozio',
   'nemico',
-  'nessuno', //nobody
-  'niente', //nothing
-  'nome', //name
+  'nessuno',
+  'niente',
+  'nome',
   'nomi',
   'numero',
-  'nutre',//verb
-  'obiettivo', //goal
-  'occhio', //eye
-  'oggi', //today
+  'nutre',
+  'obiettivo',
+  'occhio',
+  'oggi',
   'ognuno',
   'olimpico',
-  'onere', //burden
+  'onere',
   'onomastico',
-  'onore', //honour
+  'onore',
   'opera',
   'opere',
-  'ora', //hour
-  'ora', //now
-  'orecchio', //ear
+  'ora',
+  'orecchio',
   'organico',
-  'oro', //gold
-  'orologio', //clock
-  'ospite', //guest
+  'oro',
+  'orologio',
+  'ospite',
   'pacifico',
-  'padre', //father
-  'paio', //pair
+  'padre',
+  'paio',
   'palcoscenico',
   'palestre',
   'panico',
-  'panoramica', //overview
+  'panoramica',
   'parco',
   'parte',
   'parti',
   'particolare',
   'partito',
   'passato',
-  'passeggero', //passenger
-  'passo', //pace
-  'pasto', //meal
-  'pelle', //skin
+  'passeggero',
+  'passo',
+  'pasto',
+  'pelle',
   'percento',
-  'percorso', //route
-  'perdue',// -?
-  'pericolo', //hazard
+  'percorso',
+  'perdue',
+  'pericolo',
   'periodico',
   'periodo',
   'persico',
-  'personale', //staff
-  'pesce', //fish
+  'personale',
+  'pesce',
   'piano',
   'piante',
   'piastre',
-  'piatto', //dish
+  'piatto',
   'piazza',
-  'piede', //foot
+  'piede',
   'pietre',
   'plastico',
-  'pneumatico', //tire
+  'pneumatico',
   'politecnico',
   'politica',
   'poliziotto',
-  'pollo', //chicken
-  'ponte', //bridge
+  'pollo',
+  'ponte',
   'porta',
   'portico',
-  'posta', //mail
+  'posta',
   'posto',
   'potere',
-  'pranzo', //lunch
+  'pranzo',
   'premio',
-  'prezzo', //price
+  'prezzo',
   'processo',
-  'profilo', //profile
+  'profilo',
   'progetto',
   'programma',
-  'prospetto', //prospect
-  'prova', //evidence
-  'prova', //proof
+  'prospetto',
+  'prova',
   'pubblico',
-  'pubblico', //audience
-  'pulsante', //button
-  'punteggio', //rating
+  'pulsante',
+  'punteggio',
   'punti',
   'punto',
-  'quadro', //framework
+  'quadro',
   'qualcuno',
-  'quartier generale', //headquarters
-  'qui', //here
+  'quartier generale',
+  'qui',
   'rapporto',
-  'rappresentante', //representative
-  're', //king
-  'reclamo', //complaint
-  'reddito', //income
-  'regalo', //gift
+  'rappresentante',
+  're',
+  'reclamo',
+  'reddito',
+  'regalo',
   'regno',
-  'rete', //network
-  'retta', //tuition
+  'rete',
+  'retta',
   'ricerca',
   'rico',
-  'rifugiato', //refugee
-  'rimborso', //reimbursement
-  'rischio', //risk
+  'rifugiato',
+  'rimborso',
+  'rischio',
   'rispetto',
-  'ristorante', //restaurant
+  'ristorante',
   'risultato',
   'ritorno',
-  'ritratto', //portrait
-  'rivolta', //riot
-  'sabbia', //sand
-  'sale', //salt
+  'ritratto',
+  'rivolta',
+  'sabbia',
+  'sale',
   'salotto',
-  'sangue', //blood
+  'sangue',
   'santa',
-  'scala', //scale
+  'scala',
   'scarico',
-  'scarpa', //shoe
-  'scatola', //box
-  'schermo', //screen
-  'scherzo', //joke
-  'schiavo', //slave
-  'sconto', //rebate
+  'scarpa',
+  'scatola',
+  'schermo',
+  'scherzo',
+  'schiavo',
+  'sconto',
   'scopo',
-  'secchio', //bucket
+  'secchio',
   'sede',
   'seguito',
   'semestre',
   'serie',
-  'serra', //greenhouse
-  'servo', //servant
-  'sfida', //challenge
-  'sforzo', //effort
+  'serra',
+  'servo',
+  'sfida',
+  'sforzo',
   'significato',
-  'sindaco', //mayor
+  'sindaco',
   'sinistra',
   'sinistre',
   'sistema',
   'sistemi',
-  'soldi', //money
-  'sole', //sun
+  'soldi',
+  'sole',
   'spazio',
-  'specchio', //mirror
+  'specchio',
   'specie',
-  'sposa', //bride
+  'sposa',
   'squadra',
   'storia',
   'storico',
@@ -379,65 +367,62 @@ export default [
   'struttura',
   'studi',
   'studio',
-  'studioso', //scholar
-  'sussidio', //subsidy
+  'studioso',
+  'sussidio',
   'sviluppo',
-  'svolta', //breakthrough
-  'tacco', //heel
-  'tasca', //pocket
-  'tassa', //fee
-  'tasso', //rate
-  'tasto', //key
-  'tavola', //table
+  'svolta',
+  'tacco',
+  'tasca',
+  'tassa',
+  'tasso',
+  'tasto',
+  'tavola',
   'tecnica',
   'tecnico',
-  'tempesta', //storm
-  'temporale', //thunderstorm
-  'tenda', //curtain
+  'tempesta',
+  'temporale',
+  'tenda',
   'teodorico',
   'teorico',
-  'tessuto', //fabric
+  'tessuto',
   'testa',
-  'testata', //heading
+  'testata',
   'testi',
   'testo',
   'titoli',
   'titolo',
   'traffico',
-  'trama', //plot
-  'trattato', //treaty
-  'tratto', //trait
+  'trama',
+  'trattato',
+  'tratto',
   'trimestre',
   'tutt\'uno',
-  'tutti', //everybody
-  'tutti', //everyone
-  'tutto', //everything
-  'uccello', //bird
-  'ufficio', //office
+  'tutti',
+  'tutto',
+  'uccello',
+  'ufficio',
   'unico',
-  'uomo', //man
+  'uomo',
   'valico',
-  'valuta', //currency
-  'vasca', //tub
+  'valuta',
+  'vasca',
   'via',
-  'viaggio', //journey
-  'viaggio', //trip
-  'viaggio', //voyage
-  'vicino', //neighbour
+  'viaggio',
+  'vicino',
   'videocassette',
   'vista',
   'vita',
   'vittoria',
-  'voce', //voice
+  'voce',
   'volo',
   'volta',
-  'zucchero', //sugar
-  // 
-  // -ico
-  // -otto
-  // -tre
-  // -uno
-  // 'stato',
-  // wrongly-tagged as numbers
+  'zucchero',
+
+
+
+
+
+
+
 
 ]

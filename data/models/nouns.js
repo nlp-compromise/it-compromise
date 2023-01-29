@@ -5036,7 +5036,6 @@ export default {
   "maialino": "maialini",
   "mais": "mais",
   "maitre": "maitre",
-  "male": "mali",
   "malaffare": "malaffari",
   "malandato": "malandati",
   "malandrino": "malandrini",

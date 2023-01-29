@@ -19,9 +19,6 @@ let arr = [
   // `c'è and v'è`,
   // `dimmi che bello`,
   // `buttarti giù`,// – to bring you down
-  `I poliziotti hanno fatto fuori il ladro.`,//The police officers killed the thief.
-  'Ieri Carla si è alzata tardi.',// Yesterday Carla got up late.
-  'Gli atleti si vestono in palestra.',// The athletes get dressed at the gym.
   'Oggi ci siamo vestiti male.',// Today we dressed badly.
   'Mi siedo un attimo.',// I am going to sit for a minute.
   'Le bambine si sono sedute sul prato.',// The little girls sat on the lawn.

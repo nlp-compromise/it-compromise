@@ -83,7 +83,7 @@ let misc = {
   'utilizzata': 'Verb',
   'avvenuta': 'Verb',
   'porta': 'Noun',
-  'fatto': 'Noun',
+  // 'fatto': 'Noun',
   'posto': 'Noun',
 
   'fatto': 'Verb',

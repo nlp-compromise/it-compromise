@@ -98,9 +98,10 @@ test('match:', function (t) {
     [`I ragazzi s\'alzano alle sette.`, '#Determiner #PluralNoun #Reflexive #PresentTense #Preposition #Value'], //The boys woke up at seven o'clock.`, ``],
     ['A casa, m\'annoio.', '#Preposition #Noun #Reflexive #FirstPerson'],//At home, I get bored.
     ['Mi alzo presto per andare a scuola.', '#Reflexive #FirstPerson #Adverb #Preposition #Infinitive #Preposition #Singular'],// I get (myself) up early to go to school.
-    // phrasals
     // [`Le persone invidiose cercano sempre di buttarti giù`, 'le #Noun #Adjective #PresentTense #Adverb #Preposition #PhrasalVerb #Particle'],// – envious people always try to bring you down
-
+    [`I poliziotti hanno fatto fuori il ladro.`, '#Determiner #Noun #Verb #PhrasalVerb #Particle #Determiner #Noun'],//The police officers killed the thief.
+    ['Ieri Carla si è alzata tardi.', '#Date #Person #Reflexive #Auxiliary #PhrasalVerb+ #Adverb'],// Yesterday Carla got up late.
+    ['Gli atleti si vestono in palestra.', '#Determiner #PluralNoun #Reflexive #Verb #Preposition #Singular'],// The athletes get dressed at the gym.
   ]
   arr.forEach(function (a) {
     let [str, match] = a

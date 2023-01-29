@@ -2423,7 +2423,6 @@ export default {
   "ricavare": ["ricaverò", "ricaverai", "ricaverà", "ricaveremo", "ricaverete", "ricaveranno"],
   "ricedere": ["ricederò", "ricederai", "ricederà", "ricederemo", "ricederete", "ricederanno"],
   "ricercare": ["ricercherò", "ricercherai", "ricercherà", "ricercheremo", "ricercherete", "ricercheranno"],
-  "ricettare": ["ricetterò", "ricetterai", "ricetterà", "ricetteremo", "ricetterete", "ricetteranno"],
   "ricevere": ["riceverò", "riceverai", "riceverà", "riceveremo", "riceverete", "riceveranno"],
   "richiamare": ["richiamerò", "richiamerai", "richiamerà", "richiameremo", "richiamerete", "richiameranno"],
   "richiedere": ["richiederò", "richiederai", "richiederà", "richiederemo", "richiederete", "richiederanno"],

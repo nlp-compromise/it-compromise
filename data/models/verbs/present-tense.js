@@ -2403,7 +2403,6 @@ export default {
   "ricavare": ["ricavo", "ricavi", "ricava", "ricaviamo", "ricavate", "ricavano"],
   "ricedere": ["ricedo", "ricedi", "ricede", "ricediamo", "ricedete", "ricedono"],
   "ricercare": ["ricerco", "ricerchi", "ricerca", "ricerchiamo", "ricercate", "ricercano"],
-  "ricettare": ["ricetto", "ricetti", "ricetta", "ricettiamo", "ricettate", "ricettano"],
   "ricevere": ["ricevo", "ricevi", "riceve", "riceviamo", "ricevete", "ricevono"],
   "richiamare": ["richiamo", "richiami", "richiama", "richiamiamo", "richiamate", "richiamano"],
   "richiedere": ["richiedo", "richiedi", "richiede", "richiediamo", "richiedete", "richiedono"],

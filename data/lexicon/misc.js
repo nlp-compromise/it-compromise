@@ -86,6 +86,8 @@ let misc = {
   'fatto': 'Noun',
   'posto': 'Noun',
 
+  'fatto': 'Verb',
+
 }
 Object.assign(misc, aux)
 export default misc

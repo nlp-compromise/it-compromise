@@ -2348,7 +2348,6 @@ export default {
   "ricattare": ["ricattai", "ricattasti", "ricattò", "ricattammo", "ricattaste", "ricattarono"],
   "ricavare": ["ricavai", "ricavasti", "ricavò", "ricavammo", "ricavaste", "ricavarono"],
   "ricercare": ["ricercai", "ricercasti", "ricercò", "ricercammo", "ricercaste", "ricercarono"],
-  "ricettare": ["ricettai", "ricettasti", "ricettò", "ricettammo", "ricettaste", "ricettarono"],
   "richiamare": ["richiamai", "richiamasti", "richiamò", "richiamammo", "richiamaste", "richiamarono"],
   "richiedere": ["richiesi", "richiedesti", "richiese", "richiedemmo", "richiedeste", "richiesero"],
   "ricogliere": ["ricolsi", "ricogliesti", "ricolse", "ricogliemmo", "ricoglieste", "ricolsero"],

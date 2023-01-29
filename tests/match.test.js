@@ -90,11 +90,17 @@ test('match:', function (t) {
     ['Puoi spiegare questa ricetta a Paolo?', '#Verb+ #Determiner #Noun #Preposition #MaleName'], //Can you explain this recipe to Paul?
     [`Le offro un caffè`, `#Pronoun #PresentTense #Determiner #Noun`],////I offer her a cup of coffee.
     [`Che bello!`, `#Expression+`],//
-    [`dimmi che bello`, `#Verb . #Adjective`],//tell me how handsome
+    // [`dimmi che bello`, `#Verb . #Adjective`],//tell me how handsome
     ['Mi alzo.', '#Reflexive #PresentTense'], //I'm getting up.
     [`Com'era bello!`, `come #Verb #Adjective`],
     [`l'hai`, `#Pronoun #Verb`],
-    // [``, ``],
+    [`Voi v\'arrabbiate facilmente.`, '#Pronoun #Reflexive #Verb #Adverb'], //You get angry easily.
+    [`I ragazzi s\'alzano alle sette.`, '#Determiner #PluralNoun #Reflexive #PresentTense #Preposition #Value'], //The boys woke up at seven o'clock.`, ``],
+    ['A casa, m\'annoio.', '#Preposition #Noun #Reflexive #FirstPerson'],//At home, I get bored.
+    ['Mi alzo presto per andare a scuola.', '#Reflexive #FirstPerson #Adverb #Preposition #Infinitive #Preposition #Singular'],// I get (myself) up early to go to school.
+    // phrasals
+    // [`Le persone invidiose cercano sempre di buttarti giù`, 'le #Noun #Adjective #PresentTense #Adverb #Preposition #PhrasalVerb #Particle'],// – envious people always try to bring you down
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a

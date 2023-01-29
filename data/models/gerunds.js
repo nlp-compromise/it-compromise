@@ -4400,7 +4400,6 @@ export default {
   "ricercare": "ricercando",
   "ricerchiare": "ricerchiando",
   "ricernere": "ricernendo",
-  "ricettare": "ricettando",
   "ricevere": "ricevendo",
   "richiacchierare": "richiacchierando",
   "richiamare": "richiamando",

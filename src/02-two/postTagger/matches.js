@@ -5,6 +5,10 @@ const postTagger = function (doc) {
   //  un libro di cucina
   doc.match('(un|uno) #Noun di [#Verb]', 0).tag('Noun', 'un-x-di-vb')
 
+  // phrasal verbs
+  doc.match('#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)',).tag('#PhrasalVerb #Particle', 'phrasal')
+
+
   // object pronouns
   doc.match('(il|i|una) [#Verb]', 0).tag('Noun', 'i-adj')
   // noun gender aggrement

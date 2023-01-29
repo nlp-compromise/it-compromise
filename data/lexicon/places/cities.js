@@ -1,44 +1,66 @@
 export default [
-  // french versions
-  'mosca',
-  'londra',
-  'genève',
-
   'aalborg',
   'aarhus',
   'abidjan',
   'abu dhabi',
+  'abuja',
+  'accra',
+  'addis abeba',
   'ahmedabad',
+  'al kuwait',
   'alexandria',
+  'algeri',
   'almaty',
   'amman',
   'amsterdam',
   'ankara',
+  'antananarivo',
   'antwerp',
+  'apia',
   'aqaba',
+  'aşgabat',
   'ashdod',
   'ashgabat',
+  'asmara',
+  'asunción',
+  'atene',
   'athens',
   'auckland',
+  'baghdad',
   'baku',
+  'bamako',
+  'bandar seri begawan',
   'bangalore',
   'bangkok',
+  'bangui',
   'banja luka',
+  'banjul',
   'barcelona',
   'barranquilla',
   'basel',
+  'basseterre',
   'beijing',
   'beirut',
   'belgrade',
+  'belgrado',
+  'belmopan',
   'bergen',
   'berlin',
+  'berlino',
   'bern',
   'birmingham',
+  'biškek',
+  'bissau',
   'bogota',
+  'bogotà',
   'brasilia',
   'bratislava',
+  'brazzaville',
+  'bridgetown',
   'brisbane',
   'brussels',
+  'bruxelles',
+  'bucarest',
   'bucharest',
   'budapest',
   'buenos aires',
@@ -47,40 +69,66 @@ export default [
   'busan',
   'cairo',
   'calgary',
+  'canberra',
   'cape town',
   'caracas',
+  'castries',
   'cebu',
   'chennai',
   'chiang mai',
   'chicago',
+  'chișinău',
   'chittagong',
   'christchurch',
+  'città del guatemala',
+  'città del messico',
+  'città del vaticano',
+  'città di san marino',
   'cologne',
   'colombo',
+  'conakry',
   'constanta',
+  'copenaghen',
   'copenhagen',
   'cork',
   'craiova',
   'curitiba',
+  'dacca',
   'daegu',
   'daejeon',
   'dakar',
+  'damasco',
   'damascus',
   'daugavpils',
   'dhaka',
+  'dili',
+  'dodoma',
   'doha',
   'dublin',
+  'dublino',
   'durban',
+  'dušanbe',
   'dushanbe',
   'edmonton',
   'eindhoven',
+  'erevan',
   'fes',
   'frankfurt',
+  'freetown',
+  'funafuti',
+  'gaborone',
   'galway',
   'gdansk',
   'geneva',
+  'genève',
   'genoa',
+  'georgetown',
+  'gerusalemme ovest',
   'ghent',
+  'giacarta',
+  'gibuti',
+  'gitega',
+  'giuba',
   'giza',
   'gothenburg',
   'graz',
@@ -90,13 +138,17 @@ export default [
   'hamburg',
   'hamilton',
   'hanoi',
+  'harare',
   'havana',
   'helsinki',
   'heraklion',
   'ho chi minh',
   'homs',
+  'honiara',
   'houston',
+  'il cairo',
   'incheon',
+  'islamabad',
   'istanbul',
   'i̇zmir',
   'jakarta',
@@ -106,60 +158,109 @@ export default [
   'kaohsiung',
   'karachi',
   'karaj',
+  'katmandu',
   'kaunas',
   'kharkiv',
+  'khartum',
   'kiev',
+  'kigali',
   'kingston',
+  'kingstown',
+  'kinshasa',
   'klaipeda',
   'kobe',
   'kopavogur',
   'kosice',
   'krakow',
   'kuala lumpur',
+  'l\'avana',
+  'la paz',
   'la plata',
+  'la valletta',
+  'la vella',
   'lausanne',
+  'libreville',
   'liege',
+  'lilongwe',
   'lima',
   'limassol',
   'linz',
   'lisbon',
+  'lisbona',
   'liverpool',
+  'lomé',
   'london',
+  'londra',
   'los angeles',
+  'luanda',
+  'lubiana',
+  'lusaka',
+  'lussemburgo',
   'lviv',
   'lyon',
   'madrid',
+  'majuro',
+  'malabo',
+  'malé',
   'malmo',
+  'managua',
+  'manama',
   'manchester',
   'mandalay',
   'manila',
+  'maputo',
   'maribor',
   'marseille',
+  'mascate',
+  'maseru',
+  'mbabane',
   'medellín',
   'melbourne',
   'milan',
   'minsk',
   'miskolc',
+  'mogadiscio',
+  'monaco',
+  'monrovia',
   'montevideo',
   'montreal',
+  'moroni',
+  'mosca',
   'moscow',
   'mumbai',
   'munich',
+  'n\'djamena',
   'nagoya',
+  'nairobi',
   'nantes',
   'naples',
+  'nassau',
   'navan',
+  'naypyidaw',
+  'nessuna',
   'new delhi',
   'new taipei',
   'new york',
+  'ngerulmud',
+  'niamey',
+  'nicosia',
   'nis',
+  'nouakchott',
+  'nuova delhi',
+  'nur-sultan',
   'odessa',
   'osaka',
   'oslo',
   'ottawa',
+  'ouagadougou',
   'palermo',
+  'palikir',
+  'panama',
+  'paramaribo',
+  'parigi',
   'paris',
   'patras',
+  'pechino',
   'perth',
   'petah tikva',
   'philadelphia',
@@ -167,34 +268,63 @@ export default [
   'phoenix',
   'pilsen',
   'piraeus',
+  'podgorica',
   'port elizabeth',
+  'port louis',
+  'port moresby',
+  'port of spain',
+  'port vila',
+  'port-au-prince',
+  'porto-novo',
   'porto',
   'poznan',
+  'praga',
   'prague',
+  'praia',
   'pretoria',
   'puebla',
   'pyongyang',
   'quito',
+  'rabat',
+  'ramallah',
   'reykjavik',
+  'reykjavík',
+  'riad',
   'riga',
   'rio de janeiro',
+  'roma',
   'rome',
   'rosario',
+  'roseau',
   'rotterdam',
+  'saint george\'s',
+  'saint john\'s',
   'saint petersburg',
   'salvador',
   'salzburg',
   'san jose',
+  'san josé',
   'san salvador',
+  'sana\'a',
+  'santiago del cile',
   'santiago',
+  'santo domingo',
+  'são tomé',
   'sapporo',
+  'sarajevo',
   'seoul',
+  'seul',
   'seville',
   'shanghai',
   'shenzhen',
+  'singapore',
   'skopje',
+  'sofia',
+  'sri jayawardenapura kotte',
+  'stoccolma',
   'stockholm',
   'stuttgart',
+  'suva',
   'sydney',
   'taichung',
   'tainan',
@@ -202,13 +332,17 @@ export default [
   'tallinn',
   'tampere',
   'tangier',
+  'tarawa sud',
   'tartu',
+  'tashkent',
   'tbilisi',
   'tegucigalpa',
+  'teheran',
   'tehran',
   'tel aviv',
   'the hague',
   'thessaloniki',
+  'thimphu',
   'tianjin',
   'tilburg',
   'timisoara',
@@ -216,222 +350,40 @@ export default [
   'tokyo',
   'toronto',
   'toulouse',
+  'tripoli',
   'trondheim',
   'tunis',
+  'tunisi',
   'turin',
   'turku',
   'ulan bator',
   'utrecht',
+  'vaduz',
   'valencia',
   'vancouver',
   'varna',
+  'varsavia',
+  'victoria',
   'vienna',
+  'vientiane',
   'vilnius',
   'warsaw',
+  'washington',
   'wellington',
   'wexford',
   'wicklow',
+  'windhoek',
   'winnipeg',
   'winterthur',
   'wroclaw',
+  'yamoussoukro',
   'yangon',
+  'yaoundé',
   'yekaterinburg',
   'yerevan',
   'yokohama',
+  'zagabria',
   'zagreb',
   'zurich',
   // 'sana\'a',
-
-  "kabul",//afghanistan
-  "tirana",//albania
-  "algeri",//algeria
-  "la vella",//andorra
-  "luanda",//angola
-  "saint john's",//antigua e barbuda
-  "riad",//arabia saudita
-  "buenos aires",//argentina
-  "erevan",//armenia
-  "canberra",//australia
-  "vienna",//austria
-  "baku",//azerbaigian
-  "nassau",//bahamas
-  "manama",//bahrein
-  "dacca",//bangladesh
-  "bridgetown",//barbados
-  "bruxelles",//belgio
-  "belmopan",//belize
-  "porto-novo",//benin
-  "thimphu",//bhutan
-  "minsk",//bielorussia
-  "naypyidaw",//birmania
-  "la paz",//bolivia
-  "sarajevo",//bosnia ed erzegovina
-  "gaborone",//botswana
-  "brasilia",//brasile
-  "bandar seri begawan",//brunei
-  "sofia",//bulgaria
-  "ouagadougou",//burkina faso
-  "gitega",//burundi
-  "phnom penh",//cambogia
-  "yaoundé",//camerun
-  "ottawa",//canada
-  "praia",//capo verde
-  "praga",//rep. ceca
-  "bangui",//rep. centrafricana
-  "n'djamena",//ciad
-  "santiago del cile",//cile
-  "pechino",//cina
-  "nicosia",//cipro
-  "bogotà",//colombia
-  "moroni",//comore
-  "brazzaville",//rep. del congo
-  "kinshasa",//rd del congo
-  "pyongyang",//corea del nord
-  "seul",//corea del sud
-  "yamoussoukro",//costa d'avorio
-  "san josé",//costa rica
-  "zagabria",//croazia
-  "l'avana",//cuba
-  "copenaghen",//danimarca
-  "roseau",//dominica
-  "santo domingo",//rep. dominicana
-  "quito",//ecuador
-  "il cairo",//egitto
-  "san salvador",//el salvador
-  "abu dhabi",//emirati arabi uniti
-  "asmara",//eritrea
-  "tallinn",//estonia
-  "addis abeba",//etiopia
-  "suva",//figi
-  "manila",//filippine
-  "helsinki",//finlandia
-  "parigi",//francia
-  "libreville",//gabon
-  "banjul",//gambia
-  "tbilisi",//georgia
-  "berlino",//germania
-  "accra",//ghana
-  "kingston",//giamaica
-  "tokyo",//giappone
-  "gibuti",//gibuti
-  "amman",//giordania
-  "atene",//grecia
-  "saint george's",//grenada
-  "città del guatemala",//guatemala
-  "conakry",//guinea
-  "bissau",//guinea-bissau
-  "malabo",//guinea equatoriale
-  "georgetown",//guyana
-  "port-au-prince",//haiti
-  "tegucigalpa",//honduras
-  "nuova delhi",//india
-  "giacarta",//indonesia
-  "teheran",//iran
-  "baghdad",//iraq
-  "dublino",//irlanda
-  "reykjavík",//islanda
-  "majuro (delap-uliga-djarrit)",//isole marshall
-  "gerusalemme ovest",//israele
-  "roma",//italia
-  "nur-sultan",//kazakistan
-  "nairobi",//kenya
-  "biškek",//kirghizistan
-  "tarawa sud",//kiribati
-  "al kuwait",//kuwait
-  "vientiane",//laos
-  "maseru",//lesotho
-  "riga",//lettonia
-  "beirut",//libano
-  "monrovia",//liberia
-  "tripoli",//libia
-  "vaduz",//liechtenstein
-  "vilnius",//lituania
-  "lussemburgo",//lussemburgo
-  "skopje",//macedonia del nord
-  "antananarivo",//madagascar
-  "lilongwe",//malawi
-  "kuala lumpur",//malaysia
-  "malé",//maldive
-  "bamako",//mali
-  "la valletta",//malta
-  "rabat",//marocco
-  "nouakchott",//mauritania
-  "port louis",//mauritius
-  "città del messico",//messico
-  "palikir",//micronesia
-  "chișinău",//moldavia
-  "monaco",//monaco
-  "ulan bator",//mongolia
-  "podgorica",//montenegro
-  "maputo",//mozambico
-  "windhoek",//namibia
-  "nessuna",//nauru
-  "katmandu",//nepal
-  "managua",//nicaragua
-  "niamey",//niger
-  "abuja",//nigeria
-  "oslo",//norvegia
-  "wellington",//nuova zelanda
-  "mascate",//oman
-  "islamabad",//pakistan
-  "ngerulmud",//palau
-  "ramallah",//palestina
-  "panama",//panama
-  "port moresby",//papua nuova guinea
-  "asunción",//paraguay
-  "lima",//perù
-  "varsavia",//polonia
-  "lisbona",//portogallo
-  "doha",//qatar
-  "londra",//regno unito
-  "bucarest",//romania
-  "kigali",//ruanda
-  "mosca",//russia
-  "basseterre",//saint kitts e nevis
-  "kingstown",//saint vincent e grenadine
-  "honiara",//isole salomone
-  "apia",//samoa
-  "città di san marino",//san marino
-  "castries",//saint lucia
-  "são tomé",//são tomé e príncipe
-  "dakar",//senegal
-  "belgrado",//serbia
-  "victoria",//seychelles
-  "freetown",//sierra leone
-  "singapore",//singapore
-  "damasco",//siria
-  "bratislava",//slovacchia
-  "lubiana",//slovenia
-  "mogadiscio",//somalia
-  "madrid",//spagna
-  "sri jayawardenapura kotte",//sri lanka
-  "washington",//stati uniti
-  "pretoria",//sudafrica
-  "khartum",//sudan
-  "giuba",//sudan del sud
-  "paramaribo",//suriname
-  "stoccolma",//svezia
-  "mbabane",//eswatini
-  "dušanbe",//tagikistan
-  "dodoma",//tanzania
-  "bangkok",//thailandia
-  "dili",//timor est
-  "lomé",//togo
-  "port of spain",//trinidad e tobago
-  "tunisi",//tunisia
-  "ankara",//turchia
-  "aşgabat",//turkmenistan
-  "funafuti",//tuvalu
-  "kiev",//ucraina
-  "kampala",//uganda
-  "budapest",//ungheria
-  "montevideo",//uruguay
-  "tashkent",//uzbekistan
-  "port vila",//vanuatu
-  "città del vaticano",//città del vaticano
-  "caracas",//venezuela
-  "hanoi",//vietnam
-  "sana'a",//yemen
-  "lusaka",//zambia
-  "harare",//zimbabwe
 ]

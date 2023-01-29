@@ -2417,7 +2417,6 @@ export default {
   "ricavare": "ricavato",
   "ricedere": "riceduto",
   "ricercare": "ricercato",
-  "ricettare": "ricettato",
   "ricevere": "ricevuto",
   "richiamare": "richiamato",
   "richiedere": "richiesto",

@@ -2423,7 +2423,6 @@ export default {
   "ricavare": ["ricaverei", "ricaveresti", "ricaverebbe", "ricaveremmo", "ricavereste", "ricaverebbero"],
   "ricedere": ["ricederei", "ricederesti", "ricederebbe", "ricederemmo", "ricedereste", "ricederebbero"],
   "ricercare": ["ricercherei", "ricercheresti", "ricercherebbe", "ricercheremmo", "ricerchereste", "ricercherebbero"],
-  "ricettare": ["ricetterei", "ricetteresti", "ricetterebbe", "ricetteremmo", "ricettereste", "ricetterebbero"],
   "ricevere": ["riceverei", "riceveresti", "riceverebbe", "riceveremmo", "ricevereste", "riceverebbero"],
   "richiamare": ["richiamerei", "richiameresti", "richiamerebbe", "richiameremmo", "richiamereste", "richiamerebbero"],
   "richiedere": ["richiederei", "richiederesti", "richiederebbe", "richiederemmo", "richiedereste", "richiederebbero"],

@@ -3188,7 +3188,6 @@ export default [
   "collaudare",
   "dispiegare",
   "repere",
-  "ricettare",
   "spedicare",
   "arrotondare",
   "levigare",

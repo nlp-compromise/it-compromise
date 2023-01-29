@@ -6,7 +6,7 @@ const postTagger = function (doc) {
   doc.match('(un|uno) #Noun di [#Verb]', 0).tag('Noun', 'un-x-di-vb')
 
   // object pronouns
-  doc.match('(il|lo|i|la|una) [#Verb]', 0).tag('Noun', 'i-adj')
+  doc.match('(il|i|una) [#Verb]', 0).tag('Noun', 'i-adj')
   // noun gender aggrement
   doc.match('(il|lo|i|gli) [#Noun]', 0).tag('MaleNoun', 'm-noun')
   doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun')

@@ -16,10 +16,9 @@ txt = ' pietre'
 let arr = [
   // 'voglio vedere un vulcano', //i want to see a volcano
   // 'Sono stato nel parco',//I've been in the park
-
-
-
-  'Voglio alzarmi.', //I want to get up.
+  // `c'è and v'è`,
+  `dimmi che bello`,
+  `Dov'è il tuo amico`,
   'Voi v\'arrabbiate facilmente.', //You get angry easily.
   'I ragazzi s\'alzano alle sette.', //The boys woke up at seven o'clock.
   'A casa, m\'annoio.', //At home, I get bored.

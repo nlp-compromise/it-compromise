@@ -1,4 +1,11 @@
 export default [
+  { word: `c'è`, out: ['ci', 'è'] },
+  { word: `v'è`, out: ['vi', 'è'] },
+  { word: `l'ho`, out: ['lo', 'ho'] },
+  { word: `l'abbiamo`, out: ['la', 'abbiamo'] },
+  { before: `dov`, out: ['dove'] },
+  { before: `com`, out: ['come'] },
+  { before: `l`, out: ['lo'] },//or la
   // { word: 'del', out: ['di', 'il'] },
   // { word: 'dello', out: ['di', 'lo'] },
   // { word: 'della', out: ['di', 'la'] },

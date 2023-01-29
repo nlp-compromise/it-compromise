@@ -81,7 +81,7 @@ test('match:', function (t) {
     // we can study the song
     ['possiamo studiare la canzone', '#Auxiliary #PresentTense #Determiner #Noun'],
     // go sing in the church
-    ['vai a cantare in chiesa', '#Imperative . #Verb #Preposition #Noun']
+    ['vai a cantare in chiesa', '#Imperative . #Verb #Preposition #Noun'],
     ['è rimasto calmo', '#Auxiliary #PastTense #Adjective'],//he remained calm
     [`un mare di lava`, `#Determiner #Noun #Preposition #Noun`],//a sea of lava
     [`un libro di cucina`, `#Determiner #Noun #Preposition #Noun`],//cookbook
@@ -92,6 +92,9 @@ test('match:', function (t) {
     [`Che bello!`, `#Expression+`],//
     [`dimmi che bello`, `#Verb . #Adjective`],//tell me how handsome
     ['Mi alzo.', '#Reflexive #PresentTense'], //I'm getting up.
+    [`Com'era bello!`, `come #Verb #Adjective`],
+    [`l'hai`, `#Pronoun #Verb`],
+    // [``, ``],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

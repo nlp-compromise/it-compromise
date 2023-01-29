@@ -1,5 +1,3 @@
-export default {
 
-
-
-}
+let misc = {}
+export default misc

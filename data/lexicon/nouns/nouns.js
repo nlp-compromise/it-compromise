@@ -101,7 +101,7 @@ export default [
   'spazio',
   'specie',
   'squadra',
-  'stato',
+  // 'stato',
   'storia',
   'strada',
   'struttura',

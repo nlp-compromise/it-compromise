@@ -23,6 +23,7 @@
     "testb": "TESTENV=prod npm run test",
     "build": "npm run version && rollup -c --silent",
     "pack": "node ./scripts/pack.js",
+    "match": "node ./scripts/match.js",
     "watch": "amble ./scratch.js",
     "version": "node ./scripts/version.js",
     "score": "node ./learn/tagger/test.js",

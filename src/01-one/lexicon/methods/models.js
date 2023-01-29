@@ -1,4 +1,5 @@
-import { uncompress } from '/Users/spencer/mountain/suffix-thumb/src/index.js'
+// import { uncompress } from '/Users/spencer/mountain/suffix-thumb/src/index.js'
+import { uncompress } from 'suffix-thumb'
 import model from './_data.js'
 
 // uncompress them

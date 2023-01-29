@@ -104,5 +104,5 @@ Object.keys(models).forEach(tense => {
 
 words = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
-// console.log(lexicon['suis'])
+// console.log(words['dice'])
 export default words

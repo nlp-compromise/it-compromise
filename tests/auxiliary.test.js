@@ -61,6 +61,14 @@ let irreg = {
   'sapere': ['sanno', 'sapevano', 'seppero', 'sapranno', 'sappiano', 'sapessero', 'saprebbero'],
 }
 
+// 'PresentTense',
+// 'PastTense',
+// 'PastTense',
+// 'FutureTense',
+// 'PresentTense',
+// 'PastTense',
+// 'ConditionalVerb',
+
 test('irreg-root:', function (t) {
   Object.keys(irreg).forEach(k => {
     irreg[k].forEach(str => {

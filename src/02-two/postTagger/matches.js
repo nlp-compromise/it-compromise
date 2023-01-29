@@ -1,9 +1,14 @@
 const postTagger = function (doc) {
   doc.match('una [#Verb]', 0).tag('FemaleNoun', 'una-adj')
-  doc.match('(un|uno) [#Verb]', 0).tag('MaleNoun', 'uno-adj')
-  doc.match('(il|lo|i|gli|uno|la|le|una) [#Verb]', 0).tag('Noun', 'i-adj')
+  doc.match('un [#Verb]', 0).tag('MaleNoun', 'uno-adj')
+
+  //  un libro di cucina
+  doc.match('(un|uno) #Noun di [#Verb]', 0).tag('Noun', 'un-x-di-vb')
+
+  // object pronouns
+  doc.match('(il|lo|i|la|una) [#Verb]', 0).tag('Noun', 'i-adj')
   // noun gender aggrement
-  doc.match('(il|lo|i|gli|uno) [#Noun]', 0).tag('MaleNoun', 'm-noun')
+  doc.match('(il|lo|i|gli) [#Noun]', 0).tag('MaleNoun', 'm-noun')
   doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun')
 
 
@@ -21,6 +26,12 @@ const postTagger = function (doc) {
   doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal')
 
   // auxiliary verbs
+  // essere - to be
+  doc.match('[(sono|sei|è|siamo|siete|sonoero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sarò|sarai|sarà|saremo|sarete|saranno)] #Verb', 0).tag('Auxiliary')
+
+  // Che bello!
+  doc.match('^che #Adjective$').tag('Expression', 'che-bello')
+
   // doc.match('[(abbia|abbiamo|abbiano|abbiate|avemmo|avesse|avessero|avessi|avessimo|aveste|avesti|avete|aveva|avevamo|avevano|avevate|avevo|avrà|avrai|avranno|avrebbe|avrei|avremmo|avremo|avreste|avresti|avrete|avrò|ebbe|ebbero|ebbi|ha|hai|hanno|ho)] #Verb', 0).tag('Auxiliary', 'aux-verb')
   // want to x
   // doc.match('[({volere}|{dovere})] #PresentTense', 0).tag('Auxiliary', 'want-aux')

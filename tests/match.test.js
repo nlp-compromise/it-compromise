@@ -82,6 +82,16 @@ test('match:', function (t) {
     ['possiamo studiare la canzone', '#Auxiliary #PresentTense #Determiner #Noun'],
     // go sing in the church
     ['vai a cantare in chiesa', '#Imperative . #Verb #Preposition #Noun']
+    ['è rimasto calmo', '#Auxiliary #PastTense #Adjective'],//he remained calm
+    [`un mare di lava`, `#Determiner #Noun #Preposition #Noun`],//a sea of lava
+    [`un libro di cucina`, `#Determiner #Noun #Preposition #Noun`],//cookbook
+    [`Rubare a uno è un plagio.`, `#PresentTense #Preposition #Value #PresentTense #Determiner #Noun`],//stealing from one is plagiarism
+    ['Abbiamo regalato un libro di cucina allo zio Giovanni.', `#Verb #PastTense #Determiner #Noun di #Noun #Preposition #Noun+`],// We gave a cookbook to Uncle John.
+    ['Puoi spiegare questa ricetta a Paolo?', '#Verb+ #Determiner #Noun #Preposition #MaleName'], //Can you explain this recipe to Paul?
+    [`Le offro un caffè`, `#Pronoun #PresentTense #Determiner #Noun`],////I offer her a cup of coffee.
+    [`Che bello!`, `#Expression+`],//
+    [`dimmi che bello`, `#Verb . #Adjective`],//tell me how handsome
+    ['Mi alzo.', '#Reflexive #PresentTense'], //I'm getting up.
   ]
   arr.forEach(function (a) {
     let [str, match] = a

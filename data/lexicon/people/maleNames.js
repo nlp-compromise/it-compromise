@@ -708,6 +708,7 @@ export default [
   'padraig',
   'patrick',
   'paul',
+  'paolo',
   'pedro',
   'percy',
   'petar',

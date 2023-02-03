@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import fs from 'fs'
 import { pack } from 'efrt'
-// import { learn, compress } from '/Users/spencer/mountain/suffix-thumb/src/index.js'
 import { learn, compress } from 'suffix-thumb'
 import lexicon from '../data/lexicon/index.js'
 import models from '../data/models/index.js'

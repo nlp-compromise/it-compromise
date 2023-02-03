@@ -88,18 +88,18 @@ Object.keys(lexData).forEach(tag => {
 
 
 // add data from conjugation models
-Object.keys(models).forEach(tense => {
-  Object.keys(models[tense]).forEach(form => {
-    let infs = Object.keys(models[tense][form].exceptions)
-    infs.forEach(inf => {
-      if (!words[inf]) {
-        words[inf] = 'Infinitive'
-        addVerbs(inf)
-        // console.log(inf)
-      }
-    })
-  })
-})
+// Object.keys(models).forEach(tense => {
+//   Object.keys(models[tense]).forEach(form => {
+//     let infs = Object.keys(models[tense][form].ex)
+//     infs.forEach(inf => {
+//       if (!words[inf]) {
+//         words[inf] = 'Infinitive'
+//         addVerbs(inf)
+//         // console.log(inf)
+//       }
+//     })
+//   })
+// })
 
 
 words = Object.assign({}, words, misc)

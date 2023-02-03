@@ -53,6 +53,13 @@ const addVerbs = function (w) {
       words[res[k]] = [tagMap[k], 'ImperfectVerb']
     }
   })
+  // imperfect
+  res = verbs.toSubjunctive(w)
+  Object.keys(res).forEach(k => {
+    if (!words[res[k]]) {
+      words[res[k]] = [tagMap[k], 'Subjunctive']
+    }
+  })
   // gerunds
   res = verbs.toGerund(w)
   words[res] = words[res] || ['Gerund']

@@ -1,6 +1,6 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, futureTense, conditional, imperfect } = model
+let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model
 
 // =-=-
 const revAll = function (m) {
@@ -15,7 +15,7 @@ let pastRev = revAll(pastTense)
 let futureRev = revAll(futureTense)
 let conditionalRev = revAll(conditional)
 let imperfectRev = revAll(imperfect)
-
+let subjunctiveRev = revAll(subjunctive)
 
 const stripReflexive = function (str) {
   str = str.replace(/arsi$/, 'ar')
@@ -98,11 +98,27 @@ const fromImperfect = (str, form) => {
   return stripReflexive(str)
 }
 
+const fromSubjunctive = (str, form) => {
+  let forms = {
+    'FirstPerson': (s) => convert(s, subjunctiveRev.first),
+    'SecondPerson': (s) => convert(s, subjunctiveRev.second),
+    'ThirdPerson': (s) => convert(s, subjunctiveRev.third),
+    'FirstPersonPlural': (s) => convert(s, subjunctiveRev.firstPlural),
+    'SecondPersonPlural': (s) => convert(s, subjunctiveRev.secondPlural),
+    'ThirdPersonPlural': (s) => convert(s, subjunctiveRev.thirdPlural),
+  }
+  if (forms.hasOwnProperty(form)) {
+    return forms[form](str)
+  }
+  return stripReflexive(str)
+}
+
 
 export {
   fromPresent,
   fromPast,
   fromFuture,
   fromConditional,
-  fromImperfect
+  fromImperfect,
+  fromSubjunctive
 }

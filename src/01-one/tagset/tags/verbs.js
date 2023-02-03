@@ -73,6 +73,9 @@ export default {
   ImperfectVerb: {
     is: 'Verb',
   },
+  Subjunctive: {
+    is: 'Verb',
+  },
   FutureTense: {
     is: 'Verb',
     not: ['PresentTense', 'PastTense', 'Gerund'],

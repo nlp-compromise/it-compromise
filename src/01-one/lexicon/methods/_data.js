@@ -174,6 +174,44 @@ export default {
       "ex": "sarebbero:essere¦8bbero:abradere,accedere,chiedere,decedere,eccedere,incedere,invadere,recedere,ricedere,scrivere,spegnere,strafare,alludere,arridere,assidere,assumere,chierere,chiudere,cogliere,crescere,decidere,deludere,deridere,desumere,diligere,dirigere,dirimere,dividere,eleggere,emettere,erompere,escutere,esistere,evincere,flettere,friggere,illudere,imbevere,incidere,incutere,irridere,occidere,omettere,prendere,recidere,redigere,redimere,riardere,ricevere,ripetere,sbattere,scendere,scernere,scindere,scorrere,sfottere,smettere,spandere,spendere,spremere,stendere,storcere,stridere,svellere,svendere,togliere,uccidere¦6erebbero:allungare,accasciare,acconciare,affondare,ambasciare,candidare,combaciare,congedare,depredare,rifondare,rimangiare,rovesciare,scrosciare,suicidare,svaligiare,trucidare¦3rebbero:andare,cadere,dovere,godere,potere,vedere,vivere,parere¦10bbero:antecedere,descrivere,dissuadere,inscrivere,persuadere,richiedere,riscrivere,sopraffare,sottostare,accogliere,accrescere,affliggere,apprendere,benedicere,cognoscere,coincidere,combattere,commettere,compiacere,comprimere,concernere,concludere,concorrere,confondere,connettere,consistere,contendere,contorcere,convincere,correggere,corrompere,decrescere,delinquere,diffondere,discendere,discernere,discorrere,dismettere,disperdere,dispiacere,distendere,distorcere,estinguere,imprendere,infliggere,nascondere,percorrere,permettere,persistere,portendere,precludere,precorrere,prefiggere,premettere,prenascere,pretendere,profondere,promettere,propellere,propendere,prorompere,proteggere,protendere,rescindere,riassumere,ricogliere,ricrescere,rieleggere,riflettere,riprendere,rispondere,sciogliere,sconoscere,soccombere,soccorrere,soggiacere,sommettere,sopprimere,sorreggere,sospendere,sottendere,sussistere,trafiggere,tramettere,transigere¦9bbero:ascrivere,concedere,corrodere,iscrivere,pervadere,precedere,procedere,ricredere,risiedere,succedere,abbattere,accendere,accorrere,ammettere,annettere,appendere,ascendere,ascondere,assistere,attendere,attorcere,avvincere,collidere,colludere,competere,conoscere,decorrere,deprimere,desistere,difendere,dimettere,dipendere,dirompere,discutere,divellere,eccellere,effondere,escludere,espandere,espellere,esprimere,estendere,estollere,estorcere,estrudere,immettere,imprimere,incendere,includere,incombere,incorrere,infiggere,infondere,insistere,intendere,intridere,intrudere,irrompere,negligere,occludere,occorrere,offendere,opprimere,ottundere,precidere,presumere,recludere,repellere,reprimere,resistere,ribattere,ricorrere,rileggere,rimettere,rimordere,rinascere,ritorcere,rivendere,rivincere,scegliere,schiudere,secernere,sorridere,sottacere,splendere,struggere¦2rebbero:avere¦6bbero:cedere,gioire,ledere,lenire,radere,ridare,rifare,ardere,gemere,licere,ridere,sumere,tacere,temere¦13bbero:circoscrivere,sottoscrivere,compromettere,controbattere,corrispondere,disconnettere,intraprendere,ritrasmettere,soprintendere,sottintendere,sovrintendere¦5rebbero:compiere,decadere,ricadere¦11bbero:contraffare,intercedere,prescrivere,retrocedere,trascrivere,comprendere,dischiudere,distinguere,distogliere,distruggere,manomettere,prediligere,racchiudere,raccogliere,rapprendere,riaccendere,riappendere,riconoscere,rinchiudere,rincrescere,risplendere,scommettere,sconfiggere,sconnettere,scoscendere,socchiudere,soffriggere,sorprendere,stravincere,suddividere,trascendere,trascorrere,trasfondere,trasmettere¦7bbero:credere,erodere,evadere,fervere,inveire,ristare,scadere,tessere,battere,cernere,cherere,correre,elidere,eludere,erigere,esigere,fendere,figgere,fottere,fremere,giacere,leggere,mescere,mettere,mietere,mordere,nascere,pascere,pendere,perdere,piacere,premere,prudere,reggere,rendere,rompere,tendere,torcere,vendere,vertere,vincere¦4bbero:dare,dire,fare¦7erebbero:filosofare,afflosciare,agghindare,circondare,diseredare,insudiciare,invalidare¦4erebbero:roncare,stufare,bendare,berciare,cangiare,conciare,elogiare,eredare,fasciare,fondare,forgiare,gradare,gridare,guadare,lasciare,linciare,mandare,mangiare,mondare,predare,privare,salvare,sondare,vengiare¦5erebbero:schifare,annidare,arrivare,blindare,brindare,denudare,diredare,effigiare,inondare,ossidare,salivare,sbandare,sbirciare,schedare,schivare,sfasciare,sfondare,sgridare¦3erebbero:sciare,tifare,baciare,badare,bigiare,fidare,levare,mudare,ondare,pigiare,redare,sedare,sudare¦5bbero:sfare,stare,unire¦8etterebbero:teletrasmettere¦15bbero:accondiscendere¦9erebbero:affaccendare¦2erebbero:agiare¦8erebbero:arrotondare,consolidare,infradiciare,intorbidare,sprofondare¦12bbero:circoncidere,crocifiggere,disattendere,disciogliere,disconoscere,fraintendere,intercorrere,interrompere,intromettere,prescegliere,sottomettere¦18bbero:contraddistinguere¦2rrebbero:dolere,ducere,tenere,valere,venire,volere¦3rrebbero:educere¦4rrebbero:riducere¦4rebbero:sparere"
     }
   },
+  "imperfect": {
+    "first": {
+      "fwd": "1cevo:urre",
+      "both": "3cevo:efare,sfare,ddire¦1evo:arre¦1nevo:orre¦vo:re",
+      "rev": "2re:facevo¦3rre:nducevo,oducevo,educevo",
+      "ex": "2vevo:bere¦5vo:compiere¦9cevo:contraffare¦2cevo:dire,fare¦1ro:essere¦4cevo:indire,ridire,rifare,abdurre,addurre¦7cevo:interdire¦5cevo:predire,tradurre¦3cevo:sfare¦8cevo:sopraffare¦6cevo:strafare¦8ettevo:teletrasmettere"
+    },
+    "second": {
+      "fwd": "1cevi:urre",
+      "both": "3cevi:efare,sfare,ddire¦1evi:arre¦1nevi:orre¦vi:re",
+      "rev": "2re:facevi¦3rre:nducevi,oducevi,educevi",
+      "ex": "2vevi:bere¦5vi:compiere¦9cevi:contraffare¦2cevi:dire,fare¦1ri:essere¦4cevi:indire,ridire,rifare,abdurre,addurre¦7cevi:interdire¦5cevi:predire,tradurre¦3cevi:sfare¦8cevi:sopraffare¦6cevi:strafare¦8ettevi:teletrasmettere"
+    },
+    "third": {
+      "fwd": "1ceva:urre",
+      "both": "3ceva:efare,sfare,ddire¦1eva:arre¦1neva:orre¦va:re",
+      "rev": "2re:faceva¦3rre:nduceva,oduceva,educeva",
+      "ex": "2veva:bere¦5va:compiere¦9ceva:contraffare¦2ceva:dire,fare¦1ra:essere¦4ceva:indire,ridire,rifare,abdurre,addurre¦7ceva:interdire¦5ceva:predire,tradurre¦3ceva:sfare¦8ceva:sopraffare¦6ceva:strafare¦8etteva:teletrasmettere"
+    },
+    "firstPlural": {
+      "fwd": "1cevamo:urre",
+      "both": "3cevamo:efare,sfare,ddire¦1evamo:arre¦1nevamo:orre¦vamo:re",
+      "rev": "2re:facevamo¦3rre:nducevamo,oducevamo,educevamo",
+      "ex": "2vevamo:bere¦5vamo:compiere¦9cevamo:contraffare¦2cevamo:dire,fare¦1ravamo:essere¦4cevamo:indire,ridire,rifare,abdurre,addurre¦7cevamo:interdire¦5cevamo:predire,tradurre¦3cevamo:sfare¦8cevamo:sopraffare¦6cevamo:strafare¦8ettevamo:teletrasmettere"
+    },
+    "secondPlural": {
+      "fwd": "1cevate:urre",
+      "both": "3cevate:efare,sfare,ddire¦1evate:arre¦1nevate:orre¦vate:re",
+      "rev": "2re:facevate¦3rre:nducevate,oducevate,educevate",
+      "ex": "2vevate:bere¦5vate:compiere¦9cevate:contraffare¦2cevate:dire,fare¦1ravate:essere¦4cevate:indire,ridire,rifare,abdurre,addurre¦7cevate:interdire¦5cevate:predire,tradurre¦3cevate:sfare¦8cevate:sopraffare¦6cevate:strafare¦8ettevate:teletrasmettere"
+    },
+    "thirdPlural": {
+      "fwd": "1cevano:urre",
+      "both": "3cevano:efare,sfare,ddire¦1evano:arre¦1nevano:orre¦vano:re",
+      "rev": "2re:facevano¦3rre:nducevano,oducevano,educevano",
+      "ex": "2vevano:bere¦5vano:compiere¦9cevano:contraffare¦2cevano:dire,fare¦1rano:essere¦4cevano:indire,ridire,rifare,abdurre,addurre¦7cevano:interdire¦5cevano:predire,tradurre¦3cevano:sfare¦8cevano:sopraffare¦6cevano:strafare¦8ettevano:teletrasmettere"
+    }
+  },
   "gerunds": {
     "gerunds": {
       "fwd": "endo:ire¦1cendo:urre¦1nendo:orre",

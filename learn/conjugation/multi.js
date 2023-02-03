@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import fs from 'fs'
-const want = 'imperative'
+const want = 'indicative/imperfect'
 let forms = [
   's1',//io
   's2',//tu

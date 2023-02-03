@@ -34,6 +34,7 @@ const getOne = function (file) {
     isBad = true
   }
   let res = obj.conjugations.find(o => o.group === want)
+  console.log(res)
   if (!res || isBad || res.value.match(/[#, ]/ || res.value.split(/ /).length > 1)) {
     return ''
   }

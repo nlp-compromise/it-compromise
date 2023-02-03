@@ -6,6 +6,6 @@ export default [
   'degli',//degli amici  »  friends
   'delle',//delle amiche  »  friends
   'altri',
-  'tale'
-
+  'tale',
+  'questa',
 ]

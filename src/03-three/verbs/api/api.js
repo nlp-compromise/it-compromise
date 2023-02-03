@@ -96,8 +96,11 @@ const api = function (View) {
           PresentTense: m.toPresent(root),
           FutureTense: m.toFuture(root),
           Gerund: m.toGerund(root),
+          Subjunctive: m.toSubjunctive(root),
+          Imperfect: m.toImperfect(root),
           Conditional: m.toConditional(root),
           PastParticiple: m.toPastParticiple(root),
+          PresentParticiple: m.toPresentParticiple(root),
         }
       }, [])
     }

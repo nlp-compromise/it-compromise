@@ -46,12 +46,29 @@ const addVerbs = function (w) {
       words[res[k]] = [tagMap[k], 'ConditionalVerb']
     }
   })
+  // imperfect
+  res = verbs.toImperfect(w)
+  Object.keys(res).forEach(k => {
+    if (!words[res[k]]) {
+      words[res[k]] = [tagMap[k], 'ImperfectVerb']
+    }
+  })
+  // imperfect
+  res = verbs.toSubjunctive(w)
+  Object.keys(res).forEach(k => {
+    if (!words[res[k]]) {
+      words[res[k]] = [tagMap[k], 'Subjunctive']
+    }
+  })
   // gerunds
   res = verbs.toGerund(w)
   words[res] = words[res] || ['Gerund']
   // participle
   res = verbs.toPastParticiple(w)
   words[res] = words[res] || ['PastParticiple']
+  // present participle
+  res = verbs.toPresentParticiple(w)
+  words[res] = words[res] || ['PresentParticiple']
 }
 
 Object.keys(lexData).forEach(tag => {
@@ -88,21 +105,21 @@ Object.keys(lexData).forEach(tag => {
 
 
 // add data from conjugation models
-Object.keys(models).forEach(tense => {
-  Object.keys(models[tense]).forEach(form => {
-    let infs = Object.keys(models[tense][form].exceptions)
-    infs.forEach(inf => {
-      if (!words[inf]) {
-        words[inf] = 'Infinitive'
-        addVerbs(inf)
-        // console.log(inf)
-      }
-    })
-  })
-})
+// Object.keys(models).forEach(tense => {
+//   Object.keys(models[tense]).forEach(form => {
+//     let infs = Object.keys(models[tense][form].ex)
+//     infs.forEach(inf => {
+//       if (!words[inf]) {
+//         words[inf] = 'Infinitive'
+//         addVerbs(inf)
+//         // console.log(inf)
+//       }
+//     })
+//   })
+// })
 
 
 words = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
-// console.log(lexicon['suis'])
+// console.log(words['dice'])
 export default words

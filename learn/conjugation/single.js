@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import fs from 'fs'
-const want = 'imperative'
+const want = 'presentparticiple'
 
 let arr = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conjugation/infinitives.txt').toString().split(/\n/).slice(0, 5000)
 const tops = new Set(arr)
@@ -34,6 +34,7 @@ const getOne = function (file) {
     isBad = true
   }
   let res = obj.conjugations.find(o => o.group === want)
+  console.log(res)
   if (!res || isBad || res.value.match(/[#, ]/ || res.value.split(/ /).length > 1)) {
     return ''
   }

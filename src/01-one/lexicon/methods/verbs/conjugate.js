@@ -1,6 +1,6 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, futureTense, conditional } = model
+let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model
 
 const doEach = function (str, m) {
   return {
@@ -17,11 +17,15 @@ const toPresent = (str) => doEach(str, presentTense)
 const toPast = (str) => doEach(str, pastTense)
 const toFuture = (str) => doEach(str, futureTense)
 const toConditional = (str) => doEach(str, conditional)
-
+const toImperfect = (str) => doEach(str, imperfect)
+const toSubjunctive = (str) => doEach(str, subjunctive)
 
 export {
   toPresent,
   toPast,
   toFuture,
   toConditional,
+  toImperfect,
+  toSubjunctive
 }
+// console.log(toPast('permettersi'))

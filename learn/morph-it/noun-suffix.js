@@ -1,5 +1,5 @@
 import fs from 'fs'
-import fingerprint from '/Users/spencer/mountain/suffix-thumb/src/fingerprint/index.js'
+// import fingerprint from '/Users/spencer/mountain/suffix-thumb/src/fingerprint/index.js'
 
 let lines = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/morph-it/morph-it_data.txt').toString().split(/\n/)
 

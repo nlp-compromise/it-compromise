@@ -3,19 +3,19 @@ import aux from './aux.js'
 
 let misc = {
 
-  'il': 'Article',
-  'lo': 'Article',
-  'la': 'Article',
-  'l': 'Article',//l’
-  'i': 'Article',
-  'gli': 'Article',
-  'le': 'Article',
-  'dei': 'Article',
+  'il': 'Determiner',
+  'lo': 'Determiner',
+  'la': 'Determiner',
+  'l': 'Determiner',//l’
+  'i': 'Determiner',
+  'gli': 'Determiner',
+  'le': 'Determiner',
+  'dei': 'Determiner',
 
 
-  'un': 'Article',//un amico  »  a friend (m)
-  'una': 'Article',//una ragazza  »  a girl
-  'uno': 'Article',//uno stato  »  a state (m)
+  'un': 'Determiner',//un amico  »  a friend (m)
+  'una': 'Determiner',//una ragazza  »  a girl
+  'uno': 'Determiner',//uno stato  »  a state (m)
 
   // possessive pronous
   'mio': pr,	//	Mine
@@ -57,9 +57,9 @@ let misc = {
   'formula': 'Noun',
   'fa': 'Verb',
   'deve': 'Verb',
-  'stata': 'Verb',
-  'stato': 'Verb',
-  'stati': 'Verb',
+  'stata': 'PastTense',
+  'stato': 'PastTense',
+  'stati': 'PastTense',
   'diretto': 'Adjective',
   'fondata': 'Adjective',
   'presenti': 'Adjective',
@@ -75,6 +75,7 @@ let misc = {
   'legati': 'Adjective',
   'chiamata': 'Verb',
   'chiamati': 'Verb',
+  'regali': 'Verb',
   // 'poter': 'Verb',
   'va': 'Verb',
   'sia': 'Verb',
@@ -82,8 +83,10 @@ let misc = {
   'utilizzata': 'Verb',
   'avvenuta': 'Verb',
   'porta': 'Noun',
-  'fatto': 'Noun',
+  // 'fatto': 'Noun',
   'posto': 'Noun',
+
+  'fatto': 'Verb',
 
 }
 Object.assign(misc, aux)

@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import fs from 'fs'
-const want = 'imperative'
+const want = 'subjunctive/present'
 let forms = [
   's1',//io
   's2',//tu
@@ -41,7 +41,7 @@ const getOne = function (file) {
     isBad = true
   }
   let res = forms.map(f => {
-    let found = obj.conjugations.find(o => o.group === want && (o.form === f || o.form === f + '-b'))
+    let found = obj.conjugations.find(o => o.group === want && (o.form === f || o.form === f + '-b'))// 
     if (!found || !found.value) {
       isBad = true
       return ''

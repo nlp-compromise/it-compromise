@@ -1,6 +1,6 @@
-import { toPresent, toPast, toFuture, toConditional } from './conjugate.js'
-import { fromGerund, toGerund, fromPastParticiple, toPastParticiple } from './single.js'
-import { fromPresent, fromPast, fromFuture, fromConditional } from './toRoot.js'
+import { toPresent, toPast, toFuture, toConditional, toImperfect, toSubjunctive } from './conjugate.js'
+import { fromGerund, toGerund, fromPastParticiple, toPastParticiple, fromPresentParticiple, toPresentParticiple } from './single.js'
+import { fromPresent, fromPast, fromFuture, fromConditional, fromImperfect, fromSubjunctive } from './toRoot.js'
 
 const all = function (str) {
   let arr = [str].concat(
@@ -8,8 +8,11 @@ const all = function (str) {
     Object.values(toPast(str)),
     Object.values(toFuture(str)),
     Object.values(toConditional(str)),
+    Object.values(toImperfect(str)),
+    Object.values(toSubjunctive(str)),
   )
   arr.push(toPastParticiple(str))
+  arr.push(toPresentParticiple(str))
   arr = arr.filter(s => s)
   arr = new Set(arr)
   return Array.from(arr)
@@ -17,9 +20,10 @@ const all = function (str) {
 
 export default {
   all,
-  toPresent, toPast, toFuture, toConditional,
+  toPresent, toPast, toFuture, toConditional, toImperfect, toSubjunctive,
   fromGerund, toGerund, fromPastParticiple, toPastParticiple,
-  fromPresent, fromPast, fromFuture, fromConditional
+  fromPresentParticiple, toPresentParticiple,
+  fromPresent, fromPast, fromFuture, fromConditional, fromImperfect, fromSubjunctive
 }
 
 

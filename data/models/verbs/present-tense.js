@@ -2403,7 +2403,6 @@ export default {
   "ricavare": ["ricavo", "ricavi", "ricava", "ricaviamo", "ricavate", "ricavano"],
   "ricedere": ["ricedo", "ricedi", "ricede", "ricediamo", "ricedete", "ricedono"],
   "ricercare": ["ricerco", "ricerchi", "ricerca", "ricerchiamo", "ricercate", "ricercano"],
-  "ricettare": ["ricetto", "ricetti", "ricetta", "ricettiamo", "ricettate", "ricettano"],
   "ricevere": ["ricevo", "ricevi", "riceve", "riceviamo", "ricevete", "ricevono"],
   "richiamare": ["richiamo", "richiami", "richiama", "richiamiamo", "richiamate", "richiamano"],
   "richiedere": ["richiedo", "richiedi", "richiede", "richiediamo", "richiedete", "richiedono"],
@@ -3482,6 +3481,8 @@ export default {
   "zoccolare": ["zoccolo", "zoccoli", "zoccola", "zoccoliamo", "zoccolate", "zoccolano"],
   "zoppicare": ["zoppico", "zoppichi", "zoppica", "zoppichiamo", "zoppicate", "zoppicano"],
   "zuccherare": ["zucchero", "zuccheri", "zucchera", "zuccheriamo", "zuccherate", "zuccherano"],
-  "zufolare": ["zufolo", "zufoli", "zufola", "zufoliamo", "zufolate", "zufolano"]
+  "zufolare": ["zufolo", "zufoli", "zufola", "zufoliamo", "zufolate", "zufolano"],
 
+  "permettersi": ["permetto", "permetti", "permette", "permettiamo", "permettete", "permettono"],
+  "essere": ['sono', 'sei', 'è', 'siamo', 'siete', 'sono']
 }

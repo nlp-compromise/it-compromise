@@ -19,6 +19,7 @@ let arr = [
   // `c'è and v'è`,
   // `dimmi che bello`,
   // `buttarti giù`,// – to bring you down
+  'che io colmi',
   'avevo mangiato',
   'Oggi ci siamo vestiti male.',// Today we dressed badly.
   'Mi siedo un attimo.',// I am going to sit for a minute.

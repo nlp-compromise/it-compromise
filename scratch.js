@@ -61,4 +61,4 @@ let arr = [
 let str = arr[0]
 nlp(str).debug().match('[({volere}|{dovere})]', 0).debug()
 
-// console.log(nlp('colmare').verbs().conjugate())
+console.log(nlp('colmare').verbs().conjugate())

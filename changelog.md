@@ -1,3 +1,6 @@
+### 0.2.0
+- **[update]** - conditional, imperfect, subjunctive & presentParticiple verb forms
+- **[fix]** - tagger updates
 ### 0.0.6
 - **[fix]** - toRoot improvements
 ### 0.0.2

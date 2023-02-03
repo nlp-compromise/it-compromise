@@ -20,7 +20,6 @@ const toConditional = (str) => doEach(str, conditional)
 const toImperfect = (str) => doEach(str, imperfect)
 const toSubjunctive = (str) => doEach(str, subjunctive)
 
-
 export {
   toPresent,
   toPast,

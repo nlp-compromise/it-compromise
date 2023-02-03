@@ -66,6 +66,9 @@ const addVerbs = function (w) {
   // participle
   res = verbs.toPastParticiple(w)
   words[res] = words[res] || ['PastParticiple']
+  // present participle
+  res = verbs.toPresentParticiple(w)
+  words[res] = words[res] || ['PresentParticiple']
 }
 
 Object.keys(lexData).forEach(tag => {

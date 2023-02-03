@@ -80,6 +80,12 @@ const steps = [
       packed.pastParticiple = {
         pastParticiple
       }
+      console.log('present-participle')
+      let presentParticiple = learn(Object.entries(models.presentParticiple), opts)
+      presentParticiple = compress(presentParticiple)
+      packed.presentParticiple = {
+        presentParticiple
+      }
 
       return packed
     },

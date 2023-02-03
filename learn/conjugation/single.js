@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import fs from 'fs'
-const want = 'imperative'
+const want = 'presentparticiple'
 
 let arr = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conjugation/infinitives.txt').toString().split(/\n/).slice(0, 5000)
 const tops = new Set(arr)

@@ -19,6 +19,8 @@ let arr = [
   // `c'è and v'è`,
   // `dimmi che bello`,
   // `buttarti giù`,// – to bring you down
+  'abbinante',
+  'che voi colmiate',
   'abbellisca',
   'berciavi',
   'che io colmi',

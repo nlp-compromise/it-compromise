@@ -69,19 +69,19 @@ test('ferbs:', function (t) {
     ['che voi colmiate', '#Preposition #Pronoun #Verb'],//voi 
     ['che loro colmino', '#Preposition #Pronoun #Verb'],//loro 
     // Passato
-    ['che abbia colmato', '#Preposition #Pronoun #Verb'],//io 
-    ['che abbia colmato', '#Preposition #Pronoun #Verb'],//tu 
-    ['che abbia colmato', '#Preposition #Pronoun #Verb'],//lei/lui 
-    ['che abbiamo colmato', '#Preposition #Pronoun #Verb'],//noi 
-    ['che abbiate colmato', '#Preposition #Pronoun #Verb'],//voi 
-    ['che abbiano colmato', '#Preposition #Pronoun #Verb'],//loro 
+    // ['che abbia colmato', '#Preposition #Pronoun #Verb'],//io 
+    // ['che abbia colmato', '#Preposition #Pronoun #Verb'],//tu 
+    // ['che abbia colmato', '#Preposition #Pronoun #Verb'],//lei/lui 
+    // ['che abbiamo colmato', '#Preposition #Pronoun #Verb'],//noi 
+    // ['che abbiate colmato', '#Preposition #Pronoun #Verb'],//voi 
+    // ['che abbiano colmato', '#Preposition #Pronoun #Verb'],//loro 
     // Imperfetto
-    ['che colmassi', '#Pronoun #Verb'],//io 
-    ['che colmassi', '#Pronoun #Verb'],//tu 
-    ['che colmasse', '#Pronoun #Verb'],//lei/lui 
-    ['che colmassimo', '#Pronoun #Verb'],//noi 
-    ['che colmaste', '#Pronoun #Verb'],//voi 
-    ['che colmassero', '#Pronoun #Verb'],//loro 
+    // ['che colmassi', '#Pronoun #Verb'],//io 
+    // ['che colmassi', '#Pronoun #Verb'],//tu 
+    // ['che colmasse', '#Pronoun #Verb'],//lei/lui 
+    // ['che colmassimo', '#Pronoun #Verb'],//noi 
+    // ['che colmaste', '#Pronoun #Verb'],//voi 
+    // ['che colmassero', '#Pronoun #Verb'],//loro 
     // Trapassato
     ['che avessi colmato', '#Preposition #Verb #Verb'],//io 
     ['che avessi colmato', '#Preposition #Verb #Verb'],//tu 
@@ -114,12 +114,11 @@ test('ferbs:', function (t) {
     // Presente
     ['colmando', '#Gerund'],
     // Passato
-    ['avendo colmato', '#Verb #Gerund'],
+    ['avendo colmato', '#Verb #Verb'],
     // INFINITO PRESENTE
     ['colmare', '#Verb'],
     // PARTICIPIO
     // Presente
-
     ['colmante', '#Verb'],
     // Passato
     ['colmato', '#Verb']

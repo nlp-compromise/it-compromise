@@ -19,6 +19,7 @@ let arr = [
   // `c'è and v'è`,
   // `dimmi che bello`,
   // `buttarti giù`,// – to bring you down
+  'avevo mangiato',
   'Oggi ci siamo vestiti male.',// Today we dressed badly.
   'Mi siedo un attimo.',// I am going to sit for a minute.
   'Le bambine si sono sedute sul prato.',// The little girls sat on the lawn.
@@ -55,4 +56,4 @@ let arr = [
 let str = arr[0]
 nlp(str).debug().match('[({volere}|{dovere})]', 0).debug()
 
-// console.log(nlp('siamo').verbs().conjugate())
+// console.log(nlp('colmare').verbs().conjugate())

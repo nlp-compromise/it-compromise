@@ -36,8 +36,11 @@ const steps = [
     path: './src/01-one/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
+      let opts = {
+        min: 1
+      }
       console.log('nouns')
-      let nouns = learn(Object.entries(models.nouns))
+      let nouns = learn(Object.entries(models.nouns), opts)
       nouns = compress(nouns)
       packed.nouns = {
         plural: nouns
@@ -53,7 +56,7 @@ const steps = [
         packed.adjectives.mp.push([k, a[1]])
       })
       Object.keys(packed.adjectives).forEach(k => {
-        packed.adjectives[k] = compress(learn(packed.adjectives[k]))
+        packed.adjectives[k] = compress(learn(packed.adjectives[k], opts))
       })
       console.log('verbs')
       Object.keys(models.verbs).forEach(k => {
@@ -61,18 +64,18 @@ const steps = [
         Object.keys(models.verbs[k]).forEach(form => {
           let pairs = models.verbs[k][form]
           console.log('-', k, form)
-          packed[k][form] = learn(pairs)
+          packed[k][form] = learn(pairs, opts)
           packed[k][form] = compress(packed[k][form])
         })
       })
       console.log('gerunds')
-      let gerunds = learn(Object.entries(models.gerunds))
+      let gerunds = learn(Object.entries(models.gerunds), opts)
       gerunds = compress(gerunds)
       packed.gerunds = {
         gerunds
       }
       console.log('past-participle')
-      let pastParticiple = learn(Object.entries(models.pastParticiple))
+      let pastParticiple = learn(Object.entries(models.pastParticiple), opts)
       pastParticiple = compress(pastParticiple)
       packed.pastParticiple = {
         pastParticiple

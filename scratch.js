@@ -19,6 +19,7 @@ let arr = [
   // `c'è and v'è`,
   // `dimmi che bello`,
   // `buttarti giù`,// – to bring you down
+  'ho chi minh',
   'abbinante',
   'che voi colmiate',
   'abbellisca',
@@ -61,4 +62,4 @@ let arr = [
 let str = arr[0]
 nlp(str).debug().match('[({volere}|{dovere})]', 0).debug()
 
-console.log(nlp('colmare').verbs().conjugate())
+// console.log(nlp('colmare').verbs().conjugate())

@@ -10,11 +10,12 @@ export default {
       transform: methods,
     }
   },
-  model: {
-    one: {
-      lexicon: words
-    }
-  },
+  words,
+  // model: {
+  //   one: {
+  //     lexicon: words
+  //   }
+  // },
   compute: {
     root: root
   }

@@ -70,7 +70,7 @@ test('match:', function (t) {
     ['cenere', '#Noun'],//ash
     ['letto', '#Noun'],//bed
     ['birra', '#Noun'],//beer
-
+    ['ho chi minh', '#City+'],
 
     // i want to see
     ['voglio vedere un vulcano', '#Auxiliary #PresentTense #Determiner #Noun'],

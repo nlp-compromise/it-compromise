@@ -60,6 +60,9 @@ let arr = [
 // console.log(doc.verbs().conjugate())
 
 let str = arr[0]
-nlp(str).debug().match('[({volere}|{dovere})]', 0).debug()
+str = 'trecentosettanta'
+let doc = nlp(str).debug()
+console.log(doc.numbers().get())
+// .match('[({volere}|{dovere})]', 0).debug()
 
 // console.log(nlp('colmare').verbs().conjugate())

@@ -118,3 +118,14 @@ test('number-create:', function (t) {
   })
   t.end()
 })
+
+
+test('misc:', function (t) {
+  let doc = nlp('342').numbers().toOrdinal()
+  t.equal(doc.text(), '342°', here + 'num-ord')
+
+  doc = nlp('trecentosettanta').numbers().toNumber().toOrdinal()
+  t.equal(doc.text(), '370°', here + 'num-word-ord')
+  t.end()
+})
+

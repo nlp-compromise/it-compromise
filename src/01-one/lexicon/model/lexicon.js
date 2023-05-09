@@ -3,7 +3,7 @@ import { unpack } from 'efrt'
 import verbs from '../methods/verbs/index.js'
 import adjective from '../methods/adjectives/index.js'
 import misc from './misc.js'
-import models from '../methods/models.js'
+// import models from '../methods/models.js'
 
 
 const tagMap = {

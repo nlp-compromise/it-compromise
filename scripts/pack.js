@@ -64,7 +64,7 @@ const steps = [
         Object.keys(models.verbs[k]).forEach(form => {
           let pairs = models.verbs[k][form]
           console.log('-', k, form)
-          packed[k][form] = learn(pairs, opts)
+          packed[k][form] = learn(pairs, {})
           packed[k][form] = compress(packed[k][form])
         })
       })

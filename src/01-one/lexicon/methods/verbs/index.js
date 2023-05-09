@@ -27,3 +27,5 @@ export default {
 }
 
 
+
+// console.log(toPresent('fermarsi'))

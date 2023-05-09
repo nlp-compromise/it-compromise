@@ -3,6 +3,7 @@ import model from '../models.js'
 let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model
 
 const doEach = function (str, m) {
+  // str = str.replace(/si$/, '')
   return {
     first: convert(str, m.first),
     second: convert(str, m.second),

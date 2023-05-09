@@ -6,7 +6,7 @@ const postTagger = function (doc) {
   doc.match('(un|uno) #Noun di [#Verb]', 0).tag('Noun', 'un-x-di-vb')
 
   // phrasal verbs
-  doc.match('#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)',).tag('#PhrasalVerb #Particle', 'phrasal')
+  doc.match('#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)').tag('#PhrasalVerb #Particle', 'phrasal')
 
 
   // object pronouns

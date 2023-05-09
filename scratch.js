@@ -1,3 +1,4 @@
+/* eslint-disable no-console, no-unused-vars */
 import nlp from './src/index.js'
 
 nlp.verbose('tagger')
@@ -60,9 +61,12 @@ let arr = [
 // console.log(doc.verbs().conjugate())
 
 let str = arr[0]
-str = 'trecentosettanta'
-let doc = nlp(str).debug()
-console.log(doc.numbers().get())
+// str = 'trecentosettanta'
+// let doc = nlp(str).debug()
+// console.log(doc.numbers().get())
 // .match('[({volere}|{dovere})]', 0).debug()
 
 // console.log(nlp('colmare').verbs().conjugate())
+
+
+console.log(nlp('fermarsi').verbs().conjugate()[0])

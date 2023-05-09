@@ -16,13 +16,13 @@ const getNegative = function (vb) {
 }
 
 // pull-apart phrasal-verb into verb-particle
-const getPhrasal = function (root) {
-  let particle = root.match('#Particle$')
-  return {
-    verb: root.not(particle),
-    particle: particle,
-  }
-}
+// const getPhrasal = function (root) {
+//   let particle = root.match('#Particle$')
+//   return {
+//     verb: root.not(particle),
+//     particle: particle,
+//   }
+// }
 
 const getRoot = function (view) {
   view.compute('root')

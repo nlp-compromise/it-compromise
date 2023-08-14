@@ -1,7 +1,7 @@
 /* eslint-disable no-console, no-unused-vars */
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 let txt = ''
 txt = `Il libro dell’insegnante`
 txt = `sedicesimo`
@@ -20,6 +20,8 @@ let arr = [
   // `c'è and v'è`,
   // `dimmi che bello`,
   // `buttarti giù`,// – to bring you down
+  // 'balena',
+  `coinvolti in un'attività divertente`,
   `I mobili antichi sono stati venduti all'asta`,
   'ho chi minh',
   'abbinante',
@@ -63,8 +65,8 @@ let arr = [
 
 let str = arr[0]
 // str = 'trecentosettanta'
-let doc = nlp(str).debug()
-// console.log(doc.numbers().get())
+let doc = nlp(str).tag('Noun').debug()
+console.log(doc.nouns().conjugate())
 // .match('[({volere}|{dovere})]', 0).debug()
 
 // console.log(nlp('colmare').verbs().conjugate())

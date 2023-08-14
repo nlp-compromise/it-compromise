@@ -9,6 +9,7 @@ export default [
   { before: `v`, out: ['vi'] },
   { before: `s`, out: ['si'] },
   { before: `m`, out: ['mi'] },
+  { before: 'un', out: ['una'] },
   { before: 'all', out: ['a', 'l'] },
   { before: 'dell', out: ['di', 'l'] },
   { before: 'nell', out: ['in', 'l'] },

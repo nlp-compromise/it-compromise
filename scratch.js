@@ -20,6 +20,7 @@ let arr = [
   // `c'è and v'è`,
   // `dimmi che bello`,
   // `buttarti giù`,// – to bring you down
+  `I mobili antichi sono stati venduti all'asta`,
   'ho chi minh',
   'abbinante',
   'che voi colmiate',
@@ -62,11 +63,11 @@ let arr = [
 
 let str = arr[0]
 // str = 'trecentosettanta'
-// let doc = nlp(str).debug()
+let doc = nlp(str).debug()
 // console.log(doc.numbers().get())
 // .match('[({volere}|{dovere})]', 0).debug()
 
 // console.log(nlp('colmare').verbs().conjugate())
 
 
-console.log(nlp('fermarsi').verbs().conjugate()[0])
+// console.log(nlp('fermarsi').verbs().conjugate()[0])

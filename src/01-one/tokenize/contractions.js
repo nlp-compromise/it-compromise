@@ -9,6 +9,13 @@ export default [
   { before: `v`, out: ['vi'] },
   { before: `s`, out: ['si'] },
   { before: `m`, out: ['mi'] },
+  { before: 'all', out: ['a', 'l'] },
+  { before: 'dell', out: ['di', 'l'] },
+  { before: 'nell', out: ['in', 'l'] },
+  { before: 'sull', out: ['su', 'l'] },
+  { before: 'coll', out: ['con', 'l'] },
+  { before: 'dall', out: ['da', 'l'] },
+
   // { word: 'del', out: ['di', 'il'] },
   // { word: 'dello', out: ['di', 'lo'] },
   // { word: 'della', out: ['di', 'la'] },

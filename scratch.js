@@ -64,12 +64,15 @@ let arr = [
 // console.log(doc.verbs().conjugate())
 
 let str = arr[0]
+
+str = 'Al momento sta ricercando nuove opzioni di trattamento '
 // str = 'trecentosettanta'
-let doc = nlp(str).tag('Noun').debug()
-console.log(doc.nouns().conjugate())
+let doc = nlp(str).match('{ricercare}').debug()
+// console.log(doc.nouns().conjugate())
 // .match('[({volere}|{dovere})]', 0).debug()
 
-// console.log(nlp('colmare').verbs().conjugate())
+console.log(nlp('ricercare').verbs().conjugate())
 
 
-// console.log(nlp('fermarsi').verbs().conjugate()[0])
+// console.log(nlp('fondersi').verbs().conjugate()[0])
+// console.log(nlp('aspettarsi').verbs().conjugate()[0])

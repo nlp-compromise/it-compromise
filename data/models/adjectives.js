@@ -6385,5 +6385,51 @@ export default {
   "zuccone": ["zuccone", "zucconi", "zucconi"],
   "zuppo": ["zuppa", "zuppi", "zuppe"],
   "zurighese": ["zurighese", "zurighesi", "zurighesi"],
-  "zurliniano": ["zurliniana", "zurliniani", "zurliniane"]
+  "zurliniano": ["zurliniana", "zurliniani", "zurliniane"],
+
+
+  "piccolo": ["piccola", "piccoli", "piccole"],
+  "intelligente": ["intelligente", "intelligenti", "intelligenti"],
+  "italiano": ["italiana", "italiani", "italiane"],
+  "nero": ["nera", "neri", "nere"],
+  "buono": ["buona", "buoni", "buone"],
+  "forte": ["forte", "forti", "forti"],
+
+
+  "grande": ["grande", "grandi", "grandi"],
+  "largo": ["larga", "larghi", "larghe"],
+  "alto": ["alta", "alti", "alte"],
+  "giovane": ["giovane", "giovani", "giovani"],
+  "dolce": ["dolce", "dolci", "dolci"],
+  "triste": ["triste", "tristi", "tristi"],
+  "caldo": ["calda", "caldi", "calde"],
+  "freddo": ["fredda", "freddi", "fredde"],
+  "duro": ["dura", "duri", "dure"],
+  "fortunato": ["fortunata", "fortunati", "fortunate"],
+  "pulito": ["pulita", "puliti", "pulite"],
+  "sporco": ["sporca", "sporchi", "sporche"],
+  "profondo": ["profonda", "profondi", "profonde"],
+  "ricco": ["ricca", "ricchi", "ricche"],
+  "pieno": ["piena", "pieni", "piene"],
+  "secco": ["secca", "secchi", "secche"],
+  "magro": ["magra", "magri", "magre"],
+  "vago": ["vaga", "vaghi", "vaghe"],
+  "utile": ["utile", "utili", "utili"],
+  "incerto": ["incerta", "incerti", "incerte"],
+  "falso": ["falsa", "falsi", "false"],
+  "vero": ["vera", "veri", "vere"],
+  "stupido": ["stupida", "stupidi", "stupide"],
+  "impaziente": ["impaziente", "impazienti", "impazienti"],
+  "onesto": ["onesta", "onesti", "oneste"],
+  "disonesto": ["disonesta", "disonesti", "disoneste"],
+  "attento": ["attenta", "attenti", "attente"],
+  "distratto": ["distratta", "distratti", "distratte"],
+  "malato": ["malata", "malati", "malate"],
+  "contento": ["contenta", "contenti", "contente"],
+  "scontento": ["scontenta", "scontenti", "scontente"],
+  "simile": ["simile", "simili", "simili"],
+  "speciale": ["speciale", "speciali", "speciali"],
+
+
+
 }

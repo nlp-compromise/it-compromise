@@ -119,19 +119,38 @@ export default [
     bus: nn,
     ort: nn,
   },
-  { // four-letter suffixes
+  {
+    // four-letter suffixes
     otto: val,
     nove: val,
     mila: val,
 
+    // reflexive infinitives
+    armi: ref,
+    irmi: ref,
+    ermi: ref,
+
+    arti: ref,
+    irti: ref,
+    erti: ref,
+
     arsi: ref,
     irsi: ref,
     ersi: ref,
+
+    arci: ref,
+    irci: ref,
+    erci: ref,
+
+    arvi: ref,
+    irvi: ref,
+    ervi: ref,
+
     endo: g,
     ando: g,
     ante: jj,
     iere: nn,
-    icci: nn,//or adj
+    icci: nn, //or adj
     ezze: nn,
     ista: nn,
     tore: nn,
@@ -310,7 +329,8 @@ export default [
     vedì: nn,
     vitù: nn,
   },
-  { // five-letter suffixes
+  {
+    // five-letter suffixes
     tante: jj,
     tanti: jj,
     ibile: jj,
@@ -441,7 +461,6 @@ export default [
     crivo: vb,
     overò: vb,
 
-
     pleto: jj,
     sueto: jj,
     ggior: jj,
@@ -568,7 +587,6 @@ export default [
     ccolo: jj,
     ibero: jj,
     manti: jj,
-
 
     onaca: nn,
     oteca: nn,
@@ -772,7 +790,7 @@ export default [
     // six-letter suffixes
     cinque: val,
     ionale: jj,
-    andoci: g,//reflexive gerund
+    andoci: g, //reflexive gerund
     endoci: g,
     endomi: g,
     icelli: nn,
@@ -790,5 +808,5 @@ export default [
 
     grafico: jj,
     ectomia: nn,
-  }
+  },
 ]

@@ -30,6 +30,9 @@ const toSubjunctive = (str) => doEach(str, subjunctive)
 
 // reflexive infinitive
 const toReflexive = (str) => {
+  str = str.replace(/are$/, 'ar') //armi
+  str = str.replace(/ere$/, 'er') //ermi
+  str = str.replace(/ire$/, 'ir') //irmi
   return {
     first: str + 'mi',
     second: str + 'ti',

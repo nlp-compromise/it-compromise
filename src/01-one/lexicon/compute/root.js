@@ -12,9 +12,9 @@ const verbForm = function (term) {
 
 // turn 'congratularmi' into 'congratular'
 const stripReflexive = function (str) {
-  str = str.replace(/ar[mtscv]i$/, 'ar')
-  str = str.replace(/er[mtscv]i$/, 'er')
-  str = str.replace(/ir[mtscv]i$/, 'ir')
+  str = str.replace(/ar[mtscv]i$/, 'are')
+  str = str.replace(/er[mtscv]i$/, 'ere')
+  str = str.replace(/ir[mtscv]i$/, 'ire')
   return str
 }
 

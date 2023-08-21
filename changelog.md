@@ -1,6 +1,7 @@
 ### 0.2.1
 
 - **[fix]** - conjugation fixes
+- **[fix]** - support infinitive reflexive verbs
 - **[update]** - contraction support
 - **[fix]** - .toNumber() fix
 

@@ -5,7 +5,6 @@ import adjective from '../methods/adjectives/index.js'
 import misc from './misc.js'
 // import models from '../methods/models.js'
 
-
 const tagMap = {
   first: 'FirstPerson',
   second: 'SecondPerson',
@@ -20,42 +19,42 @@ let words = {}
 const addVerbs = function (w) {
   // do present-tense
   let res = verbs.toPresent(w)
-  Object.keys(res).forEach(k => {
+  Object.keys(res).forEach((k) => {
     if (!words[res[k]]) {
       words[res[k]] = [tagMap[k], 'PresentTense']
     }
   })
   // past-tense
   res = verbs.toPast(w)
-  Object.keys(res).forEach(k => {
+  Object.keys(res).forEach((k) => {
     if (!words[res[k]]) {
       words[res[k]] = [tagMap[k], 'PastTense']
     }
   })
   // future-tense
   res = verbs.toFuture(w)
-  Object.keys(res).forEach(k => {
+  Object.keys(res).forEach((k) => {
     if (!words[res[k]]) {
       words[res[k]] = [tagMap[k], 'FutureTense']
     }
   })
   // conditonal
   res = verbs.toConditional(w)
-  Object.keys(res).forEach(k => {
+  Object.keys(res).forEach((k) => {
     if (!words[res[k]]) {
       words[res[k]] = [tagMap[k], 'ConditionalVerb']
     }
   })
   // imperfect
   res = verbs.toImperfect(w)
-  Object.keys(res).forEach(k => {
+  Object.keys(res).forEach((k) => {
     if (!words[res[k]]) {
       words[res[k]] = [tagMap[k], 'ImperfectVerb']
     }
   })
   // imperfect
   res = verbs.toSubjunctive(w)
-  Object.keys(res).forEach(k => {
+  Object.keys(res).forEach((k) => {
     if (!words[res[k]]) {
       words[res[k]] = [tagMap[k], 'Subjunctive']
     }
@@ -71,9 +70,9 @@ const addVerbs = function (w) {
   words[res] = words[res] || ['PresentParticiple']
 }
 
-Object.keys(lexData).forEach(tag => {
+Object.keys(lexData).forEach((tag) => {
   let wordsObj = unpack(lexData[tag])
-  Object.keys(wordsObj).forEach(w => {
+  Object.keys(wordsObj).forEach((w) => {
     words[w] = tag
 
     // expand
@@ -103,7 +102,6 @@ Object.keys(lexData).forEach(tag => {
   })
 })
 
-
 // add data from conjugation models
 // Object.keys(models).forEach(tense => {
 //   Object.keys(models[tense]).forEach(form => {
@@ -117,7 +115,6 @@ Object.keys(lexData).forEach(tag => {
 //     })
 //   })
 // })
-
 
 words = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')

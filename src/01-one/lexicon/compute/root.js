@@ -1,4 +1,3 @@
-
 const verbForm = function (term) {
   let want = [
     'FirstPerson',
@@ -8,22 +7,22 @@ const verbForm = function (term) {
     'SecondPersonPlural',
     'ThirdPersonPlural',
   ]
-  return want.find(tag => term.tags.has(tag))
+  return want.find((tag) => term.tags.has(tag))
 }
 
+// turn 'congratularmi' into 'congratular'
 const stripReflexive = function (str) {
-  str = str.replace(/arsi$/, 'ar')
-  str = str.replace(/ersi$/, 'er')
-  str = str.replace(/irsi$/, 'ir')
+  str = str.replace(/ar[mtscv]i$/, 'ar')
+  str = str.replace(/er[mtscv]i$/, 'er')
+  str = str.replace(/ir[mtscv]i$/, 'ir')
   return str
 }
 
 const root = function (view) {
   const { verb, adjective, noun } = view.world.methods.two.transform
-  view.docs.forEach(terms => {
-    terms.forEach(term => {
+  view.docs.forEach((terms) => {
+    terms.forEach((term) => {
       let str = term.implicit || term.normal || term.text
-
       if (term.tags.has('Reflexive')) {
         str = stripReflexive(str)
       }

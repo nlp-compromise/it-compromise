@@ -1,6 +1,13 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model
+let {
+  presentTense,
+  pastTense,
+  futureTense,
+  conditional,
+  imperfect,
+  subjunctive,
+} = model
 
 const doEach = function (str, m) {
   // str = str.replace(/si$/, '')
@@ -21,12 +28,25 @@ const toConditional = (str) => doEach(str, conditional)
 const toImperfect = (str) => doEach(str, imperfect)
 const toSubjunctive = (str) => doEach(str, subjunctive)
 
+// reflexive infinitive
+const toReflexive = (str) => {
+  return {
+    first: str + 'mi',
+    second: str + 'ti',
+    third: str + 'si',
+    firstPlural: str + 'ci',
+    secondPlural: str + 'vi',
+    thirdPlural: str + 'si',
+  }
+}
+
 export {
   toPresent,
   toPast,
   toFuture,
   toConditional,
   toImperfect,
-  toSubjunctive
+  toSubjunctive,
+  toReflexive,
 }
 // console.log(toPast('permettersi'))

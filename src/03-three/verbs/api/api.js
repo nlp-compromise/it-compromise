@@ -6,7 +6,6 @@ import parseVerb from './parse.js'
 // import toNegative from './conjugate/toNegative.js'
 // import debug from './debug.js'
 
-
 // return the nth elem of a doc
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
@@ -21,7 +20,7 @@ const api = function (View) {
     }
     json(opts, n) {
       let m = getNth(this, n)
-      let arr = m.map(vb => {
+      let arr = m.map((vb) => {
         let json = vb.toView().json(opts)[0] || {}
         json.verb = toJSON(vb)
         return json
@@ -87,7 +86,7 @@ const api = function (View) {
     // }
     conjugate(n) {
       const m = this.methods.two.transform.verb
-      return getNth(this, n).map(vb => {
+      return getNth(this, n).map((vb) => {
         let parsed = parseVerb(vb)
         let root = parsed.root || ''
         return {

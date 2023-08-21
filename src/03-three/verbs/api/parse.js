@@ -26,8 +26,8 @@ const getNegative = function (vb) {
 
 const getRoot = function (view) {
   view.compute('root')
-  let str = view.text('root')
-  return str
+  let m = view.not('(#Auxiliary|#Adverb|#Negative)')
+  return m.text('root')
 }
 
 const parseVerb = function (view) {

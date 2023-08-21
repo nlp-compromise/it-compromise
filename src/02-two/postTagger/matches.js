@@ -6,15 +6,17 @@ const postTagger = function (doc) {
   doc.match('(un|uno) #Noun di [#Verb]', 0).tag('Noun', 'un-x-di-vb')
 
   // phrasal verbs
-  doc.match('#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)').tag('#PhrasalVerb #Particle', 'phrasal')
-
+  doc
+    .match(
+      '#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)'
+    )
+    .tag('#PhrasalVerb #Particle', 'phrasal')
 
   // object pronouns
   doc.match('(il|i|una) [#Verb]', 0).tag('Noun', 'i-adj')
   // noun gender aggrement
   doc.match('(il|lo|i|gli) [#Noun]', 0).tag('MaleNoun', 'm-noun')
   doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun')
-
 
   // Come ti chiami?
   doc.match('(mi|ti|si|ci|vi|si) #Verb').tag('Reflexive', 'si-verb')
@@ -31,7 +33,14 @@ const postTagger = function (doc) {
 
   // auxiliary verbs
   // essere - to be
-  doc.match('[(sono|sei|è|siamo|siete|sonoero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sarò|sarai|sarà|saremo|sarete|saranno)] #Verb', 0).tag('Auxiliary')
+  doc
+    .match(
+      '[(sono|sei|è|siamo|siete|sonoero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sarò|sarai|sarà|saremo|sarete|saranno)] #Verb',
+      0
+    )
+    .tag('Auxiliary')
+  // Voglio congratularmi
+  doc.match('[{volere}] #Verb', 0).tag('Auxiliary')
 
   // Che bello!
   doc.match('^che #Adjective$').tag('Expression', 'che-bello')
@@ -39,9 +48,5 @@ const postTagger = function (doc) {
   // doc.match('[(abbia|abbiamo|abbiano|abbiate|avemmo|avesse|avessero|avessi|avessimo|aveste|avesti|avete|aveva|avevamo|avevano|avevate|avevo|avrà|avrai|avranno|avrebbe|avrei|avremmo|avremo|avreste|avresti|avrete|avrò|ebbe|ebbero|ebbi|ha|hai|hanno|ho)] #Verb', 0).tag('Auxiliary', 'aux-verb')
   // want to x
   // doc.match('[({volere}|{dovere})] #PresentTense', 0).tag('Auxiliary', 'want-aux')
-
-
 }
 export default postTagger
-
-

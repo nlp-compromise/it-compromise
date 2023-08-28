@@ -4,11 +4,6 @@
   <img src="https://user-images.githubusercontent.com/399657/68222691-6597f180-ffb9-11e9-8a32-a7f38aa8bded.png"/>
   <div>modesta elaborazione del linguaggio naturale</div>
   <div><code>npm install it-compromise</code></div>
-  <div align="center">
-    <sub>
-      work-in-progress! •  lavori in corso!
-    </sub>
-  </div>
   <img height="25px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 </div>
 
@@ -26,7 +21,7 @@
   </div>
   <div align="center">
     <sub>
-     see: <a href="https://github.com/nlp-compromise/fr-compromise">french</a> • <a href="https://github.com/nlp-compromise/de-compromise">german</a>  •<a href="https://github.com/nlp-compromise/es-compromise">spanish</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
+     see: <a href="https://github.com/nlp-compromise/fr-compromise">francese</a> • <a href="https://github.com/nlp-compromise/de-compromise">tedesco</a>  •<a href="https://github.com/nlp-compromise/es-compromise">spagnolo</a>  • <a href="https://github.com/spencermountain/compromise">inglese</a>
     </sub>
   </div>
 </div>
@@ -34,10 +29,9 @@
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-
 `it-compromise` è un porto di [compromise](https://github.com/nlp-compromise/compromise) in italiano.
 
-L'obiettivo di questo progetto è fornire un tagger POS piccolo, di base e basato su regole. 
+L'obiettivo di questo progetto è fornire un tagger POS piccolo, di base e basato su regole.
 
 <p><i ><sub>
   (this project is a small, basic, rules-based POS tagger!)
@@ -57,6 +51,7 @@ doc.match('#Noun').json()
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
 o lato cliente:
+
 ```html
 <script src="https://unpkg.com/it-compromise"></script>
 <script>
@@ -67,8 +62,8 @@ o lato cliente:
 </script>
 ```
 
-
 ## API
+
 **it-compromise** includes all methods of `compromise/one`:
 
 <details>
@@ -186,7 +181,6 @@ _(match methods use the [match-syntax](https://docs.compromise.cool/compromise-m
 - **[.normalize({})](https://observablehq.com/@spencermountain/compromise-normalization)** - clean-up the text in various ways
 - **[.unique()](https://observablehq.com/@spencermountain/compromise-sorting)** - remove any duplicate matches
 
-
 ##### Lib
 
 _(these methods are on the main `nlp` object)_
@@ -210,7 +204,6 @@ _(these methods are on the main `nlp` object)_
 
 <!-- spacer -->
 <img height="30px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
-  
 
 </details>
 
@@ -223,9 +216,10 @@ _(these methods are on the main `nlp` object)_
 <!-- spacer -->
 <img height="30px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-
 ### Numeri
+
 può analizzare e generare numeri scritti
+
 ```js
 let doc = nlp('ne ho milleduecentosessantasette euro')
 doc.numbers().minus(15)
@@ -242,15 +236,17 @@ doc.text()
 <!-- spacer -->
 <img height="30px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-
 ### Lemmatizzazione
+
 può coniugare parole radice
+
 ```js
 let doc = nlp('Ho guidato al negozio')
 doc.compute('root')
 doc.has('{guidare} al #Noun')
 //true
 ```
+
 <div align="right">
   <a href="https://docs.compromise.cool/compromise-root">root docs</a>
 </div>
@@ -261,10 +257,11 @@ doc.has('{guidare} al #Noun')
   <img src="https://user-images.githubusercontent.com/399657/68221731-e8b84800-ffb7-11e9-8453-6395e0e903fa.png"/>
 </div>
 
+### Contribuire
 
-###  Contribuire
 per favore unisciti per aiutare! - please join to help!
-*help with first PR[1](https://github.com/spencermountain/compromise/wiki/Contributing)*
+_help with first PR[1](https://github.com/spencermountain/compromise/wiki/Contributing)_
+
 ```
 git clone https://github.com/nlp-compromise/it-compromise.git
 cd it-compromise
@@ -273,12 +270,14 @@ npm test
 npm watch
 ```
 
-#### Fonti 
-- [Morph-it](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it) - by  Marco Baroni and Eros Zanchetta
+#### Fonti
+
+- [Morph-it](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it) - by Marco Baroni and Eros Zanchetta
 - [PoSTWITA-UD italian tweets dataaset](https://github.com/datquocnguyen/RDRPOSTagger/tree/master/Models/ud-treebanks-v2.4/UD_Italian-PoSTWITA) - by Manuela Sanguinetti et al
 - [ian-hamlin/verb-data](https://github.com/ian-hamlin/verb-data) - italian verb conjugations scraped from wiktionary
 
 #### Guarda anche:
+
 - &nbsp; **[RDRPOSTagger](https://github.com/datquocnguyen/RDRPOSTagger)** - rule-based tagger in python & java w/ italian model
 - &nbsp; **[opennlp-italian](https://github.com/aparo/opennlp-italian-models)** - Java tagger w/ italian model
 - &nbsp; **[TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/)** - Perl tagger w/ italian model

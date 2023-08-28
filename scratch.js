@@ -73,18 +73,15 @@ let arr = [
 
 // console.log(nlp('ricercare').verbs().conjugate())
 
-let all = `congratulare     verb      Voglio congratularmi con te per.`
-
+let all = `bevanda    noun    Mi piace provare diversi tipi di bevande.`
+// console.log(nlp.world().methods.two.transform.noun)
 // nlp.verbose('tagger')
-let [inf, _, str] = all.split(/     /)
+let [inf, _, str] = all.split(/  +/)
 let doc = nlp(str).debug()
-// doc.compute('root')
-// console.log(doc.text('root'))
-// doc.verbs().conjugate()
-console.log(doc.has(`{${inf}}`))
-// console.log(doc.docs)
+// console.log(doc.nouns().conjugate())
+// console.log(doc.has(`{${inf}}`))
 // doc.verbs().toInfinitive().debug()
-console.log(nlp.parseMatch(`{${inf}}`))
+console.log(nlp.parseMatch(`{${inf}/noun}`))
 // console.log(doc.verbs().conjugate())
 
 // console.log(nlp('fondersi').verbs().conjugate()[0])

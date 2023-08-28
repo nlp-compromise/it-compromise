@@ -257,19 +257,27 @@
       if (!ptrs) {
         return true
       }
-      let document = this.document;
-      for (let i = 0; i < ptrs.length; i += 1) {
-        let [n, start, end] = ptrs[i];
-        // it's not the start
-        if (n !== i || start !== 0) {
-          return false
-        }
-        // it's too short
-        if (document[n].length > end) {
-          return false
-        }
+      // must start at beginning
+      if (ptrs.length === 0 || ptrs[0][0] !== 0) {
+        return false
       }
-      return true
+      let wantTerms = 0;
+      let haveTerms = 0;
+      this.document.forEach(terms => wantTerms += terms.length);
+      this.docs.forEach(terms => haveTerms += terms.length);
+      return wantTerms === haveTerms
+      // for (let i = 0; i < ptrs.length; i += 1) {
+      //   let [n, start, end] = ptrs[i]
+      //   // it's not the start
+      //   if (n !== i || start !== 0) {
+      //     return false
+      //   }
+      //   // it's too short
+      //   if (document[n].length > end) {
+      //     return false
+      //   }
+      // }
+      // return true
     },
 
     // return the nth elem of a doc
@@ -422,7 +430,7 @@
   Object.assign(View.prototype, api$l);
   var View$1 = View;
 
-  var version$1 = '14.9.0';
+  var version$1 = '14.10.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -1698,10 +1706,7 @@
     { word: 'alot', out: ['a', 'lot'] },
     { word: 'brb', out: ['be', 'right', 'back'] },
     { word: 'cannot', out: ['can', 'not'] },
-    { word: 'cant', out: ['can', 'not'] },
-    { word: 'dont', out: ['do', 'not'] },
     { word: 'dun', out: ['do', 'not'] },
-    { word: 'wont', out: ['will', 'not'] },
     { word: "can't", out: ['can', 'not'] },
     { word: "shan't", out: ['should', 'not'] },
     { word: "won't", out: ['will', 'not'] },
@@ -1726,18 +1731,12 @@
     { word: 'wanna', out: ['want', 'to'] },
     { word: `c'mere`, out: ['come', 'here'] },
     { word: `c'mon`, out: ['come', 'on'] },
-    // apostrophe d
-    { word: 'howd', out: ['how', 'did'] },
-    { word: 'whatd', out: ['what', 'did'] },
-    { word: 'whend', out: ['when', 'did'] },
-    { word: 'whered', out: ['where', 'did'] },
     // shoulda, coulda
     { word: 'shoulda', out: ['should', 'have'] },
     { word: 'coulda', out: ['coulda', 'have'] },
     { word: 'woulda', out: ['woulda', 'have'] },
     { word: 'musta', out: ['must', 'have'] },
 
-    // { after: `cause`, out: ['because'] },
     { word: "tis", out: ['it', 'is'] },
     { word: "twas", out: ['it', 'was'] },
     { word: `y'know`, out: ['you', 'know'] },
@@ -1755,6 +1754,22 @@
     { before: 'qu', out: ['que'] },
     { before: 's', out: ['se'] },
     { before: 't', out: ['tu'] }, // t'aime
+
+    // missing apostrophes
+    { word: 'shouldnt', out: ['should', 'not'] },
+    { word: 'couldnt', out: ['could', 'not'] },
+    { word: 'wouldnt', out: ['would', 'not'] },
+    { word: 'hasnt', out: ['has', 'not'] },
+    { word: 'wasnt', out: ['was', 'not'] },
+    { word: 'isnt', out: ['is', 'not'] },
+    { word: 'cant', out: ['can', 'not'] },
+    { word: 'dont', out: ['do', 'not'] },
+    { word: 'wont', out: ['will', 'not'] },
+    // apostrophe d
+    { word: 'howd', out: ['how', 'did'] },
+    { word: 'whatd', out: ['what', 'did'] },
+    { word: 'whend', out: ['when', 'did'] },
+    { word: 'whered', out: ['where', 'did'] },
   ];
 
   // number suffixes that are not units
@@ -2013,7 +2028,7 @@
         return [before].concat(o.out)
       }
       // look for before-match (l' -> [le, _])
-      else if (before !== null && before === o.before) {
+      else if (before !== null && before === o.before && after && after.length > 2) {
         return o.out.concat(after)
         // return [o.out, after] //typeof o.out === 'string' ? [o.out, after] : o.out(terms, i)
       }
@@ -2173,7 +2188,6 @@
     if (lexicon[word] !== undefined && lexicon.hasOwnProperty(word)) {
       let tag = lexicon[word];
       setTag([t], tag, world, false, '1-lexicon');
-      // fastTag(t, tag, '1-lexicon')
       return true
     }
     // lookup aliases in the lexicon
@@ -2182,7 +2196,6 @@
       if (found) {
         let tag = lexicon[found];
         setTag([t], tag, world, false, '1-lexicon-alias');
-        // fastTag(t, tag, '1-lexicon-alias')
         return true
       }
     }
@@ -2194,7 +2207,6 @@
         if (allowPrefix.has(lexicon[stem])) {
           // console.log('->', word, stem, lexicon[stem])
           setTag([t], lexicon[stem], world, false, '1-lexicon-prefix');
-          // fastTag(t, lexicon[stem], '1-lexicon-prefix')
           return true
         }
       }
@@ -2540,19 +2552,6 @@
 
   const isNet = val => val && isObject$3(val) && val.isNet === true;
 
-
-  // is the pointer the full sentence?
-  // export const isFull = function (ptr, document) {
-  //   let [n, start, end] = ptr
-  //   if (start !== 0) {
-  //     return false
-  //   }
-  //   if (document[n] && document[n][end - 1] && !document[n][end]) {
-  //     return true
-  //   }
-  //   return false
-  // }
-
   const parseRegs = function (regs, opts, world) {
     const one = world.methods.one;
     if (typeof regs === 'number') {
@@ -2809,16 +2808,29 @@
     const { splitAll } = this.methods.one.pointer;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
+    // repair matches to favor [match, after]
+    // - instead of [before, match]
+    for (let i = 0; i < all.length; i += 1) {
+      // move a before to a preceding after
+      if (!all[i].after && all[i + 1] && all[i + 1].before) {
+        // ensure it's from the same original sentence
+        if (all[i].match && all[i].match[0] === all[i + 1].before[0]) {
+          all[i].after = all[i + 1].before;
+          delete all[i + 1].before;
+        }
+      }
+    }
+
     let res = [];
     all.forEach(o => {
       res.push(o.passthrough);
       res.push(o.before);
+      // a, [x, b]
       if (o.match && o.after) {
-        // console.log(combine(o.match, o.after))
         res.push(combine(o.match, o.after));
       } else {
+        // a, [x], b
         res.push(o.match);
-        res.push(o.after);
       }
     });
     res = res.filter(p => p);
@@ -2960,6 +2972,10 @@
         obj.start = true;
         w = stripStart(w);
       }
+      if (end(w) === '?') {
+        obj.optional = true;
+        w = stripEnd(w);
+      }
       //capture group (this one can span multiple-terms)
       if (start(w) === '[' || end(w) === ']') {
         obj.group = null;
@@ -2987,10 +3003,6 @@
       }
       if (w !== '*' && end(w) === '*' && w !== '\\*') {
         obj.greedy = true;
-        w = stripEnd(w);
-      }
-      if (end(w) === '?') {
-        obj.optional = true;
         w = stripEnd(w);
       }
       if (start(w) === '!') {
@@ -4538,11 +4550,12 @@
     if (!opts.keepSpace) {
       text = text.trim();
     }
-    if (opts.keepPunct === false) {
+    if (opts.keepEndPunct === false) {
       // don't remove ':)' etc
       if (!docs[0][0].tags.has('Emoticon')) {
         text = text.replace(trimStart, '');
       }
+      // remove ending periods
       let last = docs[docs.length - 1];
       if (!last[last.length - 1].tags.has('Emoticon')) {
         text = text.replace(trimEnd, '');
@@ -5076,15 +5089,16 @@
       } else if (fmt && isObject$1(fmt)) {
         opts = Object.assign({}, fmt);//todo: fixme
       }
-      if (opts.keepSpace === undefined && this.pointer) {
+      // is it a full document?
+      if (opts.keepSpace === undefined && !this.isFull()) {    // 
         opts.keepSpace = false;
       }
-      if (opts.keepPunct === undefined && this.pointer) {
+      if (opts.keepEndPunct === undefined && this.pointer) {
         let ptr = this.pointer[0];
         if (ptr && ptr[1]) {
-          opts.keepPunct = false;
+          opts.keepEndPunct = false;
         } else {
-          opts.keepPunct = true;
+          opts.keepEndPunct = true;
         }
       }
       // set defaults
@@ -6848,7 +6862,6 @@
       // punctuation
       post = chars.pop() + post;//keep going
     }
-
     str = chars.join('');
     //we went too far..
     if (str === '') {
@@ -7851,6 +7864,14 @@
     { before: `v`, out: ['vi'] },
     { before: `s`, out: ['si'] },
     { before: `m`, out: ['mi'] },
+    { before: 'un', out: ['una'] },
+    { before: 'all', out: ['a', 'l'] },
+    { before: 'dell', out: ['di', 'l'] },
+    { before: 'nell', out: ['in', 'l'] },
+    { before: 'sull', out: ['su', 'l'] },
+    { before: 'coll', out: ['con', 'l'] },
+    { before: 'dall', out: ['da', 'l'] },
+
     // { word: 'del', out: ['di', 'il'] },
     // { word: 'dello', out: ['di', 'lo'] },
     // { word: 'della', out: ['di', 'la'] },
@@ -7885,7 +7906,7 @@
     }
   };
 
-  var version = '0.2.0';
+  var version = '0.2.1';
 
   // 01- full-word exceptions
   const checkEx = function (str, ex = {}) {
@@ -8015,62 +8036,62 @@
   var model$1 = {
     "nouns": {
       "plural": {
-        "fwd": "1:io,s,i¦2:ze¦i:e¦1i:to,no,zo,so,do,lo,bo,ta,vo,mo,ro,eo,ma,po,ea,za,va¦1hi:ca¦2hi:cco,sco,rco,uco,eco,ego¦2i:ida,ura¦3i:mico,nico,fico,pico,etra,naco,atra,enda¦4hi:arico",
-        "both": "1:ù,è,à,c,w,k,y,f,z,p,g,n,d,h,x,r,t,b,l,m¦2:ke,sa,ie,ia,na,ao,la¦3:mba,gle,ive,era,ute¦4:tita,anta,zine,erra,elta,tuno,stra,rage¦5:totto,palle,icapo,amine¦5s:llage¦4i:ichio,golio,tolio¦4s:ware¦4ini:luomo¦4hi:ilogo,alogo¦3i:pada,daco,nvio,enio,maco,ttio,vvio,sico,iaco¦3hi:gogo¦2i:zoo,ogo¦2hi:ngo,igo,lco,nco,rgo¦1i:ko,fo",
-        "rev": "1:o,ts,e,rs¦2:ta,us,ga,mes,ios,ges,ss,ma,as,is,ba,nes¦3:gans,tra¦4:asei¦1o:ii,ghi¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,smi,lbi,tmi,evi,rni,oli,eli,rpi,lti,ovi,gni,bei,achi,lzi,mei,mpi,api,cri,rsi,ppi,rvi,spi,cei,cli,lpi,fei,tei,ochi,ebi,lmi,obi,lsi,rli¦2e:ori,oni,ali,roi,esi¦2a:sti,mmi,gmi¦3o:gli,enti,cci,toi,muli,rini,nimi,nini,anni,ondi,nci,tivi,lini,tini,meti,iuti,beri,ggi,etri,sivi,rodi,itri,tipi,izi,sini,unti,stri,buti,arri,ntri,visi,cini,bini,hini,simi,uini,urri,imbi,heri,onni,onzi,zini,lci,feri,sci,giri,reni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,miri,aini,nuti,uvi,bbri,igi,erri,ropi,fori,arbi,embi,peti,cavi,cisi,tuti,nodi,moti,ozi,seni,veti,lichi,piri,arzi,soi,ttri,erzi,ezi,suti,livi¦3e:anti,ieri,podi,rili,lumi,tumi,ceri,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti,enzi,suri,turi,michi,duri¦4o:ndini,uari,reschi,gosti,eatri,pasti,ratri,emici,rredi,ggini,sensi,tacchi,dromi,aleni,lischi,becchi,busti,amini,oneri,gusti,dari,mmini,mbali,ofoni,bacchi,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,neschi,sesti,vari,oqui,igoni,iocchi,manzi,barchi,ludi,onaci,anici,hermi,tadi,cnici,andri,lagi,mviri,conti,fugi,forzi,pudi,efoni¦4e:denti,ffari,larmi,ltari,ienti,rgini,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi,iatri,tezzi,canzi,formi,tradi,tanzi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,ncanti,isodi,patri,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,esseri,igenti,ertici,agenti,mestri¦5a:oranzi,cletti",
-        "ex": "2:dj,do,ko,no,re,ds¦3:boa,cda,ego,vu',zoo,agio,ozio,pci,pds,psi,sci,sos,qui¦4:auto,euro,file,lama,mega,puma,rave,vice,astio,atrio,bacio,caos,cesio,conio,cuoio,fans,kiwi,micio,nazi,oggi,palio,patio,podio,sari,socio,sufi,taxi,dati,ieri,vivi,pari¦5:cargo,cobra,frigo,golpe,gotha,igloo,jumbo,marzo,metro,micro,mille,mitra,mouse,ninja,panda,promo,rambo,sabba,ulema,adagio,alibi,avorio,blues,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,jeans,mufti,notes,nunzio,occhio,pesos,silos,soffio,tornio,trans,tutsi,venti,zombi,tutti,crisi¦6:assolo,bridge,cinema,cruise,diesse,evviva,gazebo,giugno,kimono,luglio,maggio,maitre,mantra,menage,puzzle,reggae,sabato,sherpa,tackle,armadio,assedio,ausilio,biennio,bikini,bonsai,cerchio,cimelio,cocchio,delirio,demanio,domani,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,indugio,logorio,lunario,marchio,mucchio,muschio,narcos,ossario,pathos,pressi,raschio,revers,rimedio,ringhio,rischio,safari,salario,scoppio,secchio,segugio,sicario,sipario,templi,teschio,ufficio,velario,viados,viavai,bovini¦7:bazooka,cottage,gennaio,granata,linkage,memento,peluche,percome,quattro,service,shampoo,shuttle,welfare,archivio,auspicio,batterio,bisturi,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,futures,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,murales,obitorio,orecchio,orologio,ossequio,pertugio,petrolio,ralenti,sacrario,samurai,silenzio,simposio,specchio,spicchio,suburbio,thermos,triennio,analisi,ipotesi,gemelli¦8:barbecue,carovita,database,didietro,divenire,ensemble,febbraio,parterre,surplace,adulterio,auditorio,beneficio,breviario,brindisi,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,ginocchio,glossario,harakiri,juniores,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,palmares,papocchio,paraurti,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,ventisei,vituperio,contanti,diagnosi¦9:apripista,baciamano,backstage,benestare,bricolage,capolista,capoluogo,champagne,colabrodo,crescendo,distinguo,drugstore,ficcanaso,giramondo,lettorato,lungolago,lungomare,megastore,nullaosta,ottocento,portavoce,residence,testacoda,videotape,avversario,battimani,corollario,crematorio,crocicchio,cronicario,debitucci,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lavavetri,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,paraocchi,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,repulisti,ricettario,sgocciolio,sillabario,territorio,tirapiedi¦10:capogruppo,capufficio,cellophane,contagocce,coprifuoco,cruciverba,escamotage,fondovalle,fuoribordo,fuorigioco,fuorilegge,guardaroba,metronotte,monovolume,parabrezza,portaborse,retrotreno,senzatetto,settecento,spazzaneve,totocalcio,vernissage,alimentari,ambulatorio,apparecchio,brefotrofio,buttafuori,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,giradischi,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,portafogli,presbiterio,promontorio,reliquiario,robivecchi,saliscendi,semicerchio,spauracchio,vigilantes,vocabolario¦11:bagnasciuga,battistrada,fuoriclasse,guardacoste,guastafeste,kalashnikov,perdigiorno,poggiatesta,sfollagente,trentasette,andirivieni,anniversario,armamentario,centravanti,comprensorio,dongiovanni,governicchio,indirizzario,lanciarazzi,mangiapreti,orfanatrofio,orfanotrofio,osservatorio,parabancario,portachiavi,portapacchi,scarabocchio¦12:chilowattora,lanciafiamme,lustrascarpe,quattrocento,retrobottega,bibliotecario,montacarichi,portabagagli¦13:lanciagranate,lasciapassare,rompighiaccio,scioglilingua,alzacristalli,guardasigilli¦14:antiterrorismo,poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario,contachilometri,spaventapasseri,strizzacervelli¦4i:addio,belga,bivio,iodio,logos,oblio,sodio,tedio,topos,vocio,birra,mappa,corda,ombra,acqua,crepa,droga,abate,abete,acaro,alveo,apice,aroma,asilo,atomo,avere,baule,busto,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,costo,cuneo,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,fieno,frate,fusto,gambo,germe,gesto,gnomo,grado,greto,grido,grumo,guado,gusto,latte,libro,mambo,manto,manzo,marmo,miele,monte,morbo,mosto,museo,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,piede,poema,poeta,ponte,porro,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,soldo,sparo,sposo,sputo,suono,tasto,teste,trono,tuono,utero,vanto,verbo,verme,sfida,tenda,morte,porta,prova,carne,notte,trama,forma,pelle,fonte,forza,torre,retta,corte,croce,carta,tazza,guida,dieta,stima,multa,paura,stiva,linea,legge,lente,pinta,quota,fetta,firma,punta,ruota¦7s:affaire,battage,college,exploit,manager,partner,sponsor¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco,oca¦7en:anchorman,gentleman¦6hi:apologo,collega,intrico,pizzico,prologo,allocco,alterco,ammicco,balocco,bivacco,cacicco,chiosco,comasco,cosacco,gerarca,impacco,menisco,monarca,ritocco,sblocco,sceicco,seracco,tarocco,ricerca,pratica,tecnica,tattica¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,ludibrio,mormorio,plutonio,presidio,sussidio,thesaurus,tremolio,turbinio,chitarra,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,bulimico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disguido,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gavianeo,gendarme,geometra,giaguaro,giardino,girasole,giubileo,glaucoma,immagine,impianto,indovino,levriero,luminare,lupanare,magliaro,mausoleo,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,paradiso,parmense,pezzente,pomodoro,pretesto,proclama,programa,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,teledivo,televoto,titolare,torneino,traffico,tramonto,visconte,bellezza,carrozza,crescita,insalata,qualcuno,avanzata,chiunque,alleanza,condotta,chiamata,impronta,speranza,arachide,rotolare,cravatta,template¦9hi:arcipelago,videogioco,reincarico,sottobosco,supermarco,videodisco,biblioteca¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,risciacquo,scandaglio,scintillio,sfarfallio,trentennio,autostrada,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,capocomico,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,soprannome,superteste,tangentaro,tecnocrate,teleutente,terrapieno,ultrasuono,vacanziero,ventunenne,bancarotta,coordinata,strisciare,rientranza,tonnellata¦5s:asset,macho,peone,ratio,score,stage¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,scriba,strada,cialda,lingua,statua,affido,agrume,alloro,alluce,altero,alunno,arrivo,ascaro,asceta,ateneo,atleta,attimo,automa,avanzo,batavo,bavero,bolero,bolide,budino,bufalo,caduto,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,druido,enzima,essere,esteta,estimo,filtro,flauto,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,nucleo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,pranzo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,rifuto,riparo,riposo,ritiro,roseto,rudere,salame,saluto,sapere,satiro,sbirro,schema,scialo,sciame,scisma,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,torneo,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,svolta,carota,classe,moneta,anatra,durata,flotta,pietra,estate,addome,usanza,valuta,figura,patata,visita¦3hi:baco,caco,fico,lago,logo,rogo,sugo,arco,buco,duca,muco,orco,anca¦8s:bailamme,commando,computer,flamenco,gangster,hooligan,pastiche,reporter,skinhead,squatter,teenager¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,bevanda,squadra,domanda,tariffa,stringa,abbuono,accenno,alveare,amuleto,arresto,autunno,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,computo,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,degrado,deposto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,empireo,epiteto,eremita,fariseo,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,istinto,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,moldavo,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,presepe,primate,profeta,profumo,pronome,provino,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,sorriso,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,zaffiro,nascita,fornace,testata,perdita,entrate,rivolta,vendita,lacrima,tornado,offerta,azienda,disputa,finanza,bussare,origine,portata,recluta,riserva,vittima¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contropiede,contrordine,imbarcadero,maggiordomo,marciapiede,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,presupposto,rinoceronte,satellitare,alternativa,aspettativa,caffellatte,passeggiata¦6s:barrio,broker,charme,dealer,gadget,hacker,marine,pueblo,slogan,studio¦4ifondi:bassofondo¦4s:blog,byte,club,film,game,link,list,menu¦9s:bookmaker,campesino,container,reportage,supporter,videogame¦3i:brio,mago,odio,olio,papa,trio,paio,mira,fuga,erba,lega,paga,pipa,onda,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,giro,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,moto,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,pene,pepe,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,riso,seme,seno,sole,tema,tino,tiro,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,viso,voce,voto,base,vita,rete,pace,foto,nave,area,cura,idea,luce,leva,nota,noce,fase,cose,riva,cima,sede,arma¦2oi:bue¦9en:businessman¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,individuo,principio,prosieguo,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,avamposto,borgataro,burocrate,campanaro,campanile,caposaldo,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disavanzo,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,interesse,israelita,labirinto,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,olocausto,orizzonte,orologino,palombaro,pataccaro,pescecane,pesticida,pistolero,posticipo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,sovracuto,tassinaro,trapianto,treppiede,assemblea,sigaretta,sottaceto,sicurezza,debolezza,sconfitta,dinosauro,abitudine,etichetta,lunghezza,narrativa,rilevanza¦8a:continuum¦4ora:corpus¦4hi:cuoco,drago,fuoco,gioco,giogo,luogo,plico,sfogo,spago,svago,volgo,becco,bosco,bruco,casco,circo,desco,disco,pacco,picco,sacco,succo,tacco,varco,bocca,tasca,vasca,pesca,mosca¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦2i:duo,zio,ala,ano,avo,evo,neo,oro,uno,ape,pro¦5hi:giuoco,macaco,valico,blocco,bracco,bricco,brocco,chicco,copeco,eunuco,fiasco,gnocco,sbocco,scacco,smacco,spacco,spreco,giacca,carica,clicca,musica¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,ombelico,stratega,trasloco,acciacco,attracco,granduca,incarico,mollusco,oligarca,prosecco,ricarico,rintocco,scirocco,tricheco,fabbrica,bistecca,politica¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦5en:showman¦6es:sketch¦8hi:solletico,strascico,tarassaco,transfuga,alambicco,almanacco,asterisco,autoparco,patriarca,rammarico,discarica¦10hi:sopralluogo¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦5e:scarpa¦4e:torta¦4he:barca¦11a:sopracciglio¦10e:uguaglianza¦13i:chemioterapico,superburocrate,superministero,consapevolezza¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente¦13hi:caratteristica"
+        "fwd": "1:io¦i:e,a¦1i:to,no,zo,so,lo,bo,do,vo,mo,ro,po,uo,os,oo¦1hi:ca¦2hi:cco,sco,rco,uco,eco,ego¦3i:mico,fico,nico,naco,pico¦4hi:arico",
+        "both": "4i:ichio,golio,tolio¦4s:ware¦4ini:luomo¦4hi:ilogo,alogo¦3i:daco,nvio,enio,maco,ttio,vvio,sico,iaco¦3hi:uogo,gogo¦3s:gan,age¦2hi:ngo,oco,igo,lco,nco,rgo¦2i:ogo¦1i:ko,eo,fo¦1s:r,t¦1en:man",
+        "rev": ":s¦1o:ii,ghi¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,smi,lbi,tmi,evi,rni,oli,tri,rpi,lti,eli,ovi,gni,isi,achi,lzi,mpi,api,cri,iri,rsi,ppi,rvi,spi,cli,lpi,ebi,lmi,obi,lsi,rli,zoi¦2e:ori,oni,ali,roi,esi¦2a:sti,mmi,gmi¦3o:gli,enti,cci,toi,acchi,muli,rini,nimi,nini,ondi,nci,tivi,lini,tini,meti,iuti,beri,ggi,unni,sivi,rodi,tipi,izi,sini,unti,buti,arri,reni,uini,cini,bini,hini,simi,urri,imbi,heri,onni,onzi,zini,lci,feri,sci,anni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,aini,nuti,uvi,bbri,igi,erri,ieni,ropi,fori,arbi,embi,peti,cavi,vini,tuti,nodi,moti,ozi,seni,veti,lichi,arzi,soi,erzi,ezi,suti,livi¦3e:anti,fari,ieri,podi,rili,lumi,seri,tumi,ceri,iedi,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti,enzi,suri,turi,michi,padi,duri¦4o:ndini,uari,reschi,gosti,pasti,busti,emici,rredi,ggini,sensi,dromi,aleni,lischi,becchi,amini,oneri,gusti,dari,mmini,mbali,ofoni,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,neschi,sesti,vari,oqui,igoni,iocchi,manzi,barchi,ludi,onaci,anici,hermi,tadi,cnici,lagi,conti,fugi,forzi,pudi,andri,efoni¦4e:denti,larmi,ltari,ienti,rgini,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi,iatri,tezzi,canzi,formi,tradi,tanzi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,ncanti,isodi,patri,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,igenti,ertici,agenti,mestri¦5a:oranzi,cletti",
+        "ex": "3:agio,ozio¦4:astio,atrio,bacio,cesio,conio,cuoio,micio,palio,patio,podio,socio¦5:adagio,avorio,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,nunzio,occhio,soffio,tornio¦6:armadio,assedio,ausilio,biennio,cerchio,cimelio,cocchio,delirio,demanio,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,indugio,logorio,lunario,marchio,mucchio,muschio,ossario,raschio,rimedio,ringhio,rischio,salario,scoppio,secchio,segugio,sicario,sipario,teschio,ufficio,velario¦7:archivio,auspicio,batterio,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,obitorio,orecchio,orologio,ossequio,pertugio,petrolio,sacrario,silenzio,simposio,specchio,spicchio,suburbio,triennio¦8:adulterio,auditorio,beneficio,breviario,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,ginocchio,glossario,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,papocchio,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,vituperio¦9:avversario,corollario,crematorio,crocicchio,cronicario,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,ricettario,sgocciolio,sillabario,territorio¦10:ambulatorio,apparecchio,brefotrofio,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,presbiterio,promontorio,reliquiario,semicerchio,spauracchio,vocabolario¦11:anniversario,armamentario,comprensorio,governicchio,indirizzario,orfanatrofio,orfanotrofio,osservatorio,parabancario,scarabocchio¦12:bibliotecario¦14:poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario¦4i:addio,bivio,iodio,oblio,sodio,tedio,vocio,abate,abete,acaro,apice,aroma,asilo,atomo,avere,baule,belga,busto,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,costo,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,frate,fusto,gambo,germe,gesto,gnomo,grado,greto,grido,grumo,guado,gusto,latte,libro,logos,mambo,manto,manzo,marmo,miele,monte,morbo,mosto,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,poema,poeta,ponte,porro,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,soldo,sparo,sposo,sputo,suono,tasto,teste,topos,trono,tuono,utero,vanto,verbo,verme,birra,sfida,tenda,morte,porta,prova,mappa,carne,notte,trama,corda,ombra,forma,pelle,fonte,forza,torre,retta,acqua,corte,croce,carta,tazza,crepa,droga,guida,dieta,stima,multa,paura,stiva,linea,legge,lente,pinta,quota,fetta,firma,punta,ruota¦7s:affaire,college¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco,oca¦6hi:apologo,collega,intrico,pizzico,prologo,allocco,alterco,ammicco,balocco,cacicco,chiosco,comasco,gerarca,menisco,monarca,ritocco,sblocco,sceicco,tarocco,ricerca,pratica,tecnica,tattica¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,ludibrio,mormorio,plutonio,presidio,sussidio,thesaurus,tremolio,turbinio,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,bulimico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disguido,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gendarme,geometra,giaguaro,giardino,girasole,glaucoma,immagine,impianto,levriero,luminare,lupanare,magliaro,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,parmense,pezzente,pomodoro,pretesto,proclama,programa,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,teledivo,televoto,titolare,torneino,traffico,tramonto,visconte,bellezza,carrozza,crescita,chitarra,insalata,qualcuno,avanzata,chiunque,alleanza,condotta,chiamata,impronta,speranza,arachide,rotolare,cravatta,template¦9hi:arcipelago,reincarico,sottobosco,supermarco,videodisco,biblioteca¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,scandaglio,scintillio,sfarfallio,trentennio,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,capocomico,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,risciacquo,soprannome,superteste,tangentaro,tecnocrate,teleutente,ultrasuono,vacanziero,ventunenne,bancarotta,coordinata,strisciare,rientranza,tonnellata¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,affido,agrume,alloro,alluce,altero,arrivo,ascaro,asceta,atleta,attimo,automa,avanzo,batavo,bavero,bolero,bolide,budino,bufalo,caduto,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,druido,enzima,esteta,estimo,flauto,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,pranzo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,rifuto,riparo,riposo,roseto,rudere,salame,saluto,sapere,sbirro,schema,scialo,sciame,scisma,scriba,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,svolta,carota,classe,moneta,anatra,durata,flotta,pietra,estate,cialda,addome,usanza,valuta,figura,lingua,patata,statua,visita¦3hi:baco,caco,fico,lago,logo,rogo,sugo,arco,buco,duca,muco,orco,anca¦8s:bailamme,commando,flamenco,pastiche,skinhead¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,abbuono,accenno,alveare,amuleto,arresto,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,computo,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,degrado,deposto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,epiteto,eremita,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,istinto,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,moldavo,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,presepe,primate,profeta,profumo,pronome,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,bevanda,nascita,fornace,testata,perdita,entrate,rivolta,vendita,squadra,lacrima,tornado,offerta,azienda,domanda,disputa,finanza,tariffa,bussare,origine,portata,recluta,riserva,stringa,vittima¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contrordine,imbarcadero,maggiordomo,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,presupposto,rinoceronte,satellitare,alternativa,aspettativa,caffellatte,passeggiata¦6s:barrio,charme,marine,pueblo,studio¦4ifondi:bassofondo¦4s:blog,byte,club,film,game,link,menu¦3i:brio,mago,odio,olio,trio,paio,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,moto,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,papa,pene,pepe,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,seme,seno,sole,tema,tino,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,voce,voto,base,vita,rete,pace,foto,nave,area,mira,cura,fuga,erba,idea,luce,leva,lega,nota,noce,paga,pipa,fase,cose,riva,cima,sede,arma,onda¦2oi:bue¦9s:campesino,videogame¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,principio,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,avamposto,borgataro,burocrate,campanaro,campanile,caposaldo,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disavanzo,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,individuo,interesse,israelita,labirinto,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,olocausto,orizzonte,orologino,palombaro,pataccaro,pescecane,pesticida,pistolero,posticipo,prosieguo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,sovracuto,tassinaro,trapianto,assemblea,sigaretta,sottaceto,sicurezza,debolezza,sconfitta,dinosauro,abitudine,etichetta,lunghezza,narrativa,rilevanza¦8a:continuum¦4ora:corpus¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦4hi:drago,giogo,plico,sfogo,spago,svago,volgo,becco,bosco,bruco,casco,circo,desco,disco,picco,succo,varco,bocca,tasca,vasca,pesca,mosca¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,ombelico,stratega,granduca,incarico,mollusco,oligarca,prosecco,ricarico,rintocco,scirocco,tricheco,fabbrica,bistecca,politica¦5hi:macaco,valico,blocco,bricco,brocco,chicco,copeco,eunuco,fiasco,gnocco,sbocco,spreco,giacca,carica,clicca,musica¦5s:macho,peone,ratio,score¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦6es:sketch¦8hi:solletico,strascico,tarassaco,transfuga,alambicco,asterisco,autoparco,patriarca,rammarico,discarica¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦2i:zio,ano,avo,duo,evo,oro,uno,ala,ape,pro¦5e:scarpa,balena¦4e:torta¦4he:barca¦11a:sopracciglio¦10e:uguaglianza¦13i:chemioterapico,superburocrate,superministero,consapevolezza¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente¦13hi:caratteristica"
       }
     },
     "adjectives": {
       "fs": {
-        "fwd": "1:a¦2rice:itore",
-        "both": "1:m,d,x,y,c,h,u,t,k,s,i,l,r,n,e¦3:smo¦4:ggio¦5:mento¦2rice:ttore,atore¦a:o",
-        "rev": "1:o¦4:beta,ssia,iota,opra¦5:nista,xista,lista,zista,rista,amita,icida,sista,eista,tista,cista,dista",
-        "ex": "3:new,off¦4:brav,mezz,maya,ocra,spia¦5:sotto,vent',oliva,piuma¦6:orsono,semita,seppia¦7:apposta,cairota,dalmata,sannita¦8:antigelo,antismog,antiuomo,isabella,maronita¦9:anticarro,antivento,altruista,antidogma,antidonna,antidroga,antimafia,dirigista,intimista,monomarca,salvavita¦10:antiaborto,anticorteo,antidebito,antimostro,antiscasso,superlusso,antinebbia,antiulcera,antivipera,consumista,contraerea,eteroclita,khatamista,sottoterra,trotzkista¦11:antincendio,monoreddito,antimaoista,antiriforma,antiscalata,antisiccita,antivalanga,cosmopolita¦12:antisciopero,legittimista,qualsivoglia¦13:anticongresso,antimonopolio,antisindacato,collettivista¦14:anticonsumista,antidemocrazia,antiguerriglia,superottimista¦15:anticolesterolo,antistitichezza,liberoscambista¦17:antinfortunistico¦19:antidannunzianesimo¦6rice:escretore¦7':qualcun¦5e:restio¦9rice:precorritore,sovvertitore¦8rice:premonitore"
+        "fwd": "1:a",
+        "both": "1:e¦1rice:tore¦a:o",
+        "rev": "4:beta,iota¦5:nista,xista,lista,sista,amita,cista,zista,icida,eista,dista,rista",
+        "ex": "6:semita¦7:cairota,dalmata,sannita¦8:maronita¦9:altruista,dirigista,intimista¦10:consumista,contraerea,eteroclita,khatamista,trotzkista¦11:antimaoista,cosmopolita¦12:legittimista,novecentista,oscurantista¦13:collettivista¦14:superottimista¦15:liberoscambista¦5e:restio"
       },
       "mp": {
-        "fwd": "1:i¦2:cio,pio,mio,zio,nio,hio,vio,fio¦3:ario,erio,prio¦5:ttorio,itorio¦i:e,o¦1i:ta,da",
-        "both": "1:m,d,y,c,h,x,u,t,s,k,l,r,n¦2:oio,aio,ra,ga,ma,ia¦3:glio,igio,smo¦4:sorio,ggio¦5:ltorio,ntorio,otorio,utorio,zione,mento¦2hi:cco,sco,nco¦1hi:go",
-        "rev": "1:o,e,a¦4:anzi¦1o:vi,ci,si,bi,ni,ei,di,mi¦2e:nti,ili,ali¦2o:uti,tti,ati,uli,iti,gri,zzi,rfi,rti,lli,lti,eri,gi,eti,rri,cui,spi,uri,qui,tui,ochi,lui,ffi,pli,lzi¦3e:ormi,voli,lari,oidi,nesi,iori,roci,hesi,ngui,coni,ebri,enni,beni,caci,vesi,laci,gaci,erdi,mori,lori,ubri,uaci,ioni,loci,desi¦3o:nci,coli,cci,igui,usti,noli,osti,inti,fili,abri,izi,esti,grui,sci,inui,ioli,vori,moti,mpi,nfi,oppi,orii¦3a:isti,ioti¦4o:efali,iunti,rari,tari,astri,sunti,uari,opri,cari,dari¦4a:abeti,icidi,amiti¦4e:estri,ssoni,liari,eresi,neari,olesi,aresi,rensi,cordi,plici,ustri,unari¦5o:franti,onari,viari,ulenti,ziari,enari¦5e:finari,cleari,lanari,ortesi",
-        "ex": "3:new,off¦4:blue,brav,bugio,live,maya,medio,mezz,mogio,regio,ionio,kaki,maxi,midi,ogni,pario,sazio,serio,vario¦5:house,oliva,patrio,sotto,spurio,vent',esimio,marzio,pluvio,previo,viario,yuppi¦6:online,orsono,senape,vanesio,altrui,astemio,avanti,oleario,sudicio¦7:amatorio,apposta,indubbio,caseario,corinzio,cremisi,dispari,fognario,fradicio,littorio,sommario,urinario¦8:aleatorio,antigelo,antismog,antiuomo,dilatorio,isabella,minatorio,moratorio,natatorio,rogatorio,rotatorio,sciatorio,senatorio,venatorio,cambiario,culinario,deleterio,dolciario,meritorio,molitorio,ordinario,parecchio,semiserio,soverchio¦9:adulatorio,anticarro,anticlone,antidonna,antivento,dittatorio,espiatorio,monomarca,operatorio,probatorio,qualunque,salvavita,trimotore,tuttofare,vessatorio,campanario,cartolario,inibitorio,necessario,pecuniario,pontificio,primigenio,proditorio,qualsiasi,rubacuori¦10:accusatorio,antiaborto,anticorteo,anticosche,antidebito,antidolore,antimostro,antiscasso,depuratorio,derogatorio,divagatorio,divinatorio,emigratorio,gladiatorio,indagatorio,liberatorio,navigatorio,ondulatorio,revocatorio,superlusso,antidebiti,sfottitorio,transitorio¦11:antimissile,antincendio,antiruggine,antiscalata,antisiccita,antiustione,canzonatorio,circolatorio,combinatorio,cospiratorio,declamatorio,denigratorio,diffamatorio,immigratorio,liquidatorio,monoreddito,obbligatorio,preparatorio,provocatorio,respiratorio,antimissili,inquisitorio,mangiasoldi¦12:allucinatorio,anticipatorio,antielusione,antinucleare,antisciopero,consacratorio,deregolatorio,dissacratorio,infiammatorio,intimidatorio,sanzionatorio,antimonopoli,chirografario,straordinario¦13:anticongresso,antimonopolio,antisindacato,autorizzatorio,mistificatorio,lanciamissili¦14:anticonsumista,antiproiettile,autoesaltatorio,discriminatorio,strappalacrime,anticonsumisti,antiproiettili,contraddittorio¦15:anticolesterolo,antistitichezza¦17:antinfortunistico,autogratificatorio,cardiocircolatorio¦18:autocongratulatorio,autoidentificatorio¦19:antidannunzianesimo¦9i:contraerea,alimentare,civettuolo,comunicate,dilatatore,disattento,elementare,eteroclita,fuoriserie,incitatore,istruttore,placentare,prendisole,psicotropo,sacrosanto,sonnolento,sottovento,sprovvisto,stragrande¦4hi:fioco¦3hi:poco¦11i:accentratore,annientatore,compensatore,concertatore,conciliatore,confortatore,disciplinare,disgregatore,divisioniste,fallimentare,modificatore,movimentiste,nicaraguense,pazzerellone,precorritore,propiziatore,purificatore,sovvertitore,statunitense,vivificatore¦3i:acre,afro,diro,dopo,malo,miro,mite,noto,solo,usto¦13i:agroalimentare,anglonorvegese,autocondannare,chiarificatore,distruggitrice,motopropulsore,riconciliatore,sterilizzatore¦8i:agrodolce,anglomane,collinare,contumace,culattone,escretore,frammisto,incruento,irredento,leggiadro,macilento,migratore,milionare,ostrogoto,panamense,partecipe,precipite,pulvinare,semivuoto¦5i:alacre,arcade,canoro,capace,celere,chiaro,felice,fifone,immune,inerme,inerte,logoro,mutilo,nuvolo,palese,pronto,quanto,restio,scevro,semita,smunto,spento,verace,vivace¦10i:altrettanto,ausiliatore,cistercense,commutatore,consolatore,cosmopolita,eliminatore,fraudolento,giudicatore,ingannatore,livellatore,malcontento,premonitore,pusillanime,racalmutese,suscitatore,unificatore¦6i:ambedue,anomalo,apolide,assiduo,birbone,bivalve,cairota,caprese,celeste,cotanto,crudele,cruento,dalmata,defunto,egemone,giovine,imbelle,incline,inferme,ingenuo,inodoro,lombare,mannaro,mordace,oratoro,precoce,redento,rivisto,sannita,sbronzo,sgombro,unanime,vallese,vergine¦4i:annuo,arduo,aspro,avaro,boaro,breve,ebbro,ebete,grave,greve,italo,lieve,macro,miope,sacro,soave,stufo,tanto,tenue,vasto,zeppo,zuppo¦12i:autoconferire,deregolatrice,equilibratore,interrogatore,regolamentare,sanguinolento,sopraffattore¦7i:benevolo,benvisto,compunto,degenere,equanime,impronto,incolume,inospite,insaporo,irruento,malevolo,malvisto,marinaro,maronita,poltrone,precipuo,previsto,proclive,rampanto,salutare,urlatore,violento¦16i:interdisciplinare,interparlamentare"
+        "fwd": "2:cio,pio,mio,zio,nio,hio,vio,fio,lio¦3:ario,erio,prio¦5:ttorio,itorio¦i:e,o,a",
+        "both": "2:oio,aio,gio¦4:sorio¦5:ltorio,ntorio,otorio,utorio¦2hi:cco,sco,nco¦1hi:go",
+        "rev": "1e:li¦1o:vi,ci,si,bi,ni,ei,di,mi¦2e:nti,lci¦2o:uti,ati,tti,uli,iti,gri,zzi,rfi,rti,lti,eri,ffi,eti,rui,rri,cui,spi,uri,qui,tui,ochi,lui,pli,lzi,ppi¦3e:ormi,nesi,oidi,lari,iori,roci,hesi,ngui,coni,ebri,enni,beni,caci,vesi,laci,gaci,erdi,mori,lori,ubri,uaci,ioni,loci,desi¦3o:nci,esti,coli,cci,igui,usti,noli,osti,inti,fili,ulli,abri,izi,sci,inui,ioli,vori,moti,olli,mpi,nfi,gli,illi,orii¦3a:isti,ioti¦4o:efali,iunti,tari,rari,astri,sunti,uari,opri,cari,relli,dari¦4a:abeti,icidi,amiti¦4e:estri,ssoni,liari,eresi,neari,olesi,aresi,rensi,cordi,plici,ustri,unari¦5o:franti,onari,viari,ulenti,ziari,ntenti,enari¦5e:finari,cleari,lanari,ortesi",
+        "ex": "4:medio,ionio,pario,sazio,serio,vario¦5:patrio,spurio,esimio,marzio,pluvio,previo,viario¦6:vanesio,astemio,oleario,sudicio¦7:amatorio,indubbio,caseario,corinzio,fognario,fradicio,littorio,sommario,urinario¦8:aleatorio,dilatorio,minatorio,moratorio,natatorio,rogatorio,rotatorio,sciatorio,senatorio,venatorio,cambiario,culinario,deleterio,dolciario,meritorio,molitorio,ordinario,parecchio,semiserio,soverchio¦9:adulatorio,dittatorio,espiatorio,operatorio,probatorio,vessatorio,campanario,cartolario,inibitorio,necessario,pecuniario,pontificio,primigenio,proditorio¦10:accusatorio,depuratorio,derogatorio,divagatorio,divinatorio,emigratorio,gladiatorio,indagatorio,liberatorio,navigatorio,ondulatorio,revocatorio,sfottitorio,transitorio¦11:canzonatorio,circolatorio,combinatorio,cospiratorio,declamatorio,denigratorio,diffamatorio,immigratorio,liquidatorio,obbligatorio,preparatorio,provocatorio,respiratorio,inquisitorio¦12:allucinatorio,anticipatorio,consacratorio,deregolatorio,dissacratorio,infiammatorio,intimidatorio,sanzionatorio,chirografario,straordinario¦13:autorizzatorio,mistificatorio¦14:autoesaltatorio,discriminatorio,contraddittorio¦17:autogratificatorio,cardiocircolatorio¦18:autocongratulatorio,autoidentificatorio¦4hi:fioco¦3hi:poco¦5hi:sporco¦11i:accentratore,annientatore,compensatore,concertatore,conciliatore,confortatore,disciplinare,disgregatore,divisioniste,fallimentare,modificatore,movimentiste,nicaraguense,pazzerellone,picchiatello,precorritore,propiziatore,purificatore,sovvertitore,statunitense,vivificatore¦3i:acre,afro,diro,dopo,malo,miro,mite,noto,solo,usto¦13i:agroalimentare,anglonorvegese,autocondannare,chiarificatore,distruggitrice,motopropulsore,riconciliatore,sterilizzatore¦5i:alacre,arcade,canoro,capace,celere,chiaro,felice,fifone,immune,inerme,inerte,logoro,mutilo,nuvolo,palese,pronto,quanto,restio,scevro,semita,smunto,snello,spento,verace,vivace,grande,triste¦9i:alimentare,civettuolo,comunicate,contraerea,dilatatore,disattento,elementare,eteroclita,fuoriserie,incitatore,istruttore,placentare,psicotropo,sacrosanto,sonnolento,sottovento,sprovvisto,stragrande¦10i:altrettanto,ausiliatore,cistercense,commutatore,consolatore,cosmopolita,eliminatore,fraudolento,giudicatore,ingannatore,livellatore,premonitore,pusillanime,racalmutese,suscitatore,unificatore¦6i:ambedue,anomalo,apolide,assiduo,birbone,bivalve,cairota,caprese,celeste,cotanto,cruento,dalmata,defunto,egemone,giovine,incline,inferme,ingenuo,inodoro,lombare,mannaro,mordace,oratoro,precoce,redento,rivisto,sannita,sbronzo,sgombro,unanime,vallese,vergine,giovane,attento¦8i:anglomane,collinare,contumace,culattone,escretore,frammisto,incruento,irredento,leggiadro,macilento,migratore,milionare,ostrogoto,panamense,partecipe,precipite,pulvinare,semivuoto¦4i:annuo,arduo,aspro,avaro,bello,boaro,breve,ebbro,ebete,grave,greve,italo,lieve,macro,miope,sacro,soave,stufo,tanto,tenue,vasto,forte¦12i:autoconferire,deregolatrice,equilibratore,interrogatore,regolamentare,sanguinolento,sopraffattore¦7i:benevolo,benvisto,compunto,degenere,equanime,impronto,incolume,inospite,insaporo,irruento,malevolo,malvisto,marinaro,maronita,poltrone,precipuo,previsto,proclive,rampanto,salutare,urlatore,violento¦16i:interdisciplinare,interparlamentare"
       }
     },
     "presentTense": {
       "first": {
-        "fwd": "o:are,ere,apere,arsi¦lgo:gliere¦esco:uscire¦1co:urre¦1io:arere¦1sso:otere¦1o:vire,versi¦1glio:olere¦2go:enire,enere,alere,anere¦2sco:fire¦2o:guire,prire,frire¦2cio:acere¦3o:ucire,ertire¦4o:borrire,sentire",
-        "both": "5sco:ientire,mentire,tontire,gantire,ircuire,rostire,lestire,dolcire¦5o:ipartire¦4sco:ortire,ustire,istire,oquire,sprire,astire,ermire,arrire,inuire,iarire,rguire,nnuire¦4o:vestire,fuggire,bollire¦4go:isalire,ssalire¦4co:ledire¦3sco:agire,grire,ltire,ncire,atire,trire,etire,gnire,ocire,urire,rnire,emire,ruire,rcire,tuire,luire,orire,unire,buire,inire,ttire,erire,anire,utire,onire¦3o:mpire¦3co:ddire¦2uco:anicare¦2sco:eire,oire,pire,zire,hire,sire,bire,dire,lire¦2io:parire¦1ggo:arre¦1ngo:orre",
-        "rev": "are:ò¦1are:no,fo,ro,zo,so,po,mo,bo,eo¦1re:isco¦1uscire:iesco¦1gliere:elgo¦2are:aco,lio,olo,cco,cio,ito,ogo,eco,nto,eto,ato,ulo,hio,bio,ilo,oco,avo,gio,ago,ego,vio,tio,uto,fio,oto,rio,ugo,lto,dio,nuo,tuo,elo,mio,rlo,alo,nio,pto,lco,ovo,plo,zio,sio,blo,cuo,ddo,duo,uio,ldo¦2ere:rgo,lvo¦2gliere:iolgo,tolgo,colgo¦2mettere:asetto¦3are:baio,bico,itto,ppio,allo,ello,osto,otto,tico,fido,mico,levo,erco,fico,nido,noio,cico,orto,pico,illo,sodo,ordo,ardo,rico,zico,ruco,usco,utto,dido,tigo,iodo,vigo,audo,lico,gedo,nsto,opio,ullo,nudo,asto,sico,enco,spio,irto,nico,usto,uido,buco,arco,modo,uaio,bido,pido,anco,tivo,squo,ipio,vico,cquo,onco,livo,hedo,raio,nodo,rpio¦3rre:bduco,dduco,educo,oduco¦3ere:endo,ungo,cedo,rivo,ingo,inco,iedo,osco,ludo,peto,tengo,eggo,ompo,iggo,cado,nquo,iudo,cuto,erdo,vido,valgo,sigo,rudo,vado,bevo,undo,mango,digo,cevo¦3ire:vengo,apro¦3re:rdico,idico¦3ersi:uovo¦4ere:batto,brado,corro,metto,rrido,sisto,ssumo,torco,volgo,lango,ncido,iango,cerno,pondo,resco,ecido,erido,iligo,irimo,ruggo,pando,primo,gligo,ccido,suado,nasco,edimo,cindo,iardo,fulgo,ivivo,combo,premo,trido¦4are:bdico,cetto,uisto,deguo,fetto,hindo,largo,lerto,lungo,prodo,besco,rredo,rrivo,petto,sesto,visto,betto,lindo,rindo,pesto,uetto,mendo,servo,tatto,ratto,mando,testo,iredo,eredo,serto,retto,nesto,udico,bosco,patto,collo,fango,forco,gorgo,nesco,tasco,alido,singo,festo,ndico,lesto,bligo,oetto,ietto,adico,catto,desto,getto,pesco,aetto,bando,carto,rollo,follo,grido,porco,uarto,rinco,bondo¦4rre:onduco,raduco¦4ire:seguo,verto,copro¦4re:cucio¦5are:ccerto,llatto,anetto,pparto,rresto,otondo,econdo,rcondo,nfisco,epredo,ileguo,sdetto,chetto,presto,anduco,redico,omulgo,tristo,imesto,pinguo,prango,uicido¦5ere:frango,nedico,ollido,nnetto,tinguo,orrodo,spello,ndulgo,nfondo,scondo,resumo,epello,fletto,sfondo¦5ire:ssento,ssorbo,isento¦5arsi:grappo",
-        "ex": "ho:avere¦odo:udire¦esco:uscire¦sono:essere¦3sco:agire,unire¦9sco:appesantire¦2vo:bere¦2co:dire¦4o:dormire,fuggire,mentire,partire,sentire,vestire,battere,bendare,bollare,brigare,cascare,cernere,cherere,coprire,correre,credere,cucire,curvare,destare,dettare,distare,educare,elidere,eredare,erigere,erodere,fervere,follare,fondare,fottere,fremere,frodare,fulgere,gettare,gradare,gridare,guadare,lattare,listare,mandare,mattare,mescere,mestare,mettere,mietere,mollare,mondare,mordere,nascere,nettare,offrire,pascere,pescare,pestare,predare,premere,privare,purgare,restare,salvare,seguire,servire,sondare,tangere,tessere,torcere,vangare,vergare,vertere,vistare,volgere¦5sco:gestire,guarire,muggire,ruggire,sparire¦7sco:impartire¦7co:interdire¦4sco:lenire¦1uoio:morire¦8o:riassorbire,consolidare,dissanguare,sprofondare¦3ò:ridare¦4co:ridire,indurre¦4ò:ristare¦3go:salire,tenere,valere,venire¦6sco:spartire¦8etto:teletrasmettere¦5o:aborrire,adattare,adescare,assidere,avvivare,caducare,chierere,dedicare,desumere,dirigere,flettere,frangere,inondare,irrigare,languire,medicare,ossidare,prestare,riducere,sbrigare,schivare,scuoiare,sfondare,sfottere,smistare,soffrire,stangare¦9o:acconsentire,affaccendare,sopravvivere¦6o:affondare,allettare,arringare,convivere,dilettare,divulgare,effondere,estollere,incurvare,ravvivare,resettare,ricredere,rifondare,rimordere,trucidare¦7o:affrescare,concertare,consentire,diffondere,profondere,propellere¦2o:alare,stare¦3o:algere,aprire,ardere,badare,bucare,cadere,cedere,ducere,fidare,gemere,godere,ledere,levare,licere,lodare,mudare,ondare,ostare,radere,redare,ridere,rigare,risapere,rodare,sedare,spiare,sudare,sumere,temere,ungere,urtare,vivere¦2lgo:cogliere,togliere¦1o:dare,sapere¦2io:parere¦4cio:piacere¦2sso:potere¦2glio:solere,volere¦3io:sparere"
+        "fwd": "o:are,ere,apere¦lgo:gliere¦esco:uscire¦ngo:gnere¦ò:avere¦1co:urre¦1io:arere¦1sso:otere¦1o:vire¦1glio:olere¦2go:enire,enere,alere,anere¦2sco:fire¦2o:prire,frire¦2cio:acere¦3o:ertire,ucire,ormire,eguire,nguire,mpire¦4o:borrire,sentire",
+        "both": "5ò:ttostare¦5sco:ientire,mentire,ristire,asprire,rugnire,lestire,dolcire¦5o:ipartire¦4o:sorbire,fuggire,bollire,vestire¦4sco:ortire,ltrire,ontire,ignire,etrire,uarire,ermire,arrire,iarire,antire¦4go:isalire,ssalire¦4co:ledire¦3o:utrire¦3co:sdire,ddire¦3sco:ltire,ncire,agire,etire,ocire,grire,rnire,emire,orire,rcire,urire,atire,unire,inire,ttire,erire,anire,utire,onire¦2uco:anicare¦2sco:eire,hire,oire,pire,zire,sire,bire,uire,dire,lire¦2io:parire¦1ggo:arre¦1ngo:orre",
+        "rev": "1are:no,fo,zo,so,po,eo,dò,tò¦1re:isco¦1uscire:iesco¦1gliere:elgo¦1avere:iò¦2are:aco,lio,ero,cco,cio,ito,uro,ogo,eco,nto,eto,ato,pio,ulo,bbo,hio,amo,bio,ilo,oco,olo,iro,avo,gio,ago,ego,aro,tio,uto,fio,oto,rio,vio,ugo,lto,oro,nuo,tuo,elo,mio,rlo,alo,lmo,nio,pto,lco,bro,ibo,dio,rmo,cro,plo,zio,ubo,sio,omo,blo,gro,smo,cuo,ddo,duo,mmo,obo,dro,vro,uio,ldo,tmo,abo,clo,uvo,glo¦2gliere:colgo,iolgo,tolgo¦2ere:rgo,lvo¦2mettere:asetto¦2gnere:pengo¦3are:baio,bico,itto,arro,allo,ello,stro,tico,otto,erro,fido,mico,levo,erco,rico,fico,nido,noio,cico,orto,simo,itro,pico,osto,illo,sodo,ordo,ardo,asto,ruco,usco,utto,dido,tigo,ntro,iodo,ifro,vigo,audo,lico,rovo,cimo,gedo,nsto,tumo,ullo,nudo,sico,urbo,ando,enco,erbo,ltro,irto,nico,usto,arbo,uido,arco,buco,tivo,modo,uaio,novo,timo,pido,anco,squo,etro,zico,nimo,vico,cquo,onco,livo,urro,hedo,raio,fumo,temo,nodo,pumo,upro,mpro,dovo,goio¦3rre:bduco,educo,oduco¦3ere:endo,orro,ungo,cedo,ingo,iedo,osco,ludo,peto,tengo,inco,eggo,iggo,cado,nquo,rimo,iudo,erdo,vido,valgo,sigo,rudo,vado,undo,digo,cevo,mango,uovo,vedo,lodo,uoccio¦3ire:vengo,opro¦3re:rdico,idico,ifaccio¦4ere:batto,brado,metto,rrido,crivo,sisto,ssumo,torco,volgo,lango,ncido,cerno,nvivo,rrodo,ecido,iligo,rompo,suado,ruggo,scuto,tollo,dulgo,trido,gligo,ccido,iango,nasco,edimo,cindo,credo,fulgo,mordo,combo,pando,premo,ompio¦4are:bdico,cetto,uisto,deguo,dopro,fetto,hindo,largo,lerto,lungo,prodo,besco,rredo,rrivo,sesto,visto,betto,lindo,rindo,pesto,uetto,patto,servo,nsumo,testo,rollo,predo,leguo,iredo,detto,serto,vulgo,mendo,retto,nesto,udico,ratto,latro,bosco,resto,collo,fango,forco,gorgo,nesco,tasco,singo,festo,ndico,lesto,bligo,ietto,adico,catto,desto,getto,tombo,petto,aetto,brigo,chivo,cuoio,follo,grido,uarto,blimo,icido,rinco,ucido,bondo,idimo,erivo,matto,hatto,vetto,grado,trado¦4rre:onduco,raduco¦4ire:seguo,verto,iapro¦4re:cucio,empio,affaccio¦5are:ccerto,llatto,anetto,rringo,rcondo,nfisco,iletto,seredo,econdo,chetto,valido,acrimo,anduco,roetto,redico,omulgo,tristo,ntatto,iesumo,ifondo,mbombo,pinguo,prango¦5ere:cresco,frango,nnetto,scondo,nedico,ollido,tinguo,spello,nfondo,resumo,epello,sfondo,mpiaccio¦5ire:ssento,nsento,isento,piatto",
+        "ex": "ho:avere¦odo:udire¦esco:uscire¦sono:essere¦vado:andare¦3sco:agire,unire¦7sco:arrostire,imbastire,impartire¦2vo:bere¦2co:dire¦4o:fuggire,mentire,partire,sentire,vestire,pentire,battere,bendare,bollare,brigare,cascare,cernere,cherere,credere,cremare,cucire,curvare,destare,dettare,distare,dormire,educare,elidere,empire,eredare,erigere,erodere,fervere,follare,fondare,fottere,fremere,frodare,fulgere,gettare,giovare,gradare,gridare,guadare,latrare,lattare,listare,mattare,mescere,mestare,mettere,mietere,mollare,mondare,mordere,nascere,nettare,offrire,pascere,pescare,pestare,predare,premere,privare,purgare,restare,rombare,rompere,salvare,scemare,seguire,servire,sondare,tangere,tessere,torcere,tremare,vangare,vergare,vertere,vistare,volgere,testare,piovere,scovare,settare¦5sco:gestire,muggire,ruggire,sparire¦7co:interdire¦9sco:irrobustire¦4sco:lenire¦1uoio:morire¦3ò:ridare¦4co:ridire,addurre,indurre¦4ò:ristare¦3go:salire,tenere,valere,venire¦6sco:spartire¦8etto:teletrasmettere¦2ccio:fare¦4io:cuocere¦4cio:nuocere,piacere,giacere¦4ccio:rifare¦8ccio:sopraffare¦7o:appiattire,affrescare,concertare,diffondere,profondere,propellere,riflettere,rispondere¦5o:aborrire,adattare,adescare,assidere,avvivare,caducare,chierere,crescere,dedicare,deridere,desumere,dirigere,flettere,frangere,goffrare,imbevere,incutere,inondare,irrigare,languire,medicare,ossidare,piombare,riardere,riducere,rivivere,sborrare,scartare,sfondare,sfottere,smistare,soffrire,sporcare,stangare,trombare¦9o:affaccendare,sopravvivere¦6o:affondare,allettare,ammorbare,appartare,effondere,incartare,incurvare,ravvivare,resettare,rimestare,ripescare,eccellere¦2o:alare,amare,arare,orare,stare¦3o:algere,aprire,ardere,badare,bucare,cadere,cedere,cimare,covare,ducere,errare,fidare,fumare,gemere,godere,ledere,levare,licere,limare,lodare,mimare,mudare,ondare,ostare,radere,redare,remare,ridere,rigare,risapere,rodare,sedare,sudare,sumere,temere,ungere,urtare,vivere¦8o:arrotondare,consolidare,dissanguare,intorbidare,sprofondare,rinfrescare¦2lgo:cogliere,togliere¦10o:corrispondere¦1o:dare,sapere¦2io:parere¦2sso:potere¦2glio:solere,volere¦3io:sparere¦3cio:tacere"
       },
       "second": {
-        "fwd": "1:iare,iere¦2:vire¦3:prire,ucire,mpire,guire,frire¦4:orrire,ertire,ormire¦5:sentire,pparire,mparire¦i:ere¦ieni:enire,enere¦esci:uscire¦uoi:otere¦1i:nare,uare,pare,lare,dare,mare,vare,eare,bare,fare,arre,apere,parsi¦1ci:urre¦1ni:orre¦1lei:iarsi¦2i:oversi¦3sci:trire",
-        "both": "5:isalire,fuggire,bollire,vestire,sparire,ssalire¦5etti:etrasmettere¦5sci:ientire,mentire,ircuire,lestire¦5i:tostare¦5ci:terdire¦4ilei:hiedersi¦4ci:ledire¦4sci:ustire,istire,oquire,sprire,astire,ermire,arrire,iarire,ortire,ostire,antire,olcire¦3hilei:ancarsi¦3sci:grire,ltire,ncire,atire,agire,ruire,etire,gnire,ocire,urire,rnire,emire,rcire,nuire,tuire,luire,orire,unire,buire,inire,ttire,erire,anire,utire,onire¦3i:esiare¦3ci:ddire¦2ilei:ldarsi¦2uchi:anicare¦2sci:eire,oire,pire,zire,hire,sire,fire,bire,dire,lire¦1ilei:sarsi,rarsi¦1i:sare,zare,tare,rare¦1hi:gare,care",
-        "rev": "olere:uoli¦1enire:vieni¦1re:isci¦1enere:tieni¦1are:ii¦1uscire:iesci¦2are:ini,gni,tui,ami,uni,uli,nni,avi,nei,rbi,eli,ovi,rmi,epi,nui,rli,lmi,ibi,ipi,afi,api,ubi,lpi,smi,cui,ofi,ddi,dei,spi,dui,obi,rei,sei,upi,ldi,tmi,ifi,abi,ufi¦2ere:rgi,ngi,lgi,lvi¦2rre:poni,rai¦2re:dai,tai¦2pere:sai¦2arsi:filei¦3are:gli,alli,uffi,doli,boni,toni,ampi,cci,appi,elli,ordi,ioni,orni,fidi,voli,tivi,uppi,llei,levi,tani,leni,nimi,nidi,noi,simi,coli,mbli,illi,oci,ommi,ardi,effi,loni,toli,lci,didi,iodi,audi,cimi,doni,gedi,soli,agi,roni,tumi,ulli,izi,nudi,meni,pani,reni,ogi,irpi,egi,goli,uidi,moli,pali,pili,modi,urvi,ugi,ammi,uai,ceni,timi,poli,foli,pidi,nomi,tili,ozi,geni,goni,squi,dali,zoli,iani,fani,nali,bui,sodi,gali,fili,nvi,sani,cqui,uoni,gomi,livi,azi,cali,cemi,hedi,ippi,gani,ioli,fumi,obbi,temi,iffi,pumi,limi,veni,boli,urpi,gili¦3rre:bduci,dduci,educi,oduci,nduci,aduci¦3ere:endi,iggi,cedi,rivi,iedi,ludi,peti,rimi,ompi,cadi,rigi,iudi,cuti,erdi,vali,sigi,rudi,bevi,undi,vadi,digi,cevi¦3re:idici¦3ersi:uovi¦4are:bbai,bondi,colli,degui,ibbi,folli,anci,eggi,oggi,terni,mali,derni,nnodi,ioppi,rredi,rrivi,aggi,sedi,imili,vari,fici,emmi,lindi,rindi,ruci,unni,baci,medi,servi,olidi,empli,ambi,mandi,legui,iredi,eredi,ibbli,figi,mendi,unci,sili,ucili,loppi,ubili,verni,berni,rsoni,ateni,ipri,nici,furi,grani,nondi,arsi,tari,arci,equi,iombi,bombi,tombi,pudi,efoni,iaffi,irci,brani,rolli,gridi,ibili,oqui,toppi,ionfi,ucidi,engi,idimi¦4ere:bradi,corri,ssumi,vinci,ncidi,nosci,llidi,metti,batti,pondi,resci,ecidi,sisti,suadi,torci,tolli,tridi,rridi,gligi,ccidi,rmani,iligi,nasci,edimi,cindi,credi,imani,mordi,cerni,fotti,combi,pandi,premi,ruggi,ividi¦4re:apri,empi¦4arsi:eglilei¦5are:brevi,casci,coppi,losci,ghindi,llungi,basci,nisti,naffi,pprodi,rabbi,otondi,econdi,rcondi,minci,ncili,onsumi,trari,ilani,sangui,tanzi,ncomi,patri,ropri,nanzi,ocopi,ulebbi,ortali,nceppi,nebri,groppi,nsidi,orbidi,nvidi,rradi,cenzi,arodi,tenzi,corci,iesumi,ifondi,pingui,vesci,borni,rosci,fasci,gonfi,torpi,trani,uicidi,aligi,lasci,rebbi¦5ere:cogli,nnetti,nedici,orrodi,linqui,iogli,togli,nfondi,scondi,cegli,resumi,opelli,epelli,ileggi¦5re:verti,segui,sorbi,copri¦5arsi:grappi",
-        "ex": "3:agiare,oliare,oziare¦4:ambiare,aprire,baciare,bigiare,cariare,coniare,copiare,cucire,empire,mediare,obliare,ovviare,pigiare,tediare,variare¦5:fuggire,mentire,partire,sentire,vestire,ampliare,berciare,cangiare,cogliere,conciare,coprire,doppiare,dormire,fasciare,forgiare,gloriare,gonfiare,lasciare,linciare,lisciare,mangiare,offrire,pazziare,pisciare,scuoiare,sdraiare,seguire,seppiare,servire,smaniare,soffiare,studiare,togliere,traviare,umiliare¦6:aborrire,bacchiare,fischiare,graffiare,languire,macchiare,mischiare,nicchiare,raschiare,ricopiare,ricucire,rischiare,sgusciare,soffrire,succhiare¦7:dipartire,ripartire,acconciare,adocchiare,angustiare,annebbiare,archiviare,assentire,crocchiare,divorziare,ingabbiare,ingiuriare,orecchiare,rimangiare,risentire,sfiduciare,specchiare,strisciare,strusciare,sussidiare,svecchiare¦8:abbacchiare,accerchiare,ammucchiare,arrischiare,avvinghiare,bevicchiare,bofonchiare,consentire,dissentire,evidenziare,insudiciare,invecchiare,invischiare,presenziare,principiare,riapparire,rimorchiare,rosicchiare,scomparire,soverchiare,stipendiare,strabiliare¦9:riassorbire,accalappiare,canticchiare,cincischiare,dormicchiare,infradiciare,mordicchiare,punzecchiare,rannicchiare,rispecchiare,scoperchiare,sonnecchiare,sparecchiare,sputacchiare,testimoniare¦10:acconsentire,apparecchiare,bruciacchiare,infinocchiare,mangiucchiare¦hai:avere¦odi:udire¦esci:uscire¦sei:essere¦3sci:agire,unire¦6i:allungare,affondare,arraffare,convivere,depredare,effondere,espellere,incarnare,lacrimare,ravvivare¦5sci:arguire,gestire,guarire,muggire,ruggire,sparire¦4i:avviare,deviare,espiare,inviare,ridare,roncare,battere,bendare,bollare,cernere,cherere,correre,credere,cremare,educere,elidere,emanare,eredare,erodere,esalare,fervere,follare,fondare,fottere,fremere,frodare,gabbare,gradare,gridare,guadare,leggere,mandare,mescere,mettere,mietere,mollare,mondare,mordere,nascere,pascere,piacere,planare,poppare,predare,premere,privare,reggere,rombare,ronfare,salvare,scopare,snodare,sondare,tessere,torcere,tremare,vernare,vertere,vincere¦2vi:bere¦2i:dare,alare,amare,beare,sapere¦2ci:dire¦7sci:impartire,intontire¦4ci:indire,ridire¦4sci:lenire¦1uori:morire¦3i:odiare,sciare,spiare,stare,sviare,ardere,badare,cadere,calare,cedere,cenare,cimare,colare,domare,donare,dopare,ducere,fidare,filare,fumare,gemere,godere,ledere,levare,licere,limare,lodare,menare,mimare,molare,mudare,ondare,ornare,palare,penare,radere,redare,remare,ridere,rodare,salare,sanare,sedare,sudare,sumere,temere,valere,venare,vivere,volare¦5ci:predire¦5i:ristare,alienare,assidere,avvivare,chierere,deridere,desumere,eleggere,flettere,limonare,ossidare,riardere,riducere,rivivere,sbandare,schivare,sfondare,trombare¦1uoli:solere¦6sci:spartire¦1uoi:volere,potere¦8i:accapponare,distinguere,sprofondare,trasfondere¦9i:affaccendare,sopravvivere¦15i:contraddistinguere¦7i:correggere,diffondere,estinguere,insaponare,invalidare,profondere,proteggere,rieleggere,riflettere,sorreggere¦2ni:porre¦1ieni:tenere,venire"
+        "fwd": "1:iare,iere¦2:vire¦3:prire,ucire,mpire,frire¦4:orrire,ertire,ormire,eguire¦5:sentire,anguire,pparire,mparire¦i:ere¦ieni:enire,enere¦esci:uscire¦uoi:otere¦1ci:urre¦1i:uare,pare,lare,dare,mare,vare,bare,fare,arre,apere,avere¦1ni:orre",
+        "both": "5:sorbire,vestire,isalire,fuggire,bollire,sparire¦5etti:etrasmettere¦5sci:ientire,mentire,ristire,asprire,rostire,lestire¦5ci:terdire¦4i:leviare,avviare¦4sci:ltrire,ustire,etrire,astire,ermire,arrire,iarire,ortire,antire,olcire¦4ci:ledire¦3i:rviare,esiare¦3ci:sdire,ddire¦3sci:grire,ltire,ncire,agire,etire,gnire,ocire,urire,rnire,emire,orire,rcire,atire,unire,inire,ttire,erire,anire,utire,onire¦2uchi:anicare¦2sci:eire,oire,pire,zire,hire,sire,fire,bire,uire,dire,lire¦1i:eare,sare,zare,tare,rare,nare¦1hi:gare,care",
+        "rev": "1enire:vieni¦1enere:tieni¦1are:ii¦1uscire:iesci¦2are:oli,tui,ami,uli,rmi,avi,eli,ipi,epi,nui,rli,lmi,ibi,afi,api,ubi,lpi,smi,cui,ofi,ddi,spi,dui,obi,upi,ldi,tmi,ifi,abi,ufi,cli,uvi¦2ere:rgi,ngi,lgi,lvi¦2re:gisci,tisci,nisci,dai,tai,fai¦2rre:rai¦2pere:sai¦2vere:iai¦3are:gli,alli,cci,ampi,appi,elli,ordi,obbi,fidi,tivi,uppi,levi,nimi,nidi,noi,simi,mbli,illi,sodi,ardi,effi,uffi,didi,iodi,audi,andi,rovi,cimi,gedi,agi,tumi,ulli,izi,pili,egi,urbi,bbli,ogi,erbi,irpi,lci,arbi,uidi,tali,modi,urvi,ugi,ammi,uai,timi,pidi,nomi,tili,ozi,squi,dali,fili,nali,bui,gali,novi,nvi,cqui,gomi,livi,azi,cali,cemi,hedi,ippi,fumi,temi,iffi,ommi,pali,pumi,limi,urpi,dovi,gili,goi,covi¦3rre:bduci,eponi,mponi,nduci,educi,iponi,sponi,rponi,oduci,oponi,aduci¦3ere:cedi,endi,iggi,ludi,iedi,peti,cadi,rigi,iudi,cuti,erdi,vali,sigi,rudi,rimi,vadi,undi,iaci,digi,cevi,uovi,vedi,lodi,uoci¦3re:arisci,idici¦4are:bbai,bondi,colli,degui,ibbi,folli,anci,eggi,lungi,mali,morbi,nnodi,ioppi,prodi,rredi,rrivi,sedi,imili,soci,fici,emmi,lindi,rindi,ruci,unni,baci,medi,servi,olidi,empli,rari,rolli,enudi,legui,iredi,eredi,figi,mendi,unci,sili,oggi,ucili,loppi,ubili,ipri,aggi,furi,roppi,tari,arci,equi,iombi,bombi,tombi,pudi,iaffi,irci,ambi,cuoi,foci,gridi,ibili,oqui,toppi,tudi,icidi,vari,ionfi,ucidi,engi,nici,idimi,erivi,erci,unzi,gradi,tradi¦4ere:bradi,corri,crivi,torci,vinci,ncidi,nosci,metti,nvivi,pondi,rompi,resci,ecidi,eridi,suadi,ruggi,ividi,pandi,tolli,mbevi,sisti,rridi,gligi,ccidi,rmani,iligi,nasci,edimi,cindi,ssumi,credi,imani,mordi,ivivi,cerni,fotti,combi,premi,tridi¦4rre:upponi¦4re:apri,empi¦5ere:bbatti,cogli,nnetti,nedici,ollidi,orrodi,linqui,iogli,togli,tingui,nfondi,scondi,cegli,resumi,opelli,epelli,ibatti,ileggi¦5are:casci,coppi,losci,ghindi,basci,nisti,naffi,ropri,rabbi,otondi,rcondi,minci,ncili,onsumi,ilani,sangui,tanzi,ncomi,patri,econdi,nanzi,ocopi,ulebbi,nceppi,nebri,nsidi,tarsi,validi,nvidi,rradi,cenzi,arodi,tenzi,corci,iesumi,ifondi,pingui,vesci,borni,rosci,fasci,gonfi,torpi,trani,aligi,lasci,rebbi,parmi,doppi,renzi,omici¦5re:ssali,verti,segui,copri,iatti¦5rre:rapponi",
+        "ex": "3:agiare,oliare,oziare¦4:ambiare,aprire,baciare,bigiare,cariare,coniare,copiare,cucire,empire,mediare,obliare,ovviare,pigiare,tediare,variare,vociare¦5:fuggire,mentire,partire,sentire,vestire,pentire,nutrire,ampliare,cangiare,cogliere,conciare,coprire,doppiare,dormire,fasciare,forgiare,gloriare,gonfiare,lasciare,linciare,lisciare,mangiare,offrire,pazziare,pisciare,sdraiare,seguire,seppiare,servire,smaniare,soffiare,togliere,traviare,umiliare,compiere¦6:assalire,aborrire,bacchiare,fischiare,graffiare,languire,macchiare,mischiare,nicchiare,raschiare,ricopiare,ricucire,rischiare,sgusciare,soffrire,succhiare¦7:dipartire,ripartire,abbreviare,acconciare,adocchiare,angustiare,annebbiare,archiviare,assentire,crocchiare,divorziare,incrociare,ingabbiare,ingiuriare,orecchiare,rimangiare,risentire,sfiduciare,specchiare,strisciare,strusciare,sussidiare,svecchiare,insabbiare¦8:appiattire,abbacchiare,accerchiare,ammucchiare,arrischiare,avvinghiare,bevicchiare,bofonchiare,consentire,dissentire,evidenziare,insudiciare,invecchiare,invischiare,presenziare,principiare,riapparire,rimorchiare,rosicchiare,scomparire,soverchiare,stipendiare,strabiliare¦9:accalappiare,canticchiare,cincischiare,dormicchiare,infradiciare,mordicchiare,punzecchiare,rannicchiare,rispecchiare,scoperchiare,sonnecchiare,sparecchiare,sputacchiare,testimoniare¦10:acconsentire,apparecchiare,bruciacchiare,infinocchiare,mangiucchiare¦11:scarabocchiare¦hai:avere¦odi:udire¦esci:uscire¦sei:essere¦vai:andare¦3sci:agire,unire¦6i:allungare,affondare,arraffare,depredare,effondere,espellere,lacrimare,ravvivare,eccellere¦4i:avviare,deviare,espiare,inviare,ridare,roncare,rifare,battere,bendare,bollare,cernere,cherere,correre,credere,cremare,educere,elidere,eredare,erodere,esalare,fervere,follare,fondare,fottere,fremere,frodare,gabbare,giovare,gradare,gridare,guadare,leggere,mescere,mettere,mietere,mollare,mondare,mordere,nascere,pascere,poppare,predare,premere,privare,reggere,rombare,rompere,ronfare,salvare,scopare,snodare,sondare,tessere,torcere,tremare,vertere,vincere,piovere,pompare,siglare¦2vi:bere¦2i:dare,fare,alare,amare,sapere¦2ci:dire¦5sci:gestire,guarire,muggire,ruggire,sparire¦7sci:impartire,intontire¦4ci:indire,ridire,addurre¦4sci:lenire¦1uori:morire¦5ci:predire¦5i:ristare,assidere,avvivare,chierere,desumere,eleggere,flettere,inondare,ossidare,riardere,riducere,sbattere,schivare,sfondare,trombare,spegnere¦3i:sciare,spiare,stare,sviare,ardere,badare,cadere,calare,cedere,cimare,covare,domare,dopare,ducere,fidare,filare,fumare,gemere,godere,ledere,levare,licere,limare,lodare,mimare,mudare,ondare,palare,radere,redare,remare,ridere,rodare,salare,sedare,sudare,sumere,temere,valere,vivere,tacere¦1uoli:solere¦6sci:spartire¦1uoi:volere,potere¦8i:sopraffare,sottostare,intorbidare,sprofondare,trasfondere¦9i:affaccendare,sopravvivere¦4ni:apporre,opporre¦7i:combattere,correggere,diffondere,profondere,proteggere,rieleggere,riflettere,sorreggere¦10i:controbattere¦9ni:giustapporre¦2ni:porre¦1ieni:tenere,venire"
       },
       "third": {
-        "fwd": "1:apere¦iene:enire,enere¦esce:uscire¦:rsi¦1ce:urre¦1e:vire¦2e:guire,ucire",
-        "both": "5sce:ientire,mentire,ircuire,lestire,dolcire¦5ce:terdire¦5e:ipartire¦4e:vestire,isalire,fuggire,bollire,sentire,borrire¦4ce:ledire¦4sce:ustire,istire,oquire,sprire,astire,ermire,arrire,iarire,ortire,ostire,antire¦3sce:grire,ltire,ncire,atire,agire,trire,etire,gnire,ocire,urire,rnire,emire,ruire,rcire,nuire,tuire,luire,orire,unire,buire,inire,ttire,erire,anire,utire,onire¦3e:mpire,ertire,parire¦3ce:ddire¦2e:frire,prire¦2uca:anicare¦2sce:eire,oire,pire,zire,hire,sire,fire,bire,dire,lire¦1e:arre¦1ne:orre¦uole:olere¦uò:otere¦:re",
-        "rev": "are:à¦orire:uore¦1enire:viene¦1re:isce¦1enere:tiene¦1uscire:iesce¦1mettere:sette¦2ire:rme,nte,rbe¦3rre:bduce,nduce,educe,oduce,aduce¦3ire:sale,egue,arte,cuce,este¦3rsi:ove¦4ire:angue,serve",
-        "ex": "2:sapere¦4:risapere¦8:aggrapparsi¦ha:avere¦ode:udire¦esce:uscire¦è:essere¦3sce:agire,unire¦5sce:arguire,gestire,guarire,muggire,ruggire,sparire¦5e:assalire¦2ve:bere¦4e:bollire,dormire,fuggire,mentire,partire,sentire,vestire,servire¦1à:dare¦2ce:dire¦7sce:impartire,intontire¦4ce:indire,ridire,addurre¦4sce:lenire¦1uore:morire¦5ce:predire¦8e:riassorbire¦3à:ridare¦4à:ristare¦3e:salire,cucire¦6sce:spartire¦8ette:teletrasmettere¦1iene:tenere,venire"
+        "fwd": "1:apere¦iene:enire,enere¦esce:uscire¦à:avere¦1ce:urre¦1e:vire¦2e:ucire¦3e:nguire,mpire",
+        "both": "5à:praffare¦5sce:ientire,mentire,bustire,asprire,rugnire,sortire,lestire,bortire¦5ce:terdire¦5e:ipartire¦4à:tostare¦4e:bollire,isalire,fuggire,sorbire,vestire,ssalire,borrire¦4sce:ltrire,ontire,ignire,etrire,uarire,ermire,arrire,iarire,antire,olcire¦4ce:ledire¦3e:utrire,eguire,ormire,ertire,parire,entire¦3ce:sdire,ddire¦3sce:ltire,ncire,atire,agire,etire,ocire,grire,rnire,emire,orire,rcire,urire,unire,inire,ttire,erire,anire,utire,onire¦2e:frire,prire¦2uca:anicare¦2sce:eire,oire,pire,zire,hire,sire,fire,bire,uire,dire,lire¦1e:arre¦1ne:orre¦uole:olere¦uò:otere¦:re",
+        "rev": "orire:uore¦1enire:viene¦1re:isce¦1enere:tiene¦1uscire:iesce¦1are:dà,tà,fà¦1mettere:sette¦3rre:bduce,nduce,educe,oduce,aduce¦3re:ndice¦3ire:arte,este¦4ire:angue,icuce,serve,iatte¦4re:empie",
+        "ex": "2:sapere¦4:risapere¦ha:avere¦ode:udire¦esce:uscire¦è:essere¦va:andare¦3sce:agire,unire¦7sce:arrostire,imbastire,impartire¦2ve:bere¦4e:bollire,fuggire,partire,vestire,empire,servire¦1à:dare¦2ce:dire¦5sce:gestire,muggire,ruggire,sortire,sparire¦4ce:indire,ridire,addurre¦8sce:intristire¦4sce:lenire¦1uore:morire¦5ce:predire¦3à:ridare,rifare¦4à:ristare¦3e:salire,cucire¦6sce:spartire¦8ette:teletrasmettere¦7e:appiattire¦1iene:tenere,venire¦2à:riavere"
       },
       "firstPlural": {
-        "fwd": "iamo:ere,arsi¦1iamo:nare,lare,fare,tare,dare,pare,rare,bare,uare,mare,vare,arre,arere,versi¦1amo:ire,iere¦1niamo:orre¦1ciamo:urre¦1ssiamo:otere¦1gliamo:olere¦2mo:iare¦2ciamo:acere¦2piamo:apere",
-        "both": "5ettiamo:etrasmettere¦5ciamo:terdire¦5iamo:llungare¦4ciamo:ledire¦3ciamo:ddire¦1iamo:eare,sare,zare¦1hiamo:gare,care",
-        "rev": "2are:iniamo,lliamo,oliamo,itiamo,uriamo,ntiamo,amiamo,gniamo,uliamo,triamo,oriamo,briamo,nniamo,iriamo,aviamo,eliamo,otiamo,oviamo,rmiamo,ltiamo,rliamo,lmiamo,ptiamo,criamo,ipiamo,afiamo,smiamo,ofiamo,ddiamo,duiamo,obiamo,driamo,vriamo,ldiamo,tmiamo,ifiamo,abiamo,ufiamo¦2ere:rgiamo,lgiamo,lviamo¦2rre:poniamo,raiamo¦3are:doniamo,uffiamo,ittiamo,toniamo,ampiamo,astiamo,hetiamo,iatiamo,ietiamo,ioniamo,teriamo,erriamo,fidiamo,filiamo,tiviamo,meriamo,uppiamo,iutiamo,beriamo,ieniamo,leniamo,leviamo,taniamo,luniamo,mariamo,metiamo,putiamo,nimiamo,nidiamo,ianiamo,ortiamo,simiamo,ostiamo,mbliamo,iepiamo,sodiamo,ommiamo,enuiamo,ardiamo,effiamo,loniamo,uttiamo,didiamo,iodiamo,ifriamo,mutiamo,piliamo,mpriamo,cimiamo,futiamo,deriamo,nstiamo,roniamo,repiamo,nudiamo,rubiamo,meniamo,paniamo,urbiamo,reniamo,erbiamo,irpiamo,acuiamo,irtiamo,tumiamo,arbiamo,uatiamo,uidiamo,ratiamo,urriamo,taliamo,paliamo,soniamo,tuniamo,naliamo,modiamo,espiamo,cubiamo,urviamo,ammiamo,ceniamo,egriamo,timiamo,ceriamo,letiamo,nomiamo,utuiamo,geniamo,alpiamo,goniamo,squiamo,daliamo,etuiamo,faniamo,duniamo,aspiamo,galiamo,cariamo,saniamo,cquiamo,uoniamo,foniamo,lutiamo,gomiamo,liviamo,caliamo,capiamo,cemiamo,hediamo,ippiamo,ganiamo,fumiamo,temiamo,iffiamo,nodiamo,pumiamo,upriamo,limiamo,tubiamo,rupiamo,butiamo,urpiamo,getiamo,giliamo¦3rre:bduciamo,dduciamo,nduciamo,educiamo,oduciamo,aduciamo¦3ere:endiamo,orriamo,esciamo,cediamo,teniamo,riviamo,ingiamo,iediamo,ludiamo,petiamo,ompiamo,iggiamo,cadiamo,nquiamo,rimiamo,rigiamo,iudiamo,cutiamo,valiamo,sigiamo,beviamo,vadiamo,undiamo,digiamo,ceviamo¦3re:luiamo,buiamo,ruiamo,ioiamo,ndiciamo,veiamo,idiciamo,lfiamo¦3ersi:uoviamo¦4re:gliamo,runiamo,caniamo,cciamo,uisiamo,hiliamo,nnuiamo,rguiamo,ociamo,tutiamo,veniamo,vviamo,aciamo,lciamo,arpiamo,rcuiamo,patiamo,cepiamo,feriamo,todiamo,iziamo,ogiamo,sibiamo,uariamo,ialiamo,spriamo,ugiamo,tidiamo,losiamo,nibiamo,vosiamo,midiamo,ntuiamo,nviamo,gidiamo,utriamo,rediciamo,egiamo,apriamo,badiamo,empiamo,vaniamo,pediamo,aziamo,iadiamo,agriamo,tupiamo,ppliamo,eltiamo¦4ere:battiamo,bradiamo,rangiamo,iungiamo,mettiamo,ssumiamo,vinciamo,nosciamo,iangiamo,torciamo,nviviamo,pondiamo,ecidiamo,fungiamo,eridiamo,sistiamo,iligiamo,cerniamo,perdiamo,suadiamo,ruggiamo,pandiamo,pungiamo,trudiamo,ncidiamo,gligiamo,ccidiamo,rmaniamo,nasciamo,edimiamo,cindiamo,crediamo,imaniamo,mordiamo,isappiamo,iviviamo,fottiamo,combiamo¦4are:everiamo,bondiamo,bituiamo,certiamo,iappiamo,omuniamo,cordiamo,dattiamo,dobbiamo,deguiamo,operiamo,dorniamo,fettiamo,hindiamo,lattiamo,lertiamo,terniamo,morbiamo,ioppiamo,prodiamo,rrediamo,rriviamo,sestiamo,imiliamo,testiamo,vistiamo,zzeriamo,bettiamo,lindiamo,cottiamo,rindiamo,uettiamo,mandiamo,mendiamo,cretiamo,ngediamo,uistiamo,serviamo,olidiamo,nsumiamo,tattiamo,empliamo,rattiamo,prediamo,giuniamo,leguiamo,irediamo,dettiamo,sertiamo,ibbliamo,ettuiamo,migriamo,ipariamo,ageriamo,oneriamo,lottiamo,torniamo,rettiamo,rustiamo,nestiamo,loppiamo,ubiliamo,verniamo,berniamo,hettiamo,pattiamo,mperiamo,restiamo,carniamo,ateniamo,ceppiamo,festiamo,graniamo,roppiamo,aponiamo,sinuiamo,pretiamo,crimiamo,apidiamo,cheriamo,utiliamo,iettiamo,iombiamo,epariamo,uperiamo,uneriamo,cattiamo,destiamo,gettiamo,bombiamo,aettiamo,bandiamo,braniamo,cappiamo,cartiamo,iaffiamo,ciupiamo,crutiamo,gridiamo,ibiliamo,mistiamo,lveriamo,uartiamo,tappiamo,rnutiamo,toppiamo,icidiamo,pestiamo,bordiamo,ionfiamo,rottiamo,idimiamo¦5re:bbaiamo,reviamo,brutiamo,bortiamo,ccudiamo,ibbiamo,anciamo,eggiamo,ggeriamo,maliamo,mansiamo,mmoniamo,nneriamo,nnoiamo,unciamo,santiamo,oggiamo,aggiamo,sseriamo,sorbiamo,variamo,vertiamo,emmiamo,landiamo,ruciamo,unniamo,mediamo,ncupiamo,efiniamo,glutiamo,eperiamo,tituiamo,igeriamo,copriamo,bbediamo,figiamo,comiamo,sauriamo,serciamo,siliamo,iusciamo,hermiamo,rugniamo,uarniamo,bastiamo,mbibiamo,zarriamo,pauriamo,etosiamo,pigriamo,ziosiamo,acidiamo,anutiamo,niciamo,eboliamo,farciamo,erociamo,ddoliamo,ngeriamo,gantiamo,randiamo,gogliamo,sediamo,arsiamo,tontiamo,rpidiamo,tariamo,rretiamo,bustiamo,isciamo,goziamo,ficiamo,equiamo,rtoriamo,attuiamo,grediamo,seguiamo,bbuiamo,rinziamo,censiamo,nseriamo,bolliamo,icuciamo,fuggiamo,bambiamo,igoriamo,pudiamo,sarciamo,iveriamo,lordiamo,irciamo,candiamo,cuoiamo,foltiamo,marriamo,offiamo,pperiamo,tatuiamo,tordiamo,tudiamo,vestiamo,asaliamo,spariamo,engiamo¦5are:aparriamo,celeriamo,ccettiamo,giustiamo,llettiamo,oderniamo,ppartiamo,rraffiamo,otondiamo,econdiamo,rbottiamo,chieriamo,rcondiamo,llaudiamo,nstatiamo,ntinuiamo,ilettiamo,isperiamo,asperiamo,luttuiamo,ppettiamo,nforniamo,validiamo,giferiamo,olestiamo,rnottiamo,roettiamo,egustiamo,occupiamo,esettiamo,iesumiamo,pinguiamo,ntombiamo,elleriamo,miottiamo,trappiamo,repidiamo,rucidiamo,mpettiamo¦5ere:scondiamo,nediciamo,nfondiamo,nnettiamo,tinguiamo,orrodiamo,iogliamo,togliamo,spelliamo,stolliamo,cegliamo,resumiamo,cogliamo,flettiamo,ileggiamo,dividiamo¦5arsi:grappiamo",
-        "ex": "siamo:essere¦1bbiamo:avere¦2viamo:bere¦1iamo:dare¦2ciamo:dire¦4ciamo:indire,ridire,piacere¦5ciamo:predire¦4iamo:roncare,attuare,battere,bendare,bordare,cernere,cherere,credere,cremare,destare,dettare,distare,educere,elidere,emanare,eredare,erodere,esalare,fervere,fondare,fottere,fremere,frodare,fungere,gabbare,gettare,gradare,gridare,guadare,gustare,lattare,laudare,leggere,listare,lordare,lottare,mandare,mattare,mestare,mettere,mietere,migrare,mondare,mordere,mungere,narrare,nascere,nettare,operare,pappare,pascere,perdere,pestare,planare,poppare,predare,premere,privare,prudere,pungere,reggere,restare,ristare,rombare,ronfare,salvare,scopare,situare,sondare,sparare,sperare,stilare,svenare,tangere,tappare,tessere,torcere,tornare,tremare,vernare,vertere,vincere,vistare,zappare¦9mo:abbacchiare,accerchiare,afflosciare,ammucchiare,appropriare,arrischiare,avvinghiare,bevicchiare,bofonchiare,contrariare,distanziare,espropriare,evidenziare,fotocopiare,insudiciare,invecchiare,invischiare,presenziare,principiare,raccoppiare,raccorciare,rimorchiare,rosicchiare,soverchiare,stipendiare,strabiliare,tralasciare¦7amo:abbellire,addolcire,allestire,ammattire,ammollire,ammuffire,appassire,assentire,assortire,avvizzire,diminuire,dipartire,imbellire,imbottire,impartire,inaridire,infittire,ingobbire,insignire,ispessire,premunire,presagire,rabbonire,rifiorire,rifornire,ripartire,risentire,scaturire,schernire,schiarire,scipidire,stabilire¦5iamo:abbonare,adoprare,adottare,apparare,arridere,assidere,avverare,avvivare,chierere,clangere,derapare,desumere,dividere,eleggere,flettere,fucilare,generare,goffrare,imparare,inondare,irridere,limonare,occupare,ossidare,riardere,riducere,sbarrare,sborrare,sbottare,schivare,scolpare,sfondare,sfornare,sgobbare,snobbare,spettare,spremere,stridere,trombare,venerare¦10amo:abbrustolire,acconsentire,approfondire,impensierire,impratichire,indispettire,insospettire,interloquire,prestabilire,rabbrividire¦5amo:abolire,aderire,bandire,candire,cogliere,colpire,condire,coprire,dormire,erudire,farcire,fiorire,fornire,frinire,fuggire,garrire,gestire,gremire,lambire,mentire,muggire,offrire,partire,riunire,ruggire,sancire,seguire,sentire,servire,sfinire,sorbire,sortire,togliere,tossire,tradire,vestire¦6amo:aborrire,assalire,avvilire,chiarire,demolire,esaudire,esordire,esperire,favorire,languire,poltrire,proibire,rifinire,risalire,smentire,soffrire,spartire,stizzire,ubbidire¦10mo:accalappiare,canticchiare,cincischiare,dormicchiare,incominciare,infradiciare,mordicchiare,punzecchiare,rannicchiare,ricominciare,riconciliare,rispecchiare,scoperchiare,sonnecchiare,sparecchiare,sproloquiare,sputacchiare,testimoniare¦8iamo:accapponare,ammanettare,commiserare,dissanguare,intorbidare,prospettare,rattristare,rischiarare,sprofondare,trasfondere¦8mo:accasciare,acconciare,accoppiare,accorciare,adocchiare,ambasciare,amnistiare,angustiare,annaffiare,annebbiare,archiviare,arrabbiare,cominciare,conciliare,contagiare,crocchiare,divorziare,espatriare,estraniare,finanziare,incipriare,ingabbiare,ingiuriare,licenziare,orecchiare,potenziare,ricambiare,rilasciare,rimangiare,rovesciare,scrosciare,sfiduciare,specchiare,squarciare,strusciare,sussidiare,svaligiare,svecchiare¦3amo:adire,udire,unire¦9iamo:affaccendare,rimproverare,sopravvivere¦9amo:affievolire,ammorbidire,arrugginire,disubbidire,impallidire,imputridire,incollerire,incuriosire,infiacchire,ingentilire,inghiottire,intiepidire,intirizzire,ristabilire,spazientire¦6iamo:affondare,allappare,aspettare,assordare,collidere,comparare,effondere,esilarare,infatuare,intridere,ravvivare,repellere,rifondare,rimestare,sorridere,tollerare,ventilare¦7iamo:aggiornare,annoverare,correggere,degenerare,dichiarare,diffondere,discolpare,diseredare,giulebbare,profondere,propellere,prosperare,proteggere,rieleggere,rigenerare,rispettare,sorreggere,sospettare¦4mo:agiare,odiare,oliare,oziare,sciare,spiare,sviare¦2iamo:alare,amare,arare,orare,parere,stare¦5mo:ambiare,bigiare,cariare,coniare,copiare,desiare,deviare,espiare,mediare,obliare,pigiare,tediare,variare¦6mo:ampliare,berciare,cambiare,cangiare,conciare,doppiare,fasciare,forgiare,gloriare,gonfiare,lasciare,linciare,mangiare,marciare,pazziare,plagiare,sdraiare,seppiare,smaniare,traviare,umiliare¦11mo:apparecchiare,bruciacchiare,infinocchiare,mangiucchiare,rincominciare¦8amo:appiattire,applaudire,arricchire,attecchire,consentire,dissentire,imbiondire,imbruttire,impietrire,impoverire,incenerire,ingiallire,inorridire,insaporire,intenerire,intimorire,intristire,rammollire,riapparire,rinverdire,scomparire,seppellire,sgranchire¦4amo:aprire,aulire,capire,cucire,empire,ferire,finire,lenire,morire,munire,ordire,perire,pulire,punire,rapire,sopire,subire,uscire,vagire¦3iamo:ardere,badare,barare,cadere,calare,cedere,cenare,cerare,cibare,cimare,domare,donare,dopare,ducere,errare,fidare,filare,fumare,gemere,godere,ledere,levare,libare,licere,limare,lodare,menare,mimare,mudare,mutare,natare,ondare,ornare,ostare,palare,parare,penare,radere,redare,remare,ridare,rodare,rubare,salare,sanare,sedare,sudare,sumere,tarare,temere,tenere,ungere,urtare,valere,venare,vivere¦7mo:bacchiare,dilaniare,fischiare,graffiare,inebriare,infuriare,inguaiare,insidiare,invidiare,irradiare,macchiare,mischiare,nicchiare,parodiare,raschiare,ricopiare,rischiare,sborniare,scambiare,scoppiare,scorciare,sfasciare,sgonfiare,sgusciare,storpiare,straniare,succhiare,trebbiare¦13mo:contraccambiare¦11amo:disseppellire,rimpicciolire,rincoglionire¦2niamo:porre¦2ssiamo:potere¦3piamo:sapere¦2gliamo:solere,volere"
+        "fwd": "iamo:ere¦1iamo:nare,lare,fare,tare,dare,pare,rare,bare,uare,mare,vare,arre,arere¦1amo:ire,iere¦1niamo:orre¦1ciamo:urre¦1ssiamo:otere¦1gliamo:olere¦1bbiamo:avere¦2mo:iare¦2ciamo:acere¦2piamo:apere",
+        "both": "5ettiamo:etrasmettere¦5ciamo:terdire¦5iamo:llungare¦4ciamo:ledire¦3ciamo:sdire,ddire¦1iamo:eare,sare,zare¦1hiamo:gare,care",
+        "rev": "2are:iniamo,lliamo,oliamo,itiamo,uriamo,ntiamo,amiamo,gniamo,uliamo,triamo,oriamo,briamo,nniamo,iriamo,aviamo,eliamo,otiamo,rmiamo,ltiamo,rliamo,lmiamo,ptiamo,criamo,ipiamo,afiamo,lpiamo,smiamo,ofiamo,ddiamo,duiamo,obiamo,driamo,vriamo,ldiamo,tmiamo,ifiamo,abiamo,ufiamo,cliamo,uviamo¦2ere:rgiamo,lgiamo,lviamo¦2rre:poniamo,raiamo¦2vere:iabbiamo¦3are:doniamo,uffiamo,toniamo,ampiamo,astiamo,hetiamo,iatiamo,ietiamo,ioniamo,teriamo,erriamo,fidiamo,filiamo,tiviamo,meriamo,uppiamo,iutiamo,beriamo,ieniamo,leniamo,leviamo,taniamo,luniamo,mariamo,metiamo,putiamo,nimiamo,nidiamo,ianiamo,ortiamo,simiamo,ostiamo,mbliamo,iepiamo,sodiamo,ommiamo,enuiamo,ardiamo,effiamo,loniamo,uttiamo,didiamo,iodiamo,ifriamo,mutiamo,piliamo,mpriamo,roviamo,cimiamo,futiamo,deriamo,nstiamo,roniamo,repiamo,urviamo,nudiamo,rubiamo,meniamo,paniamo,urbiamo,reniamo,erbiamo,irpiamo,acuiamo,irtiamo,tumiamo,arbiamo,uatiamo,uidiamo,ratiamo,urriamo,taliamo,paliamo,soniamo,tuniamo,naliamo,modiamo,espiamo,cubiamo,ammiamo,noviamo,ceniamo,egriamo,timiamo,ceriamo,letiamo,nomiamo,utuiamo,geniamo,goniamo,squiamo,daliamo,etuiamo,faniamo,duniamo,aspiamo,galiamo,cariamo,saniamo,cquiamo,uoniamo,foniamo,lutiamo,gomiamo,liviamo,caliamo,capiamo,cemiamo,hediamo,ippiamo,ganiamo,fumiamo,temiamo,iffiamo,nodiamo,pumiamo,upriamo,limiamo,tubiamo,rupiamo,butiamo,urpiamo,doviamo,giliamo,fatiamo¦3rre:bduciamo,dduciamo,nduciamo,educiamo,oduciamo,aduciamo¦3ere:endiamo,orriamo,esciamo,iggiamo,cediamo,teniamo,ingiamo,iediamo,ludiamo,petiamo,cadiamo,nquiamo,rimiamo,rigiamo,iudiamo,cutiamo,valiamo,sigiamo,beviamo,vadiamo,undiamo,digiamo,ceviamo,uoviamo,vediamo,lodiamo¦3re:luiamo,buiamo,ruiamo,ioiamo,ndiciamo,veiamo,idiciamo,lfiamo,ifacciamo¦4re:gliamo,runiamo,caniamo,uisiamo,hiliamo,nnuiamo,rguiamo,tutiamo,veniamo,vviamo,aciamo,lciamo,arpiamo,rcuiamo,patiamo,cepiamo,feriamo,todiamo,iziamo,ogiamo,sibiamo,uariamo,ialiamo,spriamo,ugiamo,tidiamo,losiamo,nibiamo,vosiamo,midiamo,nviamo,gidiamo,bediamo,rediciamo,egiamo,apriamo,badiamo,empiamo,vaniamo,pediamo,aziamo,iadiamo,uoiamo,tupiamo,ppliamo,eltiamo,eagiamo,ragiamo,oziamo,affacciamo,utriamo¦4ere:battiamo,bradiamo,rangiamo,iungiamo,mettiamo,criviamo,ssumiamo,vinciamo,langiamo,nosciamo,iangiamo,torciamo,nviviamo,pondiamo,rompiamo,ecidiamo,fungiamo,eridiamo,sistiamo,iligiamo,cerniamo,perdiamo,suadiamo,ruggiamo,pandiamo,pungiamo,trudiamo,ncidiamo,gligiamo,ccidiamo,rmaniamo,nasciamo,edimiamo,cindiamo,crediamo,imaniamo,mordiamo,isappiamo,iviviamo,fottiamo,combiamo,piacciamo¦4are:everiamo,bondiamo,bituiamo,eleriamo,certiamo,iappiamo,omuniamo,cordiamo,dattiamo,dobbiamo,deguiamo,operiamo,dorniamo,fettiamo,hindiamo,lattiamo,lertiamo,terniamo,morbiamo,ioppiamo,prodiamo,rrediamo,rriviamo,sestiamo,imiliamo,gettiamo,testiamo,vistiamo,zzeriamo,bettiamo,lindiamo,cottiamo,rindiamo,uettiamo,mandiamo,mendiamo,cretiamo,ngediamo,uistiamo,serviamo,olidiamo,nsumiamo,tattiamo,empliamo,rattiamo,prediamo,giuniamo,leguiamo,irediamo,dettiamo,sertiamo,ibbliamo,ettuiamo,migriamo,ipariamo,ageriamo,oneriamo,lottiamo,torniamo,rettiamo,rustiamo,nestiamo,loppiamo,ubiliamo,verniamo,berniamo,hettiamo,pattiamo,mperiamo,restiamo,carniamo,ateniamo,ceppiamo,festiamo,graniamo,roppiamo,aponiamo,sinuiamo,pretiamo,alidiamo,crimiamo,apidiamo,cheriamo,utiliamo,iombiamo,epariamo,uperiamo,uneriamo,cattiamo,destiamo,bombiamo,aettiamo,bandiamo,braniamo,cappiamo,cartiamo,iaffiamo,ciupiamo,iettiamo,crutiamo,gridiamo,ibiliamo,littiamo,mistiamo,lveriamo,uartiamo,tappiamo,rnutiamo,toppiamo,rappiamo,icidiamo,pestiamo,bordiamo,ionfiamo,rottiamo,egetiamo,idimiamo,iorniamo,eriviamo,cettiamo,ucidiamo,hattiamo,entuiamo,vettiamo,gradiamo,nigriamo,tradiamo¦5re:bbaiamo,reviamo,brutiamo,bortiamo,occiamo,ccudiamo,ibbiamo,anciamo,eggiamo,maliamo,mansiamo,mmoniamo,nneriamo,nnoiamo,unciamo,santiamo,oggiamo,icciamo,aggiamo,sseriamo,sociamo,variamo,vertiamo,emmiamo,landiamo,ruciamo,unniamo,mediamo,ncupiamo,efiniamo,glutiamo,eperiamo,tituiamo,igeriamo,figiamo,comiamo,sauriamo,serciamo,siliamo,iusciamo,hermiamo,rugniamo,uarniamo,bastiamo,mbibiamo,zarriamo,pauriamo,etosiamo,pigriamo,ziosiamo,acidiamo,anutiamo,niciamo,eboliamo,farciamo,erociamo,ddoliamo,ngeriamo,gantiamo,randiamo,gogliamo,sediamo,arsiamo,tontiamo,rpidiamo,tariamo,rretiamo,bustiamo,isciamo,ficiamo,equiamo,rtoriamo,attuiamo,lagiamo,grediamo,seguiamo,bbuiamo,rinziamo,censiamo,nseriamo,sorbiamo,copriamo,fuggiamo,bambiamo,igoriamo,pudiamo,sarciamo,iveriamo,lordiamo,irciamo,ucciamo,candiamo,ecciamo,draiamo,fociamo,magriamo,marriamo,bolliamo,pperiamo,tatuiamo,tordiamo,tudiamo,vestiamo,asaliamo,spariamo,bbidiamo,engiamo,rantiamo,ngoiamo,miciamo,unziamo,orviamo,iattiamo¦5are:bbittiamo,aparriamo,ffittiamo,giustiamo,llappiamo,llettiamo,oderniamo,ppartiamo,rraffiamo,otondiamo,econdiamo,rbottiamo,chieriamo,rcondiamo,llaudiamo,nstatiamo,ntinuiamo,ilettiamo,serediamo,isperiamo,asperiamo,luttuiamo,ulebbiamo,ppettiamo,nforniamo,giferiamo,olestiamo,rnottiamo,roettiamo,egustiamo,occupiamo,esettiamo,iesumiamo,pinguiamo,ntombiamo,elleriamo,miottiamo,repidiamo,mpettiamo¦5ere:cogliamo,scondiamo,nediciamo,nfondiamo,nnettiamo,tinguiamo,orrodiamo,iogliamo,togliamo,spelliamo,stolliamo,ntridiamo,cegliamo,resumiamo,flettiamo,ileggiamo,dividiamo",
+        "ex": "siamo:essere¦1bbiamo:avere¦2viamo:bere¦1iamo:dare¦2ciamo:dire¦4ciamo:indire,ridire,piacere,giacere¦5ciamo:predire¦4iamo:roncare,attuare,battere,bendare,bordare,cernere,cherere,credere,cremare,destare,dettare,distare,educere,elidere,emanare,eredare,erodere,esalare,fervere,fondare,fottere,fremere,frodare,fungere,gabbare,gettare,giovare,gradare,gridare,guadare,gustare,lattare,laudare,leggere,listare,lordare,lottare,mandare,mattare,mestare,mettere,mietere,migrare,mondare,mordere,mungere,narrare,nascere,nettare,operare,pappare,pascere,perdere,pestare,pittare,planare,poppare,predare,premere,privare,prudere,pungere,reggere,restare,ristare,rombare,rompere,ronfare,salvare,scopare,situare,sondare,sparare,sperare,stilare,svenare,tangere,tappare,tessere,torcere,tornare,tremare,vernare,vertere,vincere,vistare,zappare,cuocere,testare,piovere,pompare,scovare,tatuare,settare,siglare¦2cciamo:fare¦1ociamo:nuocere¦4cciamo:rifare¦8cciamo:sopraffare¦9mo:abbacchiare,abbracciare,accerchiare,afflosciare,ammucchiare,appropriare,arrischiare,avvinghiare,bevicchiare,bofonchiare,contrariare,distanziare,espropriare,evidenziare,fotocopiare,imbracciare,insudiciare,invecchiare,invischiare,presenziare,principiare,raccoppiare,raccorciare,rimorchiare,rosicchiare,schiacciare,sculacciare,soverchiare,stipendiare,strabiliare,tralasciare,risparmiare,raddoppiare,commerciare¦7amo:abbellire,addolcire,allestire,ammattire,ammollire,ammuffire,appassire,assentire,assortire,avvizzire,diminuire,dipartire,imbellire,imbottire,impartire,inaridire,infittire,ingobbire,insignire,ispessire,premunire,presagire,rabbonire,rifiorire,rifornire,ripartire,risentire,scaturire,schernire,schiarire,scipidire,stabilire,suggerire¦10mo:abbonacciare,accalappiare,agghiacciare,canticchiare,cincischiare,dormicchiare,incominciare,infradiciare,mordicchiare,punzecchiare,rannicchiare,riallacciare,ricominciare,riconciliare,rispecchiare,scoperchiare,sonnecchiare,sparecchiare,sproloquiare,sputacchiare,testimoniare,rintracciare,cofinanziare¦5iamo:abbonare,adoprare,adottare,apparare,arridere,assidere,avverare,avvivare,chierere,derapare,desumere,dividere,eleggere,flettere,fucilare,generare,goffrare,imparare,inondare,irridere,limonare,occupare,ossidare,riardere,riducere,sbarrare,sborrare,sbottare,schivare,sfondare,sfornare,sgobbare,snobbare,spettare,spremere,stridere,trombare,venerare,spegnere,dilatare¦10amo:abbrustolire,acconsentire,approfondire,impensierire,impratichire,indispettire,insospettire,interloquire,prestabilire,rabbrividire¦5amo:abolire,aderire,bandire,candire,cogliere,colpire,condire,coprire,dormire,erudire,farcire,fiorire,fornire,frinire,fuggire,garrire,gestire,gremire,intuire,lambire,mentire,muggire,offrire,partire,riunire,ruggire,sancire,seguire,sentire,servire,sfinire,sorbire,sortire,togliere,tossire,tradire,vestire,compiere,pentire,zittire¦6amo:aborrire,assalire,avvilire,chiarire,demolire,esaudire,esordire,esperire,favorire,languire,poltrire,proibire,ricucire,rifinire,risalire,sfoltire,smentire,soffrire,spartire,stizzire,ripulire,snellire,sminuire¦8iamo:accapponare,ammanettare,commiserare,dissanguare,intorbidare,prospettare,rattristare,rischiarare,sprofondare,trasfondere¦8mo:accasciare,acconciare,accoppiare,accorciare,adocchiare,affacciare,allacciare,ambasciare,amnistiare,angustiare,annaffiare,annebbiare,archiviare,arrabbiare,cominciare,conciliare,contagiare,crocchiare,divorziare,espatriare,estraniare,finanziare,ghiacciare,impacciare,incipriare,incrociare,ingabbiare,ingiuriare,licenziare,minacciare,orecchiare,potenziare,ricacciare,ricambiare,rilasciare,rimangiare,rovesciare,scrosciare,setacciare,sfiduciare,specchiare,squarciare,stracciare,strusciare,sussidiare,svaligiare,svecchiare,innaffiare,insabbiare¦3amo:adire,udire,unire¦9iamo:affaccendare,approfittare,rimproverare,sopravvivere¦9amo:affievolire,alleggerire,ammorbidire,arrugginire,impallidire,imputridire,incollerire,incuriosire,infiacchire,ingentilire,inghiottire,intiepidire,intirizzire,ristabilire,spazientire¦6iamo:affondare,aspettare,assordare,collidere,comparare,effondere,esilarare,infatuare,ravvivare,repellere,rifondare,rimestare,sorridere,tollerare,ventilare,eccellere¦4mo:agiare,oliare,oziare,sciare,spiare,sviare,odiare¦2iamo:alare,amare,arare,orare,parere,stare¦5mo:ambiare,bigiare,cariare,coniare,copiare,desiare,deviare,espiare,mediare,obliare,pigiare,tediare,variare,vociare¦6mo:ampliare,berciare,cacciare,cambiare,cangiare,conciare,doppiare,fasciare,forgiare,gloriare,gonfiare,lasciare,linciare,mangiare,marciare,pazziare,seppiare,smaniare,soffiare,traviare,umiliare¦7iamo:annoverare,correggere,degenerare,dichiarare,diffondere,profondere,propellere,prosperare,proteggere,rieleggere,rigenerare,rispettare,sorreggere,sospettare,formattare¦11mo:apparecchiare,bruciacchiare,infinocchiare,interfacciare,mangiucchiare,riabbracciare,rincominciare,differenziare¦8amo:applaudire,arricchire,attecchire,consentire,dissentire,imbiondire,imbruttire,impietrire,impoverire,incenerire,ingiallire,inorridire,insaporire,intenerire,intimorire,intristire,rammollire,riapparire,rinverdire,scomparire,seppellire,sgranchire¦4amo:aprire,aulire,capire,cucire,empire,ferire,finire,lenire,morire,munire,ordire,perire,pulire,punire,rapire,sopire,subire,uscire,vagire,patire¦3iamo:ardere,badare,barare,cadere,calare,cedere,cenare,cerare,cibare,cimare,covare,domare,donare,dopare,ducere,errare,fidare,filare,fumare,gemere,godere,ledere,levare,libare,licere,limare,lodare,menare,mimare,mudare,mutare,natare,ondare,ornare,ostare,palare,parare,penare,radere,redare,remare,ridare,rodare,rubare,salare,sanare,sedare,sudare,sumere,tarare,temere,tenere,ungere,urtare,valere,venare,vivere,andare,datare,pepare¦7mo:bacchiare,dilaniare,fischiare,graffiare,inebriare,infuriare,inguaiare,insidiare,invidiare,irradiare,macchiare,mischiare,nicchiare,parodiare,raschiare,ricopiare,rischiare,sborniare,scacciare,scambiare,scoppiare,scorciare,sfasciare,sgonfiare,sgusciare,slacciare,spacciare,stacciare,storpiare,straniare,succhiare,tracciare,trebbiare,stanziare¦13mo:contraccambiare¦11amo:disseppellire,rimpicciolire,rincoglionire¦2niamo:porre¦2ssiamo:potere¦3piamo:sapere¦2gliamo:solere,volere¦3ciamo:tacere¦12mo:scarabocchiare"
       },
       "secondPlural": {
-        "fwd": "te:rsi¦1cete:urre",
+        "fwd": "1cete:urre¦2te:piere",
         "both": "5ettete:etrasmettere¦1ete:arre¦1nete:orre¦te:re",
-        "rev": "3rre:bducete,nducete,oducete,aducete¦3rsi:ovete",
-        "ex": "siete:essere¦2vete:bere¦4cete:addurre,dedurre,sedurre¦8te:aggrapparsi"
+        "rev": "3rre:bducete,nducete,oducete,aducete¦4ere:ompite",
+        "ex": "siete:essere¦2vete:bere¦1ocete:nuocere¦4cete:addurre,dedurre,sedurre"
       },
       "thirdPlural": {
-        "fwd": "ono:ere,ersi¦lgono:gliere¦escono:uscire¦1cono:urre¦1iono:arere¦1nno:apere¦1ono:vire¦1no:arsi¦2gono:enire,enere,alere,anere¦2ono:guire",
-        "both": "5ettono:etrasmettere¦5scono:ientire,mentire,ircuire,lestire,dolcire¦5cono:terdire¦5ono:ipartire¦4ono:vestire,fuggire,bollire,sentire,borrire¦4gono:isalire¦4cono:ledire¦4scono:ustire,istire,oquire,sprire,astire,ermire,arrire,iarire,ortire,ostire,antire¦3scono:grire,ltire,ncire,atire,agire,trire,etire,gnire,ocire,urire,rnire,emire,ruire,rcire,nuire,tuire,luire,orire,unire,buire,inire,ttire,erire,anire,utire,onire¦3ono:mpire,ertire,ucire¦3cono:ddire¦2ciono:acere¦2ono:frire,prire¦2ucano:anicare¦2scono:eire,oire,pire,zire,hire,sire,fire,bire,dire,lire¦2iono:parire¦1gliono:olere¦1ssono:otere¦1ggono:arre¦1ngono:orre¦1no:are",
-        "rev": "orire:uoiono¦1ere:dono,vono,mono,nono,pono¦1re:iscono¦1uscire:iescono¦1gliere:elgono¦2rre:ducono¦2ere:rgono,rcono,ncono,erono,etono,quono,igono,utono,mbono¦2gliere:iolgono,tolgono,colgono¦2ire:rmono,ntono,rbono¦2re:danno,tanno¦2pere:sanno¦2ersi:ovono¦3ere:attono,ungono,tengono,istono,ingono,oscono,eggono,iggono,valgono,ottono,ulgono,ascono,mangono,ellono,essono¦3ire:vengono,eguono,artono,estono¦3re:ndicono,idicono¦4ere:corrono,rangono,mettono,volgono,iangono,inguono,rescono,nettono,tollono,lettono,ruggono¦4ire:ssalgono,anguono¦4re:redicono¦5ere:nedicono¦5ire:iservono",
-        "ex": "hanno:avere¦odono:udire¦escono:uscire¦sono:essere¦3scono:agire,unire¦5scono:arguire,gestire,guarire,muggire,ruggire,sparire¦5gono:assalire¦2vono:bere¦4ono:bollire,dormire,fuggire,mentire,partire,sentire,vestire,correre,educere,mescere,mettere,servire,tangere,vertere,volgere¦2nno:dare,sapere¦2cono:dire¦7scono:impartire,intontire¦4cono:indire,ridire¦4scono:lenire¦1uoiono:morire¦5cono:predire¦8ono:riassorbire¦4nno:ridare¦5nno:ristare¦3gono:salire,tenere,valere,venire¦8nno:sottostare¦6scono:spartire¦3nno:stare¦3ono:algere,ducere,licere,ungere¦5ono:clangere,riducere¦2lgono:cogliere,togliere¦2iono:parere¦3iono:sparere¦8no:aggrapparsi"
+        "fwd": "ono:ere¦lgono:gliere¦escono:uscire¦ngono:gnere¦1cono:urre¦1iono:arere¦1nno:apere,avere¦1ono:vire¦2gono:enire,enere,alere,anere¦3ono:nguire,mpire",
+        "both": "5nno:tostare¦5ettono:etrasmettere¦5scono:ientire,mentire,bustire,asprire,rugnire,sortire,lestire,bortire¦5cono:terdire¦5ono:ipartire¦4ono:iattire,bollire,fuggire,sorbire,vestire,borrire¦4gono:isalire,ssalire¦4scono:ltrire,ontire,ignire,etrire,uarire,ermire,arrire,iarire,antire,olcire¦4cono:ledire¦3ono:utrire,ucire,eguire,ormire,ertire,entire¦3cono:sdire,ddire¦3scono:ltire,ncire,agire,etire,ocire,grire,rnire,emire,orire,rcire,urire,atire,unire,inire,ttire,erire,anire,utire,onire¦2ciono:acere¦2ono:frire,prire¦2ucano:anicare¦2scono:eire,hire,oire,pire,zire,sire,fire,bire,uire,dire,lire¦2iono:parire¦1gliono:olere¦1ssono:otere¦1ggono:arre¦1ngono:orre¦1no:are",
+        "rev": "orire:uoiono¦1ere:dono,vono,nono,pono,cciono¦1re:iscono¦1uscire:iescono¦1gliere:elgono¦2rre:ducono¦2ere:rgono,umono,rcono,ncono,erono,etono,imono,quono,igono,utono,emono,mbono,ociono¦2gliere:iolgono,tolgono,colgono¦2re:danno,tanno,fanno¦2pere:sanno¦2vere:ianno¦3ire:vengono,artono,estono¦3ere:ungono,tengono,ingono,oscono,istono,eggono,iggono,valgono,ottono,ulgono,ascono,mangono,ellono,essono¦3re:ndicono,idicono¦4ere:battono,rescono,mettono,volgono,langono,iangono,nettono,corrono,inguono,rangono,ruggono,ompiono¦4re:redicono,empiono¦4ire:servono¦5ere:nedicono,stollono,flettono",
+        "ex": "hanno:avere¦odono:udire¦escono:uscire¦sono:essere¦vanno:andare¦3scono:agire,unire¦7scono:arrostire,imbastire,impartire¦2vono:bere¦4ono:bollire,fuggire,partire,vestire,battere,correre,educere,empire,mescere,mettere,servire,tangere,vertere,volgere¦2nno:dare,fare,sapere¦2cono:dire¦5scono:gestire,muggire,ruggire,sortire,sparire¦4cono:indire,ridire¦8scono:intristire¦4scono:lenire¦1uoiono:morire¦5cono:predire¦4nno:ridare,rifare¦5nno:ristare¦3gono:salire,tenere,valere,venire¦6scono:spartire¦3nno:stare¦4iono:cuocere¦4ciono:nuocere¦8nno:sopraffare¦3ono:algere,ducere,licere,ungere¦2lgono:cogliere,togliere¦5ono:flettere,languire,riducere¦2iono:parere¦3iono:sparere¦3ngono:spegnere"
       }
     },
     "pastTense": {
@@ -8296,7 +8317,14 @@
     });
   });
 
-  let { presentTense: presentTense$1, pastTense: pastTense$1, futureTense: futureTense$1, conditional: conditional$1, imperfect: imperfect$1, subjunctive: subjunctive$1 } = model$1;
+  let {
+    presentTense: presentTense$1,
+    pastTense: pastTense$1,
+    futureTense: futureTense$1,
+    conditional: conditional$1,
+    imperfect: imperfect$1,
+    subjunctive: subjunctive$1,
+  } = model$1;
 
   const doEach = function (str, m) {
     // str = str.replace(/si$/, '')
@@ -8316,6 +8344,21 @@
   const toConditional = (str) => doEach(str, conditional$1);
   const toImperfect = (str) => doEach(str, imperfect$1);
   const toSubjunctive = (str) => doEach(str, subjunctive$1);
+
+  // reflexive infinitive
+  const toReflexive = (str) => {
+    str = str.replace(/are$/, 'ar'); //armi
+    str = str.replace(/ere$/, 'er'); //ermi
+    str = str.replace(/ire$/, 'ir'); //irmi
+    return {
+      first: str + 'mi',
+      second: str + 'ti',
+      third: str + 'si',
+      firstPlural: str + 'ci',
+      secondPlural: str + 'vi',
+      thirdPlural: str + 'si',
+    }
+  };
   // console.log(toPast('permettersi'))
 
   let { gerunds, pastParticiple, presentParticiple } = model$1;
@@ -8348,7 +8391,14 @@
     return convert$1(str, m$1.toPresentParticiple)
   };
 
-  let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model$1;
+  let {
+    presentTense,
+    pastTense,
+    futureTense,
+    conditional,
+    imperfect,
+    subjunctive,
+  } = model$1;
 
   // =-=-
   const revAll = function (m) {
@@ -8365,21 +8415,22 @@
   let imperfectRev = revAll(imperfect);
   let subjunctiveRev = revAll(subjunctive);
 
+  // 'congratularmi' to 'congratular'
   const stripReflexive$1 = function (str) {
-    str = str.replace(/arsi$/, 'ar');
-    str = str.replace(/ersi$/, 'er');
-    str = str.replace(/irsi$/, 'ir');
+    str = str.replace(/ar[mtscv]i$/, 'are');
+    str = str.replace(/er[mtscv]i$/, 'ere');
+    str = str.replace(/ir[mtscv]i$/, 'ire');
     return str
   };
 
   const fromPresent = (str, form) => {
     let forms = {
-      'FirstPerson': (s) => convert$1(s, presentRev.first),
-      'SecondPerson': (s) => convert$1(s, presentRev.second),
-      'ThirdPerson': (s) => convert$1(s, presentRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, presentRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, presentRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, presentRev.thirdPlural),
+      FirstPerson: (s) => convert$1(s, presentRev.first),
+      SecondPerson: (s) => convert$1(s, presentRev.second),
+      ThirdPerson: (s) => convert$1(s, presentRev.third),
+      FirstPersonPlural: (s) => convert$1(s, presentRev.firstPlural),
+      SecondPersonPlural: (s) => convert$1(s, presentRev.secondPlural),
+      ThirdPersonPlural: (s) => convert$1(s, presentRev.thirdPlural),
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
@@ -8389,12 +8440,12 @@
 
   const fromPast = (str, form) => {
     let forms = {
-      'FirstPerson': (s) => convert$1(s, pastRev.first),
-      'SecondPerson': (s) => convert$1(s, pastRev.second),
-      'ThirdPerson': (s) => convert$1(s, pastRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, pastRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, pastRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, pastRev.thirdPlural),
+      FirstPerson: (s) => convert$1(s, pastRev.first),
+      SecondPerson: (s) => convert$1(s, pastRev.second),
+      ThirdPerson: (s) => convert$1(s, pastRev.third),
+      FirstPersonPlural: (s) => convert$1(s, pastRev.firstPlural),
+      SecondPersonPlural: (s) => convert$1(s, pastRev.secondPlural),
+      ThirdPersonPlural: (s) => convert$1(s, pastRev.thirdPlural),
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
@@ -8404,12 +8455,12 @@
 
   const fromFuture = (str, form) => {
     let forms = {
-      'FirstPerson': (s) => convert$1(s, futureRev.first),
-      'SecondPerson': (s) => convert$1(s, futureRev.second),
-      'ThirdPerson': (s) => convert$1(s, futureRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, futureRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, futureRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, futureRev.thirdPlural),
+      FirstPerson: (s) => convert$1(s, futureRev.first),
+      SecondPerson: (s) => convert$1(s, futureRev.second),
+      ThirdPerson: (s) => convert$1(s, futureRev.third),
+      FirstPersonPlural: (s) => convert$1(s, futureRev.firstPlural),
+      SecondPersonPlural: (s) => convert$1(s, futureRev.secondPlural),
+      ThirdPersonPlural: (s) => convert$1(s, futureRev.thirdPlural),
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
@@ -8419,12 +8470,12 @@
 
   const fromConditional = (str, form) => {
     let forms = {
-      'FirstPerson': (s) => convert$1(s, conditionalRev.first),
-      'SecondPerson': (s) => convert$1(s, conditionalRev.second),
-      'ThirdPerson': (s) => convert$1(s, conditionalRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, conditionalRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, conditionalRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, conditionalRev.thirdPlural),
+      FirstPerson: (s) => convert$1(s, conditionalRev.first),
+      SecondPerson: (s) => convert$1(s, conditionalRev.second),
+      ThirdPerson: (s) => convert$1(s, conditionalRev.third),
+      FirstPersonPlural: (s) => convert$1(s, conditionalRev.firstPlural),
+      SecondPersonPlural: (s) => convert$1(s, conditionalRev.secondPlural),
+      ThirdPersonPlural: (s) => convert$1(s, conditionalRev.thirdPlural),
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
@@ -8433,12 +8484,12 @@
   };
   const fromImperfect = (str, form) => {
     let forms = {
-      'FirstPerson': (s) => convert$1(s, imperfectRev.first),
-      'SecondPerson': (s) => convert$1(s, imperfectRev.second),
-      'ThirdPerson': (s) => convert$1(s, imperfectRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, imperfectRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, imperfectRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, imperfectRev.thirdPlural),
+      FirstPerson: (s) => convert$1(s, imperfectRev.first),
+      SecondPerson: (s) => convert$1(s, imperfectRev.second),
+      ThirdPerson: (s) => convert$1(s, imperfectRev.third),
+      FirstPersonPlural: (s) => convert$1(s, imperfectRev.firstPlural),
+      SecondPersonPlural: (s) => convert$1(s, imperfectRev.secondPlural),
+      ThirdPersonPlural: (s) => convert$1(s, imperfectRev.thirdPlural),
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
@@ -8448,12 +8499,12 @@
 
   const fromSubjunctive = (str, form) => {
     let forms = {
-      'FirstPerson': (s) => convert$1(s, subjunctiveRev.first),
-      'SecondPerson': (s) => convert$1(s, subjunctiveRev.second),
-      'ThirdPerson': (s) => convert$1(s, subjunctiveRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, subjunctiveRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, subjunctiveRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, subjunctiveRev.thirdPlural),
+      FirstPerson: (s) => convert$1(s, subjunctiveRev.first),
+      SecondPerson: (s) => convert$1(s, subjunctiveRev.second),
+      ThirdPerson: (s) => convert$1(s, subjunctiveRev.third),
+      FirstPersonPlural: (s) => convert$1(s, subjunctiveRev.firstPlural),
+      SecondPersonPlural: (s) => convert$1(s, subjunctiveRev.secondPlural),
+      ThirdPersonPlural: (s) => convert$1(s, subjunctiveRev.thirdPlural),
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
@@ -8469,23 +8520,37 @@
       Object.values(toConditional(str)),
       Object.values(toImperfect(str)),
       Object.values(toSubjunctive(str)),
+      Object.values(toReflexive(str))
     );
     arr.push(toPastParticiple(str));
     arr.push(toPresentParticiple(str));
-    arr = arr.filter(s => s);
+    arr = arr.filter((s) => s);
     arr = new Set(arr);
     return Array.from(arr)
   };
 
   var verbs$2 = {
     all: all$2,
-    toPresent, toPast, toFuture, toConditional, toImperfect, toSubjunctive,
-    fromGerund, toGerund, fromPastParticiple, toPastParticiple,
-    fromPresentParticiple, toPresentParticiple,
-    fromPresent, fromPast, fromFuture, fromConditional, fromImperfect, fromSubjunctive
+    toPresent,
+    toPast,
+    toFuture,
+    toConditional,
+    toImperfect,
+    toSubjunctive,
+    toReflexive,
+    fromGerund,
+    toGerund,
+    fromPastParticiple,
+    toPastParticiple,
+    fromPresentParticiple,
+    toPresentParticiple,
+    fromPresent,
+    fromPast,
+    fromFuture,
+    fromConditional,
+    fromImperfect,
+    fromSubjunctive,
   };
-
-
 
   // console.log(toPresent('fermarsi'))
 
@@ -8757,7 +8822,6 @@
 
   // import models from '../methods/models.js'
 
-
   const tagMap = {
     first: 'FirstPerson',
     second: 'SecondPerson',
@@ -8772,42 +8836,42 @@
   const addVerbs = function (w) {
     // do present-tense
     let res = verbs$2.toPresent(w);
-    Object.keys(res).forEach(k => {
+    Object.keys(res).forEach((k) => {
       if (!words[res[k]]) {
         words[res[k]] = [tagMap[k], 'PresentTense'];
       }
     });
     // past-tense
     res = verbs$2.toPast(w);
-    Object.keys(res).forEach(k => {
+    Object.keys(res).forEach((k) => {
       if (!words[res[k]]) {
         words[res[k]] = [tagMap[k], 'PastTense'];
       }
     });
     // future-tense
     res = verbs$2.toFuture(w);
-    Object.keys(res).forEach(k => {
+    Object.keys(res).forEach((k) => {
       if (!words[res[k]]) {
         words[res[k]] = [tagMap[k], 'FutureTense'];
       }
     });
     // conditonal
     res = verbs$2.toConditional(w);
-    Object.keys(res).forEach(k => {
+    Object.keys(res).forEach((k) => {
       if (!words[res[k]]) {
         words[res[k]] = [tagMap[k], 'ConditionalVerb'];
       }
     });
     // imperfect
     res = verbs$2.toImperfect(w);
-    Object.keys(res).forEach(k => {
+    Object.keys(res).forEach((k) => {
       if (!words[res[k]]) {
         words[res[k]] = [tagMap[k], 'ImperfectVerb'];
       }
     });
     // imperfect
     res = verbs$2.toSubjunctive(w);
-    Object.keys(res).forEach(k => {
+    Object.keys(res).forEach((k) => {
       if (!words[res[k]]) {
         words[res[k]] = [tagMap[k], 'Subjunctive'];
       }
@@ -8823,9 +8887,9 @@
     words[res] = words[res] || ['PresentParticiple'];
   };
 
-  Object.keys(lexData).forEach(tag => {
+  Object.keys(lexData).forEach((tag) => {
     let wordsObj = unpack$1(lexData[tag]);
-    Object.keys(wordsObj).forEach(w => {
+    Object.keys(wordsObj).forEach((w) => {
       words[w] = tag;
 
       // expand
@@ -8855,7 +8919,6 @@
     });
   });
 
-
   // add data from conjugation models
   // Object.keys(models).forEach(tense => {
   //   Object.keys(models[tense]).forEach(form => {
@@ -8869,7 +8932,6 @@
   //     })
   //   })
   // })
-
 
   words = Object.assign({}, words, misc$2);
   // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
@@ -8885,22 +8947,22 @@
       'SecondPersonPlural',
       'ThirdPersonPlural',
     ];
-    return want.find(tag => term.tags.has(tag))
+    return want.find((tag) => term.tags.has(tag))
   };
 
+  // turn 'congratularmi' into 'congratular'
   const stripReflexive = function (str) {
-    str = str.replace(/arsi$/, 'ar');
-    str = str.replace(/ersi$/, 'er');
-    str = str.replace(/irsi$/, 'ir');
+    str = str.replace(/ar[mtscv]i$/, 'are');
+    str = str.replace(/er[mtscv]i$/, 'ere');
+    str = str.replace(/ir[mtscv]i$/, 'ire');
     return str
   };
 
   const root = function (view) {
     const { verb, adjective, noun } = view.world.methods.two.transform;
-    view.docs.forEach(terms => {
-      terms.forEach(term => {
+    view.docs.forEach((terms) => {
+      terms.forEach((term) => {
         let str = term.implicit || term.normal || term.text;
-
         if (term.tags.has('Reflexive')) {
           str = stripReflexive(str);
         }
@@ -10082,19 +10144,38 @@
       bus: nn,
       ort: nn,
     },
-    { // four-letter suffixes
+    {
+      // four-letter suffixes
       otto: val,
       nove: val,
       mila: val,
 
+      // reflexive infinitives
+      armi: ref,
+      irmi: ref,
+      ermi: ref,
+
+      arti: ref,
+      irti: ref,
+      erti: ref,
+
       arsi: ref,
       irsi: ref,
       ersi: ref,
+
+      arci: ref,
+      irci: ref,
+      erci: ref,
+
+      arvi: ref,
+      irvi: ref,
+      ervi: ref,
+
       endo: g,
       ando: g,
       ante: jj,
       iere: nn,
-      icci: nn,//or adj
+      icci: nn, //or adj
       ezze: nn,
       ista: nn,
       tore: nn,
@@ -10273,7 +10354,8 @@
       vedì: nn,
       vitù: nn,
     },
-    { // five-letter suffixes
+    {
+      // five-letter suffixes
       tante: jj,
       tanti: jj,
       ibile: jj,
@@ -10404,7 +10486,6 @@
       crivo: vb,
       overò: vb,
 
-
       pleto: jj,
       sueto: jj,
       ggior: jj,
@@ -10531,7 +10612,6 @@
       ccolo: jj,
       ibero: jj,
       manti: jj,
-
 
       onaca: nn,
       oteca: nn,
@@ -10735,7 +10815,7 @@
       // six-letter suffixes
       cinque: val,
       ionale: jj,
-      andoci: g,//reflexive gerund
+      andoci: g, //reflexive gerund
       endoci: g,
       endomi: g,
       icelli: nn,
@@ -10753,7 +10833,7 @@
 
       grafico: jj,
       ectomia: nn,
-    }
+    },
   ];
 
   var model = {
@@ -10781,15 +10861,17 @@
     doc.match('(un|uno) #Noun di [#Verb]', 0).tag('Noun', 'un-x-di-vb');
 
     // phrasal verbs
-    doc.match('#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)').tag('#PhrasalVerb #Particle', 'phrasal');
-
+    doc
+      .match(
+        '#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)'
+      )
+      .tag('#PhrasalVerb #Particle', 'phrasal');
 
     // object pronouns
     doc.match('(il|i|una) [#Verb]', 0).tag('Noun', 'i-adj');
     // noun gender aggrement
     doc.match('(il|lo|i|gli) [#Noun]', 0).tag('MaleNoun', 'm-noun');
     doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun');
-
 
     // Come ti chiami?
     doc.match('(mi|ti|si|ci|vi|si) #Verb').tag('Reflexive', 'si-verb');
@@ -10806,7 +10888,14 @@
 
     // auxiliary verbs
     // essere - to be
-    doc.match('[(sono|sei|è|siamo|siete|sonoero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sarò|sarai|sarà|saremo|sarete|saranno)] #Verb', 0).tag('Auxiliary');
+    doc
+      .match(
+        '[(sono|sei|è|siamo|siete|sonoero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sarò|sarai|sarà|saremo|sarete|saranno)] #Verb',
+        0
+      )
+      .tag('Auxiliary');
+    // Voglio congratularmi
+    doc.match('[{volere}] #Verb', 0).tag('Auxiliary');
 
     // Che bello!
     doc.match('^che #Adjective$').tag('Expression', 'che-bello');
@@ -10814,8 +10903,6 @@
     // doc.match('[(abbia|abbiamo|abbiano|abbiate|avemmo|avesse|avessero|avessi|avessimo|aveste|avesti|avete|aveva|avevamo|avevano|avevate|avevo|avrà|avrai|avranno|avrebbe|avrei|avremmo|avremo|avreste|avresti|avrete|avrò|ebbe|ebbero|ebbi|ha|hai|hanno|ho)] #Verb', 0).tag('Auxiliary', 'aux-verb')
     // want to x
     // doc.match('[({volere}|{dovere})] #PresentTense', 0).tag('Auxiliary', 'want-aux')
-
-
   };
   var postTagger$2 = postTagger$1;
 
@@ -10921,8 +11008,8 @@
 
   const getRoot$2 = function (view) {
     view.compute('root');
-    let str = view.text('root');
-    return str
+    let m = view.not('(#Auxiliary|#Adverb|#Negative)');
+    return m.text('root')
   };
 
   const parseVerb = function (view) {
@@ -10987,7 +11074,6 @@
   // import toNegative from './conjugate/toNegative.js'
   // import debug from './debug.js'
 
-
   // return the nth elem of a doc
   const getNth$4 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
@@ -11002,7 +11088,7 @@
       }
       json(opts, n) {
         let m = getNth$4(this, n);
-        let arr = m.map(vb => {
+        let arr = m.map((vb) => {
           let json = vb.toView().json(opts)[0] || {};
           json.verb = toJSON$1(vb);
           return json
@@ -11068,7 +11154,7 @@
       // }
       conjugate(n) {
         const m = this.methods.two.transform.verb;
-        return getNth$4(this, n).map(vb => {
+        return getNth$4(this, n).map((vb) => {
           let parsed = parseVerb$1(vb);
           let root = parsed.root || '';
           return {

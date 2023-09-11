@@ -21,6 +21,11 @@ const stripSuffix = function (str) {
   str = str.replace(/arl[oaie]$/, 'are')
   str = str.replace(/erl[oaie]$/, 'ere')
   str = str.replace(/irl[oaie]$/, 'ire')
+
+  // -ergli, -argli, -irgli
+  str = str.replace(/er(lo|la|le|gli|eci)$/, 'ere')
+  str = str.replace(/ar(lo|la|le|gli|eci)$/, 'are')
+  str = str.replace(/ir(lo|la|le|gli|eci)$/, 'ire')
   return str
 }
 

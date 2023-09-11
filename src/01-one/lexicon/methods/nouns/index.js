@@ -17,9 +17,10 @@ const all = (str) => {
 }
 
 export default {
-  toPlural, fromPlural, all
+  toPlural,
+  fromPlural,
+  all
 }
-
 
 // console.log(toPlural('abboccamento'))
 // console.log(fromPlural('abboccamenti'))

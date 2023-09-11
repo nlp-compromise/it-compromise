@@ -57,21 +57,9 @@ let arr = [
   'Ma mi è stato detto che solo i pazienti bisognosi', //But I was told only patients in need
   'Un recente rapporto del Pentagono non ha parsimonia La storia', //A recent Pentagon report does not spare the story
   'Chiaramente però se nessuno ha sentito', //Clearly though if no one has heard
-  'Le misure di assistenza', //assistance measures
+  'Le misure di assistenza' //assistance measures
 ]
-// let doc = nlp('permettersi').debug()
-// let doc = nlp('ripararsi').debug()
-// console.log(doc.verbs().conjugate())
-
 // let str = arr[0]
-
-// str = 'Al momento sta ricercando nuove opzioni di trattamento '
-// str = 'trecentosettanta'
-// let doc = nlp(str).match('{ricercare}').debug()
-// console.log(doc.nouns().conjugate())
-// .match('[({volere}|{dovere})]', 0).debug()
-
-// console.log(nlp('ricercare').verbs().conjugate())
 
 let all = `bevanda    noun    Mi piace provare diversi tipi di bevande.`
 // console.log(nlp.world().methods.two.transform.noun)

@@ -36,7 +36,7 @@ export default [
     bo: nn,
     fo: nn,
     lo: nn,
-    to: nn,
+    to: nn
   },
   {
     // three-letter suffixes
@@ -117,7 +117,7 @@ export default [
     ier: nn,
     ans: nn,
     bus: nn,
-    ort: nn,
+    ort: nn
   },
   {
     // four-letter suffixes
@@ -145,6 +145,23 @@ export default [
     arvi: ref,
     irvi: ref,
     ervi: ref,
+
+    // verb pronoun suffixes
+    // -"are"+"lo" = "arlo" verb suffix
+    arlo: vb,
+    arla: vb,
+    arli: vb,
+    arle: vb,
+
+    erlo: vb,
+    erla: vb,
+    erli: vb,
+    erle: vb,
+
+    irlo: vb,
+    irla: vb,
+    irli: vb,
+    irle: vb,
 
     endo: g,
     ando: g,
@@ -327,7 +344,7 @@ export default [
     gnor: nn,
     port: nn,
     vedì: nn,
-    vitù: nn,
+    vitù: nn
   },
   {
     // five-letter suffixes
@@ -784,7 +801,7 @@ export default [
     tress: nn,
     xport: nn,
     uency: nn,
-    ility: nn,
+    ility: nn
   },
   {
     // six-letter suffixes
@@ -800,13 +817,13 @@ export default [
     grafia: nn,
     ellino: nn,
     itorio: nn,
-    logico: jj,
+    logico: jj
   },
   {
     // seven-letter suffixes
     quattro: val,
 
     grafico: jj,
-    ectomia: nn,
-  },
+    ectomia: nn
+  }
 ]

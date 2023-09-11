@@ -1,13 +1,6 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let {
-  presentTense,
-  pastTense,
-  futureTense,
-  conditional,
-  imperfect,
-  subjunctive,
-} = model
+let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model
 
 // =-=-
 const revAll = function (m) {
@@ -24,11 +17,17 @@ let conditionalRev = revAll(conditional)
 let imperfectRev = revAll(imperfect)
 let subjunctiveRev = revAll(subjunctive)
 
-// 'congratularmi' to 'congratular'
-const stripReflexive = function (str) {
+const stripSuffix = function (str) {
+  // reflexive forms
+  // 'congratularmi' to 'congratular'
   str = str.replace(/ar[mtscv]i$/, 'are')
   str = str.replace(/er[mtscv]i$/, 'ere')
   str = str.replace(/ir[mtscv]i$/, 'ire')
+  // pronoun suffixes
+  //sentire + "lo" -> "sentirlo"
+  str = str.replace(/arl[oaie]$/, 'are')
+  str = str.replace(/erl[oaie]$/, 'ere')
+  str = str.replace(/irl[oaie]$/, 'ire')
   return str
 }
 
@@ -39,12 +38,12 @@ const fromPresent = (str, form) => {
     ThirdPerson: (s) => convert(s, presentRev.third),
     FirstPersonPlural: (s) => convert(s, presentRev.firstPlural),
     SecondPersonPlural: (s) => convert(s, presentRev.secondPlural),
-    ThirdPersonPlural: (s) => convert(s, presentRev.thirdPlural),
+    ThirdPersonPlural: (s) => convert(s, presentRev.thirdPlural)
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return stripReflexive(str)
+  return stripSuffix(str)
 }
 
 const fromPast = (str, form) => {
@@ -54,12 +53,12 @@ const fromPast = (str, form) => {
     ThirdPerson: (s) => convert(s, pastRev.third),
     FirstPersonPlural: (s) => convert(s, pastRev.firstPlural),
     SecondPersonPlural: (s) => convert(s, pastRev.secondPlural),
-    ThirdPersonPlural: (s) => convert(s, pastRev.thirdPlural),
+    ThirdPersonPlural: (s) => convert(s, pastRev.thirdPlural)
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return stripReflexive(str)
+  return stripSuffix(str)
 }
 
 const fromFuture = (str, form) => {
@@ -69,12 +68,12 @@ const fromFuture = (str, form) => {
     ThirdPerson: (s) => convert(s, futureRev.third),
     FirstPersonPlural: (s) => convert(s, futureRev.firstPlural),
     SecondPersonPlural: (s) => convert(s, futureRev.secondPlural),
-    ThirdPersonPlural: (s) => convert(s, futureRev.thirdPlural),
+    ThirdPersonPlural: (s) => convert(s, futureRev.thirdPlural)
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return stripReflexive(str)
+  return stripSuffix(str)
 }
 
 const fromConditional = (str, form) => {
@@ -84,12 +83,12 @@ const fromConditional = (str, form) => {
     ThirdPerson: (s) => convert(s, conditionalRev.third),
     FirstPersonPlural: (s) => convert(s, conditionalRev.firstPlural),
     SecondPersonPlural: (s) => convert(s, conditionalRev.secondPlural),
-    ThirdPersonPlural: (s) => convert(s, conditionalRev.thirdPlural),
+    ThirdPersonPlural: (s) => convert(s, conditionalRev.thirdPlural)
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return stripReflexive(str)
+  return stripSuffix(str)
 }
 const fromImperfect = (str, form) => {
   let forms = {
@@ -98,12 +97,12 @@ const fromImperfect = (str, form) => {
     ThirdPerson: (s) => convert(s, imperfectRev.third),
     FirstPersonPlural: (s) => convert(s, imperfectRev.firstPlural),
     SecondPersonPlural: (s) => convert(s, imperfectRev.secondPlural),
-    ThirdPersonPlural: (s) => convert(s, imperfectRev.thirdPlural),
+    ThirdPersonPlural: (s) => convert(s, imperfectRev.thirdPlural)
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return stripReflexive(str)
+  return stripSuffix(str)
 }
 
 const fromSubjunctive = (str, form) => {
@@ -113,19 +112,12 @@ const fromSubjunctive = (str, form) => {
     ThirdPerson: (s) => convert(s, subjunctiveRev.third),
     FirstPersonPlural: (s) => convert(s, subjunctiveRev.firstPlural),
     SecondPersonPlural: (s) => convert(s, subjunctiveRev.secondPlural),
-    ThirdPersonPlural: (s) => convert(s, subjunctiveRev.thirdPlural),
+    ThirdPersonPlural: (s) => convert(s, subjunctiveRev.thirdPlural)
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return stripReflexive(str)
+  return stripSuffix(str)
 }
 
-export {
-  fromPresent,
-  fromPast,
-  fromFuture,
-  fromConditional,
-  fromImperfect,
-  fromSubjunctive,
-}
+export { fromPresent, fromPast, fromFuture, fromConditional, fromImperfect, fromSubjunctive }

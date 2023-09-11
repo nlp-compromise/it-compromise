@@ -170,7 +170,10 @@ test('root-match:', function (t) {
     ['Vi comportate bene', '{comportare}'],
     ['Si realizza un sogno', '{realizzare}'],
     ['Mi do da fare in cucina', '{dare}'],
-    ['Ti affezioni rapidamente', '{affezionare}'],
+    ['Ti affezioni rapidamente', '{affezionare}']
+
+    // [``,`{}`],
+    // [``,`{}`],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

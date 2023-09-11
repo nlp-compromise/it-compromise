@@ -1,7 +1,7 @@
 /* eslint-disable no-console, no-unused-vars */
 import nlp from './src/index.js'
 
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 let txt = ''
 txt = `Il libro dell’insegnante`
 txt = `sedicesimo`
@@ -64,13 +64,15 @@ let arr = [
 let all = `bevanda    noun    Mi piace provare diversi tipi di bevande.`
 // console.log(nlp.world().methods.two.transform.noun)
 // nlp.verbose('tagger')
-let [inf, _, str] = all.split(/  +/)
-let doc = nlp(str).debug()
+// let [inf, _, str] = all.split(/  +/)
+// let doc = nlp(str).debug()
 // console.log(doc.nouns().conjugate())
 // console.log(doc.has(`{${inf}}`))
 // doc.verbs().toInfinitive().debug()
-console.log(nlp.parseMatch(`{${inf}/noun}`))
+// console.log(nlp.parseMatch(`{${inf}/noun}`))
 // console.log(doc.verbs().conjugate())
 
 // console.log(nlp('fondersi').verbs().conjugate()[0])
 // console.log(nlp('aspettarsi').verbs().conjugate()[0])
+
+console.log(nlp('mangiarlo').debug().verbs().conjugate())

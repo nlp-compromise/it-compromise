@@ -75,4 +75,9 @@ let all = `bevanda    noun    Mi piace provare diversi tipi di bevande.`
 // console.log(nlp('fondersi').verbs().conjugate()[0])
 // console.log(nlp('aspettarsi').verbs().conjugate()[0])
 
-console.log(nlp('mangiarlo').debug().verbs().conjugate())
+// toccarlo {toccare}
+let doc = nlp('toccarlo').debug().compute('root')
+console.log(nlp.parseMatch('{toccare}'))
+console.log(doc.verbs().conjugate())
+console.log(doc.has('{toccare}'))
+console.log(doc.text('root'))

@@ -177,7 +177,7 @@ test('root-match:', function (t) {
   ]
   arr.forEach(function (a) {
     let [str, match] = a
-    let doc = nlp(str) //.compute('root')
+    let doc = nlp(str).compute('root')
     t.equal(doc.has(match), true, here + a.join(' '))
   })
   t.end()

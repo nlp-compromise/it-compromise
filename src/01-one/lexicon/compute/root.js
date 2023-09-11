@@ -5,16 +5,22 @@ const verbForm = function (term) {
     'ThirdPerson',
     'FirstPersonPlural',
     'SecondPersonPlural',
-    'ThirdPersonPlural',
+    'ThirdPersonPlural'
   ]
   return want.find((tag) => term.tags.has(tag))
 }
 
-// turn 'congratularmi' into 'congratular'
-const stripReflexive = function (str) {
+const stripSuffix = function (str) {
+  // reflexive forms
+  // 'congratularmi' to 'congratular'
   str = str.replace(/ar[mtscv]i$/, 'are')
   str = str.replace(/er[mtscv]i$/, 'ere')
   str = str.replace(/ir[mtscv]i$/, 'ire')
+  // pronoun suffixes
+  //sentire + "lo" -> "sentirlo"
+  str = str.replace(/arl[oaie]$/, 'are')
+  str = str.replace(/erl[oaie]$/, 'ere')
+  str = str.replace(/irl[oaie]$/, 'ire')
   return str
 }
 
@@ -24,7 +30,7 @@ const root = function (view) {
     terms.forEach((term) => {
       let str = term.implicit || term.normal || term.text
       if (term.tags.has('Reflexive')) {
-        str = stripReflexive(str)
+        str = stripSuffix(str)
       }
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {

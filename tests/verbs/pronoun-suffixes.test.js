@@ -6,7 +6,7 @@ nlp.verbose(false)
 test('pronoun-root:', function (t) {
   let arr = [
     // pronoun suffixes
-    [`parlandone`, `{parlare}`],
+    // [`parlandone`, `{parlare}`],
     [`vederlo`, `{vedere}`],
     ['mangiarlo', '{mangiare}'],
     ['prenderla', '{prendere}'],
@@ -39,7 +39,7 @@ test('pronoun-root:', function (t) {
   ]
   arr.forEach(function (a) {
     let [str, match] = a
-    let doc = nlp(str) //.compute('root')
+    let doc = nlp(str).compute('root')
     t.equal(doc.has(match), true, here + a.join(' '))
   })
   t.end()

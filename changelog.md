@@ -1,3 +1,8 @@
+### 0.2.2 [May 2024]
+
+- **[update]** - add more infinitive verbs
+- **[update]** - build script+dependencies
+
 ### 0.2.1
 
 - **[fix]** - conjugation fixes

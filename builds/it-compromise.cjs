@@ -4,7 +4,7 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.itCompromise = factory());
 })(this, (function () { 'use strict';
 
-  let methods$n = {
+  let methods$o = {
     one: {},
     two: {},
     three: {},
@@ -16,10 +16,10 @@
     two: {},
     three: {},
   };
-  let compute$9 = {};
+  let compute$a = {};
   let hooks = [];
 
-  var tmpWrld = { methods: methods$n, model: model$6, compute: compute$9, hooks };
+  var tmpWrld = { methods: methods$o, model: model$6, compute: compute$a, hooks };
 
   const isArray$9 = input => Object.prototype.toString.call(input) === '[object Array]';
 
@@ -51,7 +51,7 @@
       return this
     },
   };
-  var compute$8 = fns$4;
+  var compute$9 = fns$4;
 
   // wrappers for loops in javascript arrays
 
@@ -298,22 +298,23 @@
   utils.firstTerm = utils.firstTerms;
   var util = utils;
 
-  const methods$m = Object.assign({}, util, compute$8, loops);
+  const methods$n = Object.assign({}, util, compute$9, loops);
 
   // aliases
-  methods$m.get = methods$m.eq;
-  var api$l = methods$m;
+  methods$n.get = methods$n.eq;
+  var api$l = methods$n;
 
   class View {
     constructor(document, pointer, groups = {}) {
       // invisible props
-      [
+      let props = [
         ['document', document],
         ['world', tmpWrld],
         ['_groups', groups],
         ['_cache', null],
-        ['viewType', 'View']
-      ].forEach(a => {
+        ['viewType', 'View'],
+      ];
+      props.forEach(a => {
         Object.defineProperty(this, a[0], {
           value: a[1],
           writable: true,
@@ -404,15 +405,16 @@
       let document = methods.one.tokenize.fromString(input, this.world);
       let doc = new View(document);
       doc.world = this.world;
-      doc.compute(['normal', 'lexicon']);
+      doc.compute(['normal', 'freeze', 'lexicon']);
       if (this.world.compute.preTagger) {
         doc.compute('preTagger');
       }
+      doc.compute('unfreeze');
       return doc
     }
     clone() {
       // clone the whole document
-      let document = this.document.slice(0);    //node 17: structuredClone(document);
+      let document = this.document.slice(0); //node 17: structuredClone(document);
       document = document.map(terms => {
         return terms.map(term => {
           term = Object.assign({}, term);
@@ -430,7 +432,7 @@
   Object.assign(View.prototype, api$l);
   var View$1 = View;
 
-  var version$1 = '14.10.0';
+  var version$1 = '14.13.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -443,9 +445,6 @@
         if (isObject$6(plugin[key])) {
           if (!model[key]) Object.assign(model, { [key]: {} });
           mergeDeep(model[key], plugin[key]); //recursion
-          // } else if (isArray(plugin[key])) {
-          // console.log(key)
-          // console.log(model)
         } else {
           Object.assign(model, { [key]: plugin[key] });
         }
@@ -537,13 +536,16 @@
       plugin.api(View);
     }
     if (plugin.lib) {
-      Object.keys(plugin.lib).forEach(k => nlp[k] = plugin.lib[k]);
+      Object.keys(plugin.lib).forEach(k => (nlp[k] = plugin.lib[k]));
     }
     if (plugin.tags) {
       nlp.addTags(plugin.tags);
     }
     if (plugin.words) {
       nlp.addWords(plugin.words);
+    }
+    if (plugin.frozen) {
+      nlp.addWords(plugin.frozen, true);
     }
     if (plugin.mutate) {
       plugin.mutate(world);
@@ -730,13 +732,13 @@
   };
   var cacheDoc = createCache;
 
-  var methods$l = {
+  var methods$m = {
     one: {
       cacheDoc,
     },
   };
 
-  const methods$k = {
+  const methods$l = {
     /** */
     cache: function () {
       this._cache = this.methods.one.cacheDoc(this.document);
@@ -749,11 +751,11 @@
     },
   };
   const addAPI$3 = function (View) {
-    Object.assign(View.prototype, methods$k);
+    Object.assign(View.prototype, methods$l);
   };
   var api$k = addAPI$3;
 
-  var compute$7 = {
+  var compute$8 = {
     cache: function (view) {
       view._cache = view.methods.one.cacheDoc(view.document);
     }
@@ -761,8 +763,8 @@
 
   var cache$1 = {
     api: api$k,
-    compute: compute$7,
-    methods: methods$l,
+    compute: compute$8,
+    methods: methods$m,
   };
 
   var caseFns = {
@@ -981,17 +983,18 @@
   // are we inserting inside a contraction?
   // expand it first
   const expand$1 = function (m) {
-    if (m.has('@hasContraction') && typeof m.contractions === 'function') {//&& m.after('^.').has('@hasContraction')
+    if (m.has('@hasContraction') && typeof m.contractions === 'function') {
+      //&& m.after('^.').has('@hasContraction')
       let more = m.grow('@hasContraction');
       more.contractions().expand();
     }
   };
 
-  const isArray$7 = (arr) => Object.prototype.toString.call(arr) === '[object Array]';
+  const isArray$7 = arr => Object.prototype.toString.call(arr) === '[object Array]';
 
   // set new ids for each terms
   const addIds$2 = function (terms) {
-    terms = terms.map((term) => {
+    terms = terms.map(term => {
       term.id = uuid(term);
       return term
     });
@@ -1053,10 +1056,11 @@
     // shift our self pointer, if necessary
     view.ptrs = selfPtrs;
     // try to tag them, too
-    doc.compute(['id', 'index', 'lexicon']);
+    doc.compute(['id', 'index', 'freeze', 'lexicon']);
     if (doc.world.compute.preTagger) {
       doc.compute('preTagger');
     }
+    doc.compute('unfreeze');
     return doc
   };
 
@@ -1067,7 +1071,6 @@
     insertBefore: function (input) {
       return insert(input, this, true)
     },
-
   };
   fns$3.append = fns$3.insertAfter;
   fns$3.prepend = fns$3.insertBefore;
@@ -1079,7 +1082,7 @@
   const fns$2 = {};
 
   const titleCase$2 = function (str) {
-    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase())
+    return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase())
   };
 
   // doc.replace('foo', (m)=>{})
@@ -1097,7 +1100,7 @@
       return input
     }
     let groups = main.groups();
-    input = input.replace(dollarStub, (a) => {
+    input = input.replace(dollarStub, a => {
       let num = a.replace(/\$/, '');
       if (groups.hasOwnProperty(num)) {
         return groups[num].text()
@@ -1142,16 +1145,17 @@
       let tmp = main.docs[0];
       let term = tmp[tmp.length - 1];
       if (!term.tags.has('Possessive')) {
-        term.text += '\'s';
-        term.normal += '\'s';
+        term.text += "'s";
+        term.normal += "'s";
         term.tags.add('Possessive');
       }
     }
     // what should we return?
-    let m = main.toView(ptrs).compute(['index', 'lexicon']);
+    let m = main.toView(ptrs).compute(['index', 'freeze', 'lexicon']);
     if (m.world.compute.preTagger) {
       m.compute('preTagger');
     }
+    m.compute('unfreeze');
     // replace any old tags
     if (keep.tags) {
       m.terms().forEach((term, i) => {
@@ -1282,7 +1286,7 @@
     return ptrs
   };
 
-  const methods$j = {
+  const methods$k = {
     /** */
     remove: function (reg) {
       const { indexN } = this.methods.one.pointer;
@@ -1328,10 +1332,10 @@
   };
 
   // aliases
-  methods$j.delete = methods$j.remove;
-  var remove = methods$j;
+  methods$k.delete = methods$k.remove;
+  var remove = methods$k;
 
-  const methods$i = {
+  const methods$j = {
     /** add this punctuation or whitespace before each match: */
     pre: function (str, concat) {
       if (str === undefined && this.found) {
@@ -1435,10 +1439,10 @@
   };
 
   // aliases
-  methods$i.deHyphenate = methods$i.dehyphenate;
-  methods$i.toQuotation = methods$i.toQuotations;
+  methods$j.deHyphenate = methods$j.dehyphenate;
+  methods$j.toQuotation = methods$j.toQuotations;
 
-  var whitespace = methods$i;
+  var whitespace = methods$j;
 
   /** alphabetical order */
   const alpha = (a, b) => {
@@ -1508,7 +1512,7 @@
     return arr
   };
 
-  var methods$h = { alpha, length, wordCount: wordCount$2, sequential, byFreq };
+  var methods$i = { alpha, length, wordCount: wordCount$2, sequential, byFreq };
 
   // aliases
   const seqNames = new Set(['index', 'sequence', 'seq', 'sequential', 'chron', 'chronological']);
@@ -1554,12 +1558,12 @@
     }
     // sort by frequency
     if (freqNames.has(input)) {
-      arr = methods$h.byFreq(arr);
+      arr = methods$i.byFreq(arr);
       return this.update(arr.map(o => o.pointer))
     }
     // apply sort method on each phrase
-    if (typeof methods$h[input] === 'function') {
-      arr = arr.sort(methods$h[input]);
+    if (typeof methods$i[input] === 'function') {
+      arr = arr.sort(methods$i[input]);
       return this.update(arr.map(o => o.pointer))
     }
     return this
@@ -1673,14 +1677,14 @@
   };
   var harden$1 = { harden, soften };
 
-  const methods$g = Object.assign({}, caseFns, insert$1, replace, remove, whitespace, sort$1, concat, harden$1);
+  const methods$h = Object.assign({}, caseFns, insert$1, replace, remove, whitespace, sort$1, concat, harden$1);
 
   const addAPI$2 = function (View) {
-    Object.assign(View.prototype, methods$g);
+    Object.assign(View.prototype, methods$h);
   };
   var api$j = addAPI$2;
 
-  const compute$5 = {
+  const compute$6 = {
     id: function (view) {
       let docs = view.docs;
       for (let n = 0; n < docs.length; n += 1) {
@@ -1692,11 +1696,11 @@
     }
   };
 
-  var compute$6 = compute$5;
+  var compute$7 = compute$6;
 
   var change = {
     api: api$j,
-    compute: compute$6,
+    compute: compute$7,
   };
 
   var contractions$5 = [
@@ -1903,7 +1907,8 @@
   var apostropheT$1 = apostropheT;
 
   const hasContraction = /'/;
-
+  const isFeminine = /(e|é|aison|sion|tion)$/;
+  const isMasculine = /(age|isme|acle|ege|oire)$/;
   // l'amour
   const preL = (terms, i) => {
     // le/la
@@ -1919,7 +1924,7 @@
   const preD = (terms, i) => {
     let after = terms[i].normal.split(hasContraction)[1];
     // quick guess for noun-agreement (rough)
-    if (after && after.endsWith('e')) {
+    if (after && isFeminine.test(after) && !isMasculine.test(after)) {
       return ['du', after]
     } else if (after && after.endsWith('s')) {
       return ['des', after]
@@ -2057,7 +2062,7 @@
   };
 
   //really easy ones
-  const contractions$3 = (view) => {
+  const contractions$3 = view => {
     let { world, document } = view;
     const { model, methods } = world;
     let list = model.one.contractions || [];
@@ -2069,7 +2074,9 @@
         let before = null;
         let after = null;
         if (byApostrophe.test(terms[i].normal) === true) {
-          [before, after] = terms[i].normal.split(byApostrophe);
+          let res = terms[i].normal.split(byApostrophe);
+          before = res[0];
+          after = res[1];
         }
         // any known-ones, like 'dunno'?
         let words = knownOnes(list, terms[i], before, after);
@@ -2098,7 +2105,7 @@
           if (words) {
             words = toDocs(words, view);
             splice(document, [n, i], words);
-            methods.one.setTag(words, 'NumberRange', world);//add custom tag
+            methods.one.setTag(words, 'NumberRange', world); //add custom tag
             // is it a time-range, like '5-9pm'
             if (words[2] && words[2].tags.has('Time')) {
               methods.one.setTag([words[0]], 'Time', world, null, 'time-range');
@@ -2119,52 +2126,149 @@
   };
   var contractions$4 = contractions$3;
 
-  var compute$4 = { contractions: contractions$4 };
+  var compute$5 = { contractions: contractions$4 };
 
   const plugin = {
     model: model$5,
-    compute: compute$4,
+    compute: compute$5,
     hooks: ['contractions'],
   };
   var contractions$2 = plugin;
 
-  // scan-ahead to match multiple-word terms - 'jack rabbit'
-  const checkMulti = function (terms, i, lexicon, setTag, world) {
-    let max = i + 4 > terms.length ? terms.length - i : 4;
-    let str = terms[i].machine || terms[i].normal;
-    for (let skip = 1; skip < max; skip += 1) {
-      let t = terms[i + skip];
-      let word = t.machine || t.normal;
-      str += ' ' + word;
-      if (lexicon.hasOwnProperty(str) === true) {
-        let tag = lexicon[str];
-        let ts = terms.slice(i, i + skip + 1);
-        setTag(ts, tag, world, false, '1-multi-lexicon');
+  const freeze$1 = function (view) {
+    const world = view.world;
+    const { model, methods } = view.world;
+    const setTag = methods.one.setTag;
+    const { frozenLex } = model.one;
+    const multi = model.one._multiCache || {};
 
-        // special case for phrasal-verbs - 2nd word is a #Particle
-        if (tag && tag.length === 2 && (tag[0] === 'PhrasalVerb' || tag[1] === 'PhrasalVerb')) {
-          // guard against 'take walks in'
-          // if (terms[i + skip - 2] && terms[i + skip - 2].tags.has('Infinitive')) { }
-          setTag([ts[1]], 'Particle', world, false, '1-phrasal-particle');
+    view.docs.forEach(terms => {
+      for (let i = 0; i < terms.length; i += 1) {
+        // basic lexicon lookup
+        let t = terms[i];
+        let word = t.machine || t.normal;
+
+        // test a multi-word
+        if (multi[word] !== undefined && terms[i + 1]) {
+          let end = i + multi[word] - 1;
+          for (let k = end; k > i; k -= 1) {
+            let words = terms.slice(i, k + 1);
+            let str = words.map(term => term.machine || term.normal).join(' ');
+            // lookup frozen lexicon
+            if (frozenLex.hasOwnProperty(str) === true) {
+              setTag(words, frozenLex[str], world, false, '1-frozen-multi-lexicon');
+              words.forEach(term => (term.frozen = true));
+              continue
+            }
+          }
         }
-        return true
+        // test single word
+        if (frozenLex[word] !== undefined && frozenLex.hasOwnProperty(word)) {
+          setTag([t], frozenLex[word], world, false, '1-freeze-lexicon');
+          t.frozen = true;
+          continue
+        }
       }
-    }
-    return false
+    });
   };
 
-  const multiWord = function (terms, i, world) {
+  const unfreeze = function (view) {
+    view.docs.forEach(ts => {
+      ts.forEach(term => {
+        delete term.frozen;
+      });
+    });
+    return view
+  };
+  var compute$4 = { frozen: freeze$1, freeze: freeze$1, unfreeze };
+
+  /* eslint-disable no-console */
+  const blue = str => '\x1b[34m' + str + '\x1b[0m';
+  const dim = str => '\x1b[3m\x1b[2m' + str + '\x1b[0m';
+
+  const debug$4 = function (view) {
+    view.docs.forEach(terms => {
+      console.log(blue('\n  ┌─────────'));
+      terms.forEach(t => {
+        let str = `  ${dim('│')}  `;
+        let txt = t.implicit || t.text || '-';
+        if (t.frozen === true) {
+          str += `${blue(txt)} ❄️`;
+        } else {
+          str += dim(txt);
+        }
+        console.log(str);
+      });
+    });
+  };
+  var debug$5 = debug$4;
+
+  var freeze = {
+    // add .compute('freeze')
+    compute: compute$4,
+
+    mutate: world => {
+      const methods = world.methods.one;
+      // add @isFrozen method
+      methods.termMethods.isFrozen = term => term.frozen === true;
+      // adds `.debug('frozen')`
+      methods.debug.freeze = debug$5;
+      methods.debug.frozen = debug$5;
+    },
+
+    api: function (View) {
+      // set all terms to reject any desctructive tags
+      View.prototype.freeze = function () {
+        this.docs.forEach(ts => {
+          ts.forEach(term => {
+            term.frozen = true;
+          });
+        });
+        return this
+      };
+      // reset all terms to allow  any desctructive tags
+      View.prototype.unfreeze = function () {
+        this.compute('unfreeze');
+      };
+      // return all frozen terms
+      View.prototype.isFrozen = function () {
+        return this.match('@isFrozen+')
+      };
+    },
+    // run it in init
+    hooks: ['freeze'],
+  };
+
+  // scan-ahead to match multiple-word terms - 'jack rabbit'
+  const multiWord = function (terms, start_i, world) {
     const { model, methods } = world;
-    // const { fastTag } = methods.one
     const setTag = methods.one.setTag;
     const multi = model.one._multiCache || {};
-    const lexicon = model.one.lexicon || {};
-    // basic lexicon lookup
-    let t = terms[i];
+    const { lexicon } = model.one || {};
+    let t = terms[start_i];
     let word = t.machine || t.normal;
-    // multi-word lookup
-    if (terms[i + 1] !== undefined && multi[word] === true) {
-      return checkMulti(terms, i, lexicon, setTag, world)
+
+    // found a word to scan-ahead on
+    if (multi[word] !== undefined && terms[start_i + 1]) {
+      let end = start_i + multi[word] - 1;
+      for (let i = end; i > start_i; i -= 1) {
+        let words = terms.slice(start_i, i + 1);
+        if (words.length <= 1) {
+          return false
+        }
+        let str = words.map(term => term.machine || term.normal).join(' ');
+        // lookup regular lexicon
+        if (lexicon.hasOwnProperty(str) === true) {
+          let tag = lexicon[str];
+          setTag(words, tag, world, false, '1-multi-lexicon');
+          // special case for phrasal-verbs - 2nd word is a #Particle
+          if (tag && tag.length === 2 && (tag[0] === 'PhrasalVerb' || tag[1] === 'PhrasalVerb')) {
+            setTag([words[1]], 'Particle', world, false, '1-phrasal-particle');
+          }
+          return true
+        }
+      }
+      return false
     }
     return null
   };
@@ -2179,23 +2283,21 @@
     const { model, methods } = world;
     // const fastTag = methods.one.fastTag
     const setTag = methods.one.setTag;
-    const lexicon = model.one.lexicon;
+    const { lexicon } = model.one;
 
     // basic lexicon lookup
     let t = terms[i];
     let word = t.machine || t.normal;
     // normal lexicon lookup
     if (lexicon[word] !== undefined && lexicon.hasOwnProperty(word)) {
-      let tag = lexicon[word];
-      setTag([t], tag, world, false, '1-lexicon');
+      setTag([t], lexicon[word], world, false, '1-lexicon');
       return true
     }
     // lookup aliases in the lexicon
     if (t.alias) {
       let found = t.alias.find(str => lexicon.hasOwnProperty(str));
       if (found) {
-        let tag = lexicon[found];
-        setTag([t], tag, world, false, '1-lexicon-alias');
+        setTag([t], lexicon[found], world, false, '1-lexicon-alias');
         return true
       }
     }
@@ -2219,6 +2321,7 @@
   // rest of pre-tagger is in ./two/preTagger
   const lexicon$3 = function (view) {
     const world = view.world;
+    // loop through our terms
     view.docs.forEach(terms => {
       for (let i = 0; i < terms.length; i += 1) {
         if (terms[i].tags.size === 0) {
@@ -2232,7 +2335,7 @@
   };
 
   var compute$3 = {
-    lexicon: lexicon$3
+    lexicon: lexicon$3,
   };
 
   // derive clever things from our lexicon key-value pairs
@@ -2250,7 +2353,10 @@
       // cache multi-word terms
       let split = word.split(/ /);
       if (split.length > 1) {
-        _multi[split[0]] = true;
+        // prefer longer ones
+        if (_multi[split[0]] === undefined || split.length > _multi[split[0]]) {
+          _multi[split[0]] = split.length;
+        }
       }
       lex[word] = lex[word] || tag;
     });
@@ -2262,14 +2368,14 @@
   };
   var expandLexicon = expand;
 
-  var methods$f = {
+  var methods$g = {
     one: {
       expandLexicon,
     }
   };
 
   /** insert new words/phrases into the lexicon */
-  const addWords = function (words) {
+  const addWords = function (words, isFrozen = false) {
     const world = this.world();
     const { methods, model } = world;
     if (!words) {
@@ -2281,21 +2387,24 @@
         words[k] = words[k].replace(/^#/, '');
       }
     });
+    // these words go into a seperate lexicon
+    if (isFrozen === true) {
+      let { lex, _multi } = methods.one.expandLexicon(words, world);
+      Object.assign(model.one._multiCache, _multi);
+      Object.assign(model.one.frozenLex, lex);
+      return
+    }
     // add some words to our lexicon
     if (methods.two.expandLexicon) {
       // do fancy ./two version
       let { lex, _multi } = methods.two.expandLexicon(words, world);
       Object.assign(model.one.lexicon, lex);
       Object.assign(model.one._multiCache, _multi);
-    } else if (methods.one.expandLexicon) {
-      // do basic ./one version
-      let { lex, _multi } = methods.one.expandLexicon(words, world);
-      Object.assign(model.one.lexicon, lex);
-      Object.assign(model.one._multiCache, _multi);
-    } else {
-      //no fancy-business
-      Object.assign(model.one.lexicon, words);
     }
+    // do basic ./one version
+    let { lex, _multi } = methods.one.expandLexicon(words, world);
+    Object.assign(model.one.lexicon, lex);
+    Object.assign(model.one._multiCache, _multi);
   };
 
   var lib$5 = { addWords };
@@ -2304,15 +2413,16 @@
     one: {
       lexicon: {}, //setup blank lexicon
       _multiCache: {},
-    }
+      frozenLex: {}, //2nd lexicon
+    },
   };
 
   var lexicon$2 = {
     model: model$4,
-    methods: methods$f,
+    methods: methods$g,
     compute: compute$3,
     lib: lib$5,
-    hooks: ['lexicon']
+    hooks: ['lexicon'],
   };
 
   // edited by Spencer Kelly
@@ -2543,15 +2653,7 @@
     return { ptrs, byGroup }
   };
 
-  const isObject$3 = val => {
-    return Object.prototype.toString.call(val) === '[object Object]'
-  };
-
-  // did they pass-in a compromise object?
-  const isView = val => val && isObject$3(val) && val.isView === true;
-
-  const isNet = val => val && isObject$3(val) && val.isNet === true;
-
+  // turn any matchable input intp a list of matches
   const parseRegs = function (regs, opts, world) {
     const one = world.methods.one;
     if (typeof regs === 'number') {
@@ -2564,6 +2666,15 @@
     }
     return regs
   };
+
+  const isObject$3 = val => {
+    return Object.prototype.toString.call(val) === '[object Object]'
+  };
+
+  // did they pass-in a compromise object?
+  const isView = val => val && isObject$3(val) && val.isView === true;
+
+  const isNet = val => val && isObject$3(val) && val.isNet === true;
 
   const match$2 = function (regs, group, opts) {
     const one = this.methods.one;
@@ -2607,7 +2718,7 @@
     const one = this.methods.one;
     // support view as input
     if (isView(regs)) {
-      let ptrs = regs.fullPointer; // support a view object as input
+      let ptrs = this.intersection(regs).fullPointer;
       return ptrs.length > 0
     }
     // support a compiled set of matches
@@ -2630,7 +2741,7 @@
     // support a compiled set of matches
     if (isNet(regs)) {
       let m = this.sweep(regs, { tagger: false }).view.settle();
-      return this.if(m)//recurse with result
+      return this.if(m) //recurse with result
     }
     regs = parseRegs(regs, opts, this.world);
     let todo = { regs, group, justOne: true };
@@ -2720,7 +2831,7 @@
     if (typeof regs === 'string') {
       regs = this.world.methods.one.parseMatch(regs, opts, this.world);
     }
-    regs[regs.length - 1].end = true;// ensure matches are beside us ←
+    regs[regs.length - 1].end = true; // ensure matches are beside us ←
     let ptrs = this.fullPointer;
     this.forEach((m, n) => {
       let more = m.before(regs, group);
@@ -2737,7 +2848,7 @@
     if (typeof regs === 'string') {
       regs = this.world.methods.one.parseMatch(regs, opts, this.world);
     }
-    regs[0].start = true;// ensure matches are beside us →
+    regs[0].start = true; // ensure matches are beside us →
     let ptrs = this.fullPointer;
     this.forEach((m, n) => {
       let more = m.after(regs, group);
@@ -2785,9 +2896,9 @@
     return ptr
   };
 
-  const methods$e = {};
+  const methods$f = {};
   // [before], [match], [after]
-  methods$e.splitOn = function (m, group) {
+  methods$f.splitOn = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -2804,7 +2915,7 @@
   };
 
   // [before], [match after]
-  methods$e.splitBefore = function (m, group) {
+  methods$f.splitBefore = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -2839,7 +2950,7 @@
   };
 
   // [before match], [after]
-  methods$e.splitAfter = function (m, group) {
+  methods$f.splitAfter = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
     let splits = getDoc$3(m, this, group).fullPointer;
     let all = splitAll(this.fullPointer, splits);
@@ -2858,11 +2969,68 @@
     res = res.map(p => addIds$1(p, this));
     return this.update(res)
   };
-  methods$e.split = methods$e.splitAfter;
+  methods$f.split = methods$f.splitAfter;
 
-  var split$1 = methods$e;
+  var split$1 = methods$f;
 
-  const methods$d = Object.assign({}, match$3, lookaround, split$1);
+  // check if two pointers are perfectly consecutive
+  const isNeighbour = function (ptrL, ptrR) {
+    // validate
+    if (!ptrL || !ptrR) {
+      return false
+    }
+    // same sentence
+    if (ptrL[0] !== ptrR[0]) {
+      return false
+    }
+    // ensure R starts where L ends
+    return ptrL[2] === ptrR[1]
+  };
+
+  // join two neighbouring words, if they both match
+  const mergeIf = function (doc, lMatch, rMatch) {
+    const world = doc.world;
+    const parseMatch = world.methods.one.parseMatch;
+    lMatch = lMatch || '.$'; //defaults
+    rMatch = rMatch || '^.';
+    let leftMatch = parseMatch(lMatch, {}, world);
+    let rightMatch = parseMatch(rMatch, {}, world);
+    // ensure end-requirement to left-match, start-requiremnts to right match
+    leftMatch[leftMatch.length - 1].end = true;
+    rightMatch[0].start = true;
+    // let's get going.
+    let ptrs = doc.fullPointer;
+    let res = [ptrs[0]];
+    for (let i = 1; i < ptrs.length; i += 1) {
+      let ptrL = res[res.length - 1];
+      let ptrR = ptrs[i];
+      let left = doc.update([ptrL]);
+      let right = doc.update([ptrR]);
+      // should we marge left+right?
+      if (isNeighbour(ptrL, ptrR) && left.has(leftMatch) && right.has(rightMatch)) {
+        // merge right ptr into existing result
+        res[res.length - 1] = [ptrL[0], ptrL[1], ptrR[2], ptrL[3], ptrR[4]];
+      } else {
+        res.push(ptrR);
+      }
+    }
+    // return new pointers
+    return doc.update(res)
+  };
+
+  const methods$e = {
+    //  merge only if conditions are met
+    joinIf: function (lMatch, rMatch) {
+      return mergeIf(this, lMatch, rMatch)
+    },
+    // merge all neighbouring matches
+    join: function () {
+      return mergeIf(this)
+    },
+  };
+  var join = methods$e;
+
+  const methods$d = Object.assign({}, match$3, lookaround, split$1, join);
   // aliases
   methods$d.lookBehind = methods$d.before;
   methods$d.lookBefore = methods$d.before;
@@ -3488,7 +3656,7 @@
   /** search the term's 'post' punctuation  */
   const hasPost = (term, punct) => term.post.indexOf(punct) !== -1;
   /** search the term's 'pre' punctuation  */
-  const hasPre = (term, punct) => term.pre.indexOf(punct) !== -1;
+  // const hasPre = (term, punct) => term.pre.indexOf(punct) !== -1
 
   const methods$c = {
     /** does it have a quotation symbol?  */
@@ -3502,7 +3670,7 @@
     /** does it end with a question mark? */
     hasQuestionMark: term => hasPost(term, '?') || hasPost(term, '¿'),
     /** is there a ... at the end? */
-    hasEllipses: term => hasPost(term, '..') || hasPost(term, '…') || hasPre(term, '..') || hasPre(term, '…'),
+    hasEllipses: term => hasPost(term, '..') || hasPost(term, '…'),
     /** is there a semicolon after term word? */
     hasSemicolon: term => hasPost(term, ';'),
     /** is there a colon after term word? */
@@ -4396,7 +4564,7 @@
   const isClass = /^\../;
   const isId = /^#./;
 
-  const escapeXml = (str) => {
+  const escapeXml = str => {
     str = str.replace(/&/g, '&amp;');
     str = str.replace(/</g, '&lt;');
     str = str.replace(/>/g, '&gt;');
@@ -4459,7 +4627,8 @@
         if (starts.hasOwnProperty(t.id)) {
           out += starts[t.id].join('');
         }
-        out += t.pre || '' + t.text || '';
+        out += t.pre || '';
+        out += t.text || '';
         if (ends.hasOwnProperty(t.id)) {
           out += ends[t.id].join('');
         }
@@ -4480,7 +4649,7 @@
 
   const textFromTerms = function (terms, opts, keepSpace = true) {
     let txt = '';
-    terms.forEach((t) => {
+    terms.forEach(t => {
       let pre = t.pre || '';
       let post = t.post || '';
       if (opts.punctuation === 'some') {
@@ -4560,6 +4729,10 @@
       if (!last[last.length - 1].tags.has('Emoticon')) {
         text = text.replace(trimEnd, '');
       }
+      // kill end quotations
+      if (text.endsWith(`'`) && !text.endsWith(`s'`)) {
+        text = text.replace(/'/, '');
+      }
     }
     if (opts.cleanWhitespace === true) {
       text = text.trim();
@@ -4607,14 +4780,17 @@
   /* eslint-disable no-multi-assign */
 
   // https://github.com/jbt/tiny-hashes/
-  let k = [], i$1 = 0;
-  for (; i$1 < 64;) {
-    k[i$1] = 0 | Math.sin(++i$1 % Math.PI) * 4294967296;
+  let k = [],
+    i$1 = 0;
+  for (; i$1 < 64; ) {
+    k[i$1] = 0 | (Math.sin(++i$1 % Math.PI) * 4294967296);
   }
 
-  function md5(s) {
-    let b, c, d,
-      h = [b = 0x67452301, c = 0xEFCDAB89, ~b, ~c],
+  const md5 = function (s) {
+    let b,
+      c,
+      d,
+      h = [(b = 0x67452301), (c = 0xefcdab89), ~b, ~c],
       words = [],
       j = decodeURI(encodeURI(s)) + '\x80',
       a = j.length;
@@ -4623,57 +4799,43 @@
 
     words[--s] = a * 8;
 
-    for (; ~a;) {
-      words[a >> 2] |= j.charCodeAt(a) << 8 * a--;
+    for (; ~a; ) {
+      words[a >> 2] |= j.charCodeAt(a) << (8 * a--);
     }
 
     for (i$1 = j = 0; i$1 < s; i$1 += 16) {
       a = h;
 
-      for (; j < 64;
+      for (
+        ;
+        j < 64;
         a = [
-          d = a[3],
-          (
-            b +
-            ((d =
+          (d = a[3]),
+          b +
+            (((d =
               a[0] +
-              [
-                b & c | ~b & d,
-                d & b | ~d & c,
-                b ^ c ^ d,
-                c ^ (b | ~d)
-              ][a = j >> 4] +
+              [(b & c) | (~b & d), (d & b) | (~d & c), b ^ c ^ d, c ^ (b | ~d)][(a = j >> 4)] +
               k[j] +
-              ~~words[i$1 | [
-                j,
-                5 * j + 1,
-                3 * j + 5,
-                7 * j
-              ][a] & 15]
-            ) << (a = [
-              7, 12, 17, 22,
-              5, 9, 14, 20,
-              4, 11, 16, 23,
-              6, 10, 15, 21
-            ][4 * a + j++ % 4]) | d >>> -a)
-          ),
+              ~~words[i$1 | ([j, 5 * j + 1, 3 * j + 5, 7 * j][a] & 15)]) <<
+              (a = [7, 12, 17, 22, 5, 9, 14, 20, 4, 11, 16, 23, 6, 10, 15, 21][4 * a + (j++ % 4)])) |
+              (d >>> -a)),
           b,
-          c
+          c,
         ]
       ) {
         b = a[1] | 0;
         c = a[2];
       }
-      for (j = 4; j;) h[--j] += a[j];
+      for (j = 4; j; ) h[--j] += a[j];
     }
 
-    for (s = ''; j < 32;) {
+    for (s = ''; j < 32; ) {
       s += ((h[j >> 3] >> ((1 ^ j++) * 4)) & 15).toString(16);
     }
 
-    return s;
-  }
-
+    return s
+  };
+  var hash = md5;
   // console.log(md5('food-safety'))
 
   const defaults$1 = {
@@ -4688,16 +4850,16 @@
   };
 
   const fns$1 = {
-    text: (terms) => textFromTerms(terms, { keepPunct: true }, false),
-    normal: (terms) => textFromTerms(terms, merge(fmts$1.normal, { keepPunct: true }), false),
-    implicit: (terms) => textFromTerms(terms, merge(fmts$1.implicit, { keepPunct: true }), false),
+    text: terms => textFromTerms(terms, { keepPunct: true }, false),
+    normal: terms => textFromTerms(terms, merge(fmts$1.normal, { keepPunct: true }), false),
+    implicit: terms => textFromTerms(terms, merge(fmts$1.implicit, { keepPunct: true }), false),
 
-    machine: (terms) => textFromTerms(terms, opts, false),
-    root: (terms) => textFromTerms(terms, merge(opts, { form: 'root' }), false),
+    machine: terms => textFromTerms(terms, opts, false),
+    root: terms => textFromTerms(terms, merge(opts, { form: 'root' }), false),
 
-    hash: (terms) => md5(textFromTerms(terms, { keepPunct: true }, false)),
+    hash: terms => hash(textFromTerms(terms, { keepPunct: true }, false)),
 
-    offset: (terms) => {
+    offset: terms => {
       let len = fns$1.text(terms).length;
       return {
         index: terms[0].offset.index,
@@ -4705,7 +4867,7 @@
         length: len,
       }
     },
-    terms: (terms) => {
+    terms: terms => {
       return terms.map(t => {
         let term = Object.assign({}, t);
         term.tags = Array.from(t.tags);
@@ -4715,7 +4877,7 @@
     confidence: (_terms, view, i) => view.eq(i).confidence(),
     syllables: (_terms, view, i) => view.eq(i).syllables(),
     sentence: (_terms, view, i) => view.eq(i).fullSentence().text(),
-    dirty: (terms) => terms.some(t => t.dirty === true)
+    dirty: terms => terms.some(t => t.dirty === true),
   };
   fns$1.sentences = fns$1.sentence;
   fns$1.clean = fns$1.normal;
@@ -4742,7 +4904,6 @@
     })
   };
 
-
   const methods$9 = {
     /** return data */
     json: function (n) {
@@ -4757,183 +4918,26 @@
   var json = methods$9;
 
   /* eslint-disable no-console */
-  const logClientSide = function (view) {
-    console.log('%c -=-=- ', 'background-color:#6699cc;');
-    view.forEach(m => {
-      console.groupCollapsed(m.text());
-      let terms = m.docs[0];
-      let out = terms.map(t => {
-        let text = t.text || '-';
-        if (t.implicit) {
-          text = '[' + t.implicit + ']';
-        }
-        let tags = '[' + Array.from(t.tags).join(', ') + ']';
-        return { text, tags }
-      });
-      console.table(out, ['text', 'tags']);
-      console.groupEnd();
-    });
-  };
-  var logClientSide$1 = logClientSide;
+  const isClientSide = () => typeof window !== 'undefined' && window.document;
 
-  // https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
-  const reset = '\x1b[0m';
-
-  //cheaper than requiring chalk
-  const cli = {
-    green: str => '\x1b[32m' + str + reset,
-    red: str => '\x1b[31m' + str + reset,
-    blue: str => '\x1b[34m' + str + reset,
-    magenta: str => '\x1b[35m' + str + reset,
-    cyan: str => '\x1b[36m' + str + reset,
-    yellow: str => '\x1b[33m' + str + reset,
-    black: str => '\x1b[30m' + str + reset,
-    dim: str => '\x1b[2m' + str + reset,
-    i: str => '\x1b[3m' + str + reset,
-  };
-  var cli$1 = cli;
-
-  /* eslint-disable no-console */
-
-  const tagString = function (tags, model) {
-    if (model.one.tagSet) {
-      tags = tags.map(tag => {
-        if (!model.one.tagSet.hasOwnProperty(tag)) {
-          return tag
-        }
-        const c = model.one.tagSet[tag].color || 'blue';
-        return cli$1[c](tag)
-      });
-    }
-    return tags.join(', ')
-  };
-
-  const showTags = function (view) {
-    let { docs, model } = view;
-    if (docs.length === 0) {
-      console.log(cli$1.blue('\n     ──────'));
-    }
-    docs.forEach(terms => {
-      console.log(cli$1.blue('\n  ┌─────────'));
-      terms.forEach(t => {
-        let tags = [...(t.tags || [])];
-        let text = t.text || '-';
-        if (t.sense) {
-          text = `{${t.normal}/${t.sense}}`;
-        }
-        if (t.implicit) {
-          text = '[' + t.implicit + ']';
-        }
-        text = cli$1.yellow(text);
-        let word = "'" + text + "'";
-        if (t.reference) {
-          let str = view.update([t.reference]).text('normal');
-          word += ` - ${cli$1.dim(cli$1.i('[' + str + ']'))}`;
-        }
-        word = word.padEnd(18);
-        let str = cli$1.blue('  │ ') + cli$1.i(word) + '  - ' + tagString(tags, model);
-        console.log(str);
-      });
-    });
-  };
-  var showTags$1 = showTags;
-
-  /* eslint-disable no-console */
-
-  const showChunks = function (view) {
-    let { docs } = view;
-    console.log('');
-    docs.forEach(terms => {
-      let out = [];
-      terms.forEach(term => {
-        if (term.chunk === 'Noun') {
-          out.push(cli$1.blue(term.implicit || term.normal));
-        } else if (term.chunk === 'Verb') {
-          out.push(cli$1.green(term.implicit || term.normal));
-        } else if (term.chunk === 'Adjective') {
-          out.push(cli$1.yellow(term.implicit || term.normal));
-        } else if (term.chunk === 'Pivot') {
-          out.push(cli$1.red(term.implicit || term.normal));
-        } else {
-          out.push(term.implicit || term.normal);
-        }
-      });
-      console.log(out.join(' '), '\n');
-    });
-  };
-  var showChunks$1 = showChunks;
-
-  const split = (txt, offset, index) => {
-    let buff = index * 9; //there are 9 new chars addded to each highlight
-    let start = offset.start + buff;
-    let end = start + offset.length;
-    let pre = txt.substring(0, start);
-    let mid = txt.substring(start, end);
-    let post = txt.substring(end, txt.length);
-    return [pre, mid, post]
-  };
-
-  const spliceIn = function (txt, offset, index) {
-    let parts = split(txt, offset, index);
-    return `${parts[0]}${cli$1.blue(parts[1])}${parts[2]}`
-  };
-
-  const showHighlight = function (doc) {
-    if (!doc.found) {
-      return
-    }
-    let bySentence = {};
-    doc.fullPointer.forEach(ptr => {
-      bySentence[ptr[0]] = bySentence[ptr[0]] || [];
-      bySentence[ptr[0]].push(ptr);
-    });
-    Object.keys(bySentence).forEach(k => {
-      let full = doc.update([[Number(k)]]);
-      let txt = full.text();
-      let matches = doc.update(bySentence[k]);
-      let json = matches.json({ offset: true });
-      json.forEach((obj, i) => {
-        txt = spliceIn(txt, obj.offset, i);
-      });
-      console.log(txt); // eslint-disable-line
-    });
-  };
-  var showHighlight$1 = showHighlight;
-
-  /* eslint-disable no-console */
-
-  function isClientSide() {
-    return typeof window !== 'undefined' && window.document
-  }
   //output some helpful stuff to the console
-  const debug = function (opts = {}) {
-    let view = this;
-    if (typeof opts === 'string') {
-      let tmp = {};
-      tmp[opts] = true; //allow string input
-      opts = tmp;
+  const debug$2 = function (fmt) {
+    let debugMethods = this.methods.one.debug || {};
+    // see if method name exists
+    if (fmt && debugMethods.hasOwnProperty(fmt)) {
+      debugMethods[fmt](this);
+      return this
     }
+    // log default client-side view
     if (isClientSide()) {
-      logClientSide$1(view);
-      return view
+      debugMethods.clientSide(this);
+      return this
     }
-    if (opts.tags !== false) {
-      showTags$1(view);
-      console.log('\n');
-    }
-    // output chunk-view, too
-    if (opts.chunks === true) {
-      showChunks$1(view);
-      console.log('\n');
-    }
-    // highlight match in sentence
-    if (opts.highlight === true) {
-      showHighlight$1(view);
-      console.log('\n');
-    }
-    return view
+    // else, show regular server-side tags view
+    debugMethods.tags(this);
+    return this
   };
-  var debug$1 = debug;
+  var debug$3 = debug$2;
 
   const toText$3 = function (term) {
     let pre = term.pre || '';
@@ -5013,7 +5017,7 @@
       return this.text('machine')
     }
     if (method === 'hash' || method === 'md5') {
-      return md5(this.text())
+      return hash(this.text())
     }
 
     // json data formats
@@ -5042,10 +5046,10 @@
     // some handy ad-hoc outputs
     if (method === 'terms') {
       let list = [];
-      this.docs.forEach(s => {
-        let terms = s.terms.map(t => t.text);
-        terms = terms.filter(t => t);
-        list = list.concat(terms);
+      this.docs.forEach(terms => {
+        let words = terms.map(t => t.text);
+        words = words.filter(t => t);
+        list = list.concat(words);
       });
       return list
     }
@@ -5065,7 +5069,7 @@
 
   const methods$8 = {
     /** */
-    debug: debug$1,
+    debug: debug$3,
     /** */
     out,
     /** */
@@ -5087,10 +5091,11 @@
       if (fmt && typeof fmt === 'string' && fmts$1.hasOwnProperty(fmt)) {
         opts = Object.assign({}, fmts$1[fmt]);
       } else if (fmt && isObject$1(fmt)) {
-        opts = Object.assign({}, fmt);//todo: fixme
+        opts = Object.assign({}, fmt); //todo: fixme
       }
       // is it a full document?
-      if (opts.keepSpace === undefined && !this.isFull()) {    // 
+      if (opts.keepSpace === undefined && !this.isFull()) {
+        //
         opts.keepSpace = false;
       }
       if (opts.keepEndPunct === undefined && this.pointer) {
@@ -5119,13 +5124,171 @@
   };
   var api$g = addAPI$1;
 
+  /* eslint-disable no-console */
+  const logClientSide = function (view) {
+    console.log('%c -=-=- ', 'background-color:#6699cc;');
+    view.forEach(m => {
+      console.groupCollapsed(m.text());
+      let terms = m.docs[0];
+      let out = terms.map(t => {
+        let text = t.text || '-';
+        if (t.implicit) {
+          text = '[' + t.implicit + ']';
+        }
+        let tags = '[' + Array.from(t.tags).join(', ') + ']';
+        return { text, tags }
+      });
+      console.table(out, ['text', 'tags']);
+      console.groupEnd();
+    });
+  };
+  var clientSide = logClientSide;
+
+  // https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
+  const reset = '\x1b[0m';
+
+  //cheaper than requiring chalk
+  const cli = {
+    green: str => '\x1b[32m' + str + reset,
+    red: str => '\x1b[31m' + str + reset,
+    blue: str => '\x1b[34m' + str + reset,
+    magenta: str => '\x1b[35m' + str + reset,
+    cyan: str => '\x1b[36m' + str + reset,
+    yellow: str => '\x1b[33m' + str + reset,
+    black: str => '\x1b[30m' + str + reset,
+    dim: str => '\x1b[2m' + str + reset,
+    i: str => '\x1b[3m' + str + reset,
+  };
+  var cli$1 = cli;
+
+  /* eslint-disable no-console */
+
+  const tagString = function (tags, model) {
+    if (model.one.tagSet) {
+      tags = tags.map(tag => {
+        if (!model.one.tagSet.hasOwnProperty(tag)) {
+          return tag
+        }
+        const c = model.one.tagSet[tag].color || 'blue';
+        return cli$1[c](tag)
+      });
+    }
+    return tags.join(', ')
+  };
+
+  const showTags = function (view) {
+    let { docs, model } = view;
+    if (docs.length === 0) {
+      console.log(cli$1.blue('\n     ──────'));
+    }
+    docs.forEach(terms => {
+      console.log(cli$1.blue('\n  ┌─────────'));
+      terms.forEach(t => {
+        let tags = [...(t.tags || [])];
+        let text = t.text || '-';
+        if (t.sense) {
+          text = `{${t.normal}/${t.sense}}`;
+        }
+        if (t.implicit) {
+          text = '[' + t.implicit + ']';
+        }
+        text = cli$1.yellow(text);
+        let word = "'" + text + "'";
+        if (t.reference) {
+          let str = view.update([t.reference]).text('normal');
+          word += ` - ${cli$1.dim(cli$1.i('[' + str + ']'))}`;
+        }
+        word = word.padEnd(18);
+        let str = cli$1.blue('  │ ') + cli$1.i(word) + '  - ' + tagString(tags, model);
+        console.log(str);
+      });
+    });
+    console.log('\n');
+  };
+  var tags$1 = showTags;
+
+  /* eslint-disable no-console */
+
+  const showChunks = function (view) {
+    let { docs } = view;
+    console.log('');
+    docs.forEach(terms => {
+      let out = [];
+      terms.forEach(term => {
+        if (term.chunk === 'Noun') {
+          out.push(cli$1.blue(term.implicit || term.normal));
+        } else if (term.chunk === 'Verb') {
+          out.push(cli$1.green(term.implicit || term.normal));
+        } else if (term.chunk === 'Adjective') {
+          out.push(cli$1.yellow(term.implicit || term.normal));
+        } else if (term.chunk === 'Pivot') {
+          out.push(cli$1.red(term.implicit || term.normal));
+        } else {
+          out.push(term.implicit || term.normal);
+        }
+      });
+      console.log(out.join(' '), '\n');
+    });
+    console.log('\n');
+  };
+  var chunks = showChunks;
+
+  /* eslint-disable no-console */
+
+  const split = (txt, offset, index) => {
+    let buff = index * 9; //there are 9 new chars addded to each highlight
+    let start = offset.start + buff;
+    let end = start + offset.length;
+    let pre = txt.substring(0, start);
+    let mid = txt.substring(start, end);
+    let post = txt.substring(end, txt.length);
+    return [pre, mid, post]
+  };
+
+  const spliceIn = function (txt, offset, index) {
+    let parts = split(txt, offset, index);
+    return `${parts[0]}${cli$1.blue(parts[1])}${parts[2]}`
+  };
+
+  const showHighlight = function (doc) {
+    if (!doc.found) {
+      return
+    }
+    let bySentence = {};
+    doc.fullPointer.forEach(ptr => {
+      bySentence[ptr[0]] = bySentence[ptr[0]] || [];
+      bySentence[ptr[0]].push(ptr);
+    });
+    Object.keys(bySentence).forEach(k => {
+      let full = doc.update([[Number(k)]]);
+      let txt = full.text();
+      let matches = doc.update(bySentence[k]);
+      let json = matches.json({ offset: true });
+      json.forEach((obj, i) => {
+        txt = spliceIn(txt, obj.offset, i);
+      });
+      console.log(txt);
+    });
+    console.log('\n');
+  };
+  var highlight = showHighlight;
+
+  const debug = {
+    tags: tags$1,
+    clientSide,
+    chunks,
+    highlight,
+  };
+  var debug$1 = debug;
+
   var output = {
     api: api$g,
     methods: {
       one: {
-        hash: md5
-      }
-    }
+        hash,
+        debug: debug$1,
+      },
+    },
   };
 
   // do the pointers intersect?
@@ -5509,7 +5672,7 @@
   };
   methods$5.difference = methods$5.not;
 
-  // get opposite of a
+  // get opposite of a match
   methods$5.complement = function () {
     let doc = this.all();
     let ptrs = getDifference(doc.fullPointer, this.fullPointer);
@@ -5526,7 +5689,6 @@
     ptrs = addIds(ptrs, this.document);
     return this.update(ptrs)
   };
-
 
   const addAPI = function (View) {
     // add set/intersection/union
@@ -5691,12 +5853,12 @@
     matches.forEach(obj => {
       // add needs
       obj.needs.forEach(str => {
-        hooks[str] = hooks[str] || [];
+        hooks[str] = Array.isArray(hooks[str]) ? hooks[str] : [];
         hooks[str].push(obj);
       });
       // add wants
       obj.wants.forEach(str => {
-        hooks[str] = hooks[str] || [];
+        hooks[str] = Array.isArray(hooks[str]) ? hooks[str] : [];
         hooks[str].push(obj);
       });
     });
@@ -5704,7 +5866,7 @@
     Object.keys(hooks).forEach(k => {
       let already = {};
       hooks[k] = hooks[k].filter(obj => {
-        if (already[obj.match]) {
+        if (typeof already[obj.match] === 'boolean') {
           return false
         }
         already[obj.match] = true;
@@ -5734,7 +5896,7 @@
       // remove duplicates
       let already = {};
       maybe = maybe.filter(m => {
-        if (already[m.match]) {
+        if (typeof already[m.match] === 'boolean') {
           return false
         }
         already[m.match] = true;
@@ -5857,7 +6019,7 @@
   var bulkMatch = sweep$1;
 
   // is this tag consistent with the tags they already have?
-  const canBe = function (terms, tag, model) {
+  const canBe$2 = function (terms, tag, model) {
     let tagSet = model.one.tagSet;
     if (!tagSet.hasOwnProperty(tag)) {
       return true
@@ -5873,7 +6035,7 @@
     }
     return true
   };
-  var canBe$1 = canBe;
+  var canBe$3 = canBe$2;
 
   const tagger$1 = function (list, document, world) {
     const { model, methods } = world;
@@ -5896,7 +6058,7 @@
       // handle 'safe' tag
       if (todo.safe === true) {
         // check for conflicting tags
-        if (canBe$1(terms, todo.tag, model) === false) {
+        if (canBe$3(terms, todo.tag, model) === false) {
           return
         }
         // dont tag half of a hyphenated word
@@ -5906,7 +6068,7 @@
       }
       if (todo.tag !== undefined) {
         setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
-        // quick and dirty plural tagger
+        // quick and dirty plural tagger 😕
         if (todo.tag === 'Noun' && looksPlural) {
           let term = terms[terms.length - 1];
           if (looksPlural(term.text)) {
@@ -5915,13 +6077,17 @@
             setTag([term], 'Singular', world, todo.safe, 'quick-singular');
           }
         }
+        // allow freezing this match, too
+        if (todo.freeze === true) {
+          terms.forEach(term => (term.frozen = true));
+        }
       }
       if (todo.unTag !== undefined) {
         unTag(terms, todo.unTag, world, todo.safe, reason);
       }
       // allow setting chunks, too
       if (todo.chunk) {
-        terms.forEach(t => t.chunk = todo.chunk);
+        terms.forEach(t => (t.chunk = todo.chunk));
       }
     })
   };
@@ -5960,6 +6126,10 @@
     // allow this shorthand in multiple-tag strings
     if (tag === '.') {
       return null
+    }
+    // don't overwrite any tags, if term is frozen
+    if (term.frozen === true) {
+      isSafe = true;
     }
     // for known tags, do logical dependencies first
     let known = tagSet[tag];
@@ -6011,9 +6181,11 @@
   const log = (terms, tag, reason = '') => {
     const yellow = str => '\x1b[33m\x1b[3m' + str + '\x1b[0m';
     const i = str => '\x1b[3m' + str + '\x1b[0m';
-    let word = terms.map(t => {
-      return t.text || '[' + t.implicit + ']'
-    }).join(' ');
+    let word = terms
+      .map(t => {
+        return t.text || '[' + t.implicit + ']'
+      })
+      .join(' ');
     if (typeof tag !== 'string' && tag.length > 2) {
       tag = tag.slice(0, 2).join(', #') + ' +'; //truncate the list of tags
     }
@@ -6037,7 +6209,7 @@
       return
     }
     if (typeof tag !== 'string') {
-      console.warn(`compromise: Invalid tag '${tag}'`);// eslint-disable-line
+      console.warn(`compromise: Invalid tag '${tag}'`); // eslint-disable-line
       return
     }
     tag = tag.trim();
@@ -6059,6 +6231,10 @@
     tag = tag.trim().replace(/^#/, '');
     for (let i = 0; i < terms.length; i += 1) {
       let term = terms[i];
+      // don't untag anything if term is frozen
+      if (term.frozen === true) {
+        continue
+      }
       // support clearing all tags, with '*'
       if (tag === '*') {
         term.tags.clear();
@@ -6076,6 +6252,21 @@
     }
   };
   var unTag$1 = unTag;
+
+  // quick check if this tag will require any untagging
+  const canBe = function (term, tag, tagSet) {
+    if (!tagSet.hasOwnProperty(tag)) {
+      return true // everything can be an unknown tag
+    }
+    let not = tagSet[tag].not || [];
+    for (let i = 0; i < not.length; i += 1) {
+      if (term.tags.has(not[i])) {
+        return false
+      }
+    }
+    return true
+  };
+  var canBe$1 = canBe;
 
   const e=function(e){return e.children=e.children||[],e._cache=e._cache||{},e.props=e.props||{},e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],e},t=/^ *(#|\/\/)/,n=function(t){let n=t.trim().split(/->/),r=[];n.forEach((t=>{r=r.concat(function(t){if(!(t=t.trim()))return null;if(/^\[/.test(t)&&/\]$/.test(t)){let n=(t=(t=t.replace(/^\[/,"")).replace(/\]$/,"")).split(/,/);return n=n.map((e=>e.trim())).filter((e=>e)),n=n.map((t=>e({id:t}))),n}return [e({id:t})]}(t));})),r=r.filter((e=>e));let i=r[0];for(let e=1;e<r.length;e+=1)i.children.push(r[e]),i=r[e];return r[0]},r=(e,t)=>{let n=[],r=[e];for(;r.length>0;){let e=r.pop();n.push(e),e.children&&e.children.forEach((n=>{t&&t(e,n),r.push(n);}));}return n},i=e=>"[object Array]"===Object.prototype.toString.call(e),c=e=>(e=e||"").trim(),s=function(c=[]){return "string"==typeof c?function(r){let i=r.split(/\r?\n/),c=[];i.forEach((e=>{if(!e.trim()||t.test(e))return;let r=(e=>{const t=/^( {2}|\t)/;let n=0;for(;t.test(e);)e=e.replace(t,""),n+=1;return n})(e);c.push({indent:r,node:n(e)});}));let s=function(e){let t={children:[]};return e.forEach(((n,r)=>{0===n.indent?t.children=t.children.concat(n.node):e[r-1]&&function(e,t){let n=e[t].indent;for(;t>=0;t-=1)if(e[t].indent<n)return e[t];return e[0]}(e,r).node.children.push(n.node);})),t}(c);return s=e(s),s}(c):i(c)?function(t){let n={};t.forEach((e=>{n[e.id]=e;}));let r=e({});return t.forEach((t=>{if((t=e(t)).parent)if(n.hasOwnProperty(t.parent)){let e=n[t.parent];delete t.parent,e.children.push(t);}else console.warn(`[Grad] - missing node '${t.parent}'`);else r.children.push(t);})),r}(c):(r(s=c).forEach(e),s);var s;},h=e=>"[31m"+e+"[0m",o=e=>"[2m"+e+"[0m",l=function(e,t){let n="-> ";t&&(n=o("→ "));let i="";return r(e).forEach(((e,r)=>{let c=e.id||"";if(t&&(c=h(c)),0===r&&!e.id)return;let s=e._cache.parents.length;i+="    ".repeat(s)+n+c+"\n";})),i},a=function(e){let t=r(e);t.forEach((e=>{delete(e=Object.assign({},e)).children;}));let n=t[0];return n&&!n.id&&0===Object.keys(n.props).length&&t.shift(),t},p={text:l,txt:l,array:a,flat:a},d=function(e,t){return "nested"===t||"json"===t?e:"debug"===t?(console.log(l(e,!0)),null):p.hasOwnProperty(t)?p[t](e):e},u=e=>{r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],t._cache.parents=e._cache.parents.concat([e.id]));}));},f$1=(e,t)=>(Object.keys(t).forEach((n=>{if(t[n]instanceof Set){let r=e[n]||new Set;e[n]=new Set([...r,...t[n]]);}else {if((e=>e&&"object"==typeof e&&!Array.isArray(e))(t[n])){let r=e[n]||{};e[n]=Object.assign({},t[n],r);}else i(t[n])?e[n]=t[n].concat(e[n]||[]):void 0===e[n]&&(e[n]=t[n]);}})),e),j=/\//;let g$1 = class g{constructor(e={}){Object.defineProperty(this,"json",{enumerable:!1,value:e,writable:!0});}get children(){return this.json.children}get id(){return this.json.id}get found(){return this.json.id||this.json.children.length>0}props(e={}){let t=this.json.props||{};return "string"==typeof e&&(t[e]=!0),this.json.props=Object.assign(t,e),this}get(t){if(t=c(t),!j.test(t)){let e=this.json.children.find((e=>e.id===t));return new g(e)}let n=((e,t)=>{let n=(e=>"string"!=typeof e?e:(e=e.replace(/^\//,"")).split(/\//))(t=t||"");for(let t=0;t<n.length;t+=1){let r=e.children.find((e=>e.id===n[t]));if(!r)return null;e=r;}return e})(this.json,t)||e({});return new g(n)}add(t,n={}){if(i(t))return t.forEach((e=>this.add(c(e),n))),this;t=c(t);let r=e({id:t,props:n});return this.json.children.push(r),new g(r)}remove(e){return e=c(e),this.json.children=this.json.children.filter((t=>t.id!==e)),this}nodes(){return r(this.json).map((e=>(delete(e=Object.assign({},e)).children,e)))}cache(){return (e=>{let t=r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],t._cache.parents=e._cache.parents.concat([e.id]));})),n={};t.forEach((e=>{e.id&&(n[e.id]=e);})),t.forEach((e=>{e._cache.parents.forEach((t=>{n.hasOwnProperty(t)&&n[t]._cache.children.push(e.id);}));})),e._cache.children=Object.keys(n);})(this.json),this}list(){return r(this.json)}fillDown(){var e;return e=this.json,r(e,((e,t)=>{t.props=f$1(t.props,e.props);})),this}depth(){u(this.json);let e=r(this.json),t=e.length>1?1:0;return e.forEach((e=>{if(0===e._cache.parents.length)return;let n=e._cache.parents.length+1;n>t&&(t=n);})),t}out(e){return u(this.json),d(this.json,e)}debug(){return u(this.json),d(this.json,"debug"),this}};const _=function(e){let t=s(e);return new g$1(t)};_.prototype.plugin=function(e){e(this);};
 
@@ -6241,7 +6432,8 @@
     one: {
       setTag: setTag$1,
       unTag: unTag$1,
-      addTags: addTags$2
+      addTags: addTags$2,
+      canBe: canBe$1,
     },
   };
 
@@ -6308,16 +6500,11 @@
     canBe: function (tag) {
       tag = tag.replace(/^#/, '');
       let tagSet = this.model.one.tagSet;
-      // everything can be an unknown tag
-      if (!tagSet.hasOwnProperty(tag)) {
-        return this
-      }
-      let not = tagSet[tag].not || [];
+      let canBe = this.methods.one.canBe;
       let nope = [];
       this.document.forEach((terms, n) => {
         terms.forEach((term, i) => {
-          let found = not.find(no => term.tags.has(no));
-          if (found) {
+          if (!canBe(term, tag, tagSet)) {
             nope.push([n, i, i + 1]);
           }
         });
@@ -6646,7 +6833,7 @@
       return true
     }
     //number-letter '20-aug'
-    let reg2 = /^([0-9]{1,4})[-–—]([a-z\u00C0-\u00FF`"'/-]+$)/i;
+    let reg2 = /^[('"]?([0-9]{1,4})[-–—]([a-z\u00C0-\u00FF`"'/-]+[)'"]?$)/i;
     if (reg2.test(str) === true) {
       return true
     }
@@ -7007,6 +7194,7 @@
   const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
   const hasEllipse = /(?:\u2026|\.{2,}) *$/; // '...'
   const hasLetter = /\p{L}/u;
+  const hasPeriod = /\. *$/;
   const leadInit = /^[A-Z]\. $/; // "W. Kensington"
 
   /** does this look like a sentence? */
@@ -7030,8 +7218,8 @@
     let txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
     let words = txt.split(' ');
     let lastWord = words[words.length - 1].toLowerCase();
-    // check for 'Mr.'
-    if (abbrevs.hasOwnProperty(lastWord) === true) {
+    // check for 'Mr.' (and not mr?)
+    if (abbrevs.hasOwnProperty(lastWord) === true && hasPeriod.test(str) === true) {
       return false
     }
     // //check for jeopardy!
@@ -7383,12 +7571,12 @@
     b: 'ßþƀƁƂƃƄƅɃΒβϐϦБВЪЬвъьѢѣҌҍ',
     c: '¢©ÇçĆćĈĉĊċČčƆƇƈȻȼͻͼϲϹϽϾСсєҀҁҪҫ',
     d: 'ÐĎďĐđƉƊȡƋƌ',
-    e: 'ÈÉÊËèéêëĒēĔĕĖėĘęĚěƐȄȅȆȇȨȩɆɇΈΕΞΣέεξϵЀЁЕеѐёҼҽҾҿӖӗ',
+    e: 'ÈÉÊËèéêëĒēĔĕĖėĘęĚěƐȄȅȆȇȨȩɆɇΈΕΞΣέεξϵЀЁЕеѐёҼҽҾҿӖӗễ',
     f: 'ƑƒϜϝӺӻҒғſ',
     g: 'ĜĝĞğĠġĢģƓǤǥǦǧǴǵ',
     h: 'ĤĥĦħƕǶȞȟΉΗЂЊЋНнђћҢңҤҥҺһӉӊ',
     I: 'ÌÍÎÏ',
-    i: 'ìíîïĨĩĪīĬĭĮįİıƖƗȈȉȊȋΊΐΪίιϊІЇії',
+    i: 'ìíîïĨĩĪīĬĭĮįİıƖƗȈȉȊȋΊΐΪίιϊІЇіїi̇',
     j: 'ĴĵǰȷɈɉϳЈј',
     k: 'ĶķĸƘƙǨǩΚκЌЖКжкќҚқҜҝҞҟҠҡ',
     l: 'ĹĺĻļĽľĿŀŁłƚƪǀǏǐȴȽΙӀӏ',
@@ -7489,7 +7677,7 @@
     if (hasSlash.test(str) && !hasDomain.test(str) && !isMath.test(str)) {
       let arr = str.split(hasSlash);
       // don't split urls and things
-      if (arr.length <= 2) {
+      if (arr.length <= 3) {
         arr.forEach(word => {
           word = word.trim();
           if (word !== '') {
@@ -7797,6 +7985,7 @@
   nlp$1.extend(tag); //2kb
   nlp$1.plugin(contractions$2); //~6kb
   nlp$1.extend(tokenize$3); //7kb
+  nlp$1.extend(freeze); //
   nlp$1.plugin(cache$1); //~1kb
   nlp$1.extend(lookup); //7kb
   nlp$1.extend(typeahead); //1kb
@@ -7906,7 +8095,7 @@
     }
   };
 
-  var version = '0.2.1';
+  var version = '0.2.2';
 
   // 01- full-word exceptions
   const checkEx = function (str, ex = {}) {
@@ -8036,10 +8225,10 @@
   var model$1 = {
     "nouns": {
       "plural": {
-        "fwd": "1:io¦i:e,a¦1i:to,no,zo,so,lo,bo,do,vo,mo,ro,po,uo,os,oo¦1hi:ca¦2hi:cco,sco,rco,uco,eco,ego¦3i:mico,fico,nico,naco,pico¦4hi:arico",
-        "both": "4i:ichio,golio,tolio¦4s:ware¦4ini:luomo¦4hi:ilogo,alogo¦3i:daco,nvio,enio,maco,ttio,vvio,sico,iaco¦3hi:uogo,gogo¦3s:gan,age¦2hi:ngo,oco,igo,lco,nco,rgo¦2i:ogo¦1i:ko,eo,fo¦1s:r,t¦1en:man",
-        "rev": ":s¦1o:ii,ghi¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,smi,lbi,tmi,evi,rni,oli,tri,rpi,lti,eli,ovi,gni,isi,achi,lzi,mpi,api,cri,iri,rsi,ppi,rvi,spi,cli,lpi,ebi,lmi,obi,lsi,rli,zoi¦2e:ori,oni,ali,roi,esi¦2a:sti,mmi,gmi¦3o:gli,enti,cci,toi,acchi,muli,rini,nimi,nini,ondi,nci,tivi,lini,tini,meti,iuti,beri,ggi,unni,sivi,rodi,tipi,izi,sini,unti,buti,arri,reni,uini,cini,bini,hini,simi,urri,imbi,heri,onni,onzi,zini,lci,feri,sci,anni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,aini,nuti,uvi,bbri,igi,erri,ieni,ropi,fori,arbi,embi,peti,cavi,vini,tuti,nodi,moti,ozi,seni,veti,lichi,arzi,soi,erzi,ezi,suti,livi¦3e:anti,fari,ieri,podi,rili,lumi,seri,tumi,ceri,iedi,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti,enzi,suri,turi,michi,padi,duri¦4o:ndini,uari,reschi,gosti,pasti,busti,emici,rredi,ggini,sensi,dromi,aleni,lischi,becchi,amini,oneri,gusti,dari,mmini,mbali,ofoni,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,neschi,sesti,vari,oqui,igoni,iocchi,manzi,barchi,ludi,onaci,anici,hermi,tadi,cnici,lagi,conti,fugi,forzi,pudi,andri,efoni¦4e:denti,larmi,ltari,ienti,rgini,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi,iatri,tezzi,canzi,formi,tradi,tanzi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,ncanti,isodi,patri,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,igenti,ertici,agenti,mestri¦5a:oranzi,cletti",
-        "ex": "3:agio,ozio¦4:astio,atrio,bacio,cesio,conio,cuoio,micio,palio,patio,podio,socio¦5:adagio,avorio,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,nunzio,occhio,soffio,tornio¦6:armadio,assedio,ausilio,biennio,cerchio,cimelio,cocchio,delirio,demanio,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,indugio,logorio,lunario,marchio,mucchio,muschio,ossario,raschio,rimedio,ringhio,rischio,salario,scoppio,secchio,segugio,sicario,sipario,teschio,ufficio,velario¦7:archivio,auspicio,batterio,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,obitorio,orecchio,orologio,ossequio,pertugio,petrolio,sacrario,silenzio,simposio,specchio,spicchio,suburbio,triennio¦8:adulterio,auditorio,beneficio,breviario,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,ginocchio,glossario,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,papocchio,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,vituperio¦9:avversario,corollario,crematorio,crocicchio,cronicario,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,ricettario,sgocciolio,sillabario,territorio¦10:ambulatorio,apparecchio,brefotrofio,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,presbiterio,promontorio,reliquiario,semicerchio,spauracchio,vocabolario¦11:anniversario,armamentario,comprensorio,governicchio,indirizzario,orfanatrofio,orfanotrofio,osservatorio,parabancario,scarabocchio¦12:bibliotecario¦14:poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario¦4i:addio,bivio,iodio,oblio,sodio,tedio,vocio,abate,abete,acaro,apice,aroma,asilo,atomo,avere,baule,belga,busto,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,costo,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,frate,fusto,gambo,germe,gesto,gnomo,grado,greto,grido,grumo,guado,gusto,latte,libro,logos,mambo,manto,manzo,marmo,miele,monte,morbo,mosto,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,poema,poeta,ponte,porro,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,soldo,sparo,sposo,sputo,suono,tasto,teste,topos,trono,tuono,utero,vanto,verbo,verme,birra,sfida,tenda,morte,porta,prova,mappa,carne,notte,trama,corda,ombra,forma,pelle,fonte,forza,torre,retta,acqua,corte,croce,carta,tazza,crepa,droga,guida,dieta,stima,multa,paura,stiva,linea,legge,lente,pinta,quota,fetta,firma,punta,ruota¦7s:affaire,college¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco,oca¦6hi:apologo,collega,intrico,pizzico,prologo,allocco,alterco,ammicco,balocco,cacicco,chiosco,comasco,gerarca,menisco,monarca,ritocco,sblocco,sceicco,tarocco,ricerca,pratica,tecnica,tattica¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,ludibrio,mormorio,plutonio,presidio,sussidio,thesaurus,tremolio,turbinio,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,bulimico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disguido,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gendarme,geometra,giaguaro,giardino,girasole,glaucoma,immagine,impianto,levriero,luminare,lupanare,magliaro,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,parmense,pezzente,pomodoro,pretesto,proclama,programa,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,teledivo,televoto,titolare,torneino,traffico,tramonto,visconte,bellezza,carrozza,crescita,chitarra,insalata,qualcuno,avanzata,chiunque,alleanza,condotta,chiamata,impronta,speranza,arachide,rotolare,cravatta,template¦9hi:arcipelago,reincarico,sottobosco,supermarco,videodisco,biblioteca¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,scandaglio,scintillio,sfarfallio,trentennio,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,capocomico,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,risciacquo,soprannome,superteste,tangentaro,tecnocrate,teleutente,ultrasuono,vacanziero,ventunenne,bancarotta,coordinata,strisciare,rientranza,tonnellata¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,affido,agrume,alloro,alluce,altero,arrivo,ascaro,asceta,atleta,attimo,automa,avanzo,batavo,bavero,bolero,bolide,budino,bufalo,caduto,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,druido,enzima,esteta,estimo,flauto,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,pranzo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,rifuto,riparo,riposo,roseto,rudere,salame,saluto,sapere,sbirro,schema,scialo,sciame,scisma,scriba,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,svolta,carota,classe,moneta,anatra,durata,flotta,pietra,estate,cialda,addome,usanza,valuta,figura,lingua,patata,statua,visita¦3hi:baco,caco,fico,lago,logo,rogo,sugo,arco,buco,duca,muco,orco,anca¦8s:bailamme,commando,flamenco,pastiche,skinhead¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,abbuono,accenno,alveare,amuleto,arresto,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,computo,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,degrado,deposto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,epiteto,eremita,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,istinto,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,moldavo,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,presepe,primate,profeta,profumo,pronome,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,bevanda,nascita,fornace,testata,perdita,entrate,rivolta,vendita,squadra,lacrima,tornado,offerta,azienda,domanda,disputa,finanza,tariffa,bussare,origine,portata,recluta,riserva,stringa,vittima¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contrordine,imbarcadero,maggiordomo,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,presupposto,rinoceronte,satellitare,alternativa,aspettativa,caffellatte,passeggiata¦6s:barrio,charme,marine,pueblo,studio¦4ifondi:bassofondo¦4s:blog,byte,club,film,game,link,menu¦3i:brio,mago,odio,olio,trio,paio,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,moto,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,papa,pene,pepe,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,seme,seno,sole,tema,tino,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,voce,voto,base,vita,rete,pace,foto,nave,area,mira,cura,fuga,erba,idea,luce,leva,lega,nota,noce,paga,pipa,fase,cose,riva,cima,sede,arma,onda¦2oi:bue¦9s:campesino,videogame¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,principio,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,avamposto,borgataro,burocrate,campanaro,campanile,caposaldo,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disavanzo,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,individuo,interesse,israelita,labirinto,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,olocausto,orizzonte,orologino,palombaro,pataccaro,pescecane,pesticida,pistolero,posticipo,prosieguo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,sovracuto,tassinaro,trapianto,assemblea,sigaretta,sottaceto,sicurezza,debolezza,sconfitta,dinosauro,abitudine,etichetta,lunghezza,narrativa,rilevanza¦8a:continuum¦4ora:corpus¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦4hi:drago,giogo,plico,sfogo,spago,svago,volgo,becco,bosco,bruco,casco,circo,desco,disco,picco,succo,varco,bocca,tasca,vasca,pesca,mosca¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,ombelico,stratega,granduca,incarico,mollusco,oligarca,prosecco,ricarico,rintocco,scirocco,tricheco,fabbrica,bistecca,politica¦5hi:macaco,valico,blocco,bricco,brocco,chicco,copeco,eunuco,fiasco,gnocco,sbocco,spreco,giacca,carica,clicca,musica¦5s:macho,peone,ratio,score¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦6es:sketch¦8hi:solletico,strascico,tarassaco,transfuga,alambicco,asterisco,autoparco,patriarca,rammarico,discarica¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦2i:zio,ano,avo,duo,evo,oro,uno,ala,ape,pro¦5e:scarpa,balena¦4e:torta¦4he:barca¦11a:sopracciglio¦10e:uguaglianza¦13i:chemioterapico,superburocrate,superministero,consapevolezza¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente¦13hi:caratteristica"
+        "fwd": "1:io¦i:e,a¦1i:to,no,zo,so,lo,bo,do,vo,mo,ro,po,uo,os,oo¦1e:na¦2hi:cco,sco,rco,uco,eco,ego,uca,rca,cca¦3i:mico,fico,nico,naco,pico¦3hi:rica¦4hi:arico",
+        "both": "1:à¦4i:ichio,golio,tolio¦4s:ware¦4ini:luomo¦4hi:ilogo,alogo¦3e:stra¦3hi:mica,uogo,gogo¦3i:daco,nvio,enio,maco,ttio,vvio,sico,iaco¦3s:gan,age¦2e:dia,era,lla,tia,rra¦2hi:ngo,oco,igo,lco,nco,rgo¦2s:et¦2i:ogo¦1e:sa,cia¦1i:ko,eo,fo¦1s:r¦1en:man",
+        "rev": "1:t¦:s¦a:he¦1o:ii,ghi¦1a:te,ze,re,me,ve,ie,le¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,ivi,smi,lbi,tmi,evi,rni,oli,tri,rpi,lti,eli,ovi,gni,rri,isi,achi,lzi,mpi,api,cri,iri,rsi,ppi,rvi,spi,cli,lpi,ebi,lmi,obi,lsi,rli,zoi¦2e:ori,oni,ali,roi,esi¦2a:sti,mmi,gmi,ene,ine¦3o:gli,enti,cci,toi,acchi,muli,rini,nimi,nini,ondi,nci,lini,tini,meti,iuti,beri,ggi,unni,rodi,tipi,izi,sini,unti,buti,reni,uini,cini,bini,hini,simi,imbi,heri,onni,onzi,zini,lci,feri,sci,anni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,aini,eschi,nuti,uvi,bbri,igi,ieni,ropi,fori,arbi,embi,peti,cavi,vini,tuti,nodi,moti,ozi,seni,veti,lichi,arzi,soi,erzi,ezi,suti¦3e:anti,fari,ieri,podi,rili,lumi,seri,tumi,nili,ceri,iedi,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti,enzi,turi,padi¦4o:ndini,uari,gosti,pasti,busti,emici,rredi,ggini,sensi,dromi,aleni,lischi,becchi,amini,oneri,gusti,dari,mmini,mbali,ofoni,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,sesti,vari,oqui,igoni,iocchi,manzi,barchi,ludi,onaci,anici,hermi,tadi,cnici,lagi,conti,fugi,forzi,pudi,andri,efoni¦4e:denti,larmi,ltari,ienti,rgini,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi,iatri,tezzi,formi,tradi,tanzi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,ncanti,isodi,patri,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,igenti,ertici,agenti,mestri¦5a:oranzi,cletti",
+        "ex": "3:agio,ozio¦4:link,host,astio,atrio,bacio,cesio,conio,cuoio,micio,palio,patio,podio,socio¦5:retro,adagio,avorio,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,nunzio,occhio,soffio,tornio¦6:camion,armadio,assedio,ausilio,biennio,cerchio,cimelio,cocchio,delirio,demanio,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,indugio,logorio,lunario,marchio,mucchio,muschio,ossario,raschio,rimedio,ringhio,rischio,salario,scoppio,secchio,segugio,sicario,sipario,teschio,ufficio,velario¦7:account,archivio,auspicio,batterio,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,obitorio,orecchio,orologio,ossequio,pertugio,petrolio,sacrario,silenzio,simposio,specchio,spicchio,suburbio,sussidio,triennio¦8:business,gioventù,adulterio,auditorio,beneficio,breviario,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,glossario,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,papocchio,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,vituperio¦9:avversario,corollario,crematorio,crocicchio,cronicario,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,ricettario,sgocciolio,sillabario,territorio¦10:ambulatorio,apparecchio,brefotrofio,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,presbiterio,promontorio,reliquiario,semicerchio,spauracchio,vocabolario¦11:anniversario,armamentario,comprensorio,governicchio,indirizzario,orfanatrofio,orfanotrofio,osservatorio,parabancario,scarabocchio¦12:bibliotecario¦14:poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario¦4i:addio,bivio,iodio,oblio,sodio,tedio,vocio,abate,abete,acaro,apice,aroma,asilo,atomo,avere,baule,belga,busto,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,costo,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,frate,fusto,gambo,germe,gesto,gnomo,grado,greto,grido,grumo,guado,gusto,latte,libro,logos,mambo,manto,manzo,marmo,miele,monte,morbo,mosto,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,poema,poeta,ponte,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,soldo,sparo,sposo,sputo,suono,tasto,teste,topos,trono,tuono,utero,vanto,verbo,verme,sfida,tenda,morte,porta,prova,mappa,carne,notte,corda,ombra,forma,pelle,fonte,forza,torre,retta,acqua,corte,croce,carta,tazza,crepa,droga,guida,dieta,stima,multa,paura,linea,legge,lente,pinta,quota,fetta,firma,punta,ruota¦7s:affaire,college,exploit¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco¦6hi:apologo,collega,intrico,pizzico,prologo,pratica,allocco,alterco,ammicco,balocco,cacicco,chiosco,comasco,gerarca,menisco,monarca,ritocco,sblocco,sceicco,tarocco,ricerca¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,ludibrio,mormorio,plutonio,presidio,thesaurus,tremolio,turbinio,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,bulimico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disguido,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gendarme,geometra,giaguaro,giardino,girasole,glaucoma,immagine,impianto,levriero,luminare,lupanare,magliaro,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,parmense,pezzente,pomodoro,pretesto,proclama,programa,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,televoto,titolare,torneino,traffico,tramonto,visconte,bellezza,chiusura,crescita,mancanza,qualcuno,chiunque,alleanza,condotta,chiamata,arachide,rotolare,template¦9hi:arcipelago,biblioteca,reincarico,sottobosco,supermarco,videodisco¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,scandaglio,scintillio,sfarfallio,trentennio,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,capocomico,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,risciacquo,soprannome,superteste,tangentaro,tecnocrate,teleutente,ultrasuono,vacanziero,ventunenne,coordinata,strisciare,rientranza,tonnellata¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,alcol,affido,agrume,alloro,alluce,altero,ascaro,asceta,atleta,attimo,automa,avanzo,batavo,bavero,bolero,bolide,budino,bufalo,caduto,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,druido,enzima,esteta,estimo,flauto,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,pranzo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,rifuto,riparo,riposo,roseto,rudere,salame,saluto,sapere,schema,scialo,sciame,scisma,scriba,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,svolta,classe,moneta,durata,flotta,pietra,estate,cialda,addome,valuta,figura,patata,statua,visita,quadro¦3hi:baco,caco,fico,lago,logo,rogo,sugo,anca,arco,buco,duca,muco,orco¦8s:bailamme,commando,flamenco,pastiche,skinhead¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,abbuono,accenno,alveare,amuleto,arresto,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,computo,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,degrado,deposto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,epiteto,eremita,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,istinto,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,moldavo,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,presepe,primate,profeta,profumo,pronome,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,nascita,fornace,testata,perdita,entrate,rivolta,squadra,tornado,offerta,azienda,domanda,disputa,finanza,tariffa,bussare,origine,portata,riserva,stringa¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contrordine,imbarcadero,maggiordomo,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,presupposto,rinoceronte,satellitare,alternativa,caffellatte,passeggiata¦6s:barrio,charme,marine,pueblo,studio¦4ifondi:bassofondo¦4s:blog,byte,club,film,game,list,menu¦3i:brio,mago,odio,olio,trio,paio,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,moto,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,papa,pene,pepe,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,seme,seno,sole,tema,tino,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,voce,voto,base,vita,rete,pace,foto,nave,area,mira,cura,fuga,erba,idea,luce,leva,lega,nota,noce,paga,pipa,fase,cose,riva,cima,sede,arma,onda¦2oi:bue¦9s:campesino,videogame¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,principio,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,avamposto,borgataro,burocrate,campanaro,caposaldo,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disavanzo,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,individuo,interesse,israelita,labirinto,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,olocausto,orizzonte,orologino,palombaro,pataccaro,pescecane,pesticida,pistolero,posticipo,prosieguo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,sovracuto,tassinaro,trapianto,assemblea,sottaceto,sicurezza,debolezza,sconfitta,dinosauro,abitudine,etichetta,lunghezza,narrativa,procedura,rilevanza¦8a:continuum,ginocchio¦4ora:corpus¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦4hi:drago,giogo,plico,sfogo,spago,svago,volgo,vasca,mosca,becco,bosco,bruco,casco,circo,disco,picco,succo,varco,bocca¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,ombelico,stratega,politica,granduca,incarico,mollusco,oligarca,prosecco,ricarico,rintocco,scirocco,tricheco,fabbrica,bistecca¦5hi:macaco,valico,musica,blocco,bricco,brocco,chicco,copeco,eunuco,fiasco,gnocco,sbocco,spreco,giacca,carica,clicca¦5s:macho,peone,ratio,score¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦6es:sketch¦8hi:solletico,strascico,tarassaco,transfuga,alambicco,asterisco,autoparco,patriarca,rammarico,discarica¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦2i:zio,ano,avo,duo,evo,oro,uno,ala,ape,pro¦5e:scarpa,carota,anatra,misura,usanza,lingua,foglia,nuvola,pianta,pioggia,regola,scelta¦4e:torta,capra,trama,stiva,bugia,gamba¦4he:barca,tasca,pesca¦11a:sopracciglio¦9e:bancarotta¦6e:bevanda,vendita,lacrima,vacanza,verdura,rivista,recluta,fermata,vittima,cellula,costola,scimmia¦8e:sigaretta,frequenza,inchiesta¦7e:carrozza,insalata,tempesta,sostanza,avanzata,impronta,speranza,cravatta,ferrovia,molecola,montagna¦10e:uguaglianza,circostanza,aspettativa,prospettiva¦3e:fata¦13he:caratteristica¦2he:oca¦6he:tecnica,tattica¦13i:chemioterapico,superburocrate,superministero,consapevolezza¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente"
       }
     },
     "adjectives": {
@@ -8289,7 +8478,7 @@
         "fwd": "endo:ire¦1cendo:urre¦1nendo:orre",
         "both": "3vendo:abere¦3cendo:sfare,efare,ddire¦2attando:ecettare¦1endo:arre¦ndoci:rci¦ndosene:rsene¦ndo:re",
         "rev": "1ire:hendo,zendo,fendo¦1are:iiando¦2ire:unendo,ntendo,isendo,ilendo,luendo,nsendo,nuendo,prendo,inendo,rbendo,buendo,ulendo,itendo,orendo,atendo,tuendo,ruendo,ibendo,rmendo,osendo,grendo,elendo,trendo,ltendo,frendo,ependo,agendo,opendo,upendo,lpendo¦2rre:ponendo¦2re:facendo¦3ire:bonendo,bolendo,ortendo,venendo,volendo,errendo,gerendo,conendo,monendo,nerendo,assendo,audendo,ossendo,salendo,serendo,estendo,astendo,artendo,iarendo,perendo,cucendo,bidendo,aurendo,allendo,ornendo,uscendo,ugnendo,arnendo,barendo,arrendo,uttendo,pedendo,iolendo,ronendo,verendo,nutendo,tivendo,durendo,arcendo,tolendo,eguendo,pidendo,midendo,lenendo,gidendo,ambendo,bedendo,ferendo,colendo,badendo,uarendo,ionendo,ognendo,curendo¦3rre:nducendo,oducendo,educendo,aducendo¦4ire:bellendo,dolcendo,gredendo,mollendo,pparendo,uvidendo,vertendo,mparendo,acidendo,servendo,sordendo,iondendo,llerendo,pettendo,gardendo,iottendo,randendo,pessendo,ristendo,verdendo,fittendo,bollendo,fuggendo,crudendo,sparendo¦5ire:ppellendo,utridendo,liardendo",
-        "ex": "spendantendo:impedantire¦inchiocciolendo:rinchiocciolire¦infierendo:rinfierire¦intoppando:rintoppare¦tivalicando:rivalicare¦2vendo:bere¦5endo:boglire,aborrire,accanire,accudire,ammutire,attutire,blandire,circuire,demolire,esercire,imbutire,irretire,languire,riordire,sbiadire,scandire,sgradire,staggire,stordire,supplire,svampire¦6ando:bullizzare¦9cendo:contraffare¦2cendo:dire,fare¦4endo:empire,aderire,arguire,bandire,bollire,candire,carpire,condire,erudire,fuggire,gradire,granire,gremire,inveire,largire,muggire,paidire,riudire,ruggire,sancire,servire,tradire¦4cendo:indire,ridire,rifare,abdurre,addurre¦7cendo:interdire¦6cendo:maledire,strafare,trasdurre¦5cendo:malfare,predire,perdurre¦8iando:pinneggiare¦10ando:raggrovigliare¦8cendo:ribenedire,sopraffare,autoridurre¦4vendo:ribere¦11cendo:ricontraffare¦6endo:riempire,abbrutire,ammannire,ammattire,ammencire,arrostire,azzoppire,custodire,deglutire,imbolsire,imbottire,inacutire,inaridire,inebetire,ingobbire,ingrigire,insignire,rancidire,ribandire,ricondire,rimuggire,ritradire,scaturire,schernire¦2pugnando:riespugnare¦7iando:rimeggiare¦2verniciando:rinverniciare¦4chando:scratchare¦3cendo:sdire,sfare¦8ettendo:teletrasmettere¦2endo:adire,agire,olire,udire,unire¦3endo:ambire,basire,capire,cucire,fedire,ferire,gioire,lenire,ordire,orrire,padire,perire,putire,rapire,salire,subire,uscire,venire¦7endo:appiattire,imbufalire,immucidire,inferocire,infrollire,inorridire,sbalordire¦9endo:approfondire,imbastardire,imbestialire,imborghesire,impensierire,incancherire,incancrenire,inflaccidire,infreddolire,interloquire,rabbrividire,ringiovanire¦10endo:illeggiadrire,rinciprignire¦8endo:impallidire,infastidire,inorgoglire,insonnolire,inviscidire,involgarire,irrobustire,ringrullire¦2nendo:porre"
+        "ex": "spendantendo:impedantire¦inchiocciolendo:rinchiocciolire¦infierendo:rinfierire¦intoppando:rintoppare¦tivalicando:rivalicare¦2vendo:bere¦5endo:boglire,aborrire,accanire,accudire,ammutire,attutire,blandire,circuire,demolire,esercire,imbutire,irretire,languire,riordire,sbiadire,scandire,sgradire,staggire,stordire,supplire,svampire¦6ando:bullizzare¦9cendo:contraffare¦2cendo:dire,fare¦4endo:empire,aderire,arguire,bandire,bollire,candire,carpire,condire,erudire,fuggire,gradire,granire,gremire,inveire,largire,muggire,paidire,riudire,ruggire,sancire,servire,tradire¦4cendo:indire,ridire,rifare,abdurre,addurre¦7cendo:interdire¦6cendo:maledire,strafare,trasdurre¦5cendo:malfare,predire,perdurre¦8iando:pinneggiare¦10ando:raggrovigliare¦8cendo:ribenedire,sopraffare,autoridurre¦4vendo:ribere¦11cendo:ricontraffare¦6endo:riempire,abbrutire,ammannire,ammattire,ammencire,arrostire,azzoppire,custodire,deglutire,imbolsire,imbottire,inacutire,inaridire,inebetire,ingobbire,ingrigire,insignire,rancidire,ribandire,ricondire,rimuggire,ritradire,scaturire,schernire¦2pugnando:riespugnare¦8mi:rilassare¦7iando:rimeggiare¦2verniciando:rinverniciare¦4chando:scratchare¦3cendo:sdire,sfare¦8ettendo:teletrasmettere¦2endo:adire,agire,olire,udire,unire¦3endo:ambire,basire,capire,cucire,fedire,ferire,gioire,lenire,ordire,orrire,padire,perire,putire,rapire,salire,subire,uscire,venire¦7endo:appiattire,imbufalire,immucidire,inferocire,infrollire,inorridire,sbalordire¦9endo:approfondire,imbastardire,imbestialire,imborghesire,impensierire,incancherire,incancrenire,inflaccidire,infreddolire,interloquire,rabbrividire,ringiovanire¦10endo:illeggiadrire,rinciprignire¦8endo:impallidire,infastidire,inorgoglire,insonnolire,inviscidire,involgarire,irrobustire,ringrullire¦2nendo:porre"
       }
     },
     "pastParticiple": {
@@ -8391,14 +8580,7 @@
     return convert$1(str, m$1.toPresentParticiple)
   };
 
-  let {
-    presentTense,
-    pastTense,
-    futureTense,
-    conditional,
-    imperfect,
-    subjunctive,
-  } = model$1;
+  let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model$1;
 
   // =-=-
   const revAll = function (m) {
@@ -8415,11 +8597,22 @@
   let imperfectRev = revAll(imperfect);
   let subjunctiveRev = revAll(subjunctive);
 
-  // 'congratularmi' to 'congratular'
-  const stripReflexive$1 = function (str) {
+  const stripSuffix$1 = function (str) {
+    // reflexive forms
+    // 'congratularmi' to 'congratular'
     str = str.replace(/ar[mtscv]i$/, 'are');
     str = str.replace(/er[mtscv]i$/, 'ere');
     str = str.replace(/ir[mtscv]i$/, 'ire');
+    // pronoun suffixes
+    //sentire + "lo" -> "sentirlo"
+    str = str.replace(/arl[oaie]$/, 'are');
+    str = str.replace(/erl[oaie]$/, 'ere');
+    str = str.replace(/irl[oaie]$/, 'ire');
+
+    // -ergli, -argli, -irgli
+    str = str.replace(/er(lo|la|le|gli|eci)$/, 'ere');
+    str = str.replace(/ar(lo|la|le|gli|eci)$/, 'are');
+    str = str.replace(/ir(lo|la|le|gli|eci)$/, 'ire');
     return str
   };
 
@@ -8430,12 +8623,12 @@
       ThirdPerson: (s) => convert$1(s, presentRev.third),
       FirstPersonPlural: (s) => convert$1(s, presentRev.firstPlural),
       SecondPersonPlural: (s) => convert$1(s, presentRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, presentRev.thirdPlural),
+      ThirdPersonPlural: (s) => convert$1(s, presentRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripReflexive$1(str)
+    return stripSuffix$1(str)
   };
 
   const fromPast = (str, form) => {
@@ -8445,12 +8638,12 @@
       ThirdPerson: (s) => convert$1(s, pastRev.third),
       FirstPersonPlural: (s) => convert$1(s, pastRev.firstPlural),
       SecondPersonPlural: (s) => convert$1(s, pastRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, pastRev.thirdPlural),
+      ThirdPersonPlural: (s) => convert$1(s, pastRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripReflexive$1(str)
+    return stripSuffix$1(str)
   };
 
   const fromFuture = (str, form) => {
@@ -8460,12 +8653,12 @@
       ThirdPerson: (s) => convert$1(s, futureRev.third),
       FirstPersonPlural: (s) => convert$1(s, futureRev.firstPlural),
       SecondPersonPlural: (s) => convert$1(s, futureRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, futureRev.thirdPlural),
+      ThirdPersonPlural: (s) => convert$1(s, futureRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripReflexive$1(str)
+    return stripSuffix$1(str)
   };
 
   const fromConditional = (str, form) => {
@@ -8475,12 +8668,12 @@
       ThirdPerson: (s) => convert$1(s, conditionalRev.third),
       FirstPersonPlural: (s) => convert$1(s, conditionalRev.firstPlural),
       SecondPersonPlural: (s) => convert$1(s, conditionalRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, conditionalRev.thirdPlural),
+      ThirdPersonPlural: (s) => convert$1(s, conditionalRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripReflexive$1(str)
+    return stripSuffix$1(str)
   };
   const fromImperfect = (str, form) => {
     let forms = {
@@ -8489,12 +8682,12 @@
       ThirdPerson: (s) => convert$1(s, imperfectRev.third),
       FirstPersonPlural: (s) => convert$1(s, imperfectRev.firstPlural),
       SecondPersonPlural: (s) => convert$1(s, imperfectRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, imperfectRev.thirdPlural),
+      ThirdPersonPlural: (s) => convert$1(s, imperfectRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripReflexive$1(str)
+    return stripSuffix$1(str)
   };
 
   const fromSubjunctive = (str, form) => {
@@ -8504,12 +8697,12 @@
       ThirdPerson: (s) => convert$1(s, subjunctiveRev.third),
       FirstPersonPlural: (s) => convert$1(s, subjunctiveRev.firstPlural),
       SecondPersonPlural: (s) => convert$1(s, subjunctiveRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, subjunctiveRev.thirdPlural),
+      ThirdPersonPlural: (s) => convert$1(s, subjunctiveRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripReflexive$1(str)
+    return stripSuffix$1(str)
   };
 
   const all$2 = function (str) {
@@ -8571,9 +8764,10 @@
   };
 
   var noun = {
-    toPlural: toPlural$1, fromPlural: fromPlural$1, all: all$1
+    toPlural: toPlural$1,
+    fromPlural: fromPlural$1,
+    all: all$1
   };
-
 
   // console.log(toPlural('abboccamento'))
   // console.log(fromPlural('abboccamenti'))
@@ -8945,16 +9139,27 @@
       'ThirdPerson',
       'FirstPersonPlural',
       'SecondPersonPlural',
-      'ThirdPersonPlural',
+      'ThirdPersonPlural'
     ];
     return want.find((tag) => term.tags.has(tag))
   };
 
-  // turn 'congratularmi' into 'congratular'
-  const stripReflexive = function (str) {
+  const stripSuffix = function (str) {
+    // reflexive forms
+    // 'congratularmi' to 'congratular'
     str = str.replace(/ar[mtscv]i$/, 'are');
     str = str.replace(/er[mtscv]i$/, 'ere');
     str = str.replace(/ir[mtscv]i$/, 'ire');
+    // pronoun suffixes
+    //sentire + "lo" -> "sentirlo"
+    str = str.replace(/arl[oaie]$/, 'are');
+    str = str.replace(/erl[oaie]$/, 'ere');
+    str = str.replace(/irl[oaie]$/, 'ire');
+
+    // -ergli, -argli, -irgli
+    str = str.replace(/er(lo|la|le|gli|eci)$/, 'ere');
+    str = str.replace(/ar(lo|la|le|gli|eci)$/, 'are');
+    str = str.replace(/ir(lo|la|le|gli|eci)$/, 'ire');
     return str
   };
 
@@ -8964,7 +9169,7 @@
       terms.forEach((term) => {
         let str = term.implicit || term.normal || term.text;
         if (term.tags.has('Reflexive')) {
-          str = stripReflexive(str);
+          str = stripSuffix(str);
         }
         // get infinitive form of the verb
         if (term.tags.has('Verb')) {
@@ -10061,7 +10266,7 @@
       bo: nn,
       fo: nn,
       lo: nn,
-      to: nn,
+      to: nn
     },
     {
       // three-letter suffixes
@@ -10142,7 +10347,7 @@
       ier: nn,
       ans: nn,
       bus: nn,
-      ort: nn,
+      ort: nn
     },
     {
       // four-letter suffixes
@@ -10170,6 +10375,56 @@
       arvi: ref,
       irvi: ref,
       ervi: ref,
+
+      // verb pronoun suffixes
+      // -"are"+"lo" = "arlo" verb suffix
+      arlo: inf,
+      arla: inf,
+      arli: inf,
+      arle: inf,
+
+      erlo: inf,
+      erla: inf,
+      erli: inf,
+      erle: inf,
+
+      irlo: inf,
+      irla: inf,
+      irli: inf,
+      irle: inf,
+
+      irlo: inf,
+      irla: inf,
+      irli: inf,
+      irle: inf,
+      irmi: inf,
+      irti: inf,
+      irci: inf,
+      irvi: inf,
+
+      irle: inf,
+      irsi: inf,
+      arlo: inf,
+      arla: inf,
+      arli: inf,
+      arle: inf,
+      armi: inf,
+      arti: inf,
+      arci: inf,
+      arvi: inf,
+
+      arle: inf,
+      arsi: inf,
+      erlo: inf,
+      erla: inf,
+      erli: inf,
+      erle: inf,
+      ermi: inf,
+      erti: inf,
+      erci: inf,
+      ervi: inf,
+      erle: inf,
+      ersi: inf,
 
       endo: g,
       ando: g,
@@ -10352,10 +10607,15 @@
       gnor: nn,
       port: nn,
       vedì: nn,
-      vitù: nn,
+      vitù: nn
     },
     {
       // five-letter suffixes
+      irgli: inf,
+      argli: inf,
+      ergli: inf,
+      ereci: inf,
+
       tante: jj,
       tanti: jj,
       ibile: jj,
@@ -10809,7 +11069,7 @@
       tress: nn,
       xport: nn,
       uency: nn,
-      ility: nn,
+      ility: nn
     },
     {
       // six-letter suffixes
@@ -10825,15 +11085,15 @@
       grafia: nn,
       ellino: nn,
       itorio: nn,
-      logico: jj,
+      logico: jj
     },
     {
       // seven-letter suffixes
       quattro: val,
 
       grafico: jj,
-      ectomia: nn,
-    },
+      ectomia: nn
+    }
   ];
 
   var model = {

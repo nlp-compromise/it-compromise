@@ -19,7 +19,7 @@ const nounNumber = function (terms, i, world) {
   let setTag = world.methods.one.setTag
   let term = terms[i]
   let tags = term.tags
-  if (tags.has('Noun') && !tags.has('PluralNoun')) {
+  if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('PluralNoun') && !tags.has('Singular')) {
     let tag = checkSuffix(term)
     if (tag) {
       setTag([term], tag, world, false, '2-noun-number')

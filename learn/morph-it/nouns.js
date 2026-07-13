@@ -13,10 +13,11 @@ lines.forEach(str => {
     a[0] = a[0].toLowerCase().trim()
     a[1] = a[1].toLowerCase().trim()
     byInf[a[1]] = byInf[a[1]] || {}
-    if (a[2] === 'NOUN-M:s') {
+    // both genders - feminine nouns pluralize differently (-a -> -e)
+    if (a[2] === 'NOUN-M:s' || a[2] === 'NOUN-F:s') {
       byInf[a[1]].s = a[0]
     }
-    if (a[2] === 'NOUN-M:p') {
+    if (a[2] === 'NOUN-M:p' || a[2] === 'NOUN-F:p') {
       byInf[a[1]].mp = a[0]
     }
   }

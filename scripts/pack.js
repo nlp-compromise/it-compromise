@@ -49,11 +49,14 @@ const steps = [
       packed.adjectives = {
         fs: [],
         mp: [],
+        fp: [],
       }
       Object.keys(models.adjectives).forEach(k => {
         let a = models.adjectives[k]
         packed.adjectives.fs.push([k, a[0]])
         packed.adjectives.mp.push([k, a[1]])
+        // female-singular -> female-plural ('meravigliosa' -> 'meravigliose')
+        packed.adjectives.fp.push([a[0], a[2]])
       })
       Object.keys(packed.adjectives).forEach(k => {
         packed.adjectives[k] = compress(learn(packed.adjectives[k], opts))

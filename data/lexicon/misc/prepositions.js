@@ -29,9 +29,6 @@ export default [
   'ad',//to
   'prima',//before
   'dopo',//after
-  'che',
   'contro',
   'fino',
-  'molti',
-  'dove'
 ]

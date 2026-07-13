@@ -10,7 +10,7 @@ for (let i = 0; i < lines.length - 1; i += 1) {
   if (reg.test(lines[i]) && reg.test(lines[i + 1]) && !verb.test(lines[i]) && !verb.test(lines[i + 1])) {
     if (plur.test(lines[i]) && sing.test(lines[i + 1])) {
       pairs.push([lines[i], lines[i + 1]])
-    } else if (plur.test(lines[i]) && sing.test(lines[i + 1])) {
+    } else if (sing.test(lines[i]) && plur.test(lines[i + 1])) {
       pairs.push([lines[i + 1], lines[i]])
     }
   }

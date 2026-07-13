@@ -1,16 +1,20 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { fs, mp } = model.adjectives
+let { fs, mp, fp } = model.adjectives
 
 const revFemale = reverse(fs)
 const revPlural = reverse(mp)
+const revFemalePlural = reverse(fp)
 
 const toFemale = (str) => convert(str, fs)
 const toPlural = (str) => convert(str, mp)
-const toFemalePlural = (str) => toPlural(toFemale(str))
+// female-singular -> female-plural model ('bella' -> 'belle')
+const toFemalePlural = (str) => convert(toFemale(str), fp)
 
 const fromFemale = (str) => convert(str, revFemale)
 const fromPlural = (str) => convert(str, revPlural)
+// 'meravigliose' -> 'meraviglioso'
+const fromFemalePlural = (str) => fromFemale(convert(str, revFemalePlural))
 
 const all = function (str) {
   let arr = [
@@ -25,7 +29,7 @@ const all = function (str) {
 export default {
   all,
   toFemale, toPlural, toFemalePlural,
-  fromFemale, fromPlural,
+  fromFemale, fromPlural, fromFemalePlural,
 }
 
 // "ridicola",

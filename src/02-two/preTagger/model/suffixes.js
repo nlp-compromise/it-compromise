@@ -8,8 +8,7 @@ const jj = 'Adjective'
 const fut = 'FutureTense'
 const inf = 'Infinitive'
 const g = 'Gerund'
-const ref = 'Reflexive'
-const imp = 'Imperative'
+const ref = ['Reflexive', 'Infinitive'] //alzarsi
 const pres = 'PresentTense'
 const val = ['TextValue', 'Cardinal']
 const ord = ['TextValue', 'Ordinal']
@@ -65,7 +64,7 @@ export default [
     rrà: fut,
     vrà: fut,
     irò: fut,
-    ava: imp,
+    ava: vb, //imperfect - parlava
     bbe: vb,
     sce: vb,
     ono: vb,
@@ -121,9 +120,10 @@ export default [
   },
   {
     // four-letter suffixes
-    otto: val,
+    // no 'otto' - matches 'prodotto', 'salotto'.. number-words are in the lexicon
     nove: val,
     mila: val,
+    anta: val, //settanta, trecentosettanta
 
     // reflexive infinitives
     armi: ref,
@@ -391,8 +391,8 @@ export default [
     mpare: vb,
     corre: vb,
     iasse: vb,
-    cesse: imp,
-    vesse: imp,
+    cesse: vb, //imperfect subjunctive - facesse
+    vesse: vb, //dovesse
     usate: vb,
     edete: vb,
     ndete: vb,
@@ -789,6 +789,8 @@ export default [
   {
     // six-letter suffixes
     cinque: val,
+    ntotto: val, //cinquantotto
+    ciotto: val, //diciotto
     ionale: jj,
     andoci: g, //reflexive gerund
     endoci: g,

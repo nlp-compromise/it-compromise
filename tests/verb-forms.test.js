@@ -62,12 +62,12 @@ test('ferbs:', function (t) {
     ['avrete colmato', '#Verb #Verb'],//voi 
     ['avranno colmato', '#Verb #Verb'],//loro 
     // CONGIUNTIVOPresente
-    ['che io colmi', '#Preposition #Pronoun #Verb'],//io 
-    ['che tu colmi', '#Preposition #Pronoun #Verb'],//tu 
-    ['che lui colmi', '#Preposition #Pronoun #Verb'],//lei/lui 
-    ['che noi colmiamo', '#Preposition #Pronoun #Verb'],//noi 
-    ['che voi colmiate', '#Preposition #Pronoun #Verb'],//voi 
-    ['che loro colmino', '#Preposition #Pronoun #Verb'],//loro 
+    ['che io colmi', '#Conjunction #Pronoun #Verb'],//io 
+    ['che tu colmi', '#Conjunction #Pronoun #Verb'],//tu 
+    ['che lui colmi', '#Conjunction #Pronoun #Verb'],//lei/lui 
+    ['che noi colmiamo', '#Conjunction #Pronoun #Verb'],//noi 
+    ['che voi colmiate', '#Conjunction #Pronoun #Verb'],//voi 
+    ['che loro colmino', '#Conjunction #Pronoun #Verb'],//loro 
     // Passato
     // ['che abbia colmato', '#Preposition #Pronoun #Verb'],//io 
     // ['che abbia colmato', '#Preposition #Pronoun #Verb'],//tu 
@@ -83,12 +83,12 @@ test('ferbs:', function (t) {
     // ['che colmaste', '#Pronoun #Verb'],//voi 
     // ['che colmassero', '#Pronoun #Verb'],//loro 
     // Trapassato
-    ['che avessi colmato', '#Preposition #Verb #Verb'],//io 
-    ['che avessi colmato', '#Preposition #Verb #Verb'],//tu 
-    ['che avesse colmato', '#Preposition #Verb #Verb'],//lei/lui 
-    ['che avessimo colmato', '#Preposition #Verb #Verb'],//noi 
-    ['che aveste colmato', '#Preposition #Verb #Verb'],//voi 
-    ['che avessero colmato', '#Preposition #Verb #Verb'],//loro 
+    ['che avessi colmato', '#Conjunction #Verb #Verb'],//io 
+    ['che avessi colmato', '#Conjunction #Verb #Verb'],//tu 
+    ['che avesse colmato', '#Conjunction #Verb #Verb'],//lei/lui 
+    ['che avessimo colmato', '#Conjunction #Verb #Verb'],//noi 
+    ['che aveste colmato', '#Conjunction #Verb #Verb'],//voi 
+    ['che avessero colmato', '#Conjunction #Verb #Verb'],//loro 
     // CONDIZIONALEPresente
 
     ['colmerei', '#Verb'],//io 

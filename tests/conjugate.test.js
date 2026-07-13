@@ -20,7 +20,7 @@ test('adj-conjugate:', function (t) {
 })
 
 test('noun-conjugate:', function (t) {
-  let all = ["insalata", "insalati"]
+  let all = ["insalata", "insalate"]
   let o = nlp(all[0]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
   o = nlp(all[1]).nouns().conjugate()[0]
@@ -30,7 +30,7 @@ test('noun-conjugate:', function (t) {
   o = nlp(all[0]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
 
-  all = ["salsiccia", "salsiccia"]
+  all = ["salsiccia", "salsicce"]
   o = nlp(all[0]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
   t.end()

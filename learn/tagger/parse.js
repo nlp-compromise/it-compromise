@@ -1,13 +1,17 @@
 import fs from 'fs'
 import path from 'path'
 import tagset from './tags.js'
-const file = 'it-test.txt'
-// const file = 'it-test.part.txt'
 let punct = new Set(['FB', 'FC', 'FF', 'FS'])
 
 
 import { fileURLToPath } from 'url'
 const dir = path.dirname(fileURLToPath(import.meta.url))
+
+// use the full corpus when present, otherwise the checked-in sample
+let file = 'it-test.txt'
+if (!fs.existsSync(path.join(dir, file))) {
+  file = 'it-test.part.txt'
+}
 
 let arr = fs.readFileSync(path.join(dir, file)).toString().split(/\n/).map(str => str.trim()).filter(str => str)
 console.log('read')

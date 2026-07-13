@@ -1,5 +1,11 @@
 
+// invariant '-e' adjectives are singular - 'grande', 'riferibile'
+const invariant = /(ale|ile|are|ore|nte|ese|bile)$/
+
 const checkSuffix = function (str) {
+  if (invariant.test(str)) {
+    return null
+  }
   if (str.endsWith('e') || str.endsWith('i')) {
     return 'PluralAdjective'
   }

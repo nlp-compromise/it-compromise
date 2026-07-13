@@ -6,6 +6,7 @@ import checkYear from './1st-pass/year.js'
 import acronym from './2nd-pass/acronym.js'
 import fallback from './2nd-pass/fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
+import verbLike from './2nd-pass/verb-like.js'
 // // 3rd
 import guessNounGender from './3rd-pass/noun-gender.js'
 import guessNounNumber from './3rd-pass/noun-number.js'
@@ -31,6 +32,7 @@ const firstPass = function (terms, world) {
 const secondPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     let found = acronym(terms, i, world)
+    found = found || verbLike(terms, i, world)
     found = found || suffixCheck(terms, i, world)
     // found = found || neighbours(terms, i, world)
     found = found || fallback(terms, i, world)

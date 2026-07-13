@@ -2170,7 +2170,7 @@
   };
   var multiWord$1 = multiWord;
 
-  const prefix$1 = /^(under|over|mis|re|un|dis|semi|pre|post)-?/;
+  const prefix$2 = /^(under|over|mis|re|un|dis|semi|pre|post)-?/;
   // anti|non|extra|inter|intra|over
   const allowPrefix = new Set(['Verb', 'Infinitive', 'PastTense', 'Gerund', 'PresentTense', 'Adjective', 'Participle']);
 
@@ -2200,8 +2200,8 @@
       }
     }
     // prefixing for verbs/adjectives
-    if (prefix$1.test(word) === true) {
-      let stem = word.replace(prefix$1, '');
+    if (prefix$2.test(word) === true) {
+      let stem = word.replace(prefix$2, '');
       if (lexicon.hasOwnProperty(stem) && stem.length > 3) {
         // only allow prefixes for verbs/adjectives
         if (allowPrefix.has(lexicon[stem])) {
@@ -7857,42 +7857,31 @@
     { word: `c'è`, out: ['ci', 'è'] },
     { word: `v'è`, out: ['vi', 'è'] },
     { word: `l'ho`, out: ['lo', 'ho'] },
-    { word: `l'abbiamo`, out: ['la', 'abbiamo'] },
+    { word: `l'abbiamo`, out: ['lo', 'abbiamo'] },
+    { before: `c`, out: ['ci'] },//c'era, c'erano
+    { before: `d`, out: ['di'] },//d'accordo, d'estate
     { before: `dov`, out: ['dove'] },
     { before: `com`, out: ['come'] },
+    { before: `quest`, out: ['questo'] },//quest'anno
+    { before: `quell`, out: ['quello'] },//quell'uomo
+    { before: `sant`, out: ['santo'] },//sant'antonio
+    { before: `tutt`, out: ['tutto'] },//tutt'altro
+    { before: `mezz`, out: ['mezzo'] },//mezz'ora
+    { before: `anch`, out: ['anche'] },//anch'io
+    { before: `nessun`, out: ['nessuna'] },//nessun'altra
+    { before: `senz`, out: ['senza'] },//senz'altro
     { before: `l`, out: ['lo'] },//or la
     { before: `v`, out: ['vi'] },
     { before: `s`, out: ['si'] },
     { before: `m`, out: ['mi'] },
-    { before: 'un', out: ['una'] },
+    { before: `t`, out: ['ti'] },//t'amo
+    { before: 'un', out: ['una'] },//un'amica
     { before: 'all', out: ['a', 'l'] },
     { before: 'dell', out: ['di', 'l'] },
     { before: 'nell', out: ['in', 'l'] },
     { before: 'sull', out: ['su', 'l'] },
     { before: 'coll', out: ['con', 'l'] },
     { before: 'dall', out: ['da', 'l'] },
-
-    // { word: 'del', out: ['di', 'il'] },
-    // { word: 'dello', out: ['di', 'lo'] },
-    // { word: 'della', out: ['di', 'la'] },
-    // { word: 'dell', out: ['di', 'l'] },
-    // { word: 'dei', out: ['di', 'i'] },
-    // { word: 'degli', out: ['di', 'gli'] },
-    // { word: 'delle', out: ['di', 'le'] },
-    // { word: 'col', out: ['con', 'il'] },
-    // { word: 'coi', out: ['con', 'i'] },
-    // { word: 'al', out: ['a', 'il'] },
-    // { word: 'allo', out: ['a', 'lo'] },
-    // { word: 'alla', out: ['a', 'la'] },
-    // { word: 'all', out: ['a', 'l'] },
-    // { word: 'ai', out: ['a', 'i'] },
-    // { word: 'agli', out: ['a', 'gli'] },
-    // { word: 'alle', out: ['a', 'le'] },
-    // { word: 'sul', out: ['su', 'il'] },
-    // { word: 'sulla', out: ['su', 'la'] },
-    // { word: 'sullo', out: ['su', 'lo'] },
-    // { word: 'sugli', out: ['su', 'gli'] },
-
   ];
 
   var tokenize$2 = {
@@ -7986,7 +7975,7 @@
   };
   var reverse$1 = reverse;
 
-  const prefix = /^([0-9]+)/;
+  const prefix$1 = /^([0-9]+)/;
 
   const toObject = function (txt) {
     let obj = {};
@@ -8002,13 +7991,13 @@
 
   const growObject = function (key = '', val = '') {
     val = String(val);
-    let m = val.match(prefix);
+    let m = val.match(prefix$1);
     if (m === null) {
       return val
     }
     let num = Number(m[1]) || 0;
     let pre = key.substring(0, num);
-    let full = pre + val.replace(prefix, '');
+    let full = pre + val.replace(prefix$1, '');
     return full
   };
 
@@ -8036,10 +8025,10 @@
   var model$1 = {
     "nouns": {
       "plural": {
-        "fwd": "1:io¦i:e,a¦1i:to,no,zo,so,lo,bo,do,vo,mo,ro,po,uo,os,oo¦1hi:ca¦2hi:cco,sco,rco,uco,eco,ego¦3i:mico,fico,nico,naco,pico¦4hi:arico",
-        "both": "4i:ichio,golio,tolio¦4s:ware¦4ini:luomo¦4hi:ilogo,alogo¦3i:daco,nvio,enio,maco,ttio,vvio,sico,iaco¦3hi:uogo,gogo¦3s:gan,age¦2hi:ngo,oco,igo,lco,nco,rgo¦2i:ogo¦1i:ko,eo,fo¦1s:r,t¦1en:man",
-        "rev": ":s¦1o:ii,ghi¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,smi,lbi,tmi,evi,rni,oli,tri,rpi,lti,eli,ovi,gni,isi,achi,lzi,mpi,api,cri,iri,rsi,ppi,rvi,spi,cli,lpi,ebi,lmi,obi,lsi,rli,zoi¦2e:ori,oni,ali,roi,esi¦2a:sti,mmi,gmi¦3o:gli,enti,cci,toi,acchi,muli,rini,nimi,nini,ondi,nci,tivi,lini,tini,meti,iuti,beri,ggi,unni,sivi,rodi,tipi,izi,sini,unti,buti,arri,reni,uini,cini,bini,hini,simi,urri,imbi,heri,onni,onzi,zini,lci,feri,sci,anni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,aini,nuti,uvi,bbri,igi,erri,ieni,ropi,fori,arbi,embi,peti,cavi,vini,tuti,nodi,moti,ozi,seni,veti,lichi,arzi,soi,erzi,ezi,suti,livi¦3e:anti,fari,ieri,podi,rili,lumi,seri,tumi,ceri,iedi,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti,enzi,suri,turi,michi,padi,duri¦4o:ndini,uari,reschi,gosti,pasti,busti,emici,rredi,ggini,sensi,dromi,aleni,lischi,becchi,amini,oneri,gusti,dari,mmini,mbali,ofoni,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,neschi,sesti,vari,oqui,igoni,iocchi,manzi,barchi,ludi,onaci,anici,hermi,tadi,cnici,lagi,conti,fugi,forzi,pudi,andri,efoni¦4e:denti,larmi,ltari,ienti,rgini,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi,iatri,tezzi,canzi,formi,tradi,tanzi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,ncanti,isodi,patri,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,igenti,ertici,agenti,mestri¦5a:oranzi,cletti",
-        "ex": "3:agio,ozio¦4:astio,atrio,bacio,cesio,conio,cuoio,micio,palio,patio,podio,socio¦5:adagio,avorio,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,nunzio,occhio,soffio,tornio¦6:armadio,assedio,ausilio,biennio,cerchio,cimelio,cocchio,delirio,demanio,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,indugio,logorio,lunario,marchio,mucchio,muschio,ossario,raschio,rimedio,ringhio,rischio,salario,scoppio,secchio,segugio,sicario,sipario,teschio,ufficio,velario¦7:archivio,auspicio,batterio,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,obitorio,orecchio,orologio,ossequio,pertugio,petrolio,sacrario,silenzio,simposio,specchio,spicchio,suburbio,triennio¦8:adulterio,auditorio,beneficio,breviario,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,ginocchio,glossario,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,papocchio,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,vituperio¦9:avversario,corollario,crematorio,crocicchio,cronicario,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,ricettario,sgocciolio,sillabario,territorio¦10:ambulatorio,apparecchio,brefotrofio,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,presbiterio,promontorio,reliquiario,semicerchio,spauracchio,vocabolario¦11:anniversario,armamentario,comprensorio,governicchio,indirizzario,orfanatrofio,orfanotrofio,osservatorio,parabancario,scarabocchio¦12:bibliotecario¦14:poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario¦4i:addio,bivio,iodio,oblio,sodio,tedio,vocio,abate,abete,acaro,apice,aroma,asilo,atomo,avere,baule,belga,busto,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,costo,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,frate,fusto,gambo,germe,gesto,gnomo,grado,greto,grido,grumo,guado,gusto,latte,libro,logos,mambo,manto,manzo,marmo,miele,monte,morbo,mosto,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,poema,poeta,ponte,porro,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,soldo,sparo,sposo,sputo,suono,tasto,teste,topos,trono,tuono,utero,vanto,verbo,verme,birra,sfida,tenda,morte,porta,prova,mappa,carne,notte,trama,corda,ombra,forma,pelle,fonte,forza,torre,retta,acqua,corte,croce,carta,tazza,crepa,droga,guida,dieta,stima,multa,paura,stiva,linea,legge,lente,pinta,quota,fetta,firma,punta,ruota¦7s:affaire,college¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco,oca¦6hi:apologo,collega,intrico,pizzico,prologo,allocco,alterco,ammicco,balocco,cacicco,chiosco,comasco,gerarca,menisco,monarca,ritocco,sblocco,sceicco,tarocco,ricerca,pratica,tecnica,tattica¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,ludibrio,mormorio,plutonio,presidio,sussidio,thesaurus,tremolio,turbinio,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,bulimico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disguido,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gendarme,geometra,giaguaro,giardino,girasole,glaucoma,immagine,impianto,levriero,luminare,lupanare,magliaro,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,parmense,pezzente,pomodoro,pretesto,proclama,programa,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,teledivo,televoto,titolare,torneino,traffico,tramonto,visconte,bellezza,carrozza,crescita,chitarra,insalata,qualcuno,avanzata,chiunque,alleanza,condotta,chiamata,impronta,speranza,arachide,rotolare,cravatta,template¦9hi:arcipelago,reincarico,sottobosco,supermarco,videodisco,biblioteca¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,scandaglio,scintillio,sfarfallio,trentennio,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,capocomico,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,risciacquo,soprannome,superteste,tangentaro,tecnocrate,teleutente,ultrasuono,vacanziero,ventunenne,bancarotta,coordinata,strisciare,rientranza,tonnellata¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,affido,agrume,alloro,alluce,altero,arrivo,ascaro,asceta,atleta,attimo,automa,avanzo,batavo,bavero,bolero,bolide,budino,bufalo,caduto,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,druido,enzima,esteta,estimo,flauto,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,pranzo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,rifuto,riparo,riposo,roseto,rudere,salame,saluto,sapere,sbirro,schema,scialo,sciame,scisma,scriba,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,svolta,carota,classe,moneta,anatra,durata,flotta,pietra,estate,cialda,addome,usanza,valuta,figura,lingua,patata,statua,visita¦3hi:baco,caco,fico,lago,logo,rogo,sugo,arco,buco,duca,muco,orco,anca¦8s:bailamme,commando,flamenco,pastiche,skinhead¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,abbuono,accenno,alveare,amuleto,arresto,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,computo,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,degrado,deposto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,epiteto,eremita,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,istinto,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,moldavo,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,presepe,primate,profeta,profumo,pronome,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,bevanda,nascita,fornace,testata,perdita,entrate,rivolta,vendita,squadra,lacrima,tornado,offerta,azienda,domanda,disputa,finanza,tariffa,bussare,origine,portata,recluta,riserva,stringa,vittima¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contrordine,imbarcadero,maggiordomo,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,presupposto,rinoceronte,satellitare,alternativa,aspettativa,caffellatte,passeggiata¦6s:barrio,charme,marine,pueblo,studio¦4ifondi:bassofondo¦4s:blog,byte,club,film,game,link,menu¦3i:brio,mago,odio,olio,trio,paio,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,moto,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,papa,pene,pepe,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,seme,seno,sole,tema,tino,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,voce,voto,base,vita,rete,pace,foto,nave,area,mira,cura,fuga,erba,idea,luce,leva,lega,nota,noce,paga,pipa,fase,cose,riva,cima,sede,arma,onda¦2oi:bue¦9s:campesino,videogame¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,principio,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,avamposto,borgataro,burocrate,campanaro,campanile,caposaldo,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disavanzo,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,individuo,interesse,israelita,labirinto,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,olocausto,orizzonte,orologino,palombaro,pataccaro,pescecane,pesticida,pistolero,posticipo,prosieguo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,sovracuto,tassinaro,trapianto,assemblea,sigaretta,sottaceto,sicurezza,debolezza,sconfitta,dinosauro,abitudine,etichetta,lunghezza,narrativa,rilevanza¦8a:continuum¦4ora:corpus¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦4hi:drago,giogo,plico,sfogo,spago,svago,volgo,becco,bosco,bruco,casco,circo,desco,disco,picco,succo,varco,bocca,tasca,vasca,pesca,mosca¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,ombelico,stratega,granduca,incarico,mollusco,oligarca,prosecco,ricarico,rintocco,scirocco,tricheco,fabbrica,bistecca,politica¦5hi:macaco,valico,blocco,bricco,brocco,chicco,copeco,eunuco,fiasco,gnocco,sbocco,spreco,giacca,carica,clicca,musica¦5s:macho,peone,ratio,score¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦6es:sketch¦8hi:solletico,strascico,tarassaco,transfuga,alambicco,asterisco,autoparco,patriarca,rammarico,discarica¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦2i:zio,ano,avo,duo,evo,oro,uno,ala,ape,pro¦5e:scarpa,balena¦4e:torta¦4he:barca¦11a:sopracciglio¦10e:uguaglianza¦13i:chemioterapico,superburocrate,superministero,consapevolezza¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente¦13hi:caratteristica"
+        "fwd": "1:io¦2:si¦i:e¦1i:to,no,zo,so,do,lo,bo,ta,mo,ro,ma,po,uo,os,oo¦2hi:cco,sco,rco,uco,uca¦2e:nta¦3i:nico,fico,pico,naco",
+        "both": "1:è,à¦4e:scita¦4hi:arico,ilogo,alogo¦4i:iatra,ichio,golio,tolio¦4s:ware¦4ini:luomo¦3e:nata,uota,tima,luta,mata,lata,orma,dita,tata,esta,rata,osta¦3he:asca¦3i:daco,nvio,enio,maco,ttio,vvio,mico,sico,iaco¦3hi:uogo,gogo¦3s:gan,age¦2e:ggia,lla,ola,lta,tta,rta¦2he:nca,ica,cca,ega¦2hi:ngo,ego,oco,igo,lco,nco,rgo¦2s:et¦2i:ogo¦1e:sa,na,ea,ua,va,da,ra,za,pa¦1i:ko,eo,fo,vo¦1en:man¦1s:r",
+        "rev": "1:r,m¦3:oto¦:s¦a:he¦1o:ii¦1a:te,me,be,ie¦1ia:ce¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,smi,uti,lbi,tmi,rni,oli,eli,rpi,oghi,aghi,lti,gni,rri,nzi,achi,lzi,mpi,api,cri,iri,ldi,rsi,ppi,spi,cli,lpi,echi,ebi,lmi,ichi,obi,lsi,rli,zoi,aia¦2e:ori,oni,ali,roi,esi,epi¦2a:sti,mmi,gmi¦3o:gli,enti,cci,toi,acchi,muli,rini,nimi,nini,ondi,nci,lini,tini,meti,beri,ggi,etri,rodi,itri,tipi,izi,sini,unti,stri,timi,ntri,osti,visi,cini,bini,hini,simi,uini,usti,imbi,heri,onni,oschi,zini,lci,feri,sci,anni,reni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,aini,radi,eschi,uvi,uidi,igi,ieni,ropi,fori,arbi,embi,peti,cisi,vini,inti,nodi,moti,ozi,seni,veti,ugi,arzi,soi,ttri,erzi,ezi¦3e:anti,fari,ieri,podi,rili,lumi,seri,tumi,ceri,iedi,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti¦4o:ndini,uari,eatri,pasti,ratri,aleni,rredi,ggini,sensi,dromi,lischi,becchi,amini,oneri,dari,mmini,mbali,ofoni,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,sesti,vari,oqui,igoni,iocchi,barchi,ludi,onaci,anici,hermi,tadi,cnici,lagi,conti,forzi,pudi,andri,efoni¦4e:denti,larmi,ltari,ienti,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,rgini,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,isodi,patri,ncanti,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,igenti,ertici,agenti,mestri",
+        "ex": "2:re¦3:gru,bar,gas,agio,olio,ozio¦4:film,moto,foto,tram,auto,euro,astio,atrio,bacio,cesio,conio,cuoio,micio,palio,patio,podio,socio,tesi,oasi¦5:virtù,sport,radio,video,serie,moglie,adagio,avorio,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,nunzio,occhio,soffio,tornio,crisi¦6:cinema,specie,armadio,assedio,ausilio,biennio,cerchio,cimelio,cocchio,delirio,demanio,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,logorio,lunario,marchio,mucchio,muschio,ossario,raschio,rimedio,ringhio,rischio,salario,scoppio,secchio,sicario,sipario,teschio,ufficio,velario,vecchio¦7:autobus,archivio,auspicio,batterio,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,obitorio,orecchio,orologio,ossequio,petrolio,sacrario,silenzio,simposio,specchio,spicchio,suburbio,triennio,analisi,ipotesi¦8:computer,adulterio,auditorio,beneficio,breviario,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,glossario,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,papocchio,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,vituperio,brindisi¦9:superficie,avversario,corollario,crematorio,crocicchio,cronicario,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,ricettario,sgocciolio,sillabario,territorio¦10:ambulatorio,apparecchio,brefotrofio,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,presbiterio,promontorio,reliquiario,semicerchio,spauracchio,vocabolario¦11:anniversario,armamentario,comprensorio,governicchio,indirizzario,orfanatrofio,orfanotrofio,osservatorio,parabancario,scarabocchio¦12:bibliotecario¦14:poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario¦4i:addio,belga,bivio,iodio,oblio,sodio,tedio,vocio,greco,porco,abate,abete,acaro,apice,aroma,asilo,atomo,avere,baule,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,frate,gambo,germe,gesto,gnomo,greto,grido,grumo,guado,latte,libro,logos,mambo,manto,marmo,miele,monte,morbo,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,poema,poeta,ponte,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,sparo,sposo,suono,tasto,teste,topos,trono,tuono,utero,vanto,verbo,verme,morte,carne,notte,pelle,fonte,torre,corte,croce,legge,lente,madre¦7s:affaire,college,exploit¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco¦6hi:apologo,gerarca,intrico,monarca,pizzico,prologo,allocco,alterco,ammicco,balocco,cacicco,comasco,menisco,ritocco,sblocco,sceicco,tarocco¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,geometra,ludibrio,mormorio,plutonio,presidio,sussidio,thesaurus,tremolio,turbinio,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gendarme,giaguaro,giardino,girasole,glaucoma,immagine,impianto,levriero,luminare,lupanare,magliaro,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,paradiso,parmense,pezzente,pomodoro,pretesto,proclama,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,televoto,titolare,torneino,traffico,tramonto,visconte,qualcuno,chiunque,arachide,rotolare,template¦9hi:arcipelago,supermarco,videodisco¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,scandaglio,scintillio,sfarfallio,trentennio,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,risciacquo,soprannome,superteste,tangentaro,tecnocrate,teleutente,ultrasuono,vacanziero,ventunenne,strisciare¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,scriba,medico,affido,agrume,alloro,alluce,altero,alunno,ascaro,asceta,atleta,automa,bavero,bolero,bolide,budino,bufalo,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,enzima,esteta,fabbro,filtro,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,riparo,riposo,roseto,rudere,salame,sapere,schema,scialo,sciame,scisma,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,classe,estate,addome,chiave¦3hi:baco,caco,fico,lago,logo,rogo,sugo,arco,buco,duca,muco,orco¦8s:bailamme,commando,flamenco,pastiche,skinhead¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,abbuono,accenno,alveare,amuleto,arresto,autunno,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,epiteto,eremita,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,primate,profeta,profumo,pronome,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,sorriso,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,fornace,entrate,tornado,bussare,origine¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contrordine,imbarcadero,maggiordomo,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,rinoceronte,satellitare,caffellatte¦6s:barrio,charme,marine,pueblo,studio¦4ifondi:bassofondo¦4s:blog,byte,club,game,link,list,menu¦6a:braccio¦3i:brio,mago,odio,papa,trio,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,pene,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,riso,seme,seno,sole,tema,tino,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,viso,voce,voto,base,rete,pace,nave,luce,noce,fase,cose,sede,arma¦2oi:bue¦9s:campesino,videogame¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,pesticida,principio,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,borgataro,burocrate,campanaro,campanile,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,individuo,interesse,israelita,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,orizzonte,orologino,palombaro,pataccaro,pescecane,pistolero,posticipo,prosieguo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,tassinaro,trapianto,sottaceto,dinosauro,abitudine¦8a:continuum,ginocchio,centinaio¦5hi:copeco,macaco,spreco,valico,blocco,bricco,brocco,chicco,eunuco,fiasco,gnocco,sbocco¦4ora:corpus¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦4hi:drago,giogo,plico,sfogo,spago,svago,volgo,becco,bruco,casco,circo,disco,picco,succo,varco,parco¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,oligarca,ombelico,stratega,tricheco,granduca,mollusco,prosecco,rintocco,scirocco¦5s:macho,peone,ratio,score¦3a:osso,uovo,dito,paio¦8hi:patriarca,solletico,strascico,tarassaco,transfuga,alambicco,asterisco,autoparco¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦6es:sketch¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦2i:zio,ala,ano,duo,oro,uno,ape,pro¦4he:barca,marca,droga,pesca,mosca,targa¦11a:sopracciglio¦3e:asta,fata,vita,erba,nota,cima,mela¦5e:carota,moneta,caduta,visita,frusta,storia,arancia,figlia,foglia,maglia,matita¦9he:biblioteca¦5a:labbro¦4e:mamma,trama,vista,anima,dieta,gemma,lista,palma,gamma,somma,firma,sedia,gamba,faccia,bugia¦6he:ricerca,stringa¦6e:lacrima,disputa,tariffa,rivista,camicia,valigia,energia¦7e:avanzata,salsiccia,farmacia,famiglia¦3he:fuga,paga,riga,alga¦2he:oca¦9e:intervista¦4li:tempio¦10e:passeggiata¦8e:bottiglia¦2e:via,zia¦7a:migliaio¦13i:chemioterapico,superburocrate,superministero¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente"
       }
     },
     "adjectives": {
@@ -8054,6 +8043,12 @@
         "both": "2:oio,aio,gio¦4:sorio¦5:ltorio,ntorio,otorio,utorio¦2hi:cco,sco,nco¦1hi:go",
         "rev": "1e:li¦1o:vi,ci,si,bi,ni,ei,di,mi¦2e:nti,lci¦2o:uti,ati,tti,uli,iti,gri,zzi,rfi,rti,lti,eri,ffi,eti,rui,rri,cui,spi,uri,qui,tui,ochi,lui,pli,lzi,ppi¦3e:ormi,nesi,oidi,lari,iori,roci,hesi,ngui,coni,ebri,enni,beni,caci,vesi,laci,gaci,erdi,mori,lori,ubri,uaci,ioni,loci,desi¦3o:nci,esti,coli,cci,igui,usti,noli,osti,inti,fili,ulli,abri,izi,sci,inui,ioli,vori,moti,olli,mpi,nfi,gli,illi,orii¦3a:isti,ioti¦4o:efali,iunti,tari,rari,astri,sunti,uari,opri,cari,relli,dari¦4a:abeti,icidi,amiti¦4e:estri,ssoni,liari,eresi,neari,olesi,aresi,rensi,cordi,plici,ustri,unari¦5o:franti,onari,viari,ulenti,ziari,ntenti,enari¦5e:finari,cleari,lanari,ortesi",
         "ex": "4:medio,ionio,pario,sazio,serio,vario¦5:patrio,spurio,esimio,marzio,pluvio,previo,viario¦6:vanesio,astemio,oleario,sudicio¦7:amatorio,indubbio,caseario,corinzio,fognario,fradicio,littorio,sommario,urinario¦8:aleatorio,dilatorio,minatorio,moratorio,natatorio,rogatorio,rotatorio,sciatorio,senatorio,venatorio,cambiario,culinario,deleterio,dolciario,meritorio,molitorio,ordinario,parecchio,semiserio,soverchio¦9:adulatorio,dittatorio,espiatorio,operatorio,probatorio,vessatorio,campanario,cartolario,inibitorio,necessario,pecuniario,pontificio,primigenio,proditorio¦10:accusatorio,depuratorio,derogatorio,divagatorio,divinatorio,emigratorio,gladiatorio,indagatorio,liberatorio,navigatorio,ondulatorio,revocatorio,sfottitorio,transitorio¦11:canzonatorio,circolatorio,combinatorio,cospiratorio,declamatorio,denigratorio,diffamatorio,immigratorio,liquidatorio,obbligatorio,preparatorio,provocatorio,respiratorio,inquisitorio¦12:allucinatorio,anticipatorio,consacratorio,deregolatorio,dissacratorio,infiammatorio,intimidatorio,sanzionatorio,chirografario,straordinario¦13:autorizzatorio,mistificatorio¦14:autoesaltatorio,discriminatorio,contraddittorio¦17:autogratificatorio,cardiocircolatorio¦18:autocongratulatorio,autoidentificatorio¦4hi:fioco¦3hi:poco¦5hi:sporco¦11i:accentratore,annientatore,compensatore,concertatore,conciliatore,confortatore,disciplinare,disgregatore,divisioniste,fallimentare,modificatore,movimentiste,nicaraguense,pazzerellone,picchiatello,precorritore,propiziatore,purificatore,sovvertitore,statunitense,vivificatore¦3i:acre,afro,diro,dopo,malo,miro,mite,noto,solo,usto¦13i:agroalimentare,anglonorvegese,autocondannare,chiarificatore,distruggitrice,motopropulsore,riconciliatore,sterilizzatore¦5i:alacre,arcade,canoro,capace,celere,chiaro,felice,fifone,immune,inerme,inerte,logoro,mutilo,nuvolo,palese,pronto,quanto,restio,scevro,semita,smunto,snello,spento,verace,vivace,grande,triste¦9i:alimentare,civettuolo,comunicate,contraerea,dilatatore,disattento,elementare,eteroclita,fuoriserie,incitatore,istruttore,placentare,psicotropo,sacrosanto,sonnolento,sottovento,sprovvisto,stragrande¦10i:altrettanto,ausiliatore,cistercense,commutatore,consolatore,cosmopolita,eliminatore,fraudolento,giudicatore,ingannatore,livellatore,premonitore,pusillanime,racalmutese,suscitatore,unificatore¦6i:ambedue,anomalo,apolide,assiduo,birbone,bivalve,cairota,caprese,celeste,cotanto,cruento,dalmata,defunto,egemone,giovine,incline,inferme,ingenuo,inodoro,lombare,mannaro,mordace,oratoro,precoce,redento,rivisto,sannita,sbronzo,sgombro,unanime,vallese,vergine,giovane,attento¦8i:anglomane,collinare,contumace,culattone,escretore,frammisto,incruento,irredento,leggiadro,macilento,migratore,milionare,ostrogoto,panamense,partecipe,precipite,pulvinare,semivuoto¦4i:annuo,arduo,aspro,avaro,bello,boaro,breve,ebbro,ebete,grave,greve,italo,lieve,macro,miope,sacro,soave,stufo,tanto,tenue,vasto,forte¦12i:autoconferire,deregolatrice,equilibratore,interrogatore,regolamentare,sanguinolento,sopraffattore¦7i:benevolo,benvisto,compunto,degenere,equanime,impronto,incolume,inospite,insaporo,irruento,malevolo,malvisto,marinaro,maronita,poltrone,precipuo,previsto,proclive,rampanto,salutare,urlatore,violento¦16i:interdisciplinare,interparlamentare"
+      },
+      "fp": {
+        "fwd": "2e:tia",
+        "both": "3e:mpia¦2e:lia,fia,via,hia,dia,aia,zia,gia,mia,ria¦1e:za,pa,fa,da,ba,ea,ua,sa,ra,na,ma,la,cia,va,ta¦1he:ga,ca¦i:e",
+        "rev": "1a:ie",
+        "ex": "6:restie¦5e:elisia¦7e:indubbia,levatoia,scorsoia,tuscania¦4e:ionia¦9e:primigenia¦6e:vanesia"
       }
     },
     "presentTense": {
@@ -8294,10 +8289,10 @@
     },
     "pastParticiple": {
       "pastParticiple": {
-        "fwd": "otto:urre,uocere,ucere¦lto:gliere¦so:rere¦tto:ggere,mpere¦osso:uovere,uotere¦to:guere¦1to:ngere,rcere,ncere,lgere¦1so:udere,rdere¦1sso:ettere,indere¦1uto:nere¦1nto:umere¦1tto:arre¦1etto:rigere,ligere¦2ito:stere¦2sto:pondere¦2uto:evere¦2to:orgere,nascere¦2so:arere¦4so:sparire",
-        "both": "4uto:vendere,lendere¦4so:mparire,pparire¦3tto:sfare,efare¦3uto:iovere,ottere,volvere,venire,cadere,attere¦3to:vellere,solvere¦3iuto:oscere,escere¦3sto:hiedere¦2uto:apere,etere,emere,icere,edere¦2so:vadere,rodere,alere,uadere,ergere¦2erto:oprire¦2ssuto:vivere¦2iuto:acere¦2tto:rivere¦2etto:ddire¦1erto:frire¦1sto:anere,orre¦1atto:sigere¦1sso:utere¦1uso:fondere¦1esso:rimere¦1so:idere,endere¦to:re",
-        "rev": "1urre:dotto¦1ere:guto,duto¦1rire:perto¦1ire:detto¦1uovere:mosso¦1ggere:utto¦1ellere:pulso¦1uotere:cosso¦1dere:aso¦1uocere:cotto¦2gliere:colto,iolto,celto¦2ggere:litto,fitto,fisso¦2dere:luso,iuso,ruso¦2ttere:nesso,messo¦2mere:sunto¦2rre:ratto¦2ere:rnuto¦2rere:orso¦2re:fatto¦2mpere:rotto¦2gere:anto¦2ndere:cisso¦3gere:iunto,volto,punto,pinto,cinto,sorto¦3ere:tenuto¦3cere:torto,vinto¦3ggere:rretto¦4ere:sistito¦4guere:stinto",
-        "ex": "4so:abradere,ottundere,riardere,sparere¦4to:adergere,arrogere,rinascere,scorgere,sporgere,stingere¦3uto:algere,cadere,dolere,dovere,godere,potere,urgere,venire,volere,tenere¦2erto:aprire¦5to:assurgere,estollere,attingere,defungere,indulgere,intingere,prenascere¦4etto:astringere,predire,negligere¦2uto:avere¦5etto:benedire,costringere,maledire¦2vuto:bere¦3sto:cherere¦5uto:compiere,stridere,imbevere,ricevere¦9tto:contraffare¦6so:cospargere,disparire¦1etto:dire¦3ento:dirimere,redimere¦5so:eccellere,espandere,rifulgere,rimordere¦2so:ergere,ledere,radere,rodere,ardere¦3ulso:espellere,repellere¦2tto:fare,figgere,leggere,reggere,rompere¦1uso:fondere¦7nte:impellere¦3etto:indire,ridire,stringere,diligere,dirigere¦4sso:infiggere¦6etto:interdire,prediligere¦3to:morire,solvere,cingere,fingere,fungere,mingere,mungere,porgere,pungere,sorgere,tingere,torcere,vincere,volgere¦2to:nascere,ungere¦4iuto:pascere¦4uto:pendere,tangere,tessere,vendere¦5sso:prefiggere¦4ulso:propellere¦3atto:redigere¦1istretto:restringere¦4erto:riaprire¦4tto:rifare,rileggere¦3tto:sfare,eleggere,friggere¦7uto:soccombere¦3ito:solere¦8tto:sopraffare¦3nto:spegnere¦6tto:strafare,soffriggere¦8esso:teletrasmettere¦2ssuto:vivere¦2lto:cogliere,togliere¦8sto:corrispondere¦1otto:cuocere,ducere¦5lto:distogliere¦2otto:educere¦2etto:erigere¦3sso:flettere¦2sso:mettere¦3so:mordere,parere¦1osso:muovere¦5tto:proteggere,rieleggere¦3otto:riducere¦5sto:rispondere¦2nto:sumere¦7so:trasparire"
+        "fwd": "otto:urre,ucere¦lto:gliere¦so:rere¦tto:ggere,mpere¦osso:uovere,uotere¦to:guere¦1to:ngere,rcere,ncere¦1so:udere,rdere¦1sso:ettere,indere¦1uto:nere¦1nto:umere¦1tto:arre¦1etto:rigere,ligere¦2ito:stere¦2to:olgere,orgere,nascere¦2sto:pondere¦2uto:evere¦2so:arere¦3so:pergere¦4so:sparire",
+        "both": "4uto:vendere,lendere¦4so:mparire,pparire¦3to:vellere,solvere¦3tto:sfare,efare¦3uto:sedere,iovere,ottere,volvere,redere,venire,cedere,cadere,attere¦3so:mergere,tergere¦3iuto:oscere,escere¦3sto:hiedere¦2uto:apere,etere,emere,icere¦2so:vadere,rodere,alere,uadere¦2erto:oprire¦2ssuto:vivere¦2iuto:acere¦2tto:rivere¦2etto:ddire¦1isto:vedere¦1erto:frire¦1uto:bere¦1otto:cuocere¦1sto:anere,orre¦1atto:sigere¦1sso:utere¦1uso:fondere¦1esso:rimere¦1so:idere,endere¦to:re",
+        "rev": "1urre:dotto¦1ere:guto,vuto,duto,tuto¦1rire:perto¦1ire:detto¦1uovere:mosso¦1ggere:utto¦1ellere:pulso¦1uotere:cosso¦1dere:aso¦2gliere:colto,iolto,celto¦2ggere:litto,fitto,fisso¦2dere:luso,iuso,ruso¦2ttere:nesso,messo,lesso¦2mere:sunto¦2rre:ratto¦2ere:rnuto¦2rere:orso¦2re:fatto¦2mpere:rotto¦2gere:anto¦2ndere:cisso¦3gere:iunto,volto,punto,pinto,cinto,sorto¦3ere:tenuto¦3cere:torto,vinto¦3ggere:rretto¦4ere:sistito¦4guere:stinto",
+        "ex": "4so:abradere,ottundere,riardere,sparere,spergere¦4to:adergere,arrogere,rinascere,scorgere,sporgere,stingere¦3uto:algere,cadere,dolere,dovere,godere,potere,sedere,urgere,venire,volere,cedere,vigere,tenere¦2erto:aprire¦5to:assurgere,estollere,indulgere,attingere,defungere,intingere,prenascere¦4etto:astringere,predire,negligere¦2uto:avere¦5etto:benedire,costringere,maledire¦2vuto:bere¦3sto:cherere¦5uto:compiere,stridere,clangere,erompere,spandere,spengere¦9tto:contraffare¦6so:convergere,cospargere,disparire,disperdere¦1otto:cuocere,ducere¦1etto:dire¦3ento:dirimere,redimere¦5so:eccellere,espandere,rifulgere,aspergere,rimordere¦2so:ergere,ledere,radere,rodere,ardere¦3ulso:espellere,repellere¦2tto:fare,figgere,leggere,reggere,rompere¦1uso:fondere¦7nte:impellere¦3etto:indire,ridire,stringere,diligere,dirigere¦4sso:infiggere¦6etto:interdire,prediligere¦3so:mergere,tergere,mordere,parere,perdere¦3to:morire,solvere,cingere,fingere,fungere,mingere,mungere,porgere,pungere,sorgere,tingere,torcere,vincere,volgere¦2to:nascere,ungere¦4iuto:pascere¦4uto:pendere,tangere,tessere,vendere,fendere,fervere,fulgere,prudere,vergere,vertere¦5sso:prefiggere¦4ulso:propellere¦3atto:redigere¦1istretto:restringere¦4erto:riaprire¦4tto:rifare,rileggere¦6uto:risiedere,accorgere,ascondere,divergere¦3tto:sfare,eleggere,friggere¦3ito:solere¦8tto:sopraffare¦3nto:spegnere¦6tto:strafare,soffriggere¦8esso:teletrasmettere¦2ssuto:vivere¦7uto:delinquere,propendere¦5sto:nascondere,rispondere¦1ociuto:nuocere¦1isto:vedere¦2lto:cogliere,togliere¦8sto:corrispondere¦5lto:distogliere¦2otto:educere¦2etto:erigere¦2sso:mettere¦1osso:muovere¦5tto:proteggere,rieleggere¦3otto:riducere¦2nto:sumere¦7so:trasparire"
       }
     },
     "presentParticiple": {
@@ -8317,6 +8312,2594 @@
     });
   });
 
+  // generated from ./verbs.jsonl by scripts/gen-irregular.js
+  // full tables for verbs with irregular stems,
+  // plus irregular past-participles + gerunds for otherwise-regular verbs
+  var irregular = {
+    "paradigms": {
+      "essere": {
+        "present": [
+          "sono",
+          "sei",
+          "è",
+          "siamo",
+          "siete",
+          "sono"
+        ],
+        "imperfect": [
+          "ero",
+          "eri",
+          "era",
+          "eravamo",
+          "eravate",
+          "erano"
+        ],
+        "past": [
+          "fui",
+          "fosti",
+          "fu",
+          "fummo",
+          "foste",
+          "furono"
+        ],
+        "future": [
+          "sarò",
+          "sarai",
+          "sarà",
+          "saremo",
+          "sarete",
+          "saranno"
+        ],
+        "conditional": [
+          "sarei",
+          "saresti",
+          "sarebbe",
+          "saremmo",
+          "sareste",
+          "sarebbero"
+        ],
+        "subjunctive": [
+          "sia",
+          "sia",
+          "sia",
+          "siamo",
+          "siate",
+          "siano"
+        ],
+        "imperfectSubjunctive": [
+          "fossi",
+          "fossi",
+          "fosse",
+          "fossimo",
+          "foste",
+          "fossero"
+        ],
+        "pastParticiple": "stato",
+        "gerund": "essendo"
+      },
+      "avere": {
+        "present": [
+          "ho",
+          "hai",
+          "ha",
+          "abbiamo",
+          "avete",
+          "hanno"
+        ],
+        "imperfect": [
+          "avevo",
+          "avevi",
+          "aveva",
+          "avevamo",
+          "avevate",
+          "avevano"
+        ],
+        "past": [
+          "ebbi",
+          "avesti",
+          "ebbe",
+          "avemmo",
+          "aveste",
+          "ebbero"
+        ],
+        "future": [
+          "avrò",
+          "avrai",
+          "avrà",
+          "avremo",
+          "avrete",
+          "avranno"
+        ],
+        "conditional": [
+          "avrei",
+          "avresti",
+          "avrebbe",
+          "avremmo",
+          "avreste",
+          "avrebbero"
+        ],
+        "subjunctive": [
+          "abbia",
+          "abbia",
+          "abbia",
+          "abbiamo",
+          "abbiate",
+          "abbiano"
+        ],
+        "imperfectSubjunctive": [
+          "avessi",
+          "avessi",
+          "avesse",
+          "avessimo",
+          "aveste",
+          "avessero"
+        ],
+        "pastParticiple": "avuto",
+        "gerund": "avendo"
+      },
+      "stare": {
+        "present": [
+          "sto",
+          "stai",
+          "sta",
+          "stiamo",
+          "state",
+          "stanno"
+        ],
+        "imperfect": [
+          "stavo",
+          "stavi",
+          "stava",
+          "stavamo",
+          "stavate",
+          "stavano"
+        ],
+        "past": [
+          "stetti",
+          "stesti",
+          "stette",
+          "stemmo",
+          "steste",
+          "stettero"
+        ],
+        "future": [
+          "starò",
+          "starai",
+          "starà",
+          "staremo",
+          "starete",
+          "staranno"
+        ],
+        "conditional": [
+          "starei",
+          "staresti",
+          "starebbe",
+          "staremmo",
+          "stareste",
+          "starebbero"
+        ],
+        "subjunctive": [
+          "stia",
+          "stia",
+          "stia",
+          "stiamo",
+          "stiate",
+          "stiano"
+        ],
+        "imperfectSubjunctive": [
+          "stessi",
+          "stessi",
+          "stesse",
+          "stessimo",
+          "steste",
+          "stessero"
+        ],
+        "pastParticiple": "stato",
+        "gerund": "stando"
+      },
+      "fare": {
+        "present": [
+          "faccio",
+          "fai",
+          "fa",
+          "facciamo",
+          "fate",
+          "fanno"
+        ],
+        "imperfect": [
+          "facevo",
+          "facevi",
+          "faceva",
+          "facevamo",
+          "facevate",
+          "facevano"
+        ],
+        "past": [
+          "feci",
+          "facesti",
+          "fece",
+          "facemmo",
+          "faceste",
+          "fecero"
+        ],
+        "future": [
+          "farò",
+          "farai",
+          "farà",
+          "faremo",
+          "farete",
+          "faranno"
+        ],
+        "conditional": [
+          "farei",
+          "faresti",
+          "farebbe",
+          "faremmo",
+          "fareste",
+          "farebbero"
+        ],
+        "subjunctive": [
+          "faccia",
+          "faccia",
+          "faccia",
+          "facciamo",
+          "facciate",
+          "facciano"
+        ],
+        "imperfectSubjunctive": [
+          "facessi",
+          "facessi",
+          "facesse",
+          "facessimo",
+          "faceste",
+          "facessero"
+        ],
+        "pastParticiple": "fatto",
+        "gerund": "facendo"
+      },
+      "dire": {
+        "present": [
+          "dico",
+          "dici",
+          "dice",
+          "diciamo",
+          "dite",
+          "dicono"
+        ],
+        "imperfect": [
+          "dicevo",
+          "dicevi",
+          "diceva",
+          "dicevamo",
+          "dicevate",
+          "dicevano"
+        ],
+        "past": [
+          "dissi",
+          "dicesti",
+          "disse",
+          "dicemmo",
+          "diceste",
+          "dissero"
+        ],
+        "future": [
+          "dirò",
+          "dirai",
+          "dirà",
+          "diremo",
+          "direte",
+          "diranno"
+        ],
+        "conditional": [
+          "direi",
+          "diresti",
+          "direbbe",
+          "diremmo",
+          "direste",
+          "direbbero"
+        ],
+        "subjunctive": [
+          "dica",
+          "dica",
+          "dica",
+          "diciamo",
+          "diciate",
+          "dicano"
+        ],
+        "imperfectSubjunctive": [
+          "dicessi",
+          "dicessi",
+          "dicesse",
+          "dicessimo",
+          "diceste",
+          "dicessero"
+        ],
+        "pastParticiple": "detto",
+        "gerund": "dicendo"
+      },
+      "andare": {
+        "present": [
+          "vado",
+          "vai",
+          "va",
+          "andiamo",
+          "andate",
+          "vanno"
+        ],
+        "imperfect": [
+          "andavo",
+          "andavi",
+          "andava",
+          "andavamo",
+          "andavate",
+          "andavano"
+        ],
+        "past": [
+          "andai",
+          "andasti",
+          "andò",
+          "andammo",
+          "andaste",
+          "andarono"
+        ],
+        "future": [
+          "andrò",
+          "andrai",
+          "andrà",
+          "andremo",
+          "andrete",
+          "andranno"
+        ],
+        "conditional": [
+          "andrei",
+          "andresti",
+          "andrebbe",
+          "andremmo",
+          "andreste",
+          "andrebbero"
+        ],
+        "subjunctive": [
+          "vada",
+          "vada",
+          "vada",
+          "andiamo",
+          "andiate",
+          "vadano"
+        ],
+        "imperfectSubjunctive": [
+          "andassi",
+          "andassi",
+          "andasse",
+          "andassimo",
+          "andaste",
+          "andassero"
+        ],
+        "pastParticiple": "andato",
+        "gerund": "andando"
+      },
+      "venire": {
+        "present": [
+          "vengo",
+          "vieni",
+          "viene",
+          "veniamo",
+          "venite",
+          "vengono"
+        ],
+        "imperfect": [
+          "venivo",
+          "venivi",
+          "veniva",
+          "venivamo",
+          "venivate",
+          "venivano"
+        ],
+        "past": [
+          "venni",
+          "venisti",
+          "venne",
+          "venimmo",
+          "veniste",
+          "vennero"
+        ],
+        "future": [
+          "verrò",
+          "verrai",
+          "verrà",
+          "verremo",
+          "verrete",
+          "verranno"
+        ],
+        "conditional": [
+          "verrei",
+          "verresti",
+          "verrebbe",
+          "verremmo",
+          "verreste",
+          "verrebbero"
+        ],
+        "subjunctive": [
+          "venga",
+          "venga",
+          "venga",
+          "veniamo",
+          "veniate",
+          "vengano"
+        ],
+        "imperfectSubjunctive": [
+          "venissi",
+          "venissi",
+          "venisse",
+          "venissimo",
+          "veniste",
+          "venissero"
+        ],
+        "pastParticiple": "venuto",
+        "gerund": "venendo"
+      },
+      "dare": {
+        "present": [
+          "do",
+          "dai",
+          "dà",
+          "diamo",
+          "date",
+          "danno"
+        ],
+        "imperfect": [
+          "davo",
+          "davi",
+          "dava",
+          "davamo",
+          "davate",
+          "davano"
+        ],
+        "past": [
+          "diedi",
+          "desti",
+          "diede",
+          "demmo",
+          "deste",
+          "diedero"
+        ],
+        "future": [
+          "darò",
+          "darai",
+          "darà",
+          "daremo",
+          "darete",
+          "daranno"
+        ],
+        "conditional": [
+          "darei",
+          "daresti",
+          "darebbe",
+          "daremmo",
+          "dareste",
+          "darebbero"
+        ],
+        "subjunctive": [
+          "dia",
+          "dia",
+          "dia",
+          "diamo",
+          "diate",
+          "diano"
+        ],
+        "imperfectSubjunctive": [
+          "dessi",
+          "dessi",
+          "desse",
+          "dessimo",
+          "deste",
+          "dessero"
+        ],
+        "pastParticiple": "dato",
+        "gerund": "dando"
+      },
+      "sapere": {
+        "present": [
+          "so",
+          "sai",
+          "sa",
+          "sappiamo",
+          "sapete",
+          "sanno"
+        ],
+        "imperfect": [
+          "sapevo",
+          "sapevi",
+          "sapeva",
+          "sapevamo",
+          "sapevate",
+          "sapevano"
+        ],
+        "past": [
+          "seppi",
+          "sapesti",
+          "seppe",
+          "sapemmo",
+          "sapeste",
+          "seppero"
+        ],
+        "future": [
+          "saprò",
+          "saprai",
+          "saprà",
+          "sapremo",
+          "saprete",
+          "sapranno"
+        ],
+        "conditional": [
+          "saprei",
+          "sapresti",
+          "saprebbe",
+          "sapremmo",
+          "sapreste",
+          "saprebbero"
+        ],
+        "subjunctive": [
+          "sappia",
+          "sappia",
+          "sappia",
+          "sappiamo",
+          "sappiate",
+          "sappiano"
+        ],
+        "imperfectSubjunctive": [
+          "sapessi",
+          "sapessi",
+          "sapesse",
+          "sapessimo",
+          "sapeste",
+          "sapessero"
+        ],
+        "pastParticiple": "saputo",
+        "gerund": "sapendo"
+      },
+      "potere": {
+        "present": [
+          "posso",
+          "puoi",
+          "può",
+          "possiamo",
+          "potete",
+          "possono"
+        ],
+        "imperfect": [
+          "potevo",
+          "potevi",
+          "poteva",
+          "potevamo",
+          "potevate",
+          "potevano"
+        ],
+        "past": [
+          "potei",
+          "potesti",
+          "poté",
+          "potemmo",
+          "poteste",
+          "poterono"
+        ],
+        "future": [
+          "potrò",
+          "potrai",
+          "potrà",
+          "potremo",
+          "potrete",
+          "potranno"
+        ],
+        "conditional": [
+          "potrei",
+          "potresti",
+          "potrebbe",
+          "potremmo",
+          "potreste",
+          "potrebbero"
+        ],
+        "subjunctive": [
+          "possa",
+          "possa",
+          "possa",
+          "possiamo",
+          "possiate",
+          "possano"
+        ],
+        "imperfectSubjunctive": [
+          "potessi",
+          "potessi",
+          "potesse",
+          "potessimo",
+          "poteste",
+          "potessero"
+        ],
+        "pastParticiple": "potuto",
+        "gerund": "potendo"
+      },
+      "volere": {
+        "present": [
+          "voglio",
+          "vuoi",
+          "vuole",
+          "vogliamo",
+          "volete",
+          "vogliono"
+        ],
+        "imperfect": [
+          "volevo",
+          "volevi",
+          "voleva",
+          "volevamo",
+          "volevate",
+          "volevano"
+        ],
+        "past": [
+          "volli",
+          "volesti",
+          "volle",
+          "volemmo",
+          "voleste",
+          "vollero"
+        ],
+        "future": [
+          "vorrò",
+          "vorrai",
+          "vorrà",
+          "vorremo",
+          "vorrete",
+          "vorranno"
+        ],
+        "conditional": [
+          "vorrei",
+          "vorresti",
+          "vorrebbe",
+          "vorremmo",
+          "vorreste",
+          "vorrebbero"
+        ],
+        "subjunctive": [
+          "voglia",
+          "voglia",
+          "voglia",
+          "vogliamo",
+          "vogliate",
+          "vogliano"
+        ],
+        "imperfectSubjunctive": [
+          "volessi",
+          "volessi",
+          "volesse",
+          "volessimo",
+          "voleste",
+          "volessero"
+        ],
+        "pastParticiple": "voluto",
+        "gerund": "volendo"
+      },
+      "dovere": {
+        "present": [
+          "devo",
+          "devi",
+          "deve",
+          "dobbiamo",
+          "dovete",
+          "devono"
+        ],
+        "imperfect": [
+          "dovevo",
+          "dovevi",
+          "doveva",
+          "dovevamo",
+          "dovevate",
+          "dovevano"
+        ],
+        "past": [
+          "dovetti",
+          "dovesti",
+          "dovette",
+          "dovemmo",
+          "doveste",
+          "dovettero"
+        ],
+        "future": [
+          "dovrò",
+          "dovrai",
+          "dovrà",
+          "dovremo",
+          "dovrete",
+          "dovranno"
+        ],
+        "conditional": [
+          "dovrei",
+          "dovresti",
+          "dovrebbe",
+          "dovremmo",
+          "dovreste",
+          "dovrebbero"
+        ],
+        "subjunctive": [
+          "debba",
+          "debba",
+          "debba",
+          "dobbiamo",
+          "dobbiate",
+          "debbano"
+        ],
+        "imperfectSubjunctive": [
+          "dovessi",
+          "dovessi",
+          "dovesse",
+          "dovessimo",
+          "doveste",
+          "dovessero"
+        ],
+        "pastParticiple": "dovuto",
+        "gerund": "dovendo"
+      },
+      "bere": {
+        "present": [
+          "bevo",
+          "bevi",
+          "beve",
+          "beviamo",
+          "bevete",
+          "bevono"
+        ],
+        "imperfect": [
+          "bevevo",
+          "bevevi",
+          "beveva",
+          "bevevamo",
+          "bevevate",
+          "bevevano"
+        ],
+        "past": [
+          "bevvi",
+          "bevesti",
+          "bevve",
+          "bevemmo",
+          "beveste",
+          "bevvero"
+        ],
+        "future": [
+          "berrò",
+          "berrai",
+          "berrà",
+          "berremo",
+          "berrete",
+          "berranno"
+        ],
+        "conditional": [
+          "berrei",
+          "berresti",
+          "berrebbe",
+          "berremmo",
+          "berreste",
+          "berrebbero"
+        ],
+        "subjunctive": [
+          "beva",
+          "beva",
+          "beva",
+          "beviamo",
+          "beviate",
+          "bevano"
+        ],
+        "imperfectSubjunctive": [
+          "bevessi",
+          "bevessi",
+          "bevesse",
+          "bevessimo",
+          "beveste",
+          "bevessero"
+        ],
+        "pastParticiple": "bevuto",
+        "gerund": "bevendo"
+      },
+      "uscire": {
+        "present": [
+          "esco",
+          "esci",
+          "esce",
+          "usciamo",
+          "uscite",
+          "escono"
+        ],
+        "imperfect": [
+          "uscivo",
+          "uscivi",
+          "usciva",
+          "uscivamo",
+          "uscivate",
+          "uscivano"
+        ],
+        "past": [
+          "uscii",
+          "uscisti",
+          "uscì",
+          "uscimmo",
+          "usciste",
+          "uscirono"
+        ],
+        "future": [
+          "uscirò",
+          "uscirai",
+          "uscirà",
+          "usciremo",
+          "uscirete",
+          "usciranno"
+        ],
+        "conditional": [
+          "uscirei",
+          "usciresti",
+          "uscirebbe",
+          "usciremmo",
+          "uscireste",
+          "uscirebbero"
+        ],
+        "subjunctive": [
+          "esca",
+          "esca",
+          "esca",
+          "usciamo",
+          "usciate",
+          "escano"
+        ],
+        "imperfectSubjunctive": [
+          "uscissi",
+          "uscissi",
+          "uscisse",
+          "uscissimo",
+          "usciste",
+          "uscissero"
+        ],
+        "pastParticiple": "uscito",
+        "gerund": "uscendo"
+      },
+      "rimanere": {
+        "present": [
+          "rimango",
+          "rimani",
+          "rimane",
+          "rimaniamo",
+          "rimanete",
+          "rimangono"
+        ],
+        "imperfect": [
+          "rimanevo",
+          "rimanevi",
+          "rimaneva",
+          "rimanevamo",
+          "rimanevate",
+          "rimanevano"
+        ],
+        "past": [
+          "rimasi",
+          "rimanesti",
+          "rimase",
+          "rimanemmo",
+          "rimaneste",
+          "rimasero"
+        ],
+        "future": [
+          "rimarrò",
+          "rimarrai",
+          "rimarrà",
+          "rimarremo",
+          "rimarrete",
+          "rimarranno"
+        ],
+        "conditional": [
+          "rimarrei",
+          "rimarresti",
+          "rimarrebbe",
+          "rimarremmo",
+          "rimarreste",
+          "rimarrebbero"
+        ],
+        "subjunctive": [
+          "rimanga",
+          "rimanga",
+          "rimanga",
+          "rimaniamo",
+          "rimaniate",
+          "rimangano"
+        ],
+        "imperfectSubjunctive": [
+          "rimanessi",
+          "rimanessi",
+          "rimanesse",
+          "rimanessimo",
+          "rimaneste",
+          "rimanessero"
+        ],
+        "pastParticiple": "rimasto",
+        "gerund": "rimanendo"
+      },
+      "scegliere": {
+        "present": [
+          "scelgo",
+          "scegli",
+          "sceglie",
+          "scegliamo",
+          "scegliete",
+          "scelgono"
+        ],
+        "imperfect": [
+          "sceglievo",
+          "sceglievi",
+          "sceglieva",
+          "sceglievamo",
+          "sceglievate",
+          "sceglievano"
+        ],
+        "past": [
+          "scelsi",
+          "scegliesti",
+          "scelse",
+          "scegliemmo",
+          "sceglieste",
+          "scelsero"
+        ],
+        "future": [
+          "sceglierò",
+          "sceglierai",
+          "sceglierà",
+          "sceglieremo",
+          "sceglierete",
+          "sceglieranno"
+        ],
+        "conditional": [
+          "sceglierei",
+          "sceglieresti",
+          "sceglierebbe",
+          "sceglieremmo",
+          "scegliereste",
+          "sceglierebbero"
+        ],
+        "subjunctive": [
+          "scelga",
+          "scelga",
+          "scelga",
+          "scegliamo",
+          "scegliate",
+          "scelgano"
+        ],
+        "imperfectSubjunctive": [
+          "scegliessi",
+          "scegliessi",
+          "scegliesse",
+          "scegliessimo",
+          "sceglieste",
+          "scegliessero"
+        ],
+        "pastParticiple": "scelto",
+        "gerund": "scegliendo"
+      },
+      "tenere": {
+        "present": [
+          "tengo",
+          "tieni",
+          "tiene",
+          "teniamo",
+          "tenete",
+          "tengono"
+        ],
+        "imperfect": [
+          "tenevo",
+          "tenevi",
+          "teneva",
+          "tenevamo",
+          "tenevate",
+          "tenevano"
+        ],
+        "past": [
+          "tenni",
+          "tenesti",
+          "tenne",
+          "tenemmo",
+          "teneste",
+          "tennero"
+        ],
+        "future": [
+          "terrò",
+          "terrai",
+          "terrà",
+          "terremo",
+          "terrete",
+          "terranno"
+        ],
+        "conditional": [
+          "terrei",
+          "terresti",
+          "terrebbe",
+          "terremmo",
+          "terreste",
+          "terrebbero"
+        ],
+        "subjunctive": [
+          "tenga",
+          "tenga",
+          "tenga",
+          "teniamo",
+          "teniate",
+          "tengano"
+        ],
+        "imperfectSubjunctive": [
+          "tenessi",
+          "tenessi",
+          "tenesse",
+          "tenessimo",
+          "teneste",
+          "tenessero"
+        ],
+        "pastParticiple": "tenuto",
+        "gerund": "tenendo"
+      },
+      "morire": {
+        "present": [
+          "muoio",
+          "muori",
+          "muore",
+          "moriamo",
+          "morite",
+          "muoiono"
+        ],
+        "imperfect": [
+          "morivo",
+          "morivi",
+          "moriva",
+          "morivamo",
+          "morivate",
+          "morivano"
+        ],
+        "past": [
+          "morii",
+          "moristi",
+          "morì",
+          "morimmo",
+          "moriste",
+          "morirono"
+        ],
+        "future": [
+          "morirò",
+          "morirai",
+          "morirà",
+          "moriremo",
+          "morirete",
+          "moriranno"
+        ],
+        "conditional": [
+          "morirei",
+          "moriresti",
+          "morirebbe",
+          "moriremmo",
+          "morireste",
+          "morirebbero"
+        ],
+        "subjunctive": [
+          "muoia",
+          "muoia",
+          "muoia",
+          "moriamo",
+          "moriate",
+          "muoiano"
+        ],
+        "imperfectSubjunctive": [
+          "morissi",
+          "morissi",
+          "morisse",
+          "morissimo",
+          "moriste",
+          "morissero"
+        ],
+        "pastParticiple": "morto",
+        "gerund": "morendo"
+      },
+      "salire": {
+        "present": [
+          "salgo",
+          "sali",
+          "sale",
+          "saliamo",
+          "salite",
+          "salgono"
+        ],
+        "imperfect": [
+          "salivo",
+          "salivi",
+          "saliva",
+          "salivamo",
+          "salivate",
+          "salivano"
+        ],
+        "past": [
+          "salii",
+          "salisti",
+          "salì",
+          "salimmo",
+          "saliste",
+          "salirono"
+        ],
+        "future": [
+          "salirò",
+          "salirai",
+          "salirà",
+          "saliremo",
+          "salirete",
+          "saliranno"
+        ],
+        "conditional": [
+          "salirei",
+          "saliresti",
+          "salirebbe",
+          "saliremmo",
+          "salireste",
+          "salirebbero"
+        ],
+        "subjunctive": [
+          "salga",
+          "salga",
+          "salga",
+          "saliamo",
+          "saliate",
+          "salgano"
+        ],
+        "imperfectSubjunctive": [
+          "salissi",
+          "salissi",
+          "salisse",
+          "salissimo",
+          "saliste",
+          "salissero"
+        ],
+        "pastParticiple": "salito",
+        "gerund": "salendo"
+      },
+      "porre": {
+        "present": [
+          "pongo",
+          "poni",
+          "pone",
+          "poniamo",
+          "ponete",
+          "pongono"
+        ],
+        "imperfect": [
+          "ponevo",
+          "ponevi",
+          "poneva",
+          "ponevamo",
+          "ponevate",
+          "ponevano"
+        ],
+        "past": [
+          "posi",
+          "ponesti",
+          "pose",
+          "ponemmo",
+          "poneste",
+          "posero"
+        ],
+        "future": [
+          "porrò",
+          "porrai",
+          "porrà",
+          "porremo",
+          "porrete",
+          "porranno"
+        ],
+        "conditional": [
+          "porrei",
+          "porresti",
+          "porrebbe",
+          "porremmo",
+          "porreste",
+          "porrebbero"
+        ],
+        "subjunctive": [
+          "ponga",
+          "ponga",
+          "ponga",
+          "poniamo",
+          "poniate",
+          "pongano"
+        ],
+        "imperfectSubjunctive": [
+          "ponessi",
+          "ponessi",
+          "ponesse",
+          "ponessimo",
+          "poneste",
+          "ponessero"
+        ],
+        "pastParticiple": "posto",
+        "gerund": "ponendo"
+      },
+      "tradurre": {
+        "present": [
+          "traduco",
+          "traduci",
+          "traduce",
+          "traduciamo",
+          "traducete",
+          "traducono"
+        ],
+        "imperfect": [
+          "traducevo",
+          "traducevi",
+          "traduceva",
+          "traducevamo",
+          "traducevate",
+          "traducevano"
+        ],
+        "past": [
+          "tradussi",
+          "traducesti",
+          "tradusse",
+          "traducemmo",
+          "traduceste",
+          "tradussero"
+        ],
+        "future": [
+          "tradurrò",
+          "tradurrai",
+          "tradurrà",
+          "tradurremo",
+          "tradurrete",
+          "tradurranno"
+        ],
+        "conditional": [
+          "tradurrei",
+          "tradurresti",
+          "tradurrebbe",
+          "tradurremmo",
+          "tradurreste",
+          "tradurrebbero"
+        ],
+        "subjunctive": [
+          "traduca",
+          "traduca",
+          "traduca",
+          "traduciamo",
+          "traduciate",
+          "traducano"
+        ],
+        "imperfectSubjunctive": [
+          "traducessi",
+          "traducessi",
+          "traducesse",
+          "traducessimo",
+          "traduceste",
+          "traducessero"
+        ],
+        "pastParticiple": "tradotto",
+        "gerund": "traducendo"
+      },
+      "produrre": {
+        "present": [
+          "produco",
+          "produci",
+          "produce",
+          "produciamo",
+          "producete",
+          "producono"
+        ],
+        "imperfect": [
+          "producevo",
+          "producevi",
+          "produceva",
+          "producevamo",
+          "producevate",
+          "producevano"
+        ],
+        "past": [
+          "produssi",
+          "producesti",
+          "produsse",
+          "producemmo",
+          "produceste",
+          "produssero"
+        ],
+        "future": [
+          "produrrò",
+          "produrrai",
+          "produrrà",
+          "produrremo",
+          "produrrete",
+          "produrranno"
+        ],
+        "conditional": [
+          "produrrei",
+          "produrresti",
+          "produrrebbe",
+          "produrremmo",
+          "produrreste",
+          "produrrebbero"
+        ],
+        "subjunctive": [
+          "produca",
+          "produca",
+          "produca",
+          "produciamo",
+          "produciate",
+          "producano"
+        ],
+        "imperfectSubjunctive": [
+          "producessi",
+          "producessi",
+          "producesse",
+          "producessimo",
+          "produceste",
+          "producessero"
+        ],
+        "pastParticiple": "prodotto",
+        "gerund": "producendo"
+      },
+      "piacere": {
+        "present": [
+          "piaccio",
+          "piaci",
+          "piace",
+          "piacciamo",
+          "piacete",
+          "piacciono"
+        ],
+        "imperfect": [
+          "piacevo",
+          "piacevi",
+          "piaceva",
+          "piacevamo",
+          "piacevate",
+          "piacevano"
+        ],
+        "past": [
+          "piacqui",
+          "piacesti",
+          "piacque",
+          "piacemmo",
+          "piaceste",
+          "piacquero"
+        ],
+        "future": [
+          "piacerò",
+          "piacerai",
+          "piacerà",
+          "piaceremo",
+          "piacerete",
+          "piaceranno"
+        ],
+        "conditional": [
+          "piacerei",
+          "piaceresti",
+          "piacerebbe",
+          "piaceremmo",
+          "piacereste",
+          "piacerebbero"
+        ],
+        "subjunctive": [
+          "piaccia",
+          "piaccia",
+          "piaccia",
+          "piacciamo",
+          "piacciate",
+          "piacciano"
+        ],
+        "imperfectSubjunctive": [
+          "piacessi",
+          "piacessi",
+          "piacesse",
+          "piacessimo",
+          "piaceste",
+          "piacessero"
+        ],
+        "pastParticiple": "piaciuto",
+        "gerund": "piacendo"
+      },
+      "togliere": {
+        "present": [
+          "tolgo",
+          "togli",
+          "toglie",
+          "togliamo",
+          "togliete",
+          "tolgono"
+        ],
+        "imperfect": [
+          "toglievo",
+          "toglievi",
+          "toglieva",
+          "toglievamo",
+          "toglievate",
+          "toglievano"
+        ],
+        "past": [
+          "tolsi",
+          "togliesti",
+          "tolse",
+          "togliemmo",
+          "toglieste",
+          "tolsero"
+        ],
+        "future": [
+          "toglierò",
+          "toglierai",
+          "toglierà",
+          "toglieremo",
+          "toglierete",
+          "toglieranno"
+        ],
+        "conditional": [
+          "toglierei",
+          "toglieresti",
+          "toglierebbe",
+          "toglieremmo",
+          "togliereste",
+          "toglierebbero"
+        ],
+        "subjunctive": [
+          "tolga",
+          "tolga",
+          "tolga",
+          "togliamo",
+          "togliate",
+          "tolgano"
+        ],
+        "imperfectSubjunctive": [
+          "togliessi",
+          "togliessi",
+          "togliesse",
+          "togliessimo",
+          "toglieste",
+          "togliessero"
+        ],
+        "pastParticiple": "tolto",
+        "gerund": "togliendo"
+      },
+      "cogliere": {
+        "present": [
+          "colgo",
+          "cogli",
+          "coglie",
+          "cogliamo",
+          "cogliete",
+          "colgono"
+        ],
+        "imperfect": [
+          "coglievo",
+          "coglievi",
+          "coglieva",
+          "coglievamo",
+          "coglievate",
+          "coglievano"
+        ],
+        "past": [
+          "colsi",
+          "cogliesti",
+          "colse",
+          "cogliemmo",
+          "coglieste",
+          "colsero"
+        ],
+        "future": [
+          "coglierò",
+          "coglierai",
+          "coglierà",
+          "coglieremo",
+          "coglierete",
+          "coglieranno"
+        ],
+        "conditional": [
+          "coglierei",
+          "coglieresti",
+          "coglierebbe",
+          "coglieremmo",
+          "cogliereste",
+          "coglierebbero"
+        ],
+        "subjunctive": [
+          "colga",
+          "colga",
+          "colga",
+          "cogliamo",
+          "cogliate",
+          "colgano"
+        ],
+        "imperfectSubjunctive": [
+          "cogliessi",
+          "cogliessi",
+          "cogliesse",
+          "cogliessimo",
+          "coglieste",
+          "cogliessero"
+        ],
+        "pastParticiple": "colto",
+        "gerund": "cogliendo"
+      },
+      "spegnere": {
+        "present": [
+          "spengo",
+          "spegni",
+          "spegne",
+          "spegniamo",
+          "spegnete",
+          "spengono"
+        ],
+        "imperfect": [
+          "spegnevo",
+          "spegnevi",
+          "spegneva",
+          "spegnevamo",
+          "spegnevate",
+          "spegnevano"
+        ],
+        "past": [
+          "spensi",
+          "spegnesti",
+          "spense",
+          "spegnemmo",
+          "spegneste",
+          "spensero"
+        ],
+        "future": [
+          "spegnerò",
+          "spegnerai",
+          "spegnerà",
+          "spegneremo",
+          "spegnerete",
+          "spegneranno"
+        ],
+        "conditional": [
+          "spegnerei",
+          "spegneresti",
+          "spegnerebbe",
+          "spegneremmo",
+          "spegnereste",
+          "spegnerebbero"
+        ],
+        "subjunctive": [
+          "spenga",
+          "spenga",
+          "spenga",
+          "spegniamo",
+          "spegniate",
+          "spengano"
+        ],
+        "imperfectSubjunctive": [
+          "spegnessi",
+          "spegnessi",
+          "spegnesse",
+          "spegnessimo",
+          "spegneste",
+          "spegnessero"
+        ],
+        "pastParticiple": "spento",
+        "gerund": "spegnendo"
+      },
+      "vedere": {
+        "present": [
+          "vedo",
+          "vedi",
+          "vede",
+          "vediamo",
+          "vedete",
+          "vedono"
+        ],
+        "imperfect": [
+          "vedevo",
+          "vedevi",
+          "vedeva",
+          "vedevamo",
+          "vedevate",
+          "vedevano"
+        ],
+        "past": [
+          "vidi",
+          "vedesti",
+          "vide",
+          "vedemmo",
+          "vedeste",
+          "videro"
+        ],
+        "future": [
+          "vedrò",
+          "vedrai",
+          "vedrà",
+          "vedremo",
+          "vedrete",
+          "vedranno"
+        ],
+        "conditional": [
+          "vedrei",
+          "vedresti",
+          "vedrebbe",
+          "vedremmo",
+          "vedreste",
+          "vedrebbero"
+        ],
+        "subjunctive": [
+          "veda",
+          "veda",
+          "veda",
+          "vediamo",
+          "vediate",
+          "vedano"
+        ],
+        "imperfectSubjunctive": [
+          "vedessi",
+          "vedessi",
+          "vedesse",
+          "vedessimo",
+          "vedeste",
+          "vedessero"
+        ],
+        "pastParticiple": "visto",
+        "gerund": "vedendo"
+      },
+      "vivere": {
+        "present": [
+          "vivo",
+          "vivi",
+          "vive",
+          "viviamo",
+          "vivete",
+          "vivono"
+        ],
+        "imperfect": [
+          "vivevo",
+          "vivevi",
+          "viveva",
+          "vivevamo",
+          "vivevate",
+          "vivevano"
+        ],
+        "past": [
+          "vissi",
+          "vivesti",
+          "visse",
+          "vivemmo",
+          "viveste",
+          "vissero"
+        ],
+        "future": [
+          "vivrò",
+          "vivrai",
+          "vivrà",
+          "vivremo",
+          "vivrete",
+          "vivranno"
+        ],
+        "conditional": [
+          "vivrei",
+          "vivresti",
+          "vivrebbe",
+          "vivremmo",
+          "vivreste",
+          "vivrebbero"
+        ],
+        "subjunctive": [
+          "viva",
+          "viva",
+          "viva",
+          "viviamo",
+          "viviate",
+          "vivano"
+        ],
+        "imperfectSubjunctive": [
+          "vivessi",
+          "vivessi",
+          "vivesse",
+          "vivessimo",
+          "viveste",
+          "vivessero"
+        ],
+        "pastParticiple": "vissuto",
+        "gerund": "vivendo"
+      },
+      "valere": {
+        "present": [
+          "valgo",
+          "vali",
+          "vale",
+          "valiamo",
+          "valete",
+          "valgono"
+        ],
+        "imperfect": [
+          "valevo",
+          "valevi",
+          "valeva",
+          "valevamo",
+          "valevate",
+          "valevano"
+        ],
+        "past": [
+          "valsi",
+          "valesti",
+          "valse",
+          "valemmo",
+          "valeste",
+          "valsero"
+        ],
+        "future": [
+          "varrò",
+          "varrai",
+          "varrà",
+          "varremo",
+          "varrete",
+          "varranno"
+        ],
+        "conditional": [
+          "varrei",
+          "varresti",
+          "varrebbe",
+          "varremmo",
+          "varreste",
+          "varrebbero"
+        ],
+        "imperfectSubjunctive": [
+          "valessi",
+          "valessi",
+          "valesse",
+          "valessimo",
+          "valeste",
+          "valessero"
+        ],
+        "pastParticiple": "valso",
+        "gerund": "valendo"
+      },
+      "cadere": {
+        "present": [
+          "cado",
+          "cadi",
+          "cade",
+          "cadiamo",
+          "cadete",
+          "cadono"
+        ],
+        "imperfect": [
+          "cadevo",
+          "cadevi",
+          "cadeva",
+          "cadevamo",
+          "cadevate",
+          "cadevano"
+        ],
+        "past": [
+          "caddi",
+          "cadesti",
+          "cadde",
+          "cademmo",
+          "cadeste",
+          "caddero"
+        ],
+        "future": [
+          "cadrò",
+          "cadrai",
+          "cadrà",
+          "cadremo",
+          "cadrete",
+          "cadranno"
+        ],
+        "conditional": [
+          "cadrei",
+          "cadresti",
+          "cadrebbe",
+          "cadremmo",
+          "cadreste",
+          "cadrebbero"
+        ],
+        "subjunctive": [
+          "cada",
+          "cada",
+          "cada",
+          "cadiamo",
+          "cadiate",
+          "cadano"
+        ],
+        "imperfectSubjunctive": [
+          "cadessi",
+          "cadessi",
+          "cadesse",
+          "cadessimo",
+          "cadeste",
+          "cadessero"
+        ],
+        "pastParticiple": "caduto",
+        "gerund": "cadendo"
+      },
+      "sedere": {
+        "present": [
+          "sièdo",
+          "sièdi",
+          "siède",
+          "sediamo",
+          "sedete",
+          "sièdono"
+        ],
+        "imperfect": [
+          "sedevo",
+          "sedevi",
+          "sedeva",
+          "sedevamo",
+          "sedevate",
+          "sedevano"
+        ],
+        "past": [
+          "sedei",
+          "sedesti",
+          "sedé",
+          "sedemmo",
+          "sedeste",
+          "sederono"
+        ],
+        "future": [
+          "sederò",
+          "sederai",
+          "sederà",
+          "sederemo",
+          "sederete",
+          "sederanno"
+        ],
+        "conditional": [
+          "sederei",
+          "sederesti",
+          "sederebbe",
+          "sederemmo",
+          "sedereste",
+          "sederebbero"
+        ],
+        "subjunctive": [
+          "sièda",
+          "sièda",
+          "sièda",
+          "sediamo",
+          "sediate",
+          "sièdano"
+        ],
+        "imperfectSubjunctive": [
+          "sedessi",
+          "sedessi",
+          "sedesse",
+          "sedessimo",
+          "sedeste",
+          "sedessero"
+        ],
+        "pastParticiple": "seduto",
+        "gerund": "sedendo"
+      },
+      "tacere": {
+        "present": [
+          "taccio",
+          "taci",
+          "tace",
+          "tacciamo",
+          "tacete",
+          "tacciono"
+        ],
+        "imperfect": [
+          "tacevo",
+          "tacevi",
+          "taceva",
+          "tacevamo",
+          "tacevate",
+          "tacevano"
+        ],
+        "past": [
+          "tacqui",
+          "tacesti",
+          "tacque",
+          "tacemmo",
+          "taceste",
+          "tacquero"
+        ],
+        "future": [
+          "tacerò",
+          "tacerai",
+          "tacerà",
+          "taceremo",
+          "tacerete",
+          "taceranno"
+        ],
+        "conditional": [
+          "tacerei",
+          "taceresti",
+          "tacerebbe",
+          "taceremmo",
+          "tacereste",
+          "tacerebbero"
+        ],
+        "subjunctive": [
+          "taccia",
+          "taccia",
+          "taccia",
+          "tacciamo",
+          "tacciate",
+          "tacciano"
+        ],
+        "imperfectSubjunctive": [
+          "tacessi",
+          "tacessi",
+          "tacesse",
+          "tacessimo",
+          "taceste",
+          "tacessero"
+        ],
+        "pastParticiple": "taciuto",
+        "gerund": "tacendo"
+      },
+      "trarre": {
+        "present": [
+          "traggo",
+          "trai",
+          "trae",
+          "traiamo",
+          "traete",
+          "traggono"
+        ],
+        "imperfect": [
+          "traevo",
+          "traevi",
+          "traeva",
+          "traevamo",
+          "traevate",
+          "traevano"
+        ],
+        "past": [
+          "trassi",
+          "traesti",
+          "trasse",
+          "traemmo",
+          "traeste",
+          "trassero"
+        ],
+        "future": [
+          "trarrò",
+          "trarrai",
+          "trarrà",
+          "trarremo",
+          "trarrete",
+          "trarranno"
+        ],
+        "conditional": [
+          "trarrei",
+          "trarresti",
+          "trarrebbe",
+          "trarremmo",
+          "trarreste",
+          "trarrebbero"
+        ],
+        "subjunctive": [
+          "tragga",
+          "tragga",
+          "tragga",
+          "traiamo",
+          "traiate",
+          "traggano"
+        ],
+        "imperfectSubjunctive": [
+          "traessi",
+          "traessi",
+          "traesse",
+          "traessimo",
+          "traeste",
+          "traessero"
+        ],
+        "pastParticiple": "tratto",
+        "gerund": "traendo"
+      },
+      "condurre": {
+        "present": [
+          "conduco",
+          "conduci",
+          "conduce",
+          "conduciamo",
+          "conducete",
+          "conducono"
+        ],
+        "imperfect": [
+          "conducevo",
+          "conducevi",
+          "conduceva",
+          "conducevamo",
+          "conducevate",
+          "conducevano"
+        ],
+        "past": [
+          "condussi",
+          "conducesti",
+          "condusse",
+          "conducemmo",
+          "conduceste",
+          "condussero"
+        ],
+        "future": [
+          "condurrò",
+          "condurrai",
+          "condurrà",
+          "condurremo",
+          "condurrete",
+          "condurranno"
+        ],
+        "conditional": [
+          "condurrei",
+          "condurresti",
+          "condurrebbe",
+          "condurremmo",
+          "condurreste",
+          "condurrebbero"
+        ],
+        "subjunctive": [
+          "conduca",
+          "conduca",
+          "conduca",
+          "conduciamo",
+          "conduciate",
+          "conducano"
+        ],
+        "imperfectSubjunctive": [
+          "conducessi",
+          "conducessi",
+          "conducesse",
+          "conducessimo",
+          "conduceste",
+          "conducessero"
+        ],
+        "pastParticiple": "condotto",
+        "gerund": "conducendo"
+      },
+      "ridurre": {
+        "present": [
+          "riduco",
+          "riduci",
+          "riduce",
+          "riduciamo",
+          "riducete",
+          "riducono"
+        ],
+        "imperfect": [
+          "riducevo",
+          "riducevi",
+          "riduceva",
+          "riducevamo",
+          "riducevate",
+          "riducevano"
+        ],
+        "past": [
+          "ridussi",
+          "riducesti",
+          "ridusse",
+          "riducemmo",
+          "riduceste",
+          "ridussero"
+        ],
+        "future": [
+          "ridurrò",
+          "ridurrai",
+          "ridurrà",
+          "ridurremo",
+          "ridurrete",
+          "ridurranno"
+        ],
+        "conditional": [
+          "ridurrei",
+          "ridurresti",
+          "ridurrebbe",
+          "ridurremmo",
+          "ridurreste",
+          "ridurrebbero"
+        ],
+        "subjunctive": [
+          "riduca",
+          "riduca",
+          "riduca",
+          "riduciamo",
+          "riduciate",
+          "riducano"
+        ],
+        "imperfectSubjunctive": [
+          "riducessi",
+          "riducessi",
+          "riducesse",
+          "riducessimo",
+          "riduceste",
+          "riducessero"
+        ],
+        "pastParticiple": "ridotto",
+        "gerund": "riducendo"
+      },
+      "apparire": {
+        "present": [
+          "appaio",
+          "appari",
+          "appare",
+          "appariamo",
+          "apparite",
+          "appaiono"
+        ],
+        "imperfect": [
+          "apparivo",
+          "apparivi",
+          "appariva",
+          "apparivamo",
+          "apparivate",
+          "apparivano"
+        ],
+        "past": [
+          "apparvi",
+          "apparisti",
+          "apparve",
+          "apparimmo",
+          "appariste",
+          "apparvero"
+        ],
+        "future": [
+          "apparirò",
+          "apparirai",
+          "apparirà",
+          "appariremo",
+          "apparirete",
+          "appariranno"
+        ],
+        "conditional": [
+          "apparirei",
+          "appariresti",
+          "apparirebbe",
+          "appariremmo",
+          "apparireste",
+          "apparirebbero"
+        ],
+        "subjunctive": [
+          "appaia",
+          "appaia",
+          "appaia",
+          "appariamo",
+          "appariate",
+          "appaiano"
+        ],
+        "imperfectSubjunctive": [
+          "apparissi",
+          "apparissi",
+          "apparisse",
+          "apparissimo",
+          "appariste",
+          "apparissero"
+        ],
+        "pastParticiple": "apparso",
+        "gerund": "apparendo"
+      },
+      "parere": {
+        "present": [
+          "paio",
+          "pari",
+          "pare",
+          "paiamo",
+          "parete",
+          "paiono"
+        ],
+        "imperfect": [
+          "parevo",
+          "parevi",
+          "pareva",
+          "parevamo",
+          "parevate",
+          "parevano"
+        ],
+        "past": [
+          "parvi",
+          "paresti",
+          "parve",
+          "paremmo",
+          "pareste",
+          "parvero"
+        ],
+        "future": [
+          "parrò",
+          "parrai",
+          "parrà",
+          "parremo",
+          "parrete",
+          "parranno"
+        ],
+        "conditional": [
+          "parrei",
+          "parresti",
+          "parrebbe",
+          "parremmo",
+          "parreste",
+          "parrebbero"
+        ],
+        "subjunctive": [
+          "paia",
+          "paia",
+          "paia",
+          "paiamo",
+          "paiate",
+          "paiano"
+        ],
+        "imperfectSubjunctive": [
+          "paressi",
+          "paressi",
+          "paresse",
+          "paressimo",
+          "pareste",
+          "paressero"
+        ],
+        "pastParticiple": "parso",
+        "gerund": "parendo"
+      }
+    },
+    "participles": {
+      "essere": "stato",
+      "vedere": "visto",
+      "dire": "detto",
+      "fare": "fatto",
+      "prendere": "preso",
+      "vivere": "vissuto",
+      "venire": "venuto",
+      "uccidere": "ucciso",
+      "raggiungere": "raggiunto",
+      "mettere": "messo",
+      "ridurre": "ridotto",
+      "promuovere": "promosso",
+      "scegliere": "scelto",
+      "morire": "morto",
+      "chiedere": "chiesto",
+      "rendere": "reso",
+      "scoprire": "scoperto",
+      "perdere": "perso",
+      "proteggere": "protetto",
+      "aggiungere": "aggiunto",
+      "leggere": "letto",
+      "offrire": "offerto",
+      "rispondere": "risposto",
+      "rimanere": "rimasto",
+      "aprire": "aperto",
+      "risolvere": "risolto",
+      "conoscere": "conosciuto",
+      "scrivere": "scritto",
+      "soddisfare": "soddisfatto",
+      "vincere": "vinto",
+      "condividere": "condiviso",
+      "decidere": "deciso",
+      "permettere": "permesso",
+      "comprendere": "compreso",
+      "produrre": "prodotto",
+      "discutere": "discusso",
+      "riconoscere": "riconosciuto",
+      "crescere": "cresciuto",
+      "prevenire": "prevenuto",
+      "esprimere": "espresso",
+      "svolgere": "svolto",
+      "includere": "incluso",
+      "smettere": "smesso",
+      "chiudere": "chiuso",
+      "raccogliere": "raccolto",
+      "rimuovere": "rimosso",
+      "coprire": "coperto",
+      "distruggere": "distrutto",
+      "assumere": "assunto",
+      "correre": "corso",
+      "richiedere": "richiesto",
+      "introdurre": "introdotto",
+      "sopravvivere": "sopravvissuto",
+      "piacere": "piaciuto",
+      "difendere": "difeso",
+      "nascondere": "nascosto",
+      "concludere": "concluso",
+      "proporre": "proposto",
+      "ammettere": "ammesso",
+      "condurre": "condotto",
+      "piangere": "pianto",
+      "riflettere": "riflesso",
+      "accogliere": "accolto",
+      "trasmettere": "trasmesso",
+      "trascorrere": "trascorso",
+      "assistere": "assistito",
+      "imporre": "imposto",
+      "convincere": "convinto",
+      "estendere": "esteso",
+      "prevedere": "previsto",
+      "intervenire": "intervenuto",
+      "ridere": "riso",
+      "disporre": "disposto",
+      "intraprendere": "intrapreso",
+      "descrivere": "descritto",
+      "rivedere": "rivisto",
+      "scendere": "sceso",
+      "togliere": "tolto",
+      "resistere": "resistito",
+      "escludere": "escluso",
+      "coinvolgere": "coinvolto",
+      "spendere": "speso",
+      "soffrire": "sofferto",
+      "rompere": "rotto",
+      "correggere": "corretto",
+      "apparire": "apparso",
+      "accrescere": "accresciuto",
+      "cogliere": "colto",
+      "diffondere": "diffuso",
+      "interrompere": "interrotto",
+      "fingere": "finto",
+      "dividere": "diviso",
+      "spingere": "spinto",
+      "muovere": "mosso",
+      "porre": "posto",
+      "giungere": "giunto",
+      "esistere": "esistito",
+      "ricorrere": "ricorso",
+      "esplodere": "esploso",
+      "cuocere": "cotto",
+      "compromettere": "compromesso",
+      "sospendere": "sospeso",
+      "riprendere": "ripreso",
+      "distinguere": "distinto",
+      "dipingere": "dipinto",
+      "respingere": "respinto",
+      "tradurre": "tradotto",
+      "parere": "parso",
+      "attendere": "atteso",
+      "dirigere": "diretto",
+      "insistere": "insistito",
+      "sorridere": "sorriso",
+      "estrarre": "estratto",
+      "riprodurre": "riprodotto",
+      "spegnere": "spento",
+      "sconfiggere": "sconfitto",
+      "accendere": "acceso",
+      "esigere": "esatto",
+      "esporre": "esposto",
+      "avvenire": "avvenuto",
+      "trarre": "tratto",
+      "espandere": "espanso",
+      "scommettere": "scommesso",
+      "apprendere": "appreso",
+      "incidere": "inciso",
+      "divenire": "divenuto",
+      "commettere": "commesso",
+      "scomparire": "scomparso",
+      "indurre": "indotto",
+      "redigere": "redatto",
+      "percorrere": "percorso",
+      "sciogliere": "sciolto",
+      "corrispondere": "corrisposto",
+      "attrarre": "attratto",
+      "nascere": "nato",
+      "sopprimere": "soppresso",
+      "confondere": "confuso",
+      "scorrere": "scorso",
+      "emettere": "emesso",
+      "bere": "bevuto",
+      "sottoporre": "sottoposto",
+      "appendere": "appeso",
+      "supporre": "supposto",
+      "stringere": "stretto",
+      "tacere": "taciuto",
+      "promettere": "promesso",
+      "provvedere": "provvisto",
+      "rivivere": "rivissuto",
+      "rivolgere": "rivolto",
+      "emergere": "emerso",
+      "pretendere": "preteso",
+      "costringere": "costretto",
+      "sorgere": "sorto",
+      "riscoprire": "riscoperto",
+      "valere": "valso",
+      "dipendere": "dipeso",
+      "convivere": "convissuto",
+      "comporre": "composto",
+      "immettere": "immesso",
+      "assolvere": "assolto",
+      "predisporre": "predisposto",
+      "infrangere": "infranto",
+      "riaprire": "riaperto",
+      "pervenire": "pervenuto",
+      "comparire": "comparso",
+      "presumere": "presunto",
+      "provenire": "provenuto",
+      "reggere": "retto",
+      "intendere": "inteso",
+      "prescrivere": "prescritto",
+      "sedurre": "sedotto",
+      "invadere": "invaso",
+      "connettere": "connesso",
+      "rimettere": "rimesso",
+      "riassumere": "riassunto",
+      "persuadere": "persuaso",
+      "prevalere": "prevalso",
+      "eludere": "eluso",
+      "riscuotere": "riscosso",
+      "corrompere": "corrotto",
+      "dedurre": "dedotto",
+      "distrarre": "distratto",
+      "sottoscrivere": "sottoscritto",
+      "benedire": "benedetto",
+      "mordere": "morso",
+      "fondere": "fuso",
+      "decorrere": "decorso",
+      "evolvere": "evoluto",
+      "predire": "predetto",
+      "friggere": "fritto",
+      "sorprendere": "sorpreso",
+      "eleggere": "eletto",
+      "svenire": "svenuto",
+      "restringere": "restretto",
+      "iscrivere": "iscritto",
+      "espellere": "espulso",
+      "ricoprire": "ricoperto",
+      "attingere": "attinto",
+      "evadere": "evaso",
+      "riscrivere": "riscritto",
+      "stendere": "steso",
+      "scorgere": "scorto",
+      "avvolgere": "avvolto",
+      "offendere": "offeso",
+      "scuotere": "scosso",
+      "spargere": "sparso",
+      "infliggere": "inflitto",
+      "nuocere": "nociuto",
+      "riporre": "riposto",
+      "deludere": "deluso",
+      "erigere": "eretto",
+      "deporre": "deposto",
+      "immergere": "immerso",
+      "insorgere": "insorto",
+      "disfare": "disfatto",
+      "persistere": "persistito",
+      "comprimere": "compresso",
+      "consistere": "consistito",
+      "reprimere": "represso",
+      "rifare": "rifatto",
+      "disdire": "disdetto",
+      "porgere": "porto",
+      "contrarre": "contratto",
+      "sottrarre": "sottratto",
+      "suddividere": "suddiviso",
+      "coesistere": "coesistito",
+      "coincidere": "coinciso",
+      "tendere": "teso",
+      "capovolgere": "capovolto",
+      "convenire": "convenuto",
+      "disperdere": "disperso",
+      "compiacere": "compiaciuto",
+      "distorcere": "distorto",
+      "dissuadere": "dissuaso",
+      "sovrascrivere": "sovrascritto",
+      "rileggere": "riletto",
+      "trascendere": "trasceso",
+      "contraddire": "contraddetto",
+      "rimpiangere": "rimpianto",
+      "infondere": "infuso",
+      "concorrere": "concorso",
+      "ascendere": "asceso",
+      "soccorrere": "soccorso",
+      "sopraffare": "sopraffatto",
+      "rincorrere": "rincorso",
+      "rinascere": "rinato",
+      "detrarre": "detratto",
+      "sottomettere": "sottomesso",
+      "incorrere": "incorso",
+      "indulgere": "indulto",
+      "convergere": "converso",
+      "cospargere": "cosparso",
+      "estinguere": "estinto",
+      "omettere": "omesso",
+      "sconvolgere": "sconvolto",
+      "volgere": "volto",
+      "mungere": "munto",
+      "indire": "indetto",
+      "redimere": "redento",
+      "irrompere": "irrotto",
+      "distogliere": "distolto",
+      "maledire": "maledetto",
+      "giacere": "giaciuto",
+      "apporre": "apposto",
+      "decomprimere": "decompresso",
+      "ungere": "unto",
+      "rinchiudere": "rinchiuso",
+      "precludere": "precluso",
+      "sussistere": "sussistito",
+      "ripercorrere": "ripercorso",
+      "riaccendere": "riacceso",
+      "ardere": "arso",
+      "presupporre": "presupposto",
+      "ledere": "leso",
+      "sporgere": "sporto",
+      "soffriggere": "soffritto",
+      "dissolvere": "dissolto",
+      "ritrarre": "ritratto",
+      "dimettere": "dimesso",
+      "discendere": "disceso",
+      "fraintendere": "frainteso",
+      "prescindere": "prescisso",
+      "trasporre": "trasposto",
+      "arrendere": "arreso",
+      "estorcere": "estorto",
+      "addivenire": "addivenuto",
+      "radere": "raso",
+      "opporre": "opposto",
+      "desistere": "desistito",
+      "intravedere": "intravisto",
+      "sovrapporre": "sovrapposto",
+      "ridire": "ridetto",
+      "sovrintendere": "sovrinteso",
+      "disconnettere": "disconnesso",
+      "manomettere": "manomesso",
+      "posporre": "posposto",
+      "racchiudere": "racchiuso",
+      "circoscrivere": "circoscritto",
+      "erodere": "eroso",
+      "pungere": "punto",
+      "deridere": "deriso",
+      "rescindere": "rescisso",
+      "trascrivere": "trascritto",
+      "riapparire": "riapparso",
+      "commuovere": "commosso",
+      "tingere": "tinto",
+      "opprimere": "oppresso",
+      "scindere": "scisso",
+      "riavvolgere": "riavvolto",
+      "riemergere": "riemerso",
+      "imprimere": "impresso",
+      "riproporre": "riproposto",
+      "crocifiggere": "crocifisso"
+    },
+    "gerunds": {
+      "dire": "dicendo",
+      "fare": "facendo",
+      "ridurre": "riducendo",
+      "soddisfare": "soddisfacendo",
+      "produrre": "producendo",
+      "introdurre": "introducendo",
+      "proporre": "proponendo",
+      "condurre": "conducendo",
+      "imporre": "imponendo",
+      "disporre": "disponendo",
+      "riempire": "riempiendo",
+      "porre": "ponendo",
+      "tradurre": "traducendo",
+      "estrarre": "estraendo",
+      "riprodurre": "riproducendo",
+      "esporre": "esponendo",
+      "trarre": "traendo",
+      "indurre": "inducendo",
+      "attrarre": "attraendo",
+      "bere": "bevendo",
+      "sottoporre": "sottoponendo",
+      "supporre": "supponendo",
+      "comporre": "componendo",
+      "predisporre": "predisponendo",
+      "sedurre": "seducendo",
+      "dedurre": "deducendo",
+      "distrarre": "distraendo",
+      "benedire": "benedicendo",
+      "predire": "predicendo",
+      "nuocere": "nocendo",
+      "riporre": "riponendo",
+      "deporre": "deponendo",
+      "disfare": "disfacendo",
+      "rifare": "rifacendo",
+      "disdire": "disdicendo",
+      "contrarre": "contraendo",
+      "sottrarre": "sottraendo",
+      "contraddire": "contraddicendo",
+      "sopraffare": "sopraffacendo",
+      "detrarre": "detraendo",
+      "indire": "indicendo",
+      "maledire": "maledicendo",
+      "apporre": "apponendo",
+      "presupporre": "presupponendo",
+      "ritrarre": "ritraendo",
+      "trasporre": "trasponendo",
+      "opporre": "opponendo",
+      "sovrapporre": "sovrapponendo",
+      "ridire": "ridicendo",
+      "posporre": "posponendo",
+      "riproporre": "riproponendo"
+    }
+  };
+
   let {
     presentTense: presentTense$1,
     pastTense: pastTense$1,
@@ -8326,8 +10909,18 @@
     subjunctive: subjunctive$1,
   } = model$1;
 
-  const doEach = function (str, m) {
-    // str = str.replace(/si$/, '')
+  const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
+
+  const doEach = function (str, m, tense) {
+    // known-irregular verb?
+    let table = irregular.paradigms[str];
+    if (table && table[tense]) {
+      let res = {};
+      persons.forEach((p, i) => {
+        res[p] = table[tense][i];
+      });
+      return res
+    }
     return {
       first: convert$1(str, m.first),
       second: convert$1(str, m.second),
@@ -8338,12 +10931,37 @@
     }
   };
 
-  const toPresent = (str) => doEach(str, presentTense$1);
-  const toPast = (str) => doEach(str, pastTense$1);
-  const toFuture = (str) => doEach(str, futureTense$1);
-  const toConditional = (str) => doEach(str, conditional$1);
-  const toImperfect = (str) => doEach(str, imperfect$1);
-  const toSubjunctive = (str) => doEach(str, subjunctive$1);
+  const toPresent = (str) => doEach(str, presentTense$1, 'present');
+  const toPast = (str) => doEach(str, pastTense$1, 'past');
+  const toFuture = (str) => doEach(str, futureTense$1, 'future');
+  const toConditional = (str) => doEach(str, conditional$1, 'conditional');
+  const toImperfect = (str) => doEach(str, imperfect$1, 'imperfect');
+  const toSubjunctive = (str) => doEach(str, subjunctive$1, 'subjunctive');
+
+  // congiuntivo imperfetto is regular enough for simple rules
+  // parlare -> parlassi, credere -> credessi, dormire -> dormissi
+  const toImperfectSubjunctive = (str) => {
+    let table = irregular.paradigms[str];
+    if (table && table.imperfectSubjunctive) {
+      let res = {};
+      persons.forEach((p, i) => {
+        res[p] = table.imperfectSubjunctive[i];
+      });
+      return res
+    }
+    let stem = str.replace(/are$/, 'a').replace(/ere$/, 'e').replace(/ire$/, 'i');
+    if (stem === str) {
+      return {}
+    }
+    return {
+      first: stem + 'ssi',
+      second: stem + 'ssi',
+      third: stem + 'sse',
+      firstPlural: stem + 'ssimo',
+      secondPlural: stem + 'ste',
+      thirdPlural: stem + 'ssero',
+    }
+  };
 
   // reflexive infinitive
   const toReflexive = (str) => {
@@ -8372,16 +10990,55 @@
     fromPresentParticiple: reverse$1(presentParticiple.presentParticiple),
   };
 
+  // irregular participle/gerund lookups, in both directions
+  let toPP = {};
+  let fromPP = {};
+  let toGer = {};
+  let fromGer = {};
+  Object.keys(irregular.participles).forEach((inf) => {
+    toPP[inf] = irregular.participles[inf];
+    fromPP[irregular.participles[inf]] = inf;
+  });
+  Object.keys(irregular.gerunds).forEach((inf) => {
+    toGer[inf] = irregular.gerunds[inf];
+    fromGer[irregular.gerunds[inf]] = inf;
+  });
+  Object.keys(irregular.paradigms).forEach((inf) => {
+    let p = irregular.paradigms[inf];
+    if (p.pastParticiple) {
+      toPP[inf] = p.pastParticiple;
+      fromPP[p.pastParticiple] = fromPP[p.pastParticiple] || inf;
+    }
+    if (p.gerund) {
+      toGer[inf] = p.gerund;
+      fromGer[p.gerund] = fromGer[p.gerund] || inf;
+    }
+  });
+  // 'stato' is the participle of both essere and stare - prefer essere
+  fromPP['stato'] = 'essere';
+
   const fromGerund = function (str) {
+    if (fromGer.hasOwnProperty(str)) {
+      return fromGer[str]
+    }
     return convert$1(str, m$1.fromGerund)
   };
   const toGerund = function (str) {
+    if (toGer.hasOwnProperty(str)) {
+      return toGer[str]
+    }
     return convert$1(str, m$1.toGerund)
   };
   const fromPastParticiple = function (str) {
+    if (fromPP.hasOwnProperty(str)) {
+      return fromPP[str]
+    }
     return convert$1(str, m$1.fromPastParticiple)
   };
   const toPastParticiple = function (str) {
+    if (toPP.hasOwnProperty(str)) {
+      return toPP[str]
+    }
     return convert$1(str, m$1.toPastParticiple)
   };
   const fromPresentParticiple = function (str) {
@@ -8520,10 +11177,22 @@
       Object.values(toConditional(str)),
       Object.values(toImperfect(str)),
       Object.values(toSubjunctive(str)),
+      Object.values(toImperfectSubjunctive(str)),
       Object.values(toReflexive(str))
     );
-    arr.push(toPastParticiple(str));
+    // past-participle, in all four gender/number agreements
+    let pp = toPastParticiple(str);
+    if (pp) {
+      arr.push(pp);
+      arr.push(pp.replace(/o$/, 'a'));
+      arr.push(pp.replace(/o$/, 'i'));
+      arr.push(pp.replace(/o$/, 'e'));
+    }
+    arr.push(toGerund(str));
     arr.push(toPresentParticiple(str));
+    // attached object-pronouns - 'fissarla', 'scriverlo'
+    let stem = str.replace(/e$/, '');
+    arr = arr.concat([stem + 'lo', stem + 'la', stem + 'li', stem + 'le', stem + 'ne']);
     arr = arr.filter((s) => s);
     arr = new Set(arr);
     return Array.from(arr)
@@ -8537,6 +11206,7 @@
     toConditional,
     toImperfect,
     toSubjunctive,
+    toImperfectSubjunctive,
     toReflexive,
     fromGerund,
     toGerund,
@@ -8581,17 +11251,21 @@
   // console.log(toPlural('scarpa'))
   // console.log(fromPlural('nuvole'))
 
-  let { fs, mp } = model$1.adjectives;
+  let { fs, mp, fp } = model$1.adjectives;
 
   const revFemale = reverse$1(fs);
   const revPlural = reverse$1(mp);
+  const revFemalePlural = reverse$1(fp);
 
   const toFemale = (str) => convert$1(str, fs);
   const toPlural = (str) => convert$1(str, mp);
-  const toFemalePlural = (str) => toPlural(toFemale(str));
+  // female-singular -> female-plural model ('bella' -> 'belle')
+  const toFemalePlural = (str) => convert$1(toFemale(str), fp);
 
   const fromFemale = (str) => convert$1(str, revFemale);
   const fromPlural = (str) => convert$1(str, revPlural);
+  // 'meravigliose' -> 'meraviglioso'
+  const fromFemalePlural = (str) => fromFemale(convert$1(str, revFemalePlural));
 
   const all = function (str) {
     let arr = [
@@ -8606,7 +11280,7 @@
   var adjective = {
     all,
     toFemale, toPlural, toFemalePlural,
-    fromFemale, fromPlural,
+    fromFemale, fromPlural, fromFemalePlural,
   };
 
   // "ridicola",
@@ -8623,44 +11297,50 @@
 
   // generated in ./lib/lexicon
   var lexData = {
-    "Determiner": "true¦altri,gli,i2l1questa,tale,un0;!a;!a,i;!l",
-    "Pronoun": "true¦ci,esso,io,l9mi7n4questi,su3t1v0;i,o4;i,u0;!a,e,o5;a,o4;e,o0;i,str0;a,e,i,o;!e0o;!i;e,o0ui;!ro",
-    "Preposition": "true¦a9c6d2f1in,molti,ne4p0su5tra;er,rima;ino,ra;a2e1i,o0;po,ve;g7i,l5;!g6i,l4;he,o0;i,l,n0;!tro;!d,g2i,l0;!l0;!a,e,o;li",
-    "Cardinal": "true¦cOdFmilEnovPottDquAse9tre2un1vent0ze7;i4otJu3;dFo;!dEnt0;a1otGu0;no;!cinq2d2nHquatt1se0tré;i,tF;ro;ue;d7i,ssaGttF;a0ind6;raEtt0;ord4ro;aCo;ione,le;i2od1ue0;!cen3mB;ici;ci0eci8;a1ot0;to;nn1sset0;te;ove;ento2inqu0;a0e;nta;!m0;ila",
-    "Possessive": "true¦mi4n2su1tu0v2;a,e,o4;a,o3;ostr0;a,e,i,o;e0o;!i",
-    "FemaleAdjective": "true¦0:A5;1:A1;2:9Y;3:9Q;4:9D;5:9E;6:9B;7:8R;8:9O;9:9U;A:68;B:9I;C:9K;D:8O;a8Hb82c6Id62e5Cf4Sg49i3Qjugosla9l3Dm2Tn2Go24p19qu17r0UsYtPuLvE;aJeHiGoFuE;lcaDo0;ca96lont7;ci2n0olen0si9ttor9L;cch8neEra;ta,z95;liAr8s0;l3FmFniErbanG;ca,ta04vers5C;anEb5iA;a,is3;aLeGi21os9YraFurE;ca,is3;gi1nquil9M;cnHd46leGmpFne5oEr9Ysa;lo8Nri1;e6Zor6N;foDvi9O;i1o8J;rAt3;a07b5Vc04eZfYiUoPpKtFuEvizze5;cc9Jdd69gges6me5preB;aHes4il9FoCraE;nFord3JtE;e8Eig70;a,ie5;mpa0ti1;ag07eGic8GlendiAoE;nt6BrE;ca,ti9;ciEs4;aliz7Nfi1;ciHggett6HlEno5sp5Ytt2Avie3;a,iE;da,s0taE;!r8;al8Cet7;cGgnifi4Umbo87nFsEta;mi1te59;foDgo8Wist5;il86u5;eCortu9B;cHgre0lvagg8man3pGrFttEve5;ece3CiB;ba,e2ia;a66ol0;ca,ond7;ar4eDiFoEu5;l4Nn4X;e3Xi0;c5l3PnE;gu1Zit7ta;aOeMiJoEus4;bus0cc87maFsEtZ;a,s6O;gFnE;a,i1ti1;no8E;c1fles4gFnEpiAstr58t8Qvolu39;nova0o7T;iAo5W;al8Ccipro1lEmo0pubb7Ssid5D;a6ig7Y;diofoDpEra;iApresenta6;aEotid7H;d5Lnt87r0;a03eZiWl44oTrHsicGuE;bblicEli0ra;a,it7;hi1o73;a3eLiIoE;ble4Bd4SfGgr84ibi0lunga0n0pr8s7TteFvE;a0vis0D;i1t0;onA;mFvaE;!ta;ar8i6oge1S;ci4ma2LsGvEz7H;en6iE;a,s0;tig7Eun0;e3lFntific8pMsEve5;i6tuB;ac1i3;aFcEe2ttoC;co7Ke2;n0t0;nul15rEs7Ctrolife5;du0f4CiEs6S;cEfeCo1W;olo4;ci54da2ga2nora7RrFssEtS;a0i9;aFigi2la0tE;en2Oig6M;lle7As6H;bbligatOdiNgg4QlimMmoLnto6BpIrFscu5ttE;a9iB;atMdinaFganiEig1Etod1U;ca,zzat4K;r8ta;eraFpoE;rtu2s0;ia,ti9;gen46niB;pi1;er2;or8;aMeKoGuE;da,merEo9;i1o4;na,rFtE;a,tur2;di1maE;n2ti9;cess7ga6mi1o77rEt0;a,vo4;!poleGr6Bscos0tFziE;on4Ns0;i9ur15;oDta2;aSeMiJoFuE;r7sic5W;deGnFrE;biAfo5J;as3et7tuo4;r2s0;a,nFstEti1;a,er62i1;er7iBor1X;dGlo0Rra,ssi6LtEzza;aEeoro5Cropolita2;fi3Tl5I;e62iE;a22ca,tE;err3A;f5Ugi1n5DrHssiGtE;eEu5;ma3r2;cc8ma;ca0itOm2Yx5Ez5C;aPeKiJoGuE;mEng5D;ino4;mFnE;goEta2;barA;be5gn2Zmi24ngu5Wq0Vri1t3M;gEn0tter7;a0geGiE;sla6tE;tiB;nd7ra;i1r3Lti2vo5B;beCdVgno0llumin50mQnGpote3roDsFtaliE;a1Hca;la5Yo4Gtant2P;aspet1UcMdKedi0fIgen2NnHtEv2M;at0eEiB;n4rE;a,med8na;a0ova6;iEor1R;ni0;iEu4Q;a2ge2r27;er0in0;mFpE;egMortant4Orovvi4;agFeEu1I;d1Un4;in7;en3on2AroelettC;eSiIoGrE;aEe1ig8os4;fi1m1End4Htui0;ti1verE;na6;allLgaJoGuE;di04riEs0;di1;rnFvE;an4Aia2;al4W;ntE;es1;a,orE;os4;neGoFrE;archi1maD;g2Clo3QmetC;ri1ti1;aUerSiNlMoIrFuE;tu5;aFeE;dAs1;zion7;nArEt24;tEza0;iEu4V;fi3Ls47;uiA;loso21nGorFsEt0;i1sa;en2F;anEi0;zi7;ma,rE;a0ovi7;l4mo4ntasErmaceu3sc3H;cieEti1;nti1S;br02cYduXff1IgiziaWlQmPnOpNrLsGtFurEvolut1Fxtraurba2;op15;er2i1ni1rus1;at0e15pHtE;eEi9reB;rEti1;a,na;lici0r3Z;edEoi1ra0;it7;a3i1;erge3ne3K;o6piC;as3eFlE;en3Pit3;ttrFvatE;a,is3F;i1oE;magne3ni1;!na;ca6;cFoE;lo2Ino3S;es3KlesiE;as3;ai1ea;eQiHoGramNuE;bb8raE;!tu5;lo0Tmes3pp8ra0;chia0NfKna3KpIr02sFur2vE;er4i2;abiFcEpe0Ltrut0;og0Tre0;ta0;in0loE;ma3;en36fE;icolto4u4;cis0Cdi0fini6g2li26moFn4ttE;aglK;c1Ug0Ln0V;a0Qe0Ohi0Mi0Hl0DoLrFuE;pa,r2J;ea6iHoFuA;da;a0cEma3ni1;ia0;stEti1;alli2ia2;l02mWnMperLrJsE;iddHmGpicPtE;ie5o4rE;ut6;i1opoli0;et0;ea2pEta;orL;ni2Pta;cMsKtE;adi2emporHinGrE;ar8ovE;er4;ua;anE;ea;eEideN;cu6;lu2Bre0;i1memo1RpFuniE;s0t7;at0eti6lEosi6re4;eEi19;ssEta;a,i9;lFoE;ra0;et6;aEiD;moFndes00sE;si1;ro4;lindCneEvi1;matEti1;ogE;raE;fi1;a5mi1rEu4;ur0O;lEr0;eberriBti1;!lJmpa2noDo3pitIrGsalinFttE;i9o0Q;ga;a,boDdEi1nivo5si1;ia1;al0Q;c1Eda;aNeJiGos4rEuo2;asil0LitanDutE;a,ta;ancFb0Ho0AzanE;ti2;a,one5;lErbe5;ga,lE;a,iE;ca,s0W;roc1sFttE;eCu0;i08sE;a,isE;siBta;bbando1Dc1Cd1Ber18fr14g0Ul0Om0In06p01rPsNtLuGvEzzur5;anEvers7;za0;strHtE;en3oE;mEnoB;a3obil0S;al00ia1;le3mosfeCo11tE;a,en0i9;p5solu0trE;at0ono0Y;ab05bitr7cJistoHmGtiE;coEs3;la0;a0e2oD;cEteP;ra3;ai1hE;eoFitettoD;ni1;loE;gi1;ar8;er0ostoHpE;liFoE;si0;ca0;li1;aMgLiKnJoniBtiFzE;ia2;cFfascE;is0;a,hE;isS;es4ua;ma0;li05;lEto07;i3ogE;a,i1;a5bizGe00i1ministEp8;ra6;ti9;io4;sa;ra;geHie2pi2tE;a,isEra;siB;ma;bCri2;ri1;gJia0onHrE;ar8icoE;la;ia;is3;ti1;iorQrE;esE;si9;va;iFoameE;riE;ca2;na;ea,odinaE;mi1;ca;at0espo0ul0;centua0u0;na0;ta",
-    "Adjective": "true¦0:70;1:6V;2:71;3:6Z;4:6J;5:6O;6:74;7:6W;8:68;9:72;A:6T;B:6N;C:62;a67b5Wc4Vd4Ae42f3Og3Hh3Fi2Zl2Pm25n1To1Pp12qu11r0MsZtPuMvDwa4X;ariaKeGiEoD;ca0l2;ce,enBg1ncDsAv1;en9it55;ge4GntErDscovi0t6P;ba0osimi0sa2Cti5T;en6XrD;a0i0A;bi0n9;lter6Imanoi6BnEsDtili6D;c1ua0;ani51ghe5Sifor51;at25eHip8oGrDutt;asEiD;a0Id5Men7onfa0;cu09ver53;ller2riBta0;cn8desc69mGna4SrEsD;si0tA;ma0rD;e3Ii69;i3poC;!aYcWeSfavore6FiPoMpKtFuEvD;aria9e57;d18e,pplem69rrea0;aFel67or8rD;aDutJ;da0gran5T;g59n9tD;a0unit4U;az4ecPiD;na0ra0;ddisfac1lEno5prannaDtto3R;tuC;a5i59u3;nDtua3S;da4YgD;le,o5V;co5Udicen61gu1micirFnEqu3NrDssAttentr4Z;a0ia0;e6tM;co5R;ientDo68rit9;if8;li1pi1;aQeMiDot2;bel0cHnFsDtA;contDorgFult2;ra3;ascDtracc3T;im0V;c5BoD;nDrr1;duDosD;ci3;gFna0pRsEttaDv1I;ngo5C;id1t2;a0g1n2;d4ggiungi3;alunque,est’;aVeTiSluCoMrGuD;bblicEgl4LnD;g1k;a2Zhe;eGiEoD;dutt3Ege3Kmoz47porz47spici1te2Tvinc4;mDncipe;e,o;co3Cdo2Re19fDge54sen0Yve4D;eri3;lGp,rtFsD;s1tD;a0er4Q;an9o3Vua0;a5iDmo3H;go7t8;aneg1Hemonte6rami42;cuUgg0Gna0rD;en4Wse;lesFpa0rEsDtrimon4;s2toC;anor3Vl2rocch4;e,tiB;cMl1LmosessAnli4Rpen,rFsEttenDva0;i3ne;pi9serva3;bi25chestCdi7izzon25mo7;aMeLoEuD;cl0Cz4;biImHrD;dDvege6;-oDoriP;cDriO;cidN;a3Xi7;lia5;pale6wyorke6;sDta0va0;a0c1;aReMiIoFuD;ltimed4nici1CsD;co42ea0;deBl0nDr1t2D;d4t2umD;en1N;cid4gli0HlEnD;eCor;aBiD;a5t2;ccan8diGrEssiBtalD;!l8;canDid2X;ti0;c3KeRoeR;gEnagDrgi7s2XtD;er4;gDic3H;iorD;!e;aKeIiGoEunD;a5g3D;de3NnDqua1V;diBgitu2D;beCeve,gu5nDve;ea5;gaDssi2Gt23;ti;rDteC;va0;dentifica3mNnGrEstDtalian;ituz2Erutto5;l09revD;er3K;arresta3cIdiHeGfFgEteDusAvF;gr2r30sti7;anne39le6ombr2;er7;sist1;ffer1spensa3vidA;apa1Dli37onfon2E;mFpD;ermea3on0IreD;ndi2Uve2B;in1obilD;e,ia5;ardco5orrD;or;alleHeFiaElac4rD;avit15ec2L;lloblu,ppoB;nDolog8;ia0oL;gDse;gi2;aPeNiJluv4oGrFuD;nDorvi2;eb5zion2;ance6on06;ca0nda0CrD;!liDmida3;ve6;nEsD;ca0ic27;a0e,lD;an19;rDu1L;ra1Gv1;c1llim29;conom8diIgAlettHmerg1piscoGqua24sEtc,xtraterreD;st5;istRponYteD;nu2r1Z;pa0;oCr8;le,tD;or4ri0D;aWeOiGoEuD;a0ca0pli0B;c1r0JtDvuS;aRtri7;aletJfGrigFsD;cDtin9;e1Cipli0H;en9i3;enso5ferD;enD;te,z4;ta0;cJfHmGterFvD;aDoz0R;st2;min2;enz4;iniDorY;ta;en7i0P;ne6rk,ta3;a09ele08him8i04lass8oHrFuD;rDsto11;ve;an4eD;d1sc1;lUmSnErDstitu1;a0r1;cOfMgen4iuga0nLsFtD;a3inuando,raD;en9ttA;eFiDul1;glDst1;ia3;gu1rvatD;riD;ce;az03;in2orD;me;eDorr1;ttA;and2busti3pleDu7;m0Ttam1;lEosD;sa0;aEeg4iD;na5;teC;neFrcoEstercD;en6;l2st2;matograf8se;b5s9;nErDuS;di7;aDt2;de6;aJel,iGoDritann8uon;cElogBrD;ghe6;ca0;dDen7;imensD;io7;biloBsa0tteEvaD;re6;siD;ma0;bru0Kcc0Ed0BeroportAff08g06l01maZnTppRrMsItEutostraDzienD;da0;enFtD;acc2enD;di3;ie6;ceFsiEtC;ra0;mila3st1;nd1;agoBcErog2tiD;gia7st8;aEhitetton8;icJ;de;arten1reD;zza3;a0gHtD;erFiD;cDst2;he;io5;losassoNoG;tor4;ia0; coperto,a5baBimEveoD;la5;enta5;ne6;re;eDi0;vo0;iDlu1;ne;ua0;domi7er1;en9;na0;attiv2esD;si3;bi0;le;an9;te;zze6;se",
-    "Condition": "true¦nel caso che,si",
-    "Negative": "true¦n0;on,ulla",
-    "Noun": "true¦0:4M;1:4T;2:4P;3:4D;4:4B;a4Gb46c3Ed39e37f2Wg2Li2El23m1On1Io1Dp0Jqua0Ir09sOtDuCv5zucche4U;a9i7o5;ce,l5;o,ta;a0Ideocas2Vs36t5;a,tor4G;l5s48;i1u33;cc3Wffic3o39;aDe9itol22r6utt5;'u4i;a5ime2R;ffi1ma,tt5;a0o;mpes2Wn29odo4Ds5;su0t5;a5i,o;!ta;c1s5vo3Q;ca,s0Ato;aNcHeFfEiBolAp9quad3Rt6ussid3v5;iluppo,ol2P;or3Zr6udi5;!o;a1Zuttu3N;az3ec0So3B;di,e;gnifi18n6stem5;a,i;da1i29;i1TorX;c0Mde,gui0me27r5;ie,ra,vo;a8h6o5;n0po;er5ia1J;mo,zo;la,r5tola;i1pa;bb3Il5ng00;e,ot0;appCe9i5;c7fugia0mborZs6t5vol24;or4rat0;ch3p24tor2Iulta0;er35o;!cla27ddi0g6t5;e,ta;a2Tno;or0resent2D;d3Gl2Grtier generaS;aSeLiIlas3Hneuma3HoDr8u5;ls2Ant5;e5i,o;gg3;an8e7o5;cesLfi2Lg5sp1Sva;et0ram0S;m3z5;zo;l7n23rt6st5te2;a,o;a,i1;i5lo;tec2Wzi2I;a6e5;de,t2;n0Hst2zza;lAr5sce;c7d6i5si1;co27o0R;ue;en0or5;so;le;d2io,l9ni1r6s5;so,to;co,t5;e,i5;!to;cosce2Ge0U;biet08c8gnu4n7perLr5;ec7o5;!log3;e2o2;ch3;a8e7ien1Dom6u5;me2Ft2;e,i;goz3mi1ssu4;s5tu1Tve;ci0Ro,t2B;aGeEiBo7u5;ro,s5;ei,i1S;dellOn02r14s6t5vimen0;o2to;ai1tr5;a,e;li6s5;ce1Gu1J;arWo1A;r5sY;ca0;cchi0Rd2est1Ygo,mHni6p0Wr5tti4;ca,e,i0si1;co,e1D;aBe9i7od6u5;ce,d5;ovi1;b1Sn5v12;ea guiKg17;g5sOt0;a,ge,no;cri7st2t6vor5;i,o;o,te;ma;mpAn5;c5iz3;a7en5;ti5;vo;nt01ri1;or0ronU;aEene2i9over4r7u5;i5s0;da;a5i0T;do;ac0So7u5;bb0Nras5;si1;c5st2;hi,o;eli1sd0J;aDede0Zi9lotIo6r5ungo;ecc0Sutti di ma2;gl0RnXrm6s5;setW;a,u0C;gli7l6ne5o2;st2;e,m;!a,o;bbri0Dt5;a,tu09;n5re0TstaO;ri1traN;ati,e8i6ome0Jura5;ta;f5o,va4;et0;mo0Ntenu0;aOeLhi1iJo8r5;istian5uscZ;esi5;mo;lEmAn6per0Ar5;da,o8so;dizioNs6t5;o,rolO;eg5igl3;na;merci6p5;i0lean4uter;an5;te;pa;as5bo;cu4;n6r5;ch3ot0;e2t01;lc3mpiona0n8pit7rne,u6val5;ie2lo;sa;a4o8;c6dida0e,zo5;ni;el5;lo;aAi7o5racc3u1;cBl5;la;r6sc5;ot0;ra;g4r6tta5;glC;ca;no;cqua,driaKlGmDn8pe,ramai1t6u0vversar3;io;lanIt5;i1o;at2dro8ima6s5tibioG;ia;!l5;e domesDi;ni1;al6bi0;to;ri1;a7be6t2;re;ro;!ri1;ti1;co",
-    "Adverb": "true¦aZbenYcVdSecc,fRgià,inPlOmLno,oIpDquAs4t1vi0;a,ci06;a1roppo,utto0;!ra;lvolta,n05rdi;e4in,o1pe0ubi04ì;cie,sW;l1pra0t02;!ttut01;o,tZ;conda,mpA;a0i;l0nXsi;e,i;er3i2o1r0ur;esUopr8;co,i;uttosSù;alBsiP;lt1r0ve;a,mai;re;ai,e0olN;gl0no;io;à,ì;die3fine,siEt0vece;anIorG;a,orse,uori;a1ie0;tro;pprima,v5;irca,o0;m0sì;e,unque;!e;bbastanza,cc8ddirittura,lme7nc5ppun9ss3tt1v0;anti;or5raver0;so;ai,i0;eme;h',or0;!a;no;an0;to",
-    "PresentTense": "true¦aOdIhFpBs4v0è;o1uo0;i,le;gli0leM;aNoJ;a4i2oIt0;a0iaLo;!i,nAte;a0eH;mo,no,te;!i,n7p0;eEpF;o1u0;oi,ò;ss0teB;a8ia5o8;a0o;!i,n0;no;e2o0;bbia0ve5;mo,te;bba1v0;e,o0;!no;bb1ve0;te;ia0;!mo,no,te",
+    "Determiner": "true¦alGciascEdeCgDiBlAmolt9nessEogni,p6qu3t1un0;!a,o;a0ropp5utt7;l4nt6;alche,e0;g8i,l0stC;!lB;arecchi1och0;e,i;!e;a,e,i;!a,e,o;!l;g0i,lle;li;un0;!a;cun1tr0;a,e,i,o;!a,e,i",
+    "Pronoun": "true¦cGeEio,lDmAn8ognu7qual5s3t1v0;i,o8;e,i,u0;!a,e,o9;i,u0é;a,e,o7;c0e;osa,u0;no;e,o0;i,str5;e,i0;!a,e0o;!i;ei,i,oro,ui;gli,lla,ss0;a,e,i,o;hi1i0osì,ui;!ò;!unque",
+    "Possessive": "true¦loro,mi3n1su0tu0v1;a,e,o3;ostr0;a,e,i,o;a,e0o;!i",
+    "Condition": "true¦nel caso che",
+    "Conjunction": "true¦aKbenJcHdFeCgrazie a,inBmAn8o6p3qu2s0tuttav7vi4;e0iccome;!bbene;ando,inM;er1iutto0rima CuA;stoD;cIò;!p6ss0;ia;e0é;ancDmmeno,p3;a,ent3;fatti,olt2;!d,p0;pu0;re;opo 0unque;c6di;he,ioè,osí0; c4;c4sì; causa 4ffinc3llora,n0ppena;c1zi0;!c1;he;hé;di",
+    "Negative": "true¦mai,n0;essuno,iente,on,ulla",
+    "PresentTense": "true¦aNdHhEpAs4v0è;o1uo0;i,le;gli0leL;aMoI;a3ei,i2oHt0;a0iaKo;!i,n9te;aIeG;!i,n7p0;eEpF;o1u0;oi,ò;ss0teB;a8ia5o8;a0o;!i,n0;no;e2o0;bbia0ve5;mo,te;bba1v0;e,i,o0;!no;bb1ve0;te;ia0;!mo,no,te",
     "Date": "true¦domani,ieri,oggi",
+    "Noun": "true¦0:7D;1:7B;2:5X;3:6P;4:74;5:6I;6:6H;7:6Z;8:6B;9:6N;a6Xb6Ic5Ad4Ze4Wf4Eg3Xi3Ol3Dm2Pn2Io28p12qua11r0QsXtKuGvAzucche8;aDeCiAol1M;a32deocas4Ino,s5tA;a,tor74;n1rdu6;canz2lAs6P;i0u5;cc67ffic3niCoA;mAv60;i5Co;co,versità;aKeDitol7rAutt'u9;aAe9ime1T;f1Uma,ttA;a1o;cn5SleFmpDn3KoCr6sA;su1tA;aZi,o;do6Xri0;es5oA;!ra3R;fo9vis56;c0sAvol5M;ca,s5Lto;a00cUeQfPiLoldi,pJquad6tBussid3vA;iluppo,ol5;aGell2oriFrEudA;entCiA;!oA;!so;e48i;ad2uttu6;a,co;n0Pz4U;az3ec1Fia0LoA;rt,sa;gnBnAst09;da0is3O;ifi23orA;a,e,i4H;i2Vor1X;c18dCgui1me10rAttiman2;aAie,ra,vo;!ta;e,ia;aDhBoAu2G;n1po;erAia2J;mo,zo;la,rAtola;i0pa;bb5Sl5AnA;g0Eta;aIeFiA;cDfugia1mbor0EsCtBvA;is5ol5;ar64or9rat1;ch3p3Ltor43ulta1;er58o;!cla3Rddi1gBtA;e,ta;al7no;d3gazz55ppA;or1resent3X;d8rtier genera2J;a04eViPl32neuma5SoJrCuA;bb2Jls3UntA;e19i,o;an15eFoA;blCcesZfBgAsp39va;et1ram1P;ess32i4G;emA;a,i;m3si33z0Z;lCmBrtAst45;a,i0;eri0Zodo8;iAlo;tAzi4I;ec53i4M;aCeBoAzD;gg4X;d42t4;nBst4t1zA;za;o,t2;rAs2O;cFdEiDsA;i0onA;aAe;!le;co3Vod4H;ue;en1orA;so;cIesi,io,lGnFrCsAu6;sAt3J;a1egge8o;co,ol2tA;e,iA;!cola4t3F;i0orami40;cosce4GeA;st4;e,iA;fi0;biet0UcchiIggi,liHnFper2rBspA;eda1Bi2P;eBga4AoA;!log3;!cA;ch3;e4oA;m1Pre;mpi0o;!o;aDeCoBuA;me8t4;mi,t1Y;goz3mi0;sBtAziona0Y;a0Xu6;ci5o,t8;aQeKiHoCuA;ro,sA;e7i3C;bi0SdDment7nCr26sBtAvimen1;o4to;ai0tr2;do,tagn2;ell7i,o;nBsA;ce2Yu6;iMut7;cca3Kdi0l2rEsBzA;zo;i,sA;aAi0;gg3;ca1;cchin2eFgo,mQnDppa,rCtA;eAtin2A;ma3Mria0C;ca,i1si0;iAo;!co,e6;st8;aHeEiCodBuA;dAna;ovi0;br7nAv27;ea guiRg2H;gBsUttAzi23;e6o;a,ge,no;criBgVst4tAvor7;o,te;ma;de2mpHnBsAtal2S;ol2;cBglese,iz3sA;ala5egn16;aCenA;tiA;vo;nt0Rri0;or1ron5;aOeLiDover9rCuA;er6iAs1;da;a2Xi22;aGoCuA;bb1WrasA;si0;cCrnAst4;aAi,o;l1Gta;hi,o;c1Vr0Y;la1nerArma2B;aAe;le;eAlat2Imb2sd1Mtt7;li0;aOeNiIlot5oDrBuA;ngo,o0tu8;ecc20uttA;a,i di ma4;gl1Yn0GrmCsBtoA;!graf1X;set0E;aAu1B;!gg3;gliDlCneAori,si0;!sA;tr2;e,m;!a,o;de1Wst2;bbri1Amigli2ntBtA;a,tu6;as1Z;nBre1YsA;emp3ta01;ri0tra00;aJeHiEoAura5;lCme1Knn2ttA;oreA;!s0C;ce;fBo,penAva9;denT;et1;moAna8tenu1;cra1Mti0;ti;a01eYhiXiTlassSoErAuciJ;iAusc0N;stianAti0;esiA;mo;gnome,lKmGnBper15rAs2;da,oDpo,so;dizioDsBtA;o,rol06;egAigl3;na;ni;i0merciBpAuF;i1lean9os1uter;anA;te;azAorWpa;ioA;ne;e,i0;ascu9bo,eUttBviA;co,le;aAà;di9;avi,co,es2;nBrA;ch3ot1;a,e4t8;ffè,lc3mNnIpGrEs2uCvA;alAo;ie4lo;sa;a,e;icA;a,o;elli,itAo;a9oE;cCdida1i,zA;onA;e,i;elA;lo;e6pA;iWo;aJiFoDrCuA;co,r8;ro;acc3itanZ;cHlA;la;ciclet5gliett7r6scA;ot1;ra;ta;g9mbinCnBrBttaA;glN;ca;a,e,i,o;no;cZdriaXerVlSmOnHpFrEtCutoBvversar3;io;!bus;lanUtA;i0o;amai0cheologi0ia;e,passiA;ona1;at4droFimaDn7sBtiA;bioOco;ia;i,o;!lA;e domesKi;ni0;alCbi1icBo4;re;a,he,i,o;ri0;aBberAlea1;go,i,o;!ri0;eo,opor1;to;ti0;co;corAqua;do",
+    "Verb": "true¦avvenuTdebboSf8ottenne,utilizzaTv0;a,e0ienK;n1rr0;aCe3à,ò;g3i1n5ut0;a,e,i,o;a0mJsEte,vD;mo,te;aKoK;a1ec0;eEi;!c6i,n5r1t0;e,to;a2e0à,ò;bbeAi,m0st7te;mo,o;i,n0;no;ci8e0;m6s1v0;a7i,o;s1t0;e,i;e1i0;!mo;!ro;mo;a0o;!mo,no,te;!no;ta",
     "PastTense": "true¦aveHdoveFeBf8pot6s1vol0;eGlF;apeFeppEt0;a1e0;mLsGttC;t0vD;a,i,o;e0é;i,mHr2sCvA;osBu0;!i,mFr0;ono;bb4r0;a0i,o;!no,va0;mo,te;m9s4tt0v2;e7i;m7s2v0;a0i,o;!mo,no,te;s1t0;e,i;e1i0;!mo;!ro;mo",
-    "MaleAdjective": "true¦0:LF;1:L4;2:L2;3:JL;4:KR;5:KW;6:LA;7:K7;8:L1;9:KS;A:LG;B:JV;C:JK;D:J1;E:LH;F:J0;G:LB;H:IL;I:L6;J:JZ;K:JI;L:GJ;M:IY;aI6bHKcEUdDAeCCfBBgAEi8Hjunior,l83m6On67o5Ip3Wqu3Tr2Vs0Wt0Du06vNzopHG;a03eZiPolOuN;lnera8o0;gaLontF;brAgVnc19olUrtuTsQtPvOziN;a0o3;aIIi9o;a2torC;cOiN;bi2vo;eGSi9o3;a2o3;a,en0;i2oHX;cchiJLlPneOrN;de,gogEEo;ra8to,zM;eECoI7;cAgo,l2SnNriJHs0;o,taEV;brGUffIFgFIl9PmRniPrNti2;banNg5inF;is4o;co,lateGFtFversN;a2itF;a7iN;do,le;a03eWiVoSrOurN;co,is4;aOemDJiNopi5Z;butFpJsE;diNgi1nquilJspar5uGI;toLzEN;ccArOsNzGS;ca7si1;na0rentC5;be6Dmi9pi1;atG1cnDZd9GleSmRneBoQrN;apeu4miOrN;i8orHC;co,na2;loI4ri1;a4pEN;foHviI;cit54lNr9t4;ent5Mi;a1JbD5c19e11fo10i0VnelJo0Hp08qu07tUuOvN;ariaEZeglDizzeB;ccRdQf7Sgges6pN;erNreJ0;!bo,fNioL;icHLlIT;!dG3;esIo3;aXeWiUoH7rQuN;dCpN;eNi9;fJJn9;aOeNiduJumJX;piCNssAt0;biliAnNordinFteHLvagA;ieBo;lGPmN;olA;ri2s3;bi2gnAnNti1;co,dard;al3LiHK;aTeQiPlendi9oN;ntDXrNsa0;co,tiG;eJ8go9Hna0ritE3;ciOrimJJttN;a50ra2;al96fi1;g0ZzN;io3zatura;cialZddisfDKfXgg3XlUnTrSsPttOvN;ie4ra7;e5Ei2;peOtN;aDWeni8;so,t0;do,preD1;oBt4J;enGYfoGCiN;do,tN;arDo;fNiIS;er0iG7;democC4e,isDS;cQgnificaPlenzCmOnNsteEUto;ceBfoHgolH9istBte4;boHXi2m8Ipa4;!tiG;ilMuB;ca0rtuI9;cTdizCgre0lQmpliFZnsPpOrNttimaCVveB;e7io;aIPol0;a0i8;eOvaN;ggDti1;t6zI1;co,ond8W;aVet4hiUiRoOrQuN;ro,sa;lA8mo9nNr3;fNoD0vDQ;it0;at0cGFe92oN;ccNl0;anEo;acciAet0fo3;nda8Ar3;crGMggiGSnNr9tiFI;itFo,to;a0Ee04iUoPuN;moF0ra2sNvi9;so,ti1;bGIccCmaOsNt0utiFZ;eo,sGG;gOnN;i1o,ti1zo;noJ;cVdUgTl56nRpQsNtI8voluzionF;cOer3CpettNtrE1;a8iG;alda0hC;eti6i9;frescAnovaNoma0;bi2to;i9oEM;iGVot0;cFYet6;aVcUgTlSmo0sPtN;roat6tN;ilinERo;iOpN;irA6o4V;deC9st5;a6igC;io13oD6;enEipro1;l2Mt6;diQffiGWgCJpPro,zN;ioBIziN;a2s8X;i9presen87;ca2oN;at6foHteleviI;aOest'ul62oN;!tidM;dH7li82ntE6;a0We0Oi0Kla0Io0BrRsicPuN;bblicNli0ni6ro;itFo;hi1oN;loEVti1;atic2Te01iWoNud5;at6ba8ceduCMdUfSgrG7liE2mRn0pQsOt1MvN;a0enienBToc9KvisB9;peNsiFVta4;ro,t4;orzGCri09;ett5in5;essionNon9;a2is4;igCut6;gionieBmOncipa2vN;a0ilegEOo;arDiOoN;ge4SrdE8;sFJtiG;cQdB5fe57liminaLmPoccupa45sOvNzC;al5en6io;enEiB8tigCun0;a8Gium,uDD;ed5i3;chisFDe4lRntificDpolQrta4HsOtenNveB;tCRzE0;i6sNtuFC;esIi8;aLo3;ac1eGLiN;ti1zi5C;ci9nNuEV;etF;aPccOeNgBo,sa7ttoDH;ga0no,to3;anEoJ;ceKt0;dagoDXlo3nTrNsA;fC6iRman5peQsNtin5vaI;iOoNpicaDA;!na2;a7st5;ndi1KtER;co5Yo5D;sieCRti0;cXffu0lWrRssQtOuCQzN;i5zo;eNriot4;r7ti1;a0eggeBiG;aQiPlaOsimonCtNzDB;ecipanAKi1B;m75to;!gi7;gona8lleJnoi1;li9;a0iCN;bbligato0Acc08di07ffenIgg06k,l05m04n01pXrRsQttNvvDzC;iNo0U;co,mN;a2is71o;cuBsCKti2;a2dinaRgPiNri8todos3;enFIginaN;le,riDW;aniNo1D;co,zz3U;rDto;eraPpN;oNrim5;rtu7s0;io,tiG;es0oN;m6VrN;arDeK;bBWogenC6;eo3f9Aimpi1;et6;er7o3;as91uN;l0pa0;!rD;aZeVoPuN;do,lJmerNoGtriz8X;i1o3;bi2io3rPstalCLtN;eKo,tN;ur7;dOmaN;le,n7;!aDXi1;cess4YgPoOrNt0utrCX;o,vo3;cla72na0;a6l77;polePrD4scos0tNz8L;al65iGuralN;e,is4;oHta7;a0Ke09i03oRuN;ltipJsNto;iOulN;ma7;ca2;bi2ccCdVlSnQrPstrOtiN;va0;uo3;a2bi9tCH;as4etFtN;a7uo3;eOtN;eplici,isCY;co9P;a,eNu9O;rNs0;a0no;gl1Vli5EnQraco3XsNt9A;erOtN;erCi1o;a8o;iNoLusCX;!mo;ccaHdiVlo36morUnTrRsQtNzA0;allOropoliN;ta7;i1o;chi7siCZ;aviNo;glC;si2ta2;a8ia2;co,o,teN;rr7V;cho,es6Ag01lXnWrTsQtN;eNto,uB;ma4rN;ialistica,no;chiOsiN;ccDmo;le,o;cOiNm76roB4zAT;a7no,t21;a0io;ca0ua2;a0eOiNvagD;ncoHzC;dNvoJ;et0uCV;i1nNro;e4iA2;aZeUiToRuN;ci9mi6BngOssuN;o3re14;hiNo;!sBR;ca2gi1nN;gobar9ta7;beBe0miCJngu9Rquidi,ri1scDt8B;a2gOn0tN;a2ter32;aD4geOiN;sla6t1H;ndFro;i1r8Gti7;bri9d1Ggno1Fll1Bm0XnWoHpote4rPsNtalM;laCTpi9raelMtN;ant6Xe9S;oHrN;ePiN;lNta8;evA;go82sN;is7JpoN;nsa8;a0Mc0Gd0De0Cf05giAPizia04n00quietAsXtQu0BvNzuppa0;aOer3iN;nci8si8;d5rA6;at0eNiB4rinse1ui6;graCLllRnQrNso;essaOmedDnNo;az67o;nEto;s72zBI;ett6Nig5;apoLenALigni16oli0ta8uN;bo4GfN;fici5;atPoNumerevoli;cNva6;enEuo;o,u7G;le,tiva;aRePiWlu5ormaN;le,tiN;co,vo;li8XrN;ioL;lli8nN;ti2;di0r5viBR;efiOiNustr94;a7ca6fe3gB0pe5Fr7Mscus3;ni0;er0lRoNredi8;er5mpPnOraNstit59;ggiA;dizAUscD;iu0le0;iATu3;deB0spetB2t6ugu6X;barazzAmWpN;aTeRl2EoQrN;eOoN;ba8vvi3;cisa0ss2I;rtant7Gs9Q;c94gnNr8O;at63;uNzi5;ri0;aOeNorB4un28;d8Xn3;ginaNtuB;bi2rD;eNustL;ci0gN;a2itN;ti9Q;rAto;eOill6Pon7VrN;au9Si1og7R;a2n4;a0Ie09hiacc8Mi00loZoYrNus3I;aReQigDoN;ssoOttN;es1;!la7;co,z6S;dRfi1ndPs3tNve,zC;iNo,ui0;ficA;e,iN;o3s9A;eKua2;mmo3ti1ve9A;ba2rC;alJganteUoQuN;diziFriOstN;ifiA1o;di1;io3rnal75vN;anNia7;e,iN;le,s8Z;!s1;lUnPoNrmaHs57;g71lo7TmN;et78;eOtilNui7;e,izD;rNti1;alNi1o3;e,izAE;i9o3;l2Nsso3;a09e05iYlXoTrOuN;nz3TrCso,tuB;aQeOiN;t0voJ;d9ne4qu5s1ttoN;lo3;gi2nces8X;l9ZndaPrNt6K;ma2tN;e,u8Z;m9KnEto;es81oscDuor93;dSeBloso6HnQorentPsN;iNso;co,o75;e,i7;anziNi0to;ari7T;a0ucC;dePli6GmminiOnome3CrN;mo,o6FroviFti2;le,s0Q;le,ra2;cYlWmTntasQstidCtOvoN;lo3reK;a2i73tN;i8ua2;cieOiNti1;a,o3;nti60;iOosN;is7So;ge8VliaL;lNso;i0o;i2olN;ta6;br0Jc0Fd0Dff0Bg09l03mo01nZpi1quival5rXsQtPuOvN;ent3Bid5olut3P;clid5Srop5S;er7i1ni1rus1;at0clus3MeSilarAo4pQse3BtN;eNiGre7I;rNti1;i,no,o;an3er0lNr33;ici0;cu6mp44nE;edNoi1;itF;ergNne79orme,tusiasX;e4i1;!tiGzN;ionA;aReNiE;gAmOttrNva0;i1oH;enN;taL;bo84s4;izMoisN;ta;et6icN;a58i5;ilNuca6;izD;cNlet4o5A;eOlesiN;as4;ll5sIz1X;ai1eo;'oBa14e0PiYoSrQuN;bbDrN;aNo;tuB;aNit0;m3Ks4;lQmOppDrNta0vu0;a0i1mi5;eNinA;ni6Vs4;ce,orN;anEo3;c0Cd0Bf06g05l04na7Pp03rett2GsQvN;erOiN;no,siG;so,t5;aYcVgus06leUoTpRtN;aPintNr12;iNo;!vo;c71nE;a77e77oN;ni8s0;rdi6M;ssi1;og44rNu29;e0iminN;at1B;bili6Rst3U;e0Vin0lo2W;ig5;es6i71;ePfN;iNu3;ci2d5;nItN;to3;at4;en9;bo2c00diZfYg7lWmoUnSpRsPtN;ermi65tN;agl4L;crit6er0iderNtB;a8o3;loreKr15;so,tN;a2ro;cNg3In2F;ra4;ega0iNud5;be6Eca0zC;init1Dun0;ca0to;ad5enEiIo4X;nNta0;no3;a1Ye1Shi1Qi1Ml1JoWrOuN;ba7ltu1Tpo,rC;eTiSoPuN;c3PdNen0;e2o;a0cOnN;i1o3U;cAia0;mi04stMti1;a6mo3;er5inv18l15m0PnXperni5ArSsN;ci5idd20mi1tN;anEiOo3rN;ut6;eBtN;uzW;aQpPrNto;et0ispoN;nd5;or2T;ggC;c0Ddi0f0Agress09n08o07s02tSvN;enOinN;c5to;i5zN;ioN;na2;agCeTinSrN;aOoN;intui6ver3;ddittOffNrDs55;at0;orD;en5Fuo;mpNnu0;orN;an2C;apeKePiderOuetN;o,udi31;a0eK;cu6rvN;atoL;sciu0;es3;ua2;iNu3;deN;nz2H;luIre0;i1me00o9pQunN;e,iN;ca8sNtF;ti;aTetSlPoOreNulI;n3Bso;rtam4Ss0;eNi4H;ssNto;iGo;enEi6;ssOtN;i8to;ioneK;rc21sN;ti8;lOoNpeKto;n1Yra0;abo2Zet6;ol0;aNiH;mo14ndes1YssNustrofobi1;e,i1;c3Ae1lind1HnPrcolarOttadi7viN;co,le;e,i;emat15i1;aBmi1rNu3;ur1W;co,lPntOrN;ebNto;ra2;eberri2WluNti1;laL;re;dZlXmWnoHo4pVrRsPtNu0vo;astro0XtN;iGo2W;alinNua2;go;atter0QdPenEiNnivoBo,si1tesM;co,no,sNtateK;ma4;ia1;a0Vo,riccC;po;cNdo,mo,vo;ar0Ois4o2Z;et0;a05eZiWlVoUrOuN;io,o7;asilMevRiQonPuN;s1tN;a2to;zo;llAtanH;e,is27;livMtaH;an9u;anc1Gb2AlancDoOzN;an0VzarB;lo0Zn9;llQnNrgamas1;eNig7venu0;dettNfi1;i7o;iNo;co,s1W;g2GnOrNs3;bu0oc1;a2cF;b37c2Qd2Her2Ff24g1Zl1Qm1En0Zp0Sr0Ds06t01uRvNzzurB;an3FvN;eNinc5;ntuNr3;ro3;daZrVstrUtN;en4is4oN;biPmNno1MreK;a4obilN;is4;ogN;raN;fi1;alMia1;eo;eo,le4mosfeQo2QroPtN;eNiGra5ua2;n0so;ce;ri1;ciut0ia4pSsQtN;rNu0;at0oN;no2I;eNicu28olu0ur9;nEr6;irAro;aZbitrFcUgenTia7mRrabb03tiN;coPfNs4;icN;ia2;!la0;a0e7oniN;co,o3;ti7;ai1hN;eoOitettoH;ni1;loN;gi1;bo,ncioN;ne;er0pN;aRicciQliPoOroprNunti0;ia0;si0;ca8;co3;r5ss10;aYgXimaVnToSsCtiOzM;ia7;cPorF;arD;io;hi,o;maJni0A;es3uN;a2o;le,tN;i,o;us0;lNrchi1;i4ogN;hi,i1o;aXbiTe0FicRmiOpiN;!o;nistOreKsN;si8;ra6;heKo;vo2;en11gPzC;io3;so;uo;ro,to;coUfabe4ie7lRpi7tN;ePisNo,ro;siN;mo;rna6;'aper0armAeN;a0gB;ro;li1;gPitan9nos4riN;coJ;lo;iun6rN;esI;fSrN;iPoaN;meN;riN;ca7;no;aQezOida8olN;la0;ioN;na0;ma0scinA;eo,oN;dina0Bnau4;at0doReQiPoNul0;lNra8;esc5;ac5;gua0;meOrmenN;ta0;stiN;ca0;cRi9quOuN;s4to;a4eo;ti1;do;adeWeSidQoOuN;ra0;gli5modA;enE;enN;ta2;so,tN;ta8;bi2;le;mi1;co;bTiOuI;siG;le,tN;a6uaN;le,to;tiG;vo;oNronO;ndAzN;za0;to;anE;te",
-    "Verb": "true¦avvenuUchiamatTdebboSf8regali,utilizzaUv0;a,e0ienK;n1rr0;aCe3à,ò;g3i1n5ut0;a,e,i,o;a0mJsEte,vD;mo,te;aKoK;a1ec0;eEi;c6i,n5r1t0;e,to;a2e0à,ò;bbeAi,m0st7te;mo,o;i,n0;no;ci8e0;m6s1v0;a7i,o;s1t0;e,i;e1i0;!mo;!ro;mo;a0o;!mo,no,te;!no;a,i;ta",
-    "Conjunction": "true¦aLbenKcIdGeDgrazie a,inCmBn9o7p4qu3s0tuttav8vi5;e1i0;a,ccome;!bbene;ando,inM;er1iutto0rima CuA;stoD;cIò;!p6ss0;ia;e0é;ancDmmeno,p3;a,ent3;fatti,olt2;!d,p0;pu0;re;opo 0unque;c6di;ioè,osí0; c4;c4sì; causa 4ffinc3llora,n0ppena;c1zi0;!c1;he;hé;di",
+    "Adjective": "true¦0:6Q;1:6L;2:6R;3:6P;4:69;5:6E;6:6M;7:6U;8:5Y;9:6S;A:6J;B:6D;C:5S;D:65;E:5G;a5Zb5Oc4Nd44e3Wf3Ig3Bh39i2Tl2Km21n1Po1Np12qu11r0Ms00tRuOvFwa4P;ariaMeIiGoF;ca0l2;ce,enBg1ncFsAv1;en9it4X;ge49ntGrFscovi0t6H;ba0osimi0sa28ti5L;en6PrF;a0i0A;bi0n9;lter6Amanoi63nGsFtili65;c1ua0;ani4Tghe5Kif48;at21eJip8oIrFutt;asGiF;a0Id5Een6onfa0;cu09ver4V;ller2riBta0;cn8descDmi3na4KrGsF;si0tA;ma0rF;e3Ci61;!aZcXeTfavore68inRoOpMtHuGvF;aria9e50;d15pplem62rrea0;aHel60or8rF;aFutL;da0gran5M;gEn9tF;a0unit4N;az4ecQiF;na0ra0;ddisfac1lGno5prannaFtto3L;tuC;a5i52u3;da4SgF;le,o5P;co5Odic0Hgu1micirHnGqu3IrFssAttentrE;a0ia0;e7tO;co5L;ientFo62rit9;if8;li1pi1;aSeOiFot2;bel0cJnHsFtA;contForgHult2;ra3;ascFtracc3N;im0T;cDoF;nFrr1;duFosF;ci3;gHna0pRsGttaFv1E;ngo56;id1t2;a0g1n2;d4ggiungi3;alunque,est’;aVeTiSluCoMrHuF;bbl8gl4FnF;g1k;eHiGoF;dutt39ge3FmozEporzEspici1te2Pvinc4;me,ncipe;co38do2Oe17fFge50senti,ve49;eri3;lIp,rtHsF;s1tF;a0er4M;an9o3Rua0;a5iFmo3D;go6t8;aneg1Femonte7rami3Y;cuUgg0Fna0rF;en4S;lesHpa0rGsFtrimon4;s2toC;anor3Rl2rocch4;e,tiB;cMl1JmosessAnli4Npen,rFsserva3tteni3va0;bi24chestCdi6izzon24mo6;aOeNoGuF;cl0Dz4;biKmJrF;dFvege7;-oForiR;cFriQ;cidP;a3Vi6;lia5;pale7wyorke7;sFva0;a0c1;aTeOiKoHuF;ltimed4nici1CsF;co40ea0;deBl0nFr1t2B;d4t2umF;en1M;cid4gli0HlGnF;eCor;aBiF;a5t2;ccan8diIrGssiBtalF;!l8;canFidE;ti0;cDeRoeR;gFnager4rgi6s2V;gFicD;iorF;!e;aLeKiIoGunF;a5gD;de3MnFqua1U;diBgitu2C;beCeve,gu5nFve;ea5;ssi2Ft22;rFteC;va0;dentifica3mPnIrGstFtalian;ituzErutto5;l0BrevF;er3K;arresta3cKdiJeIfHgGteFusAvH;gr2r30sti6;anne39ombr2;er6;sist1;ffer1spensa3vidA;apa1Dli37onfon2E;mHpF;ermea3on0JreF;ndi2Uve2B;in1obilF;e,ia5;ardco5orrF;or;alleJeHiaGlac4rF;avit15ecD;lloblu,ppoB;nFolog8;ia0oN;gFse;gi2;aRePiLluv4oIrHuF;nForvi2;eb5zion2;ance7on07;ca0rF;!liFmida3;ve7;nGsF;ca0icD;a0lF;an19;rFu1L;ra1Gv1;c1llim29;conom8diKgAlettJmerg1piscoIqua24sGtc,xtraterreF;st5;istSponZteF;nu2r1Z;pa0;oCr8;le,tF;or4ri0D;aWePiHoGuF;a0ca0pli0B;c1r0Jttri6;aletLfIrigHsF;cFtin9;e1Dipli0I;en9i3;enso5ferF;enF;te,z4;ta0;cKfJmIterHvF;aFozE;st2;min2;enz4;orZ;en6i0R;ne7rk,ta3;a0Bele0Ahim8i06lass8oJrHuF;rFsto13;ve;an4eF;d1sc1;lWmUnGrFstitu1;a0r1;cQfOgen4iuga0nNsHtF;a3inuando,raF;en9ttA;eHiFul1;glFst1;ia3;gu1rvatF;riF;ce;azE;in2orF;me;eForr1;ttA;and2busti3pleFu6;m0Vtam1;lGosF;sa0;aGeg4iF;na5;teC;neHrcoGstercF;en7;l2st2;matograf8se;b5s9;nGrFuU;di6;aFt2;de7;aLel,iIoFritann8uon;cGlogBrF;ghe7;ca0;dFen6;imensE;io6;biloBsa0tteGvaF;re7;siF;ma0;bru0Mcc0Gd0DeroportAff0Ag08l03ma01nVppTrOsKtGutostraFzienF;da0;enHtF;acc2enF;di3;ie7;ceHsiGtC;ra0;mila3st1;nd1;agoBcGrog2tiF;gia6st8;aGhitetton8;icD;de;arten1reF;zza3;a0gJtF;erHiF;cDst2;he;io5;losassoPoI;tor4;ia0; coperto,a5baBimGveoF;la5;enta5;ne7;re;eFi0;vo0;iFlu1;ne;ua0;domi6er1;en9;na0;attiv2esF;si3;bi0;le;an9;te;zze7;se",
+    "Imperative": "true¦vai",
+    "Infinitive": "true¦0:0LL;1:0LK;2:0L3;3:0LH;4:0L7;5:0LJ;6:0LF;7:0KF;8:0KV;9:0JP;A:0J0;B:0JI;C:0KL;D:0KI;E:0FX;F:0JN;G:0KA;H:0KS;I:0IS;J:0LA;K:0ID;L:0GY;M:0LD;N:0JX;O:0LG;a0CHb0AYc04Zd00QeYSfX4gVQiQ8lP9mNTnNEoMHpIGquIDrC0s3Gt1Eu0WvVzP;aSe3iRoQuP;ccOSfo3ma0;c0K6mGpp0FK;mb0KDttH;mpPpGvor4;et2il3;a0Ie04iWoPuo2;cTga0lPmi0FCr02RtH;aQe0gPt0A6ve0;arAe0;nJCre,tiP;lAz8;a0iP;a0fe4;aEb4ci5diFe2gVlUncTol0JNra0sRtQvPz1;e0i0B0;a0tor1u03L;a0iPta0u063;o5ta0;e0i0o3;ip0JIleE;e0i3l1;cKd01gZi0JMlYnUrRsQtriPzzeE;fi6oXW;ci6sa0ti0;b05Vdi0gQi0AQnPsa0te0;a0ic1;a0e0og5;a0dQe4g1i0tP;a0i3o3;ePi6;mm1re;a0eEle0ocA;e2gPl1;h1ia0;e0o0JT;cUgSlRnQpNMrP;a0ca0ia0;a0eEga0i08Fta09E;ca0e0iAGla0or0FOu2;aPheEi0l1;b0CZre;a0ci5il3;b02cc01di0f00gZlYmXnUrTsPt05G;a0ciUNo3tRuP;caG7fr0C6rP;a0pa0;io5o3;ge0i5la0ta0;ge0iPta0;fPre;i6orF;anAet2il1;tiFu3;gi09UuaO;fic06Piz1;ellNRi7;bQiPrR;ca0di0;i0F6rP;ia6;a1Je16i12o0VrSuP;ba0f09Co5rQtP;a0e3;a0bNJna0;a00eZiWoRuP;cPfM;c0I4iB;gl1mbRnQttPva0;a0er0IJo3;a0ca0eE;a0ePiz8;gg1t2;bQl3ncPonMpYQs2t0AWunMv0IF;a0e4;o3u2;bb1m098piB;b0Ec0Dd0Cf0Bg0Ai02Yla0JMm08n06p04r03sWttUum0CQvP;aReQi3OolP;ge0ta0ve0;rCsN;gl1lPsa0;ca0i6;a0eP;gg1ne0;a0JIborBcTe0HVfRgre0EGlQm05DpPtul3uB;aLi4or0D5;a0o6;eLiRRoP;n7rF;en7i5oPri0BTu4;la0rOY;re,uG;aPe3iZL;na0sC;c1gug1quill0E4sP;a0corOTforFi0FJpor2;aYFetJoPu2;n2rN;ge0h0CB;eLfi6ig9uD;e0i0ur0;an5c1iF;al3oc6;c6el0C6g0HBlUnTrQsPt03O;a0si089ta0;ce0m0C0nPreMtu4;a0ePiTL;a0gg1;a0da0i08E;et2l0AZ;fa0g0F5mb4nQra0tP;o3u0G9;ge0tP;eEin5;d1leZmWnUrRsPt2;a0se0tP;a0imon1;gQmi5rPza0;i0orA;e0iv0A5;d0BAe0tP;aTGen5;atAe0pP;ePo0D3ra0;ra0s2;fo5gPm0BDtrasm048;raMuiB;cTfa5gliSmRn9ppQrPs0IEt0FMvo3;a0da0la0taO;a0ez8;bur0GTpo5;a0uz8;cPe0i2;a0ia0o5;a7Vb7Bc5Pd5Me56f4Rg4Hi49l47m3Yn3Vo2Hp1Hqu1Dr1Ct0Ju01vP;aYeSiRoPuo2;gl1lP;a086e0ge0ta0ve0;a0g5l08Xn0GDta0;cKgli0ARlTnRrPsNt2z8;gPna0;i5og5;a0de0i0tP;a0o3ra0;a0le0ti0;ga0lPni0r1;ig1u2;b04cc03d02f00gYiciBme0nTAoXpUrTsP;ci2sPtit09Aur4;eg099iQuP;l2me0r4;d1sJ;cl06PgeEGroD;erQpP;li07Uor0B8;a0bi0va2L;la0na0;a0geP;l3rC7;fPo3;o6raD;a0divi7;e7h1ia0;affit2ent4iPliFor01A;re,sC;a0Ce09i07o05rSuP;c6d1fa0pPra0z07B;eMiPra0;di0re;aVeTiSoQuP;c6g9sc1t0F2;fi5mb5PnPpi0GUz8;ca0za0;a0de0g0FJl3ng09Tsc1to3z8;ga0ma0pPsC;e0i0AN;b0BYcc0F2da0fa0go7lTm5KnSpRrQsci6t0GMvPz1;ac6e7in0EXol9;iGre;az8pa0;a0go3iRJ;c1la0;c6ia0na0pGrP;ce0di0ia0mi0na0p1;gm09Ql0B8m067n9pPra061va0z07L;a0end1u3;ccQ9mYUnQrPsse0;eotiGilAmi5za0;d09Eta0;bili06Qcc0EPgSl3mGnRpGrPsa0t085zI;a0e,nP;a06OutH;a0ca0dardAga0z1;io5l1na0;a03GoCI;aQiP;l3tN;d4gl1li05XrPsC;c1ta0;a0He07i00l0EIoVrRuP;lc1ma0n2tP;a05Kta5;anDeRiQoPuz8;f08Gloqu1na0vve7;gIz8;ca0g1me0z8;d050gl1lSnsIVpo3rRsP;a0sPta0;a0eDU;ca0ge0re,t50;pa0ver0AW;aTcRega064fDGgQl3nPo08FrZH;a0g08Qto5;a0ne0o3;a0cP;a0i045;cPgg1na0re,z8;ci6e0;cWd061g0C5lUnTrSsRttQzP;ia0z067;a0e08Ai5;a0sa0;a04Ode0eq0CZge0im08Ro5pe4;de0ge0n4Msa0;aPla0;cKga0re;ch1iPu3;alAfi6;cc0DMgl1lTn7rSsRuLv08LzP;iPz04Y;a0enN;iFsa0;a0e04Pge0i0la0paOti0;aPleEma0;n6re;bb10c0Xd0Wf0Sg0Pl0Mm0Jn0Ip08r04s00ttVvP;eTrRveP;nPrN;i0zI;aPiQY;ccaS1pp09CsT;ni0rK;a0D4eSiQVoQraP;g9r0;lin0AOm00Xp098sPva04;c029ta0;n7r4;pRtP;aPen5Vit06I;n0BDre;eWEi001;bi0ge0m003pRrQs03EtRCvP;eOo3;eg9i7;asCr0CZ;i0pVrP;aPiQH;fMggiV3nnoMZre,sSvP;an8vP;aPe0C8i073;lu2;se7ta0;eQiUVor088rP;esCi00F;ri0sa0;a0da0nB6;atAiOmP;a0ePini09L;r9tJ;a0E4ca0da0e02YlPve0;ePiR4;ci2ti6va0;gPna0;et2hVKiP;a0C8o0AMun9;fPis0BN;erZKiQo6riP;g9re;a0t2;disMisMomA;cPiYR;hUPoP;mbe0rJM;aPol0DZ;l8r6;eQifMoP;b0BEccX8da0;l0DVr0CS;aVeTiRoQuP;o069sC;n2r8;cc1nuPs2;i0z8;nNrPtJz8;c1da0;gMIltHnPrW9scGL;ia0t0C7;aPeDit2og095;cc1nc1;bi3cu4de0gVlUmSnPsteFt0CV;cQda6ghioz8tP;etAonA;e4ronA;bolPp06Fu3;eEiz8;e008la0AV;il3la0ni02W;aWe3hign1XoUrRuP;aPsc1;lOKrBz8;aPe9AiB;nPva0;a0c04YocK;b0ANccWHla0mPnf1rDz8;b0A8en2i5ma0;mPnc1r4ttaWF;a0b069;a00erZiXoTrQuP;gRLma0;aQePi05Jut2;cc1g0B2;c0BIt2;c0B0de4gRlQnBrPtJ;a0ma0na0za0;la0ti0;a0g1l1;an6dPgu4la0ni0orH;a0uc1;ra0za0;ccQma0re,sc1ta0vP;il3oL;hi5ia0;c03d01g00lZmXnWpUque07SrTsRtQvPzI;e4iz1;a0CBta0;sa0tP;a0upRE;ba0e5ia0peEra0vH;a4e0CGpP;el0CFia0;sibX6tTV;bPen2i5pQ7;ia0ra0;c1ezIla0;a0na94reG4ui05Y;a0ePim05Cu09M;nt00Sre;a0ca0er08KonBre2;a0eg5oga5rP;a1ucP;cVGi0;a0We0Sh0Mi0Fle4oXrTuP;ci0lRoQrPsa0;a0eEi0;ce0ia0te0;a0BQet2;eRiQoPutFE;c6l3sc1;cchV8t09Uve0;di2po3;cc09Yd05glIl03m01nWorVTpUrQsPt2Rva0;c0A0sa0ta0;aRc1da0eEge0rQtP;a0e0BIi6;az8e00B;ggiMEre,z8;a0ePi0Api024ri0;rKt2;cer2fRgQnXHos09Mqu00PsiOtPv001;a0en2ra0;e3iu4;esCiP;g9na0;busso3mXCoBpPuX7;ar0AZiOor0;a0lPorHpHta0;a0eD;a0el3inM0;aTmmi00XnSoQpPre,uGvo3;a0i069pa0;c6g09Mpe4rP;i5re;de0tM0;cq08IlaPma0re;cq08Hre;eSiP;aPe4fa0oc6uXSva0z8;cc1ffZMmPn2rHt2v05Z;az8;da0gg1rP;mHni0za0;g09BlRmQ5nQrP;ne0re,v09J;de0eE;e4le4;cc69deZVg01l00mZnVpTrRssEBtQvaPz8;l6re;e5o3ta0uL;aPce4di5i6pa0seEta0;bHGv03U;a0pP;a0el3;dQnPsAP;a0erA;aPe0i0;gl1lA;b1pa0;a0c1da0fi0pi2za0;az8io5l1;a01e00iYloc6oVrQuP;c09Ed091fMr4;aSiQoP;do3gl1n8;cTPgPna0;a0l1;cc1i2na0;cc08ElQrPs6tt00H;n1ra0sa0;l07Nog5;aPgGXla06Orc1zJR;di0n6;ffeElP1;ci9KdiOgl1iafMlTnSrQtPva0;acKte0;aPba0ca0ra0;gl1z8;ca0da0;lPor04Xza0;a0ot2;b00cZet2gYlTnSpQtPz1;isMu4;e0oP;niZErH;a0ci0gFVtiZDzI;a0da0iSpa0tQu2vaP;guarBre;a0eP;l3r08A;re,va0;g1oF;c2UriZ6;b1o2;a4We40i00oSuP;bQgO4l3mPo2sCt2zK6;i5o046;a0ri6;d028ga0l3mVnUsStRvP;e09BiP;na0s2;a0ea0o3taF;icPo3;a0ch1;cZBfa0za0;ba0pe0;a35b33c2Md2He2Cf26g22l1Ym1Hn11or10p0PquaN2s07tZuXvPz8;alVeRiQolP;a0e0ge0ta0uzIve0;n075si2tTUve0;de0la0nQrPsN;be4i0sa0;dPi0;e0i6;eXLu2;ni0sPtTR;a0ci0;aVeTi4ma0oRrP;aPo07T;e0g9r0smUQt2;c6na0rP;ce0na0re;leVWnP;e0ta0;gl1rB;a05c02e00iZoXpTsa0tQuPveO;cKl2o5sLG;aQo4rP;in9ut06K;bi08Lg5re;arm1eRiQl06RoP;l0Vn7sa0;arFeDn9;cKdi0n7t2;lPna0r9;le07Cve0;ca0e7;de0nNrP;ba0vH;aQen7hiar05Iiacq05MoPri00RuoJ;nt4pLte0;lBt2;l063na0pe0rJJ;aXeViUoSrQuP;d1g5li0;e3Yis5WoP;dD5mTZp02Ava0;ne0po3r01RsPta0;a0izIse7;an9eDgl1o00Hre;nCrcPs6te0;orDLuoJ;ga0rPsCti0;a0la0ti0;di5gJ3;as05Vc01e00fYgXnWoVsaUtSun026vP;eQiP;a0goL;ni0r02Q;a5oPra07I;c6m058;lBvi0;mi5va0;eDo06K;agliar02Kh1iova057raz1;a07Cor8rP;an6es6;goz1vi6;aQhO6oPres05Iuo4;glio052mi03Ynt4rD3;ra0sa0;a02bZeXi4oVpQuP;gi5ne4oZU;atr1iQroP;ve4;aQccio07BnP;g04Lza0;g03Mn9z8;n2rPve0;ch1de0;d1mb4na0sPtJ;co3ta0;aQec6oP;c6m04LrC;l8mDO;nQrPs04H;ca0e,gi5;da0e0g1;aQePu04Y;gR0va0;nc1sP;c1sa0;a0eRi4ov01TuP;aPrKR;d051rB;ne4t2;a0eLiTlPAoRran9uP;gPl9sa0;gi0ia0;cHFndZFrP;ma0ni0;la0ni0oLu2;cSde0lRmQnt4piloDsPvo6;aETci0se0uF;er9pi03S;abo4eg9;heE;aVQda0eSiQoPu03S;na0t2ve0;cSXme4MpR9re,sPven048;c04JtribXW;fi03Wre,s2terEL;a03e02h00ic3oRreQuP;ci0o049pe4sa0;a0de0s048;g04JlleDmVnSpRrQstPve4;itXQrXQ;da0i6re0;ia0ri0;c013dB4fQgiMHnRYos043q0EsPtaWF;eg5i4Z;erFor2;anBi02HpP;aLenCor0ra0;eBKiP;aFe7u7;de0r6ve0;cc1de0l6mPpi1Xri6s6t2va0;a0b1;aPel3ol05Tut2;di0l2sCtteVX;b04c01ddormYUff00gga028lZnYpVr7sTttSvP;e0vP;iPol9;a0ci5;ac6i04K;cN2sP;i1AorC7uRH;pPri0;aPen7;ciV2ri0;da0iF;la057za0;erFio4;cQqP;uis2;a7en7omp03L;bQiP;li2t02L;asCra050;a0Jc0Dd0Af08g06i04l03m02n00pXqL3sStQvP;e3isIo6;a0oI1rPtSX;ar0ibWPoce7;cin7et2isJolXKpStQuP;l2sHV;aPitWMrPY;re,u4;iQ5onsabPS;ePli6riQVu2;lW5rPte0;e,i0;a0dPo03T;e0icQ3;a0uNC;azIeD;nPte4;seLteg4vXU;a3ge0iZWna0olaPreZO;mXSrA;eLlQJuP;l9ta0;arQdi0iPu01Z;ge0mXPre;e,gW4re;aTeSiRlPuMP;amZEi5uP;de0ta0;de0n00Sta0;de0nKBpXJre;lcXMpi2re;gi0lA;bb0Sc0Md0Kff0Hg0Blle0Am08n06p03reMsYtUvRzP;ionP0zP;ia0o3;a5vP;e7iP;a0ci5sa0va0;ea0iTQtP;opGrP;apPistH;pi0;a0ch1en2pa0sPtr02N;eRiQoP;da0miO;cu4;g5re5t2;a0e0iN5pP;or2reP;n7sWY;nPto3;icKu00B;a0mPpi6;aGMenQ5ol03R;g4n2;gPio5l1;iRomiQrPuaO;inUIupG;to3;a0ra0uP;gZXnZW;iQor8rP;edBon2;gu4na0;dPe0iRQu5;o02JrA;cPimo3;aRhK1oP;g01OmNXn2pp1rP;c1da0re;pPt2;ez8ri030;erc1o00TriviY6u1;aQePie2o2;re3stI;d4gl1liSPnCY;a37e2Mi25la24o1Ur00uP;bYgnWlVnRrQtPz8;a0reM;a0ga0iSL;ge0i0tQzP;ecK;a0ePuNN;gg1l3;i0lu3sa0;aPe0;la0re;blicXPli6;a1Ge0Oi0LoQuP;de0ri0;c0Fd0Ef0Bg09i08l06m03n02pXro88sTtRvP;a0ePo6ve7;de0ni0;ePocDGrKC;g9n7s2;ciRegU5peQsiFtP;itU4ra0;ra0t2;og00UuD;aDeSiRorQuP;g5lC;re,zI;na0z1;lTKn7;osZSta0unWN;a5e0OoQuP;lDoUQ;ve0zI;iPunD;fe4;bi0et2;et2rP;amFeX2;a5eQfeLiPon7uF;la0t2;ri0sCtWX;iDur0;a01QeRlaFrPu4;asPea0;ti5;de0sC;meEncip1vP;aPileg1;re,tA;a0Fc0Dd0Bf09g07l06m03n02ocHXp00riscalBsTteJXvPz8;aReP;de0nP;i0ti00M;le0ri6;aG8cUeSiRsa0taQuP;me0ppVS;bi01Lre;d1e7;de0l3nPr00G;tHz1;egZTin7riTX;a4ePor0;nsI;asZEde0o2uO9;eQia0uP;ni0ra0;re,tJ;e007u7;a0iPus2;a0uO8;a0eLiP;gMIsC;a0iPo9F;cTWli9re,spVA;e7iPlu7or6P;de0pi2sa0;ccen5mbo3nnuXI;li5nPti6;de0za0;e2gg1lXmWnVpGrTsQtP;a0e4N;a0izIpV2se7tP;aSCePiUZu3;gg1rD;ge0pore,re,tP;a0en7;de4;ic1pa0;emAi0la0tLvP2;cOYg1na0sFuVM;aXccWeVgUlTnSoQpa0roTUsPttRPzQQ;c1o3;mY3vP;e0igQZ;ge0za0;a0o2;ia0l1no4o3;ga0na0t3Y;a0hiQV;cTgRl3nPre,t2z8;a0eEgPiPXta0;e0iSo3;a0e0g1nP;e0uYN;eQiP;ucK;re,voCV;c6d08gg3Gla0n06pa0rRs2YtP;e0tP;egolONi5;c01d00egri5fZiYluV9mWnPOo4petVqFYsStRvP;a7eP;ni0rN;eWDurXI;eQisJonPua7;alAiPI;guiTLve4;ra0ua0;aW8ePu2;a0tJ;co3oBre;ezIo4;e0o5u4;epSUoPuoJ;r5Bte0;aR5d2Bet4iJnY9sPtSSzo3;a0io5;a3i5;c05dro04ga0l03na0pGrYsUtRuCvQzP;iSNz1;en2o02;iIQroWEtP;a0eEi5uP;gl1i0;c22qWQsQtP;iZ5u4;a0eEiP;o5re,va0;aScPCeNWiOVlRod1tP;ePi0oLuL;ciGgg1ne0;a0ot2ucK;fraCgo5lAre;a0eClNPpIO;neE;a0ch1iTR;b0Icc0Gd0Fff0EggetVJl0Cm0An08p05r00sSttPvv1z1;a0eQimTYuP;n7ra0;mH6ne0;aVcUpi2sRtP;a9XePi5rQI;gg1n2;eQiP;da0ge5;qu1rXRssI;il3u4;n5re;a0bi2cheTXdiHZecKgRiPla0mNAna0;en2gPna0;i5l1;aPoO;nAsF;e4i5pPri0ta0;oPriKH;ne0r0;dPo4;a0eEu3;aEbrN0etJoP;geneAloD;ez8ia0trP;aEepNH;eGIic1ri0us6;i91o4;asIhiMUi7lu7or3XuP;l2pa0;bQeT7iettX5liPnubi3;a0ga0te4;eT5iREliD;aYeUiToRuP;da0me4oPtriOF;ce0ta0;ce0ia0leEm1JrmIStP;a0iNMta0;cKdiNLtL;cessi2gRt2utrIPvP;a0iP;ca0sK;a0li9oz1;r4sRtQuPviD;fraDsTH;a0u8W;a0cPt4;e0on7;a0Ke0Bi02oUuP;da0gRltQnUZoQ6ra0sRHtP;a0i3ua0;a0ipCK;gPo3ug5;h1i0;biliVdSlRnQrPst4tiWIvimQOz8;a0d1Ji0mo4si6tiN4;da0etAitorSFopK3ta0;a0ce0es2la0tipCE;ePiN1;l3rP;a0nA;ta0z8;aWeJgVllDOmUnSra0sPtiD;cQe2Ysa0tPu4;iMVu4;e3h1;aX2ge0iP;mAst4;a0etA;l0Gra0;go3u3;diWgl0Ela0mVnUrSsQtP;abJNodAte0;cPta0u4;e0o3;a7BcaPenBge0i2;n8Ire;a0dQPoFti0zI;orA;a0ca0ta0;c06eS1g04l03mFnXpGrUsQtP;erJ7riV7t0AurH;cRsaQtP;erAi6urUA;c4gg1re;he4;a70cQi0VtP;el3or1;a0h1i7C;ca0dTeL7gSiRoQtePu1R;ca0ne0;mIFv4;ca0e4fLFpo3;anV3iN0;a0u6;a0di0eREig5trat2;a0gPl1nK6;io4;chiTGePi5;l3ra0;a0Ce03iXoUuP;bScRmQnDsPtRY;inDsa0t4;a0i5;ci6e0iBra0;riLQ;cQda0gPnROrBt2;i6o4ra0;aNKuple2;bTceSevi2mRnc1quQsPtiDvUN;a0c1ta0;eMiB;a0i2o5;nz1re;a0e6Zra0;cWde0gTnTRsRvP;a0iP;ga0ta0;iPsa0;na0o5;aN8gQiPna0;fe4ttiF;e0icK;ca0e0;cYg5mXnWpiBrVsUtSuRvP;a0orP;a0icK;da0rR6;e0iPra0ta0;na0ta0;cTLsa0t8C;ga0va0;c1gMZ;a0biFSen2pJX;cTHe4riF;bQBd53gno4llu52m3RnZpYrUsPtalia5;cIJo3pRsa0tP;al3iPrMU;ga0tMT;ePi4;sB3zI;a0onArP;ad1eNiQoP;busNga0mEZra0;de0gQ0ta0;notAotA;a3Cc2Md2Ce2Af1Ug1Fi1El1Dn18o16qu14s0StYumiPZvPzupG;aVeSiRoP;ca0gl1lP;a0ge0ta0ve0;a0d1gi3sKta0zLS;cKi0ntarQrPstiDCtL;a0ti0;e,ia0;de0gMLlPsa0;e0iB;a0He03i01oYrPui0;aTeUHiSoQuP;de0fo3;dPmGJ;ur0;de0ga0sN;lc1pRre,tQvP;e7ve7;teQW;po3rSP;nQrPsAQ;bidHpiPE;aKPti0;epiPCmPn9rizL9to3;a0iPBoL;g4n01rRsP;se0tarP;di0e;aXcUdi0esCfTloqLTnaLQpSrQse6vP;eRTis2;a0oP;ga0mE1;el3or0re2;aTVeL;a3eQorP;re0;de0t2;gi0re;de0eLsiJJta0;c6gl1rs1sI8vo3;aXcWeViUoTpi4tQuP;d1Ql2;aQiPrLF;l3tLE;l3re,u4;r9spetN;d1gRCnR2sJ;d1gEQri0;e5riM5;bb1ngQpoP;na0ri0;ui5;ad4iP;e2na0si0;lt4nBrP;gogTIriOG;aSePoSE;gg1rvQsP;ca0ta0;a0o9A;ff1l8mo4;e1ib4;bi0et2mi6zFO;a02e01hi00iXloQSoUrQuP;a1r77;aQesCoP;pGsC;nPsCviBz1;a0di0;bQia0lPmb4rDz8;fa0la0;bi0;alT1ganNnQuP;n9r1;ocK;otN;g5lo8TntiSXri0sC;bb1gg1n5rbuO;a02e00iWlUoSrQuP;o6r1;aPeddoST;d0Mn9;ca0n7rP;ca0ma0na0tu5;ig9uP;en8i0;aRc1eLg9lQnPsKtN;i2ocK;a0t4za0;ccKCmF;rPs2t2;i0ma0o3Tvo4;ma0nDrPstiNFtPS;ci0i5;br1rP;i0pi6;aDeWiSoRuP;ce0g1l9rPstriD1;a0i0re;sCvi5;a0cN5etMXgRrQspPvidPK;etNor0;e,iz8;e0na0;bPnnAt2;i2oS4;a07e04hi03i02l01oVrRuP;ba0lGCnNOpi0rPte0;io7Xva0;eRiQoP;c1s2;mi5na0;mL0sG;gQ8lSmRnt4rP;aGGnPo5po4re0;ic1;be0iOAoB;lPpa0;a0eL;i5u7;amGde0n9pr1ta0;appKVna0oB;de0nPpGra0sKL;dQ5eLtP;iQIra0;gl1l8mUnTpSrRsPte5vo3z8;i5sa0tP;o5ra0;ce4i6na0ta0;oP1pa0;a3ta0uN;mi5;b64ciMBff1lRrQspLuP;gu4;ca0iM9;a0be4za0;b0Li2m0FpP;a09e06i02l01oWrRuP;g5lCn2tP;a0riM4;aticIXeRiQoP;n2vviC;gIme0;ca0g5n7sPzio6Y;sIta0;ne0rRsPveL;sPta0;esCibi9U;re,tP;a0u5;emJYi6o4F;an2ccOYeQgPla0;l1ri0;ga0tP;o6Nri0;di0g5lHXnQrP;a0maQPn1so5vIB;na0sieL;ccSdroO8lRnQrPs2t2uLzzH;a0en2ti0;a0ta5;a0liLI;a0hJQia0;aSeRiQoP;bB9la0rta3;g4sK;deJWr9tJ;gPtriOR;azzi5i5;aZeYiVoUrQuP;ca0r4;aRoQuP;ni0tN;gl1nc1;cc1t2;c6s6ttiGQ;ancQbi0onL3zP;zarL;a0hi0;lQ2stiaQ2ve0;cuc6lQnKZrPsNtJvaO;az8ca0;la0saF;de0mi5st4;ePolat4ra2;aHDnP;tiFF;a0Ye0Rh0Oi0Al09o04rWuP;aRerQfa0iPs2;da0na0z8;i0reE;daRiQl11rPs2ta0;da0enNi0ni0;o3re;gnG5re;aQe0IiPonBugN7;da0gl1;cTdSff1n9JtPva0z1;iQtP;a0ug1;fi6na0;a0i8Oua0;ch1iB;cciEVdSff4mi2nRrgQvKDzzoP;viO;heEoO;f1go3;e0ro5;isCoriJW;aN8b01ng00oWrTt2uP;bi3ca0di6gLKlebMPnRo6ra0stP;appJCiP;fi6z1;ca0ge0ta0;a0eDToP;nPvaD;zo3;cQiPst4va0;a0re;a0hPo3;erNIicK;il3;ol3;erQiP;aOKg5;mi0;la0meUnSrmRsPt2;sa0tiP;co3re;i5oO;ePuflAI;raG3;l3re;bM2lQrPsa0tO8u7;anNba0eEri0;lD1opGvP;anA;a0Ve0Si0Jl0Ho08rVuP;ci3gTlSma0nRorPra0stiD;iusPv1;ci0;es2ge0zI;ge0mi5;a0gi0;aXeWiToRuP;ga0i0l3sPttBZ;c1tLV;da0nP;teE;gQni0zP;io5za0;ge0na0;cc1dBgM5me0na0quH4s6t2;cD3g4iRmmH3nQppI6stor5tPzI;ernAtu4;a0ca0ge0tuF;ntM4;c8Lde4gWlVmGZndUrRtP;oPte0;cop1g6T;aCEbi0g1mPniE3tiDDza0;aPiM5u3;lAre,t2;a1Ce0;go4la0;g1l1;agM8etJir2ot2uP;i0ttKX;aWc6daCLgVlUnSoQrFsPt2u2;a0chiE0sa0;ccPnBri0;a0hGP;aPge0i0ta0;lAnz1;a0ma0osoMt4;ge0l1u4;c6mmeEncDEta0;cFLli04n7rQsPte0;su4tBU;i0mLGra0t82ve0;b03c02g00lZmYntasKPrTsStRvP;el3orP;eEi0;a0i6tu4;ciK8tid1;ci0e,fRlQnePsi;!ti6;a,e,i,o;alPuO;leE;a0iliBJ;c1lHsAP;l1oP;ci2;i5RoltA;bPri6;ri6;c1Id1Fff1EguaOiacu3l18m14n11qui0Yr0UsVtUvP;aSiRoP;ca0lP;ui0ve0;de9JnKOra0ta0;cJYde0ngelApo4;er5ichFT;a0Lc0He0Ei0Co09p00sXtPulI9;as1eUiToSrP;aQoPu7;m8Dv6S;da0n1po3r0;lDNrKG;ma0ng6ZrGva0;nPrnaDV;de0ua0;ePic6uB;gDVrP;ci2e;aWeUiJXlSoRrQuP;g5n9;i83opr1;ne0rFU;e2ic5NoP;de0ra0;di0lDAriPt2;mF5re;n7tr1;nQrP;cAdi0ta0;da0e4;bi0ge0lPme0sJta0;a4ia0;cQgDFmpPn2rciFJ;liBE;ra0u2;lRoQuP;sa0te0;gi2;aFu7;cerJ6ge4lHCmi5s3UuP;di0ri0to4;eRge0i9oQra0uP;di0t2;de0ga0m5F;d51g9;lib4paQvP;aCOo6;gg1ra0;com1fEFtQuP;clH0me4nc1;ra0usiasF;aQePig4ozIpiIMu3;nBr9tJ;nPrBP;a0ciG;aSeRiQog1uP;cub4de0;de0ge0mi5;g9moDGn6va0;bo4rP;gi0;ettIDig1on7;iQuP;cDSlco4r0;fi6ta0;cQheElPonomA;isC;ePi2;de0lC2pi0ttI6;a3Re2Fi06oVrSuP;bQce0el3pPra0;li6;b1i2;aQe5iPoD;bb3z8;ga0mmDOpG;cYlXmUnKKpTrQsa0tGBveP;n2re;a0mP;en2iP;cKre,ta0;a0p1;aQesHXiP;cFGna0;nBre;a0e0o4;c1e0umDG;a1WbatJc1Vf1Pg1Ml1Hm1Bp19r14sWt2vP;aUeSiQorPulD;a0z1;de0e2nPsa0;a0co3;de0lBEnI2rPz8;be4ge0s7Xti0;ga0mGri6;a0Ubos6c0Nd0Le0Jfa0g0Hi0Alo6m5Zo07p01qZsVtPubbiF2;aTen7iSoRrPurHL;ar0iPug9;bBLca0;gICrI0;l3ng4J;c6nz1re;angH8eRiQoPua7;c1da0lCCtter4;mu3pa0;mi5nNppelJUr2ta0;uiP;si0;arHeSiRoQrePu2;g1z8;ne0r0sa0;aHOeDn9;nPrDIt2;de0sa0;bbeEJcQno4rP;di5iCN;cuG;dUllu7mp3YnP;cSfCOnCRstIBtP;eQosP;si6;g4resC;an2;e4ra2;e3iPreDus2;un9;g5rP;eBta0;a0ePi0;g5t2;eUhTiogHHoRriQuP;sCte0;mi5ve0;lGnPpLr4Ns2;n4WosH1;iu7;n7rFC;g1pproHVrFttP;en7iHU;aSeRiQl1XoP;c6m2Qt2;ge0me0;!da0g9zI;da0ma0z8;aPen7i2FloFor0;na0rN;aTeRiQoP;ra0st4;nA7ssI;nPsG2tJz8;a0ti6;grHnB;aSeQi9uP;i0nDv1;gPt2;g1ua0;ga0n1ta0;eLiQrP;ig5;ta9Tu5;eTfP;aFerRiPon7;cPda0;ol2;e52i0;n7t2;a0esChia4;gnosFKloD;ambu3b0Yc0QdHHf0Mg0Kl0Gm0Dn0Ap04r01sVtRvP;as2ia0oP;lAHra0;eQo5rPta8KurG;ar0;ne0rPs2;ge0io4mi5;c54iTo3tPu3S;aRiQrP;a0eEug9;na0t9D;b2Kre;a0de4g5la0na0ra0sJ;aQiPoDuF8;de0me0va0;gl1pa0;auTeSiRlo4oQrPu4;eBi3I;ne0rB9si2;la0n9;n7ri0;pe4;ig4oQta0uP;da0nBR;mi5ta0;anBoP;crADli0nArP;alAde0;eRiPu7;be4mi2nPra0z1;ea0q1T;ga0re;ePluNna0raBus2;ne4;al6eRiQlPorFrauBun9;etJui0;la0ni0;ca0ri0;aVe7hi5iUlToQrePur2;sF0ta0;di6Jl3mpQrP;a0re0;or0ri2T;aFi5;de0fDZma0;de0n2pi2;b1el3iPut2;li2;ma0nTrRtPz1;a0tilogP;raM;deEe,lP;a,e,o;n55za0;a4Je49h40i3Ml3Jo04rUuP;cRlQmu3oEKpe0rPstoBI;a0ioCva0;la0mi5;c1iPul1;na0re;apu3eViUoQucP;c1ia0;cQgPl3;io3;ch1iP;a0fig9;a0min0Yti6;a0de0ma0pQsPt2;ce0iF;a0i2;a32c31di5PesisJfina30g2Yi2Wl2Nm1Un05o03p02rXsPva0z8;a0pVtP;a9ReTiSrQuP;di0ma0;iPui0;gCDn9;pa0t7J;gg1l3r5;ar9i4;az8bEHi6o5rPteE;eRispon7oPuD;bo4de0mP;pe0;da0g9la0re;ia0pECri0u3;pe4rP;di5;c17d14f0Vg0Ri86n0QosDOqui0Ps0HtVvP;aliBeSiRoP;ca0gl1lP;a0ge0;nDKta0ve0;ni0rP;ge0sa0ti0;a08e04inCSor03rPun7;aTiSoP;bQl3vP;erJ;atJilaBU;b6Wre;bbWccamb1dTfMpp9HrSsQttaPvveCW;c6re;sPta0;eg5;e,ia0re;diPi0;re,stingP;ue0;anB;ce0na0;gg1mp3nRstP;a0uP;alA;de0e0ne0ta0;bPg1mi5re,t2;ilA;ac4eUiTolStQuP;l2m7M;a8Hit6DrP;in9;a0iB;de4gl1sJ;gPnNrDM;na0ui0;de0s2;etJo2uAV;eRiuQrP;atu3eD;n9ra0;da0g5la0stItCG;aWeUiSl61oQrPu2;on2;n7rP;ma0ta0;c6da0gPna0s6;ge0u4;rPsCzI;i0ma0;bu3re;an5enCiQoPur0;le0na0t2;re,vi7zI;eSiRlu7orQret91uP;pi0sC;da0re0;a0l1ma0ta0;de0nt4pi0rP;ne0ta0;anBb0Fen2i0Em07oBpQuP;ni6;a03e01iZlWoVrQuP;n9ta0;aSen7iRoP;mPva0;etJ;me0;re,vBY;ne0r7Es2;eQiPot2;ca0m6Rre;sCta0;aPe0la0re,ta0;ce0n9;nPra0te0;d1et4sa0;g5rPtBD;a0i0ti0;eSiQo5WuP;o5Vta0;na0sP;e4sIu4;d1mo4nQrcPtJ;ia4S;da0ta0;nc1sC;aPi5;c1tJ;a0e0lSma0oRpPtiC3;a0evPi0;olA;nArH;aSeRiQoPu7;ca0qu1;de0ma0;ga0t2zI;bo4re,sCuBzI;nPre;ci7v1B;i2liPnosAV;e0o5;nz1;co3e0;bi2diuBOgu3;aPic6o5;ma0n9ssi29uP;di6;a01ba0c00f4gZmATnXondo3rcStQuPv5U;cc1r3;a0oP;fo5;oQuP;i0la0mnaviDnB;nQscP;ri4W;ci7da0;cisKgPta0;e0u5K;ne0o3;atrAca0;ba2Mnci0Kr3;at2eWiP;aSeRna0oQta0uP;de0r3;cc1da0sa0;de0re0;cchie4ma0pGrPva0;a0iP;fi6re;re0ta0;ca0de0lXm53nTpGrQsP;el3sa0ti5;a0cQn52tP;a0i1H;a0hi2Ci5;a0na0sRtP;elli5rP;a3AifuD;i0u4;a0eb4ia0;b0RcAOd0Pf9Zg0Ol0Lm0In0Dp04rZsXtUuTvQzzP;a0eEia0;aPil3;lPre;ca0la0;sa0te3;aQtP;a0iAGu4;loDp2V;ca0sa0tP;iDra0;aRbQca0ez8iPpi0;a0ca0;onAu4;m9XttP;erA;aWeViQovPp0Vta0;ol9;llSre,tP;aPo3;lAnPre;a0eE;arA;gg1re;ci2re;alAc9MdiSg1na0sa0tPzo5;areQer9LiP;cKle5;!l3;da0re;b1mi5oASpPufM;a0eEiP;cKo5re;a0cQe0ib4ma0pPunn1za0;es2;a0ia0o3;a0io5l1;ePu6;n8re;a3ra0;a0Oe0Hi0Cl0Ao04rUuQypP;asC;ca0fRgQli5r3sPt2;ca0sa0;ge4ia0;a0fa0;aVev3NiTonSuP;cPli6ni0s6t2;a0iaP;cKre;to3za0;ga0l3nP;a0da0;cc8DmHnPsa0va0;cPdi0;a0o3;cSfonKicRllHmbar20niQrPt5Uxa0;bQda0ra0seE;fi6;ot2;cPia0;a0heEia0;aPinBoc6ufM;n4XsfeFte4;aRgQla6Fnas7YsPv5D;biOog5ti9O;hello5ia0;da0n6sP;ci6iF;a0ccUfMl4BnRrQstemm1vP;az8e4icK;c1e,go3linDsaO;da0ePvo0X;a25diPfic7T;ce0re;a0heE;c03da0g5ia0l00nZrUsSttQzP;zi6;aOeP;re,z8;a0c1i0sa0tP;a0o5;aSba0cRda0rP;a0iP;ca0re;ame5ol3;re,t2;ch2Idi0;b2He5lQoc6uPza0;gi5;a0et2;a0cQiP;a0ucK;aPh1;gl1re;b88c6Td62er61ff5Mg52i51l4Fm3On35p2Er1Ms0Yt0Hu0CvUzP;io5zP;aReQiPufM;ma0tN;c6ra0;n5rB;a05e02in6Xo6vP;aZeViQolP;ge0to3ve0;a0cSlRnQs4Ita0va0zP;zi0;a0ce0gh1;i0upG;enBi5;de0le5nQrPz8;a0sa0ti0;i0tP;a0u4;lPmGntaE;e0la0o4;lQrP;e,te0;le0;l3n8r1;di0gu4li0m1Ira0sRtP;en5UoP;m1DrA;cPpi6;ul2;a0tP;a02eZiYorWrRuP;aPti0;lAre;aRez8iP;bPs2;ui0;c6e0r0vP;erC;cPn1;e0iO;g4Cn9ra0va0z8;ccQgg1nPrrHs2;d0Pe0ta0ua0;hi0;c6gl1naOrP;da0e;c08f07o3p05sStP;eQrP;ar0in9;ne0r9;aZeWiUoQuP;eMme0r9;c1da0gg0UlRmQn5pi0rPttiO;bi0dHge0ti0;iOma0;da0ve0;cu4dPeGl3mi3sJ;er4P;cQd1g5mb3ntHrPs2t35ve4;i0vi0;onB;gg1l59po4sP;si5;ePi4or2;r9t2;al2iss1;en7iRoQriP;ve0;l2n7;a0uD;a0Eb0Dc0Ad09e48g07ieEm06om05rQti5IzigoP;go3;aZeYiWoQuP;fMggi4No3;cc55gTsStQveP;l3n2;a0oP;la0nB;a0sHtH;a0e0;ccPde0nDsKva0;hi0ia0;ca0da0n7s2t4;bRfMmQnPpa0;ca0g1;pi6;at2b1;atA;a0eEonA;i5omPui0;en2;e0i0;a0hiP;tPv1;et2;it4;bPre;es6;ostroMpPri0;a08e05i02l01oZrQuP;ntHra0;eVoP;ba0cc1da0fTn2pRsQvP;a0vigI;siF;iPr1;a0nq3G;it2ondH;n7sPz8;en2sa0ta0;gg1lla1rPs2;re,ta0;au0Xi6;aQccPgl1opGso3;a0i6;na0ttH;l3nQsPti0z8;anNta0;a0de0;ga0ia0lTn5rQssiP;o5re;a0eQi0tP;a0e22;cKn2;eCta0;alAc06d05e03g02iFnVsTtP;eQiP;ciG;ce7pP;or0;a0iP;a0ma0;aUeTiSoRuP;i0l3nPsa0vo3;c1z1;da0ia0ma0t10ve4;chi5Bda0en2;bb1ga0rHtJ;cq2Kff1sG;e0o54uY;lPst11;a0la0;a0icapG;heEo4;a0Cb0Ai6mUniToRpP;liPu2;a0fi6;reE;gg1;st1;a01eZiYoRuP;cKffi0tP;i5o4V;bUdTgl1llHn2PrP;bQtP;a0iz8;a0iP;di0;er5;il1;c6niTra0;nBtP;a0te0;c6eQi5l2OnPra0sCtNz8;et2sHta0;st4;a4DiPu3;a0en2re;lgaFrP;ePi6;!gg1;be08e07fab06ge0i05lSmanRtPza0;ale5erP;a0ca0na0;ac6;aZeViToQuP;ci5de0n04;ca0gQnP;ta5;a0g1;bi0e2nP;ea0;a0gQnPr2sNt2v25;a0ta0;a0geLra0;ri0;cc1ga0pGrPt2;ga0ma0;a0e5ta0;etA;gg1na0re;gg1rP;a0ga0;ta0u2z8;e07gSiRoQuP;ra0z8;g5nA;a0re,ta0;a02et01hi00iVloUrQuaP;n2ta0;aReQoPupG;t2viO;di0ga0;dHpGva0;me4;oSra0uP;di6gQnPs2;ge0ta0;ne0;ga0r5;a30nB;ti25;nc1;vo3;a00eYiVlUoTrPumi6;aQePon2;s6t2;nPt1N;ca0ge0;ca0ga0l3nB;ig9o2Vui0;aQbb1da0evo2YgPl12na0o4sCt2;e0ge0;n6ta0;rPt2zI;i0ma0ra0;ccQma0n5re,sPti6;ci5;enBia0;a0ea0;a0Ed01eXiVoRuP;lPna0;a0te4;cKmb4pQrPt2;a0na0;e4ra0;ch1;bi0rP;a0e;gRmpiQrPs6;ge0i0;e0re;ua0;a0eYiVoQuP;ce0r0;bSlRmesQrmPsC;en2i0;ti6;ci0o4;ba0;re,ta0veQzI;io5;ni0;bi2nPst4;sa0tP;a0ra0;g1t2;cUeNquRuP;i0tA;iz8;at2e2iP;e2sP;i0ta0;a0Le0Gh0Ei08l06oTreRuP;cc1di0lPmu3ra0sa0;tu4;di2sP;ce0;c00da0gZlYmVnSppRrQstPva1E;a0uF;a0c1da0ge0pa0re0;a0ia0;c1discQsenNtP;a0en2;en7;ia2oBpPu5;ag5;da0;la0tY;lie0;co3;aFima2u7;ma0;aSdRe6gQn9ufM;ge0;l1ne0;e0ia0;c6mbP;el3;e2iP;apGta0u7;ca0de0le4nRrQsNt2;ti0;ch1ta0;de0na0tP;a0ra0ua0;de0lYmGnWpVrUsTtQvP;al3;as2tP;a0iP;va0;a0c1;ez8to0G;ar4iOpo5;i0to5;pa0;aPca0da0o4;pp1;bYdXer4iUneDoRrPuC;a7oD;de0;li0mi5rP;ri0ti0;ga0;li2sCtPu4;a0ua0;sa0;i6ur0;a0Ae07i03oVrQuP;fMia0o5;aSev1on8uP;nHsto06tP;i0ti0;a0i0;cc1n6;c6nUrRtQz8;za0;to5;da0rP;aPi0;cc1;aPda0i0;cc1re;gl1nRoQsog5t2;ta0;sc1;a0do3;lQve4;ra0;li0;cXgl1ia0l3ndo5rRsQtJ;te0;sa0ta0;bQca0ufM;fa0;aOi6;ca0;gl1;la0;a0ch1i5;na0;ia0;re",
+    "Reflexive": "true¦farsi",
+    "FemaleNoun": "true¦arachid6c3fame,gen2lu4m1n0pelle,se2vo4;a4e4ot1;adre,en0;te;arne,hia1ro0;ce;ve;e,i",
+    "Singular": "true¦arachide,cEdCf9gCluGm6n4p1s0voG;a1eCo1;a1el0onB;le;dBese,ne;aCeCo0;me,t7;a1e0on6;n5se;d6re;a1i0;o4u0;me;en0;te;a3hia2ro1uo0;re;ce;ve;ne,rne",
+    "PluralNoun": "true¦arachidi",
+    "MaleNoun": "true¦c9de8fi6m4no7p2s0;a0o0;le;a0o5;d6e1ne;a5e0o3;se;o3u0;me;nte;ane,uo0;re",
     "FutureTense": "true¦a2do2potr3s0vorr3;a0tar2;pr1r1;vr0;a1e0à,ò;mo,te;i,nno",
     "ConditionalVerb": "true¦av2dov2pot2s0vor2;a0ta1;p0re1;re0;bbe1i,mmo,st0;e,i;!ro",
-    "LastName": "true¦0:32;1:39;2:37;3:2W;4:2C;a38b2Yc2Ld2Be28f22g1Wh1Mi1Hj1Bk14l0Wm0Ln0Ho0Ep04rXsLtGvEwBxAy7zh5;a5ou,u;ng,o;a5eun2Roshi1Hun;ma5ng;da,guc1Wmo24sh1YzaQ;iao,u;a6eb0il5o3right,u;li38s2;gn0lk0ng,tanabe;a5ivaldi;ssilj34zqu1;a8h7i2Do6r5sui,urn0;an,ynisI;lst0Mrr1Rth;at1Romps2;kah0Snaka,ylor;aDchCeBhimizu,iAmi9o8t6u5zabo;ar1lliv27zuD;a5ein0;l20rm0;sa,u3;rn4th;lva,mmo21ngh;mjon4rrano;midt,neid0ulz;ito,n6sa5to;ki;ch1dJtos,z;amAeag1Wi8o6u5;bio,iz;b5dri1JgGj0Qme21osevelt,ux;erts,ins2;c5ve0C;ci,hards2;ir1os;aCe8h6ic5ow1X;asso,hl0;a5illips;m,n1R;ders1Yet7r6t5;e0Lr4;ez,ry;ers;h1Zrk0t5vl4;el,te0H;baAg09liveiZr5;t5w1M;ega,iz;a5eils2guy1Pix2owak,ym1C;gy,ka5var1I;ji5muU;ma;aDeBiAo7u5;ll0n5rr09ssolini,ñ5;oz;lina,oIr5zart;al0Ke5r0S;au,no;hhail4ll0;rci0ssi5y0;!er;eUmmad4r5tsu05;in,tin1;aBe7i5op1uo;n5u;coln,dholm;fe6n0Pr5w0I;oy;bv5v5;re;mmy,rs13u;aAennedy,imu9le0Ko7u6wo5;k,n;mar,znets4;bay5vacs;asX;ra;hn,rl8to,ur,zl4;a9en8ha3imen1o5u3;h5nXu3;an5ns2;ss2;ki0Ds0R;cks2nsse0C;glesi8ke7noue,shik6to,vano5;u,v;awa;da;as;aAe7itchcock,o6u5;!a3b0ghMynh;a3ffmann,rvat;mingw6nde5rM;rs2;ay;ns0ErrPs6y5;asCes;an4hi5;moI;a8il,o7r6u5;o,tierr1;ayli3ub0;m1nzal1;nd5o,rcia;hi;er9is8lor7o6uj5;ita;st0urni0;es;ch0;nand1;d6insteGsposi5vaK;to;is2wards;aBeAi8omin7u5;bo5rand;is;gu1;az,mitr4;ov;lgado,vi;nkula,rw6vi5;es,s;in;aEhAlark9o5;hKl5op0rbyn,x;em6li5;ns;an;!e;an7e6iu,o5ristensFu3we;i,ng,u3w,y;n,on5u3;!g;mpb6rt0st5;ro;ell;aAe7ha3lanco,oyko,r5yrne;ooks,yant;ng;ck6ethov5nnett;en;er,ham;ch,h7iley,rn5;es,i0;er;k,ng;dCl8nd5;ers5r9;en,on,s2;on;eks6iy7var1;ez;ej5;ev;ams",
-    "FirstName": "true¦aEblair,cCdevBj8k6lashawn,m3nelly,quinn,re2sh0;ay,e0iloh;a,lby;g1ne;ar1el,org0;an;ion,lo;as8e0r9;ls7nyatta,rry;am0ess1ude;ie,m0;ie;an,on;as0heyenne;ey,sidy;lex1ndra,ubr0;ey;is",
-    "MaleName": "true¦0:CB;1:BI;2:BZ;3:BQ;4:B2;5:BW;6:AQ;7:9S;8:BA;9:AU;A:AL;aB1bA5c94d84e7Df6Wg6Eh5Ui5Gj4Jk49l3Pm2Nn2Co27p21qu1Zr19s0Pt05u04v00wNxavi3yGzB;aBor0;cBh8Fne;hCkB;!aAY;ar4ZeAX;ass2i,oCuB;sDu23;nEsDusB;oBsC;uf;ef;at0g;aJeHiCoByaAM;lfgang,odrow;lBn1N;bDey,frBGlB;aA2iB;am,e,s;e86ur;i,nde7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a90y;aDern1iB;cBha0nce8Trg98va0;ente,t59;lentin48n8Wughn;lyss4Lsm0;aTeOhKiIoErCyB;!l3ro8s1;av9OeBist0oy,um0;nt9Gv53y;bDd7VmBny;!as,mBoharu;aAWie,y;i81y;mBt9;!my,othy;adDeoCia7BomB;!as;!do7K;!de9;dErB;en8FrB;an8EeBy;ll,n8D;!dy;dgh,ic9Rnn3req,ts44;aRcotPeNhJiHoFpenc3tBur1Nylve8Fzym1;anDeBua79;f0phADvBwa78;e56ie;!islaw,l6;lom1nA1uB;leyma8ta;dBl7Hm1;!n6;aDeB;lBrm0;d1t1;h6Qne,qu0Tun,wn,y8;aBbasti0k1Wl40rg3Zth,ymo9G;m9n;!tB;!ie,y;lCmBnti20q4Hul;!mAu4;ik,vato6T;aWeShe90iOoFuCyB;an,ou;b6JdCf9pe6OssB;!elAG;ol2Ty;an,bIcHdGel,geFh0landA7mEnDry,sCyB;!ce;coe,s;!a93nA;an,eo;l3Ir;e4Pg3n6olfo,ri66;co,ky;bAe9S;cBl6;ar5Mc5LhCkB;!ey,ie,y;a83ie;gCid,ub5x,yBza;ansh,nR;g8UiB;na8Qs;ch5Wfa4lDmCndBpha4sh6Sul,ymo6Y;al9Wol2Ay;i9Gon;f,ph;ent2inB;cy,t1;aFeDhilCier60ol,reB;st1;!ip,lip;d99rcy,tB;ar,e2U;b3Rdra6Do3Rt43ul;ctav2Uliv3m94rEsBt7Oum8Sw5;aCc8RvB;al51;ma;i,l49vJ;athJeHiDoB;aBel,l0ma0r2X;h,m;cCg4i3IkB;h6Tola;hol5WkBol5W;!ol5V;al,d,il,ls1vB;il4Z;anBy;!a4i4;aWeTiKoFuCyB;l21r1;hamCr5YstaB;fa,p4F;ed,mF;dibo,e,hamDis1XntCsBussa;es,he;e,y;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;a77ik;house,o03t1;e,olB;aj;ah,hBk6;a4eB;al,l;hClv2rB;le,ri7v2;di,met;ck,hNlLmOnu4rHs1tDuricCxB;!imilian8Bwe7;e,io;eo,hCi51tB;!eo,hew,ia;eBis;us,w;cDio,k85lCqu6Fsha7tBv2;i2Hy;in,on;!el,oKus;achBcolm,ik;ai,y;amBdi,moud;adB;ou;aReNiMlo2RoIuCyB;le,nd1;cEiDkBth3;aBe;!s;gi,s;as,iaB;no;g0nn6QrenDuBwe7;!iB;e,s;!zo;am,on4;a7Aevi,la4RnDoBst3vi;!nB;!a5Zel;!ny;mCnBr66ur4Swr4S;ce,d1;ar,o4M;aIeDhaled,iBrist4Uu47y3A;er0p,rB;by,k,ollos;en0iEnBrmit,v2;!dCnBt5B;e0Yy;a7ri4M;r,th;na67rBthem;im,l;aYeQiOoDuB;an,liBst2;an,o,us;aqu2eJhnInGrEsB;eChBi7Aue;!ua;!ph;dBge;an,i,on;!aBny;h,s,th4W;!ath4Vie,nA;!l,sBy;ph;an,e,mB;!mA;d,ffGrDsB;sBus;!e;a5IemCmai8oBry;me,ni0O;i6Ty;!e57rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;on,p3;ed,od,rBv4L;e4Yod;al,es,is1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aBha0i6Ema4sac;ac,iaB;h,s;a,vinBw2;!g;k,nngu51;!r;nacBor;io;im;in,n;aJeFina4UoDuByd55;be24gBmber4BsD;h,o;m3ra32sBwa3W;se2;aDctCitCn4DrB;be1Zm0;or;th;bKlJmza,nIo,rDsCyB;a42d5;an,s0;lEo4ErDuBv6;hi3Zki,tB;a,o;is1y;an,ey;k,s;!im;ib;aQeMiLlenKoIrEuB;illerCsB;!tavo;mo;aDegBov3;!g,orB;io,y;dy,h56nt;nzaBrd1;lo;!n;lbe4Pno,ovan4Q;ne,oDrB;aBry;ld,rd4T;ffr6rge;bri4l5rBv2;la1Yr3Dth,y;aQeNiLlJorr0HrB;anDedBitz;!dAeBri23;ri22;cDkB;!ie,lB;in,yn;esco,isB;!co,zek;etch3oB;yd;d4lBonn;ip;liCng,rnB;an00;pe,x;bi0di;arZdUfrTit0lNmGnFo2rCsteb0th0uge8vBym5zra;an,ere2V;gi,iCnBrol,v2w2;est45ie;c07k;och,rique,zo;aGerFiCmB;aFe2P;lCrB;!h0;!io;s1y;nu4;be09d1iEliDmCt1viBwood;n,s;er,o;ot1Ts;!as,j43sB;ha;a2en;dAg32mEuCwB;a25in;arB;do;o0Su0S;l,nB;est;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0st2;ag0ew;minFnDri0ugCyB;le;!l03;!a29nBov0;e7ie,y;go,icB;!k;armuCeBll1on,rk;go;id;anIj0lbeHmetri9nFon,rEsDvCwBxt3;ay8ey;en,in;hawn,mo08;ek,ri0F;is,nBv3;is,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;en,iDne7rByl;eBin,yl;l2Vn;n,o,us;!e,i4ny;iBon;an,en,on;e,lB;as;a06e04hWiar0lLoGrEuCyrB;il,us;rtB;!is;aBistobal;ig;dy,lEnCrB;ey,neli9y;or,rB;ad;by,e,in,l2t1;aGeDiByI;fBnt;fo0Ct1;meCt9velaB;nd;nt;rDuCyB;!t1;de;enB;ce;aFeErisCuB;ck;!tB;i0oph3;st3;d,rlBs;eBie;s,y;cBdric,s11;il;lEmer1rB;ey,lCro7y;ll;!os,t1;eb,v2;ar02eUilTlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;an,ce,on;ce,no;an,ce;nCtB;!t;dCtB;!on;an,on;dCndB;en,on;!foBl6y;rd;bCrByd;is;!by;i8ke;al,lA;nFrBshoi;at,nCtB;!r10;aBie;rd0S;edict,iCjam2nA;ie,y;to;n6rBt;eBy;tt;ey;ar0Xb0Nd0Jgust2hm0Gid5ja0ElZmXnPputsiOrFsaEuCveBya0ziz;ry;gust9st2;us;hi;aIchHi4jun,maFnDon,tBy0;hBu06;ur;av,oB;ld;an,nd0A;el;ie;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!as,s,w;ir,mBos;ar;an,beOd5eIfFi,lEonDphonHt1vB;aMin;on;so,zo;an,en;onCrB;edP;so;c,jaEksandDssaExB;!and3;er;ar,er;ndB;ro;rtH;ni;en;ad,eB;d,t;in;aColfBri0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;allEel,oulaye,ulB;!lCrahm0;an;ah,o;ah;av,on",
-    "FemaleName": "true¦0:FV;1:FZ;2:FO;3:FA;4:F9;5:FP;6:EO;7:GC;8:EW;9:EM;A:G8;B:E2;C:G5;D:FL;E:FI;F:ED;aDZbD2cB7dAHe9Ff8Zg8Fh81i7Qj6Sk5Yl4Mm36n2Ro2Op2Dqu2Cr1Ms0Pt03ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7CeHol1RvG;et9onB8;le0sen3;an8endBMhiB3iG;lInG;if38niGo0;e,f37;a,helmi0lGma;a,ow;aLeIiG;ckCZviG;an9WenFY;da,l8Vnus,rG;nGoni8M;a,iDA;leGnesEA;nDJrG;i1y;aSePhNiMoJrGu6y4;acG1iGu0E;c3na,sG;h9Mta;nHrG;a,i;i9Jya;a5HffaCFna,s5;al3eGomasi0;a,l8Go6Wres1;g7To6VrHssG;!a,ie;eFi,ri7;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC9ra;!ka;a,t5;at5it5;a04carlet2Xel6MhUiSkye,oQtMuHyG;bFHlvi1;sHzG;an2Set9ie,y;anGi7;!a,e,nG;aEe;aIeG;fGl3CphG;an2;cF6r6;nGphi1;d4ia,ja,ya;er4lv3mon1nGobh74;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d6Z;ia,lBT;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBMome;e,ie;in1ri0;a02eXhViToHuG;by,thBJ;bQcPlOnNsHwe0xG;an95ie,y;aHeGie,lC;ann7ll1marBEtB;lGnn1;iGyn;e,nG;a,d7X;da,i,na;an8;hel53io;bin,erByn;a,cGkki,na,ta;helBYki;ea,iannDWoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;c6CkaE;chGe,i0mo0n5EquCCvDy0;aCBelGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAV;scil1Uyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Oo6rvaBAtHulG;a,et9in1;ricGsy,tA8;a,e,ia;ctav3deHfAVlGphAV;a,ga,iv3;l3t9;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoB1k8ColG;a,eBG;!mh;ll2na,risF;dIi5QnHo23taG;li1s5;cy,et9;eAiCN;a01ckenz2eViLoIrignayani,uriBFyG;a,rG;a,na,tAR;i4ll9WnG;a,iG;ca,ka,qB3;chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi54lG;iGy;cent,e;red;!e6;ae6el3G;ag4KgKi,lHrG;edi62isFyl;an2iGliF;nGsAL;a,da;!an,han;b08c9Dd06e,g04i03l01nZrKtJuHv6Tx87yGz2;a,bell,ra;de,rG;a,eD;h76il8t2;a,cSgOiJjor2l6Jn2s5tIyG;!aGbe5RjaAlou;m,n9R;a,ha,i0;!aIbAKeHja,lCna,sGt54;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Kueri9;!t;!ry;et3IiB;elGi62y;a,l1;dGon,ue6;akranBy;iGlo36;a,ka,n8;a,re,s2;daGg2;!l2W;alCd2elGge,isBFon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9RnGsAP;!a,e9Q;a,sAN;aB0cJelIiFlHna,pGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi7na,rG;a6Zi7;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Let9z2;a,et9;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8Fe;!n4G;b7Serty;!n5S;aNda,e0iLla,nKoIslAQtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4O;cNdon7Ri6kes5na,rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5C;a,en,iGy;!e,n49;ri,urtn99;aMerLl98mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6OiJlInHrG;a,i,ri;d4na;ey,i,l9Ps2y;ra,s5;c8Vi5XlOma6nyakumari,rMss5LtJviByG;!e,lG;a,eG;e,i77;a5EeHhGi3QlCri0y;ar5Cer5Cie,leDr9Ey;!lyn72;a,en,iGl4Vyn;!ma,n32sF;ei71i,l2;a04eVilToMuG;anKdJliGst56;aHeGsF;!nAt0W;!n8W;i2Sy;a,iB;!anLcelCd5Vel70han6HlJni,sHva0yG;a,ce;eGie;fi0lCph4X;eGie;en,n1;!a,e,n37;!i10lG;!i0Z;anLle0nIrHsG;i1Bsi1B;i,ri;!a,el6Oif1SnG;a,et9iGy;!e,f1Q;a,e71iHnG;a,e70iG;e,n1;cLd1mi,nHqueliAsmin2Vvie4yAzG;min7;a7eHiG;ce,e,n1s;!lGsFt06;e,le;inHk2lCquelG;in1yn;da,ta;da,lPmNnMo0rLsHvaG;!na;aHiGob6T;do4;!belGdo4;!a,e,l2H;en1i0ma;a,di4es,gr5Q;el8ogG;en1;a,eAia0o0se;aNeKilHoGyacin1O;ll2rten1I;aHdGlaH;a,egard;ry;ath0XiHlGnrietBrmiAst0X;en25ga;di;il74lKnJrGtt2yl74z6C;iGmo4Fri4G;etG;!te;aEnaE;ey,l2;aYeTiOlMold13rIwG;enGyne19;!dolC;acHetGisel8;a,chD;e,ieG;!la;adys,enGor3yn1Z;a,da,na;aJgi,lHna,ov70selG;a,e,le;da,liG;an;!n0;mZnIorgHrG;ald35i,m2Ttru72;et9i5S;a,eGna;s1Ovieve;briel3Fil,le,rnet,yle;aSePio0loNrG;anHe8iG;da,e8;!cG;esIiGoi0H;n1sG;ca;!ca;!rG;a,en41;lHrnG;!an8;ec3ic3;rHtiGy7;ma;ah,rah;d0FileDkBl00mUn48rRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2G;geni1la,ni3P;h50ta;meral8peranJtG;eHhGrel6;er;l2Or;za;iGma,nest28yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;a,en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aWeKiJoGul2S;lor4Zminiq3Wn2YrGtt2;a,eDis,la,othGthy;ea,y;an09naEonAx2;anPbOde,eNiLja,lImetr3nGsir4S;a,iG;ce,se;a,iHorGphiA;es,is;a,l5H;dGrdG;re;!d4Kna;!b2AoraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1VyG;le,na;a,by,cHia,lG;a,en1;ey,ie;a,et9iG;!ca,el19ka;arGia;is;a0Pe0Mh04i02lUoJrHynG;di,th3;istGy04;al,i0;lOnLrHurG;tn1C;aId26iGn26riA;!nG;a,e,n1;!l1Q;n2sG;tanGuelo;ce,za;eGleD;en,t9;aIeoHotG;il49;!pat4;ir7rIudG;et9iG;a,ne;a,e,iG;ce,sX;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;!i7yl;a,y;nLrG;isJlHmG;aiA;a,eGot9;n1t9;!sa;d4el1NtG;al,el1M;cGli3E;el3ilG;e,ia,y;iYlXmilWndVrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2FsG;a2Eie;iMlKmeIolHrG;ie,ol;!e,in1yn;lGn;!a,la;a,eGie,y;ne,y;na,sF;a0Ci0C;a,e,l1;isBl2;tlG;in,yn;arb0BeXlVoTrG;andRePiIoHyG;an0nn;nwCok7;an2MdgKg0HtG;n26tG;!aHnG;ey,i,y;ny;etG;!t7;an0e,nG;da,na;i7y;bbi7nG;iBn2;ancGossom,ythe;a,he;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Zy7;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et9iA;!triG;ce,z;a4ie,ra;aliy29b24d1Lg1Hi19l0Sm0Nn01rWsNthe0uJvIyG;anGes5;a,na;a,r25;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi7yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t9;an19elG;le;aYdWeUgQiOja,nHtoGya;inet9n3;!aJeHiGmI;e,ka;!mGt9;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t9;te;je6rea;la;!bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i7y;!e;il;ah",
-    "City": "true¦0:62;1:5U;2:5A;a5Ib4Dc3Ud3Je3Hf3Dg31h2Ui2Qjak36k2Bl1Ym1Fn14o12p0Kqui1Tr0DsYtKuJvEw8y5z3;ag3uri45;abr1reb;a4e3okoha3K;katerin30r3E;moussouk47ng3Noundé;a6e5i3rocl18;ckl25n3;dho4Pnipeg,terth27;ll4xford;rs14sh3;ingt3H;a5i3;c09en3lni5T;na,tia56;duz,lenc1ncouv1Gr3;na,sav1;lan bat1Btrecht;aDbilisi,eBh9i8o7r6u3;nis4r3;in,ku;!i;ipo32ondheim;kyo,ron16ulouse;anj05l2Gmisoa5Cra2;e3imphu; hague,ssaloni28;gucigalpa,h3l av1V;er0r0;i4llinn,mpe4Ongi12r3shk2E;awa s0Etu;chu4Cn0p0G;a7e6h5ingapo4Lkopje,of1ri jayawardenapura kot0Ut3u3Yydn0Bão tomé;oc3uttga2J;col2Pkholm;angh3Aenzh44;oul,ul,v3S;int Al8n3ppo3Braje4Q; 5a'a,t3;iago3o domin35;! del ci3P;jos3salv5;e,é;v3z1X;ad0K;george3john3peters1V;'s;a8eykjav7i6o3;m4s3t4H;ar08e3L;a,e;ad,ga,o de janei2X;ik,ík;b47mallah;aGeEhDiCo7r3ueb3Tyongya3P;a4e3;tor1;g3ia;a,ue;dgori26rt3zn0; 4-au-prin0Qo3;!-no42;elizabe7louis,moresby,of spa3vi3L;in;ls3Brae4E;iladelph1nom pe13oenix;chi29r3tah tik30;th;l5na1Rr3tr2K;amari23i3;gi,s;ermo,ik0S;des0Js3ttawa,uagadoug13;a3Elo;'djame2aBe7gerulm6i4ouakchott,u3;ova d9r-sult0;am3cos1;ey;ud;ssu2w 3;d4taip3york;ei;el0F;goya,iro3Snt2Apl2Ass2Nv0ypyid3;aw;aBba2BeAi9o4u3;mb1Vni1S;gadisc6n4roni,sc3;a,ow;a1Nrov1t3;evideo,real;io;l0n0Qskolc;dellín,lbour2Z;drid,ju1QlBn8pu7r5s3;ca3eru;te;ib3se23;or;to;a4chest3dal0Ki2J;er;gua,ma;a15mo,é;'ava2aBi7o5u3vQy0W;anJbia2s3;a2Hsembur1A;mé,nd3s angel1M;on,ra;brev1Rege,longwe,ma4nz,sbon3verpo5;!a;!ss3;ol; 3usan2F;p4v3;allet0Rel24;az,la0Q;aEharCi8laipe7o4rak3uala lump6;ow;be,pavog4si3;ce;ur;da;ev,ga09n3;gsto4sha3;sa;n,wn;k3tum;iv;b8mpa1Qndy,ohsiu1Mra3tmandu,un0V;c3j;hi;l cai0Onche04s4̇zm3;ir;lam27tanb3;ul;a7e5o3; chi mi3ms,nia27ustZ;nh;lsin3rakliX;ki;ifa,m3noi,ra1Kva2;bu29iltU;aCdanBe9h8i6othen5raz,ua3;dalaja20ngzh3;ou;bu25;ac3bBtega,u1Wza;arU;ent;n3or0Jrusalemme ov0C;e0Noa,ève;sk;boro1Blw3;ay;es,r4unaf3;uti;ankfu3ee0D;rt;dmontDindhov0Or3;ev0;a8ha0Yi7o5u3;bl0Jrb0sh3š3;anbe;do3ha;ma;li;c6e4kar,masc3ugavpiZ;o,us;gu,je3;on;ca;aIebu,hDittà d9o3raio02uriti17;lo6n4pen3rk;agh09hag09;akGstan3;ta;g0Nm3;bo;el 3i san mari4;guatema0Bmessi4vatica3;no;co;enn6i4ristchur3;ch;ang m4ca3ttago02șinău;go;ai;i4lga3nber0Spe Irac8striD;ry;ro;aXeOiLogotKr8u3;c5dap6enos air9r3s0;g3sa;as;ar3har3;est;aAi6u3;sse4xell3;es;ls;d4s3;baY;ge3;town;sil1tisla5zzav3;il3;le;va;a,à;rmingh00ss4šk3;ek;au;i9l7r3;g5l3n;in3;!o;en;grad3mop0;e,o;ji3rut;ng;ghdSku,mako,n7r4s3;el,seterA;celo2ranquil3;la;na;dar seri begaw0g5j3;a lu3ul;ka;alo3kok,ui;re;aPbLccKddis abeJhmedHlFmCn9p1qaJs5t3uckland,şg7;e3hens;ne;h3maHunción;dod,g3;ab3;at;kaDt3;ananari3werp;vo;m0s3;terd3;am; kuwait,exandr1geri,maty;ia;ab3;ad;ba;ra;idj0u3; dha3ja;bi;an;lbo4rh3;us;rg",
+    "Preposition": "true¦a9co7d3f2in,ne1p0su6tra;er,rima;gAi,l8;ino,ra;a2el0i,opo;!l0;!a,o;!g5i,l3;i,l,n0;!tro;!d,g2i,l0;!l0;!a,e,o;li",
+    "Adverb": "true¦0:0T;a0Eben0Dc0Bd02ecc01fZgXinUlSmPno,oMpFquDs6t3v1;i1olentieZ;a,ci0M;a2rEutto1;!ra;lvol0Fn0rdi;e6in,o3pe2ta1ubi0ì;mattina,notte,se0K;cie,s0I;l2pra1t0;!t00;o,t0H;conda,mpC;a1i;!li,n0si;arecchCer6i5o4r3ur1;!tr1;oppo;es0opr9;co,i;uttos0ù;altMfi03si03;lt2r1vQ;a,mai;re;agaBe1ol0;gl1no;io;a1à,ì;ggiù,ssù;diAfine,s2t1vece;an0orT;iMomD;i1ratis;à,ù;inoSorse,uo1;ri;!o;a3i2o1;podomani,v9;et3;pp3v1;a9ve1;ro;er2ri1;ma;tut0;irca,om1;e,unque;!e;bbastanza,ccEdBl9nc7pp5ss3tt2va1;nti;or8raverA;ai,i1;eme;os1un0;ta;h',or1;!a;me1trove;no;dirittu2es1;so;ra;an0;to",
+    "Expression": "true¦ah9b7c5e4f2guai,ma1oh,p0salute,uffa,zitto;iantala,u7; va,cché,nnagg7;alla fin3ig0orza;o,uriamoci;ccolo,hi;asp0iao;ita;le0oh,ravo;ah;ia",
+    "Cardinal": "true¦cQdHmilEnovRottDqu9se8tre1uAvent0ze6;i3otLu2;!dHnt0;a1otJu0;no;!cinq2d2nKquatt1se0tré;i,tI;ro;ue;dAssaJttI;a1i0;nd8;raGtt0;ord6ro;aEo;i0le;ardo,on0;e,i;i2od1ue0;!cen3mB;ici;ci0eci8;a1ot0;to;nn1sset0;te;ove;ento2inqu0;a0e;nta;!m0;ila",
+    "Ordinal": "true¦cIdDmilBnoAotta9priLqu5se2t0undEveJ;erzo,re0;dCntI;condo,dBs1tt0;aFiH;saEto;a1in0;d7to;r0ttord6;aAto;ntAvo;no,va8;i0l8;ard7on7;eci7ici1od0;ic5;a0o1;nnov3sse0;tt2;e0inqua0;nt0;esi0;mo",
+    "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
+    "Month": "true¦a5dic3febbra2g1lugl2ma0nov3otto4sett3;gg1rzo;enna0iugno;io;em0;bre;gosto,prile",
+    "WeekDay": "true¦domenica,giove1lune1m0sabato,vener1;arte0ercole0;dì",
+    "MaleAdjective": "true¦0:KR;1:KG;2:KE;3:IZ;4:K3;5:K8;6:KM;7:JK;8:KD;9:K4;A:KS;B:IY;C:J8;D:IH;E:KT;F:IG;G:KN;H:KI;I:JC;J:IW;K:G3;L:I4;aHPbH2cEGdCZeC0fAZgA4i87junior,l7Tm6Dn5Wo59p3Uqu3Rr2Ss0Tt0Cu05vMzoppo;a02eYiOolNuM;lnera8o0;gaKontF;brAgUnc15olTrtuSsPtOvNziM;a0o3;aI1i9o;a2torB;cNiM;bi2vo;eGBi9o3;a2o3;a,en0;i2oHG;cchiIZlOneNrM;de,gogE0o;ra8to,zIJ;eDYoHQ;cAgo,l2PnMriIVs0;o,taEI;brGDffHYgF5l9FmQniOrMti2;banMg5inF;is4o;lateFYtFversM;a2itF;a7iM;do,le;a01eViUoRrNurM;co,is4;aNemD6iMopi5O;butFpIsE;diMgi1nquilIspar5uG1;toKzEA;ccArNsMzGA;ca7si1;na0rentBU;be64mi9pi1;atFKcnoDMd96leQmPneCoDMrM;apeu4miNrM;i8orGV;co,na2;a4pEB;foLviH;cit4Ulent5Dr9t4;a1IbCUc18e10fo0Zi0UnelIo0Gp06qu05tTuNvM;ariaENeglDizzeC;ccQdPf7Kgges6pM;erMreIF;!bo,fMioK;icH6lI8;!dFN;esHo3;aVeUiSrOupM;eMi9;fIXn9;aNeMiduIumJB;piCEssAt0;biliAnMordinFteFTvagA;ieCo;lGBmM;olA;ri2s3;bi2gnAnMti1;co,dard;al3GiH3;aTePiOlendi9oM;ntDNrMsa0;co,tiG;eIMgo98na0ritDT;ciNrimIXttM;a4Sra2;alMfi1;e,izJB;g0YzM;io3zatura;cialYddisfD9fWgg3OlTnSrRsOttNvM;ie4ra7;e57i2;peNtM;aDLeni8;so,t0;do,preCQ;oCt4A;enGGfoFXiM;do,tM;arDo;fMiI5;er0iFS;democra4e,isDG;cPgnificaOlenzBmNnMsteEFto;ceCfoLgolGPistCte4;boHBi2m8Apa4;!tiG;ilGEuC;ca0rtuHN;cSdizBgre0lPmpliFKnsOpNrMttimaCKveC;e7io;aI2ol0;a0i8;eNvaM;ggDti1;t6zHF;co,ond8M;aUet4hiTiQoNrPuM;ro,sa;l9Zmo9nMr3;fMoCPvDD;it0;at0cFXe8SoM;ccMl0;anEo;acciAet0fo3;nda80r3;crG2ggiG8nMr9tiF3;itFo,to;a0Ee03iToOuM;moELra2sMvi9;so,ti1;bFYccBmaNsMt0utiFH;a,eo,sFW;gNnM;i1o,ti1zo;noI;cUdTgSl4YnQpPsMtHLvoluzionF;cNer33pettMtrDL;a8iG;alda0hB;eti6i9;frescAnovaMoma0;bi2to;i9oE7;iG9ot0;cDRet6;aVcUgSlRmo0sOtM;roat6tM;ilinECo;iNpM;ir9Wo4N;deBYst5;a6igB;ioMoCR;!na2;enEipro1;l2Ct6;diPffiG9gC5pOro,zM;ioB6ziM;a2s8N;i9presen7W;ca2oM;at6foLteleviH;aNest'ul5ToM;!tidES;dGJli7RntDQ;a0Re0Li0Ila0Go09rPsicNuM;bblic83li0ni6ro;hi1oM;loD2ti1;atic2Le00iVoMud5;at6ba8ceduC7dTfRgrFLliDNmQn0pPsNt1DvM;a0enienBHoc9AvisAY;peMsiFAta4;ro,t4;orzFQri08;ett5in5;essionMon9;a2is4;igBut6;gionieCmNncipa2vM;a0ilegE6o;arDiNoM;ge4KrdDT;sEYtiG;cPdAUfe4ZliminaKmOoccupa3XsNvMzB;al5en6io;enEiAXtigBun0;a87ium,uCY;ed5i3;chisESe4lQntificDpolPrta49sNtenMveC;tCAzDL;i6sMtuER;esHi8;aKo3;ac1eFYiM;ti1zi54;ci9nMuEB;etF;aceJccNeMgCo,sa7ttoD2;ga0no,to3;anEoI;dagoC5lo3nQrMsA;fBRi1Pman5peOsMtin5vaH;iMo,picaCW;a7st5;ndi1DtE8;sieCFti0;ca0ffu0lTrPsHtNuCEzM;i5zo;eMriot4;r7ti1;aOiNlaMsimonBtecipanADzD0;m71to;!gi7;gona8lleInoi1;li9;bbligato07cc05di04ffenHgg03k,l02m01nZpVrQsPttMvvDzB;iMo0R;co,mM;a2is6Yo;cuCsCBti2;a2dinaPgOiMri8todos3;enF1ginaM;le,riDI;anizz3To1C;rDto;eraOpM;oMrim5;rtu7s0;io,tiG;es0orM;arDeJ;bBPogenBZ;eo3f97;et6;er7o3;as8YuM;l0pa0;!rD;aYeUoOuM;do,lImerMoGtriz8U;i1o3;bi2io3rOstalB0tM;eJo,tM;ur7;dNmaM;le,n7;!aDJi1;cess4WgOoNrMt0utrCL;o,vo3;cla70na0;a6l75;poleOrCSscos0tM;al64iGuralM;e,is4;oLta7;a0Le0Ai02oQuM;ltipIsMto;iNulM;ma7;ca2;ccBdUlRnPrOstrNtiM;va0;uo3;a2bi9tC5;as4etFtM;a7uo3;eNtM;eplici,isCL;co9I;a,eMu9H;rMs0;a0no;gl1Vli5DnRraQsNtM;e,i1;erNtM;erBi1o;a8o;co3Q;iMoKusCH;!mo;diUlo34morTnSrQsPtM;allNropoliM;ta7;i1o;chi7siCJ;aviMo;glB;si2ta2;a8ia2;o,teM;rr7Q;cho,es66gZlVnUrRsOtM;erMto,uC;ialistica,no;chiNsiM;ccDmo;le,o;cNiMm72roATzAL;a7no,t20;a0io;ca0ua2;a0eNiMvagD;ncoLzB;dMvoI;et0uCF;i1nMro;e4i9U;aYeTiSoQuM;ci9mi66ngNssuM;o3re13;hiMo;!sBD;ca2gi1nM;gobar9ta7;beCe0miC3ngu9Jquidi,ri1scDt83;a2gNn0tM;a2ter2Z;aCOgeNiM;sla6t1G;ndFro;i1r88ti7;bri9d1Fgno1Ell1Am0WnVoLpote4rOsMtalAD;laCDpi9raelACtM;ant6Te9K;oLrM;eOiM;lMta8;evA;go7UsM;is7DpoM;nsa8;a0Lc0Fd0Ce0Bf04giACizia03nZquietAsWtPu0AvMzuppa0;aNer3iM;nci8si8;d5r9V;at0eMiAQrinse1ui6;graC5llQnPrMso;essaNmedDnMo;az63o;nEto;s6WzB3;ett6Jig5;apoKenA8igni15oli0ta8uM;bo4DfM;fici5;atOoMumerevoli;cMva6;enEuo;o,u78;le,tiva;aQeOiVlu5ormaM;le,tiM;co,vo;li8PrM;ioK;lli8nM;ti2;di0r5viBB;efiNiMustr8W;a7ca6fe3gALpe5Br7Dscus3;ni0;er0in2ZlQoMredi8;er5mpOnNraMstit55;ggiA;dizAFscD;iu0le0;iAEu3;deAKspetAMt6ugu6P;barazzAmVpM;aSeQl2CoPrM;eNoM;ba8vvi3;cisa0ss2G;rtant76s9D;c8TgnMr8G;at5X;uMzi5;ri0;aNeMorAOun26;d8Mn3;ginaMtuC;bi2rD;eMustK;ci0gM;a2itM;ti9C;rAto;eNill6Hon7NrM;au9Di1og7J;a2n4;asso3e08hiacc8BiZloYoXrMus3F;aQePigDoM;ssoNttM;es1;!la7;co,z6J;dQfi1ndOs3tMve,zB;iMo,ui0;ficA;e,iM;o3s8W;eJua2;mmo3ti1ve8W;ba2rB;alIganteToPuM;diziFriNstM;ifi9Lo;di1;io3rnal6XvM;anMia7;e,iM;le,s8L;!s1;lSnOoMs51;g6Tlo67mM;et70;eNtilMui7;e,izD;rMti1;aliz9Zi1o3;i9o3;a08e04iXlWoSrNuM;nz3RrBso;aPeNiM;t0voI;d9ne4qu5s1ttoM;lo3;gi2nces8K;l9LndaOrMt6E;ma2tM;e,u8M;m96nEto;es7QoscDuor8P;dReCloso6BnOorentNsM;io2Wso;e,i7;anziNitMto;a,o;ari7I;a0ucB;deOli6AmminiNnome3ArM;mo,o69roviFti2;le,s0Q;le,ra2;cXlVmSntasPstidBtNvoM;lo3reJ;a2i6UtM;i8ua2;cieNiM;a,o3;nti5U;iNosM;is7Go;ge8HliaK;lMso;i0o;i2olM;ta6;br0Jc0Fd0Dff0Bg09l03mo01nZpi1quival5rXsQtPuNvM;ent39id5olut3L;clid5MroM;!p5L;er7i1ni1rus1;at0clus3HeRilarAo4pPse38tM;eMiGre75;rMti1;i,no,o;an3er0lMr30;ici0;cu6mp3XnE;edMoi1;itF;ergMne6Worme,tusiasW;e4i1;!tiGzM;ionA;aQeMiE;gAmNttrMva0;i1oL;enM;taK;bo7Ps4;iz5WoisM;ta;et6icM;a51i5;ilMuca6;izD;cMlet4o53;eNlesiM;as4;ll5sHz1U;ai1eo;'oCa10e0MiWoRrPuM;bbDrM;aMo;tuC;aMit0;m3Ds4;lorPmNppDrMta0vu0;a0i1mi5;eMinA;ni6Hs4;anEo3;c0Adat4f05g04l03na7Bp02rett2CsPvM;erNiM;no,siG;so,t5;aXcUgus05leToSpQtM;aOintMr10;iMo;!vo;c6NnE;a6Te6ToM;ni8s0;rdi69;ssi1;og3YrMu25;e0iminM;at19;bili6Dst3O;in0lo2Q;ig5;es6i6N;eOfM;iMu3;ci2d5;nHtM;to3;en9;bo2cYdiXfWg7lUmoTnRpQsOtM;ermi5TtM;agl4D;crit6er0iderMtC;a8o3;loreJr14;so,tM;a2ro;g3Dn2A;ega0iMud5;be62ca0zB;init1Bun0;ca0to;ad5enEiHo4O;nMta0;no3;a1Ue1Ohi1Mi1Jl1HoWrNuM;ba7ltu1Ppo,rB;eTiSoOuM;c3LdMen0;e2o;a0cOnM;i1oM;lo2C;cAia0;mi03st3V;a6mo3;er5inv15l12m0OnWperni4YrRsM;ci5idd1Umi1tM;anEiNo3rM;ut6;eCtM;uzV;aPpOrMto;et0ispoM;nd5;or2O;ggB;c0Cdi0f09gress08n07o06s01tRvM;enNinM;c5to;i5zM;ioM;na2;agBeSinRrM;aNoM;intui6ver3;ddittNffMrDs4S;at0;orD;en52uo;mpMnu0;orM;an27;apeJeOiderNuetM;o,udi2T;a0eJ;cu6rvM;atoK;sciu0;es3;ua2;iMu3;deM;nz2C;luHre0;meXo9pOuniM;ca8sMtF;ti;aRetQlNortam4IreMulH;n32so;eMi46;ssMto;iGo;enEi6;ssNtM;i8to;ioneJ;rc1YsM;ti8;lNoMpeJto;n1Vra0;abo2Ret6;ol0;aMiL;mo11ndes1Vustrofobi1;c31e1lind1FnNrcolarM;e,i;emat14i1;aCmi1rMu3;ur0H;co,lOntNrM;ebMto;ra2;eberri2PluMti1;laK;re;dXlVnoLo4pUrQsOtMu0;astro0WtM;iGo2O;alinMua2;go;atter0PdOenEiMnivoCo,si1tes1Q;no,sMtateJ;ma4;ia1;a0UriccB;cMdo,mo,vo;ar0Ois4o2S;et0;a05eZiUlToSrNuM;io,o7;asil1GevPillAonOuM;s1tM;a2to;zo;e,is22;liv1BtaL;an9u;ancPb24lancDoNzM;an0WzarC;loMn9;gi1;hi,o;llPnMrgamas1;eMig7venu0;dettMfi1;i7o;iMo;co,s1P;g28nNrMs3;bu0oc1;a2cF;b2Yc2Hd28ero27f1Wg1Rl1Jm18n0Up0Or0Cs05t00uQvMzzurC;an36vM;eMinc5;ntuMr3;ro3;daYrUstrTtM;en4is4oM;biOmMno1FreJ;a4obilM;is4;ogM;raM;fi1;al0Iia1;eo;eo,le4mosfePo2HroOtM;eMiGra5ua2;n0so;ce;ri1;ciut0ia4pRsPtM;rMu0;at0oM;no29;eMicu1Zolu0ur9;nEr6;irAro;aVbitrFcTgenSia7mQrabbZtiM;coOfMs4;icM;ia2;!la0;a0e7oniM;co,o3;ti7;ai1hitettoL;ni1;bo,ncioM;ne;er0pM;ar5icciPliOoNroprMunti0;ia0;si0;ca8;co3;aWgVimaTnRoQsBtiNzM;ia7;chi,orF;arD;io;maIni08;es3uM;a2o;le,tM;i,o;us0;lMrchi1;i4ogM;hi,i1o;aVbiRe0CicheJmiNpiM;!o;nistNreJsM;si8;ra6;vo2;en0YgOzB;io3;so;uo;ro,to;coSfabe4ie7lQpi7tM;eOisMo;siM;mo;rna6;'aper0armAegC;ro;li1;gOitan9nos4riM;coI;lo;iun6rM;esH;fRrM;iOoaM;meM;riM;ca7;no;aPezNida8olM;la0;ioM;na0;ma0scinA;dina0Anau4;at0doQePiOoMul0;lMra8;esc5;ac5;gua0;meNrmenM;ta0;stiM;ca0;cQi9quNuM;s4to;a4eo;ti1;do;adeVeRidPoNuM;ra0;gli5modA;enE;enM;ta2;so,tM;ta8;bi2;le;mi1;co;bSiNuH;siG;le,tM;a6uaM;le,to;tiG;vo;oMronN;ndAzM;za0;to;anE;te",
+    "FemaleAdjective": "true¦0:9Y;1:9U;2:9R;3:96;4:9J;5:97;6:94;7:8K;8:9H;9:9N;A:61;B:9B;C:9D;D:8H;E:9I;F:95;a8Cb7Xc6Dd5Xe58f4Pg46i3Ojugosla9l3Bm2Rn2Eo22p19qu17r0VsZtRuNvG;aLeJiIoHuG;lcaDo0;ca91lont7;ci2n0olen0si9ttorF;cch8neGra;ta,z90;liAr8s0;l3DmHniGrbanI;ca,ta05vers58;anGb5iA;a,is4;aMeIi1Zos9TraHurG;ca,is4;gi1nquil9H;cno8Id43leImpHne5oGr9Tsa;lo8Iri1;e6Uor6I;foDvi9J;rAt4;a09b5Rc06e01f00iWoRpMtHuGvizze5;cc9Fdd65gges6me5preB;aJes3ilEoCraG;nHord3HtG;e8Aig6W;a,ie5;mpa0ti1;ag08eIic8ClendiAoG;nt67rG;ca,ti9;ciGs3;aliz7Jfi1;ciJggett6DlGno5sp5Utt29vie4;a,iG;da,s0taG;!r8;al88et7;cIgnifi4Qmbo83nHsGta;mi1te55;foDgo8S;il82u5;eCortu97;cJgre0lvagg8man4pIrHttGve5;ece3AiB;ba,e2ia;a62ol0;ca,ond7;ar3eDiHoGu5;l4Jn4T;e3Ui0;c5l3NnG;gu1Yit7;aPeNiKoGus3;bus0ccFmaGss6Lt00;gHnG;a,i1ti1;no8B;c1fles3gHnGpiAstr55t8Nvolu38;nova0o7Q;iAo5T;alEcipro1lGmo0pubb7Psid5A;a6igF;diofoDpGra;iApresenta6;aGotid7E;d5IntEr0;a03eZiXl41oVrJsicIuG;bblicGli0ra;a,it7;hi1o70;a4eNiKoG;ble48d4PfIgr81ibi0lunga0n0pr8s7QteHvG;a0vis0D;i1t0;onA;mHvaG;!ta;ar8i6oge1S;ci3ma2KsIvGzF;en6iG;a,s0;tigFun0;e4lac1ntific8pMsGve5;i6tuB;at0cGe2ttoC;co7Ie2;nul17rGs7Btrolife5;du0f4BiGs6R;cGfeCo1X;olo3;ci53da2ga2rHssGtU;a0i9;aHigi2la0tG;en2Oig6L;lle79s6G;bbligatQdiPgg4PlimOmoNnto6ApKrHscu5ttG;a9iB;atOdinaHganiGig1Ftod1V;ca,zzat4J;r8ta;eraHpoG;rtu2s0;ia,ti9;gen45niB;pi1;er2;or8;aOeMoIuG;da,merGo9;i1o3;na,rHtG;a,tur2;di1maG;n2ti9;cess7ga6mi1o76rGt0;a,vo3;!poleIr6Ascos0tHziG;on4Ms0;i9ur16;oDta2;aUeOiLoHuG;r7sic5V;deInHrG;biAfo5I;as4et7tuo3;r2s0;nHstGti1;a,erFi1;er7iBor1X;dIlo0Sra,ssi6KtGzza;aGeoro5Bropolita2;fi3Sl5H;e61iG;a21ca,tG;err39;fFgi1n5CrJssiItG;eGu5;ma4r2;cc8ma;ca0itQm2Xx5Dz5B;aReMiLoIuG;mGng5C;ino3;mHnG;goGta2;barA;be5gn2Ymi23nguEq0Wri1t3L;gGn0tter7;a0geIiG;sla6tG;tiB;nd7ra;i1r3Kti2vo5A;beCdWgno0llumin4ZmRnIpote4roDsHtaliG;a2ca;la5Xo4Ftant2O;aspet1Tcer0dMedi0fKgen2MnJtGv2L;at0eGiB;n3rG;a,med8na;a0ova6;iGor1Q;ni0;iGu4P;a2ge2r26;mHpG;egOortant4Orovvi3;agHeGu1I;d1Un3;in7;en4on2AroelettC;eUiKoIrG;aGe1ig8os3;fi1m1End4Htui0;ti1verG;na6;allNgaLoIuG;di05riGs0;di1;rnHvG;an4Aia2;alE;ntG;es1;a,orG;os3;neIoHrG;archi1maD;g2Clo3QmetC;ri1ti1;aVerTiPlOoKrHuG;tu5;aHeG;dAs1;zion7;nArGt24;tGza0;iGu4V;fi3Ls47;uiA;loso21nanIorHsGt0;i1sa;en2F;zi7;ma,rG;a0ovi7;l3mo3ntasGrmaceu4sc3I;cieGti1;nti1T;br03cZduYff1JgiziaXlSmRnQpPrNsItHurGvolut1Gxtraurba2;op16;er2i1ni1rus1;at0e16pJtG;eGi9reB;rGti1;a,na;lici0r40;edGoi1ra0;it7;a4i1;erge4ne3L;o6piC;as4eHlG;enEit4;ttrGvat3G;i1oG;magne4ni1;!na;ca6;cHoG;lo2Kno3U;es3MlesiG;as4;ai1ea;eSiJoIramPuG;bb8raG;!tu5;lo0Vmes4pp8ra0;chia0PfMna3MpKr04sHur2vG;er3i2;abiHcGpe0Ntrut0;og0Vre0;ta0;in0loG;ma4;en38fG;icolto3u3;cis0Edi0fini6g2li28moHn3ttG;aglM;c1Wg0Nn0X;a0Se0Qhi0Oi0Jl0FoNrHuG;pa,rF;ea6iJoHuA;da;a0cGma4ni1;ia0;stGti1;alli2ia2;l04mYnOperNrLsG;iddJmIpicRtG;ie5o3rG;ut6;i1opoli0;et0;ea2pGta;orN;ni2Rta;cOsMtG;adi2emporJinIrG;ar8ovG;er3;ua;anG;ea;eGideP;cu6;lu2Dre0;i1memo1TpHuniG;s0t7;at0eti6lGosi6re3;eGi1B;ssGta;a,i9;lHoG;ra0;et6;aGiD;moHndes02sG;si1;ro3;lindCneGvi1;matGti1;ogG;raG;fi1;a5mi1rGu3;ur0Q;lGr0;eberriBti1;!lLmpa2noDo4pitKrIsalinHttG;i9o0S;ga;a,boDdGnivo5si1;ia1;al0S;cEda;aPeLiIos3rGuo2;asil0NitanDutG;a,ta;ancHb0Jo0CzanG;ti2;a,one5;lGrbe5;ga,lG;a,iG;ca,s0Y;roc1sHttG;eCu0;i0AsG;a,isG;siBta;bbando1Fc1Ed1Der1Afr16g0Wl0Qm0Kn08p03rRsPtNuIvGzzur5;anGvers7;za0;strJtG;en4oG;mGnoB;a4obilE;al02ia1;le4mosfeCo13tG;a,en0i9;p5solu0trG;at0ono10;ab07bitr7cListoJmItiG;coGs4;la0;a0e2oD;cGteR;ra4;ai1hG;eoHitettoD;ni1;loG;gi1;ar8;er0ostoJpG;liHoG;si0;ca0;li1;aOgNiMnLoniBtiHzG;ia2;cHfascG;is0;a,hG;isU;es3ua;ma0;li07;lGto09;i4ogG;a,i1;a5bizFe02ministGp8;ra6;ti9;io3;sa;ra;geJie2pi2tG;a,isG;siB;ma;bCri2;ri1;gLia0onErG;ar8icoG;la;ia;is4;ti1;iorSrG;esG;si9;va;iHoameG;riG;ca2;na;ea,odinaG;mi1;ca;at0espo0ul0;centua0u0;na0;ta",
+    "Currency": "true¦$,aud,bScQdLeurKfJgbp,hkd,iIjpy,kGlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotySł;en,uanR;af,of;h0t6;e0il6;k0q0;elM;iel,oubleLp,upeeL;e3ound0;! st0s;er0;lingH;n0soG;ceFn0;ies,y;empi7i7;n,r0wanzaCyatC;!onaBw;ls,nr;ori7ranc9;!os;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
+    "SportsTeam": "true¦0:1A;1:1H;2:1G;a1Eb16c0Td0Kfc dallas,g0Ihouston 0Hindiana0Gjacksonville jagua0k0El0Bm01newToQpJqueens parkIreal salt lake,sAt5utah jazz,vancouver whitecaps,w3yW;ashington 3est ham0Rh10;natio1Oredski2wizar0W;ampa bay 6e5o3;ronto 3ttenham hotspur;blue ja0Mrapto0;nnessee tita2xasC;buccanee0ra0K;a7eattle 5heffield0Kporting kansas0Wt3;. louis 3oke0V;c1Frams;marine0s3;eah15ounG;cramento Rn 3;antonio spu0diego 3francisco gJjose earthquak1;char08paA; ran07;a8h5ittsburgh 4ortland t3;imbe0rail blaze0;pirat1steele0;il3oenix su2;adelphia 3li1;eagl1philNunE;dr1;akland 3klahoma city thunder,rlando magic;athle0Mrai3;de0; 3castle01;england 7orleans 6york 3;city fc,g4je0FknXme0Fred bul0Yy3;anke1;ian0D;pelica2sain0C;patrio0Brevolut3;ion;anchester Be9i3ontreal impact;ami 7lwaukee b6nnesota 3;t4u0Fvi3;kings;imberwolv1wi2;rewe0uc0K;dolphi2heat,marli2;mphis grizz3ts;li1;cXu08;a4eicesterVos angeles 3;clippe0dodDla9; galaxy,ke0;ansas city 3nE;chiefs,roya0E; pace0polis colU;astr06dynamo,rockeTtexa2;olden state warrio0reen bay pac3;ke0;.c.Aallas 7e3i05od5;nver 5troit 3;lio2pisto2ti3;ge0;broncZnuggeM;cowbo4maver3;ic00;ys; uQ;arCelKh8incinnati 6leveland 5ol3;orado r3umbus crew sc;api5ocki1;brow2cavalie0india2;bengaWre3;ds;arlotte horAicago 3;b4cubs,fire,wh3;iteB;ea0ulR;diff3olina panthe0; c3;ity;altimore 9lackburn rove0oston 5rooklyn 3uffalo bilN;ne3;ts;cel4red3; sox;tics;rs;oriol1rave2;rizona Ast8tlanta 3;brav1falco2h4u3;nited;aw9;ns;es;on villa,r3;os;c5di3;amondbac3;ks;ardi3;na3;ls",
+    "Organization": "true¦0:41;a36b2Nc27d1Ze1Vf1Rg1Jh1Ei1Bj17k15l11m0Sn0Go0Dp07qu06rZsStGuCv9w4y1;amaha,m2ou1w2;gov,tu2O;ca;a3e1orld trade organizati3V;lls fargo,st1;fie1Zinghou13;l1rner br37;-m0Ygree2Wl street journ21m0Y;an halMeriz3Qisa,o1;dafo2Cl1;kswagKvo;bs,kip,n2ps,s1;a tod2Mps;es2Zi1;lev2Sted natio2P; mobi2Faco beOd bLeAgi frida9h3im horto2Omz,o1witt2R;shiba,y1;ota,s r X;e 1in lizzy;b3carpen2Xdaily ma2Rguess w2holli0rolling st1Js1w2;mashing pumpki2Juprem0;ho;ea1lack eyed pe39yrds;ch bo1tl0;ys;lPs1;co,la m0Z;a6e4ieme2Cnp,o2pice gir5ta1ubaru;rbucks,to2I;ny,undgard1;en;a2Mx pisto1;ls;few21insbu22msu1T;.e.m.,adiohead,b6e3oyal 1yan2S;b1dutch she4;ank;/max,aders dige1Bd 1vl2X;bu1c1Qhot chili peppe2Flobst24;ll;c,s;ant2Qizno2A;an5bs,e3fiz20hilip morrBi2r1;emier22octer & gamb1Nudenti11;nk floyd,zza hut;psi23tro1uge06;br2Lchina,n2L; 2ason1Tda2B;ld navy,pec,range juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,tre dame,vart1;is;ke,ntendo,ss0I;l,s;c,st1Atflix,w1; 1sweek;kids on the block,york06;a,c;nd1Ps2t1;ional aca2Ao,we0N;a,cWd0L;a8cdonald7e5i3lb,o1tv,yspace;b1Insanto,ody blu0t1;ley crue,or0L;crosoft,t1;as,subisM;dicaid,rcedes1;!-benz;'s,s;c's milk,tt11z1V;'ore08a3e1g,ittle caesa1H;novo,x1;is,mark; pres5-z-boy,bour party;atv,fc,kk,m1od1H;art;iffy lu0Jo3pmorgan1sa;! cha1;se;hnson & johns1Py d1O;bm,hop,n1tv;g,te1;l,rpol; & m,asbro,ewlett-packaSi3o1sbc,yundai;me dep1n1G;ot;tac1zbollah;hi;eneral 6hq,l5mb,o2reen d0Gu1;cci,ns n ros0;ldman sachs,o1;dye1g09;ar;axo smith kliYencore;electr0Gm1;oto0S;a3bi,da,edex,i1leetwood mac,oFrito-l08;at,nancial1restoU; tim0;cebook,nnie mae;b04sa,u3xxon1; m1m1;ob0E;!rosceptics;aiml08e5isney,o3u1;nkin donuts,po0Tran dur1;an;j,w j1;on0;a,f leppa2peche mode,r spiegXstiny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eedence clearwater reviv1ossra03;al;ca c5l4m1o08st03;ca2p1;aq;st;dplLgate;ola;a,sco1tigroup;! systems;ev2i1;ck fil-a,na daily;r0Fy;dbury,pital o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,rexiteeV;ei3mbardiJston 1;glo1pizza;be;ng;ack & deckFo2ue c1;roW;ckbuster video,omingda1;le; g1g1;oodriM;cht3e ge0n & jer2rkshire hathaw1;ay;ryG;el;nana republ3s1xt5y5;f,kin robbi1;ns;ic;bWcRdidQerosmith,ig,lKmEnheuser-busDol,pple9r6s3t&t,v2y1;er;is,on;hland1sociated F; o1;il;by4g2m1;co;os; compu2bee1;'s;te1;rs;ch;c,d,erican3t1;!r1;ak; ex1;pre1;ss; 4catel2t1;air;!-luce1;nt;jazeera,qae1;da;as;/dc,a3er,t1;ivisi1;on;demy of scienc0;es;ba,c",
     "Honorific": "true¦aPbrigadiOcHdGexcellency,fiBjudge,king,liDmaAofficOp6queen,r3s0taoiseach,vice5;e0ultK;c0rgeaC;ond liAretary;abbi,e0;ar0verend; adK;astGr0;eside6i0ofessF;me ministFnce0;!ss;gistrate,r4yC;eld mar3rst l0;ady,i0;eutena0;nt;shB;oct6utchess;aptain,hance4o0;lonel,mmand5ngress1un0;ci2t;m0wom0;an;ll0;or;er;d0yatullah;mir0;al",
     "Person": "true¦ashton kutchRbQcLdJeHgastMhFinez,jDkCleBmAnettIoprah winfrPp8r4s3t2v0;a0irgin maF;lentino rossi,n go3;heresa may,iger woods,yra banks;addam hussain,carlett johanssIlobodan milosevic,uA;ay romano,eese witherspoHo1ush limbau0;gh;d stewart,nald0;inho,o;a0ipI;lmHris hiltC;essiaen,itt romnEubarek;bron james,e;anye west,iefer sutherland,obe bryant;aime,effers8k rowli0;ng;alle ber0itlBulk hogan;ry;ff0meril lagasse,zekiel;ie;a0enzel washingt2ick wolf;lt1nte;ar1lint0ruz;on;dinal wols1son0;! palm2;ey;arack obama,rock;er",
-    "Country": "true¦0:34;1:2R;2:36;a2Pb28c1Xd1Ue1Rf1Qg1Hh1Bi11jama33k0Wl0Qm0En07o06pYrQsFt8u6v4wallis et futu1xiānggǎng costa sud della ci1z3éi0Kís1Eösterreich;a20imbabwe;a3enezue2Yiệt nam;nuatu,ticanæ;gNkraji1n3ru01zbe0W;gher0ited states virgin islands;a8hailand0i7o6u3;nis0Mr3valu;ch0k3;meni2s e caic2E;go,ke2Qnga;bet,mor est;gi0Oiw2Xnz2T;aBeAi9lov8oomaali0Lpag1ri lan0Ztat6u3vez0wazi11ão tomé e príncipe,ām2H;da4omi,ri3;name,yah0U;fr2Nn kusini;i 3o di pales2B;baltici,uni0Y;ac1Len0;erra leo14ngapu2H;negRrb0ychelles;ha2Fint 3kartweEmoa0Jn mari0O;kitts and nevis,luc0vincent e grenadi11;e4om2Hu3;an28;gno uni12pubblica 3;centrafr6d3;e3ominicana república domin5;l3mocratica del3; congo;ica1;a8e7ilipin1So3uerto rK;l4rtogal3;lo;inesia3onia pols0D;! francese;nisola ib21rù;ki2pua nuova guinea,ra3;guay;ceano india06m25;a8e6i4o3;rveg0uvelle calédonie;caragua,ger3;!ia;der05p3;al;mib0ur18;a7ela19i18o3yanm0K;ldova,n4zamb3çamb9;ico;gol0t3;eneg0Nserr0Z;c8dagasc0Fl6rtinica martin5urit4yotte como3;re;an0i0Q;ique;a3dive,i,ta;wi,ys0;au,ed8;a0Ze6i3;b3echtenste0S;aKer0iyah3; nordafr1C;sotho,tt3;on0;a5en4ir3osovo,uwait;ghizi2ibaL;ya;laallit nuna0Iza3;ki2;ndonesia un,ra9s3;ol3raele;a di natale christm0Ne 3;c5falkCmar4vergini3; americaL;ianKshall;aym14ook;k,n (persia) īrān3; vici3;no;a6o4rvats3;ka;l3ndur0D;land;i3ya2;ti;aAha1i8olfo di guinea e,re7u3;a5in4yan3;a,e;ea,é bissau;dalupa,m,tema0H;c0na0D;appo3ordania al urdunn;ne;bKmb0;igi,ranc0øroy8;cu4esti vabariik,git3l salv4mirati arabi,tiop0;to;ador;a3omin0B;nmark,wlat qat3;ar;aAe9i7o3uW;lo5morRrea4sta 3;d'avorio,r06;! del nord;mb0;ad,le,na,p3;ro;ch0;m3naUpo verV;bog0erun camero3;on;aGeAh8irmZo7r6u4yelar3;us;lgar0r3;kina faso,undi;asile brasil,unei;liv0snia ed erzegovi1tswa1;utXār3;at;l4n3rmuJ;in;a3gium,ize;u mi3;cro3;nes0;ham4ngladesh,rbad3;os;as;fghane2lHmFn8otear7r3s sudMustral0zerbaigiM;abia saudita,gen4u3;ba;ti1;na;oa;dor8g6t3;arti4igua and barbu3;da;de;o3uil3;la;ra;er3;ica; 5b3;an0;ia;bahrayn,jaza'ir,maghrib,yam4;st3;an",
-    "Place": "true¦aHbFcDdCeuropBfco,gAh9i8jfk,kul,l6m4ord,p2s1the 0upEyyz;bronx,hamptons;fo,oho,underland,yd;ek,h0;l,x;a0co,id9uc;libu,nhattan;a0gw,hr;s,x;ax,cn,st;arlem,kg,nd;ay village,reenwich;a,e;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m0sia,tl;erica0s; 0s;centr0meridion0;ale",
-    "Region": "true¦a1Xb1Pc1Fd1Aes19f16g10h0Xi0Vj0Tk0Rl0Om0DnXoVpQqNrKsBt8ut7v4w2y0zacatec1Z;o03u0;cat15kX;a0est vi2isconsin,yomi11;rwick1Nshington dc;er1i0;rgin1Q;acruz,mont;ah,tar pradesh;a1e0laxca1Busca9;nnessee,x1P;bas0Jmaulip1OsmI;a5i3o1taf0Mu0ylh11;ffUrrZs0W;me0Yuth 0;cRdQ;ber1Gc0naloa;hu0Qily;n1skatchew0Pxo0;ny; luis potosi,ta catari1G;a0hode6;j0ngp01;asth0Kshahi;inghai,u0;e0intana roo;bec,ensVreta0C;ara3e1rince edward0; isT;i,nnsylv0rnambu01;an12;!na;axa0Ldisha,h0klaho19ntar0reg3x02;io;ayarit,eAo2u0;evo le0nav0J;on;r0tt0Pva scot0V;f5mandy,th0; 0ampton0O;c2d1yo0;rk0M;ako0W;aroli0T;olk;bras0VvaZw0; 1foundland0;! and labrador;brunswick,hamp0Fjers0mexiIyork state;ey;a5i1o0;nta0Lrelos;ch2dlanAn1ss0;issippi,ouri;as geraEneso0K;igOoacO;dhya,harasht02ine,ni2r0ssachusetts;anhao,y0;land;p0toba;ur;anca02e0incoln02ouisia0B;e0iF;ds;a0entucky,hul08;ns06rnata0Bshmir;alis0iangxi;co;daho,llino0owa;is;a1ert0idalDun9;fordS;mpRwaii;ansu,eorgVlou4u0;an1erre0izhou,jarat;ro;ajuato,gdo0;ng;cesterL;lori1uji0;an;da;sex;e3o1uran0;go;rs0;et;lawaDrbyC;a7ea6hi5o0umbrG;ahui3l2nnectic1rsi0ventry;ca;ut;iLorado;la;apDhuahua;ra;l7m0;bridge2peche;a4r3uck0;ingham0;shi0;re;emen,itish columb2;h1ja cal0sque,var1;iforn0;ia;guascalientes,l3r0;izo1kans0;as;na;a1ber0;ta;ba1s0;ka;ma",
-    "Currency": "true¦$,aud,bTcRdMeurLfKgbp,hkd,iJjpy,kHlFnis,p8r7s3usd,x2y1z0¢,£,¥,ден,лв,руб,฿,₡,₨,€,₭,﷼;lotyTł;en,uanS;af,of;h0t6;e0il6;k0q0;elN;iel,oubleMp,upeeM;e3ound0;! st0s;er0;lingI;n0soH;ceGn0;ies,y;e0i8;i,mpi7;n,r0wanzaCyatC;!onaBw;ls,nr;ori7ranc9;!o8;en3i2kk,o0;b0ll2;ra5;me4n0rham4;ar3;ad,e0ny;nt1;aht,itcoin0;!s",
-    "Ordinal": "true¦cIdDmilBnoAotta9qu5se2t0undEveJ;erzo,re0;dCntI;condo,dBs1tt0;aFiH;saEto;a1in0;d7to;r0ttord6;aAto;ntAvo;no,va8;i0l8;ard7on7;eci7ici1od0;ic5;a0o1;nnov3sse0;tt2;e0inqua0;nt0;esi0;mo",
-    "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
-    "Infinitive": "true¦0:0LA;1:0L9;2:0KS;3:0KW;4:0L8;5:0L6;6:0L4;7:0K4;8:0KK;9:0JF;A:0J8;B:0IQ;C:0KA;D:0K7;E:0FN;F:0JD;G:0JZ;H:0KH;I:0II;J:0GO;K:0KZ;L:0I3;M:0L2;N:0JN;O:0L5;a0C8b0AQc04Vd00OeYQfX4gVQiQ9lP9mNTnNEoMHpIFquICrC1s3Ht1Eu0WvVzP;aSe5iRoQuP;ccOSfo5ma0;c0JWmGpp0FA;mb0K3ttH;mpPpGvor3;et2il5;a0Ie04iWoPuo2;cTga0lPmi0F2r04ZtH;aQe0gPle0t09Zve0;arBe0;nJCre,tiP;lBz8;a0iP;a0fe3;aEb3ci4diFe2gVlUncTol0JDra0sRtQvPz1;e0i0AR;a0tor1u03J;a0iPta0u05X;o4ta0;e0i0o5;ip0J8leE;e0i5l1;cLd01gZi0JClYnUrRsQtriPzzeE;fi6oXU;ci6sa0ti0;b05Pdi0gQi0AHnPsa0te0;a0ic1;a0e0og4;a0dQe3g1i0tP;a0i5o5;ePi6;mm1re;a0eEle0ocB;e2gPl1;h1ia0;e0o0JI;cUda0gSlRnQrP;a0ca0ia0;a0eEga0i089ta097;ca0e0iAHla0or0FEu2;aPheEi0l1;b0CQre;a0ci4il5;b02cc01di0f00gZlYmXnUrTsPt05A;a0ciUNo5tRuP;caG7fr0BXrP;a0pa0;io4o5;ge0i4la0ta0;ge0iPta0;fPre;i6orF;et2il1;tiFu5;gi09LuaO;fic06Jiz1;ellNRi7;bQiPrR;ca0di0;i0EWrP;ia6;a1Ke17i13o0WrSuP;ba0f093o4rQtP;a0e5;a0bNJna0;a00eZiWoRuP;cPfM;c0HUiA;gl1mbRnQttPva0;a0er0I9o5;a0ca0eE;a0ePiz8;gg1t2;bQl5ncPonMpYOs2t0ANunM;a0e3;o5u2;bb1m08ZpiA;b0Fc0Ed0De0f0Cg0Bi02Ula0JBm09n06p04r03sWttUum0CHvP;aReQi3OolP;ge0ta0ve0;rCsN;gl1lPsa0;ca0i6;a0eP;gg1ne0;a0J7borAcTe0HLfRgre0E6lQm057pPtul5uA;aJi3or0CV;a0o6;eJiRRoP;n7rF;en7i4oPri0BKu3;la0rOZ;re,uG;aPe5iZI;na0sC;c1gug1quill0DUsP;a0corOUfPi0F9por2;eJorF;aYBetKoPu2;n2rN;ge0h0C1;eJfi6ig9uD;e0i0ur0;an4c1iF;al5oc6;c6el0BWg0H0lUma0nTrQsPt03H;a0si07Zta0;ce0m0BQnPreMtu3;a0ePiTK;a0gg1;a0da0i084;et2l0AP;fa0g0EUmb3nQra0tP;o5u0FY;ge0tP;eEin4;d1leZmWnUrRsPt2;a0se0tP;a0imon1;gQmi4rPza0;i0orB;e0iv09V;d0B0e0tP;aTFen4;atBe0pP;ePo0CSra0;ra0s2;fo4gPm0B3trasm041;raMuiA;cTfa4gliSmRn9ppQrPs0I2t0FBvo5;a0da0la0taO;a0ez8;bur0GIpo4;a0uz8;cPe0i2;a0ia0o4;a7Vb7Bc5Pd5Me55f4Qg4Gi48l46m3Xn3Uo2Gp1Gqu1Cr1Bt0Iu01vP;aYeSiRoPuo2;gl1lP;a07We0ge0ta0ve0;a0g4l08Nn0G2ta0;cLgli0AHlTnRrPsNt2z8;gPna0;i4og4;a0de0i0tP;a0o5ra0;a0le0ti0;ga0lPni0r1;ig1u2;b04cc03d02f00gYiciAme0nT9oXpUrTsP;ci2sPtit090ur3;eg08ZiQuP;l2me0r3;d1sK;clTCgeEEroD;erQpP;li07Kor0AX;a0bi0va2K;la0na0;a0geP;l5rC6;fPo5;o6raD;a0divi7;e7h1ia0;affit2ent3iYRliFor015;a0Ce09i07o05rSuP;c6d1fa0pPra0z072;eMiPra0;di0re;aVeTiSoQuP;c6g9sc1t0ES;fi4mb5QnPpi0GJz8;ca0za0;a0de0g0F9l5ng09Ksc1to5z8;ga0ma0pPsC;e0i0AD;b0BOcc0ESda0fa0go7lTm5LnSpRrQsci6t0GBvPz1;ac6e7in0ENol9;iGre;az8pa0;a0go5iRJ;c1la0;c6ia0na0pGrP;ce0di0ia0mi0na0p1;gm09Hl0AYm05Yn9pPra05Sva0z07C;a0end1u5;ccQ9mYSnQrPsse0;eotiGilBmi4za0;d095ta0;bili06Hcc0EFgSl5mGnRpGrPsa0t07WzI;a0e,nP;a06FutH;a0ca0ga0z1;io4l1na0;a03AoCI;aQiP;l5tN;d3gl1li05OrPsC;c1ta0;a0He07i00l0E8oVrRuP;lc1ma0n2tP;a05Bta4;anDeRiQoPuz8;f087loqu1na0vve7;gIz8;ca0g1me0z8;d04Sgl1lSnsIWpo5rRsP;a0sPta0;a0eDU;ca0ge0re,t51;pa0ver0AM;aTcRega05VfDGgQl5nPo086rZD;a0g08Hto4;a0ne0o5;a0cP;a0i03Y;cPgg1na0re,z8;ci6e0;cWd05Sgn08BlUnTrSsRttQzP;ia0z05Y;a0e081i4;a0sa0;a04Gde0eq0CPge0im08Io4pe3;de0ge0n4Nsa0;aPla0;cLga0re;ch1iPu5;alBfi6;cc0DCgl1lTn7rSsRuJv08CzP;iPz04P;a0enN;iFsa0;a0e04Gge0i0la0paOti0;aPleEma0;n6re;bb10c0Xd0Wf0Sg0Pl0Mm0Jn0Ip08r04s00ttVvP;eTrRveP;nPrN;i0zI;aPiQX;ccaRZpp092s2;ni0rL;a0CUeSiQUoQraP;g9r0;lin0AEm00Rp08YsPva04;c023ta0;n7r3;pRtP;aPen5Wit069;n0B3re;eWBiZV;bi0ge0mZXpRrQs037tRCvP;eOo5;eg9i7;asCr0CP;i0pVrP;aPiQG;fMggiV0nnoMZre,sSvP;an8vP;aPe0BYi06U;lu2;se7ta0;eQiUSor07YrP;esCi009;ri0sa0;a0da0nB5;atBiOmP;a0ePini09B;r9tK;a0DTca0da0e02RlPve0;ePiR2;ci2ti6va0;gPna0;et2hVGiP;a0BYo0ACun9;fPis0BD;erZEiQo6riP;g9re;a0t2;disMisMomB;cPiYL;hUMoP;mbe0rJN;aPol0DO;l8r6;eQifMoP;b0B4ccX4da0;l0DKr0CH;aVeTiRoQuP;o060sC;n2r8;cc1nuPs2;i0z8;nNrPtKz8;c1da0;gMIltHnPrW7scGL;ia0t0BX;aPeDit2og08V;cc1nc1;bi5cu3de0gVlUmSnPsteFt0CK;cQda6ghioz8tP;etBonB;e3ronB;bolPp066u5;eEiz8;eURla0AL;il5la0ni02N;aWe5hign1YoUrRuP;aPsc1;lOKrAz8;aPe9AiA;nPva0;a0c04PocL;b0ADccWDla0mPnf1rDz8;b09Yen2i4ma0;mPnc1r3ttaWB;a0b060;a00erZiXoTrQuP;gRJma0;aQePi05Aut2;cc1g0AS;c0B8t2;c0AQde3gRlQnArPtK;a0ma0na0za0;la0ti0;a0g1l1;an6dPgu3la0ni0orH;a0uc1;ra0za0;ccQma0re,sc1ta0vP;il5oJ;hi4ia0;c04d02g01l00mYnWpUque07IrTsRtQvPzI;e3iz1;a0C0ta0;sa0tP;a0upRC;ba0e4ia0peEra0vH;a3e0C5pP;el0C4ia0;sibX0tP;a0eTRi0;bPen2i4pQ4;ia0ra0;c1ezIla0;a0na92reG3ui05N;a0ePim052u09B;nt00Kre;a0ca0er089onAre2;a0eg4oga4rP;a1ucP;cVBi0;a0We0Sh0Mi0Fle3oXrTuP;ci0lRoQrPsa0;a0eEi0;ce0ia0te0;a0BEet2;eRiQoPutFD;c6l5sc1;cchV3t09Jve0;di2po5;cc09Nd05glIl03m01nWorVOpUrQsPt2Rva0;c09Psa0ta0;aRc1da0eEge0rQtP;a0e0B6i6;az8e003;ggiMDre,z8;a0ePi0Api01Uri0;rLt2;cer2fRgQnXAos09BquNCsiOtPvZT;a0en2ra0;e5iu3;esCiP;g9na0;busso5mX5oApPuX0;ar0ANiOor0;a0lPorHpHta0;a0eD;a0el5inLZ;aTmmi00NnSoQpPre,uGvo5;a0i05Ypa0;c6g09Bpe3rP;i4re;de0tLZ;cq087laPma0re;cq086re;eSiP;aPe3fa0oc6uXMva0z8;cc1ffZEmPn2rHt2v05O;az8;da0gg1rP;mHni0za0;g090lRmQ1nQrP;ne0re,v098;de0eE;e3le3;cc68deZMg01l00mZnVpTrRssEAtQvaPz8;l6re;e4o5ta0uJ;aPce3di4i6pa0seEta0;bHFv03K;a0pP;a0el5;dQnPsa0;a0erB;aPe0i0;gl1lB;b1pa0;a0c1da0fi0pi2za0;az8io4l1;a01e00iYloc6oVrQuP;c092d08QfMr3;aSiQoP;do5gl1n8;cTKgPna0;a0l1;cc1i2na0;cc083lQrPs6tt007;n1ra0sa0;l07Cog4;aPgGWla06Drc1zJQ;di0n6;ffeElOY;ci9IdiOgl1iafMlTnSrQtPva0;acLte0;aPba0ca0ra0;gl1z8;ca0da0;lPor04Mza0;a0ot2;b00cZet2gYlTnSpQtPve0z1;isMu3;e0oP;niZ4rH;a0ci0gFUtiZ3zI;a0da0iSpa0tQu2vaP;guarAre;a0eP;l5r07Z;re,va0;g1oF;c2SriYW;b1o2;a4Ve3Xi00oSuP;bQgO1l5mPo2sCt2zK5;i4o03V;a0ri6;d01Yga0l5mVnUsStRvP;e08ZiP;na0s2;a0ea0o5taF;icPo5;a0ch1;cZ1fa0za0;ba0pe0;a33b31c2Kd2Fe2Af24g20l1Wm1Fn11or10p0Ps07tZuXvPz8;alVeRiQolP;a0e0ge0ta0uzIve0;n06Usi2ve0;de0la0nQrPsN;be3i0sa0;dPi0;e0i6;eXDu2;ni0sPtTK;a0ci0;aVeTi3ma0oRrP;aPo07H;e0g9r0smUJt2;c6na0rP;ce0na0re;leVPnP;e0ta0;gl1rA;a05c02e00iZoXpTsa0tQuPveO;cLl2o4sLD;aQo3rP;in9ut069;bi089g4re;arm1eRiQl06GoP;l0Tn7sa0;arFeDn9;cLdi0n7t2;lPna0r9;le070ve0;ca0e7;de0nNrP;ba0vH;aQen7hiar057iacq05BoPri00HuoK;nt3pJte0;lAt2;l05Sna0pe0rJI;aXeViUoSrQuP;d1g4li0;e3Xis5VoP;dD5mTSp01Zva0;ne0r01GsPta0;a0izIse7;an9eDgl1o007re;nCrcPs6te0;orDLuoK;ga0rPsCti0;a0la0ti0;di4gJ2;as05KcZevi6fXgWnVoUsavi0tSun01VvP;eQiP;a0goJ;ni0r02F;a4oPra076;c6m04X;mi4va0;eDo069;agliar02Ah1iova04Xraz1;a071or8rP;an6es6;aQhO4oPres059uo3;glio04Tmi03Pnt3rD5;ra0sa0;a02bZeXi3oVpQuP;gi4ne3oZM;atr1iQroP;ve3;aQccio071nP;g04Cza0;g03Dn9z8;n2rPve0;ch1de0;d1mb3na0sPtK;co5ta0;aQec6oP;c6m04CrC;l8mDP;nQrPs048;ca0e,gi4;da0e0g1;aQePu04P;gQXva0;nc1sP;c1sa0;a0eRi3ov01KuP;aPrKQ;d04SrA;ne3t2;a0eJiTlP9oRran9uP;gPl9sa0;gi0ia0;cHGndZ7rP;ma0ni0;la0ni0oJu2;cSde0lRmQnt3piloDsPvo6;aEUci0se0uF;er9pi03J;abo3eg9;heE;aVIda0eSiQoPu03J;na0t2ve0;cSTme4Mp0Zre,sPven03Z;c04AtribXO;fi03Nre,s2terEM;a03e02h00ic5oRreQuP;ci0o040pe3sa0;a0de0s03Z;g04AlleDmVnSpRrQstPve3;itXIrXI;da0i6re0;ia0ri0;c00UdB6fQgiMFnRTos03Uq0DsPtaW7;eg4ide3;erFor2;anAi028pP;aJenCor0ra0;eBMiP;aFe7u7;de0r6ve0;cc1de0l6mPpi1Yri6s6t2va0;a0b1;aPel5ol05Jut2;di0l2sCtteVP;b03c00ddormYMffZgga01ZlYnXpUr7sSttRvP;e0vP;i02Col9;ac6i04B;cN0sP;i1CorC9uRD;pPri0;aPen7;ciUVri0;da0iF;la04Yza0;erFio3;cQqP;uis2;a7en7omp03D;bQiP;li2t02D;asCra04R;a0Lc0Fd0Cf0Ag08i06l05m04n02pZqL2sStQvP;e5isIo6;a0oI1rPtST;ar0ibWIoce7;cin7et2isKolXDpTtQuP;l2sHV;aQitWFrP;in9;re,u3;iQ0onP;de0sabPM;ePli6riQPu2;lVWrPte0;e,i0;a0dPo03I;e0icPX;a0uNA;azIeD;nPte3;seJteg3vXL;a5ge0iZMna0olaPreZE;mXJrB;eJlQDuP;l9ta0;arQdi0iPu01P;ge0mXGre;e,gVVre;aTeSiRlPuMN;amZ4i4uP;de0ta0;de0n00Ita0;de0nK8pXAre;lcXDpi2re;gi0lB;bb0Rc0Ld0Jff0Hg0Blle0Am08n06p03reMsYtUvRzP;ionOUzP;ia0o5;a4vP;e7iP;a0ci4sa0va0;ea0iTHtP;opGrP;apPistH;pi0;a0ch1en2pa0sPtr02D;eRiQoP;da0miO;cu3;g4re4t2;a0e0iN1pP;or2reP;n7sWP;nPto5;icLu001;a0mPpi6;aGKenPZol03G;g3n2;gPio4l1;iRomiQrPuaO;inU9upG;to5;a0ra0uP;gZNnZM;iPor8redA;gu3na0;dPe0iRKu4;o029rB;cPimo5;aRhJZoP;g01FmanAn2pp1rP;c1da0re;pPt2;ez8ri02Q;erc1o00KriviXXu1;aQePie2o2;re5stI;d3gl1liSHnCZ;a38e2Mi25la24o1Ur00uP;bYgnWlVnRrQtPz8;a0reM;a0ga0iSD;ge0i0tQzP;ecL;a0eP;gg1l5;i0lu5sa0;aPe0;la0re;blicXGli6;a1Ge0Oi0MoQuP;de0ri0;c0Gd0Ff0Cg0Ai09l07m04n03pXro8AsTtRvP;a0ePo6ve7;de0ni0;ePocDHrKB;g9n7s2;ciRegTXpeQsiFtP;itTWra0;ra0t2;og00LuD;aDeTiSoQuP;g4lC;ne0rP;re,zI;na0z1;lTBn7;osZIta0unWD;a4e0NoQuP;lDoUH;ve0zI;iPunD;fe3;bi0et2;et2rP;amFeWS;a4eQfeJiPon7uF;la0t2;ri0sCtWN;iDuZ3;a01FeRlaFrPu3;asPea0;ti4;de0sC;meEncip1vP;a0ileg1;a0Fc0Dd0Bf09g07l06m03n02ocHVp00riscalAsTteJWvPz8;aReP;de0nP;i0ti00C;le0ri6;aG7cUeSiRsa0taQuP;me0ppVJ;bi01Bre;d1e7;de0l5nPr006;tHz1;egZKin7riTP;a3ePor0;nsI;asZ5de0o2uIT;eQia0uP;ni0ra0;re,tK;eZXu7;a0iPus2;a0uO3;a0eJiP;gMDsC;a0iPo9G;cTOli9re,spV1;e7iPlu7or6R;de0pi2sa0;ccen4mbo5nnuX9;li4nPti6;de0za0;e2gg1lXmWnVpGrTsQtP;a0eIC;a0izIpUTse7tP;aS4ePiUQu5;gg1rD;ge0pore,re,tP;a0en7;de3e0;ic1pa0;emBi0la0tJvOW;cOSg1na0sFuVD;aXccWeVgUlTnSoQpa0roTMsPttRHzzU5;c1o5;mXUvP;e0igQR;ge0za0;a0o2;ia0l1no3o5;ga0na0t3Z;a0hiQN;cTgRl5nPre,t2z8;a0eEgPiPPta0;e0iSo5;a0e0g1nP;e0uYE;eQiP;ucL;re,voCU;c6d09gg3Hla0n07pa0rSsRtP;e0tP;egolOHi4;a0ca0ta0;c01d00egri4fZiYluUZmWnPFo3petVqFVsStRvP;a7eP;ni0rN;eW3urX8;eQisKonPua7;alBiP9;guiTBve3;ra0ua0;aVYePu2;a0tK;co5oAre;ezIo3;e0o4u3;epSLoPuoK;r5Cte0;aQWd2Cet3iKnXZsPtSJzo5;a0io4;a5i4;c05dro04ga0l03na0pGrXsTtRuCvQzP;iSEz1;en2o02;iIMroW4tP;a0eEi4ui0;c24qWHsQtP;iYVu3;a0eEiP;o4re,va0;aTcP4eNQiONlSod1tP;eQiPoJuJ;ciGre;ciGgg1ne0;a0ot2ucL;fraCgo4lBre;a0eClNIpIK;neE;a0ch1iTH;b0Icc0Gd0Fff0EggetV9l0Cm0An08p05r00sSttPvv1z1;a0eQimTOuP;n7ra0;mH4ne0;aVcUpi2sRtP;a9XePi4rQ9;gg1n2;eQiP;da0ge4;qu1rXGssI;il5u3;n4re;a0bi2diHVecLgRiPla0mN3na0;en2gPna0;i4l1;aPoO;nBsF;e3i4pPri0ta0;oPriKB;ne0r0;dPo3;a0eEu5;aEbrMTetKoP;geneBloD;ez8ia0trP;aEepA5;eGGic1ri0us6;i91o3;asIhiMNi7lu7or3YuP;l2pa0;bQeSXiettWUliPnubi5;a0ga0te3;eSViR5liD;aYeUiToRuP;da0me3oPtriO6;ce0ta0;ce0ia0leEm1JrmIMtP;a0iNDta0;cLdiNCtJ;cessi2gRt2utrIJvP;a0iP;ca0sL;a0li9oz1;r3sRtQuPviD;fraDsT7;a0u8W;a0cPt3;e0on7;a0Ke0Ci03oUuP;da0gRltQnUPoPXra0sR7tP;a0i5ua0;a0ipCI;gPo5ug4;h1i0;biliWdTlSnRrQst3tiW7vPz8;e0imQE;a0d1Ii0mo3si6tiMU;da0itorS4ta0;a0ce0es2la0tipCB;ePiMR;l5rP;a0nB;ta0z8;aWeKgVllDKmUnSra0sPtiD;cQe2Ysa0tPu3;iMLu3;e5h1;aWQge0iP;mBst3;a0etB;l0Fra0;go5u5;diSHgl0Dla0mVnUrSsQtP;odBte0;cPta0u3;e0o5;a7AcaPenAge0i2;n8Hre;a0dQEoFti0zI;orB;c06eRRg04l03mFnXpGrUsQtP;erJ1riUXt0AurH;cRsaQtP;erBi6urU0;c3gg1re;he3;a70cQi0VtP;el5or1;a0h1i7C;ca0dTeL0gSiRoQtePu1S;ca0ne0;mI9v3;ca0e3fL7po5;anUTiMR;a0u6;a0di0eR4ig4trat2;a0gPl1nK0;io3;chiT6ePi4;l5ra0;a0Ce03iXoUuP;bScRmQnDsPtRO;inDsa0t3;a0i4;ci6e0iAra0;riLH;cQda0gPnRErAt2;i6o3ra0;aNBuple2;bTceSevi2mRnc1quQsPtiDvUD;a0c1ta0;eMiA;a0i2o4;nz1re;a0e3ra0;cWde0gTnTHsRvP;a0iP;ga0ta0;iPsa0;na0o4;aMZgQiPna0;fe3ttiF;e0icL;ca0e0;cZg4mXnWpiArVsUtSuRvP;a0orP;a0icL;da0rQW;e0iPra0ta0;na0ta0;cTBsa0t8A;ga0va0;c1gMQ;a0biPen2pJQ;c6re;cT6e3riF;bQ0d52gno3llu51m3QnZpYrUsPtalia4;cICo5pRsa0tP;al5iPrMK;ga0tMJ;ePi3;sAZzI;a0e,onBrP;ad1eNiQoP;busNga0mEUra0;de0gPPta0;notBotB;a3Bc2Ld2Be29f1Tg1Ei1Dl1Cn17o15qu13s0StYumiPOvPzupG;aVeSiRoP;ca0gl1lP;a0ge0ta0ve0;a0d1gi5sLta0zLI;cLi0ntarQrPstiD9tJ;a0ti0;e,ia0;de0gMBlPsa0;e0iA;a0He03i01oYrPui0;aTeU5iSoQuP;de0fo5;dPmGC;ur0;de0ga0sN;lc1pRre,tQvP;e7ve7;teQL;po5rSE;nQrPsAM;bidHpiP3;aKFti0;epiP1mPn9rizKZto5;a0iP0oJ;g3n01rRsP;se0tarP;di0e;aXcUdi0esCfTloqLJna0pSrQse6vP;eRIis2;a0oP;ga0mDW;el5or0re2;aTJeJ;a5eQorP;re0;de0t2;gi0re;de0eJsiJ9ta0;c6gl1rs1sI0vo5;aWcVeUiToSpi3tQuP;d1Pl2;aPitL5rL5;l5re,u3;r9spetN;d1gR2nQSsK;d1gEKri0;e4riLW;ngQpoP;na0ri0;ui4;ad3iP;e2na0si0;lt3nArP;gogT7riO6;aSePoS3;gg1rvQsP;ca0ta0;a0o97;ff1l8mo3;e1ib3;bi0et2mi6zFI;a02e01hi00iXloQIoUrQuP;a1r75;aQesCoP;pGsC;nPsCviAz1;a0di0;bQia0lPmb3rDz8;fa0la0;bi0;alSQganNnQuP;n9r1;ocL;otN;g4lo8QntiSMri0sC;bb1gg1n4rbuO;a02e00iWlUoSrQuP;o6r1;aPeddoSI;d0Mn9;ca0n7rP;ca0ma0na0tu4;ig9uP;en8i0;aRc1eJg9lQnPsLtN;i2ocL;a0t3za0;ccK3mF;rPs2t2;i0ma0o3Tvo3;ma0nDrPstiN5tPI;ci0i4;br1rP;i0pi6;aDeWiSoRuP;ce0g1l9rPstriCV;a0i0re;sCvi4;a0cMVetMNgRrQspPvidPA;etNor0;e,iz8;e0na0;bPnnBt2;i2oRT;a07e04hi03i02l01oVrRuP;ba0lG5nNEpi0rPte0;io7Uva0;eRiQoP;c1s2;mi4na0;mKRsG;gPYlSmRnt3rP;aG9nPo4po3re0;ic1;be0iO0oA;lPpa0;a0eJ;i4u7;amGde0n9pr1ta0;appKMna0oA;de0nPpGra0sKC;dPVeJtP;iQ7ra0;gl1l8mUnTpSrRsPte4vo5z8;i4sa0tP;o4ra0;ce3i6na0ta0;oORpa0;ta0uN;mi4;b62ciM1ff1lRrQspJuP;gu3;ca0iLZ;a0be3za0;aHFb0Li2m0FpP;a09e06i02l01oWrRuP;g4lCn2tP;a0riLU;aticIOeRiQoP;n2vviC;gIme0;ca0g4n7sPzio6V;sIta0;ne0rRsPveJ;sPta0;esCibi9R;re,tP;a0u4;emJPi6o4D;an2ccOOeQgPla0;l1ri0;ga0tP;o6Kri0;di0g4lHOnQrP;a0maQEn1so4vI2;na0sieJ;ccSdroNYlRnQrPs2t2uJzzH;a0en2ti0;a0ta4;a0liL8;a0hJHia0;aSeRiQoP;bB3la0rta5;g3sL;deJMr9tK;gPtriOH;azzi4i4;aZeYiVoUrQuP;ca0r3;aRoQuP;ni0tN;gl1nc1;cc1t2;c6s6ttiGH;ancQbi0onKTzP;zarJ;a0hi0;lPRstiaPRve0;cuc6lQnKPrPsNtKvaO;az8ca0;la0saF;de0mi4st3;ePolat3ra2;aH4nP;tiF6;a0Ye0Rh0Oi0Al09o04rWuP;aRerQfa0iPs2;da0na0z8;i0reE;daRiQl11rPs2ta0;da0enNi0ni0;o5re;gnFWre;aQe0IiPonAugMX;da0gl1;cTdSff1n9FtPva0z1;iQtP;a0ug1;fi6na0;a0i8Kua0;ch1iA;cciEMdSff3mi2nRrgQvK3zzoP;viO;heEoO;f1go5;e0ro4;isCoriJM;aMYb01ng00oWrTt2uP;bi5ca0di6gLAlebMFnRo6ra0stP;appJ2iP;fi6z1;ca0ge0ta0;a0eDLoP;nPvaD;zo5;cQiPst3va0;a0re;a0hPo5;erN8icL;il5;ol5;erQiP;aO9g4;mi0;la0meUnSrmRsPt2;sa0tiP;co5re;i4oO;ePuflAC;raFU;l5re;bLSlQrPsa0tNXu7;anNba0eEri0;lCUopGvP;anB;a0Ve0Si0Jl0Ho08rVuP;ci5gTlSma0nRorPra0stiD;iusPv1;ci0;es2ge0zI;ge0mi4;a0gi0;aXeWiToRuP;ga0i0l5sPt2;c1tLL;da0nP;teE;gQni0zP;io4za0;ge0na0;cc1dAgLVme0na0quGVs6t2;cRg3iQmmGUnPppHWstor4tLOzI;a0ca0ge0tuF;ntLV;asC;c8Fde3gWlVmGQndUrRtP;oPte0;cop1g6Q;aC7bi0g1mPniDUtiD4za0;aPiLVu5;lBre,t2;a1Ae0;go3la0;g1l1;agLYetKir2ot2uP;i0ttKN;aWc6daCDgVlUnSoQrFsPt2u2;a0chiDRsa0;ccPnAri0;a0hGG;aPge0i0ta0;lBnz1;a0ma0osoMt3;ge0l1u3;c6mmeEncD5ta0;cFCli02n7rQsPte0;su3tBN;i0mL6ra0t7Wve0;b01c00gYlXmWntasKFrTsStRvP;el5orP;eEi0;a0i6tu3;ciJYtid1;ci0e,fPneKA;alPuO;leE;a0iliBE;c1lHsAL;l1oP;ci2;e0i5QoltB;bPri6;ri6;c1Id1Fff1EguaOiacu5l18m14n11qui0Yr0UsVtUvP;aSiRoP;ca0lP;ui0ve0;de44nKGra0ta0;cJQde0ngelBpo3;er4ichFM;a0Lc0He0Ei0Co09p00sXtPulI1;as1eUiToSrP;aQoPu7;m89v6Q;da0n1po5r0;lDGrK8;ma0ng6WrGva0;nPr4;de0ua0;ePic6uA;gDOrP;ci2e;aWeUiJPlSoRrQuP;g4n9;i7Zopr1;ne0rFM;e2ic5LoP;de0ra0;di0lD3riPt2;mEYre;n7tr1;nQrP;cBdi0ta0;da0e3;bi0ge0lPme0sKta0;a3ia0;cQgD8mpPn2rciFB;liB7;ra0u2;i0lRoQuP;sa0te0;gi2;aFu7;cerIYge3lH4mi4s3UuP;di0ri0to3;eRge0i9oQra0uP;di0t2;de0ga0m5D;d4Zg9;lib3paQvP;aCHo6;gg1ra0;com1fE8tQuP;clGSme3nc1;ra0usiasF;aQePig3ozIpiIEu5;nAr9tK;nPrBI;a0ciG;aSeRiQog1uP;cub3de0;de0ge0mi4;g9moD9n6va0;bo3rP;gi0;ettI5ig1on7;iQuP;cDLlco3r0;fi6ta0;cQheElPonomB;isC;ePi2;de0lBVpi0ttHY;a3Qe2Fi05oVrSuP;bQce0el5pPra0;li6;b1i2;aQe4iPoD;bb5z8;ga0mmDHpG;cXlWmTnKBpSrPsa0tG3ve6Z;a0mP;en2iP;cLre,ta0;a0p1;aQesHQiP;cF9na0;nAre;a0e0o3;c1e0umDA;a1Xb4Mc1Vf1Og1Ll1Gm1Bp19r14sWt2vP;aUeSiQorPulD;a0z1;de0e2nPsa0;a0co5;de0lB8nHVrPz8;be3ge0s7Uti0;ga0mGri6;a0Ubos6c0Nd0Le0Jfa0g0Hi0Alo6m5Wo07p01qZsVtPubbiEV;aTen7iSoRrPurHE;ar0iPug9;bBFca0;gI5rHT;l5ng4H;c6nz1re;angH1eRiQoPua7;c1da0lC6;mu5pa0;mi4nNppelJMr2ta0;uiP;si0;arHeSiRoQrePu2;g1z8;ne0r0sa0;aHHeDn9;nPrDBt2;de0sa0;bbeECcQno3rP;di4iCH;cuG;dUllu7mp3WnP;cSfCItP;eQosP;si6;g3resC;an2;e3ra2;e5iPreDus2;un9;g4rP;eAta0;a0ePi0;g4t2;eUhTiogHAoRriQuP;sCte0;mi4ve0;lGnPpJr4Ks2;n4TosGU;iu7;n7rF5;g1pproHNrFttP;en7iHM;aSeRiQoP;c6m2Pt2;ge0me0;!da0g9zI;da0ma0z8;aPen7i2EloFor0;na0rN;aSeRiQoP;ra0st3;nA1ssI;n20sFVtKz8;grHnA;aSeQi9uP;i0nDv1;gPt2;g1ua0;ga0n1ta0;eJiQrP;ig4;ta0u4;eUfP;aFerRiPon7;cPda0;ol2;ePi0;nz1;n7t2;a0ePhia3;re,sC;gnosFCloD;ambu5b0Xc0QdH8f0Mg0Kl0Gm0Dn0Ap04r01sVtRvP;as2ia0oP;lAAra0;eQrPta8DurG;ar0;ne0rPs2;ge0io3mi4;c50iTo5tPu3O;aRiQrP;a0eEug9;na0t96;b2Gre;a0de3g4la0na0ra0sK;aQiPoDuF0;de0me0va0;gl1pa0;auTeSiRlo3oQrPu3;eAi3E;ne0rB1si2;la0n9;n7ri0;pe3;ig3oQta0uP;da0nBJ;mi4ta0;anAoP;li0rP;alBde0;eRiPu7;be3mi2nPra0z1;ea0q1Q;ga0re;ePluNna0raAus2;ne3;al6eRiQlPorFrauAun9;etKui0;la0ni0;ca0ri0;aUe7hi4iTlSoQrePur2;sESta0;l5mpAXrP;a0re0;aFi4;de0fDSma0;de0n2pi2;b1el5iPut2;li2;ma0nSrRtPz1;a0tilogP;raM;deEe;n52za0;a4Ge47h3Yi3Kl3Ho04rUuP;cRlQmu5oEEpe0rPstoBC;a0ioCva0;la0mi4;c1iPul1;na0re;apu5eViUoQucP;c1ia0;cQgPl5;io5;ch1iP;a0fig9;a0ti6;a0de0ma0pQsPt2;ce0iF;a0i2;a30c2Zdi5KesisKg2Xi2Vl2Mm1Sn05o03p02rXsPva0z8;a0pVtP;a9LeTiSrQuP;di0ma0;iPui0;gC7n9;pa0t7E;gg1l5r4;ar9i3;az8bEBi6o4rPteE;eRispon7oPuD;bo3de0mP;pe0;da0g9la0re;ia0pE6ri0u5;pe3rP;di4;c15d12f0Tg0Pi81n0OosDIqui0Ns0FtVvP;aliAeSiRoP;ca0gl1lP;a0ge0;nDEta0ve0;ni0rP;ge0sa0ti0;a06e02inCMor01rPun7;aTiSoP;bQl5vP;erK;atK;b6Rre;ccamb1dSfMpp9BrRsPt2vveCQ;sPta0;eg4;e,ia0re;diPi0;re,stingP;ue0;ce0na0;gg1mp5nRstP;a0uP;alB;de0e0ne0ta0;bPg1mi4re,t2;ilB;ac3eUiTolStQuP;l2m7J;a8Dit6ArP;in9ui0;a0iA;de3gl1sK;gPnNrDH;na0ui0;de0s2;etKo2uAR;eRiuQrP;atu5eD;n9ra0;da0g4la0stItCC;aWeUiSl5YoQrPu2;on2;n7rP;ma0ta0;c6da0gPna0s6;ge0u3;rPsCzI;i0ma0;bu5re;an4enCiQoPuBH;le0na0t2;re,vi7zI;eSiRlu7orQret8XuP;pi0sC;da0re0;a0l1ma0ta0;de0nt3pi0rP;ne0ta0;anAb0Ge0Fi0Em07oApQuP;ni6;a03e01iZlWoVrQuP;n9ta0;aSen7iRoP;mPva0;etK;me0;re,vBU;ne0r7As2;eQiPot2;ca0m6Ore;sCta0;aPe0la0re,ta0;ce0n9;nPra0te0;d1et3sa0;g4rPtB9;a0i0ti0;eSiQo5TuP;o5Sta0;na0sP;e3sIu3;d1mo3nQrcPtK;ia4P;da0ta0;nc1sC;n2re;aPi4;c1tK;a0e0lSma0oRpPtiBX;a0evPi0;olB;nBrH;aSeRiQoPu7;ca0qu1;de0ma0;ga0t2zI;bo3re,sCuAzI;nPre;ci7v19;i2liPnosAQ;e0o4;co5e0;bi2diuBJgu5;aPic6o4;ma0n9ssi26uP;di6;a01ba0c00f3gZmAPnXondo5rcStQuPv5R;cc1r5;a0oP;fo4;oQuP;i0la0mnaviDnA;nQscP;ri4T;ci7da0;cisLgPta0;e0u5H;ne0o5;atrBca0;ba2Jnci0Jr5;eWiP;aSeRna0oQta0uP;de0r5;cc1da0sa0;de0re0;cchie3ma0pGrPva0;a0iP;fi6re;re0ta0;ca0de0lWm50nTpGrQsP;el5sa0ti4;a0cQn4ZtP;a0i1E;a0hi29i4;a0na0sQtP;elli4ra0;i0u3;a0eb3ia0;b0QcAKd0Of9Wg0Nl0Km0Hn0Dp04rZsXtUuTvQzzP;a0eEia0;aPil5;lPre;ca0la0;sa0te5;aQtP;a0iACu3;loDp2T;ca0sa0tP;iDra0;aRbQca0ez8iPpi0;a0ca0;onBu3;m9UttP;erB;aWeViQovPp0Tta0;ol9;llSre,tP;aPo5;lBnPre;a0eE;arB;gg1re;ci2re;c9JdiRg1na0sa0tPzo4;arePer9IicL;!l5;da0re;b1i4mi4oAPpPufM;a0eEiP;cLo4re;a0cQe0ib3ma0pPunn1za0;es2;a0ia0o5;a0io4l1;ePu6;n8re;a5ra0;a0Ne0Gi0Bl09o03rTuP;ca0fRgQli4r5sPt2;ca0sa0;ge3ia0;a0fa0;aVev3NiTonSuP;cPli6ni0s6t2;a0iaP;cLre;to5za0;ga0l5nP;a0da0;cc8CmHnPsa0va0;cPdi0;a0o5;cSfonLicRllHmbar20niQrPt5Txa0;bQda0ra0seE;fi6;ot2;cPia0;a0heEia0;aPinAoc6;n4WsfeFte3;aRgQla6Enas7XsPv5C;biOog4ti9M;hello4ia0;da0n6sP;ci6iF;a0ccUfMl4AnRrQstemm1vP;az8er6YicL;c1e,go5linDsaO;da0ePvo0X;a25diPfic7S;ce0re;a0heE;c03da0g4ia0l00nZrUsSttQzP;zi6;aOeP;re,z8;a0c1i0sa0tP;a0o4;aSba0cRda0rP;a0iP;ca0re;ame4ol5;re,t2;ch2Idi0;b2He4lQoc6uPza0;gi4;a0et2;a0cQiP;a0ucL;aPh1;gl1re;b86c6Sd61er60ff5Lg51i50l4Em3Nn34p2Dr1Ms0Yt0Hu0CvUzP;io4zP;aReQiPufM;ma0tN;c6ra0;n4rA;a05e02in6Wo6vP;aZeViQolP;ge0to5ve0;a0cSlRnQs4Hta0va0zP;zi0;a0ce0gh1;i0upG;enAi4;de0le4nQrPz8;a0sa0ti0;i0tP;a0u3;lPmGntaE;e0la0o3;lQrP;e,te0;le0;l5n8r1;di0gu3li0m1Ira0sRtP;en5ToP;m1DrB;cPpi6;ul2;a0tP;a02eZiYorWrRuP;aPti0;lBre;aRez8iP;bPs2;ui0;c6e0r0vP;erC;cPn1;e0iO;g4Bn9ra0va0z8;ccQgg1nPrrHs2;d0Pe0ta0ua0;hi0;c6gl1naOrP;da0e;c08f07o5p05sStP;eQrP;ar0in9;ne0r9;aZeWiUoQuP;eMme0r9;c1da0gg0UlRmQn4pi0rPttiO;bi0dHge0ti0;iOma0;da0ve0;cu3dPeGl5mi5sK;er4O;cQd1g4mb5ntHrPs2t34ve3;i0vi0;onA;gg1l58po3sP;si4;ePi3or2;r9t2;al2iss1;en7iRoQriP;ve0;l2n7;a0uD;a0Eb0Dc0Ad09e47g07ieEm06om05rQti5HzigoP;go5;aZeYiWoQuP;fMggi4Mo5;cc54gTsStQveP;l5n2;a0oP;la0nA;a0sHtH;a0e0;ccPde0nDsLva0;hi0ia0;ca0da0n7s2t3;bRfMmQnPpa0;ca0g1;pi6;at2b1;atB;a0eEonB;i4omPui0;en2;e0i0;a0hiP;tPv1;et2;it3;bes6re;ostroMpPri0;a08e05i02l01oZrQuP;ntHra0;eVoP;ba0cc1da0fTn2pRsQvP;a0vigI;siF;iPr1;a0nq3G;it2ondH;n7sPz8;en2sa0ta0;gg1lla1rPs2;re,ta0;au0Xi6;aQccPgl1opGso5;a0i6;na0ttH;l5nQsPti0z8;anNta0;a0de0;ga0ia0lTn4rQssiP;o4re;a0eQi0tP;a0e22;cLn2;eCta0;alBc06d05e03g02iFnVsTtP;eQiP;ciG;ce7pP;or0;a0iP;a0ma0;aUeTiSoRuP;i0l5nPsa0vo5;c1z1;da0ia0ma0t10ve3;chi5Ada0en2;bb1ga0rHtK;cq2Kff1sG;e0o53uY;lPst11;a0la0;a0icapG;heEo3;a0Cb0Ai6mUniToRpP;liPu2;a0fi6;reE;gg1;st1;a01eZiYoRuP;cLffi0tP;i4o4U;bUdTgl1llHn2PrP;bQtP;a0iz8;a0iP;di0;er4;il1;c6niTra0;nAtP;a0te0;c6eQi4l2OnPra0sCtNz8;et2sHta0;st3;a4CiPu5;a0en2re;lgaFrP;ePi6;!gg1;be08e07fab06ge0i05lSmanRtPza0;ale4erP;a0ca0na0;ac6;aZeViToQuP;ci4de0n04;ca0gQnP;ta4;a0g1;bi0e2nP;ea0;a0gQnPr2sNt2v25;a0ta0;a0geJra0;ri0;cc1ga0pGrPt2;ga0ma0;a0e4ta0;etB;gg1na0re;gg1rP;a0ga0;ta0u2z8;e07gSiRoQuP;ra0z8;g4nB;a0re,ta0;a02et01hi00iVloUrQuaP;n2ta0;aReQoPupG;t2viO;di0ga0;dHpGva0;me3;oSra0uP;di6gQnPs2;ge0ta0;ne0;ga0r4;a2ZnA;ti24;nc1;vo5;a00eYiVlUoTrPumi6;aQePon2;s6t2;nPt1N;ca0ge0;ca0ga0l5nA;ig9o2Uui0;aQbb1da0evo2XgPl12na0o3sCt2;e0ge0;n6ta0;rPt2zI;i0ma0ra0;ccQma0n4re,sPti6;ci4;enAia0;a0ea0;a0Ed01eXiVoRuP;lPna0;a0te3;cLmb3pQrPt2;a0na0;e3ra0;ch1;bi0rP;a0e;gRmpiQrPs6;ge0i0;e0re;ua0;a0eYiVoQuP;ce0r0;bSlRmesQrmPsC;en2i0;ti6;ci0o3;ba0;re,ta0veQzI;io4;ni0;bi2nPst3;sa0tP;a0ra0;g1t2;cUeNquRuP;i0tB;iz8;at2e2iP;e2sP;i0ta0;a0Le0Gh0Ei08l06oTreRuP;cc1di0lPmu5ra0sa0;tu3;di2sP;ce0;c00da0gZlYmVnSppRrQstPva1D;a0uF;a0c1da0ge0pa0re0;a0ia0;c1discQsenNtP;a0en2;en7;ia2oApPu4;ag4;da0;la0tY;lie0;co5;aFima2u7;ma0;aSdRe6gQn9ufM;ge0;l1ne0;e0ia0;c6mbP;el5;e2iP;apGta0u7;ca0de0le3nRrQsNt2;ti0;ch1ta0;de0na0tP;a0ra0ua0;de0lXmGnVpUrTsStPval5;as2tP;a0iP;va0;a0c1;ez8to0G;ar3iOpo4;i0to4;pa0;aPca0da0o3;pp1;bYdXer3iUneDoRrPuC;a7oD;de0;li0mi4rP;ri0ti0;ga0;li2sCtPu3;a0ua0;sa0;i6ur0;a0Ae07i03oVrQuP;fMia0o4;aSev1on8uP;nHsto06tP;i0ti0;a0i0;cc1n6;c6nUrRtQz8;za0;to4;da0rP;aPi0;cc1;aPda0i0;cc1re;gl1nRoQsog4t2;ta0;sc1;a0do5;lQve3;ra0;li0;cXgl1ia0l5ndo4rRsQtK;te0;sa0ta0;bQca0ufM;fa0;aOi6;ca0;gl1;la0;a0ch1i4;na0;ia0;re",
-    "Organization": "true¦0:42;a37b2Oc28d20e1Wf1Sg1Kh1Fi1Cj18k16l12m0Sn0Go0Dp07qu06rZsStGuCv9w4y1;amaha,m2ou1w2;gov,tu2P;ca;a3e1orld trade organizati3W;lls fargo,st1;fie20inghou14;l1rner br38;-m0Zgree2Xl street journ22m0Z;an halMeriz3Risa,o1;dafo2Dl1;kswagKvo;bs,kip,n2ps,s1;a tod2Nps;es30i1;lev2Tted natio2Q; mobi2Gaco beOd bLeAgi frida9h3im horto2Pmz,o1witt2S;shiba,y1;ota,s r X;e 1in lizzy;b3carpen2Ydaily ma2Sguess w2holli0rolling st1Ks1w2;mashing pumpki2Kuprem0;ho;ea1lack eyed pe3Ayrds;ch bo1tl0;ys;lPs1;co,la m10;a6e4ieme2Dnp,o2pice gir5ta1ubaru;rbucks,to2J;ny,undgard1;en;a2Nx pisto1;ls;few22insbu23msu1U;.e.m.,adiohead,b6e3oyal 1yan2T;b1dutch she4;ank;/max,aders dige1Cd 1vl2Y;bu1c1Rhot chili peppe2Globst25;ll;c,s;ant2Rizno2B;an5bs,e3fiz21hilip morrBi2r1;emier23octer & gamb1Oudenti12;nk floyd,zza hut;psi24tro1uge07;br2Mchina,n2M; 2ason1Uda2C;ld navy,pec,range juli2xf1;am;us;a9b8e5fl,h4i3o1sa,wa;kia,tre dame,vart1;is;ke,ntendo,ss0J;l,s;c,st1Btflix,w1; 1sweek;kids on the block,york07;a,c;nd1Qs2t1;ional aca2Bo,we0O;a,cXd0M;a9cdonald8e5i3lb,o1tv,yspace;b1Jnsanto,ody blu0t1;ley crue,or0M;crosoft,t1;as,subisN;dica2rcedes1;!-benz;id,re;'s,s;c's milk,tt11z1V;'ore08a3e1g,ittle caesa1H;novo,x1;is,mark; pres5-z-boy,bour party;atv,fc,kk,m1od1H;art;iffy lu0Jo3pmorgan1sa;! cha1;se;hnson & johns1Py d1O;bm,hop,n1tv;g,te1;l,rpol; & m,asbro,ewlett-packaSi3o1sbc,yundai;me dep1n1G;ot;tac1zbollah;hi;eneral 6hq,l5mb,o2reen d0Gu1;cci,ns n ros0;ldman sachs,o1;dye1g09;ar;axo smith kliYencore;electr0Gm1;oto0S;a3bi,da,edex,i1leetwood mac,oFrito-l08;at,nancial1restoU; tim0;cebook,nnie mae;b04sa,u3xxon1; m1m1;ob0E;!rosceptics;aiml08e5isney,o3u1;nkin donuts,po0Tran dur1;an;j,w j1;on0;a,f leppa2peche mode,r spiegXstiny's chi1;ld;rd;aEbc,hBi9nn,o3r1;aigsli5eedence clearwater reviv1ossra03;al;ca c5l4m1o08st03;ca2p1;aq;st;dplLgate;ola;a,sco1tigroup;! systems;ev2i1;ck fil-a,na daily;r0Fy;dbury,pital o1rl's jr;ne;aFbc,eBf9l5mw,ni,o1p,rexiteeV;ei3mbardiJston 1;glo1pizza;be;ng;ack & deckFo2ue c1;roW;ckbuster video,omingda1;le; g1g1;oodriM;cht3e ge0n & jer2rkshire hathaw1;ay;ryG;el;nana republ3s1xt5y5;f,kin robbi1;ns;ic;bWcRdidQerosmith,ig,lKmEnheuser-busDol,pple9r6s3t&t,v2y1;er;is,on;hland1sociated F; o1;il;by4g2m1;co;os; compu2bee1;'s;te1;rs;ch;c,d,erican3t1;!r1;ak; ex1;pre1;ss; 4catel2t1;air;!-luce1;nt;jazeera,qae1;da;as;/dc,a3er,t1;ivisi1;on;demy of scienc0;es;ba,c",
-    "Expression": "true¦ahAb8c6e5f3gu2ma1oh,p0salute,uffa,v2zitto;iantala,u8; va,cché,gari,nnagg8;ai;alla fin3ig0orza;o,uriamoci;ccolo,hi;asp0iao;ita;le0oh,ravo;ah;ia",
-    "SportsTeam": "true¦0:1A;1:1H;2:1G;a1Eb16c0Td0Kfc dallas,g0Ihouston 0Hindiana0Gjacksonville jagua0k0El0Bm01newToQpJqueens parkIreal salt lake,sAt5utah jazz,vancouver whitecaps,w3yW;ashington 3est ham0Rh10;natio1Oredski2wizar0W;ampa bay 6e5o3;ronto 3ttenham hotspur;blue ja0Mrapto0;nnessee tita2xasC;buccanee0ra0K;a7eattle 5heffield0Kporting kansas0Wt3;. louis 3oke0V;c1Frams;marine0s3;eah15ounG;cramento Rn 3;antonio spu0diego 3francisco gJjose earthquak1;char08paA; ran07;a8h5ittsburgh 4ortland t3;imbe0rail blaze0;pirat1steele0;il3oenix su2;adelphia 3li1;eagl1philNunE;dr1;akland 3klahoma city thunder,rlando magic;athle0Mrai3;de0; 3castle01;england 7orleans 6york 3;city fc,g4je0FknXme0Fred bul0Yy3;anke1;ian0D;pelica2sain0C;patrio0Brevolut3;ion;anchester Be9i3ontreal impact;ami 7lwaukee b6nnesota 3;t4u0Fvi3;kings;imberwolv1wi2;rewe0uc0K;dolphi2heat,marli2;mphis grizz3ts;li1;cXu08;a4eicesterVos angeles 3;clippe0dodDla9; galaxy,ke0;ansas city 3nE;chiefs,roya0E; pace0polis colU;astr06dynamo,rockeTtexa2;olden state warrio0reen bay pac3;ke0;.c.Aallas 7e3i05od5;nver 5troit 3;lio2pisto2ti3;ge0;broncZnuggeM;cowbo4maver3;ic00;ys; uQ;arCelKh8incinnati 6leveland 5ol3;orado r3umbus crew sc;api5ocki1;brow2cavalie0india2;bengaWre3;ds;arlotte horAicago 3;b4cubs,fire,wh3;iteB;ea0ulR;diff3olina panthe0; c3;ity;altimore 9lackburn rove0oston 5rooklyn 3uffalo bilN;ne3;ts;cel4red3; sox;tics;rs;oriol1rave2;rizona Ast8tlanta 3;brav1falco2h4u3;nited;aw9;ns;es;on villa,r3;os;c5di3;amondbac3;ks;ardi3;na3;ls",
-    "Month": "true¦a5dic3febbra2g1lugl2ma0nov3otto4sett3;gg1rzo;enna0iugno;io;em0;bre;gosto,prile",
-    "WeekDay": "true¦domenica,giove1lune1m0sabato,vener1;arte0ercole0;dì"
+    "Country": "true¦0:37;1:2U;a2Rb2Ac1Zd1We1Sf1Rg1Hh1Ci12jama35k0Xl0Qm0En07o06pYrQsEt7u5v3wallis et futu1xiānggǎng costa sud della ci1z2éi0Kís1Fösterreich;a22imbabwe;a2enezue30iệt nam;nuatu,ticanæ;gNkraji1n2ru01zbe0X;gher0ited states virgin islands;a7hailand0i6o5u2;nis0Nr2valu;ch0k2;meni31s e caic2G;go,ke2Snga;bet,mor est;gi0Piw2Znz2V;aBeAi8lov7oomaali0Mpag1ri lan10tat5u2vez0wazi12ão tomé e príncipe,ām2J;da3omi,ri2;name,yah0V;fr2Pn kusini;i 2o di pales2D;baltici,uni16;ac1Nen0;erra leo15ngap2;oZu2I;negQrb0ychelles;ha2Gint 2kartweDmoa0Jn mari0O;kitts and nevis,luc0vincent e grenadi11;e3om2Iu2;an29;gno uni13pubblica 2;centrafr5d2;e2ominicana república domin4;l2mocratica del2; conW;ica1;a7e6ilipin1To2uerto riL;l3rtogal2;lo;inesia2onia pols0D;! francese;nisola ib22rù;ki27nama,pua nuova guinea,ra2;guay;ceano india06m26;a7e5i3o2;rveg0uvelle calédonie;caragua,ger2;!ia;der05p2;al;mib0ur19;a6ela1Ai19o2yanm0L;ldova,n2zambi4çamb8;a3gol0t2;eneg0Pserr11;co;c7dagasc0Gl5rtinica martin4urit3yotte como2;re;an0i0R;ique;a2dive,i,ta;wi,ys0;au,ed8;a10e6i3ussembur2;go;b2echtenste0S;aJer0iyah2; nordafr1C;sotho,tt2;on0;a4en3ir2osovo,uwait;ghizi1DibaR;ya;laallit nuna0Iza2;ki1A;ndonesia un,ra8s2;ol2raele;a di natale christm0Ne 2;c4falkBmar3vergini2; americaK;ianJshall;aym14ook;k,n (persia) īrān2; vici2;no;a5o3rvats2;ka;l2ndur0D;land;i9ya0V;aAha1i7olfo di guinea e,re6u2;a4in3yan2;a,e;ea,é bissau;dalu9m,tema0I;c0na0E;appo3bu2ordania al urdunn;ti;ne;bKmb0;igi,ranc0øroy8;cu4esti vabariik,git3l salv4mirati arabi,tiop0uro2;pa;to;ador;a2omin0A;nmark,wlat qat2;ar;a9e8i6o2uV;lo4morQrea3sta 2;d'avorio,r05;! del nord;mb0;ad,le,na,p2;ro;ch0;m2naTpo verU;bog0erun camero2;on;aFe9h7irmYo6r5u3yelar2;us;lgar0r2;kina faso,undi;asile brasil,unei;liv0snia ed erzegovi1tswa1;utWār2;at;l3n2rmuI;in;a2gium,ize;u mi2;cro2;nes0;ham3ngladesh,rbad2;os;as;fghaneKlGmEn7otear6r2s sudLustral0zerbaigiL;abia saudita,gen3u2;ba;ti1;na;oa;dor7g5t2;arti3igua and barbu2;da;de;o2uil2;la;ra;er2;ica; 4b2;an0;ia;bahrayn,jaza'ir,maghrib,yam3;st2;an",
+    "Region": "true¦a20b1Sc1Id1Des1Cf19g13h10i0Yj0Wk0Ul0Rm0GnZoXpSqPrMsDtAut9v5w2y0zacatec22;o05u0;cat18kZ;a0est vir4isconsin,yomi14;rwick1Qshington0;! dc;er2i0;ctor1Sr0;gin1R;acruz,mont;ah,tar pradesh;a1e0laxca1Cusca9;nnessee,x1Q;bas0Kmaulip1PsmI;a5i3o1taf0Nu0ylh12;ffUrr00s0X;me0Zuth 0;cRdQ;ber1Hc0naloa;hu0Rily;n1skatchew0Qxo0;ny; luis potosi,ta catari1H;a0hode6;j0ngp02;asth0Lshahi;inghai,u0;e0intana roo;bec,ensWreta0D;ara3e1rince edward0; isU;i,nnsylv0rnambu02;an13;!na;axa0Mdisha,h0klaho1Antar0reg3x03;io;ayarit,eAo2u0;evo le0nav0K;on;r0tt0Qva scot0W;f5mandy,th0; 0ampton0P;c2d1yo0;rk0N;ako0X;aroli0U;olk;bras0Wva00w0; 1foundland0;! and labrador;brunswick,hamp0Gjers1mexiJyork0;! state;ey;a5i1o0;nta0Lrelos;ch2dlanAn1ss0;issippi,ouri;as geraEneso0K;igOoacO;dhya,harasht02ine,ni2r0ssachusetts;anhao,y0;land;p0toba;ur;anca02e0incoln02ouisia0B;e0iF;ds;a0entucky,hul08;ns06rnata0Bshmir;alis0iangxi;co;daho,llino0owa;is;a1ert0idalDun9;fordS;mpRwaii;ansu,eorgVlou4u0;an1erre0izhou,jarat;ro;ajuato,gdo0;ng;cesterL;lori1uji0;an;da;sex;e3o1uran0;go;rs0;et;lawaDrbyC;a7ea6hi5o0umbrG;ahui3l2nnectic1rsi0ventry;ca;ut;iLorado;la;apDhuahua;ra;l7m0;bridge2peche;a4r3uck0;ingham0;shi0;re;emen,itish columb2;h1ja cal0sque,var1;iforn0;ia;guascalientes,l3r0;izo1kans0;as;na;a1ber0;ta;ba1s0;ka;ma",
+    "City": "true¦0:5V;1:5N;2:52;3:5B;a5Cb47c3Pd3Ee3Cf39g2Xh2Qi2Mjak32k27l1Vm1Cn12o10p0Jqui1Qr0CsXtJuIvDw9y6z4;ag4uri3Z;abr1reb;a5e4okoha3F;katerin2Wr39;moussouk41ng3Ioundé;ars15e6i4rocl15;ckl21n4;dho4Jnipeg,terth23;llingt3Exford;a6i4;en4lni5P;na,tia3;duz,lenc1ncouv1Fr4;na,sav1;lan bat1Atrecht;aEbilisi,eChAi9o8r7u4;nis5r4;in,ku;!i;ipo2Zondheim;kyo,ron15ulouse;anj05l2Emisoa58ra4K;e4imphu; hague,ssaloni26;gucigalpa,h4l av1T;er0r0;i5llinn,mpe4Kngi11r4shk2C;awa s0Etu;chu48n0p0F;a8e7h6kopje,of1ri jayawardenapura kot0Tt4u3Uydn0Bão tomé;oc4uttga2G;col2Mkholm;angh36enzh40;oul,ul,v3O;int Bl9n4ppo37raje4M; 6a'a,t4;iago4o domin31;! del ci3L;jos4salv6;e,é;v4z1V;ad0J;george4john4peters1T;'s;a9eykjav8i7o4;m5s4t4D;ar07e3H;a,e;ad,ga,o de janei2T;ik,ík;b43mallah;aGeEhDiCo7r4ueb2yongya3L;a4etor1;g4ia;a,ue;dgori24rt4zn0; 5-au-prin0Po4;!-no3Z;elizabe8louis,moresby,of spa4vi2;in;ls38rae4B;iladelph1nom pe12oenix;chi27r4tah tik2X;th;l6r4tr2H;amari21i4;gi,s;ermo,ik0R;des0Is4ttawa,uagadoug12;a3Blo;'djame37aBew 8gerulm7i5ouakchott,u4;ova d9r-sult0;am4cos1;ey;ud;d5taip4;ei;el0F;goya,iro3Qnt28pl28ss2Lv0ypyid4;aw;aCba29eBiAo5u4;mb1Tni1Q;gadisc7n5roni,sc4;a,ow;rov1t4;evideo,real;io;l0n0Qskolc;dellín,lbour3;drid,ju1OlCn9pu8r6s4;ca4eru;te;ib4se21;or;to;a5chest4dal0Ki2;er;gua,ma;a14mo,é;'ava2EaBi7o5u4vQy0V;anJbia2Dsa2G;mé,nd4s angel1L;on,ra;brev1Qege,longwe,ma5nz,sbon4verpo6;!a;!ss4;ol; 4usan3;p5v4;allet0Rel2;az,la0Q;aFharDi9laipe8o5rak4uala lump7;ow;be,pavog5si4;ce;ur;da;ev,ga09n4;gsto5sha4;sa;n,wn;k4tum;iv;b9mpa2ndy,ohsiu1Lra4tmandu,un0U;c4j;hi;l cai0Nnche04s5̇zm4;ir;lam26tanb4;ul;a8e6o4; chi mi4ms,nia26ustZ;nh;lsin4rakliX;ki;ifa,m4noi,ra1Jva1E;bu28iltU;aDdanCeAh9i7othen6raz,ua4;dalaja1Zngzh4;ou;bu24;ac4tega,u1Vza;arU;ent;n4or0Irusalemme ov0B;e0Moa,ève;sk;boro3lw4;ay;es,r4unafuti;ankfu4ee0D;rt;dmontEindhov0Or4;ev0;a9ha0Yi8o6u4;bl0Jrb0sh4š4;anbe;do4ha;ma;li;c7e5kar,masc4ugavpiZ;o,us;gu,je4;on;ca;aIebu,hDittà dAo4raio02uriti17;lo7n5pen4rk;agh09hag09;akGstan4;ta;g3m4;bo;el 4i san mari5;guatema2messico,vatica4;no;enn7i5ristchur4;ch;ang m5ca4ttago03șinău;go;ai;i5lga4nber0Tpe Jrac9striE;ry;ro;aYePiMogotLr9u4;c6dap7enos airAr4s0;g4sa;as;ar4har4;est;aBi7u4;sse5xell4;es;ls;d5s4;ba3;ge4;town;sil1tisla6zzav4;il4;le;va;a,à;rmingh01ss5šk4;ek;au;iAl8r4;g6l4n;in4;!o;en;grad4mop0;e,o;ji4rut;ng;ghdTku,mako,n8r5s4;el,seterB;celo5ranquil2;la;na;dar seri begaw0g6j4;a lu4ul;ka;alo4kok,ui;re;aQbMccLddis abeKhmedIlGmDnAp1qaKs6t4uckland,şg8;e3hens;ne;h4maIunción;dod,g4;ab4;at;kaEt4;ananari4werp;vo;m0s4;terd4;am; kuwait,exandr1geri,maty;ia;ab4;ad;ba;ra;idj0u4; dha4ja;bi;an;lbo5rh4;us;rg",
+    "Place": "true¦aGbEcCdBeurope,fco,gAh9i8jfk,kul,l6m4ord,p2s1the 0upDyyz;bronx,hamptons;fo,oho,underland,yd;ek,h0;l,x;a0co,id8uc;libu,nhattan;a0gw,hr;s,x;ax,cn,st;arlem,kg,nd;ay village,reenwich;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m0sia,tl;erica0s; 0s;centr0meridion0;ale",
+    "FirstName": "true¦aEblair,cCdevBj8k6lashawn,m3nelly,quinn,re2sh0;ay,e0iloh;a,lby;g1ne;ar1el,org0;an;ion,lo;as8e0r9;ls7nyatta,rry;am0ess1ude;ie,m0;ie;an,on;as0heyenne;ey,sidy;lex1ndra,ubr0;ey;is",
+    "LastName": "true¦0:31;1:38;2:36;3:2V;4:2C;a37b2Xc2Kd2Be28f22g1Wh1Mi1Hj1Bk14l0Wm0Ln0Ho0Ep04rXsLtGvEwBxAy7zh5;a5ou,u;ng,o;a5eun2Qoshi1Hun;ma5ng;da,guc1Wmo24sh1YzaQ;iao,u;a6eb0il5o3right,u;li37s2;gn0lk0ng,tanabe;a5ivaldi;ssilj33zqu1;a8h7i2Co6r5sui,urn0;an,ynisI;lst0Mrr1Rth;at1Romps2;kah0Snaka,ylor;aDchCeBhimizu,iAmi9o8t6u5zabo;ar1lliv26zuD;a5ein0;l1Zrm0;sa,u3;rn4th;lva,mmo20ngh;mjon4rrano;midt,neid0ulz;ito,n6sa5to;ki;ch1dJtos,z;amAeag1Vi8o6u5;bio,iz;b5dri1JgGj0Qme20osevelt,ux;erts,ins2;c5ve0C;ci,hards2;ir1os;aCe8h6ic5ow1W;asso,hl0;a5illips;m,n1Q;ders1Xet7r6t5;e0Lr4;ez,ry;ers;h1Yrk0t5vl4;el,te0H;baAg09liveiZr5;t5w1L;ega,iz;a5eils2guy1Oix2owak,ym1B;gy,ka5var1H;ji5muU;ma;aDeBiAo7u5;ll0n5rr09ssolini,ñ5;oz;lina,oIr5zart;al0Ke5r0S;au,no;hhail4ll0;rci0ssi5y0;!er;eUmmad4r5tsu05;in,tin1;aBe7i5op1uo;n5u;coln,dholm;fe6n0Or5w0I;oy;bv5v5;re;mmy,rs12u;aAennedy,imu9le0Jo7u6wo5;k,n;mar,znets4;bay5vacs;asX;ra;hn,rl8to,ur,zl4;a9en8ha3imen1o5u3;h5nXu3;an5ns2;ss2;ki0Cs0Q;cks2nsse0B;glesi8ke7noue,shik6to,vano5;u,v;awa;da;as;aAe7itchcock,o6u5;!a3b0ghMynh;a3ffmann,rvat;mingw6nde5rM;rs2;ay;ns0DrrPs6y5;asCes;an4hi5;moI;a8il,o7r6u5;o,tierr1;ayli3ub0;m1nzal1;nd5o,rcia;hi;er9is8lor7o6uj5;ita;st0urni0;es;ch0;nand1;d6insteFsposi5vaJ;to;is2wards;aAelgado,i8omin7u5;bo5rand;is;gu1;az,mitr4;ov;nkula,rw6vi5;es,s;in;aEhAlark9o5;hKl5op0rbyn,x;em6li5;ns;an;!e;an7e6iu,o5ristensFu3we;i,ng,u3w,y;n,on5u3;!g;mpb6rt0st5;ro;ell;aAe7ha3lanco,oyko,r5yrne;ooks,yant;ng;ck6ethov5nnett;en;er,ham;ch,h7iley,rn5;es,i0;er;k,ng;dCl8nd5;ers5r9;en,on,s2;on;eks6iy7var1;ez;ej5;ev;ams",
+    "MaleName": "true¦0:CA;1:BH;2:BY;3:BP;4:B1;5:BV;6:AP;7:9R;8:B9;9:AT;A:AK;aB0bA4c93d83e7Cf6Vg6Dh5Ti5Fj4Ik48l3Om2Nn2Co27p21qu1Zr19s0Pt05u04v00wNxavi3yGzB;aBor0;cBh8Ene;hCkB;!aAX;ar4YeAW;ass2i,oCuB;sDu23;nEsDusB;oBsC;uf;ef;at0g;aJeHiCoByaAL;lfgang,odrow;lBn1N;bDey,frBFlB;aA1iB;am,e,s;e85ur;i,nde7sB;!l6t1;de,lCrr5yB;l1ne;lBt3;a8Zy;aDern1iB;cBha0nce8Srg97va0;ente,t58;lentin47n8Vughn;lyss4Ksm0;aTeOhKiIoErCyB;!l3ro8s1;av9NeBist0oy,um0;nt9Fv52y;bDd7UmBny;!as,mBoharu;aAVie,y;i80y;mBt9;!my,othy;adDeoCia7AomB;!as;!do7J;!de9;dErB;en8ErB;an8DeBy;ll,n8C;!dy;dgh,ic9Qnn3req,ts43;aRcotPeNhJiHoFpenc3tBur1Mylve8Ezym1;anDeBua78;f0phACvBwa77;e55ie;!islaw,l6;lom1nA0uB;leyma8ta;dBl7Gm1;!n6;aDeB;lBrm0;d1t1;h6Pne,qu0Tun,wn,y8;aBbasti0k1Vl3Zrg3Yth,ymo9F;m9n;!tB;!ie,y;lCmBnti1Zq4Gul;!mAu4;ik,vato6S;aWeShe8ZiOoFuCyB;an,ou;b6IdCf9pe6NssB;!elAF;ol2Sy;an,bIcHdGel,geFh0landA6mEnDry,sCyB;!ce;coe,s;!a92nA;an,eo;l3Hr;e4Og3n6olfo,ri65;co,ky;bAe9R;cBl6;ar5Lc5KhCkB;!ey,ie,y;a82ie;gCid,ub5x,yBza;ansh,nR;g8TiB;na8Ps;ch5Vfa4lDmCndBpha4sh6Rul,ymo6X;al9Vol29y;i9Fon;f,ph;ent2inB;cy,t1;aFeDhilCier5Zol,reB;st1;!ip,lip;d98rcy,tB;ar,e2T;b3Qdra6Co3Qt42ul;ctav2Tliv3m93rEsBt7Num8Rw5;aCc8QvB;al50;ma;i,l48vJ;athJeHiDoB;aBel,l0ma0r2W;h,m;cCg4i3HkB;h6Sola;hol5VkBol5V;!ol5U;al,d,il,ls1vB;il4Y;anBy;!a4i4;aVeSiJoFuCyB;l20r1;hamCr5XstaB;fa,p4E;ed,mE;dibo,e,hamCis1Wnty,sBussa;es,he;ad,ed,mB;ad,ed;cGgu4kElDnCtchB;!e7;a77ik;house,o03t1;e,olB;aj;ah,hBk6;a4eB;al,l;hClv2rB;le,ri7v2;di,met;ck,hNlLmOnu4rHs1tDuricCxB;!imilian8Bwe7;e,io;eo,hCi51tB;!eo,hew,ia;eBis;us,w;cDio,k85lCqu6Fsha7tBv2;i2Hy;in,on;!el,oKus;achBcolm,ik;ai,y;amBdi,moud;adB;ou;aReNiMlo2RoIuCyB;le,nd1;cEiDkBth3;aBe;!s;gi,s;as,iaB;no;g0nn6QrenDuBwe7;!iB;e,s;!zo;am,on4;a7Aevi,la4RnDoBst3vi;!nB;!a5Zel;!ny;mCnBr66ur4Swr4S;ce,d1;ar,o4M;aIeDhaled,iBrist4Uu47y3A;er0p,rB;by,k,ollos;en0iEnBrmit,v2;!dCnBt5B;e0Yy;a7ri4M;r,th;na67rBthem;im,l;aYeQiOoDuB;an,liBst2;an,o,us;aqu2eJhnInGrEsB;eChBi7Aue;!ua;!ph;dBge;an,i,on;!aBny;h,s,th4W;!ath4Vie,nA;!l,sBy;ph;an,e,mB;!mA;d,ffGrDsB;sBus;!e;a5IemCmai8oBry;me,ni0O;i6Ty;!e57rB;ey,y;cHd5kGmFrDsCvi3yB;!d5s1;on,p3;ed,od,rBv4L;e4Yod;al,es,is1;e,ob,ub;k,ob,quB;es;aNbrahMchika,gKkeJlija,nuIrGsDtBv0;ai,sB;uki;aBha0i6Ema4sac;ac,iaB;h,s;a,vinBw2;!g;k,nngu51;!r;nacBor;io;im;in,n;aJeFina4UoDuByd55;be24gBmber4BsD;h,o;m3ra32sBwa3W;se2;aDctCitCn4DrB;be1Zm0;or;th;bKlJmza,nIo,rDsCyB;a42d5;an,s0;lEo4ErDuBv6;hi3Zki,tB;a,o;is1y;an,ey;k,s;!im;ib;aQeMiLlenKoIrEuB;illerCsB;!tavo;mo;aDegBov3;!g,orB;io,y;dy,h56nt;nzaBrd1;lo;!n;lbe4Pno,ovan4Q;ne,oDrB;aBry;ld,rd4T;ffr6rge;bri4l5rBv2;la1Yr3Dth,y;aQeNiLlJorr0HrB;anDedBitz;!dAeBri23;ri22;cDkB;!ie,lB;in,yn;esco,isB;!co,zek;etch3oB;yd;d4lBonn;ip;liCng,rnB;an00;pe,x;bi0di;arZdUfrTit0lNmGnFo2rCsteb0th0uge8vBym5zra;an,ere2V;gi,iCnBrol,v2w2;est45ie;c07k;och,rique,zo;aGerFiCmB;aFe2P;lCrB;!h0;!io;s1y;nu4;be09d1iEliDmCt1viBwood;n,s;er,o;ot1Ts;!as,j43sB;ha;a2en;dAg32mEuCwB;a25in;arB;do;o0Su0S;l,nB;est;aYeOiLoErDuCwByl0;ay8ight;a8dl6nc0st2;ag0ew;minFnDri0ugCyB;le;!l03;!a29nBov0;e7ie,y;go,icB;!k;armuCeBll1on,rk;go;id;anIj0lbeHmetri9nFon,rEsDvCwBxt3;ay8ey;en,in;hawn,mo08;ek,ri0F;is,nBv3;is,y;rt;!dB;re;lKmInHrDvB;e,iB;!d;en,iDne7rByl;eBin,yl;l2Vn;n,o,us;!e,i4ny;iBon;an,en,on;e,lB;as;a06e04hWiar0lLoGrEuCyrB;il,us;rtB;!is;aBistobal;ig;dy,lEnCrB;ey,neli9y;or,rB;ad;by,e,in,l2t1;aGeDiByI;fBnt;fo0Ct1;meCt9velaB;nd;nt;rDuCyB;!t1;de;enB;ce;aFeErisCuB;ck;!tB;i0oph3;st3;d,rlBs;eBie;s,y;cBdric,s11;il;lEmer1rB;ey,lCro7y;ll;!os,t1;eb,v2;ar02eUilTlaSoPrCuByr1;ddy,rtI;aJeEiDuCyB;an,ce,on;ce,no;an,ce;nCtB;!t;dCtB;!on;an,on;dCndB;en,on;!foBl6y;rd;bCrByd;is;!by;i8ke;al,lA;nFrBshoi;at,nCtB;!r10;aBie;rd0S;edict,iCjam2nA;ie,y;to;n6rBt;eBy;tt;ey;ar0Xb0Nd0Jgust2hm0Gid5ja0ElZmXnPputsiOrFsaEuCveBya0ziz;ry;gust9st2;us;hi;aIchHi4jun,maFnDon,tBy0;hBu06;ur;av,oB;ld;an,nd0A;el;ie;ta;aq;dGgel05tB;hoEoB;i8nB;!i02y;ne;ny;reBy;!as,s,w;ir,mBos;ar;an,beOd5eIfFi,lEonDphonHt1vB;aMin;on;so,zo;an,en;onCrB;edP;so;c,jaEksandDssaExB;!and3;er;ar,er;ndB;ro;rtH;ni;en;ad,eB;d,t;in;aColfBri0vik;!o;mBn;!a;dFeEraCuB;!bakr,lfazl;hBm;am;!l;allEel,oulaye,ulB;!lCrahm0;an;ah,o;ah;av,on",
+    "FemaleName": "true¦0:FV;1:FZ;2:FO;3:FA;4:F9;5:FP;6:EO;7:GC;8:EW;9:EM;A:G8;B:E2;C:G5;D:FL;E:FI;F:ED;aDZbD2cB7dAHe9Ff8Zg8Fh81i7Rj6Tk5Zl4Nm36n2Ro2Op2Dqu2Cr1Ms0Pt03ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7DeHol1RvG;et9onB8;le0sen3;an8endBMhiB3iG;lInG;if38niGo0;e,f37;a,helmi0lGma;a,ow;aLeIiG;ckCZviG;an9WenFY;da,l8Vnus,rG;nGoni8M;a,iDA;leGnesEA;nDJrG;i1y;aSePhNiMoJrGu6y4;acG1iGu0E;c3na,sG;h9Mta;nHrG;a,i;i9Jya;a5IffaCFna,s5;al3eGomasi0;a,l8Go6Xres1;g7To6WrHssG;!a,ie;eFi,ri7;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC9ra;!ka;a,t5;at5it5;a04carlet2Yel6NhUiSkye,oQtMuHyG;bFHlvi1;sHzG;an2Tet9ie,y;anGi7;!a,e,nG;aEe;aIeG;fGla,phG;an2;cF6r6;nGphi1;d4ia,ja,ya;er4lv3mon1nGobh74;dy;aKeGirlBKo0y6;ba,e0i6lIrG;iGrBOyl;!d6Z;ia,lBT;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBMome;e,ie;in1ri0;a02eXhViToHuG;by,thBJ;bQcPlOnNsHwe0xG;an95ie,y;aHeGie,lC;ann7ll1marBEtB;lGnn1;iGyn;e,nG;a,d7X;da,i,na;an8;hel54io;bin,erByn;a,cGkki,na,ta;helBYki;ea,iannDWoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;c6CkaE;chGe,i0mo0n5EquCCvDy0;aCBelGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAV;scil1Vyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Po6rvaBAtHulG;a,et9in1;ricGsy,tA8;a,e,ia;ctav3deHfAVlGphAV;a,ga,iv3;l3t9;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoB1k8ColG;a,eBG;!mh;ll2na,risF;dIi5QnHo24taG;li1s5;cy,et9;eAiCN;a01ckenz2eViLoIrignayani,uriBFyG;a,rG;a,na,tAR;i4ll9WnG;a,iG;ca,ka,qB3;chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi54lG;iGy;cent,e;red;!e6;ae6el3H;ag4KgKi,lHrG;edi62isFyl;an2iGliF;nGsAL;a,da;!an,han;b09c9Dd07e,g05i04l02n00rKtJuHv6Tx87yGz2;a,bell,ra;de,rG;a,eD;h76il8t2;a,cTgPiKjor2lJn2s5tIyG;!aGbe5RjaAlou;m,n9R;a,ha,i0;a,en1;!aIbAJeHja,lCna,sGt53;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Jueri9;!t;!ry;et3HiB;elGi61y;a,l1;dGon,ue6;akranBy;iGlo35;a,ka,n8;a,re,s2;daGg2;!l5X;alCd2elGge,isBEon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9QnGsAO;!a,e9P;a,sAM;aAZcJelIiFlHpGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi7na,rG;a6Yi7;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Ket9z2;a,et9;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8Ee;!n4F;b7Rerty;!n5R;aNda,e0iLla,nKoIslAPtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4N;cNdon7Qi6kes5na,rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5B;a,en,iGy;!e,n48;ri,urtn98;aMerLl97mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6NiJlInHrG;a,i,ri;d4na;ey,i,l9Os2y;ra,s5;c8Ui5WlOma6nyakumari,rMss5KtJviByG;!e,lG;a,eG;e,i76;a5DeHhGi3PlCri0y;ar5Ber5Bie,leDr9Dy;!lyn71;a,en,iGl4Uyn;!ma,n31sF;ei70i,l2;a04eVilToMuG;anKdJliGst55;aHeGsF;!nAt0V;!n8V;i2Ry;a,iB;!anLcelCd5Uel6Zhan6GlJni,sHva0yG;a,ce;eGie;fi0lCph4W;eGie;en,n1;!a,e,n36;!i0ZlG;!i0Y;anLle0nIrHsG;i1Asi1A;i,ri;!a,el6Nif1RnG;a,et9iGy;!e,f1P;a,e70iHnG;a,e6ZiG;e,n1;cLd1mi,nHqueliAsmin2Uvie4yAzG;min7;a7eHiG;ce,e,n1s;!lGsFt05;e,le;inHk2lCquelG;in1yn;da,ta;da,lOmNnMo0rLsHvaG;!na;aHiGob6S;do4;!belGdo4;!a,e,l2G;en1i0ma;a,di4es,gr5P;el8og2H;a,eAia0o0se;aNeKilHoGyacin1O;ll2rten1I;aHdGlaH;a,egard;ry;ath0XiHlGnrietBrmiAst0X;en25ga;di;il74lKnJrGtt2yl74z6C;iGmo4Fri4G;etG;!te;aEnaE;ey,l2;aYeTiOlMold13rIwG;enGyne19;!dolC;acHetGisel8;a,chD;e,ieG;!la;adys,enGor3yn1Z;a,da,na;aJgi,lHna,ov70selG;a,e,le;da,liG;an;!n0;mZnIorgHrG;ald35i,m2Ttru72;et9i5S;a,eGna;s1Ovieve;briel3Fil,le,rnet,yle;aSePio0loNrG;anHe8iG;da,e8;!cG;esIiGoi0H;n1sG;ca;!ca;!rG;a,en41;lHrnG;!an8;ec3ic3;rHtiGy7;ma;ah,rah;d0FileDkBl00mUn48rRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2G;geni1la,ni3P;h50ta;meral8peranJtG;eHhGrel6;er;l2Or;za;iGma,nest28yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aWeKiJoGul2S;lor4Zminiq3Wna,rGtt2;a,eDis,la,othGthy;ea,y;an09naEonAx2;anPbOde,eNiLja,lImetr3nGsir4S;a,iG;ce,se;a,iHorGphiA;es,is;a,l5H;dGrdG;re;!d4Kna;!b2AoraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1VyG;le,na;a,by,cHia,lG;en1;ey,ie;a,et9iG;!ca,el19ka;arGia;is;a0Pe0Mh04i02lUoJrHynG;di,th3;istGy04;al,i0;lOnLrHurG;tn1C;aId26iGn26riA;!nG;a,e,n1;!l1Q;n2sG;tanGuelo;ce,za;eGleD;en,t9;aIeoHotG;il49;!pat4;ir7rIudG;et9iG;a,ne;a,e,iG;ce,sX;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;!i7yl;a,y;nLrG;isJlHmG;aiA;a,eGot9;n1t9;!sa;d4el1NtG;al,el1M;cGli3E;el3ilG;e,ia,y;iYlXmilWndVrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2FsG;a2Eie;iMlKmeIolHrG;ie,ol;!e,in1yn;lGn;!a,la;a,eGie,y;ne,y;na,sF;a0Ci0C;a,e,l1;isBl2;tlG;in,yn;arb0BeXlVoTrG;andRePiIoHyG;an0nn;nwCok7;an2MdgKg0HtG;n26tG;!aHnG;ey,i,y;ny;etG;!t7;an0e,nG;da,na;i7y;bbi7nG;iBn2;ancGossom,ythe;a,he;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Zy7;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et9iA;!triG;ce,z;a4ie,ra;aliy29b24d1Lg1Hi19l0Sm0Nn01rWsNthe0uJvIyG;anGes5;a,na;a,r25;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi7yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t9;an19elG;le;aYdWeUgQiOja,nHtoGya;inet9n3;!aJeHiGmI;e,ka;!mGt9;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t9;te;je6rea;la;!bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i7y;!e;il;ah"
   };
 
   const BASE = 36;
@@ -8879,18 +11559,40 @@
     // gerunds
     res = verbs$2.toGerund(w);
     words[res] = words[res] || ['Gerund'];
-    // participle
+    // participle, in all gender/number agreements - fondato/a/i/e
     res = verbs$2.toPastParticiple(w);
-    words[res] = words[res] || ['PastParticiple'];
+    if (res) {
+      words[res] = words[res] || ['PastParticiple'];
+      let fem = res.replace(/o$/, 'a');
+      let plur = res.replace(/o$/, 'i');
+      let femPlur = res.replace(/o$/, 'e');
+      words[fem] = words[fem] || ['PastParticiple'];
+      words[plur] = words[plur] || ['PastParticiple'];
+      words[femPlur] = words[femPlur] || ['PastParticiple'];
+    }
     // present participle
     res = verbs$2.toPresentParticiple(w);
     words[res] = words[res] || ['PresentParticiple'];
   };
 
-  Object.keys(lexData).forEach((tag) => {
+  // process 'Infinitive' last, so its generated conjugations
+  // never shadow words from the curated lists (eg 'pizza')
+  let tagList = Object.keys(lexData).sort((a, b) => {
+    if (a === 'Infinitive') return 1
+    if (b === 'Infinitive') return -1
+    return 0
+  });
+  tagList.forEach((tag) => {
     let wordsObj = unpack$1(lexData[tag]);
     Object.keys(wordsObj).forEach((w) => {
-      words[w] = tag;
+      // merge, so a word packed under two tags keeps both (eg 'oggi' Date+Noun)
+      if (words[w] === undefined) {
+        words[w] = tag;
+      } else if (typeof words[w] === 'string') {
+        words[w] = [words[w], tag];
+      } else if (Array.isArray(words[w]) && !words[w].includes(tag)) {
+        words[w].push(tag);
+      }
 
       // expand
       if (tag === 'Cardinal') {
@@ -8950,12 +11652,59 @@
     return want.find((tag) => term.tags.has(tag))
   };
 
+  // for verbs tagged without person info, guess it from the ending
+  const guessForm = function (str) {
+    if (/iamo$/.test(str)) return 'FirstPersonPlural'
+    if (/te$/.test(str)) return 'SecondPersonPlural'
+    if (/no$/.test(str)) return 'ThirdPersonPlural'
+    if (/o$/.test(str)) return 'FirstPerson'
+    if (/i$/.test(str)) return 'SecondPerson'
+    return 'ThirdPerson'
+  };
+
+  // every irregular conjugated form, mapped back to its infinitive
+  const irregularRoots = {};
+  Object.keys(irregular.paradigms).forEach((inf) => {
+    let p = irregular.paradigms[inf];
+    Object.keys(p).forEach((k) => {
+      let forms = p[k];
+      if (typeof forms === 'string') {
+        forms = [forms];
+      }
+      forms.forEach((w) => {
+        if (w && !irregularRoots.hasOwnProperty(w)) {
+          irregularRoots[w] = inf;
+        }
+      });
+    });
+  });
+  // 'sono' belongs to essere, not stare/etc
+  irregularRoots['sono'] = 'essere';
+  // participles of otherwise-regular verbs
+  Object.keys(irregular.participles).forEach((inf) => {
+    let pp = irregular.participles[inf];
+    if (!irregularRoots.hasOwnProperty(pp)) {
+      irregularRoots[pp] = inf;
+    }
+  });
+  Object.keys(irregular.gerunds).forEach((inf) => {
+    let ger = irregular.gerunds[inf];
+    if (!irregularRoots.hasOwnProperty(ger)) {
+      irregularRoots[ger] = inf;
+    }
+  });
+
   // turn 'congratularmi' into 'congratular'
   const stripReflexive = function (str) {
     str = str.replace(/ar[mtscv]i$/, 'are');
     str = str.replace(/er[mtscv]i$/, 'ere');
     str = str.replace(/ir[mtscv]i$/, 'ire');
     return str
+  };
+
+  // 'mangiata' -> 'mangiato', 'prese' -> 'preso'
+  const masculineParticiple = function (str) {
+    return str.replace(/([ts])[aie]$/, '$1o')
   };
 
   const root = function (view) {
@@ -8968,13 +11717,25 @@
         }
         // get infinitive form of the verb
         if (term.tags.has('Verb')) {
-          let form = verbForm(term);
-          if (term.tags.has('Gerund')) {
+          let form = verbForm(term) || guessForm(str);
+          if (irregularRoots.hasOwnProperty(str)) {
+            term.root = irregularRoots[str];
+          } else if (term.tags.has('Infinitive')) {
+            // an infinitive is already its own root
+            term.root = str;
+          } else if (term.tags.has('Gerund')) {
             term.root = verb.fromGerund(str, form);
           } else if (term.tags.has('ConditionalVerb')) {
             term.root = verb.fromConditional(str, form);
           } else if (term.tags.has('PastParticiple')) {
-            term.root = verb.fromPastParticiple(str, form);
+            let masc = masculineParticiple(str);
+            term.root = irregularRoots.hasOwnProperty(masc)
+              ? irregularRoots[masc]
+              : verb.fromPastParticiple(masc, form);
+          } else if (term.tags.has('ImperfectVerb')) {
+            term.root = verb.fromImperfect(str, form);
+          } else if (term.tags.has('Subjunctive')) {
+            term.root = verb.fromSubjunctive(str, form);
           } else if (term.tags.has('PresentTense')) {
             term.root = verb.fromPresent(str, form);
           } else if (term.tags.has('PastTense')) {
@@ -8986,7 +11747,7 @@
           }
         }
 
-        // nouns -> singular masculine form
+        // nouns -> singular form
         if (term.tags.has('Noun')) {
           if (term.tags.has('PluralNoun')) {
             str = noun.fromPlural(str);
@@ -8994,12 +11755,13 @@
           term.root = str;
         }
 
-        // nouns -> singular masculine form
+        // adjectives -> singular masculine form
         if (term.tags.has('Adjective')) {
-          if (term.tags.has('PluralAdjective')) {
+          if (term.tags.has('FemaleAdjective') && term.tags.has('PluralAdjective')) {
+            str = adjective.fromFemalePlural(str);
+          } else if (term.tags.has('PluralAdjective')) {
             str = adjective.fromPlural(str);
-          }
-          if (term.tags.has('FemaleAdjective')) {
+          } else if (term.tags.has('FemaleAdjective')) {
             str = adjective.fromFemale(str);
           }
           // str = adjective.toRoot(str)
@@ -9167,9 +11929,9 @@
     Copula: {
       is: 'Verb',
     },
-    Reflexive: {
-      is: 'Verb',
-    },
+    // applies to both reflexive clitics ('mi', 'si') and
+    // reflexive verb-forms ('alzarsi') - so no is:Verb
+    Reflexive: {},
     Modal: {
       is: 'Verb',
       not: ['Infinitive'],
@@ -9618,14 +12380,30 @@
   };
   var acronym = isAcronym;
 
+  // auxiliary word-forms (essere/avere/stare) - the Auxiliary tag itself
+  // is only applied by the postTagger, which runs after this pass
+  const auxWords = new Set([
+    'sono', 'sei', 'è', 'siamo', 'siete', 'ero', 'eri', 'era', 'eravamo', 'eravate', 'erano',
+    'fui', 'fu', 'furono', 'sarò', 'sarà', 'saranno', 'sia', 'siano', 'fossi', 'fosse', 'fossero',
+    'ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno', 'avevo', 'avevi', 'aveva', 'avevamo', 'avevate', 'avevano',
+    'ebbe', 'ebbero', 'avrò', 'avrà', 'avranno', 'abbia', 'abbiano', 'avesse', 'avessero',
+    'sto', 'stai', 'sta', 'stiamo', 'stanno', 'stavo', 'stava', 'stavano',
+  ]);
+  // past-participle endings - mangiato/a/i/e, venduto, finito
+  const participleLike = /(at|ut|it)[oaie]$/;
+
   const fallback = function (terms, i, world) {
     let setTag = world.methods.one.setTag;
     let term = terms[i];
     if (term.tags.size === 0) {
 
       if (terms[i - 1]) {
-        if (terms[i - 1].tags.has('Auxiliary')) {
-          setTag([term], 'Verb', world, false, '2-fallback-verb');
+        if (terms[i - 1].tags.has('Auxiliary') || auxWords.has(terms[i - 1].normal)) {
+          if (participleLike.test(term.normal)) {
+            setTag([term], 'PastParticiple', world, false, '2-fallback-participle');
+          } else {
+            setTag([term], 'Verb', world, false, '2-fallback-verb');
+          }
           return
         }
       }
@@ -9677,6 +12455,50 @@
     return null
   };
   var suffixCheck$1 = suffixCheck;
+
+  // runs before the suffix-lookup, which is too coarse for these
+  // infinitive with attached clitic - 'scriverlo', 'fissarla'
+  const cliticInfinitive = /^.{3,}(ar|er|ir)(lo|la|li|le|ne|mi|ti|si|ci|vi)$/;
+  // long unknown -are/-ere/-ire words are usually verbs - 'autoprodurre'
+  const infinitive = /^.{3,}(are|ere|ire|rre)$/;
+  // compound prefixes - 'autoprodotto' -> 'prodotto'
+  const prefix = /^(auto|anti|contro|inter|micro|mini|multi|neo|post|pre|pseudo|semi|sotto|sopra|super|ultra|vice|co)/;
+
+  const verbLike = function (terms, i, world) {
+    let setTag = world.methods.one.setTag;
+    let term = terms[i];
+    if (term.tags.size !== 0) {
+      return null
+    }
+    // an unknown prefixed compound takes the tags of its base word
+    let pre = term.normal.match(prefix);
+    if (pre) {
+      let base = term.normal.slice(pre[0].length);
+      let lexicon = world.model.one.lexicon || {};
+      if (base.length > 3 && lexicon[base] !== undefined) {
+        setTag([term], lexicon[base], world, false, '2-prefix-compound');
+        return true
+      }
+    }
+    if (cliticInfinitive.test(term.normal)) {
+      setTag([term], 'Infinitive', world, false, '2-clitic-infinitive');
+      return true
+    }
+    if (infinitive.test(term.normal)) {
+      setTag([term], 'Infinitive', world, false, '2-infinitive-guess');
+      return true
+    }
+    // truncated infinitive - 'aver fatto', 'salvar la vita'
+    if (/(ar|er|ir)$/.test(term.normal)) {
+      let lexicon = world.model.one.lexicon || {};
+      if (lexicon[term.normal + 'e'] === 'Infinitive') {
+        setTag([term], 'Infinitive', world, false, '2-truncated-infinitive');
+        return true
+      }
+    }
+    return null
+  };
+  var verbLike$1 = verbLike;
 
   //sweep-through all suffixes
   const suffixLoop = function (str = '', suffixes = []) {
@@ -9781,7 +12603,7 @@
     let term = terms[i];
     let tags = term.tags;
     let str = term.normal || term.implicit || '';
-    if (tags.has('Noun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
+    if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
       let tag = suffixLoop$1(str, suffixes);
       if (tag) {
         setTag([term], tag, world, false, '2-guess-gender');
@@ -9810,7 +12632,7 @@
     let setTag = world.methods.one.setTag;
     let term = terms[i];
     let tags = term.tags;
-    if (tags.has('Noun') && !tags.has('PluralNoun')) {
+    if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('PluralNoun') && !tags.has('Singular')) {
       let tag = checkSuffix$2(term);
       if (tag) {
         setTag([term], tag, world, false, '2-noun-number');
@@ -9823,11 +12645,18 @@
   // str = str.replace(/e$/, 'i')//triste -> tristi
   // str = str.replace(/a$/, 'e')//nera -> nere
 
+  // invariant '-e' adjectives - 'grande', 'riferibile', 'inglese'
+  const invariant$1 = /(ale|ile|are|ore|nte|ese|bile)$/;
+
   const checkSuffix$1 = function (str) {
     let m = 'MaleAdjective';
     let f = 'FemaleAdjective';
     if (str.endsWith('o') || str.endsWith('i')) {
       return m
+    }
+    // same form for both genders
+    if (invariant$1.test(str)) {
+      return null
     }
     // la signora italiana
     if (str.endsWith('a') || str.endsWith('e')) {
@@ -9850,7 +12679,13 @@
   };
   var guessAdjGender = adjGender;
 
+  // invariant '-e' adjectives are singular - 'grande', 'riferibile'
+  const invariant = /(ale|ile|are|ore|nte|ese|bile)$/;
+
   const checkSuffix = function (str) {
+    if (invariant.test(str)) {
+      return null
+    }
     if (str.endsWith('e') || str.endsWith('i')) {
       return 'PluralAdjective'
     }
@@ -9892,6 +12727,7 @@
   const secondPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
       let found = acronym(terms, i, world);
+      found = found || verbLike$1(terms, i, world);
       found = found || suffixCheck$1(terms, i, world);
       // found = found || neighbours(terms, i, world)
       found = found || fallback$1(terms, i, world);
@@ -10033,8 +12869,7 @@
   const fut = 'FutureTense';
   const inf = 'Infinitive';
   const g = 'Gerund';
-  const ref = 'Reflexive';
-  const imp = 'Imperative';
+  const ref = ['Reflexive', 'Infinitive']; //alzarsi
   const pres = 'PresentTense';
   const val = ['TextValue', 'Cardinal'];
   const ord = ['TextValue', 'Ordinal'];
@@ -10090,7 +12925,7 @@
       rrà: fut,
       vrà: fut,
       irò: fut,
-      ava: imp,
+      ava: vb, //imperfect - parlava
       bbe: vb,
       sce: vb,
       ono: vb,
@@ -10146,9 +12981,10 @@
     },
     {
       // four-letter suffixes
-      otto: val,
+      // no 'otto' - matches 'prodotto', 'salotto'.. number-words are in the lexicon
       nove: val,
       mila: val,
+      anta: val, //settanta, trecentosettanta
 
       // reflexive infinitives
       armi: ref,
@@ -10416,8 +13252,8 @@
       mpare: vb,
       corre: vb,
       iasse: vb,
-      cesse: imp,
-      vesse: imp,
+      cesse: vb, //imperfect subjunctive - facesse
+      vesse: vb, //dovesse
       usate: vb,
       edete: vb,
       ndete: vb,
@@ -10814,6 +13650,8 @@
     {
       // six-letter suffixes
       cinque: val,
+      ntotto: val, //cinquantotto
+      ciotto: val, //diciotto
       ionale: jj,
       andoci: g, //reflexive gerund
       endoci: g,
@@ -10853,56 +13691,101 @@
     hooks: ['preTagger']
   };
 
+  // articles that are never object-pronouns (l' splits to 'l')
+  const articles = '(il|i|un|uno|una|l)';
+  // these are articles OR proclitic object-pronouns - 'la pizza' vs 'la vedo'
+  const articleClitics = '(lo|la|le|gli)';
+  // preposition+article contractions
+  const prepArticles =
+    '(al|allo|alla|ai|agli|alle|del|dello|della|dei|degli|delle|nel|nello|nella|nei|negli|nelle|sul|sullo|sulla|sui|sugli|sulle|dal|dallo|dalla|dai|dagli|dalle|col|coi)';
+  // other noun-introducers
+  const otherDets = '(questo|questa|questi|queste|quel|quello|quella|quelli|quelle|ogni|qualche|nessun|alcuni|alcune|molti|molte)';
+
+  // essere - to be
+  const essereForms =
+    '(sono|sei|è|siamo|siete|ero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sarò|sarai|sarà|saremo|sarete|saranno|sia|siano|fossi|fosse|fossimo|fossero|sarei|saresti|sarebbe|saremmo|sareste|sarebbero)';
+  // avere - to have
+  const avereForms =
+    '(ho|hai|ha|abbiamo|avete|hanno|avevo|avevi|aveva|avevamo|avevate|avevano|ebbi|ebbe|ebbero|avrò|avrai|avrà|avremo|avrete|avranno|abbia|abbiano|avessi|avesse|avessimo|avessero|avrei|avresti|avrebbe|avremmo|avreste|avrebbero)';
+  // stare - progressive
+  const stareForms =
+    '(sto|stai|sta|stiamo|state|stanno|stavo|stavi|stava|stavamo|stavate|stavano|starò|starai|starà|staremo|starete|staranno)';
+
+  // forms that stay verbs even after an article - "l'hai", "uno è"
+  const coreVerbs =
+    '(è|era|erano|ero|sono|sei|siamo|siete|fu|furono|sarà|saranno|sia|siano|fosse|ho|hai|ha|abbiamo|avete|hanno|avevo|aveva|avevano|avrà|abbia|sto|stai|sta|stanno|stava|posso|puoi|può|possiamo|possono|poteva|potrà|devo|devi|deve|dobbiamo|devono|doveva|dovrà|voglio|vuoi|vuole|vogliamo|vogliono|voleva|vorrà|so|sai|sa|sanno|vado|vai|va|vanno|faccio|fai|fa|fanno|dico|dici|dice|dicono)';
+
   const postTagger$1 = function (doc) {
-    doc.match('una [#Verb]', 0).tag('FemaleNoun', 'una-adj');
-    doc.match('un [#Verb]', 0).tag('MaleNoun', 'uno-adj');
+    // a word after an article is a noun - 'la pizza', 'il potere'
+    doc.match(`${articles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-noun');
+    doc.match(`${prepArticles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'prep-art-noun');
+    doc.match(`${otherDets} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'det-noun');
+    doc.match(`${articleClitics} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-clitic-noun');
+    // ..unless an object follows - 'le offro un caffè', 'lo vede la sera'
+    doc.match(`${articleClitics} [#Noun] (un|uno|una|il|lo|la|i|gli|le|mi|ti|ci|vi)`, 0).tag('PresentTense', 'clitic-verb');
+    // 'lo vedo' - the clitic before a verb is a pronoun
+    doc.match(`[${articleClitics}] #Verb`, 0).tag('Pronoun', 'clitic-pron');
+    // gender from indefinite article
+    doc.match('una [#Noun]', 0).tag('FemaleNoun', 'una-noun');
+    doc.match('(un|uno) [#Noun]', 0).tag('MaleNoun', 'un-noun');
 
     //  un libro di cucina
     doc.match('(un|uno) #Noun di [#Verb]', 0).tag('Noun', 'un-x-di-vb');
 
-    // phrasal verbs
+    // noun-verb homographs before an article are verbs - 'legge un libro'
+    doc.match(`#Noun [(legge|porta|guida|nota|regola|forma|causa)] ${articles}`, 0).tag('PresentTense', 'noun-vb-art');
+
+    // phrasal verbs ('su' excluded - it is usually a preposition)
     doc
       .match(
-        '#Verb (alzata|avanti|dietro|su|fuori|sotto|giu|indietro|dentro|addosso)'
+        '#Verb (alzata|avanti|dietro|fuori|sotto|giu|giù|indietro|dentro|addosso)'
       )
       .tag('#PhrasalVerb #Particle', 'phrasal');
 
-    // object pronouns
-    doc.match('(il|i|una) [#Verb]', 0).tag('Noun', 'i-adj');
     // noun gender aggrement
     doc.match('(il|lo|i|gli) [#Noun]', 0).tag('MaleNoun', 'm-noun');
     doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun');
 
-    // Come ti chiami?
-    doc.match('(mi|ti|si|ci|vi|si) #Verb').tag('Reflexive', 'si-verb');
+    // 'vi arrabbiate' - a word right after a reflexive clitic is its verb
+    doc.match('(mi|ti|si|ci|vi) [#Adjective]', 0).tag('PresentTense', 'clitic-verb-guess');
+    // 'voi finite il lavoro' - subject pronoun + misread adjective
+    doc.match('(io|tu|noi|voi) [#Adjective]', 0).ifNo('(stesso|stessa|stessi|stesse|due|tre)').tag('PresentTense', 'pron-verb-guess');
+    // Come ti chiami? - the clitic pronoun gets the Reflexive tag
+    doc.match('[(mi|ti|si|ci|vi)] #Verb', 0).tag('Reflexive', 'si-verb');
     // non lavoro
-    doc.match('non #Noun').tag('Verb', 'non-verb');
-    // in the battle
-    doc.match('nella [#Verb]', 0).tag('Noun', 'nella-verb');
-    // al negozio
-    doc.match('al [#FirstPerson]', 0).tag('Noun', 'al-verb');
+    doc.match('non [#Noun]', 0).tag('Verb', 'non-verb');
     // i ginocchi
-    doc.match('i [#Noun]', 0).tag('PluralNoun', 'i-plural');
+    doc.match('(i|gli|le) [#Noun]', 0).tag('PluralNoun', 'i-plural');
     // 27° - '27th'
     doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal');
 
+    // 'uno' and 'sei' are also number-words
+    // standalone - 'uno'
+    doc.match('^[(uno|sei)]$', 0).tag(['TextValue', 'Cardinal'], 'lone-number');
+    // 'sei anni' - six years
+    doc.match('[sei] #PluralNoun', 0).tag(['TextValue', 'Cardinal'], 'sei-plural');
+    // 'a uno è..' - one (person)
+    doc.match('[(uno|sei)] (è|sono|era|erano|fu|furono|sarà|saranno)', 0).tag(['TextValue', 'Cardinal'], 'num-copula');
+
     // auxiliary verbs
-    // essere - to be
-    doc
-      .match(
-        '[(sono|sei|è|siamo|siete|sonoero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sarò|sarai|sarà|saremo|sarete|saranno)] #Verb',
-        0
-      )
-      .tag('Auxiliary');
-    // Voglio congratularmi
-    doc.match('[{volere}] #Verb', 0).tag('Auxiliary');
+    // sono andato - essere + participle
+    doc.match(`[${essereForms}] #Verb`, 0).tag('Auxiliary', 'essere-aux');
+    // 'ha scritto' - a word after avere is its participle, not an adjective
+    doc.match(`${avereForms} [#Adjective]`, 0).ifNo('(caldo|freddo)').tag('PastParticiple', 'avere-pp');
+    // 'è stata fondata', 'venne sconfitto' - passive participles
+    doc.match('(fu|furono|venne|vennero|viene|vengono|è|era|erano|sarà|essere|stato|stata|stati|state) [/(at|ut|it)[oaie]$/]', 0).tag('PastParticiple', 'passive-pp');
+    // ho mangiato - avere + participle
+    doc.match(`[${avereForms}] #PastParticiple`, 0).tag('Auxiliary', 'avere-aux');
+    // sto mangiando - stare + gerund
+    doc.match(`[${stareForms}] #Gerund`, 0).tag('Auxiliary', 'stare-aux')
+    // posso camminare - modal + infinitive
+    // (root-tokens can't be or'd together in one match)
+    ;['volere', 'potere', 'dovere', 'sapere'].forEach((modal) => {
+      doc.match(`[{${modal}}] (#Infinitive|#Reflexive)`, 0).tag('Auxiliary', 'modal-aux');
+    });
 
     // Che bello!
     doc.match('^che #Adjective$').tag('Expression', 'che-bello');
-
-    // doc.match('[(abbia|abbiamo|abbiano|abbiate|avemmo|avesse|avessero|avessi|avessimo|aveste|avesti|avete|aveva|avevamo|avevano|avevate|avevo|avrà|avrai|avranno|avrebbe|avrei|avremmo|avremo|avreste|avresti|avrete|avrò|ebbe|ebbero|ebbi|ha|hai|hanno|ho)] #Verb', 0).tag('Auxiliary', 'aux-verb')
-    // want to x
-    // doc.match('[({volere}|{dovere})] #PresentTense', 0).tag('Auxiliary', 'want-aux')
   };
   var postTagger$2 = postTagger$1;
 

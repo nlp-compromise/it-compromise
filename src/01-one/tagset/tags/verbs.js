@@ -24,9 +24,9 @@ export default {
   Copula: {
     is: 'Verb',
   },
-  Reflexive: {
-    is: 'Verb',
-  },
+  // applies to both reflexive clitics ('mi', 'si') and
+  // reflexive verb-forms ('alzarsi') - so no is:Verb
+  Reflexive: {},
   Modal: {
     is: 'Verb',
     not: ['Infinitive'],

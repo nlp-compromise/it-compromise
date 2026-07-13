@@ -1,3 +1,5 @@
+import irregular from '../methods/verbs/irregular.js'
+
 const verbForm = function (term) {
   let want = [
     'FirstPerson',
@@ -10,12 +12,59 @@ const verbForm = function (term) {
   return want.find((tag) => term.tags.has(tag))
 }
 
+// for verbs tagged without person info, guess it from the ending
+const guessForm = function (str) {
+  if (/iamo$/.test(str)) return 'FirstPersonPlural'
+  if (/te$/.test(str)) return 'SecondPersonPlural'
+  if (/no$/.test(str)) return 'ThirdPersonPlural'
+  if (/o$/.test(str)) return 'FirstPerson'
+  if (/i$/.test(str)) return 'SecondPerson'
+  return 'ThirdPerson'
+}
+
+// every irregular conjugated form, mapped back to its infinitive
+const irregularRoots = {}
+Object.keys(irregular.paradigms).forEach((inf) => {
+  let p = irregular.paradigms[inf]
+  Object.keys(p).forEach((k) => {
+    let forms = p[k]
+    if (typeof forms === 'string') {
+      forms = [forms]
+    }
+    forms.forEach((w) => {
+      if (w && !irregularRoots.hasOwnProperty(w)) {
+        irregularRoots[w] = inf
+      }
+    })
+  })
+})
+// 'sono' belongs to essere, not stare/etc
+irregularRoots['sono'] = 'essere'
+// participles of otherwise-regular verbs
+Object.keys(irregular.participles).forEach((inf) => {
+  let pp = irregular.participles[inf]
+  if (!irregularRoots.hasOwnProperty(pp)) {
+    irregularRoots[pp] = inf
+  }
+})
+Object.keys(irregular.gerunds).forEach((inf) => {
+  let ger = irregular.gerunds[inf]
+  if (!irregularRoots.hasOwnProperty(ger)) {
+    irregularRoots[ger] = inf
+  }
+})
+
 // turn 'congratularmi' into 'congratular'
 const stripReflexive = function (str) {
   str = str.replace(/ar[mtscv]i$/, 'are')
   str = str.replace(/er[mtscv]i$/, 'ere')
   str = str.replace(/ir[mtscv]i$/, 'ire')
   return str
+}
+
+// 'mangiata' -> 'mangiato', 'prese' -> 'preso'
+const masculineParticiple = function (str) {
+  return str.replace(/([ts])[aie]$/, '$1o')
 }
 
 const root = function (view) {
@@ -28,13 +77,25 @@ const root = function (view) {
       }
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
-        let form = verbForm(term)
-        if (term.tags.has('Gerund')) {
+        let form = verbForm(term) || guessForm(str)
+        if (irregularRoots.hasOwnProperty(str)) {
+          term.root = irregularRoots[str]
+        } else if (term.tags.has('Infinitive')) {
+          // an infinitive is already its own root
+          term.root = str
+        } else if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('ConditionalVerb')) {
           term.root = verb.fromConditional(str, form)
         } else if (term.tags.has('PastParticiple')) {
-          term.root = verb.fromPastParticiple(str, form)
+          let masc = masculineParticiple(str)
+          term.root = irregularRoots.hasOwnProperty(masc)
+            ? irregularRoots[masc]
+            : verb.fromPastParticiple(masc, form)
+        } else if (term.tags.has('ImperfectVerb')) {
+          term.root = verb.fromImperfect(str, form)
+        } else if (term.tags.has('Subjunctive')) {
+          term.root = verb.fromSubjunctive(str, form)
         } else if (term.tags.has('PresentTense')) {
           term.root = verb.fromPresent(str, form)
         } else if (term.tags.has('PastTense')) {
@@ -46,7 +107,7 @@ const root = function (view) {
         }
       }
 
-      // nouns -> singular masculine form
+      // nouns -> singular form
       if (term.tags.has('Noun')) {
         if (term.tags.has('PluralNoun')) {
           str = noun.fromPlural(str)
@@ -54,12 +115,13 @@ const root = function (view) {
         term.root = str
       }
 
-      // nouns -> singular masculine form
+      // adjectives -> singular masculine form
       if (term.tags.has('Adjective')) {
-        if (term.tags.has('PluralAdjective')) {
+        if (term.tags.has('FemaleAdjective') && term.tags.has('PluralAdjective')) {
+          str = adjective.fromFemalePlural(str)
+        } else if (term.tags.has('PluralAdjective')) {
           str = adjective.fromPlural(str)
-        }
-        if (term.tags.has('FemaleAdjective')) {
+        } else if (term.tags.has('FemaleAdjective')) {
           str = adjective.fromFemale(str)
         }
         // str = adjective.toRoot(str)

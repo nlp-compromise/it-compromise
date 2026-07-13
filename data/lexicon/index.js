@@ -40,58 +40,59 @@ import currencies from './misc/currencies.js'
 import expressions from './misc/expressions.js'
 import determiners from './misc/determiners.js'
 import prepositions from './misc/prepositions.js'
-//add-in the generic, flat word-lists
+//add-in the generic, flat word-lists.
+//order matters: earlier lists win any collision.
+//function-words and closed classes first, proper-noun lists last,
+//so 'sei'(essere) is never clobbered by 'sei'(six), or 'mia' by the name Mia.
 const data = [
-  [firstnames, 'FirstName'],
-  [lastnames, 'LastName'],
-  [maleNames, 'MaleName'],
-  [femaleNames, 'FemaleName'],
-  [honorifics, 'Honorific'],
-  [people, 'Person'],
-
-  [countries, 'Country'],
-  [regions, 'Region'],
-  [places, 'Place'],
-  [cities, 'City'],
+  [determiners, 'Determiner'],
+  [prepositions, 'Preposition'],
+  [pronouns, 'Pronoun'],
+  [conjunctions, 'Conjunction'],
+  [adverbs, 'Adverb'],
+  [expressions, 'Expression'],
+  [possessives, 'Possessive'],
 
   [cardinals, 'Cardinal'],
   [ordinals, 'Ordinal'],
   [units, 'Unit'],
 
-  [infinitives, 'Infinitive'],
+  [dates, 'Date'],
+  [months, 'Month'],
+  [weekdays, 'WeekDay'],
 
   [nouns, 'Noun'],
-  [sportsTeams, 'SportsTeam'],
-  [organizations, 'Organization'],
-  [possessives, 'Possessive'],
-  [pronouns, 'Pronoun'],
-
   [adj, 'Adjective'],
   [maleAdj, 'MaleAdjective'],
   [femAdj, 'FemaleAdjective'],
 
-  [adverbs, 'Adverb'],
-  [conjunctions, 'Conjunction'],
-  [currencies, 'Currency'],
-  [expressions, 'Expression'],
-  [determiners, 'Determiner'],
-  [prepositions, 'Preposition'],
+  [infinitives, 'Infinitive'],
 
-  [dates, 'Date'],
-  [months, 'Month'],
-  [weekdays, 'WeekDay'],
+  [currencies, 'Currency'],
+  [sportsTeams, 'SportsTeam'],
+  [organizations, 'Organization'],
+  [honorifics, 'Honorific'],
+  [people, 'Person'],
+
+  [countries, 'Country'],
+  [regions, 'Region'],
+  [cities, 'City'],
+  [places, 'Place'],
+
+  [firstnames, 'FirstName'],
+  [lastnames, 'LastName'],
+  [maleNames, 'MaleName'],
+  [femaleNames, 'FemaleName'],
 ]
 for (let i = 0; i < data.length; i++) {
   const list = data[i][0]
   for (let o = 0; o < list.length; o++) {
-    //log duplicates
-    // if (lex[list[o]]) {
-    //   console.log(list[o] + '  ' + lex[list[o]] + ' ' + data[i][1])
-    // }
-    lex[list[o]] = data[i][1]
+    // first tag wins - do not overwrite curated entries
+    if (lex[list[o]] === undefined) {
+      lex[list[o]] = data[i][1]
+    }
   }
 }
 
 export default lex
 // console.log(Object.keys(lex).length);
-// console.log(lex['suis'])

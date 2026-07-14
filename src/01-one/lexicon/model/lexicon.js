@@ -62,18 +62,40 @@ const addVerbs = function (w) {
   // gerunds
   res = verbs.toGerund(w)
   words[res] = words[res] || ['Gerund']
-  // participle
+  // participle, in all gender/number agreements - fondato/a/i/e
   res = verbs.toPastParticiple(w)
-  words[res] = words[res] || ['PastParticiple']
+  if (res) {
+    words[res] = words[res] || ['PastParticiple']
+    let fem = res.replace(/o$/, 'a')
+    let plur = res.replace(/o$/, 'i')
+    let femPlur = res.replace(/o$/, 'e')
+    words[fem] = words[fem] || ['PastParticiple']
+    words[plur] = words[plur] || ['PastParticiple']
+    words[femPlur] = words[femPlur] || ['PastParticiple']
+  }
   // present participle
   res = verbs.toPresentParticiple(w)
   words[res] = words[res] || ['PresentParticiple']
 }
 
-Object.keys(lexData).forEach((tag) => {
+// process 'Infinitive' last, so its generated conjugations
+// never shadow words from the curated lists (eg 'pizza')
+let tagList = Object.keys(lexData).sort((a, b) => {
+  if (a === 'Infinitive') return 1
+  if (b === 'Infinitive') return -1
+  return 0
+})
+tagList.forEach((tag) => {
   let wordsObj = unpack(lexData[tag])
   Object.keys(wordsObj).forEach((w) => {
-    words[w] = tag
+    // merge, so a word packed under two tags keeps both (eg 'oggi' Date+Noun)
+    if (words[w] === undefined) {
+      words[w] = tag
+    } else if (typeof words[w] === 'string') {
+      words[w] = [words[w], tag]
+    } else if (Array.isArray(words[w]) && !words[w].includes(tag)) {
+      words[w].push(tag)
+    }
 
     // expand
     if (tag === 'Cardinal') {

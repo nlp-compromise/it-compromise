@@ -2,7 +2,6 @@ export default [
   'ciao',
   'macché',
   'dai',
-  'vai',
   'bravo',
   'guai',
   'forza',

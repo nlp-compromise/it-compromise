@@ -73,7 +73,7 @@ test('root-match:', function (t) {
     [' in particolare erano allarmanti e sono stati', '{allarmante}'], //adj
     ['dichiarazioni più lucide mai girate', '{lucido}'],
     ['una pensierosa Caterina ', '{pensieroso}'], //adj
-    [' questi pezzi musicali pensosi  ', '{pensieroso}'],
+    [' questi pezzi musicali pensosi  ', '{pensoso}'],
     ['risiede nella natura ripetitiva', '{ripetitivo}'], //adj
     ['in avanti rendendo retroattivi', '{retroattivo}'], //adj
     ['la concessione di prestazioni retroattive fino', '{retroattivo}'],
@@ -93,7 +93,7 @@ test('root-match:', function (t) {
     ['che ci avrebbero reso prosperi ', '{prospero}'], //adj
     ['avere conseguenze sorprendenti', '{sorprendente}'], //adj
     ['anche se dubiti delle prove', '{dubitare}'], //vb
-    ["Ma non c'è dubbio che", '{dubitare}'],
+    ['Ma non c\'è dubbio che', '{dubbio}'],
     ['omaggi dei contribuenti', '{contribuente}'], //noun
     ['Hai bisogno di consigli!', '{consiglio}'], //
     [' e le braccia intorno al collo', '{braccio}'],

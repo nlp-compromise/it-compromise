@@ -3,11 +3,18 @@
 // str = str.replace(/e$/, 'i')//triste -> tristi
 // str = str.replace(/a$/, 'e')//nera -> nere
 
+// invariant '-e' adjectives - 'grande', 'riferibile', 'inglese'
+const invariant = /(ale|ile|are|ore|nte|ese|bile)$/
+
 const checkSuffix = function (str) {
   let m = 'MaleAdjective'
   let f = 'FemaleAdjective'
   if (str.endsWith('o') || str.endsWith('i')) {
     return m
+  }
+  // same form for both genders
+  if (invariant.test(str)) {
+    return null
   }
   // la signora italiana
   if (str.endsWith('a') || str.endsWith('e')) {

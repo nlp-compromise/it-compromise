@@ -77,7 +77,7 @@ test('match:', function (t) {
     // i can walk quickly
     ['posso camminare velocemente', '#Auxiliary #PresentTense #Adverb'],
     // he must write it on paper
-    ['deve scriverlo su carta', '#Auxiliary #PresentTense #Conjunction #Noun'],
+    ['deve scriverlo su carta', '#Auxiliary #PresentTense #Preposition #Noun'],
     // we can study the song
     ['possiamo studiare la canzone', '#Auxiliary #PresentTense #Determiner #Noun'],
     // go sing in the church

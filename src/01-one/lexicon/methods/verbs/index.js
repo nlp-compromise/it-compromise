@@ -5,6 +5,7 @@ import {
   toConditional,
   toImperfect,
   toSubjunctive,
+  toImperfectSubjunctive,
   toReflexive,
 } from './conjugate.js'
 import {
@@ -32,10 +33,22 @@ const all = function (str) {
     Object.values(toConditional(str)),
     Object.values(toImperfect(str)),
     Object.values(toSubjunctive(str)),
+    Object.values(toImperfectSubjunctive(str)),
     Object.values(toReflexive(str))
   )
-  arr.push(toPastParticiple(str))
+  // past-participle, in all four gender/number agreements
+  let pp = toPastParticiple(str)
+  if (pp) {
+    arr.push(pp)
+    arr.push(pp.replace(/o$/, 'a'))
+    arr.push(pp.replace(/o$/, 'i'))
+    arr.push(pp.replace(/o$/, 'e'))
+  }
+  arr.push(toGerund(str))
   arr.push(toPresentParticiple(str))
+  // attached object-pronouns - 'fissarla', 'scriverlo'
+  let stem = str.replace(/e$/, '')
+  arr = arr.concat([stem + 'lo', stem + 'la', stem + 'li', stem + 'le', stem + 'ne'])
   arr = arr.filter((s) => s)
   arr = new Set(arr)
   return Array.from(arr)
@@ -49,6 +62,7 @@ export default {
   toConditional,
   toImperfect,
   toSubjunctive,
+  toImperfectSubjunctive,
   toReflexive,
   fromGerund,
   toGerund,

@@ -40,9 +40,10 @@ let misc = {
   'nostre': pr,
   'vostre': pr,
 
-  // se: 'Conjunction',
-  si: 'Condition',//if
+  // se: 'Conjunction', //handled in ./misc/conjunctions.js
+  si: 'Pronoun',//reflexive/impersonal - 'si dice', 'come si chiama'
   'nel caso che': 'Condition',//in the event that
+  'che': 'Conjunction',//that/which
 
   'non': 'Negative',//
   'nessuno': 'Negative',// (nobody/no one)
@@ -60,22 +61,25 @@ let misc = {
   'stata': 'PastTense',
   'stato': 'PastTense',
   'stati': 'PastTense',
-  'diretto': 'Adjective',
-  'fondata': 'Adjective',
   'presenti': 'Adjective',
-  'situata': 'Adjective',
-  'legato': 'Adjective',
-  'dotato': 'Adjective',
-  'pubblicata': 'Adjective',
-  'perse': 'Adjective',
-  'perso': 'Adjective',
-  'dotata': 'Adjective',
-  'definita': 'Adjective',
-  'dovuta': 'Adjective',
-  'legati': 'Adjective',
-  'chiamata': 'Verb',
-  'chiamati': 'Verb',
-  'regali': 'Verb',
+  // participles like 'fondata', 'legato', 'chiamata' are generated
+  // from the infinitive list - no need to hand-tag them here
+  'regali': 'Noun',//i regali - gifts
+  'vai': 'Imperative',//vai a casa!
+
+  // short infinitive+clitic forms
+  'farlo': 'Infinitive',
+  'farla': 'Infinitive',
+  'farli': 'Infinitive',
+  'farle': 'Infinitive',
+  'farne': 'Infinitive',
+  'farsi': ['Infinitive', 'Reflexive'],
+  'dirlo': 'Infinitive',
+  'dirla': 'Infinitive',
+  'dirle': 'Infinitive',
+  'darlo': 'Infinitive',
+  'darla': 'Infinitive',
+  'darle': 'Infinitive',
   // 'poter': 'Verb',
   'va': 'Verb',
   'sia': 'Verb',
@@ -85,6 +89,38 @@ let misc = {
   'porta': 'Noun',
   // 'fatto': 'Noun',
   'posto': 'Noun',
+  // singular nouns ending in -e (would be guessed as plurals)
+  'arachide': ['FemaleNoun', 'Singular'],
+  'arachidi': ['FemaleNoun', 'PluralNoun'],
+  'cane': ['MaleNoun', 'Singular'],
+  'pane': ['MaleNoun', 'Singular'],
+  'mese': ['MaleNoun', 'Singular'],
+  'paese': ['MaleNoun', 'Singular'],
+  'nome': ['MaleNoun', 'Singular'],
+  'cuore': ['MaleNoun', 'Singular'],
+  'fiore': ['MaleNoun', 'Singular'],
+  'fiume': ['MaleNoun', 'Singular'],
+  'mare': ['MaleNoun', 'Singular'],
+  'sole': ['MaleNoun', 'Singular'],
+  'sale': ['MaleNoun', 'Singular'],
+  'ponte': ['MaleNoun', 'Singular'],
+  'monte': ['MaleNoun', 'Singular'],
+  'dente': ['MaleNoun', 'Singular'],
+  'notte': ['FemaleNoun', 'Singular'],
+  'carne': ['FemaleNoun', 'Singular'],
+  'nave': ['FemaleNoun', 'Singular'],
+  'luce': ['FemaleNoun', 'Singular'],
+  'voce': ['FemaleNoun', 'Singular'],
+  'croce': ['FemaleNoun', 'Singular'],
+  'pelle': ['FemaleNoun', 'Singular'],
+  'mente': ['FemaleNoun', 'Singular'],
+  'gente': ['FemaleNoun', 'Singular'],
+  'madre': ['FemaleNoun', 'Singular'],
+  'chiave': ['FemaleNoun', 'Singular'],
+  'neve': ['FemaleNoun', 'Singular'],
+  'sete': ['FemaleNoun', 'Singular'],
+  'fame': ['FemaleNoun', 'Singular'],
+  'padre': ['MaleNoun', 'Singular'],
 
   'fatto': 'Verb',
 

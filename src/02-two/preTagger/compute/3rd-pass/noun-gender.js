@@ -83,7 +83,7 @@ const nounGender = function (terms, i, world) {
   let term = terms[i]
   let tags = term.tags
   let str = term.normal || term.implicit || ''
-  if (tags.has('Noun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
+  if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
     let tag = suffixLoop(str, suffixes)
     if (tag) {
       setTag([term], tag, world, false, '2-guess-gender')

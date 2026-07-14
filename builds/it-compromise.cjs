@@ -4,24 +4,24 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.itCompromise = factory());
 })(this, (function () { 'use strict';
 
-  let methods$o = {
+  const methods$n = {
     one: {},
     two: {},
     three: {},
     four: {},
   };
 
-  let model$6 = {
+  const model$6 = {
     one: {},
     two: {},
     three: {},
   };
-  let compute$a = {};
-  let hooks = [];
+  const compute$7 = {};
+  const hooks = [];
 
-  var tmpWrld = { methods: methods$o, model: model$6, compute: compute$a, hooks };
+  var tmpWrld = { methods: methods$n, model: model$6, compute: compute$7, hooks };
 
-  const isArray$9 = input => Object.prototype.toString.call(input) === '[object Array]';
+  const isArray$a = input => Object.prototype.toString.call(input) === '[object Array]';
 
   const fns$4 = {
     /** add metadata to term objects */
@@ -33,7 +33,7 @@
         compute[input](this);
       }
       // allow a list of methods
-      else if (isArray$9(input)) {
+      else if (isArray$a(input)) {
         input.forEach(name => {
           if (world.compute.hasOwnProperty(name)) {
             compute[name](this);
@@ -51,24 +51,23 @@
       return this
     },
   };
-  var compute$9 = fns$4;
 
   // wrappers for loops in javascript arrays
 
   const forEach = function (cb) {
-    let ptrs = this.fullPointer;
+    const ptrs = this.fullPointer;
     ptrs.forEach((ptr, i) => {
-      let view = this.update([ptr]);
+      const view = this.update([ptr]);
       cb(view, i);
     });
     return this
   };
 
   const map = function (cb, empty) {
-    let ptrs = this.fullPointer;
-    let res = ptrs.map((ptr, i) => {
-      let view = this.update([ptr]);
-      let out = cb(view, i);
+    const ptrs = this.fullPointer;
+    const res = ptrs.map((ptr, i) => {
+      const view = this.update([ptr]);
+      const out = cb(view, i);
       // if we returned nothing, return a view
       if (out === undefined) {
         return this.none()
@@ -101,26 +100,26 @@
   const filter = function (cb) {
     let ptrs = this.fullPointer;
     ptrs = ptrs.filter((ptr, i) => {
-      let view = this.update([ptr]);
+      const view = this.update([ptr]);
       return cb(view, i)
     });
-    let res = this.update(ptrs);
+    const res = this.update(ptrs);
     return res
   };
 
-  const find$2 = function (cb) {
-    let ptrs = this.fullPointer;
-    let found = ptrs.find((ptr, i) => {
-      let view = this.update([ptr]);
+  const find = function (cb) {
+    const ptrs = this.fullPointer;
+    const found = ptrs.find((ptr, i) => {
+      const view = this.update([ptr]);
       return cb(view, i)
     });
     return this.update([found])
   };
 
   const some = function (cb) {
-    let ptrs = this.fullPointer;
+    const ptrs = this.fullPointer;
     return ptrs.some((ptr, i) => {
-      let view = this.update([ptr]);
+      const view = this.update([ptr]);
       return cb(view, i)
     })
   };
@@ -136,7 +135,7 @@
     ptrs = ptrs.slice(r, r + n);
     return this.update(ptrs)
   };
-  var loops = { forEach, map, filter, find: find$2, some, random };
+  var loops = { forEach, map, filter, find, some, random };
 
   const utils = {
     /** */
@@ -145,7 +144,7 @@
     },
     /** return individual terms*/
     terms: function (n) {
-      let m = this.match('.');
+      const m = this.match('.');
       // this is a bit faster than .match('.') 
       // let ptrs = []
       // this.docs.forEach((terms) => {
@@ -164,7 +163,7 @@
         return this.update(this._groups[group] || [])
       }
       // return an object of Views
-      let res = {};
+      const res = {};
       Object.keys(this._groups).forEach(k => {
         res[k] = this.update(this._groups[k]);
       });
@@ -188,7 +187,7 @@
     },
     /** */
     last: function () {
-      let n = this.fullPointer.length - 1;
+      const n = this.fullPointer.length - 1;
       return this.eq(n)
     },
 
@@ -215,7 +214,7 @@
     },
     /**  */
     fullSentences: function () {
-      let ptrs = this.fullPointer.map(a => [a[0]]); //lazy!
+      const ptrs = this.fullPointer.map(a => [a[0]]); //lazy!
       return this.update(ptrs).toView()
     },
     /** return a view of no parts of the document */
@@ -228,8 +227,8 @@
       if (!b || !b.isView) {
         return false
       }
-      let aPtr = this.fullPointer;
-      let bPtr = b.fullPointer;
+      const aPtr = this.fullPointer;
+      const bPtr = b.fullPointer;
       if (!aPtr.length === bPtr.length) {
         return false
       }
@@ -253,7 +252,7 @@
 
     // is the pointer the full sentence?
     isFull: function () {
-      let ptrs = this.pointer;
+      const ptrs = this.pointer;
       if (!ptrs) {
         return true
       }
@@ -296,18 +295,16 @@
   utils.sentence = utils.fullSentences;
   utils.lastTerm = utils.lastTerms;
   utils.firstTerm = utils.firstTerms;
-  var util = utils;
 
-  const methods$n = Object.assign({}, util, compute$9, loops);
+  const methods$m = Object.assign({}, utils, fns$4, loops);
 
   // aliases
-  methods$n.get = methods$n.eq;
-  var api$l = methods$n;
+  methods$m.get = methods$m.eq;
 
   class View {
     constructor(document, pointer, groups = {}) {
       // invisible props
-      let props = [
+      const props = [
         ['document', document],
         ['world', tmpWrld],
         ['_groups', groups],
@@ -355,11 +352,12 @@
     }
     // return a more-hackable pointer
     get fullPointer() {
-      let { docs, ptrs, document } = this;
+      const { docs, ptrs, document } = this;
       // compute a proper pointer, from docs
-      let pointers = ptrs || docs.map((_d, n) => [n]);
+      const pointers = ptrs || docs.map((_d, n) => [n]);
       // do we need to repair it, first?
       return pointers.map(a => {
+        // eslint-disable-next-line prefer-const
         let [n, start, end, id, endId] = a;
         start = start || 0;
         end = end || (document[n] || []).length;
@@ -375,13 +373,13 @@
     }
     // create a new View, from this one
     update(pointer) {
-      let m = new View(this.document, pointer);
+      const m = new View(this.document, pointer);
       // send the cache down, too?
       if (this._cache && pointer && pointer.length > 0) {
         // only keep cache if it's a full-sentence
-        let cache = [];
+        const cache = [];
         pointer.forEach((ptr, i) => {
-          let [n, start, end] = ptr;
+          const [n, start, end] = ptr;
           if (ptr.length === 1) {
             cache[i] = this._cache[n];
           } else if (start === 0 && this.document[n].length === end) {
@@ -402,8 +400,8 @@
     fromText(input) {
       const { methods } = this;
       //assume ./01-tokenize is installed
-      let document = methods.one.tokenize.fromString(input, this.world);
-      let doc = new View(document);
+      const document = methods.one.tokenize.fromString(input, this.world);
+      const doc = new View(document);
       doc.world = this.world;
       doc.compute(['normal', 'freeze', 'lexicon']);
       if (this.world.compute.preTagger) {
@@ -423,25 +421,34 @@
         })
       });
       // clone only sub-document ?
-      let m = this.update(this.pointer);
+      const m = this.update(this.pointer);
       m.document = document;
       m._cache = this._cache; //clone this too?
       return m
     }
   }
-  Object.assign(View.prototype, api$l);
-  var View$1 = View;
+  Object.assign(View.prototype, methods$m);
 
-  var version$1 = '14.13.0';
+  var version$1 = '14.16.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
   };
 
+  const isArray$9 = function (arr) {
+    return Object.prototype.toString.call(arr) === '[object Array]'
+  };
+
+  const isUnsafeKey = key => key === '__proto__' || key === 'constructor' || key === 'prototype';
+
   // recursive merge of objects
   function mergeDeep(model, plugin) {
     if (isObject$6(plugin)) {
       for (const key in plugin) {
+        // prevent prototype pollution
+        if (isUnsafeKey(key)) {
+          continue
+        }
         if (isObject$6(plugin[key])) {
           if (!model[key]) Object.assign(model, { [key]: {} });
           mergeDeep(model[key], plugin[key]); //recursion
@@ -458,6 +465,7 @@
   // vroom
   function mergeQuick(model, plugin) {
     for (const key in plugin) {
+      if (isUnsafeKey(key)) continue
       model[key] = model[key] || {};
       Object.assign(model[key], plugin[key]);
     }
@@ -465,7 +473,7 @@
   }
 
   const addIrregulars = function (model, conj) {
-    let m = model.two.models || {};
+    const m = model.two.models || {};
     Object.keys(conj).forEach(k => {
       // verb forms
       if (conj[k].pastTense) {
@@ -513,6 +521,11 @@
   };
 
   const extend = function (plugin, world, View, nlp) {
+    // support array of plugins
+    if (isArray$9(plugin)) {
+      plugin.forEach(p => extend(p, world, View, nlp));
+      return
+    }
     const { methods, model, compute, hooks } = world;
     if (plugin.methods) {
       mergeQuick(methods, plugin.methods);
@@ -548,10 +561,9 @@
       nlp.addWords(plugin.frozen, true);
     }
     if (plugin.mutate) {
-      plugin.mutate(world);
+      plugin.mutate(world, nlp);
     }
   };
-  var extend$1 = extend;
 
   /** log the decision-making to console */
   const verbose = function (set) {
@@ -599,7 +611,7 @@
 
   const inputs = function (input, View, world) {
     const { methods } = world;
-    let doc = new View([]);
+    const doc = new View([]);
     doc.world = world;
     // support a number
     if (typeof input === 'number') {
@@ -611,7 +623,7 @@
     }
     // parse a string
     if (typeof input === 'string') {
-      let document = methods.one.tokenize.fromString(input, world);
+      const document = methods.one.tokenize.fromString(input, world);
       return new View(document)
     }
     // handle compromise View
@@ -622,24 +634,23 @@
     if (isArray$8(input)) {
       // pre-tokenized array-of-arrays 
       if (isArray$8(input[0])) {
-        let document = preTokenized(input);
+        const document = preTokenized(input);
         return new View(document)
       }
       // handle json output
-      let document = fromJson(input);
+      const document = fromJson(input);
       return new View(document)
     }
     return doc
   };
-  var handleInputs = inputs;
 
-  let world = Object.assign({}, tmpWrld);
+  const world = Object.assign({}, tmpWrld);
 
   const nlp = function (input, lex) {
     if (lex) {
       nlp.addWords(lex);
     }
-    let doc = handleInputs(input, View$1, world);
+    const doc = inputs(input, View, world);
     if (input) {
       doc.compute(world.hooks);
     }
@@ -658,7 +669,7 @@
       nlp.addWords(lex);
     }
     // run the tokenizer
-    let doc = handleInputs(input, View$1, world);
+    const doc = inputs(input, View, world);
     // give contractions a shot, at least
     if (compute.contractions) {
       doc.compute(['alias', 'normal', 'machine', 'contractions']); //run it if we've got it
@@ -668,7 +679,7 @@
 
   /** extend compromise functionality */
   nlp.plugin = function (plugin) {
-    extend$1(plugin, this._world, View$1, this);
+    extend(plugin, this._world, View, this);
     return this
   };
   nlp.extend = nlp.plugin;
@@ -693,52 +704,49 @@
   /** current library release version */
   nlp.version = version$1;
 
-  var nlp$1 = nlp;
-
   const createCache = function (document) {
-    let cache = document.map(terms => {
-      let stuff = new Set();
+    const cache = document.map(terms => {
+      const items = new Set();
       terms.forEach(term => {
         // add words
         if (term.normal !== '') {
-          stuff.add(term.normal);
+          items.add(term.normal);
         }
         // cache switch-status - '%Noun|Verb%'
         if (term.switch) {
-          stuff.add(`%${term.switch}%`);
+          items.add(`%${term.switch}%`);
         }
         // cache implicit words, too
         if (term.implicit) {
-          stuff.add(term.implicit);
+          items.add(term.implicit);
         }
         if (term.machine) {
-          stuff.add(term.machine);
+          items.add(term.machine);
         }
         if (term.root) {
-          stuff.add(term.root);
+          items.add(term.root);
         }
         // cache slashes words, etc
         if (term.alias) {
-          term.alias.forEach(str => stuff.add(str));
+          term.alias.forEach(str => items.add(str));
         }
-        let tags = Array.from(term.tags);
+        const tags = Array.from(term.tags);
         for (let t = 0; t < tags.length; t += 1) {
-          stuff.add('#' + tags[t]);
+          items.add('#' + tags[t]);
         }
       });
-      return stuff
+      return items
     });
     return cache
   };
-  var cacheDoc = createCache;
 
-  var methods$m = {
+  var methods$l = {
     one: {
-      cacheDoc,
+      cacheDoc: createCache,
     },
   };
 
-  const methods$l = {
+  const methods$k = {
     /** */
     cache: function () {
       this._cache = this.methods.one.cacheDoc(this.document);
@@ -751,20 +759,19 @@
     },
   };
   const addAPI$3 = function (View) {
-    Object.assign(View.prototype, methods$l);
+    Object.assign(View.prototype, methods$k);
   };
-  var api$k = addAPI$3;
 
-  var compute$8 = {
+  var compute$6 = {
     cache: function (view) {
       view._cache = view.methods.one.cacheDoc(view.document);
     }
   };
 
   var cache$1 = {
-    api: api$k,
-    compute: compute$8,
-    methods: methods$m,
+    api: addAPI$3,
+    compute: compute$6,
+    methods: methods$l,
   };
 
   var caseFns = {
@@ -806,16 +813,16 @@
   };
 
   // case logic
-  const isTitleCase$1 = (str) => /^\p{Lu}[\p{Ll}'’]/u.test(str) || /^\p{Lu}$/u.test(str);
-  const toTitleCase = (str) => str.replace(/^\p{Ll}/u, x => x.toUpperCase());
-  const toLowerCase = (str) => str.replace(/^\p{Lu}/u, x => x.toLowerCase());
+  const isTitleCase$2 = (str) => /^\p{Lu}[\p{Ll}'’]/u.test(str) || /^\p{Lu}$/u.test(str);
+  const toTitleCase$1 = (str) => str.replace(/^\p{Ll}/u, x => x.toUpperCase());
+  const toLowerCase$1 = (str) => str.replace(/^\p{Lu}/u, x => x.toLowerCase());
 
   // splice an array into an array
   const spliceArr = (parent, index, child) => {
     // tag them as dirty
     child.forEach(term => term.dirty = true);
     if (parent) {
-      let args = [index, 0].concat(child);
+      const args = [index, 0].concat(child);
       Array.prototype.splice.apply(parent, args);
     }
     return parent
@@ -825,7 +832,7 @@
   const endSpace = function (terms) {
     const hasSpace = / $/;
     const hasDash = /[-–—]/;
-    let lastTerm = terms[terms.length - 1];
+    const lastTerm = terms[terms.length - 1];
     if (lastTerm && !hasSpace.test(lastTerm.post) && !hasDash.test(lastTerm.post)) {
       lastTerm.post += ' ';
     }
@@ -834,14 +841,14 @@
   // sentence-ending punctuation should move in append
   const movePunct = (source, end, needle) => {
     const juicy = /[-.?!,;:)–—'"]/g;
-    let wasLast = source[end - 1];
+    const wasLast = source[end - 1];
     if (!wasLast) {
       return
     }
-    let post = wasLast.post;
+    const post = wasLast.post;
     if (juicy.test(post)) {
-      let punct = post.match(juicy).join(''); //not perfect
-      let last = needle[needle.length - 1];
+      const punct = post.match(juicy).join(''); //not perfect
+      const last = needle[needle.length - 1];
       last.post = punct + last.post;
       // remove it, from source
       wasLast.post = wasLast.post.replace(juicy, '');
@@ -850,26 +857,26 @@
 
 
   const moveTitleCase = function (home, start, needle) {
-    let from = home[start];
+    const from = home[start];
     // should we bother?
-    if (start !== 0 || !isTitleCase$1(from.text)) {
+    if (start !== 0 || !isTitleCase$2(from.text)) {
       return
     }
     // titlecase new first term
-    needle[0].text = toTitleCase(needle[0].text);
+    needle[0].text = toTitleCase$1(needle[0].text);
     // should we un-titlecase the old word?
-    let old = home[start];
+    const old = home[start];
     if (old.tags.has('ProperNoun') || old.tags.has('Acronym')) {
       return
     }
-    if (isTitleCase$1(old.text) && old.text.length > 1) {
-      old.text = toLowerCase(old.text);
+    if (isTitleCase$2(old.text) && old.text.length > 1) {
+      old.text = toLowerCase$1(old.text);
     }
   };
 
   // put these words before the others
   const cleanPrepend = function (home, ptr, needle, document) {
-    let [n, start, end] = ptr;
+    const [n, start, end] = ptr;
     // introduce spaces appropriately
     if (start === 0) {
       // at start - need space in insert
@@ -888,8 +895,8 @@
   };
 
   const cleanAppend = function (home, ptr, needle, document) {
-    let [n, , end] = ptr;
-    let total = (document[n] || []).length;
+    const [n, , end] = ptr;
+    const total = (document[n] || []).length;
     if (end < total) {
       // are we in the middle?
       // add trailing space on self
@@ -941,7 +948,7 @@
       after 46-thousand sentences
 
   */
-  let index$2 = 0;
+  let index$1 = 0;
 
   const pad3 = (str) => {
     str = str.length < 3 ? '0' + str : str;
@@ -950,17 +957,17 @@
 
   const toId = function (term) {
     let [n, i] = term.index || [0, 0];
-    index$2 += 1;
+    index$1 += 1;
 
     //don't overflow index
-    index$2 = index$2 > 46655 ? 0 : index$2;
+    index$1 = index$1 > 46655 ? 0 : index$1;
     //don't overflow sentences
     n = n > 46655 ? 0 : n;
     // //don't overflow terms
     i = i > 1294 ? 0 : i;
 
     // 3 digits for time
-    let id = pad3(index$2.toString(36));
+    let id = pad3(index$1.toString(36));
     // 3 digit  for sentence index (46k)
     id += pad3(n.toString(36));
 
@@ -970,13 +977,11 @@
     id += tx;
 
     // 1 digit random number
-    let r = parseInt(Math.random() * 36, 10);
+    const r = parseInt(Math.random() * 36, 10);
     id += (r).toString(36);
 
     return term.normal + '|' + id.toUpperCase()
   };
-
-  var uuid = toId;
 
   // setInterval(() => console.log(toId(4, 12)), 100)
 
@@ -985,7 +990,7 @@
   const expand$1 = function (m) {
     if (m.has('@hasContraction') && typeof m.contractions === 'function') {
       //&& m.after('^.').has('@hasContraction')
-      let more = m.grow('@hasContraction');
+      const more = m.grow('@hasContraction');
       more.contractions().expand();
     }
   };
@@ -995,7 +1000,7 @@
   // set new ids for each terms
   const addIds$2 = function (terms) {
     terms = terms.map(term => {
-      term.id = uuid(term);
+      term.id = toId(term);
       return term
     });
     return terms
@@ -1022,13 +1027,13 @@
     const { document, world } = view;
     view.uncache();
     // insert words at end of each doc
-    let ptrs = view.fullPointer;
-    let selfPtrs = view.fullPointer;
+    const ptrs = view.fullPointer;
+    const selfPtrs = view.fullPointer;
     view.forEach((m, i) => {
-      let ptr = m.fullPointer[0];
-      let [n] = ptr;
+      const ptr = m.fullPointer[0];
+      const [n] = ptr;
       // add-in the words
-      let home = document[n];
+      const home = document[n];
       let terms = getTerms(input, world);
       // are we inserting nothing?
       if (terms.length === 0) {
@@ -1052,7 +1057,7 @@
       ptr[2] += terms.length;
       ptrs[i] = ptr;
     });
-    let doc = view.toView(ptrs);
+    const doc = view.toView(ptrs);
     // shift our self pointer, if necessary
     view.ptrs = selfPtrs;
     // try to tag them, too
@@ -1076,20 +1081,19 @@
   fns$3.prepend = fns$3.insertBefore;
   fns$3.insert = fns$3.insertAfter;
 
-  var insert$1 = fns$3;
-
   const dollarStub = /\$[0-9a-z]+/g;
   const fns$2 = {};
 
-  const titleCase$2 = function (str) {
-    return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase())
-  };
+  // case logic
+  const isTitleCase$1 = (str) => /^\p{Lu}[\p{Ll}'’]/u.test(str) || /^\p{Lu}$/u.test(str);
+  const toTitleCase = (str) => str.replace(/^\p{Ll}/u, x => x.toUpperCase());
+  const toLowerCase = (str) => str.replace(/^\p{Lu}/u, x => x.toLowerCase());
 
   // doc.replace('foo', (m)=>{})
-  const replaceByFn = function (main, fn) {
+  const replaceByFn = function (main, fn, keep) {
     main.forEach(m => {
-      let out = fn(m);
-      m.replaceWith(out);
+      const out = fn(m);
+      m.replaceWith(out, keep);
     });
     return main
   };
@@ -1099,9 +1103,9 @@
     if (typeof input !== 'string') {
       return input
     }
-    let groups = main.groups();
+    const groups = main.groups();
     input = input.replace(dollarStub, a => {
-      let num = a.replace(/\$/, '');
+      const num = a.replace(/\$/, '');
       if (groups.hasOwnProperty(num)) {
         return groups[num].text()
       }
@@ -1112,21 +1116,33 @@
 
   fns$2.replaceWith = function (input, keep = {}) {
     let ptrs = this.fullPointer;
-    let main = this;
+    // support keep-all option
+    if (keep === true) {
+      keep = {
+        tags: true,
+        case: true,
+        possessives: true,
+      };
+    }
+    const main = this;
     this.uncache();
     if (typeof input === 'function') {
-      return replaceByFn(main, input)
+      return replaceByFn(main, input, keep)
     }
-    let terms = main.docs[0];
-    let isPossessive = keep.possessives && terms[terms.length - 1].tags.has('Possessive');
+    const terms = main.docs[0];
+    if (!terms) return main
+    const isOriginalPossessive = keep.possessives && terms[terms.length - 1].tags.has('Possessive');
+    const isOriginalTitleCase = keep.case && isTitleCase$1(terms[0].text);
     // support 'foo $0' replacements
     input = subDollarSign(input, main);
 
-    let original = this.update(ptrs);
+    const original = this.update(ptrs);
     // soften-up pointer
     ptrs = ptrs.map(ptr => ptr.slice(0, 3));
     // original.freeze()
     let oldTags = (original.docs[0] || []).map(term => Array.from(term.tags));
+    const originalPre = original.docs[0][0].pre;
+    const originalPost = original.docs[0][original.docs[0].length - 1].post;
     // slide this in
     if (typeof input === 'string') {
       input = this.fromText(input).compute('id');
@@ -1134,51 +1150,56 @@
     main.insertAfter(input);
     // are we replacing part of a contraction?
     if (original.has('@hasContraction') && main.contractions) {
-      let more = main.grow('@hasContraction+');
+      const more = main.grow('@hasContraction+');
       more.contractions().expand();
     }
     // delete the original terms
     main.delete(original); //science.
 
     // keep "John's"
-    if (isPossessive) {
-      let tmp = main.docs[0];
-      let term = tmp[tmp.length - 1];
+    if (isOriginalPossessive) {
+      const tmp = main.docs[0];
+      const term = tmp[tmp.length - 1];
       if (!term.tags.has('Possessive')) {
         term.text += "'s";
         term.normal += "'s";
         term.tags.add('Possessive');
       }
     }
+
+    // try to keep some pre-punctuation
+    if (originalPre && main.docs[0]) {
+      main.docs[0][0].pre = originalPre;
+    }
+    // try to keep any post-punctuation
+    if (originalPost && main.docs[0]) {
+      const lastOne = main.docs[0][main.docs[0].length - 1];
+      if (!lastOne.post.trim()) {
+        lastOne.post = originalPost;
+      }
+    }
     // what should we return?
-    let m = main.toView(ptrs).compute(['index', 'freeze', 'lexicon']);
+    const m = main.toView(ptrs).compute(['index', 'freeze', 'lexicon']);
     if (m.world.compute.preTagger) {
       m.compute('preTagger');
     }
     m.compute('unfreeze');
     // replace any old tags
     if (keep.tags) {
+      // truncate old tags to only touch new terms
+      oldTags = oldTags.slice(0, input.wordCount());
       m.terms().forEach((term, i) => {
         term.tagSafe(oldTags[i]);
       });
     }
+
+    if (!m.docs[0] || !m.docs[0][0]) return m
+
     // try to co-erce case, too
-    if (keep.case && m.docs[0] && m.docs[0][0] && m.docs[0][0].index[1] === 0) {
-      m.docs[0][0].text = titleCase$2(m.docs[0][0].text);
+    if (keep.case) {
+      const transformCase = isOriginalTitleCase ? toTitleCase : toLowerCase;
+      m.docs[0][0].text = transformCase(m.docs[0][0].text);
     }
-
-    // try to keep some pre-post punctuation
-    // if (m.terms().length === 1 && main.terms().length === 1) {
-    //   console.log(original.docs)
-    // }
-
-    // console.log(input.docs[0])
-    // let regs = input.docs[0].map(t => {
-    //   return { id: t.id, optional: true }
-    // })
-    // m.after('(a|hoy)').debug()
-    // m.growRight('(a|hoy)').debug()
-    // console.log(m)
     return m
   };
 
@@ -1186,20 +1207,19 @@
     if (match && !input) {
       return this.replaceWith(match, keep)
     }
-    let m = this.match(match);
+    const m = this.match(match);
     if (!m.found) {
       return this
     }
     this.soften();
     return m.replaceWith(input, keep)
   };
-  var replace = fns$2;
 
   // transfer sentence-ending punctuation
   const repairPunct = function (terms, len) {
-    let last = terms.length - 1;
-    let from = terms[last];
-    let to = terms[last - len];
+    const last = terms.length - 1;
+    const from = terms[last];
+    const to = terms[last - len];
     if (to && from) {
       to.post += from.post; //this isn't perfect.
       to.post = to.post.replace(/ +([.?!,;:])/, '$1');
@@ -1211,8 +1231,8 @@
   // remove terms from document json
   const pluckOut = function (document, nots) {
     nots.forEach(ptr => {
-      let [n, start, end] = ptr;
-      let len = end - start;
+      const [n, start, end] = ptr;
+      const len = end - start;
       if (!document[n]) {
         return // weird!
       }
@@ -1228,8 +1248,8 @@
         document.splice(i, 1);
         // remove any trailing whitespace before our removed sentence
         if (i === document.length && document[i - 1]) {
-          let terms = document[i - 1];
-          let lastTerm = terms[terms.length - 1];
+          const terms = document[i - 1];
+          const lastTerm = terms[terms.length - 1];
           if (lastTerm) {
             lastTerm.post = lastTerm.post.trimEnd();
           }
@@ -1243,16 +1263,14 @@
     return document
   };
 
-  var pluckOutTerm = pluckOut;
-
   const fixPointers$1 = function (ptrs, gonePtrs) {
     ptrs = ptrs.map(ptr => {
-      let [n] = ptr;
+      const [n] = ptr;
       if (!gonePtrs[n]) {
         return ptr
       }
       gonePtrs[n].forEach(no => {
-        let len = no[2] - no[1];
+        const len = no[2] - no[1];
         // does it effect our pointer?
         if (ptr[1] <= no[1] && ptr[2] >= no[2]) {
           ptr[2] -= len;
@@ -1286,7 +1304,7 @@
     return ptrs
   };
 
-  const methods$k = {
+  const methods$j = {
     /** */
     remove: function (reg) {
       const { indexN } = this.methods.one.pointer;
@@ -1300,19 +1318,19 @@
         self = this;
         not = this.match(reg);
       }
-      let isFull = !self.ptrs;
+      const isFull = !self.ptrs;
       // is it part of a contraction?
       if (not.has('@hasContraction') && not.contractions) {
-        let more = not.grow('@hasContraction');
+        const more = not.grow('@hasContraction');
         more.contractions().expand();
       }
 
       let ptrs = self.fullPointer;
-      let nots = not.fullPointer.reverse();
+      const nots = not.fullPointer.reverse();
       // remove them from the actual document)
-      let document = pluckOutTerm(this.document, nots);
+      const document = pluckOut(this.document, nots);
       // repair our pointers
-      let gonePtrs = indexN(nots);
+      const gonePtrs = indexN(nots);
       ptrs = fixPointers$1(ptrs, gonePtrs);
       // clean up our original inputs
       self.ptrs = ptrs;
@@ -1326,23 +1344,22 @@
         this.ptrs = [];
         return self.none()
       }
-      let res = self.toView(ptrs); //return new document
+      const res = self.toView(ptrs); //return new document
       return res
     },
   };
 
   // aliases
-  methods$k.delete = methods$k.remove;
-  var remove = methods$k;
+  methods$j.delete = methods$j.remove;
 
-  const methods$j = {
+  const methods$i = {
     /** add this punctuation or whitespace before each match: */
     pre: function (str, concat) {
       if (str === undefined && this.found) {
         return this.docs[0][0].pre
       }
       this.docs.forEach(terms => {
-        let term = terms[0];
+        const term = terms[0];
         if (concat === true) {
           term.pre += str;
         } else {
@@ -1355,11 +1372,11 @@
     /** add this punctuation or whitespace after each match: */
     post: function (str, concat) {
       if (str === undefined) {
-        let last = this.docs[this.docs.length - 1];
+        const last = this.docs[this.docs.length - 1];
         return last[last.length - 1].post
       }
       this.docs.forEach(terms => {
-        let term = terms[terms.length - 1];
+        const term = terms[terms.length - 1];
         if (concat === true) {
           term.post += str;
         } else {
@@ -1374,11 +1391,11 @@
       if (!this.found) {
         return this
       }
-      let docs = this.docs;
-      let start = docs[0][0];
+      const docs = this.docs;
+      const start = docs[0][0];
       start.pre = start.pre.trimStart();
-      let last = docs[docs.length - 1];
-      let end = last[last.length - 1];
+      const last = docs[docs.length - 1];
+      const end = last[last.length - 1];
       end.post = end.post.trimEnd();
       return this
     },
@@ -1419,7 +1436,7 @@
       end = end || `"`;
       this.docs.forEach(terms => {
         terms[0].pre = start + terms[0].pre;
-        let last = terms[terms.length - 1];
+        const last = terms[terms.length - 1];
         last.post = end + last.post;
       });
       return this
@@ -1431,7 +1448,7 @@
       end = end || `)`;
       this.docs.forEach(terms => {
         terms[0].pre = start + terms[0].pre;
-        let last = terms[terms.length - 1];
+        const last = terms[terms.length - 1];
         last.post = end + last.post;
       });
       return this
@@ -1439,10 +1456,8 @@
   };
 
   // aliases
-  methods$j.deHyphenate = methods$j.dehyphenate;
-  methods$j.toQuotation = methods$j.toQuotations;
-
-  var whitespace = methods$j;
+  methods$i.deHyphenate = methods$i.dehyphenate;
+  methods$i.toQuotation = methods$i.toQuotations;
 
   /** alphabetical order */
   const alpha = (a, b) => {
@@ -1457,8 +1472,8 @@
 
   /** count the # of characters of each match */
   const length = (a, b) => {
-    let left = a.normal.trim().length;
-    let right = b.normal.trim().length;
+    const left = a.normal.trim().length;
+    const right = b.normal.trim().length;
     if (left < right) {
       return 1
     }
@@ -1469,7 +1484,7 @@
   };
 
   /** count the # of terms in each match */
-  const wordCount$2 = (a, b) => {
+  const wordCount$1 = (a, b) => {
     if (a.words < b.words) {
       return 1
     }
@@ -1492,15 +1507,15 @@
 
   /** sort by # of duplicates in the document*/
   const byFreq = function (arr) {
-    let counts = {};
+    const counts = {};
     arr.forEach(o => {
       counts[o.normal] = counts[o.normal] || 0;
       counts[o.normal] += 1;
     });
     // sort by freq
     arr.sort((a, b) => {
-      let left = counts[a.normal];
-      let right = counts[b.normal];
+      const left = counts[a.normal];
+      const right = counts[b.normal];
       if (left < right) {
         return 1
       }
@@ -1512,7 +1527,7 @@
     return arr
   };
 
-  var methods$i = { alpha, length, wordCount: wordCount$2, sequential, byFreq };
+  var methods$h = { alpha, length, wordCount: wordCount$1, sequential, byFreq };
 
   // aliases
   const seqNames = new Set(['index', 'sequence', 'seq', 'sequential', 'chron', 'chronological']);
@@ -1533,13 +1548,13 @@
 
   /** re-arrange the order of the matches (in place) */
   const sort = function (input) {
-    let { docs, pointer } = this;
+    const { docs, pointer } = this;
     this.uncache();
     if (typeof input === 'function') {
       return customSort(this, input)
     }
     input = input || 'alpha';
-    let ptrs = pointer || docs.map((_d, n) => [n]);
+    const ptrs = pointer || docs.map((_d, n) => [n]);
     let arr = docs.map((terms, n) => {
       return {
         index: n,
@@ -1558,19 +1573,19 @@
     }
     // sort by frequency
     if (freqNames.has(input)) {
-      arr = methods$i.byFreq(arr);
+      arr = methods$h.byFreq(arr);
       return this.update(arr.map(o => o.pointer))
     }
     // apply sort method on each phrase
-    if (typeof methods$i[input] === 'function') {
-      arr = arr.sort(methods$i[input]);
+    if (typeof methods$h[input] === 'function') {
+      arr = arr.sort(methods$h[input]);
       return this.update(arr.map(o => o.pointer))
     }
     return this
   };
 
   /** reverse the order of the matches, but not the words or index */
-  const reverse$2 = function () {
+  const reverse$1 = function () {
     let ptrs = this.pointer || this.docs.map((_d, n) => [n]);
     ptrs = [].concat(ptrs);
     ptrs = ptrs.reverse();
@@ -1582,9 +1597,9 @@
 
   /** remove any duplicate matches */
   const unique = function () {
-    let already = new Set();
-    let res = this.filter(m => {
-      let txt = m.text('machine');
+    const already = new Set();
+    const res = this.filter(m => {
+      const txt = m.text('machine');
       if (already.has(txt)) {
         return false
       }
@@ -1595,7 +1610,7 @@
     return res//.compute('index')
   };
 
-  var sort$1 = { unique, reverse: reverse$2, sort };
+  var sort$1 = { unique, reverse: reverse$1, sort };
 
   const isArray$6 = (arr) => Object.prototype.toString.call(arr) === '[object Array]';
 
@@ -1603,8 +1618,8 @@
   const combineDocs = function (homeDocs, inputDocs) {
     if (homeDocs.length > 0) {
       // add a space
-      let end = homeDocs[homeDocs.length - 1];
-      let last = end[end.length - 1];
+      const end = homeDocs[homeDocs.length - 1];
+      const last = end[end.length - 1];
       if (/ /.test(last.post) === false) {
         last.post += ' ';
       }
@@ -1616,11 +1631,11 @@
   const combineViews = function (home, input) {
     // is it a view from the same document?
     if (home.document === input.document) {
-      let ptrs = home.fullPointer.concat(input.fullPointer);
+      const ptrs = home.fullPointer.concat(input.fullPointer);
       return home.toView(ptrs).compute('index')
     }
     // update n of new pointer, to end of our pointer
-    let ptrs = input.fullPointer;
+    const ptrs = input.fullPointer;
     ptrs.forEach(a => {
       a[0] += home.document.length;
     });
@@ -1633,14 +1648,14 @@
     concat: function (input) {
       // parse and splice-in new terms
       if (typeof input === 'string') {
-        let more = this.fromText(input);
+        const more = this.fromText(input);
         // easy concat
         if (!this.found || !this.ptrs) {
           this.document = this.document.concat(more.document);
         } else {
           // if we are in the middle, this is actually a splice operation
-          let ptrs = this.fullPointer;
-          let at = ptrs[ptrs.length - 1][0];
+          const ptrs = this.fullPointer;
+          const at = ptrs[ptrs.length - 1][0];
           this.document.splice(at, 0, ...more.document);
         }
         // put the docs
@@ -1652,7 +1667,7 @@
       }
       // assume it's an array of terms
       if (isArray$6(input)) {
-        let docs = combineDocs(this.document, input);
+        const docs = combineDocs(this.document, input);
         this.document = docs;
         return this.all()
       }
@@ -1677,33 +1692,30 @@
   };
   var harden$1 = { harden, soften };
 
-  const methods$h = Object.assign({}, caseFns, insert$1, replace, remove, whitespace, sort$1, concat, harden$1);
+  const methods$g = Object.assign({}, caseFns, fns$3, fns$2, methods$j, methods$i, sort$1, concat, harden$1);
 
   const addAPI$2 = function (View) {
-    Object.assign(View.prototype, methods$h);
+    Object.assign(View.prototype, methods$g);
   };
-  var api$j = addAPI$2;
 
-  const compute$6 = {
+  const compute$5 = {
     id: function (view) {
-      let docs = view.docs;
+      const docs = view.docs;
       for (let n = 0; n < docs.length; n += 1) {
         for (let i = 0; i < docs[n].length; i += 1) {
-          let term = docs[n][i];
-          term.id = term.id || uuid(term);
+          const term = docs[n][i];
+          term.id = term.id || toId(term);
         }
       }
     }
   };
 
-  var compute$7 = compute$6;
-
   var change = {
-    api: api$j,
-    compute: compute$7,
+    api: addAPI$2,
+    compute: compute$5,
   };
 
-  var contractions$5 = [
+  var contractions$3 = [
     // simple mappings
     { word: '@', out: ['at'] },
     { word: 'arent', out: ['are', 'not'] },
@@ -1796,14 +1808,14 @@
 
   var model$5 = {
     one: {
-      contractions: contractions$5,
+      contractions: contractions$3,
       numberSuffixes
     }
   };
 
   // put n new words where 1 word was
   const insertContraction = function (document, point, words) {
-    let [n, w] = point;
+    const [n, w] = point;
     if (!words || words.length === 0) {
       return
     }
@@ -1828,7 +1840,6 @@
     // do the splice
     document[n].splice(w, 1, ...words);
   };
-  var splice = insertContraction;
 
   const hasContraction$1 = /'/;
   //look for a past-tense verb
@@ -1870,7 +1881,7 @@
   //    he would been
 
   const _apostropheD = function (terms, i) {
-    let before = terms[i].normal.split(hasContraction$1)[0];
+    const before = terms[i].normal.split(hasContraction$1)[0];
 
     // what'd, how'd
     if (alwaysDid.has(before)) {
@@ -1893,18 +1904,15 @@
     //   // had/would/did
     //   return [before, 'would']
   };
-  var apostropheD = _apostropheD;
 
   //ain't -> are/is not
   const apostropheT = function (terms, i) {
     if (terms[i].normal === "ain't" || terms[i].normal === 'aint') {
       return null //do this in ./two/
     }
-    let before = terms[i].normal.replace(/n't/, '');
+    const before = terms[i].normal.replace(/n't/, '');
     return [before, 'not']
   };
-
-  var apostropheT$1 = apostropheT;
 
   const hasContraction = /'/;
   const isFeminine = /(e|é|aison|sion|tion)$/;
@@ -1912,7 +1920,7 @@
   // l'amour
   const preL = (terms, i) => {
     // le/la
-    let after = terms[i].normal.split(hasContraction)[1];
+    const after = terms[i].normal.split(hasContraction)[1];
     // quick french gender disambig (rough)
     if (after && after.endsWith('e')) {
       return ['la', after]
@@ -1922,7 +1930,7 @@
 
   // d'amerique
   const preD = (terms, i) => {
-    let after = terms[i].normal.split(hasContraction)[1];
+    const after = terms[i].normal.split(hasContraction)[1];
     // quick guess for noun-agreement (rough)
     if (after && isFeminine.test(after) && !isMasculine.test(after)) {
       return ['du', after]
@@ -1934,7 +1942,7 @@
 
   // j'aime
   const preJ = (terms, i) => {
-    let after = terms[i].normal.split(hasContraction)[1];
+    const after = terms[i].normal.split(hasContraction)[1];
     return ['je', after]
   };
 
@@ -1949,7 +1957,7 @@
   const phoneNum = /^[0-9]{3}-[0-9]{4}$/;
 
   const numberRange = function (terms, i) {
-    let term = terms[i];
+    const term = terms[i];
     let parts = term.text.match(isRange);
     if (parts !== null) {
       // 123-1234 is a phone number, not a number-range
@@ -1965,17 +1973,16 @@
     }
     return null
   };
-  var numberRange$1 = numberRange;
 
   const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/; //(must be lowercase)
 
   const numberUnit = function (terms, i, world) {
     const notUnit = world.model.one.numberSuffixes || {};
-    let term = terms[i];
-    let parts = term.text.match(numUnit);
+    const term = terms[i];
+    const parts = term.text.match(numUnit);
     if (parts !== null) {
       // is it a recognized unit, like 'km'?
-      let unit = parts[2].toLowerCase().trim();
+      const unit = parts[2].toLowerCase().trim();
       // don't split '3rd'
       if (notUnit.hasOwnProperty(unit)) {
         return null
@@ -1984,14 +1991,13 @@
     }
     return null
   };
-  var numberUnit$1 = numberUnit;
 
   const byApostrophe = /'/;
   const numDash = /^[0-9][^-–—]*[-–—].*?[0-9]/;
 
   // run tagger on our new implicit terms
   const reTag = function (terms, view, start, len) {
-    let tmp = view.update();
+    const tmp = view.update();
     tmp.document = [terms];
     // offer to re-tag neighbours, too
     let end = start + len;
@@ -2006,9 +2012,9 @@
 
   const byEnd = {
     // ain't
-    t: (terms, i) => apostropheT$1(terms, i),
+    t: (terms, i) => apostropheT(terms, i),
     // how'd
-    d: (terms, i) => apostropheD(terms, i),
+    d: (terms, i) => _apostropheD(terms, i),
   };
 
   const byStart = {
@@ -2023,7 +2029,7 @@
   // pull-apart known contractions from model
   const knownOnes = function (list, term, before, after) {
     for (let i = 0; i < list.length; i += 1) {
-      let o = list[i];
+      const o = list[i];
       // look for word-word match (cannot-> [can, not])
       if (o.word === term.normal) {
         return o.out
@@ -2042,7 +2048,7 @@
   };
 
   const toDocs = function (words, view) {
-    let doc = view.fromText(words.join(' '));
+    const doc = view.fromText(words.join(' '));
     doc.compute(['id', 'alias']);
     return doc.docs[0]
   };
@@ -2062,10 +2068,10 @@
   };
 
   //really easy ones
-  const contractions$3 = view => {
-    let { world, document } = view;
+  const contractions$2 = view => {
+    const { world, document } = view;
     const { model, methods } = world;
-    let list = model.one.contractions || [];
+    const list = model.one.contractions || [];
     // let units = new Set(model.one.units || [])
     // each sentence
     document.forEach((terms, n) => {
@@ -2074,7 +2080,7 @@
         let before = null;
         let after = null;
         if (byApostrophe.test(terms[i].normal) === true) {
-          let res = terms[i].normal.split(byApostrophe);
+          const res = terms[i].normal.split(byApostrophe);
           before = res[0];
           after = res[1];
         }
@@ -2095,16 +2101,16 @@
         // actually insert the new terms
         if (words) {
           words = toDocs(words, view);
-          splice(document, [n, i], words);
+          insertContraction(document, [n, i], words);
           reTag(document[n], view, i, words.length);
           continue
         }
         // '44-2' has special care
         if (numDash.test(terms[i].normal)) {
-          words = numberRange$1(terms, i);
+          words = numberRange(terms, i);
           if (words) {
             words = toDocs(words, view);
-            splice(document, [n, i], words);
+            insertContraction(document, [n, i], words);
             methods.one.setTag(words, 'NumberRange', world); //add custom tag
             // is it a time-range, like '5-9pm'
             if (words[2] && words[2].tags.has('Time')) {
@@ -2115,25 +2121,23 @@
           continue
         }
         // split-apart '4km'
-        words = numberUnit$1(terms, i, world);
+        words = numberUnit(terms, i, world);
         if (words) {
           words = toDocs(words, view);
-          splice(document, [n, i], words);
+          insertContraction(document, [n, i], words);
           methods.one.setTag([words[1]], 'Unit', world, null, 'contraction-unit');
         }
       }
     });
   };
-  var contractions$4 = contractions$3;
 
-  var compute$5 = { contractions: contractions$4 };
+  var compute$4 = { contractions: contractions$2 };
 
   const plugin = {
     model: model$5,
-    compute: compute$5,
+    compute: compute$4,
     hooks: ['contractions'],
   };
-  var contractions$2 = plugin;
 
   const freeze$1 = function (view) {
     const world = view.world;
@@ -2145,15 +2149,15 @@
     view.docs.forEach(terms => {
       for (let i = 0; i < terms.length; i += 1) {
         // basic lexicon lookup
-        let t = terms[i];
-        let word = t.machine || t.normal;
+        const t = terms[i];
+        const word = t.machine || t.normal;
 
         // test a multi-word
         if (multi[word] !== undefined && terms[i + 1]) {
-          let end = i + multi[word] - 1;
+          const end = i + multi[word] - 1;
           for (let k = end; k > i; k -= 1) {
-            let words = terms.slice(i, k + 1);
-            let str = words.map(term => term.machine || term.normal).join(' ');
+            const words = terms.slice(i, k + 1);
+            const str = words.map(term => term.machine || term.normal).join(' ');
             // lookup frozen lexicon
             if (frozenLex.hasOwnProperty(str) === true) {
               setTag(words, frozenLex[str], world, false, '1-frozen-multi-lexicon');
@@ -2180,18 +2184,18 @@
     });
     return view
   };
-  var compute$4 = { frozen: freeze$1, freeze: freeze$1, unfreeze };
+  var compute$3 = { frozen: freeze$1, freeze: freeze$1, unfreeze };
 
   /* eslint-disable no-console */
   const blue = str => '\x1b[34m' + str + '\x1b[0m';
   const dim = str => '\x1b[3m\x1b[2m' + str + '\x1b[0m';
 
-  const debug$4 = function (view) {
+  const debug$2 = function (view) {
     view.docs.forEach(terms => {
       console.log(blue('\n  ┌─────────'));
       terms.forEach(t => {
         let str = `  ${dim('│')}  `;
-        let txt = t.implicit || t.text || '-';
+        const txt = t.implicit || t.text || '-';
         if (t.frozen === true) {
           str += `${blue(txt)} ❄️`;
         } else {
@@ -2201,19 +2205,18 @@
       });
     });
   };
-  var debug$5 = debug$4;
 
   var freeze = {
     // add .compute('freeze')
-    compute: compute$4,
+    compute: compute$3,
 
     mutate: world => {
       const methods = world.methods.one;
       // add @isFrozen method
       methods.termMethods.isFrozen = term => term.frozen === true;
       // adds `.debug('frozen')`
-      methods.debug.freeze = debug$5;
-      methods.debug.frozen = debug$5;
+      methods.debug.freeze = debug$2;
+      methods.debug.frozen = debug$2;
     },
 
     api: function (View) {
@@ -2245,21 +2248,21 @@
     const setTag = methods.one.setTag;
     const multi = model.one._multiCache || {};
     const { lexicon } = model.one || {};
-    let t = terms[start_i];
-    let word = t.machine || t.normal;
+    const t = terms[start_i];
+    const word = t.machine || t.normal;
 
     // found a word to scan-ahead on
     if (multi[word] !== undefined && terms[start_i + 1]) {
-      let end = start_i + multi[word] - 1;
+      const end = start_i + multi[word] - 1;
       for (let i = end; i > start_i; i -= 1) {
-        let words = terms.slice(start_i, i + 1);
+        const words = terms.slice(start_i, i + 1);
         if (words.length <= 1) {
           return false
         }
-        let str = words.map(term => term.machine || term.normal).join(' ');
+        const str = words.map(term => term.machine || term.normal).join(' ');
         // lookup regular lexicon
         if (lexicon.hasOwnProperty(str) === true) {
-          let tag = lexicon[str];
+          const tag = lexicon[str];
           setTag(words, tag, world, false, '1-multi-lexicon');
           // special case for phrasal-verbs - 2nd word is a #Particle
           if (tag && tag.length === 2 && (tag[0] === 'PhrasalVerb' || tag[1] === 'PhrasalVerb')) {
@@ -2272,7 +2275,6 @@
     }
     return null
   };
-  var multiWord$1 = multiWord;
 
   const prefix$2 = /^(under|over|mis|re|un|dis|semi|pre|post)-?/;
   // anti|non|extra|inter|intra|over
@@ -2286,8 +2288,8 @@
     const { lexicon } = model.one;
 
     // basic lexicon lookup
-    let t = terms[i];
-    let word = t.machine || t.normal;
+    const t = terms[i];
+    const word = t.machine || t.normal;
     // normal lexicon lookup
     if (lexicon[word] !== undefined && lexicon.hasOwnProperty(word)) {
       setTag([t], lexicon[word], world, false, '1-lexicon');
@@ -2295,7 +2297,7 @@
     }
     // lookup aliases in the lexicon
     if (t.alias) {
-      let found = t.alias.find(str => lexicon.hasOwnProperty(str));
+      const found = t.alias.find(str => lexicon.hasOwnProperty(str));
       if (found) {
         setTag([t], lexicon[found], world, false, '1-lexicon-alias');
         return true
@@ -2303,7 +2305,7 @@
     }
     // prefixing for verbs/adjectives
     if (prefix$2.test(word) === true) {
-      let stem = word.replace(prefix$2, '');
+      const stem = word.replace(prefix$2, '');
       if (lexicon.hasOwnProperty(stem) && stem.length > 3) {
         // only allow prefixes for verbs/adjectives
         if (allowPrefix.has(lexicon[stem])) {
@@ -2315,7 +2317,6 @@
     }
     return null
   };
-  var singleWord = checkLexicon;
 
   // tag any words in our lexicon - even if it hasn't been filled-up yet
   // rest of pre-tagger is in ./two/preTagger
@@ -2326,32 +2327,32 @@
       for (let i = 0; i < terms.length; i += 1) {
         if (terms[i].tags.size === 0) {
           let found = null;
-          found = found || multiWord$1(terms, i, world);
+          found = found || multiWord(terms, i, world);
           // lookup known words
-          found = found || singleWord(terms, i, world);
+          found = found || checkLexicon(terms, i, world);
         }
       }
     });
   };
 
-  var compute$3 = {
+  var compute$2 = {
     lexicon: lexicon$3,
   };
 
   // derive clever things from our lexicon key-value pairs
   const expand = function (words) {
     // const { methods, model } = world
-    let lex = {};
+    const lex = {};
     // console.log('start:', Object.keys(lex).length)
-    let _multi = {};
+    const _multi = {};
     // go through each word in this key-value obj:
     Object.keys(words).forEach(word => {
-      let tag = words[word];
+      const tag = words[word];
       // normalize lexicon a little bit
       word = word.toLowerCase().trim();
       word = word.replace(/'s\b/, '');
       // cache multi-word terms
-      let split = word.split(/ /);
+      const split = word.split(/ /);
       if (split.length > 1) {
         // prefer longer ones
         if (_multi[split[0]] === undefined || split.length > _multi[split[0]]) {
@@ -2366,11 +2367,10 @@
     delete lex[' '];
     return { lex, _multi }
   };
-  var expandLexicon = expand;
 
-  var methods$g = {
+  var methods$f = {
     one: {
-      expandLexicon,
+      expandLexicon: expand,
     }
   };
 
@@ -2389,7 +2389,7 @@
     });
     // these words go into a seperate lexicon
     if (isFrozen === true) {
-      let { lex, _multi } = methods.one.expandLexicon(words, world);
+      const { lex, _multi } = methods.one.expandLexicon(words, world);
       Object.assign(model.one._multiCache, _multi);
       Object.assign(model.one.frozenLex, lex);
       return
@@ -2397,12 +2397,12 @@
     // add some words to our lexicon
     if (methods.two.expandLexicon) {
       // do fancy ./two version
-      let { lex, _multi } = methods.two.expandLexicon(words, world);
+      const { lex, _multi } = methods.two.expandLexicon(words, world);
       Object.assign(model.one.lexicon, lex);
       Object.assign(model.one._multiCache, _multi);
     }
     // do basic ./one version
-    let { lex, _multi } = methods.one.expandLexicon(words, world);
+    const { lex, _multi } = methods.one.expandLexicon(words, world);
     Object.assign(model.one.lexicon, lex);
     Object.assign(model.one._multiCache, _multi);
   };
@@ -2419,8 +2419,8 @@
 
   var lexicon$2 = {
     model: model$4,
-    methods: methods$g,
-    compute: compute$3,
+    methods: methods$f,
+    compute: compute$2,
     lib: lib$5,
     hooks: ['lexicon'],
   };
@@ -2428,9 +2428,9 @@
   // edited by Spencer Kelly
   // credit to https://github.com/BrunoRB/ahocorasick by Bruno Roberto Búrigo.
 
-  const tokenize$5 = function (phrase, world) {
+  const tokenize$3 = function (phrase, world) {
     const { methods, model } = world;
-    let terms = methods.one.tokenize.splitTerms(phrase, model).map(t => methods.one.tokenize.splitWhitespace(t, model));
+    const terms = methods.one.tokenize.splitTerms(phrase, model).map(t => methods.one.tokenize.splitWhitespace(t, model));
     return terms.map(term => term.text.toLowerCase())
   };
 
@@ -2438,18 +2438,18 @@
   const buildTrie = function (phrases, world) {
 
     // const tokenize=methods.one.
-    let goNext = [{}];
-    let endAs = [null];
-    let failTo = [0];
+    const goNext = [{}];
+    const endAs = [null];
+    const failTo = [0];
 
-    let xs = [];
+    const xs = [];
     let n = 0;
     phrases.forEach(function (phrase) {
       let curr = 0;
       // let wordsB = phrase.split(/ /g).filter(w => w)
-      let words = tokenize$5(phrase, world);
+      const words = tokenize$3(phrase, world);
       for (let i = 0; i < words.length; i++) {
-        let word = words[i];
+        const word = words[i];
         if (goNext[curr] && goNext[curr].hasOwnProperty(word)) {
           curr = goNext[curr][word];
         } else {
@@ -2463,19 +2463,19 @@
       endAs[curr] = [words.length];
     });
     // f(s) = 0 for all states of depth 1 (the ones from which the 0 state can transition to)
-    for (let word in goNext[0]) {
+    for (const word in goNext[0]) {
       n = goNext[0][word];
       failTo[n] = 0;
       xs.push(n);
     }
 
     while (xs.length) {
-      let r = xs.shift();
+      const r = xs.shift();
       // for each symbol a such that g(r, a) = s
-      let keys = Object.keys(goNext[r]);
+      const keys = Object.keys(goNext[r]);
       for (let i = 0; i < keys.length; i += 1) {
-        let word = keys[i];
-        let s = goNext[r][word];
+        const word = keys[i];
+        const s = goNext[r][word];
         xs.push(s);
         // set state = f(r)
         n = failTo[r];
@@ -2483,7 +2483,7 @@
           n = failTo[n];
         }
         if (goNext.hasOwnProperty(n)) {
-          let fs = goNext[n][word];
+          const fs = goNext[n][word];
           failTo[s] = fs;
           if (endAs[fs]) {
             endAs[s] = endAs[s] || [];
@@ -2496,16 +2496,15 @@
     }
     return { goNext, endAs, failTo }
   };
-  var build = buildTrie;
 
   // console.log(buildTrie(['smart and cool', 'smart and nice']))
 
   // follow our trie structure
   const scanWords = function (terms, trie, opts) {
     let n = 0;
-    let results = [];
+    const results = [];
     for (let i = 0; i < terms.length; i++) {
-      let word = terms[i][opts.form] || terms[i].normal;
+      const word = terms[i][opts.form] || terms[i].normal;
       // main match-logic loop:
       while (n > 0 && (trie.goNext[n] === undefined || !trie.goNext[n].hasOwnProperty(word))) {
         n = trie.failTo[n] || 0; // (usually back to 0)
@@ -2516,11 +2515,11 @@
       }
       n = trie.goNext[n][word];
       if (trie.endAs[n]) {
-        let arr = trie.endAs[n];
+        const arr = trie.endAs[n];
         for (let o = 0; o < arr.length; o++) {
-          let len = arr[o];
-          let term = terms[i - len + 1];
-          let [no, start] = term.index;
+          const len = arr[o];
+          const term = terms[i - len + 1];
+          const [no, start] = term.index;
           results.push([no, start, start + len, term.id]);
         }
       }
@@ -2540,33 +2539,32 @@
   const scan = function (view, trie, opts) {
     let results = [];
     opts.form = opts.form || 'normal';
-    let docs = view.docs;
+    const docs = view.docs;
     if (!trie.goNext || !trie.goNext[0]) {
       console.error('Compromise invalid lookup trie');//eslint-disable-line
       return view.none()
     }
-    let firstWords = Object.keys(trie.goNext[0]);
+    const firstWords = Object.keys(trie.goNext[0]);
     // do each phrase
     for (let i = 0; i < docs.length; i++) {
       // can we skip the phrase, all together?
       if (view._cache && view._cache[i] && cacheMiss(firstWords, view._cache[i]) === true) {
         continue
       }
-      let terms = docs[i];
-      let found = scanWords(terms, trie, opts);
+      const terms = docs[i];
+      const found = scanWords(terms, trie, opts);
       if (found.length > 0) {
         results = results.concat(found);
       }
     }
     return view.update(results)
   };
-  var scan$1 = scan;
 
   const isObject$4 = val => {
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$i (View) {
+  function api$7 (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2576,8 +2574,8 @@
       if (typeof input === 'string') {
         input = [input];
       }
-      let trie = isObject$4(input) ? input : build(input, this.world);
-      let res = scan$1(this, trie, opts);
+      const trie = isObject$4(input) ? input : buildTrie(input, this.world);
+      let res = scan(this, trie, opts);
       res = res.settle();
       return res
     };
@@ -2610,21 +2608,20 @@
     trie.endAs = truncate(trie.endAs, null);
     return trie
   };
-  var compress$1 = compress;
 
   /** pre-compile a list of matches to lookup */
   const lib$4 = {
     /** turn an array or object into a compressed trie*/
     buildTrie: function (input) {
-      const trie = build(input, this.world());
-      return compress$1(trie)
+      const trie = buildTrie(input, this.world());
+      return compress(trie)
     }
   };
   // add alias
   lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$i,
+    api: api$7,
     lib: lib$4
   };
 
@@ -2633,7 +2630,7 @@
       return ptrs
     }
     ptrs.forEach(ptr => {
-      let n = ptr[0];
+      const n = ptr[0];
       if (parent[n]) {
         ptr[0] = parent[n][0]; //n
         ptr[1] += parent[n][1]; //start
@@ -2645,7 +2642,8 @@
 
   // make match-result relative to whole document
   const fixPointers = function (res, parent) {
-    let { ptrs, byGroup } = res;
+    let { ptrs } = res;
+    const { byGroup } = res;
     ptrs = relPointer(ptrs, parent);
     Object.keys(byGroup).forEach(k => {
       byGroup[k] = relPointer(byGroup[k], parent);
@@ -2676,7 +2674,7 @@
 
   const isNet = val => val && isObject$3(val) && val.isNet === true;
 
-  const match$2 = function (regs, group, opts) {
+  const match$1 = function (regs, group, opts) {
     const one = this.methods.one;
     // support param as view object
     if (isView(regs)) {
@@ -2687,10 +2685,10 @@
       return this.sweep(regs, { tagger: false }).view.settle()
     }
     regs = parseRegs(regs, opts, this.world);
-    let todo = { regs, group };
-    let res = one.match(this.docs, todo, this._cache);
-    let { ptrs, byGroup } = fixPointers(res, this.fullPointer);
-    let view = this.toView(ptrs);
+    const todo = { regs, group };
+    const res = one.match(this.docs, todo, this._cache);
+    const { ptrs, byGroup } = fixPointers(res, this.fullPointer);
+    const view = this.toView(ptrs);
     view._groups = byGroup;
     return view
   };
@@ -2706,10 +2704,10 @@
       return this.sweep(regs, { tagger: false, matchOne: true }).view
     }
     regs = parseRegs(regs, opts, this.world);
-    let todo = { regs, group, justOne: true };
-    let res = one.match(this.docs, todo, this._cache);
-    let { ptrs, byGroup } = fixPointers(res, this.fullPointer);
-    let view = this.toView(ptrs);
+    const todo = { regs, group, justOne: true };
+    const res = one.match(this.docs, todo, this._cache);
+    const { ptrs, byGroup } = fixPointers(res, this.fullPointer);
+    const view = this.toView(ptrs);
     view._groups = byGroup;
     return view
   };
@@ -2718,7 +2716,7 @@
     const one = this.methods.one;
     // support view as input
     if (isView(regs)) {
-      let ptrs = this.intersection(regs).fullPointer;
+      const ptrs = this.intersection(regs).fullPointer;
       return ptrs.length > 0
     }
     // support a compiled set of matches
@@ -2726,8 +2724,8 @@
       return this.sweep(regs, { tagger: false }).view.found
     }
     regs = parseRegs(regs, opts, this.world);
-    let todo = { regs, group, justOne: true };
-    let ptrs = one.match(this.docs, todo, this._cache).ptrs;
+    const todo = { regs, group, justOne: true };
+    const ptrs = one.match(this.docs, todo, this._cache).ptrs;
     return ptrs.length > 0
   };
 
@@ -2740,19 +2738,19 @@
     }
     // support a compiled set of matches
     if (isNet(regs)) {
-      let m = this.sweep(regs, { tagger: false }).view.settle();
+      const m = this.sweep(regs, { tagger: false }).view.settle();
       return this.if(m) //recurse with result
     }
     regs = parseRegs(regs, opts, this.world);
-    let todo = { regs, group, justOne: true };
+    const todo = { regs, group, justOne: true };
     let ptrs = this.fullPointer;
-    let cache = this._cache || [];
+    const cache = this._cache || [];
     ptrs = ptrs.filter((ptr, i) => {
-      let m = this.update([ptr]);
-      let res = one.match(m.docs, todo, cache[i]).ptrs;
+      const m = this.update([ptr]);
+      const res = one.match(m.docs, todo, cache[i]).ptrs;
       return res.length > 0
     });
-    let view = this.update(ptrs);
+    const view = this.update(ptrs);
     // try and reconstruct the cache
     if (this._cache) {
       view._cache = ptrs.map(ptr => cache[ptr[0]]);
@@ -2769,15 +2767,15 @@
     }
     // support a compiled set of matches
     if (isNet(regs)) {
-      let m = this.sweep(regs, { tagger: false }).view.settle();
+      const m = this.sweep(regs, { tagger: false }).view.settle();
       return this.ifNo(m)
     }
     // otherwise parse the match string
     regs = parseRegs(regs, opts, this.world);
-    let cache = this._cache || [];
-    let view = this.filter((m, i) => {
-      let todo = { regs, group, justOne: true };
-      let ptrs = one.match(m.docs, todo, cache[i]).ptrs;
+    const cache = this._cache || [];
+    const view = this.filter((m, i) => {
+      const todo = { regs, group, justOne: true };
+      const ptrs = one.match(m.docs, todo, cache[i]).ptrs;
       return ptrs.length === 0
     });
     // try to reconstruct the cache
@@ -2787,20 +2785,20 @@
     return view
   };
 
-  var match$3 = { matchOne, match: match$2, has, if: ifFn, ifNo };
+  var match$2 = { matchOne, match: match$1, has, if: ifFn, ifNo };
 
   const before = function (regs, group, opts) {
     const { indexN } = this.methods.one.pointer;
-    let pre = [];
-    let byN = indexN(this.fullPointer);
+    const pre = [];
+    const byN = indexN(this.fullPointer);
     Object.keys(byN).forEach(k => {
       // check only the earliest match in the sentence
-      let first = byN[k].sort((a, b) => (a[1] > b[1] ? 1 : -1))[0];
+      const first = byN[k].sort((a, b) => (a[1] > b[1] ? 1 : -1))[0];
       if (first[1] > 0) {
         pre.push([first[0], 0, first[1]]);
       }
     });
-    let preWords = this.toView(pre);
+    const preWords = this.toView(pre);
     if (!regs) {
       return preWords
     }
@@ -2809,18 +2807,18 @@
 
   const after = function (regs, group, opts) {
     const { indexN } = this.methods.one.pointer;
-    let post = [];
-    let byN = indexN(this.fullPointer);
-    let document = this.document;
+    const post = [];
+    const byN = indexN(this.fullPointer);
+    const document = this.document;
     Object.keys(byN).forEach(k => {
       // check only the latest match in the sentence
-      let last = byN[k].sort((a, b) => (a[1] > b[1] ? -1 : 1))[0];
-      let [n, , end] = last;
+      const last = byN[k].sort((a, b) => (a[1] > b[1] ? -1 : 1))[0];
+      const [n, , end] = last;
       if (end < document[n].length) {
         post.push([n, end, document[n].length]);
       }
     });
-    let postWords = this.toView(post);
+    const postWords = this.toView(post);
     if (!regs) {
       return postWords
     }
@@ -2832,11 +2830,11 @@
       regs = this.world.methods.one.parseMatch(regs, opts, this.world);
     }
     regs[regs.length - 1].end = true; // ensure matches are beside us ←
-    let ptrs = this.fullPointer;
+    const ptrs = this.fullPointer;
     this.forEach((m, n) => {
-      let more = m.before(regs, group);
+      const more = m.before(regs, group);
       if (more.found) {
-        let terms = more.terms();
+        const terms = more.terms();
         ptrs[n][1] -= terms.length;
         ptrs[n][3] = terms.docs[0][0].id;
       }
@@ -2849,11 +2847,11 @@
       regs = this.world.methods.one.parseMatch(regs, opts, this.world);
     }
     regs[0].start = true; // ensure matches are beside us →
-    let ptrs = this.fullPointer;
+    const ptrs = this.fullPointer;
     this.forEach((m, n) => {
-      let more = m.after(regs, group);
+      const more = m.after(regs, group);
       if (more.found) {
-        let terms = more.terms();
+        const terms = more.terms();
         ptrs[n][2] += terms.length;
         ptrs[n][4] = null; //remove end-id
       }
@@ -2875,7 +2873,7 @@
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
-  const getDoc$3 = (reg, view, group) => {
+  const getDoc$2 = (reg, view, group) => {
     if (typeof reg === 'string' || isArray$5(reg)) {
       return view.match(reg, group)
     }
@@ -2886,7 +2884,7 @@
   };
 
   const addIds$1 = function (ptr, view) {
-    let [n, start, end] = ptr;
+    const [n, start, end] = ptr;
     if (view.document[n] && view.document[n][start]) {
       ptr[3] = ptr[3] || view.document[n][start].id;
       if (view.document[n][end - 1]) {
@@ -2896,12 +2894,12 @@
     return ptr
   };
 
-  const methods$f = {};
+  const methods$e = {};
   // [before], [match], [after]
-  methods$f.splitOn = function (m, group) {
+  methods$e.splitOn = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
-    let splits = getDoc$3(m, this, group).fullPointer;
-    let all = splitAll(this.fullPointer, splits);
+    const splits = getDoc$2(m, this, group).fullPointer;
+    const all = splitAll(this.fullPointer, splits);
     let res = [];
     all.forEach(o => {
       res.push(o.passthrough);
@@ -2915,10 +2913,10 @@
   };
 
   // [before], [match after]
-  methods$f.splitBefore = function (m, group) {
+  methods$e.splitBefore = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
-    let splits = getDoc$3(m, this, group).fullPointer;
-    let all = splitAll(this.fullPointer, splits);
+    const splits = getDoc$2(m, this, group).fullPointer;
+    const all = splitAll(this.fullPointer, splits);
     // repair matches to favor [match, after]
     // - instead of [before, match]
     for (let i = 0; i < all.length; i += 1) {
@@ -2950,10 +2948,10 @@
   };
 
   // [before match], [after]
-  methods$f.splitAfter = function (m, group) {
+  methods$e.splitAfter = function (m, group) {
     const { splitAll } = this.methods.one.pointer;
-    let splits = getDoc$3(m, this, group).fullPointer;
-    let all = splitAll(this.fullPointer, splits);
+    const splits = getDoc$2(m, this, group).fullPointer;
+    const all = splitAll(this.fullPointer, splits);
     let res = [];
     all.forEach(o => {
       res.push(o.passthrough);
@@ -2969,9 +2967,7 @@
     res = res.map(p => addIds$1(p, this));
     return this.update(res)
   };
-  methods$f.split = methods$f.splitAfter;
-
-  var split$1 = methods$f;
+  methods$e.split = methods$e.splitAfter;
 
   // check if two pointers are perfectly consecutive
   const isNeighbour = function (ptrL, ptrR) {
@@ -2993,19 +2989,19 @@
     const parseMatch = world.methods.one.parseMatch;
     lMatch = lMatch || '.$'; //defaults
     rMatch = rMatch || '^.';
-    let leftMatch = parseMatch(lMatch, {}, world);
-    let rightMatch = parseMatch(rMatch, {}, world);
+    const leftMatch = parseMatch(lMatch, {}, world);
+    const rightMatch = parseMatch(rMatch, {}, world);
     // ensure end-requirement to left-match, start-requiremnts to right match
     leftMatch[leftMatch.length - 1].end = true;
     rightMatch[0].start = true;
     // let's get going.
-    let ptrs = doc.fullPointer;
-    let res = [ptrs[0]];
+    const ptrs = doc.fullPointer;
+    const res = [ptrs[0]];
     for (let i = 1; i < ptrs.length; i += 1) {
-      let ptrL = res[res.length - 1];
-      let ptrR = ptrs[i];
-      let left = doc.update([ptrL]);
-      let right = doc.update([ptrR]);
+      const ptrL = res[res.length - 1];
+      const ptrR = ptrs[i];
+      const left = doc.update([ptrL]);
+      const right = doc.update([ptrR]);
       // should we marge left+right?
       if (isNeighbour(ptrL, ptrR) && left.has(leftMatch) && right.has(rightMatch)) {
         // merge right ptr into existing result
@@ -3018,7 +3014,7 @@
     return doc.update(res)
   };
 
-  const methods$e = {
+  const methods$d = {
     //  merge only if conditions are met
     joinIf: function (lMatch, rMatch) {
       return mergeIf(this, lMatch, rMatch)
@@ -3028,21 +3024,19 @@
       return mergeIf(this)
     },
   };
-  var join = methods$e;
 
-  const methods$d = Object.assign({}, match$3, lookaround, split$1, join);
+  const methods$c = Object.assign({}, match$2, lookaround, methods$e, methods$d);
   // aliases
-  methods$d.lookBehind = methods$d.before;
-  methods$d.lookBefore = methods$d.before;
+  methods$c.lookBehind = methods$c.before;
+  methods$c.lookBefore = methods$c.before;
 
-  methods$d.lookAhead = methods$d.after;
-  methods$d.lookAfter = methods$d.after;
+  methods$c.lookAhead = methods$c.after;
+  methods$c.lookAfter = methods$c.after;
 
-  methods$d.notIf = methods$d.ifNo;
+  methods$c.notIf = methods$c.ifNo;
   const matchAPI = function (View) {
-    Object.assign(View.prototype, methods$d);
+    Object.assign(View.prototype, methods$c);
   };
-  var api$h = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -3066,7 +3060,7 @@
 
   const parseBlocks = function (txt) {
     // parse by /regex/ first
-    let arr = txt.split(bySlashes);
+    const arr = txt.split(bySlashes);
     let res = [];
     // parse by (blocks), next
     arr.forEach(str => {
@@ -3091,7 +3085,6 @@
     final = cleanUp(final);
     return final
   };
-  var parseBlocks$1 = parseBlocks;
 
   const hasMinMax = /\{([0-9]+)?(, *[0-9]*)?\}/;
   const andSign = /&&/;
@@ -3114,7 +3107,7 @@
     choices:[],
   }
   */
-  const titleCase$1 = str => str.charAt(0).toUpperCase() + str.substring(1);
+  const titleCase = str => str.charAt(0).toUpperCase() + str.substring(1);
   const end = (str) => str.charAt(str.length - 1);
   const start = (str) => str.charAt(0);
   const stripStart = (str) => str.substring(1);
@@ -3127,7 +3120,7 @@
   };
   //
   const parseToken = function (w, opts) {
-    let obj = {};
+    const obj = {};
     //collect any flags (do it twice)
     for (let i = 0; i < 2; i += 1) {
       //end-flag
@@ -3241,7 +3234,7 @@
         }
         //remove '(' and ')'
         obj.choices[0] = stripStart(obj.choices[0]);
-        let last = obj.choices.length - 1;
+        const last = obj.choices.length - 1;
         obj.choices[last] = stripEnd(obj.choices[last]);
         // clean up the results
         obj.choices = obj.choices.map(s => s.trim());
@@ -3259,7 +3252,7 @@
         // obj.sense = w
         obj.root = w;
         if (/\//.test(w)) {
-          let split = obj.root.split(/\//);
+          const split = obj.root.split(/\//);
           obj.root = split[0];
           obj.pos = split[1];
           if (obj.pos === 'adj') {
@@ -3277,7 +3270,7 @@
       //chunks
       if (start(w) === '<' && end(w) === '>') {
         w = stripBoth(w);
-        obj.chunk = titleCase$1(w);
+        obj.chunk = titleCase(w);
         obj.greedy = true;
         return obj
       }
@@ -3290,7 +3283,7 @@
     //do the actual token content
     if (start(w) === '#') {
       obj.tag = stripStart(w);
-      obj.tag = titleCase$1(obj.tag);
+      obj.tag = titleCase(obj.tag);
       return obj
     }
     //dynamic function on a term object
@@ -3322,15 +3315,14 @@
     }
     return obj
   };
-  var parseToken$1 = parseToken;
 
   const hasDash$2 = /[a-z0-9][-–—][a-z]/i;
 
   // match 're-do' -> ['re','do']
   const splitHyphens$1 = function (regs, world) {
-    let prefixes = world.model.one.prefixes;
+    const prefixes = world.model.one.prefixes;
     for (let i = regs.length - 1; i >= 0; i -= 1) {
-      let reg = regs[i];
+      const reg = regs[i];
       if (reg.word && hasDash$2.test(reg.word)) {
         let words = reg.word.split(/[-–—]/g);
         // don't split 're-cycle', etc
@@ -3340,7 +3332,7 @@
         words = words.filter(w => w).reverse();
         regs.splice(i, 1);
         words.forEach(w => {
-          let obj = Object.assign({}, reg);
+          const obj = Object.assign({}, reg);
           obj.word = w;
           regs.splice(i, 0, obj);
         });
@@ -3348,12 +3340,11 @@
     }
     return regs
   };
-  var splitHyphens$2 = splitHyphens$1;
 
   // add all conjugations of this verb
   const addVerbs$1 = function (token, world) {
-    let { all } = world.methods.two.transform.verb || {};
-    let str = token.root;
+    const { all } = world.methods.two.transform.verb || {};
+    const str = token.root;
     if (!all) {
       return []
     }
@@ -3362,7 +3353,7 @@
 
   // add all inflections of this noun
   const addNoun = function (token, world) {
-    let { all } = world.methods.two.transform.noun || {};
+    const { all } = world.methods.two.transform.noun || {};
     if (!all) {
       return [token.root]
     }
@@ -3371,7 +3362,7 @@
 
   // add all inflections of this adjective
   const addAdjective = function (token, world) {
-    let { all } = world.methods.two.transform.adjective || {};
+    const { all } = world.methods.two.transform.adjective || {};
     if (!all) {
       return [token.root]
     }
@@ -3419,7 +3410,6 @@
 
     return regs
   };
-  var inflectRoot$1 = inflectRoot;
 
   // name any [unnamed] capture-groups with a number
   const nameGroups = function (regs) {
@@ -3457,11 +3447,11 @@
           return token
         }
         // are they all straight-up words? then optimize them.
-        let shouldPack = token.choices.every(block => {
+        const shouldPack = token.choices.every(block => {
           if (block.length !== 1) {
             return false
           }
-          let reg = block[0];
+          const reg = block[0];
           // ~fuzzy~ words need more care
           if (reg.fuzzy === true) {
             return false
@@ -3512,7 +3502,6 @@
     regs = fuzzyOr(regs);
     return regs
   };
-  var postProcess$1 = postProcess;
 
   /** parse a match-syntax string into json */
   const syntax = function (input, opts, world) {
@@ -3524,22 +3513,21 @@
     if (typeof input === 'number') {
       input = String(input); //go for it?
     }
-    let tokens = parseBlocks$1(input);
+    let tokens = parseBlocks(input);
     //turn them into objects
-    tokens = tokens.map(str => parseToken$1(str, opts));
+    tokens = tokens.map(str => parseToken(str, opts));
     // '~re-do~'
-    tokens = splitHyphens$2(tokens, world);
+    tokens = splitHyphens$1(tokens, world);
     // '{walk}'
-    tokens = inflectRoot$1(tokens, world);
+    tokens = inflectRoot(tokens, world);
     //clean up anything weird
-    tokens = postProcess$1(tokens);
+    tokens = postProcess(tokens);
     // console.log(tokens)
     return tokens
   };
-  var parseMatch = syntax;
 
   const anyIntersection = function (setA, setB) {
-    for (let elem of setB) {
+    for (const elem of setB) {
       if (setA.has(elem)) {
         return true
       }
@@ -3549,7 +3537,7 @@
   // check words/tags against our cache
   const failFast = function (regs, cache) {
     for (let i = 0; i < regs.length; i += 1) {
-      let reg = regs[i];
+      const reg = regs[i];
       if (reg.optional === true || reg.negative === true || reg.fuzzy === true) {
         continue
       }
@@ -3568,14 +3556,13 @@
     }
     return false
   };
-  var failFast$1 = failFast;
 
   // fuzzy-match (damerau-levenshtein)
   // Based on  tad-lispy /node-damerau-levenshtein
   // https://github.com/tad-lispy/node-damerau-levenshtein/blob/master/index.js
   // count steps (insertions, deletions, substitutions, or transpositions)
   const editDistance = function (strA, strB) {
-    let aLength = strA.length,
+    const aLength = strA.length,
       bLength = strB.length;
     // fail-fast
     if (aLength === 0) {
@@ -3585,12 +3572,12 @@
       return aLength
     }
     // If the limit is not defined it will be calculate from this and that args.
-    let limit = (bLength > aLength ? bLength : aLength) + 1;
+    const limit = (bLength > aLength ? bLength : aLength) + 1;
     if (Math.abs(aLength - bLength) > (limit || 100)) {
       return limit || 100
     }
     // init the array
-    let matrix = [];
+    const matrix = [];
     for (let i = 0; i < limit; i++) {
       matrix[i] = [i];
       matrix[i].length = limit;
@@ -3614,7 +3601,7 @@
         if ((t = matrix[i][j - 1] + 1) < min) min = t; // Insertion.
         if ((t = matrix[i - 1][j - 1] + cost) < min) min = t; // Substitution.
         // Update matrix.
-        let shouldUpdate =
+        const shouldUpdate =
           i > 1 && j > 1 && a_index === strB[j - 2] && strA[i - 2] === b_index && (t = matrix[i - 2][j - 2] + cost) < min;
         if (shouldUpdate) {
           matrix[i][j] = t;
@@ -3636,12 +3623,11 @@
       return 0
     }
     const steps = editDistance(strA, strB);
-    let length = Math.max(strA.length, strB.length);
-    let relative = length === 0 ? 0 : steps / length;
-    let similarity = 1 - relative;
+    const length = Math.max(strA.length, strB.length);
+    const relative = length === 0 ? 0 : steps / length;
+    const similarity = 1 - relative;
     return similarity
   };
-  var fuzzy = fuzzyMatch;
 
   // these methods are called with '@hasComma' in the match syntax
   // various unicode quotation-mark formats
@@ -3658,7 +3644,7 @@
   /** search the term's 'pre' punctuation  */
   // const hasPre = (term, punct) => term.pre.indexOf(punct) !== -1
 
-  const methods$c = {
+  const methods$b = {
     /** does it have a quotation symbol?  */
     hasQuote: term => startQuote.test(term.pre) || endQuote.test(term.post),
     /** does it have a comma?  */
@@ -3693,9 +3679,7 @@
     isUpperCase: term => /^\p{Lu}+$/u.test(term.text),
   };
   // aliases
-  methods$c.hasQuotation = methods$c.hasQuote;
-
-  var termMethods = methods$c;
+  methods$b.hasQuotation = methods$b.hasQuote;
 
   //declare it up here
   let wrapMatch = function () { };
@@ -3736,7 +3720,7 @@
         if (reg.word === term.root) {
           return true
         }
-        let score = fuzzy(reg.word, term.normal);
+        const score = fuzzyMatch(reg.word, term.normal);
         if (score >= reg.min) {
           return true
         }
@@ -3754,7 +3738,7 @@
     }
     //support @method
     if (reg.method !== undefined) {
-      if (typeof termMethods[reg.method] === 'function' && termMethods[reg.method](term) === true) {
+      if (typeof methods$b[reg.method] === 'function' && methods$b[reg.method](term) === true) {
         return true
       }
       return false
@@ -3796,7 +3780,7 @@
       if (reg.pos && !term.tags.has(reg.pos)) {
         return null
       }
-      let str = term.root || term.implicit || term.machine || term.normal;
+      const str = term.root || term.implicit || term.machine || term.normal;
       return reg.fastOr.has(str) || reg.fastOr.has(term.text)
     }
     //support slower (one|two)
@@ -3813,33 +3797,32 @@
   };
   // wrap result for !negative match logic
   wrapMatch = function (t, reg, index, length) {
-    let result = doesMatch$1(t, reg, index, length);
+    const result = doesMatch$1(t, reg, index, length);
     if (reg.negative === true) {
       return !result
     }
     return result
   };
-  var matchTerm = wrapMatch;
 
   // for greedy checking, we no longer care about the reg.start
   // value, and leaving it can cause failures for anchored greedy
   // matches.  ditto for end-greedy matches: we need an earlier non-
   // ending match to succceed until we get to the actual end.
   const getGreedy = function (state, endReg) {
-    let reg = Object.assign({}, state.regs[state.r], { start: false, end: false });
-    let start = state.t;
+    const reg = Object.assign({}, state.regs[state.r], { start: false, end: false });
+    const start = state.t;
     for (; state.t < state.terms.length; state.t += 1) {
       //stop for next-reg match
-      if (endReg && matchTerm(state.terms[state.t], endReg, state.start_i + state.t, state.phrase_length)) {
+      if (endReg && wrapMatch(state.terms[state.t], endReg, state.start_i + state.t, state.phrase_length)) {
         return state.t
       }
-      let count = state.t - start + 1;
+      const count = state.t - start + 1;
       // is it max-length now?
       if (reg.max !== undefined && count === reg.max) {
         return state.t
       }
       //stop here
-      if (matchTerm(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length) === false) {
+      if (wrapMatch(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length) === false) {
         // is it too short?
         if (reg.min !== undefined && count < reg.min) {
           return null
@@ -3858,7 +3841,7 @@
     }
     //otherwise, we're looking for the next one
     for (; t < state.terms.length; t += 1) {
-      if (matchTerm(state.terms[t], nextReg, state.start_i + t, state.phrase_length) === true) {
+      if (wrapMatch(state.terms[t], nextReg, state.start_i + t, state.phrase_length) === true) {
         // console.log(`greedyTo ${state.terms[t].normal}`)
         return t
       }
@@ -3870,8 +3853,8 @@
   const isEndGreedy = function (reg, state) {
     if (reg.end === true && reg.greedy === true) {
       if (state.start_i + state.t < state.phrase_length - 1) {
-        let tmpReg = Object.assign({}, reg, { end: false });
-        if (matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length) === true) {
+        const tmpReg = Object.assign({}, reg, { end: false });
+        if (wrapMatch(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length) === true) {
           // console.log(`endGreedy ${state.terms[state.t].normal}`)
           return true
         }
@@ -3880,7 +3863,7 @@
     return false
   };
 
-  const getGroup$2 = function (state, term_index) {
+  const getGroup$1 = function (state, term_index) {
     if (state.groups[state.inGroup]) {
       return state.groups[state.inGroup]
     }
@@ -3895,10 +3878,10 @@
   // its logic is 'greedy until', where it's looking for the next token
   // '.+ foo' means we check for 'foo', indefinetly
   const doAstrix = function (state) {
-    let { regs } = state;
-    let reg = regs[state.r];
+    const { regs } = state;
+    const reg = regs[state.r];
 
-    let skipto = greedyTo(state, regs[state.r + 1]);
+    const skipto = greedyTo(state, regs[state.r + 1]);
     //maybe we couldn't find it
     if (skipto === null || skipto === 0) {
       return null
@@ -3914,42 +3897,41 @@
     }
     // set the group result
     if (state.hasGroup === true) {
-      const g = getGroup$2(state, state.t);
+      const g = getGroup$1(state, state.t);
       g.length = skipto - state.t;
     }
     state.t = skipto;
     // log(`✓ |greedy|`)
     return true
   };
-  var doAstrix$1 = doAstrix;
 
   const isArray$4 = function (arr) {
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
-  const doOrBlock$1 = function (state, skipN = 0) {
-    let block = state.regs[state.r];
+  const doOrBlock = function (state, skipN = 0) {
+    const block = state.regs[state.r];
     let wasFound = false;
     // do each multiword sequence
     for (let c = 0; c < block.choices.length; c += 1) {
       // try to match this list of tokens
-      let regs = block.choices[c];
+      const regs = block.choices[c];
       if (!isArray$4(regs)) {
         return false
       }
       wasFound = regs.every((cr, w_index) => {
         let extra = 0;
-        let t = state.t + w_index + skipN + extra;
+        const t = state.t + w_index + skipN + extra;
         if (state.terms[t] === undefined) {
           return false
         }
-        let foundBlock = matchTerm(state.terms[t], cr, t + state.start_i, state.phrase_length);
+        const foundBlock = wrapMatch(state.terms[t], cr, t + state.start_i, state.phrase_length);
         // this can be greedy - '(foo+ bar)'
         if (foundBlock === true && cr.greedy === true) {
           for (let i = 1; i < state.terms.length; i += 1) {
-            let term = state.terms[t + i];
+            const term = state.terms[t + i];
             if (term) {
-              let keepGoing = matchTerm(term, cr, state.start_i + i, state.phrase_length);
+              const keepGoing = wrapMatch(term, cr, state.start_i + i, state.phrase_length);
               if (keepGoing === true) {
                 extra += 1;
               } else {
@@ -3968,23 +3950,23 @@
     }
     // we found a match -  is it greedy though?
     if (wasFound && block.greedy === true) {
-      return doOrBlock$1(state, skipN) // try it again!
+      return doOrBlock(state, skipN) // try it again!
     }
     return skipN
   };
 
-  const doAndBlock$1 = function (state) {
+  const doAndBlock = function (state) {
     let longest = 0;
     // all blocks must match, and we return the greediest match
-    let reg = state.regs[state.r];
-    let allDidMatch = reg.choices.every(block => {
+    const reg = state.regs[state.r];
+    const allDidMatch = reg.choices.every(block => {
       //  for multi-word blocks, all must match
-      let allWords = block.every((cr, w_index) => {
-        let tryTerm = state.t + w_index;
+      const allWords = block.every((cr, w_index) => {
+        const tryTerm = state.t + w_index;
         if (state.terms[tryTerm] === undefined) {
           return false
         }
-        return matchTerm(state.terms[tryTerm], cr, tryTerm, state.phrase_length)
+        return wrapMatch(state.terms[tryTerm], cr, tryTerm, state.phrase_length)
       });
       if (allWords === true && block.length > longest) {
         longest = block.length;
@@ -4000,8 +3982,8 @@
 
   const orBlock = function (state) {
     const { regs } = state;
-    let reg = regs[state.r];
-    let skipNum = doOrBlock$1(state);
+    const reg = regs[state.r];
+    const skipNum = doOrBlock(state);
     // did we find a match?
     if (skipNum) {
       // handle 'not' logic
@@ -4010,12 +3992,12 @@
       }
       // tuck in as named-group
       if (state.hasGroup === true) {
-        const g = getGroup$2(state, state.t);
+        const g = getGroup$1(state, state.t);
         g.length += skipNum;
       }
       // ensure we're at the end
       if (reg.end === true) {
-        let end = state.phrase_length;
+        const end = state.phrase_length;
         if (state.t + state.start_i + skipNum !== end) {
           return null
         }
@@ -4028,26 +4010,25 @@
     }
     return true
   };
-  var doOrBlock = orBlock;
 
   // '(foo && #Noun)' - require all matches on the term
   const andBlock = function (state) {
     const { regs } = state;
-    let reg = regs[state.r];
+    const reg = regs[state.r];
 
-    let skipNum = doAndBlock$1(state);
+    const skipNum = doAndBlock(state);
     if (skipNum) {
       // handle 'not' logic
       if (reg.negative === true) {
         return null // die
       }
       if (state.hasGroup === true) {
-        const g = getGroup$2(state, state.t);
+        const g = getGroup$1(state, state.t);
         g.length += skipNum;
       }
       // ensure we're at the end
       if (reg.end === true) {
-        let end = state.phrase_length - 1;
+        const end = state.phrase_length - 1;
         if (state.t + state.start_i !== end) {
           return null
         }
@@ -4060,12 +4041,11 @@
     }
     return true
   };
-  var doAndBlock = andBlock;
 
   const negGreedy = function (state, reg, nextReg) {
     let skip = 0;
     for (let t = state.t; t < state.terms.length; t += 1) {
-      let found = matchTerm(state.terms[t], reg, state.start_i + state.t, state.phrase_length);
+      let found = wrapMatch(state.terms[t], reg, state.start_i + state.t, state.phrase_length);
       // we don't want a match, here
       if (found) {
         break//stop going
@@ -4073,7 +4053,7 @@
       // are we doing 'greedy-to'?
       // - "!foo+ after"  should stop at 'after'
       if (nextReg) {
-        found = matchTerm(state.terms[t], nextReg, state.start_i + state.t, state.phrase_length);
+        found = wrapMatch(state.terms[t], nextReg, state.start_i + state.t, state.phrase_length);
         if (found) {
           break
         }
@@ -4096,20 +4076,18 @@
     return true
   };
 
-  var negGreedy$1 = negGreedy;
-
   // '!foo' should match anything that isn't 'foo'
   // if it matches, return false
   const doNegative = function (state) {
     const { regs } = state;
-    let reg = regs[state.r];
+    const reg = regs[state.r];
 
     // match *anything* but this term
-    let tmpReg = Object.assign({}, reg);
+    const tmpReg = Object.assign({}, reg);
     tmpReg.negative = false; // try removing it
 
     // found it? if so, we die here
-    let found = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
+    const found = wrapMatch(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
     if (found) {
       return false//bye
     }
@@ -4117,16 +4095,16 @@
     if (reg.optional) {
       // "before after" - "before !foo? after"
       // does the next reg match the this term?
-      let nextReg = regs[state.r + 1];
+      const nextReg = regs[state.r + 1];
       if (nextReg) {
-        let fNext = matchTerm(state.terms[state.t], nextReg, state.start_i + state.t, state.phrase_length);
+        const fNext = wrapMatch(state.terms[state.t], nextReg, state.start_i + state.t, state.phrase_length);
         if (fNext) {
           state.r += 1;
         } else if (nextReg.optional && regs[state.r + 2]) {
           // ugh. ok,
           // support "!foo? extra? need"
           // but don't scan ahead more than that.
-          let fNext2 = matchTerm(state.terms[state.t], regs[state.r + 2], state.start_i + state.t, state.phrase_length);
+          const fNext2 = wrapMatch(state.terms[state.t], regs[state.r + 2], state.start_i + state.t, state.phrase_length);
           if (fNext2) {
             state.r += 2;
           }
@@ -4135,36 +4113,33 @@
     }
     // negative greedy - !foo+  - super hard!
     if (reg.greedy) {
-      return negGreedy$1(state, tmpReg, regs[state.r + 1])
+      return negGreedy(state, tmpReg, regs[state.r + 1])
     }
     state.t += 1;
     return true
   };
-  var doNegative$1 = doNegative;
 
   // 'foo? foo' matches are tricky.
   const foundOptional = function (state) {
     const { regs } = state;
-    let reg = regs[state.r];
-    let term = state.terms[state.t];
+    const reg = regs[state.r];
+    const term = state.terms[state.t];
     // does the next reg match it too?
-    let nextRegMatched = matchTerm(term, regs[state.r + 1], state.start_i + state.t, state.phrase_length);
+    const nextRegMatched = wrapMatch(term, regs[state.r + 1], state.start_i + state.t, state.phrase_length);
     if (reg.negative || nextRegMatched) {
       // but does the next reg match the next term??
       // only skip if it doesn't
-      let nextTerm = state.terms[state.t + 1];
-      if (!nextTerm || !matchTerm(nextTerm, regs[state.r + 1], state.start_i + state.t, state.phrase_length)) {
+      const nextTerm = state.terms[state.t + 1];
+      if (!nextTerm || !wrapMatch(nextTerm, regs[state.r + 1], state.start_i + state.t, state.phrase_length)) {
         state.r += 1;
       }
     }
   };
 
-  var foundOptional$1 = foundOptional;
-
   // keep 'foo+' or 'foo*' going..
   const greedyMatch = function (state) {
     const { regs, phrase_length } = state;
-    let reg = regs[state.r];
+    const reg = regs[state.r];
     state.t = getGreedy(state, regs[state.r + 1]);
     if (state.t === null) {
       return null //greedy was too short
@@ -4179,17 +4154,16 @@
     }
     return true
   };
-  var greedyMatch$1 = greedyMatch;
 
   // for: ['we', 'have']
   // a match for "we have" should work as normal
   // but matching "we've" should skip over implict terms
   const contractionSkip = function (state) {
-    let term = state.terms[state.t];
-    let reg = state.regs[state.r];
+    const term = state.terms[state.t];
+    const reg = state.regs[state.r];
     // did we match the first part of a contraction?
     if (term.implicit && state.terms[state.t + 1]) {
-      let nextTerm = state.terms[state.t + 1];
+      const nextTerm = state.terms[state.t + 1];
       // ensure next word is implicit
       if (!nextTerm.implicit) {
         return
@@ -4204,13 +4178,12 @@
       }
     }
   };
-  var contractionSkip$1 = contractionSkip;
 
   // '[foo]' should also be logged as a group
   const setGroup = function (state, startAt) {
-    let reg = state.regs[state.r];
+    const reg = state.regs[state.r];
     // Get or create capture group
-    const g = getGroup$2(state, startAt);
+    const g = getGroup$1(state, startAt);
     // Update group - add greedy or increment length
     if (state.t > 1 && reg.greedy) {
       g.length += state.t - startAt;
@@ -4222,9 +4195,9 @@
   // when a reg matches a term
   const simpleMatch = function (state) {
     const { regs } = state;
-    let reg = regs[state.r];
-    let term = state.terms[state.t];
-    let startAt = state.t;
+    const reg = regs[state.r];
+    const term = state.terms[state.t];
+    const startAt = state.t;
     // if it's a negative optional match... :0
     if (reg.optional && regs[state.r + 1] && reg.negative) {
       return true
@@ -4232,12 +4205,12 @@
     // okay, it was a match, but if it's optional too,
     // we should check the next reg too, to skip it?
     if (reg.optional && regs[state.r + 1]) {
-      foundOptional$1(state);
+      foundOptional(state);
     }
     // Contraction skip:
     // did we match the first part of a contraction?
     if (term.implicit && state.terms[state.t + 1]) {
-      contractionSkip$1(state);
+      contractionSkip(state);
     }
     //advance to the next term!
     state.t += 1;
@@ -4248,7 +4221,7 @@
     }
     // keep 'foo+' going...
     if (reg.greedy === true) {
-      let alive = greedyMatch$1(state);
+      const alive = greedyMatch(state);
       if (!alive) {
         return null
       }
@@ -4259,7 +4232,6 @@
     }
     return true
   };
-  var simpleMatch$1 = simpleMatch;
 
   // i formally apologize for how complicated this is.
 
@@ -4274,7 +4246,7 @@
       return null
     }
     // all the variables that matter
-    let state = {
+    const state = {
       t: 0,
       terms: terms,
       r: 0,
@@ -4288,7 +4260,7 @@
     // we must satisfy every token in 'regs'
     // if we get to the end, we have a match.
     for (; state.r < regs.length; state.r += 1) {
-      let reg = regs[state.r];
+      const reg = regs[state.r];
       // Check if this reg has a named capture group
       state.hasGroup = Boolean(reg.group);
       // Reuse previous capture group if same
@@ -4308,7 +4280,7 @@
       }
       // support 'unspecific greedy' .* properly
       if (reg.anything === true && reg.greedy === true) {
-        let alive = doAstrix$1(state);
+        const alive = doAstrix(state);
         if (!alive) {
           return null
         }
@@ -4316,7 +4288,7 @@
       }
       // slow-OR - multi-word OR (a|b|foo bar)
       if (reg.choices !== undefined && reg.operator === 'or') {
-        let alive = doOrBlock(state);
+        const alive = orBlock(state);
         if (!alive) {
           return null
         }
@@ -4324,7 +4296,7 @@
       }
       // slow-AND - multi-word AND (#Noun && foo) blocks
       if (reg.choices !== undefined && reg.operator === 'and') {
-        let alive = doAndBlock(state);
+        const alive = andBlock(state);
         if (!alive) {
           return null
         }
@@ -4336,7 +4308,7 @@
         if (reg.negative && reg.anything) {
           return null
         }
-        let alive = simpleMatch$1(state);
+        const alive = simpleMatch(state);
         if (!alive) {
           return null
         }
@@ -4344,7 +4316,7 @@
       }
       // support 'foo*$' until the end
       if (isEndGreedy(reg, state) === true) {
-        let alive = simpleMatch$1(state);
+        const alive = simpleMatch(state);
         if (!alive) {
           return null
         }
@@ -4353,24 +4325,21 @@
       // ok, it doesn't match - but maybe it wasn't *supposed* to?
       if (reg.negative) {
         // we want *anything* but this term
-        let alive = doNegative$1(state);
+        const alive = doNegative(state);
         if (!alive) {
           return null
         }
         continue
       }
       // ok, finally test the term-reg
-      // console.log('   - ' + state.terms[state.t].text)
-      let hasMatch = matchTerm(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length);
+      const hasMatch = wrapMatch(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length);
       if (hasMatch === true) {
-        let alive = simpleMatch$1(state);
+        const alive = simpleMatch(state);
         if (!alive) {
           return null
         }
         continue
       }
-      // console.log('=-=-=-= here -=-=-=-')
-
       //ok who cares, keep going
       if (reg.optional === true) {
         continue
@@ -4380,25 +4349,24 @@
       return null
     }
     //return our results, as pointers
-    let pntr = [null, start_i, state.t + start_i];
+    const pntr = [null, start_i, state.t + start_i];
     if (pntr[1] === pntr[2]) {
       return null //found 0 terms
     }
-    let groups = {};
+    const groups = {};
     Object.keys(state.groups).forEach(k => {
-      let o = state.groups[k];
-      let start = start_i + o.start;
+      const o = state.groups[k];
+      const start = start_i + o.start;
       groups[k] = [null, start, start + o.length];
     });
     return { pointer: pntr, groups: groups }
   };
-  var fromHere = tryHere;
 
   // support returning a subset of a match
   // like 'foo [bar] baz' -> bar
   const getGroup = function (res, group) {
-    let ptrs = [];
-    let byGroup = {};
+    const ptrs = [];
+    const byGroup = {};
     if (res.length === 0) {
       return { ptrs, byGroup }
     }
@@ -4422,15 +4390,14 @@
     }
     return { ptrs, byGroup }
   };
-  var getGroup$1 = getGroup;
 
   const notIf = function (results, not, docs) {
     results = results.filter(res => {
-      let [n, start, end] = res.pointer;
-      let terms = docs[n].slice(start, end);
+      const [n, start, end] = res.pointer;
+      const terms = docs[n].slice(start, end);
       for (let i = 0; i < terms.length; i += 1) {
-        let slice = terms.slice(i);
-        let found = fromHere(slice, not, i, terms.length);
+        const slice = terms.slice(i);
+        const found = tryHere(slice, not, i, terms.length);
         if (found !== null) {
           return false
         }
@@ -4439,8 +4406,6 @@
     });
     return results
   };
-
-  var notIf$1 = notIf;
 
   // make proper pointers
   const addSentence = function (res, n) {
@@ -4452,7 +4417,7 @@
   };
 
   const handleStart = function (terms, regs, n) {
-    let res = fromHere(terms, regs, 0, terms.length);
+    let res = tryHere(terms, regs, 0, terms.length);
     if (res) {
       res = addSentence(res, n);
       return res //getGroup([res], group)
@@ -4461,9 +4426,9 @@
   };
 
   // ok, here we go.
-  const runMatch$2 = function (docs, todo, cache) {
+  const runMatch$1 = function (docs, todo, cache) {
     cache = cache || [];
-    let { regs, group, justOne } = todo;
+    const { regs, group, justOne } = todo;
     let results = [];
     if (!regs || regs.length === 0) {
       return { ptrs: [], byGroup: {} }
@@ -4471,15 +4436,15 @@
 
     const minLength = regs.filter(r => r.optional !== true && r.negative !== true).length;
     docs: for (let n = 0; n < docs.length; n += 1) {
-      let terms = docs[n];
+      const terms = docs[n];
       // let index = terms[0].index || []
       // can we skip this sentence?
-      if (cache[n] && failFast$1(regs, cache[n])) {
+      if (cache[n] && failFast(regs, cache[n])) {
         continue
       }
       // ^start regs only run once, per phrase
       if (regs[0].start === true) {
-        let foundStart = handleStart(terms, regs, n);
+        const foundStart = handleStart(terms, regs, n);
         if (foundStart) {
           results.push(foundStart);
         }
@@ -4487,12 +4452,12 @@
       }
       //ok, try starting the match now from every term
       for (let i = 0; i < terms.length; i += 1) {
-        let slice = terms.slice(i);
+        const slice = terms.slice(i);
         // ensure it's long-enough
         if (slice.length < minLength) {
           break
         }
-        let res = fromHere(slice, regs, i, terms.length);
+        let res = tryHere(slice, regs, i, terms.length);
         // did we find a result?
         if (res) {
           // res = addSentence(res, index[0])
@@ -4503,7 +4468,7 @@
             break docs
           }
           // skip ahead, over these results
-          let end = res.pointer[2];
+          const end = res.pointer[2];
           if (Math.abs(end - 1) > i) {
             i = Math.abs(end - 1);
           }
@@ -4513,41 +4478,37 @@
     // ensure any end-results ($) match until the last term
     if (regs[regs.length - 1].end === true) {
       results = results.filter(res => {
-        let n = res.pointer[0];
+        const n = res.pointer[0];
         return docs[n].length === res.pointer[2]
       });
     }
     if (todo.notIf) {
-      results = notIf$1(results, todo.notIf, docs);
+      results = notIf(results, todo.notIf, docs);
     }
     // grab the requested group
-    results = getGroup$1(results, group);
+    results = getGroup(results, group);
     // add ids to pointers
     results.ptrs.forEach(ptr => {
-      let [n, start, end] = ptr;
+      const [n, start, end] = ptr;
       ptr[3] = docs[n][start].id;//start-id
       ptr[4] = docs[n][end - 1].id;//end-id
     });
     return results
   };
 
-  var match$1 = runMatch$2;
-
   const methods$a = {
     one: {
-      termMethods,
-      parseMatch,
-      match: match$1,
+      termMethods: methods$b,
+      parseMatch: syntax,
+      match: runMatch$1,
     },
   };
-
-  var methods$b = methods$a;
 
   var lib$3 = {
     /** pre-parse any match statements */
     parseMatch: function (str, opts) {
       const world = this.world();
-      let killUnicode = world.methods.one.killUnicode;
+      const killUnicode = world.methods.one.killUnicode;
       if (killUnicode) {
         str = killUnicode(str, world);
       }
@@ -4556,8 +4517,8 @@
   };
 
   var match = {
-    api: api$h,
-    methods: methods$b,
+    api: matchAPI,
+    methods: methods$a,
     lib: lib$3,
   };
 
@@ -4591,11 +4552,11 @@
   };
 
   const getIndex = function (doc, obj) {
-    let starts = {};
-    let ends = {};
+    const starts = {};
+    const ends = {};
     Object.keys(obj).forEach(k => {
       let res = obj[k];
-      let tag = toTag(k);
+      const tag = toTag(k);
       if (typeof res === 'string') {
         res = doc.match(res);
       }
@@ -4604,10 +4565,10 @@
         if (terms.every(t => t.implicit)) {
           return
         }
-        let a = terms[0].id;
+        const a = terms[0].id;
         starts[a] = starts[a] || [];
         starts[a].push(tag.start);
-        let b = terms[terms.length - 1].id;
+        const b = terms[terms.length - 1].id;
         ends[b] = ends[b] || [];
         ends[b].push(tag.end);
       });
@@ -4617,12 +4578,12 @@
 
   const html = function (obj) {
     // index ids to highlight
-    let { starts, ends } = getIndex(this, obj);
+    const { starts, ends } = getIndex(this, obj);
     // create the text output
     let out = '';
     this.docs.forEach(terms => {
       for (let i = 0; i < terms.length; i += 1) {
-        let t = terms[i];
+        const t = terms[i];
         // do a span tag
         if (starts.hasOwnProperty(t.id)) {
           out += starts[t.id].join('');
@@ -4725,7 +4686,7 @@
         text = text.replace(trimStart, '');
       }
       // remove ending periods
-      let last = docs[docs.length - 1];
+      const last = docs[docs.length - 1];
       if (!last[last.length - 1].tags.has('Emoticon')) {
         text = text.replace(trimEnd, '');
       }
@@ -4773,15 +4734,14 @@
   };
   fmts.clean = fmts.normal;
   fmts.reduced = fmts.root;
-  var fmts$1 = fmts;
 
   /* eslint-disable no-bitwise */
   /* eslint-disable no-mixed-operators */
   /* eslint-disable no-multi-assign */
 
   // https://github.com/jbt/tiny-hashes/
-  let k = [],
-    i$1 = 0;
+  const k = [];
+  let i$1 = 0;
   for (; i$1 < 64; ) {
     k[i$1] = 0 | (Math.sin(++i$1 % Math.PI) * 4294967296);
   }
@@ -4790,10 +4750,11 @@
     let b,
       c,
       d,
-      h = [(b = 0x67452301), (c = 0xefcdab89), ~b, ~c],
-      words = [],
       j = decodeURI(encodeURI(s)) + '\x80',
       a = j.length;
+
+    const h = [(b = 0x67452301), (c = 0xefcdab89), ~b, ~c],
+      words = [];
 
     s = (--a / 4 + 2) | 15;
 
@@ -4835,7 +4796,6 @@
 
     return s
   };
-  var hash = md5;
   // console.log(md5('food-safety'))
 
   const defaults$1 = {
@@ -4843,7 +4803,7 @@
     terms: true,
   };
 
-  let opts = { case: 'none', unicode: 'some', form: 'machine', punctuation: 'some' };
+  const opts = { case: 'none', unicode: 'some', form: 'machine', punctuation: 'some' };
 
   const merge = function (a, b) {
     return Object.assign({}, a, b)
@@ -4851,16 +4811,16 @@
 
   const fns$1 = {
     text: terms => textFromTerms(terms, { keepPunct: true }, false),
-    normal: terms => textFromTerms(terms, merge(fmts$1.normal, { keepPunct: true }), false),
-    implicit: terms => textFromTerms(terms, merge(fmts$1.implicit, { keepPunct: true }), false),
+    normal: terms => textFromTerms(terms, merge(fmts.normal, { keepPunct: true }), false),
+    implicit: terms => textFromTerms(terms, merge(fmts.implicit, { keepPunct: true }), false),
 
     machine: terms => textFromTerms(terms, opts, false),
     root: terms => textFromTerms(terms, merge(opts, { form: 'root' }), false),
 
-    hash: terms => hash(textFromTerms(terms, { keepPunct: true }, false)),
+    hash: terms => md5(textFromTerms(terms, { keepPunct: true }, false)),
 
     offset: terms => {
-      let len = fns$1.text(terms).length;
+      const len = fns$1.text(terms).length;
       return {
         index: terms[0].offset.index,
         start: terms[0].offset.start,
@@ -4869,7 +4829,7 @@
     },
     terms: terms => {
       return terms.map(t => {
-        let term = Object.assign({}, t);
+        const term = Object.assign({}, t);
         term.tags = Array.from(t.tags);
         return term
       })
@@ -4883,7 +4843,7 @@
   fns$1.clean = fns$1.normal;
   fns$1.reduced = fns$1.root;
 
-  const toJSON$2 = function (view, option) {
+  const toJSON$1 = function (view, option) {
     option = option || {};
     if (typeof option === 'string') {
       option = {};
@@ -4894,7 +4854,7 @@
       view.compute('offset');
     }
     return view.docs.map((terms, i) => {
-      let res = {};
+      const res = {};
       Object.keys(option).forEach(k => {
         if (option[k] && fns$1[k]) {
           res[k] = fns$1[k](terms, view, i);
@@ -4907,7 +4867,7 @@
   const methods$9 = {
     /** return data */
     json: function (n) {
-      let res = toJSON$2(this, n);
+      const res = toJSON$1(this, n);
       if (typeof n === 'number') {
         return res[n]
       }
@@ -4915,14 +4875,12 @@
     },
   };
   methods$9.data = methods$9.json;
-  var json = methods$9;
 
-  /* eslint-disable no-console */
   const isClientSide = () => typeof window !== 'undefined' && window.document;
 
   //output some helpful stuff to the console
-  const debug$2 = function (fmt) {
-    let debugMethods = this.methods.one.debug || {};
+  const debug$1 = function (fmt) {
+    const debugMethods = this.methods.one.debug || {};
     // see if method name exists
     if (fmt && debugMethods.hasOwnProperty(fmt)) {
       debugMethods[fmt](this);
@@ -4937,18 +4895,17 @@
     debugMethods.tags(this);
     return this
   };
-  var debug$3 = debug$2;
 
-  const toText$3 = function (term) {
-    let pre = term.pre || '';
-    let post = term.post || '';
+  const toText$2 = function (term) {
+    const pre = term.pre || '';
+    const post = term.post || '';
     return pre + term.text + post
   };
 
   const findStarts = function (doc, obj) {
-    let starts = {};
+    const starts = {};
     Object.keys(obj).forEach(reg => {
-      let m = doc.match(reg);
+      const m = doc.match(reg);
       m.fullPointer.forEach(a => {
         starts[a[3]] = { fn: obj[reg], end: a[2] };
       });
@@ -4958,27 +4915,82 @@
 
   const wrap = function (doc, obj) {
     // index ids to highlight
-    let starts = findStarts(doc, obj);
+    const starts = findStarts(doc, obj);
     let text = '';
     doc.docs.forEach((terms, n) => {
       for (let i = 0; i < terms.length; i += 1) {
-        let t = terms[i];
+        const t = terms[i];
         // do a span tag
         if (starts.hasOwnProperty(t.id)) {
-          let { fn, end } = starts[t.id];
-          let m = doc.update([[n, i, end]]);
+          const { fn, end } = starts[t.id];
+          const m = doc.update([[n, i, end]]);
           text += terms[i].pre || '';
           text += fn(m);
           i = end - 1;
           text += terms[i].post || '';
         } else {
-          text += toText$3(t);
+          text += toText$2(t);
         }
       }
     });
     return text
   };
-  var wrap$1 = wrap;
+
+  // the 'spec' output format - a clean sentence + an ordered list of top-level tags
+  // designed to round-trip between compromise and LLMs (see docs/spec-format.md)
+
+  // roots that describe a token's shape, not its part-of-speech - never picked over a real POS
+  const attributeTags = new Set(['Hyphenated', 'Prefix', 'SlashedTerm']);
+
+  // walk a tag up to its top-level (root) ancestor
+  const rootOf = function (tag, tagSet) {
+    const entry = tagSet[tag];
+    if (!entry || !entry.parents || entry.parents.length === 0) {
+      return tag
+    }
+    for (let i = 0; i < entry.parents.length; i += 1) {
+      const p = entry.parents[i];
+      if (tagSet[p] && (!tagSet[p].parents || tagSet[p].parents.length === 0)) {
+        return p
+      }
+    }
+    return entry.parents[entry.parents.length - 1]
+  };
+
+  // reduce a term's tag-set to a single top-level tag (or '-' when untagged)
+  const slotForTerm = function (term, tagSet) {
+    const tags = Array.from(term.tags || []);
+    if (tags.length === 0) {
+      return '-'
+    }
+    const primary = tags.find(t => !attributeTags.has(rootOf(t, tagSet))) || tags[0];
+    return rootOf(primary, tagSet)
+  };
+
+  const makeAliases = function (tagSet) {
+    const aliases = {};
+    for (const tag in tagSet) {
+      const entry = tagSet[tag];
+      if (entry.alias) {
+        aliases[tag] = entry.alias;
+      }
+    }
+    return aliases
+  };
+
+  // one line per sentence: '<text> {Tag,Tag,…}'
+  const toSpec = function (doc, world) {
+    const tagSet = world.model.one.tagSet;
+    const aliases = makeAliases(tagSet);
+    return doc.docs.map(terms => {
+      const text = terms.reduce((str, t) => str + t.pre + t.text + t.post, '').trim();
+      const tags = terms.map(t => {
+        let tag = slotForTerm(t, tagSet);
+        return aliases[tag] || tag
+      }).join(',');
+      return `${text} {${tags}}`
+    }).join('\n')
+  };
 
   const isObject$2 = val => {
     return Object.prototype.toString.call(val) === '[object Object]'
@@ -4986,12 +4998,12 @@
 
   // sort by frequency
   const topk = function (arr) {
-    let obj = {};
+    const obj = {};
     arr.forEach(a => {
       obj[a] = obj[a] || 0;
       obj[a] += 1;
     });
-    let res = Object.keys(obj).map(k => {
+    const res = Object.keys(obj).map(k => {
       return { normal: k, count: obj[k] }
     });
     return res.sort((a, b) => (a.count > b.count ? -1 : 0))
@@ -5001,7 +5013,7 @@
   const out = function (method) {
     // support custom outputs
     if (isObject$2(method)) {
-      return wrap$1(this, method)
+      return wrap(this, method)
     }
     // text out formats
     if (method === 'text') {
@@ -5017,9 +5029,12 @@
       return this.text('machine')
     }
     if (method === 'hash' || method === 'md5') {
-      return hash(this.text())
+      return md5(this.text())
     }
-
+    // tagged-sentence format for LLMs (see docs/spec-format.md)
+    if (method === 'spec') {
+      return toSpec(this, this.world)
+    }
     // json data formats
     if (method === 'json') {
       return this.json()
@@ -5029,7 +5044,7 @@
       return this.json({ offset: true })
     }
     if (method === 'array') {
-      let arr = this.docs.map(terms => {
+      const arr = this.docs.map(terms => {
         return terms
           .reduce((str, t) => {
             return str + t.pre + t.text + t.post
@@ -5069,16 +5084,14 @@
 
   const methods$8 = {
     /** */
-    debug: debug$3,
+    debug: debug$1,
     /** */
     out,
     /** */
     wrap: function (obj) {
-      return wrap$1(this, obj)
+      return wrap(this, obj)
     },
   };
-
-  var out$1 = methods$8;
 
   const isObject$1 = val => {
     return Object.prototype.toString.call(val) === '[object Object]'
@@ -5088,8 +5101,8 @@
     /** */
     text: function (fmt) {
       let opts = {};
-      if (fmt && typeof fmt === 'string' && fmts$1.hasOwnProperty(fmt)) {
-        opts = Object.assign({}, fmts$1[fmt]);
+      if (fmt && typeof fmt === 'string' && fmts.hasOwnProperty(fmt)) {
+        opts = Object.assign({}, fmts[fmt]);
       } else if (fmt && isObject$1(fmt)) {
         opts = Object.assign({}, fmt); //todo: fixme
       }
@@ -5099,7 +5112,7 @@
         opts.keepSpace = false;
       }
       if (opts.keepEndPunct === undefined && this.pointer) {
-        let ptr = this.pointer[0];
+        const ptr = this.pointer[0];
         if (ptr && ptr[1]) {
           opts.keepEndPunct = false;
         } else {
@@ -5117,32 +5130,30 @@
     },
   };
 
-  const methods$7 = Object.assign({}, out$1, text, json, html$1);
+  const methods$7 = Object.assign({}, methods$8, text, methods$9, html$1);
 
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$7);
   };
-  var api$g = addAPI$1;
 
   /* eslint-disable no-console */
   const logClientSide = function (view) {
     console.log('%c -=-=- ', 'background-color:#6699cc;');
     view.forEach(m => {
       console.groupCollapsed(m.text());
-      let terms = m.docs[0];
-      let out = terms.map(t => {
+      const terms = m.docs[0];
+      const out = terms.map(t => {
         let text = t.text || '-';
         if (t.implicit) {
           text = '[' + t.implicit + ']';
         }
-        let tags = '[' + Array.from(t.tags).join(', ') + ']';
+        const tags = '[' + Array.from(t.tags).join(', ') + ']';
         return { text, tags }
       });
       console.table(out, ['text', 'tags']);
       console.groupEnd();
     });
   };
-  var clientSide = logClientSide;
 
   // https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
   const reset = '\x1b[0m';
@@ -5159,7 +5170,6 @@
     dim: str => '\x1b[2m' + str + reset,
     i: str => '\x1b[3m' + str + reset,
   };
-  var cli$1 = cli;
 
   /* eslint-disable no-console */
 
@@ -5170,21 +5180,21 @@
           return tag
         }
         const c = model.one.tagSet[tag].color || 'blue';
-        return cli$1[c](tag)
+        return cli[c](tag)
       });
     }
     return tags.join(', ')
   };
 
   const showTags = function (view) {
-    let { docs, model } = view;
+    const { docs, model } = view;
     if (docs.length === 0) {
-      console.log(cli$1.blue('\n     ──────'));
+      console.log(cli.blue('\n     ──────'));
     }
     docs.forEach(terms => {
-      console.log(cli$1.blue('\n  ┌─────────'));
+      console.log(cli.blue('\n  ┌─────────'));
       terms.forEach(t => {
-        let tags = [...(t.tags || [])];
+        const tags = [...(t.tags || [])];
         let text = t.text || '-';
         if (t.sense) {
           text = `{${t.normal}/${t.sense}}`;
@@ -5192,37 +5202,36 @@
         if (t.implicit) {
           text = '[' + t.implicit + ']';
         }
-        text = cli$1.yellow(text);
+        text = cli.yellow(text);
         let word = "'" + text + "'";
         if (t.reference) {
-          let str = view.update([t.reference]).text('normal');
-          word += ` - ${cli$1.dim(cli$1.i('[' + str + ']'))}`;
+          const str = view.update([t.reference]).text('normal');
+          word += ` - ${cli.dim(cli.i('[' + str + ']'))}`;
         }
         word = word.padEnd(18);
-        let str = cli$1.blue('  │ ') + cli$1.i(word) + '  - ' + tagString(tags, model);
+        const str = cli.blue('  │ ') + cli.i(word) + '  - ' + tagString(tags, model);
         console.log(str);
       });
     });
     console.log('\n');
   };
-  var tags$1 = showTags;
 
   /* eslint-disable no-console */
 
   const showChunks = function (view) {
-    let { docs } = view;
+    const { docs } = view;
     console.log('');
     docs.forEach(terms => {
-      let out = [];
+      const out = [];
       terms.forEach(term => {
         if (term.chunk === 'Noun') {
-          out.push(cli$1.blue(term.implicit || term.normal));
+          out.push(cli.blue(term.implicit || term.normal));
         } else if (term.chunk === 'Verb') {
-          out.push(cli$1.green(term.implicit || term.normal));
+          out.push(cli.green(term.implicit || term.normal));
         } else if (term.chunk === 'Adjective') {
-          out.push(cli$1.yellow(term.implicit || term.normal));
+          out.push(cli.yellow(term.implicit || term.normal));
         } else if (term.chunk === 'Pivot') {
-          out.push(cli$1.red(term.implicit || term.normal));
+          out.push(cli.red(term.implicit || term.normal));
         } else {
           out.push(term.implicit || term.normal);
         }
@@ -5231,39 +5240,38 @@
     });
     console.log('\n');
   };
-  var chunks = showChunks;
 
   /* eslint-disable no-console */
 
   const split = (txt, offset, index) => {
-    let buff = index * 9; //there are 9 new chars addded to each highlight
-    let start = offset.start + buff;
-    let end = start + offset.length;
-    let pre = txt.substring(0, start);
-    let mid = txt.substring(start, end);
-    let post = txt.substring(end, txt.length);
+    const buff = index * 9; //there are 9 new chars addded to each highlight
+    const start = offset.start + buff;
+    const end = start + offset.length;
+    const pre = txt.substring(0, start);
+    const mid = txt.substring(start, end);
+    const post = txt.substring(end, txt.length);
     return [pre, mid, post]
   };
 
   const spliceIn = function (txt, offset, index) {
-    let parts = split(txt, offset, index);
-    return `${parts[0]}${cli$1.blue(parts[1])}${parts[2]}`
+    const parts = split(txt, offset, index);
+    return `${parts[0]}${cli.blue(parts[1])}${parts[2]}`
   };
 
   const showHighlight = function (doc) {
     if (!doc.found) {
       return
     }
-    let bySentence = {};
+    const bySentence = {};
     doc.fullPointer.forEach(ptr => {
       bySentence[ptr[0]] = bySentence[ptr[0]] || [];
       bySentence[ptr[0]].push(ptr);
     });
     Object.keys(bySentence).forEach(k => {
-      let full = doc.update([[Number(k)]]);
+      const full = doc.update([[Number(k)]]);
       let txt = full.text();
-      let matches = doc.update(bySentence[k]);
-      let json = matches.json({ offset: true });
+      const matches = doc.update(bySentence[k]);
+      const json = matches.json({ offset: true });
       json.forEach((obj, i) => {
         txt = spliceIn(txt, obj.offset, i);
       });
@@ -5271,22 +5279,99 @@
     });
     console.log('\n');
   };
-  var highlight = showHighlight;
 
   const debug = {
-    tags: tags$1,
-    clientSide,
-    chunks,
-    highlight,
+    tags: showTags,
+    clientSide: logClientSide,
+    chunks: showChunks,
+    highlight: showHighlight,
   };
-  var debug$1 = debug;
+
+  const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
+
+  // parse the spec output
+  const parseLine = function (line = '') {
+    let [text, tags] = line.split(lastBrace);
+    if (tags === undefined) {
+      return { text, tags: [] } // no {tags} block on this line
+    }
+    tags = tags.split(',').map(tag => tag.trim());
+    let lastTag = tags[tags.length - 1];
+    tags[tags.length - 1] = lastTag.replace(/\}$/, '');
+    tags = tags.map(tag => tag.split('|').map(t => t.trim()));
+    tags = tags.filter(arr => arr.some(t => t !== '')); // drop empty '{}'
+    return { text, tags }
+  };
+
+  // make a match syntax looping through the arrays of tags
+  const toMatchString = function (tags, aliases) {
+    return tags.map(arr => {
+      arr = arr.map(str => {
+        return '#' + (aliases[str] || str)
+      });
+      if (arr.length > 1) {
+        return `(${arr.join(' && ')})`
+      }
+      return arr[0]
+    }).join(' ')
+  };
+
+  // parse the adhoc output of out('spec')
+  // note: this(text), not this.tokenize().compute(hooks) - tokenize already
+  // splits contractions, so re-running hooks would split them twice
+  const fromSpec = function (spec) {
+    let cleanText = spec.split('\n').filter(line => line.trim()).map(line => {
+      return parseLine(line).text
+    }).join('\n');
+    return this(cleanText)
+  };
+
+  // rebuild spec-formatted tag list
+  const toTagList = function (tags) {
+    return tags.map(arr => arr.join('|')).join(',')
+  };
+
+  // compare the tagged text output of out('spec')
+  const testSpec = function (spec, verbose = true, throwError = false) {
+    let world = this.world();
+    let aliases = {};
+    // expand tag aliases
+    let tagSet = world.model.one.tagSet;
+    Object.keys(tagSet).forEach(k => {
+      if (tagSet[k].alias) {
+        aliases[tagSet[k].alias] = k;
+      }
+    });
+    let failingLines = spec.split('\n').filter(line => line.trim()).map(line => {
+      let { text, tags } = parseLine(line);
+      // parse it
+      let doc = this(text);
+      // make compromise-compatible match string
+      let matchStr = toMatchString(tags, aliases);
+      let didMatch = doc.has(matchStr);
+      if (verbose !== false) {
+        let char = didMatch ? '✅' : '❌';
+        console.log(`${char} ${text} {${toTagList(tags)}}`); //eslint-disable-line no-console
+      }
+      if (didMatch === false && throwError === true) {
+        throw new Error(`❌ ${text} {${toTagList(tags)}}`)
+      }
+      return didMatch ? null : text
+    }).filter(Boolean).join('\n');
+    // return a doc of only the failing lines - empty means everything passed
+    return this(failingLines)
+  };
 
   var output = {
-    api: api$g,
+    lib: {
+      fromSpec,
+      testSpec,
+    },
+    api: addAPI$1,
     methods: {
       one: {
-        hash,
-        debug: debug$1,
+        hash: md5,
+        debug,
       },
     },
   };
@@ -5296,8 +5381,8 @@
     if (a[0] !== b[0]) {
       return false
     }
-    let [, startA, endA] = a;
-    let [, startB, endB] = b;
+    const [, startA, endA] = a;
+    const [, startB, endB] = b;
     // [a,a,a,-,-,-,]
     // [-,-,b,b,b,-,]
     if (startA <= startB && endA > startB) {
@@ -5328,7 +5413,7 @@
 
   // collect pointers by sentence number
   const indexN = function (ptrs) {
-    let byN = {};
+    const byN = {};
     ptrs.forEach(ref => {
       byN[ref[0]] = byN[ref[0]] || [];
       byN[ref[0]].push(ref);
@@ -5338,7 +5423,7 @@
 
   // remove exact duplicates
   const uniquePtrs = function (arr) {
-    let obj = {};
+    const obj = {};
     for (let i = 0; i < arr.length; i += 1) {
       obj[arr[i].join(',')] = arr[i];
     }
@@ -5365,13 +5450,13 @@
 
   // split a pointer, by match pointer
   const pivotBy = function (full, m) {
-    let [n, start] = full;
-    let mStart = m[1];
-    let mEnd = m[2];
-    let res = {};
+    const [n, start] = full;
+    const mStart = m[1];
+    const mEnd = m[2];
+    const res = {};
     // is there space before the match?
     if (start < mStart) {
-      let end = mStart < full[2] ? mStart : full[2]; // find closest end-point
+      const end = mStart < full[2] ? mStart : full[2]; // find closest end-point
       res.before = [n, start, end]; //before segment
     }
     res.match = m;
@@ -5387,10 +5472,10 @@
   };
 
   const splitAll = function (full, m) {
-    let byN = indexN(m);
-    let res = [];
+    const byN = indexN(m);
+    const res = [];
     full.forEach(ptr => {
-      let [n] = ptr;
+      const [n] = ptr;
       let matches = byN[n] || [];
       matches = matches.filter(p => doesMatch(ptr, p));
       if (matches.length === 0) {
@@ -5402,7 +5487,7 @@
       // start splitting our left-to-right
       let carry = ptr;
       matches.forEach((p, i) => {
-        let found = pivotBy(carry, p);
+        const found = pivotBy(carry, p);
         // last one
         if (!matches[i + 1]) {
           res.push(found);
@@ -5417,8 +5502,6 @@
     return res
   };
 
-  var splitAll$1 = splitAll;
-
   const max$1 = 20;
 
   // sweep-around looking for our start term uuid
@@ -5426,14 +5509,14 @@
     for (let i = 0; i < max$1; i += 1) {
       // look up a sentence
       if (doc[n - i]) {
-        let index = doc[n - i].findIndex(term => term.id === id);
+        const index = doc[n - i].findIndex(term => term.id === id);
         if (index !== -1) {
           return [n - i, index]
         }
       }
       // look down a sentence
       if (doc[n + i]) {
-        let index = doc[n + i].findIndex(term => term.id === id);
+        const index = doc[n + i].findIndex(term => term.id === id);
         if (index !== -1) {
           return [n + i, index]
         }
@@ -5443,10 +5526,10 @@
   };
 
   const repairEnding = function (ptr, document) {
-    let [n, start, , , endId] = ptr;
-    let terms = document[n];
+    const [n, start, , , endId] = ptr;
+    const terms = document[n];
     // look for end-id
-    let newEnd = terms.findIndex(t => t.id === endId);
+    const newEnd = terms.findIndex(t => t.id === endId);
     if (newEnd === -1) {
       // if end-term wasn't found, so go all the way to the end
       ptr[2] = document[n].length;
@@ -5464,6 +5547,7 @@
       if (!ptr) {
         return
       }
+      // eslint-disable-next-line prefer-const
       let [n, start, end, id, endId] = ptr; //parsePointer(ptr)
       let terms = document[n] || [];
       if (start === undefined) {
@@ -5474,12 +5558,12 @@
       }
       if (id && (!terms[start] || terms[start].id !== id)) {
         // console.log('  repairing pointer...')
-        let wild = blindSweep(id, document, n);
+        const wild = blindSweep(id, document, n);
         if (wild !== null) {
-          let len = end - start;
+          const len = end - start;
           terms = document[wild[0]].slice(wild[1], wild[1] + len);
           // actually change the pointer
-          let startId = terms[0] ? terms[0].id : null;
+          const startId = terms[0] ? terms[0].id : null;
           ptrs[i] = [wild[0], wild[1], wild[1] + len, startId];
         }
       } else {
@@ -5501,11 +5585,10 @@
     doc = doc.filter(a => a.length > 0);
     return doc
   };
-  var getDoc$2 = getDoc$1;
 
   // flat list of terms from nested document
   const termList = function (docs) {
-    let arr = [];
+    const arr = [];
     for (let i = 0; i < docs.length; i += 1) {
       for (let t = 0; t < docs[i].length; t += 1) {
         arr.push(docs[i][t]);
@@ -5517,36 +5600,35 @@
   var methods$6 = {
     one: {
       termList,
-      getDoc: getDoc$2,
+      getDoc: getDoc$1,
       pointer: {
         indexN,
-        splitAll: splitAll$1,
+        splitAll,
       }
     },
   };
 
   // a union is a + b, minus duplicates
   const getUnion = function (a, b) {
-    let both = a.concat(b);
-    let byN = indexN(both);
+    const both = a.concat(b);
+    const byN = indexN(both);
     let res = [];
     both.forEach(ptr => {
-      let [n] = ptr;
+      const [n] = ptr;
       if (byN[n].length === 1) {
         // we're alone on this sentence, so we're good
         res.push(ptr);
         return
       }
       // there may be overlaps
-      let hmm = byN[n].filter(m => doesOverlap(ptr, m));
+      const hmm = byN[n].filter(m => doesOverlap(ptr, m));
       hmm.push(ptr);
-      let range = getExtent(hmm);
+      const range = getExtent(hmm);
       res.push(range);
     });
     res = uniquePtrs(res);
     return res
   };
-  var getUnion$1 = getUnion;
 
   // two disjoint
   // console.log(getUnion([[1, 3, 4]], [[0, 1, 2]]))
@@ -5560,8 +5642,8 @@
   // console.log(getUnion([[0, 1, 3]], [[0, 3, 5]]))
 
   const subtract = function (refs, not) {
-    let res = [];
-    let found = splitAll$1(refs, not);
+    const res = [];
+    const found = splitAll(refs, not);
     found.forEach(o => {
       if (o.passthrough) {
         res.push(o.passthrough);
@@ -5575,7 +5657,6 @@
     });
     return res
   };
-  var getDifference = subtract;
 
   // console.log(subtract([[0, 0, 2]], [[0, 0, 1]]))
   // console.log(subtract([[0, 0, 2]], [[0, 1, 2]]))
@@ -5585,9 +5666,9 @@
   // [-,-,x,x,-,-,]
   const intersection = function (a, b) {
     // find the latest-start
-    let start = a[1] < b[1] ? b[1] : a[1];
+    const start = a[1] < b[1] ? b[1] : a[1];
     // find the earliest-end
-    let end = a[2] > b[2] ? b[2] : a[2];
+    const end = a[2] > b[2] ? b[2] : a[2];
     // does it form a valid pointer?
     if (start < end) {
       return [a[0], start, end]
@@ -5596,8 +5677,8 @@
   };
 
   const getIntersection = function (a, b) {
-    let byN = indexN(b);
-    let res = [];
+    const byN = indexN(b);
+    const res = [];
     a.forEach(ptr => {
       let hmm = byN[ptr[0]] || [];
       hmm = hmm.filter(p => doesOverlap(ptr, p));
@@ -5606,7 +5687,7 @@
         return
       }
       hmm.forEach(h => {
-        let overlap = intersection(ptr, h);
+        const overlap = intersection(ptr, h);
         if (overlap) {
           res.push(overlap);
         }
@@ -5614,7 +5695,6 @@
     });
     return res
   };
-  var getIntersection$1 = getIntersection;
 
   // console.log(getIntersection([[0, 1, 3]], [[0, 2, 4]]))
 
@@ -5636,7 +5716,7 @@
   // 'harden' our json pointers, again
   const addIds = function (ptrs, docs) {
     return ptrs.map(ptr => {
-      let [n, start] = ptr;
+      const [n, start] = ptr;
       if (docs[n] && docs[n][start]) {
         ptr[3] = docs[n][start].id;
       }
@@ -5649,7 +5729,7 @@
   // all parts, minus duplicates
   methods$5.union = function (m) {
     m = getDoc(m, this);
-    let ptrs = getUnion$1(this.fullPointer, m.fullPointer);
+    let ptrs = getUnion(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
@@ -5658,7 +5738,7 @@
   // only parts they both have
   methods$5.intersection = function (m) {
     m = getDoc(m, this);
-    let ptrs = getIntersection$1(this.fullPointer, m.fullPointer);
+    let ptrs = getIntersection(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
@@ -5666,7 +5746,7 @@
   // only parts of a that b does not have
   methods$5.not = function (m) {
     m = getDoc(m, this);
-    let ptrs = getDifference(this.fullPointer, m.fullPointer);
+    let ptrs = subtract(this.fullPointer, m.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
@@ -5674,8 +5754,8 @@
 
   // get opposite of a match
   methods$5.complement = function () {
-    let doc = this.all();
-    let ptrs = getDifference(doc.fullPointer, this.fullPointer);
+    const doc = this.all();
+    let ptrs = subtract(doc.fullPointer, this.fullPointer);
     ptrs = addIds(ptrs, this.document);
     return this.toView(ptrs)
   };
@@ -5684,7 +5764,7 @@
   methods$5.settle = function () {
     let ptrs = this.fullPointer;
     ptrs.forEach(ptr => {
-      ptrs = getUnion$1(ptrs, [ptr]);
+      ptrs = getUnion(ptrs, [ptr]);
     });
     ptrs = addIds(ptrs, this.document);
     return this.update(ptrs)
@@ -5694,24 +5774,23 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$5);
   };
-  var api$f = addAPI;
 
   var pointers = {
     methods: methods$6,
-    api: api$f,
+    api: addAPI,
   };
 
   var lib$2 = {
     // compile a list of matches into a match-net
     buildNet: function (matches) {
       const methods = this.methods();
-      let net = methods.one.buildNet(matches, this.world());
+      const net = methods.one.buildNet(matches, this.world());
       net.isNet = true;
       return net
     }
   };
 
-  const api$d = function (View) {
+  const api$6 = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5726,9 +5805,9 @@
       // fix the pointers
       // collect all found results into a View
       found = found.map(o => {
-        let ptr = o.pointer;
-        let term = docs[ptr[0]][ptr[1]];
-        let len = ptr[2] - ptr[1];
+        const ptr = o.pointer;
+        const term = docs[ptr[0]][ptr[1]];
+        const len = ptr[2] - ptr[1];
         if (term.index) {
           o.pointer = [
             term.index[0],
@@ -5738,7 +5817,7 @@
         }
         return o
       });
-      let ptrs = found.map(o => o.pointer);
+      const ptrs = found.map(o => o.pointer);
       // cleanup results a bit
       found = found.map(obj => {
         obj.view = this.update([obj.pointer]);
@@ -5755,7 +5834,6 @@
     };
 
   };
-  var api$e = api$d;
 
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
@@ -5776,7 +5854,7 @@
   };
 
   const getNeeds = function (regs) {
-    let needs = [];
+    const needs = [];
     regs.forEach(reg => {
       needs.push(getTokenNeeds(reg));
       // support AND (foo && tag)
@@ -5792,7 +5870,7 @@
   };
 
   const getWants = function (regs) {
-    let wants = [];
+    const wants = [];
     let count = 0;
     regs.forEach(reg => {
       if (reg.operator === 'or' && !reg.optional && !reg.negative) {
@@ -5806,7 +5884,7 @@
         if (reg.choices) {
           reg.choices.forEach(rs => {
             rs.forEach(r => {
-              let n = getTokenNeeds(r);
+              const n = getTokenNeeds(r);
               if (n) {
                 wants.push(n);
               }
@@ -5819,7 +5897,7 @@
     return { wants, count }
   };
 
-  const parse$2 = function (matches, world) {
+  const parse$1 = function (matches, world) {
     const parseMatch = world.methods.one.parseMatch;
     matches.forEach(obj => {
       obj.regs = parseMatch(obj.match, {}, world);
@@ -5832,7 +5910,7 @@
       }
       // cache any requirements up-front 
       obj.needs = getNeeds(obj.regs);
-      let { wants, count } = getWants(obj.regs);
+      const { wants, count } = getWants(obj.regs);
       obj.wants = wants;
       obj.minWant = count;
       // get rid of tiny sentences
@@ -5841,15 +5919,13 @@
     return matches
   };
 
-  var parse$3 = parse$2;
-
   // do some indexing on the list of matches
   const buildNet = function (matches, world) {
     // turn match-syntax into json
-    matches = parse$3(matches, world);
+    matches = parse$1(matches, world);
 
     // collect by wants and needs
-    let hooks = {};
+    const hooks = {};
     matches.forEach(obj => {
       // add needs
       obj.needs.forEach(str => {
@@ -5864,7 +5940,7 @@
     });
     // remove duplicates
     Object.keys(hooks).forEach(k => {
-      let already = {};
+      const already = {};
       hooks[k] = hooks[k].filter(obj => {
         if (typeof already[obj.match] === 'boolean') {
           return false
@@ -5875,14 +5951,12 @@
     });
 
     // keep all un-cacheable matches (those with no needs) 
-    let always = matches.filter(o => o.needs.length === 0 && o.wants.length === 0);
+    const always = matches.filter(o => o.needs.length === 0 && o.wants.length === 0);
     return {
       hooks,
       always
     }
   };
-
-  var buildNet$1 = buildNet;
 
   // for each cached-sentence, find a list of possible matches
   const getHooks = function (docCaches, hooks) {
@@ -5894,7 +5968,7 @@
         }
       });
       // remove duplicates
-      let already = {};
+      const already = {};
       maybe = maybe.filter(m => {
         if (typeof already[m.match] === 'boolean') {
           return false
@@ -5906,12 +5980,10 @@
     })
   };
 
-  var getHooks$1 = getHooks;
-
   // filter-down list of maybe-matches
   const localTrim = function (maybeList, docCache) {
     return maybeList.map((list, n) => {
-      let haves = docCache[n];
+      const haves = docCache[n];
       // ensure all stated-needs of the match are met
       list = list.filter(obj => {
         return obj.needs.every(need => haves.has(need))
@@ -5929,23 +6001,22 @@
           return true
         }
         // ensure there's one cache-hit
-        let found = obj.wants.filter(str => haves.has(str)).length;
+        const found = obj.wants.filter(str => haves.has(str)).length;
         return found >= obj.minWant
       });
       return list
     })
   };
-  var trimDown = localTrim;
 
   // finally,
   // actually run these match-statements on the terms
   const runMatch = function (maybeList, document, docCache, methods, opts) {
-    let results = [];
+    const results = [];
     for (let n = 0; n < maybeList.length; n += 1) {
       for (let i = 0; i < maybeList[n].length; i += 1) {
-        let m = maybeList[n][i];
+        const m = maybeList[n][i];
         // ok, actually do the work.
-        let res = methods.one.match([document[n]], m);
+        const res = methods.one.match([document[n]], m);
         // found something.
         if (res.ptrs.length > 0) {
           res.ptrs.forEach(ptr => {
@@ -5970,7 +6041,7 @@
             //     }
             //   }
             // }
-            let todo = Object.assign({}, m, { pointer: ptr });
+            const todo = Object.assign({}, m, { pointer: ptr });
             if (m.unTag !== undefined) {
               todo.unTag = m.unTag;
             }
@@ -5985,11 +6056,10 @@
     }
     return results
   };
-  var runMatch$1 = runMatch;
 
   const tooSmall = function (maybeList, document) {
     return maybeList.map((arr, i) => {
-      let termCount = document[i].length;
+      const termCount = document[i].length;
       arr = arr.filter(o => {
         return termCount >= o.minWords
       });
@@ -5999,11 +6069,11 @@
 
   const sweep$1 = function (document, net, methods, opts = {}) {
     // find suitable matches to attempt, on each sentence
-    let docCache = methods.one.cacheDoc(document);
+    const docCache = methods.one.cacheDoc(document);
     // collect possible matches for this document
-    let maybeList = getHooks$1(docCache, net.hooks);
+    let maybeList = getHooks(docCache, net.hooks);
     // ensure all defined needs are met for each match
-    maybeList = trimDown(maybeList, docCache);
+    maybeList = localTrim(maybeList, docCache);
     // add unchacheable matches to each sentence's todo-list
     if (net.always.length > 0) {
       maybeList = maybeList.map(arr => arr.concat(net.always));
@@ -6012,21 +6082,20 @@
     maybeList = tooSmall(maybeList, document);
 
     // now actually run the matches
-    let results = runMatch$1(maybeList, document, docCache, methods, opts);
+    const results = runMatch(maybeList, document, docCache, methods, opts);
     // console.dir(results, { depth: 5 })
     return results
   };
-  var bulkMatch = sweep$1;
 
   // is this tag consistent with the tags they already have?
-  const canBe$2 = function (terms, tag, model) {
-    let tagSet = model.one.tagSet;
+  const canBe$1 = function (terms, tag, model) {
+    const tagSet = model.one.tagSet;
     if (!tagSet.hasOwnProperty(tag)) {
       return true
     }
-    let not = tagSet[tag].not || [];
+    const not = tagSet[tag].not || [];
     for (let i = 0; i < terms.length; i += 1) {
-      let term = terms[i];
+      const term = terms[i];
       for (let k = 0; k < not.length; k += 1) {
         if (term.tags.has(not[k]) === true) {
           return false //found a tag conflict - bail!
@@ -6035,7 +6104,6 @@
     }
     return true
   };
-  var canBe$3 = canBe$2;
 
   const tagger$1 = function (list, document, world) {
     const { model, methods } = world;
@@ -6053,12 +6121,12 @@
       if (!todo.tag && !todo.chunk && !todo.unTag) {
         return
       }
-      let reason = todo.reason || todo.match;
-      let terms = getDoc([todo.pointer], document)[0];
+      const reason = todo.reason || todo.match;
+      const terms = getDoc([todo.pointer], document)[0];
       // handle 'safe' tag
       if (todo.safe === true) {
         // check for conflicting tags
-        if (canBe$3(terms, todo.tag, model) === false) {
+        if (canBe$1(terms, todo.tag, model) === false) {
           return
         }
         // dont tag half of a hyphenated word
@@ -6070,7 +6138,7 @@
         setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
         // quick and dirty plural tagger 😕
         if (todo.tag === 'Noun' && looksPlural) {
-          let term = terms[terms.length - 1];
+          const term = terms[terms.length - 1];
           if (looksPlural(term.text)) {
             setTag([term], 'Plural', world, todo.safe, 'quick-plural');
           } else {
@@ -6091,17 +6159,16 @@
       }
     })
   };
-  var bulkTagger = tagger$1;
 
   var methods$4 = {
-    buildNet: buildNet$1,
-    bulkMatch,
-    bulkTagger
+    buildNet,
+    bulkMatch: sweep$1,
+    bulkTagger: tagger$1
   };
 
   var sweep = {
     lib: lib$2,
-    api: api$e,
+    api: api$6,
     methods: {
       one: methods$4,
     }
@@ -6132,7 +6199,7 @@
       isSafe = true;
     }
     // for known tags, do logical dependencies first
-    let known = tagSet[tag];
+    const known = tagSet[tag];
     if (known) {
       // first, we remove any conflicting tags
       if (known.not && known.not.length > 0) {
@@ -6163,7 +6230,7 @@
 
   // support '#Noun . #Adjective' syntax
   const multiTag = function (terms, tagString, tagSet, isSafe) {
-    let tags = tagString.split(isMulti);
+    const tags = tagString.split(isMulti);
     terms.forEach((term, i) => {
       let tag = tags[i];
       if (tag) {
@@ -6181,7 +6248,7 @@
   const log = (terms, tag, reason = '') => {
     const yellow = str => '\x1b[33m\x1b[3m' + str + '\x1b[0m';
     const i = str => '\x1b[3m' + str + '\x1b[0m';
-    let word = terms
+    const word = terms
       .map(t => {
         return t.text || '[' + t.implicit + ']'
       })
@@ -6224,13 +6291,12 @@
       tagTerm(terms[i], tag, tagSet, isSafe);
     }
   };
-  var setTag$1 = setTag;
 
   // remove this tag, and its children, from these terms
   const unTag = function (terms, tag, tagSet) {
     tag = tag.trim().replace(/^#/, '');
     for (let i = 0; i < terms.length; i += 1) {
-      let term = terms[i];
+      const term = terms[i];
       // don't untag anything if term is frozen
       if (term.frozen === true) {
         continue
@@ -6241,7 +6307,7 @@
         continue
       }
       // for known tags, do logical dependencies first
-      let known = tagSet[tag];
+      const known = tagSet[tag];
       // removing #Verb should also remove #PastTense
       if (known && known.children.length > 0) {
         for (let o = 0; o < known.children.length; o += 1) {
@@ -6251,14 +6317,13 @@
       term.tags.delete(tag);
     }
   };
-  var unTag$1 = unTag;
 
   // quick check if this tag will require any untagging
   const canBe = function (term, tag, tagSet) {
     if (!tagSet.hasOwnProperty(tag)) {
       return true // everything can be an unknown tag
     }
-    let not = tagSet[tag].not || [];
+    const not = tagSet[tag].not || [];
     for (let i = 0; i < not.length; i += 1) {
       if (term.tags.has(not[i])) {
         return false
@@ -6266,9 +6331,8 @@
     }
     return true
   };
-  var canBe$1 = canBe;
 
-  const e=function(e){return e.children=e.children||[],e._cache=e._cache||{},e.props=e.props||{},e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],e},t=/^ *(#|\/\/)/,n=function(t){let n=t.trim().split(/->/),r=[];n.forEach((t=>{r=r.concat(function(t){if(!(t=t.trim()))return null;if(/^\[/.test(t)&&/\]$/.test(t)){let n=(t=(t=t.replace(/^\[/,"")).replace(/\]$/,"")).split(/,/);return n=n.map((e=>e.trim())).filter((e=>e)),n=n.map((t=>e({id:t}))),n}return [e({id:t})]}(t));})),r=r.filter((e=>e));let i=r[0];for(let e=1;e<r.length;e+=1)i.children.push(r[e]),i=r[e];return r[0]},r=(e,t)=>{let n=[],r=[e];for(;r.length>0;){let e=r.pop();n.push(e),e.children&&e.children.forEach((n=>{t&&t(e,n),r.push(n);}));}return n},i=e=>"[object Array]"===Object.prototype.toString.call(e),c=e=>(e=e||"").trim(),s=function(c=[]){return "string"==typeof c?function(r){let i=r.split(/\r?\n/),c=[];i.forEach((e=>{if(!e.trim()||t.test(e))return;let r=(e=>{const t=/^( {2}|\t)/;let n=0;for(;t.test(e);)e=e.replace(t,""),n+=1;return n})(e);c.push({indent:r,node:n(e)});}));let s=function(e){let t={children:[]};return e.forEach(((n,r)=>{0===n.indent?t.children=t.children.concat(n.node):e[r-1]&&function(e,t){let n=e[t].indent;for(;t>=0;t-=1)if(e[t].indent<n)return e[t];return e[0]}(e,r).node.children.push(n.node);})),t}(c);return s=e(s),s}(c):i(c)?function(t){let n={};t.forEach((e=>{n[e.id]=e;}));let r=e({});return t.forEach((t=>{if((t=e(t)).parent)if(n.hasOwnProperty(t.parent)){let e=n[t.parent];delete t.parent,e.children.push(t);}else console.warn(`[Grad] - missing node '${t.parent}'`);else r.children.push(t);})),r}(c):(r(s=c).forEach(e),s);var s;},h=e=>"[31m"+e+"[0m",o=e=>"[2m"+e+"[0m",l=function(e,t){let n="-> ";t&&(n=o("→ "));let i="";return r(e).forEach(((e,r)=>{let c=e.id||"";if(t&&(c=h(c)),0===r&&!e.id)return;let s=e._cache.parents.length;i+="    ".repeat(s)+n+c+"\n";})),i},a=function(e){let t=r(e);t.forEach((e=>{delete(e=Object.assign({},e)).children;}));let n=t[0];return n&&!n.id&&0===Object.keys(n.props).length&&t.shift(),t},p={text:l,txt:l,array:a,flat:a},d=function(e,t){return "nested"===t||"json"===t?e:"debug"===t?(console.log(l(e,!0)),null):p.hasOwnProperty(t)?p[t](e):e},u=e=>{r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],t._cache.parents=e._cache.parents.concat([e.id]));}));},f$1=(e,t)=>(Object.keys(t).forEach((n=>{if(t[n]instanceof Set){let r=e[n]||new Set;e[n]=new Set([...r,...t[n]]);}else {if((e=>e&&"object"==typeof e&&!Array.isArray(e))(t[n])){let r=e[n]||{};e[n]=Object.assign({},t[n],r);}else i(t[n])?e[n]=t[n].concat(e[n]||[]):void 0===e[n]&&(e[n]=t[n]);}})),e),j=/\//;let g$1 = class g{constructor(e={}){Object.defineProperty(this,"json",{enumerable:!1,value:e,writable:!0});}get children(){return this.json.children}get id(){return this.json.id}get found(){return this.json.id||this.json.children.length>0}props(e={}){let t=this.json.props||{};return "string"==typeof e&&(t[e]=!0),this.json.props=Object.assign(t,e),this}get(t){if(t=c(t),!j.test(t)){let e=this.json.children.find((e=>e.id===t));return new g(e)}let n=((e,t)=>{let n=(e=>"string"!=typeof e?e:(e=e.replace(/^\//,"")).split(/\//))(t=t||"");for(let t=0;t<n.length;t+=1){let r=e.children.find((e=>e.id===n[t]));if(!r)return null;e=r;}return e})(this.json,t)||e({});return new g(n)}add(t,n={}){if(i(t))return t.forEach((e=>this.add(c(e),n))),this;t=c(t);let r=e({id:t,props:n});return this.json.children.push(r),new g(r)}remove(e){return e=c(e),this.json.children=this.json.children.filter((t=>t.id!==e)),this}nodes(){return r(this.json).map((e=>(delete(e=Object.assign({},e)).children,e)))}cache(){return (e=>{let t=r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],t._cache.parents=e._cache.parents.concat([e.id]));})),n={};t.forEach((e=>{e.id&&(n[e.id]=e);})),t.forEach((e=>{e._cache.parents.forEach((t=>{n.hasOwnProperty(t)&&n[t]._cache.children.push(e.id);}));})),e._cache.children=Object.keys(n);})(this.json),this}list(){return r(this.json)}fillDown(){var e;return e=this.json,r(e,((e,t)=>{t.props=f$1(t.props,e.props);})),this}depth(){u(this.json);let e=r(this.json),t=e.length>1?1:0;return e.forEach((e=>{if(0===e._cache.parents.length)return;let n=e._cache.parents.length+1;n>t&&(t=n);})),t}out(e){return u(this.json),d(this.json,e)}debug(){return u(this.json),d(this.json,"debug"),this}};const _=function(e){let t=s(e);return new g$1(t)};_.prototype.plugin=function(e){e(this);};
+  const e=function(e){return e.children=e.children||[],e._cache=e._cache||{},e.props=e.props||{},e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],e},t=/^ *(#|\/\/)/,n=function(t){let n=t.trim().split(/->/),r=[];n.forEach((t=>{r=r.concat(function(t){if(!(t=t.trim()))return null;if(/^\[/.test(t)&&/\]$/.test(t)){let n=(t=(t=t.replace(/^\[/,"")).replace(/\]$/,"")).split(/,/);return n=n.map((e=>e.trim())).filter((e=>e)),n=n.map((t=>e({id:t}))),n}return [e({id:t})]}(t));})),r=r.filter((e=>e));let i=r[0];for(let e=1;e<r.length;e+=1)i.children.push(r[e]),i=r[e];return r[0]},r=(e,t)=>{let n=[],r=[e];for(;r.length>0;){let e=r.pop();n.push(e),e.children&&e.children.forEach((n=>{t&&t(e,n),r.push(n);}));}return n},i=e=>"[object Array]"===Object.prototype.toString.call(e),c=e=>(e=e||"").trim(),s=function(c=[]){return "string"==typeof c?function(r){let i=r.split(/\r?\n/),c=[];i.forEach((e=>{if(!e.trim()||t.test(e))return;let r=(e=>{const t=/^( {2}|\t)/;let n=0;for(;t.test(e);)e=e.replace(t,""),n+=1;return n})(e);c.push({indent:r,node:n(e)});}));let s=function(e){let t={children:[]};return e.forEach(((n,r)=>{0===n.indent?t.children=t.children.concat(n.node):e[r-1]&&function(e,t){let n=e[t].indent;for(;t>=0;t-=1)if(e[t].indent<n)return e[t];return e[0]}(e,r).node.children.push(n.node);})),t}(c);return s=e(s),s}(c):i(c)?function(t){let n={};t.forEach((e=>{n[e.id]=e;}));let r=e({});return t.forEach((t=>{if((t=e(t)).parent)if(n.hasOwnProperty(t.parent)){let e=n[t.parent];delete t.parent,e.children.push(t);}else console.warn(`[Grad] - missing node '${t.parent}'`);else r.children.push(t);})),r}(c):(r(s=c).forEach(e),s);var s;},h=e=>"[31m"+e+"[0m",o=e=>"[2m"+e+"[0m",l=function(e,t){let n="-> ";t&&(n=o("→ "));let i="";return r(e).forEach(((e,r)=>{let c=e.id||"";if(t&&(c=h(c)),0===r&&!e.id)return;let s=e._cache.parents.length;i+="    ".repeat(s)+n+c+"\n";})),i},a=function(e){let t=r(e);t.forEach((e=>{delete(e=Object.assign({},e)).children;}));let n=t[0];return n&&!n.id&&0===Object.keys(n.props).length&&t.shift(),t},p={text:l,txt:l,array:a,flat:a},d=function(e,t){return "nested"===t||"json"===t?e:"debug"===t?(console.log(l(e,true)),null):p.hasOwnProperty(t)?p[t](e):e},u=e=>{r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],t._cache.parents=e._cache.parents.concat([e.id]));}));},f$1=(e,t)=>(Object.keys(t).forEach((n=>{if(t[n]instanceof Set){let r=e[n]||new Set;e[n]=new Set([...r,...t[n]]);}else {if((e=>e&&"object"==typeof e&&!Array.isArray(e))(t[n])){let r=e[n]||{};e[n]=Object.assign({},t[n],r);}else i(t[n])?e[n]=t[n].concat(e[n]||[]):void 0===e[n]&&(e[n]=t[n]);}})),e),j=/\//;let g$1 = class g{constructor(e={}){Object.defineProperty(this,"json",{enumerable:false,value:e,writable:true});}get children(){return this.json.children}get id(){return this.json.id}get found(){return this.json.id||this.json.children.length>0}props(e={}){let t=this.json.props||{};return "string"==typeof e&&(t[e]=true),this.json.props=Object.assign(t,e),this}get(t){if(t=c(t),!j.test(t)){let e=this.json.children.find((e=>e.id===t));return new g(e)}let n=((e,t)=>{let n=(e=>"string"!=typeof e?e:(e=e.replace(/^\//,"")).split(/\//))(t=t||"");for(let t=0;t<n.length;t+=1){let r=e.children.find((e=>e.id===n[t]));if(!r)return null;e=r;}return e})(this.json,t)||e({});return new g(n)}add(t,n={}){if(i(t))return t.forEach((e=>this.add(c(e),n))),this;t=c(t);let r=e({id:t,props:n});return this.json.children.push(r),new g(r)}remove(e){return e=c(e),this.json.children=this.json.children.filter((t=>t.id!==e)),this}nodes(){return r(this.json).map((e=>(delete(e=Object.assign({},e)).children,e)))}cache(){return (e=>{let t=r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],t._cache.parents=e._cache.parents.concat([e.id]));})),n={};t.forEach((e=>{e.id&&(n[e.id]=e);})),t.forEach((e=>{e._cache.parents.forEach((t=>{n.hasOwnProperty(t)&&n[t]._cache.children.push(e.id);}));})),e._cache.children=Object.keys(n);})(this.json),this}list(){return r(this.json)}fillDown(){var e;return e=this.json,r(e,((e,t)=>{t.props=f$1(t.props,e.props);})),this}depth(){u(this.json);let e=r(this.json),t=e.length>1?1:0;return e.forEach((e=>{if(0===e._cache.parents.length)return;let n=e._cache.parents.length+1;n>t&&(t=n);})),t}out(e){return u(this.json),d(this.json,e)}debug(){return u(this.json),d(this.json,"debug"),this}};const _=function(e){let t=s(e);return new g$1(t)};_.prototype.plugin=function(e){e(this);};
 
   // i just made these up
   const colors = {
@@ -6285,24 +6349,22 @@
     Adverb: 'cyan',
   };
 
-  var colors$1 = colors;
-
   const getColor = function (node) {
-    if (colors$1.hasOwnProperty(node.id)) {
-      return colors$1[node.id]
+    if (colors.hasOwnProperty(node.id)) {
+      return colors[node.id]
     }
-    if (colors$1.hasOwnProperty(node.is)) {
-      return colors$1[node.is]
+    if (colors.hasOwnProperty(node.is)) {
+      return colors[node.is]
     }
-    let found = node._cache.parents.find(c => colors$1[c]);
-    return colors$1[found]
+    const found = node._cache.parents.find(c => colors[c]);
+    return colors[found]
   };
 
   // convert tags to our final format
   const fmt = function (nodes) {
     const res = {};
     nodes.forEach(node => {
-      let { not, also, is, novel } = node.props;
+      const { not, also, is, novel } = node.props;
       let parents = node._cache.parents;
       if (also) {
         parents = parents.concat(also);
@@ -6314,12 +6376,13 @@
         also,
         parents,
         children: node._cache.children,
-        color: getColor(node)
+        color: getColor(node),
+        alias: node.alias,
       };
     });
     // lastly, add all children of all nots
     Object.keys(res).forEach(k => {
-      let nots = new Set(res[k].not);
+      const nots = new Set(res[k].not);
       res[k].not.forEach(not => {
         if (res[not]) {
           res[not].children.forEach(tag => nots.add(tag));
@@ -6329,8 +6392,6 @@
     });
     return res
   };
-
-  var fmt$1 = fmt;
 
   const toArr = function (input) {
     if (!input) {
@@ -6380,7 +6441,7 @@
     // not links are bi-directional
     // add any incoming not tags
     Object.keys(tags).forEach(k => {
-      let nots = tags[k].not || [];
+      const nots = tags[k].not || [];
       nots.forEach(no => {
         if (tags[no] && tags[no].not) {
           tags[no].not.push(k);
@@ -6389,15 +6450,14 @@
     });
     return tags
   };
-  var validate$1 = validate;
 
   // 'fill-down' parent logic inference
-  const compute$2 = function (allTags) {
+  const compute$1 = function (allTags) {
     // setup graph-lib format
     const flatList = Object.keys(allTags).map(k => {
-      let o = allTags[k];
+      const o = allTags[k];
       const props = { not: new Set(o.not), also: o.also, is: o.is, novel: o.novel };
-      return { id: k, parent: o.is, props, children: [] }
+      return { id: k, parent: o.is, props, children: [], alias: o.alias }
     });
     const graph = _(flatList).cache().fillDown();
     return graph.out('array')
@@ -6416,24 +6476,23 @@
     if (Object.keys(already).length > 0) {
       tags = fromUser(tags);
     }
-    tags = validate$1(tags, already);
+    tags = validate(tags, already);
 
-    let allTags = Object.assign({}, already, tags);
+    const allTags = Object.assign({}, already, tags);
     // do some basic setting-up
     // 'fill-down' parent logic
-    const nodes = compute$2(allTags);
+    const nodes = compute$1(allTags);
     // convert it to our final format
-    const res = fmt$1(nodes);
+    const res = fmt(nodes);
     return res
   };
-  var addTags$2 = addTags$1;
 
   var methods$3 = {
     one: {
-      setTag: setTag$1,
-      unTag: unTag$1,
-      addTags: addTags$2,
-      canBe: canBe$1,
+      setTag,
+      unTag,
+      addTags: addTags$1,
+      canBe,
     },
   };
 
@@ -6447,7 +6506,7 @@
       if (!this.found || !input) {
         return this
       }
-      let terms = this.termList();
+      const terms = this.termList();
       if (terms.length === 0) {
         return this
       }
@@ -6476,7 +6535,7 @@
       if (!this.found || !input) {
         return this
       }
-      let terms = this.termList();
+      const terms = this.termList();
       if (terms.length === 0) {
         return this
       }
@@ -6485,7 +6544,7 @@
       if (verbose === true) {
         console.log(' -  ', input, reason || '');
       }
-      let tagSet = model.one.tagSet;
+      const tagSet = model.one.tagSet;
       if (isArray$1(input)) {
         input.forEach(tag => methods.one.unTag(terms, tag, tagSet));
       } else {
@@ -6499,9 +6558,9 @@
     /** return only the terms that can be this tag  */
     canBe: function (tag) {
       tag = tag.replace(/^#/, '');
-      let tagSet = this.model.one.tagSet;
-      let canBe = this.methods.one.canBe;
-      let nope = [];
+      const tagSet = this.model.one.tagSet;
+      const canBe = this.methods.one.canBe;
+      const nope = [];
       this.document.forEach((terms, n) => {
         terms.forEach((term, i) => {
           if (!canBe(term, tag, tagSet)) {
@@ -6509,23 +6568,21 @@
           }
         });
       });
-      let noDoc = this.update(nope);
+      const noDoc = this.update(nope);
       return this.difference(noDoc)
     },
   };
-  var tag$1 = fns;
 
   const tagAPI = function (View) {
-    Object.assign(View.prototype, tag$1);
+    Object.assign(View.prototype, fns);
   };
-  var api$c = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
     const { model, methods } = this.world();
     const tagSet = model.one.tagSet;
     const fn = methods.one.addTags;
-    let res = fn(tags, tagSet);
+    const res = fn(tags, tagSet);
     model.one.tagSet = res;
     return this
   };
@@ -6544,9 +6601,9 @@
         return -1
       }
       let kids = tagSet[a].children || [];
-      let aKids = kids.length;
+      const aKids = kids.length;
       kids = tagSet[b].children || [];
-      let bKids = kids.length;
+      const bKids = kids.length;
       return aKids - bKids
     });
     return tags
@@ -6557,22 +6614,21 @@
     const tagSet = world.model.one.tagSet;
     document.forEach(terms => {
       terms.forEach(term => {
-        let tags = Array.from(term.tags);
+        const tags = Array.from(term.tags);
         term.tagRank = sortByKids(tags, tagSet);
       });
     });
   };
-  var tagRank$1 = tagRank;
 
   var tag = {
     model: {
       one: { tagSet: {} }
     },
     compute: {
-      tagRank: tagRank$1
+      tagRank
     },
     methods: methods$3,
-    api: api$c,
+    api: tagAPI,
     lib: lib$1
   };
 
@@ -6584,12 +6640,12 @@
 
   // Start with a regex:
   const basicSplit = function (text) {
-    let all = [];
+    const all = [];
     //first, split by newline
-    let lines = text.split(newLine);
+    const lines = text.split(newLine);
     for (let i = 0; i < lines.length; i++) {
       //split by period, question-mark, and exclamation-mark
-      let arr = lines[i].split(initSplit);
+      const arr = lines[i].split(initSplit);
       for (let o = 0; o < arr.length; o++) {
         // merge 'foo' + '.'
         if (arr[o + 1] && splitsOnly.test(arr[o + 1]) === true) {
@@ -6603,15 +6659,14 @@
     }
     return all
   };
-  var simpleSplit = basicSplit;
 
   const hasLetter$1 = /[a-z0-9\u00C0-\u00FF\u00a9\u00ae\u2000-\u3300\ud000-\udfff]/i;
   const hasSomething$1 = /\S/;
 
   const notEmpty = function (splits) {
-    let chunks = [];
+    const chunks = [];
     for (let i = 0; i < splits.length; i++) {
-      let s = splits[i];
+      const s = splits[i];
       if (s === undefined || s === '') {
         continue
       }
@@ -6632,18 +6687,21 @@
     }
     return chunks
   };
-  var simpleMerge = notEmpty;
+
+  const hasNewline = function (c) {
+    return Boolean(c.match(/\n$/))
+  };
 
   //loop through these chunks, and join the non-sentence chunks back together..
   const smartMerge = function (chunks, world) {
     const isSentence = world.methods.one.tokenize.isSentence;
     const abbrevs = world.model.one.abbreviations || new Set();
 
-    let sentences = [];
+    const sentences = [];
     for (let i = 0; i < chunks.length; i++) {
-      let c = chunks[i];
+      const c = chunks[i];
       //should this chunk be combined with the next one?
-      if (chunks[i + 1] && isSentence(c, abbrevs) === false) {
+      if (chunks[i + 1] && !isSentence(c, abbrevs) && !hasNewline(c)) {
         chunks[i + 1] = c + (chunks[i + 1] || '');
       } else if (c && c.length > 0) {
         //this chunk is a proper sentence..
@@ -6653,12 +6711,11 @@
     }
     return sentences
   };
-  var smartMerge$1 = smartMerge;
 
   /* eslint-disable regexp/no-dupe-characters-character-class */
 
   // merge embedded quotes into 1 sentence
-  // like - 'he said "no!" and left.' 
+  // like - 'he said "no!" and left.'
   const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
 
   // don't support single-quotes for multi-sentences
@@ -6689,7 +6746,7 @@
     if (!str) {
       return false
     }
-    let m = str.match(closeQuote);
+    const m = str.match(closeQuote);
     if (m !== null && m.length === 1) {
       return true
     }
@@ -6699,11 +6756,11 @@
   // allow micro-sentences when inside a quotation, like:
   // the doc said "no sir. i will not beg" and walked away.
   const quoteMerge = function (splits) {
-    let arr = [];
+    const arr = [];
     for (let i = 0; i < splits.length; i += 1) {
-      let split = splits[i];
+      const split = splits[i];
       // do we have an open-quote and not a closed one?
-      let m = split.match(openQuote);
+      const m = split.match(openQuote);
       if (m !== null && m.length === 1) {
 
         // look at the next sentence for a closing quote,
@@ -6716,7 +6773,7 @@
         }
         // look at n+2 for a closing quote,
         if (closesQuote(splits[i + 2])) {
-          let toAdd = splits[i + 1] + splits[i + 2];// merge them all
+          const toAdd = splits[i + 1] + splits[i + 2];// merge them all
           //make sure it's not too-long
           if (toAdd.length < MAX_QUOTE) {
             splits[i] += toAdd;
@@ -6732,7 +6789,6 @@
     }
     return arr
   };
-  var quoteMerge$1 = quoteMerge;
 
   const MAX_LEN = 250;// ¯\_(ツ)_/¯
 
@@ -6741,14 +6797,14 @@
   const hasOpen = /\(/g;
   const hasClosed = /\)/g;
   const mergeParens = function (splits) {
-    let arr = [];
+    const arr = [];
     for (let i = 0; i < splits.length; i += 1) {
-      let split = splits[i];
-      let m = split.match(hasOpen);
+      const split = splits[i];
+      const m = split.match(hasOpen);
       if (m !== null && m.length === 1) {
         // look at next sentence, for closing parenthesis
         if (splits[i + 1] && splits[i + 1].length < MAX_LEN) {
-          let m2 = splits[i + 1].match(hasClosed);
+          const m2 = splits[i + 1].match(hasClosed);
           if (m2 !== null && m.length === 1 && !hasOpen.test(splits[i + 1])) {
             // merge in 2nd sentence
             splits[i] += splits[i + 1];
@@ -6763,7 +6819,6 @@
     }
     return arr
   };
-  var parensMerge = mergeParens;
 
   //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
   // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
@@ -6781,15 +6836,15 @@
     // cleanup unicode-spaces
     text = text.replace('\xa0', ' ');
     // First do a greedy-split..
-    let splits = simpleSplit(text);
+    const splits = basicSplit(text);
     // Filter-out the crap ones
-    let sentences = simpleMerge(splits);
+    let sentences = notEmpty(splits);
     //detection of non-sentence chunks:
-    sentences = smartMerge$1(sentences, world);
+    sentences = smartMerge(sentences, world);
     // allow 'he said "no sir." and left.'
-    sentences = quoteMerge$1(sentences);
+    sentences = quoteMerge(sentences);
     // allow 'i thought (no way!) and left.'
-    sentences = parensMerge(sentences);
+    sentences = mergeParens(sentences);
     //if we never got a sentence, return the given text
     if (sentences.length === 0) {
       return [text]
@@ -6797,7 +6852,7 @@
     //move whitespace to the ends of sentences, when possible
     //['hello',' world'] -> ['hello ','world']
     for (let i = 1; i < sentences.length; i += 1) {
-      let ws = sentences[i].match(startWhitespace);
+      const ws = sentences[i].match(startWhitespace);
       if (ws !== null) {
         sentences[i - 1] += ws[0];
         sentences[i] = sentences[i].replace(startWhitespace, '');
@@ -6805,10 +6860,9 @@
     }
     return sentences
   };
-  var splitSentences$1 = splitSentences;
 
   const hasHyphen = function (str, model) {
-    let parts = str.split(/[-–—]/);
+    const parts = str.split(/[-–—]/);
     if (parts.length <= 1) {
       return false
     }
@@ -6828,12 +6882,12 @@
       return false
     }
     //letter-number 'aug-20'
-    let reg = /^([a-z\u00C0-\u00FF`"'/]+)[-–—]([a-z0-9\u00C0-\u00FF].*)/i;
+    const reg = /^([a-z\u00C0-\u00FF`"'/]+)[-–—]([a-z0-9\u00C0-\u00FF].*)/i;
     if (reg.test(str) === true) {
       return true
     }
     //number-letter '20-aug'
-    let reg2 = /^[('"]?([0-9]{1,4})[-–—]([a-z\u00C0-\u00FF`"'/-]+[)'"]?$)/i;
+    const reg2 = /^[('"]?([0-9]{1,4})[-–—]([a-z\u00C0-\u00FF`"'/-]+[)'"]?$)/i;
     if (reg2.test(str) === true) {
       return true
     }
@@ -6841,11 +6895,11 @@
   };
 
   const splitHyphens = function (word) {
-    let arr = [];
+    const arr = [];
     //support multiple-hyphenated-terms
     const hyphens = word.split(/[-–—]/);
     let whichDash = '-';
-    let found = word.match(/[-–—]/);
+    const found = word.match(/[-–—]/);
     if (found && found[0]) {
       whichDash = found;
     }
@@ -6872,7 +6926,6 @@
     }
     return arr
   };
-  var combineRanges$1 = combineRanges;
 
   const isSlash = /\p{L} ?\/ ?\p{L}+$/u;
 
@@ -6887,7 +6940,6 @@
     }
     return arr
   };
-  var combineSlashes$1 = combineSlashes;
 
   const wordlike = /\S/;
   const isBoundary = /^[!?.]+$/;
@@ -6949,7 +7001,7 @@
     //greedy merge whitespace+arr to the right
     let carry = '';
     for (let i = 0; i < arr.length; i++) {
-      let word = arr[i];
+      const word = arr[i];
       //if it's more than a whitespace
       if (wordlike.test(word) === true && notWord.hasOwnProperty(word) === false && isBoundary.test(word) === false) {
         //put whitespace on end of previous term, if possible
@@ -6973,13 +7025,12 @@
       result[result.length - 1] += carry; //put it on the end
     }
     // combine 'one / two'
-    result = combineSlashes$1(result);
-    result = combineRanges$1(result);
+    result = combineSlashes(result);
+    result = combineRanges(result);
     // remove empty results
     result = result.filter(s => s);
     return result
   };
-  var splitTerms = splitWords;
 
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
 
@@ -6988,14 +7039,15 @@
   const isNumber = /[\p{Number}\p{Currency_Symbol}]/u;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const chillin = /[sn]['’]$/;
+  const isFullNumber = /^[(+\-]?\d+(th|st|nd|rd)?[)+\-]?$/;
 
   const normalizePunctuation = function (str, model) {
     // quick lookup for allowed pre/post punctuation
-    let { prePunctuation, postPunctuation, emoticons } = model.one;
+    const { prePunctuation, postPunctuation, emoticons } = model.one;
     let original = str;
     let pre = '';
     let post = '';
-    let chars = Array.from(str);
+    const chars = Array.from(str);
 
     // punctuation-only words, like '<3'
     if (emoticons.hasOwnProperty(str.trim())) {
@@ -7005,13 +7057,13 @@
     // pop any punctuation off of the start
     let len = chars.length;
     for (let i = 0; i < len; i += 1) {
-      let c = chars[0];
+      const c = chars[0];
       // keep any declared chars
       if (prePunctuation[c] === true) {
         continue//keep it
       }
       // keep '+' or '-' only before a number
-      if ((c === '+' || c === '-') && isNumber.test(chars[1])) {
+      if ((c === '+' || c === '-' || c === '(') && isFullNumber.test(str.trim())) {
         break//done
       }
       // '97 - year short-form
@@ -7029,7 +7081,7 @@
     // pop any punctuation off of the end
     len = chars.length;
     for (let i = 0; i < len; i += 1) {
-      let c = chars[chars.length - 1];
+      const c = chars[chars.length - 1];
       // keep any declared chars
       if (postPunctuation[c] === true) {
         continue//keep it
@@ -7045,6 +7097,10 @@
       //  keep s-apostrophe - "flanders'" or "chillin'"
       if (c === "'" && chillin.test(original) === true) {
         continue//keep it
+      }
+      // keep '+' or ')' only for a number like (800) or 500+
+      if ((c === '+' || c === ')') && isFullNumber.test(str.trim())) {
+        break//done
       }
       // punctuation
       post = chars.pop() + post;//keep going
@@ -7062,11 +7118,10 @@
     }
     return { str, pre, post }
   };
-  var tokenize$4 = normalizePunctuation;
 
   const parseTerm = (txt, model) => {
     // cleanup any punctuation as whitespace
-    let { str, pre, post } = tokenize$4(txt, model);
+    const { str, pre, post } = normalizePunctuation(txt, model);
     const parsed = {
       text: str,
       pre: pre,
@@ -7075,13 +7130,12 @@
     };
     return parsed
   };
-  var splitWhitespace = parseTerm;
 
   // 'Björk' to 'Bjork'.
   const killUnicode = function (str, world) {
     const unicode = world.model.one.unicode || {};
     str = str || '';
-    let chars = str.split('');
+    const chars = str.split('');
     chars.forEach((s, i) => {
       if (unicode[s]) {
         chars[i] = unicode[s];
@@ -7089,14 +7143,13 @@
     });
     return chars.join('')
   };
-  var killUnicode$1 = killUnicode;
 
   /** some basic operations on a string to reduce noise */
   const clean = function (str) {
     str = str || '';
     str = str.toLowerCase();
     str = str.trim();
-    let original = str;
+    const original = str;
     //punctuation
     str = str.replace(/[,;.!?]+$/, '');
     //coerce Unicode ellipses
@@ -7121,7 +7174,6 @@
     str = str.replace(/([0-9]),([0-9])/g, '$1$2');
     return str
   };
-  var cleanup = clean;
 
   // do acronyms need to be ASCII?  ... kind of?
   const periodAcronym$1 = /([A-Z]\.)+[A-Z]?,?$/;
@@ -7155,27 +7207,25 @@
     }
     return str
   };
-  var doAcronyms = doAcronym;
 
   const normalize = function (term, world) {
     const killUnicode = world.methods.one.killUnicode;
     // console.log(world.methods.one)
     let str = term.text || '';
-    str = cleanup(str);
+    str = clean(str);
     //(very) rough ASCII transliteration -  bjŏrk -> bjork
     str = killUnicode(str, world);
-    str = doAcronyms(str);
+    str = doAcronym(str);
     term.normal = str;
   };
-  var normal = normalize;
 
   // turn a string input into a 'document' json format
-  const parse$1 = function (input, world) {
+  const parse = function (input, world) {
     const { methods, model } = world;
     const { splitSentences, splitTerms, splitWhitespace } = methods.one.tokenize;
     input = input || '';
     // split into sentences
-    let sentences = splitSentences(input, world);
+    const sentences = splitSentences(input, world);
     // split into word objects
     input = sentences.map((txt) => {
       let terms = splitTerms(txt, model);
@@ -7183,13 +7233,12 @@
       terms = terms.map(t => splitWhitespace(t, model));
       // add normalized term format, always
       terms.forEach((t) => {
-        normal(t, world);
+        normalize(t, world);
       });
       return terms
     });
     return input
   };
-  var fromString = parse$1;
 
   const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
   const hasEllipse = /(?:\u2026|\.{2,}) *$/; // '...'
@@ -7215,9 +7264,9 @@
     if (hasEllipse.test(str) === true) {
       return false
     }
-    let txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
-    let words = txt.split(' ');
-    let lastWord = words[words.length - 1].toLowerCase();
+    const txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
+    const words = txt.split(' ');
+    const lastWord = words[words.length - 1].toLowerCase();
     // check for 'Mr.' (and not mr?)
     if (abbrevs.hasOwnProperty(lastWord) === true && hasPeriod.test(str) === true) {
       return false
@@ -7228,17 +7277,16 @@
     // }
     return true
   };
-  var isSentence$1 = isSentence;
 
   var methods$2 = {
     one: {
-      killUnicode: killUnicode$1,
+      killUnicode,
       tokenize: {
-        splitSentences: splitSentences$1,
-        isSentence: isSentence$1,
-        splitTerms,
-        splitWhitespace,
-        fromString,
+        splitSentences,
+        isSentence,
+        splitTerms: splitWords,
+        splitWhitespace: parseTerm,
+        fromString: parse,
       },
     },
   };
@@ -7250,9 +7298,8 @@
     'plz': 'please',
     'bein': 'being',
   };
-  var aliases$1 = aliases;
 
-  var misc$3 = [
+  var misc$2 = [
     'approx',
     'apt',
     'bc',
@@ -7471,8 +7518,8 @@
   ];
 
   // add our abbreviation list to our lexicon
-  let list = [
-    [misc$3],
+  const list = [
+    [misc$2],
     [units, 'Unit'],
     [nouns$2, 'Noun'],
     [honorifics, 'Honorific'],
@@ -7481,9 +7528,9 @@
     [places, 'Place'],
   ];
   // create key-val for sentence-tokenizer
-  let abbreviations = {};
+  const abbreviations = {};
   // add them to a future lexicon
-  let lexicon$1 = {};
+  const lexicon$1 = {};
 
   list.forEach(a => {
     a[0].forEach(w => {
@@ -7561,7 +7608,7 @@
   //approximate visual (not semantic or phonetic) relationship between unicode and ascii characters
   //http://en.wikipedia.org/wiki/List_of_Unicode_characters
   //https://docs.google.com/spreadsheet/ccc?key=0Ah46z755j7cVdFRDM1A2YVpwa1ZYWlpJM2pQZ003M0E
-  let compact$1 = {
+  const compact$1 = {
     '!': '¡',
     '?': '¿Ɂ',
     '"': '“”"❝❞',
@@ -7596,13 +7643,12 @@
     z: 'ŹźŻżŽžƵƶȤȥɀΖ',
   };
   //decompress data into two hashes
-  let unicode$2 = {};
+  const unicode$1 = {};
   Object.keys(compact$1).forEach(function (k) {
     compact$1[k].split('').forEach(function (s) {
-      unicode$2[s] = k;
+      unicode$1[s] = k;
     });
   });
-  var unicode$3 = unicode$2;
 
   // https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5Cp%7Bpunctuation%7D
 
@@ -7647,14 +7693,14 @@
 
   var model$3 = {
     one: {
-      aliases: aliases$1,
+      aliases,
       abbreviations,
       prefixes,
       suffixes: suffixes$1,
       prePunctuation,
       postPunctuation,
       lexicon: lexicon$1, //give this one forward
-      unicode: unicode$3,
+      unicode: unicode$1,
       emoticons
     },
   };
@@ -7666,7 +7712,7 @@
   // const hasApostrophe = /['’]s$/
 
   const addAliases = function (term, world) {
-    let str = term.normal || term.text || term.machine;
+    const str = term.normal || term.text || term.machine;
     const aliases = world.model.one.aliases;
     // lookup known aliases like '&'
     if (aliases.hasOwnProperty(str)) {
@@ -7675,7 +7721,7 @@
     }
     // support slashes as aliases
     if (hasSlash.test(str) && !hasDomain.test(str) && !isMath.test(str)) {
-      let arr = str.split(hasSlash);
+      const arr = str.split(hasSlash);
       // don't split urls and things
       if (arr.length <= 3) {
         arr.forEach(word => {
@@ -7695,7 +7741,6 @@
     // }
     return term
   };
-  var alias = addAliases;
 
   const hasDash = /^\p{Letter}+-\p{Letter}+$/u;
   // 'machine' is a normalized form that looses human-readability
@@ -7716,16 +7761,15 @@
       term.machine = str;
     }
   };
-  var machine = doMachine;
 
   // sort words by frequency
   const freq = function (view) {
-    let docs = view.docs;
-    let counts = {};
+    const docs = view.docs;
+    const counts = {};
     for (let i = 0; i < docs.length; i += 1) {
       for (let t = 0; t < docs[i].length; t += 1) {
-        let term = docs[i][t];
-        let word = term.machine || term.normal;
+        const term = docs[i][t];
+        const word = term.machine || term.normal;
         counts[word] = counts[word] || 0;
         counts[word] += 1;
       }
@@ -7733,22 +7777,21 @@
     // add counts on each term
     for (let i = 0; i < docs.length; i += 1) {
       for (let t = 0; t < docs[i].length; t += 1) {
-        let term = docs[i][t];
-        let word = term.machine || term.normal;
+        const term = docs[i][t];
+        const word = term.machine || term.normal;
         term.freq = counts[word];
       }
     }
   };
-  var freq$1 = freq;
 
   // get all character startings in doc
   const offset = function (view) {
     let elapsed = 0;
     let index = 0;
-    let docs = view.document; //start from the actual-top
+    const docs = view.document; //start from the actual-top
     for (let i = 0; i < docs.length; i += 1) {
       for (let t = 0; t < docs[i].length; t += 1) {
-        let term = docs[i][t];
+        const term = docs[i][t];
         term.offset = {
           index: index,
           start: elapsed + term.pre.length,
@@ -7760,13 +7803,10 @@
     }
   };
 
-
-  var offset$1 = offset;
-
   // cheat- add the document's pointer to the terms
   const index = function (view) {
     // console.log('reindex')
-    let document = view.document;
+    const document = view.document;
     for (let n = 0; n < document.length; n += 1) {
       for (let i = 0; i < document[n].length; i += 1) {
         document[n][i].index = [n, i];
@@ -7783,11 +7823,9 @@
     // }
   };
 
-  var index$1 = index;
-
   const wordCount = function (view) {
     let n = 0;
-    let docs = view.docs;
+    const docs = view.docs;
     for (let i = 0; i < docs.length; i += 1) {
       for (let t = 0; t < docs[i].length; t += 1) {
         if (docs[i][t].normal === '') {
@@ -7799,11 +7837,9 @@
     }
   };
 
-  var wordCount$1 = wordCount;
-
   // cheat-method for a quick loop
   const termLoop = function (view, fn) {
-    let docs = view.docs;
+    const docs = view.docs;
     for (let i = 0; i < docs.length; i += 1) {
       for (let t = 0; t < docs[i].length; t += 1) {
         fn(docs[i][t], view.world);
@@ -7812,18 +7848,17 @@
   };
 
   const methods$1 = {
-    alias: (view) => termLoop(view, alias),
-    machine: (view) => termLoop(view, machine),
-    normal: (view) => termLoop(view, normal),
-    freq: freq$1,
-    offset: offset$1,
-    index: index$1,
-    wordCount: wordCount$1,
+    alias: (view) => termLoop(view, addAliases),
+    machine: (view) => termLoop(view, doMachine),
+    normal: (view) => termLoop(view, normalize),
+    freq,
+    offset,
+    index,
+    wordCount,
   };
-  var compute$1 = methods$1;
 
-  var tokenize$3 = {
-    compute: compute$1,
+  var tokenize$2 = {
+    compute: methods$1,
     methods: methods$2,
     model: model$3,
     hooks: ['alias', 'machine', 'index', 'id'],
@@ -7849,15 +7884,15 @@
     if (docs.length === 0 || Object.keys(prefixes).length === 0) {
       return
     }
-    let lastPhrase = docs[docs.length - 1] || [];
-    let lastTerm = lastPhrase[lastPhrase.length - 1];
+    const lastPhrase = docs[docs.length - 1] || [];
+    const lastTerm = lastPhrase[lastPhrase.length - 1];
     // if we've already put whitespace, end.
     if (lastTerm.post) {
       return
     }
     // if we found something
     if (prefixes.hasOwnProperty(lastTerm.normal)) {
-      let found = prefixes[lastTerm.normal];
+      const found = prefixes[lastTerm.normal];
       // add full-word as an implicit result
       lastTerm.implicit = found;
       lastTerm.machine = found;
@@ -7877,8 +7912,8 @@
     if (docs.length === 0) {
       return this
     }
-    let lastPhrase = docs[docs.length - 1] || [];
-    let term = lastPhrase[lastPhrase.length - 1];
+    const lastPhrase = docs[docs.length - 1] || [];
+    const term = lastPhrase[lastPhrase.length - 1];
     if (term.typeahead === true && term.machine) {
       term.text = term.machine;
       term.normal = term.machine;
@@ -7886,16 +7921,15 @@
     return this
   };
 
-  const api$a = function (View) {
+  const api$5 = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$b = api$a;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
     let index = {};
-    let collisions = [];
-    let existing = world.prefixes || {};
+    const collisions = [];
+    const existing = world.prefixes || {};
     arr.forEach((str) => {
       str = str.toLowerCase().trim();
       let max = str.length;
@@ -7903,7 +7937,7 @@
         max = opts.max;
       }
       for (let size = opts.min; size < max; size += 1) {
-        let prefix = str.substring(0, size);
+        const prefix = str.substring(0, size);
         // ensure prefix is not a word
         if (opts.safe && world.model.one.lexicon.hasOwnProperty(prefix)) {
           continue
@@ -7929,8 +7963,6 @@
     return index
   };
 
-  var allPrefixes = getPrefixes;
-
   const isObject = val => {
     return Object.prototype.toString.call(val) === '[object Object]'
   };
@@ -7941,13 +7973,13 @@
   };
 
   const prepare = function (words = [], opts = {}) {
-    let model = this.model();
+    const model = this.model();
     opts = Object.assign({}, defaults, opts);
     if (isObject(words)) {
       Object.assign(model.one.lexicon, words);
       words = Object.keys(words);
     }
-    let prefixes = allPrefixes(words, opts, this.world());
+    const prefixes = getPrefixes(words, opts, this.world());
     // manually combine these with any existing prefixes
     Object.keys(prefixes).forEach(str => {
       // explode any overlaps
@@ -7971,26 +8003,26 @@
   };
   var typeahead = {
     model: model$2,
-    api: api$b,
+    api: api$5,
     lib,
     compute,
     hooks: ['typeahead']
   };
 
   // order here matters
-  nlp$1.extend(change); //0kb
-  nlp$1.extend(output); //0kb
-  nlp$1.extend(match); //10kb
-  nlp$1.extend(pointers); //2kb
-  nlp$1.extend(tag); //2kb
-  nlp$1.plugin(contractions$2); //~6kb
-  nlp$1.extend(tokenize$3); //7kb
-  nlp$1.extend(freeze); //
-  nlp$1.plugin(cache$1); //~1kb
-  nlp$1.extend(lookup); //7kb
-  nlp$1.extend(typeahead); //1kb
-  nlp$1.extend(lexicon$2); //1kb
-  nlp$1.extend(sweep); //1kb
+  nlp.extend(change); //0kb
+  nlp.extend(output); //0kb
+  nlp.extend(match); //10kb
+  nlp.extend(pointers); //2kb
+  nlp.extend(tag); //2kb
+  nlp.plugin(plugin); //~6kb
+  nlp.extend(tokenize$2); //7kb
+  nlp.extend(freeze); //
+  nlp.plugin(cache$1); //~1kb
+  nlp.extend(lookup); //7kb
+  nlp.extend(typeahead); //1kb
+  nlp.extend(lexicon$2); //1kb
+  nlp.extend(sweep); //1kb
 
   //a hugely-ignorant, and widely subjective transliteration of latin, cryllic, greek unicode characters to english ascii.
   //approximate visual (not semantic or phonetic) relationship between unicode and ascii characters
@@ -8040,7 +8072,6 @@
       unicode[s] = k;
     });
   });
-  var unicode$1 = unicode;
 
   var contractions$1 = [
     { word: `c'è`, out: ['ci', 'è'] },
@@ -8073,9 +8104,9 @@
     { before: 'dall', out: ['da', 'l'] },
   ];
 
-  var tokenize$2 = {
+  var tokenize$1 = {
     mutate: (world) => {
-      world.model.one.unicode = unicode$1;
+      world.model.one.unicode = unicode;
 
       world.model.one.contractions = contractions$1;
 
@@ -8084,7 +8115,7 @@
     }
   };
 
-  var version = '0.2.2';
+  var version = '0.3.0';
 
   // 01- full-word exceptions
   const checkEx = function (str, ex = {}) {
@@ -8143,7 +8174,6 @@
     out = out || str;
     return out
   };
-  var convert$1 = convert;
 
   const flipObj = function (obj) {
     return Object.entries(obj).reduce((h, a) => {
@@ -8162,7 +8192,6 @@
       fwd: model.rev || {}
     }
   };
-  var reverse$1 = reverse;
 
   const prefix$1 = /^([0-9]+)/;
 
@@ -8208,16 +8237,15 @@
     model.ex = unpackOne(model.ex || '');
     return model
   };
-  var uncompress$1 = uncompress;
 
   // generated in ./lib/models
   var model$1 = {
     "nouns": {
       "plural": {
-        "fwd": "1:io¦2:si¦i:e¦1i:to,no,zo,so,do,lo,bo,ta,mo,ro,ma,po,uo,os,oo¦2hi:cco,sco,rco,uco,uca¦2e:nta¦3i:nico,fico,pico,naco",
-        "both": "1:è,à¦4e:scita¦4hi:arico,ilogo,alogo¦4i:iatra,ichio,golio,tolio¦4s:ware¦4ini:luomo¦3e:nata,uota,tima,luta,mata,lata,orma,dita,tata,esta,rata,osta¦3he:asca¦3i:daco,nvio,enio,maco,ttio,vvio,mico,sico,iaco¦3hi:uogo,gogo¦3s:gan,age¦2e:ggia,lla,ola,lta,tta,rta¦2he:nca,ica,cca,ega¦2hi:ngo,ego,oco,igo,lco,nco,rgo¦2s:et¦2i:ogo¦1e:sa,na,ea,ua,va,da,ra,za,pa¦1i:ko,eo,fo,vo¦1en:man¦1s:r",
-        "rev": "1:r,m¦3:oto¦:s¦a:he¦1o:ii¦1a:te,me,be,ie¦1ia:ce¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,smi,uti,lbi,tmi,rni,oli,eli,rpi,oghi,aghi,lti,gni,rri,nzi,achi,lzi,mpi,api,cri,iri,ldi,rsi,ppi,spi,cli,lpi,echi,ebi,lmi,ichi,obi,lsi,rli,zoi,aia¦2e:ori,oni,ali,roi,esi,epi¦2a:sti,mmi,gmi¦3o:gli,enti,cci,toi,acchi,muli,rini,nimi,nini,ondi,nci,lini,tini,meti,beri,ggi,etri,rodi,itri,tipi,izi,sini,unti,stri,timi,ntri,osti,visi,cini,bini,hini,simi,uini,usti,imbi,heri,onni,oschi,zini,lci,feri,sci,anni,reni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,aini,radi,eschi,uvi,uidi,igi,ieni,ropi,fori,arbi,embi,peti,cisi,vini,inti,nodi,moti,ozi,seni,veti,ugi,arzi,soi,ttri,erzi,ezi¦3e:anti,fari,ieri,podi,rili,lumi,seri,tumi,ceri,iedi,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti¦4o:ndini,uari,eatri,pasti,ratri,aleni,rredi,ggini,sensi,dromi,lischi,becchi,amini,oneri,dari,mmini,mbali,ofoni,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,sesti,vari,oqui,igoni,iocchi,barchi,ludi,onaci,anici,hermi,tadi,cnici,lagi,conti,forzi,pudi,andri,efoni¦4e:denti,larmi,ltari,ienti,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,rgini,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,isodi,patri,ncanti,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,igenti,ertici,agenti,mestri",
-        "ex": "2:re¦3:gru,bar,gas,agio,olio,ozio¦4:film,moto,foto,tram,auto,euro,astio,atrio,bacio,cesio,conio,cuoio,micio,palio,patio,podio,socio,tesi,oasi¦5:virtù,sport,radio,video,serie,moglie,adagio,avorio,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,nunzio,occhio,soffio,tornio,crisi¦6:cinema,specie,armadio,assedio,ausilio,biennio,cerchio,cimelio,cocchio,delirio,demanio,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,logorio,lunario,marchio,mucchio,muschio,ossario,raschio,rimedio,ringhio,rischio,salario,scoppio,secchio,sicario,sipario,teschio,ufficio,velario,vecchio¦7:autobus,archivio,auspicio,batterio,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,obitorio,orecchio,orologio,ossequio,petrolio,sacrario,silenzio,simposio,specchio,spicchio,suburbio,triennio,analisi,ipotesi¦8:computer,adulterio,auditorio,beneficio,breviario,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,glossario,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,papocchio,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,vituperio,brindisi¦9:superficie,avversario,corollario,crematorio,crocicchio,cronicario,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,ricettario,sgocciolio,sillabario,territorio¦10:ambulatorio,apparecchio,brefotrofio,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,presbiterio,promontorio,reliquiario,semicerchio,spauracchio,vocabolario¦11:anniversario,armamentario,comprensorio,governicchio,indirizzario,orfanatrofio,orfanotrofio,osservatorio,parabancario,scarabocchio¦12:bibliotecario¦14:poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario¦4i:addio,belga,bivio,iodio,oblio,sodio,tedio,vocio,greco,porco,abate,abete,acaro,apice,aroma,asilo,atomo,avere,baule,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,frate,gambo,germe,gesto,gnomo,greto,grido,grumo,guado,latte,libro,logos,mambo,manto,marmo,miele,monte,morbo,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,poema,poeta,ponte,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,sparo,sposo,suono,tasto,teste,topos,trono,tuono,utero,vanto,verbo,verme,morte,carne,notte,pelle,fonte,torre,corte,croce,legge,lente,madre¦7s:affaire,college,exploit¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco¦6hi:apologo,gerarca,intrico,monarca,pizzico,prologo,allocco,alterco,ammicco,balocco,cacicco,comasco,menisco,ritocco,sblocco,sceicco,tarocco¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,geometra,ludibrio,mormorio,plutonio,presidio,sussidio,thesaurus,tremolio,turbinio,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gendarme,giaguaro,giardino,girasole,glaucoma,immagine,impianto,levriero,luminare,lupanare,magliaro,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,paradiso,parmense,pezzente,pomodoro,pretesto,proclama,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,televoto,titolare,torneino,traffico,tramonto,visconte,qualcuno,chiunque,arachide,rotolare,template¦9hi:arcipelago,supermarco,videodisco¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,scandaglio,scintillio,sfarfallio,trentennio,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,risciacquo,soprannome,superteste,tangentaro,tecnocrate,teleutente,ultrasuono,vacanziero,ventunenne,strisciare¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,scriba,medico,affido,agrume,alloro,alluce,altero,alunno,ascaro,asceta,atleta,automa,bavero,bolero,bolide,budino,bufalo,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,enzima,esteta,fabbro,filtro,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,riparo,riposo,roseto,rudere,salame,sapere,schema,scialo,sciame,scisma,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,classe,estate,addome,chiave¦3hi:baco,caco,fico,lago,logo,rogo,sugo,arco,buco,duca,muco,orco¦8s:bailamme,commando,flamenco,pastiche,skinhead¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,abbuono,accenno,alveare,amuleto,arresto,autunno,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,epiteto,eremita,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,primate,profeta,profumo,pronome,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,sorriso,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,fornace,entrate,tornado,bussare,origine¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contrordine,imbarcadero,maggiordomo,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,rinoceronte,satellitare,caffellatte¦6s:barrio,charme,marine,pueblo,studio¦4ifondi:bassofondo¦4s:blog,byte,club,game,link,list,menu¦6a:braccio¦3i:brio,mago,odio,papa,trio,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,pene,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,riso,seme,seno,sole,tema,tino,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,viso,voce,voto,base,rete,pace,nave,luce,noce,fase,cose,sede,arma¦2oi:bue¦9s:campesino,videogame¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,pesticida,principio,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,borgataro,burocrate,campanaro,campanile,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,individuo,interesse,israelita,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,orizzonte,orologino,palombaro,pataccaro,pescecane,pistolero,posticipo,prosieguo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,tassinaro,trapianto,sottaceto,dinosauro,abitudine¦8a:continuum,ginocchio,centinaio¦5hi:copeco,macaco,spreco,valico,blocco,bricco,brocco,chicco,eunuco,fiasco,gnocco,sbocco¦4ora:corpus¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦4hi:drago,giogo,plico,sfogo,spago,svago,volgo,becco,bruco,casco,circo,disco,picco,succo,varco,parco¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,oligarca,ombelico,stratega,tricheco,granduca,mollusco,prosecco,rintocco,scirocco¦5s:macho,peone,ratio,score¦3a:osso,uovo,dito,paio¦8hi:patriarca,solletico,strascico,tarassaco,transfuga,alambicco,asterisco,autoparco¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦6es:sketch¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦2i:zio,ala,ano,duo,oro,uno,ape,pro¦4he:barca,marca,droga,pesca,mosca,targa¦11a:sopracciglio¦3e:asta,fata,vita,erba,nota,cima,mela¦5e:carota,moneta,caduta,visita,frusta,storia,arancia,figlia,foglia,maglia,matita¦9he:biblioteca¦5a:labbro¦4e:mamma,trama,vista,anima,dieta,gemma,lista,palma,gamma,somma,firma,sedia,gamba,faccia,bugia¦6he:ricerca,stringa¦6e:lacrima,disputa,tariffa,rivista,camicia,valigia,energia¦7e:avanzata,salsiccia,farmacia,famiglia¦3he:fuga,paga,riga,alga¦2he:oca¦9e:intervista¦4li:tempio¦10e:passeggiata¦8e:bottiglia¦2e:via,zia¦7a:migliaio¦13i:chemioterapico,superburocrate,superministero¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente"
+        "fwd": "1:io¦i:e,a¦1i:to,no,zo,so,lo,bo,do,vo,mo,ro,po,uo,os,oo¦1e:na¦2hi:cco,sco,rco,uco,eco,ego,uca,rca,cca¦3i:mico,fico,nico,naco,pico¦3hi:rica¦4hi:arico",
+        "both": "1:à¦4i:ichio,golio,tolio¦4s:ware¦4ini:luomo¦4hi:ilogo,alogo¦3e:stra¦3hi:mica,uogo,gogo¦3i:daco,nvio,enio,maco,ttio,vvio,sico,iaco¦3s:gan,age¦2e:dia,era,lla,tia,rra¦2hi:ngo,oco,igo,lco,nco,rgo¦2s:et¦2i:ogo¦1e:sa,cia¦1i:ko,eo,fo¦1s:r¦1en:man",
+        "rev": "1:t¦:s¦a:he¦1o:ii,ghi¦1a:te,ze,re,me,ve,ie,le¦2o:ati,zzi,ssi,rti,usi,ai,iti,rdi,lli,tti,bbi,ani,ivi,smi,lbi,tmi,evi,rni,oli,tri,rpi,lti,eli,ovi,gni,rri,isi,achi,lzi,mpi,api,cri,iri,rsi,ppi,rvi,spi,cli,lpi,ebi,lmi,obi,lsi,rli,zoi¦2e:ori,oni,ali,roi,esi¦2a:sti,mmi,gmi,ene,ine¦3o:gli,enti,cci,toi,acchi,muli,rini,nimi,nini,ondi,nci,lini,tini,meti,iuti,beri,ggi,unni,rodi,tipi,izi,sini,unti,buti,reni,uini,cini,bini,hini,simi,imbi,heri,onni,onzi,zini,lci,feri,sci,anni,meni,edri,iodi,azi,egi,fili,meri,ombi,andi,rci,pini,aini,eschi,nuti,uvi,bbri,igi,ieni,ropi,fori,arbi,embi,peti,cavi,vini,tuti,nodi,moti,ozi,seni,veti,lichi,arzi,soi,erzi,ezi,suti¦3e:anti,fari,ieri,podi,rili,lumi,seri,tumi,nili,ceri,iedi,tili,suli,nami,iumi,dici,gimi,oidi¦3a:temi,iomi,geti,ioti,loti,lemi,euti,enzi,turi,padi¦4o:ndini,uari,gosti,pasti,busti,emici,rredi,ggini,sensi,dromi,aleni,lischi,becchi,amini,oneri,gusti,dari,mmini,mbali,ofoni,pensi,adini,edini,umini,ttari,rucchi,lfini,sagi,sesti,vari,oqui,igoni,iocchi,manzi,barchi,ludi,onaci,anici,hermi,tadi,cnici,lagi,conti,fugi,forzi,pudi,andri,efoni¦4e:denti,larmi,ltari,ienti,rgini,gneri,ipoti,alici,ipiti,spiti,omani,nsoli,oteri,imini,ttami,eneri,arici,egami,nenti,renti,ileni,llami,ederi,uenni,rnici¦4a:nauti,lasmi,iatri,tezzi,formi,tradi,tanzi¦5o:quisti,fronti,gravi,atari,uguri,verbi,tiari,enari,ossidi,scopi,ifici,lavori,ilici,otteri,onari,pendi,cambi,istori,asteri,libri,ncanti,isodi,patri,icidi,osari,ocini,etari,fragi,nsieri,tenni,cuperi,orchi,andali¦5e:tefici,ttenti,igenti,ertici,agenti,mestri¦5a:oranzi,cletti",
+        "ex": "3:agio,ozio¦4:link,host,astio,atrio,bacio,cesio,conio,cuoio,micio,palio,patio,podio,socio¦5:retro,adagio,avorio,cambio,cappio,caprio,cranio,diario,elogio,erario,frocio,nunzio,occhio,soffio,tornio¦6:camion,armadio,assedio,ausilio,biennio,cerchio,cimelio,cocchio,delirio,demanio,eccidio,emporio,encomio,esempio,esordio,fischio,gasolio,geranio,graffio,idillio,indugio,logorio,lunario,marchio,mucchio,muschio,ossario,raschio,rimedio,ringhio,rischio,salario,scoppio,secchio,segugio,sicario,sipario,teschio,ufficio,velario¦7:account,archivio,auspicio,batterio,cifrario,concilio,connubio,contagio,criterio,crocchio,decennio,deuterio,dissidio,divorzio,epinicio,epitelio,falsario,fastidio,frasario,ginnasio,glucosio,granchio,incendio,inciucio,incrocio,intarsio,manubrio,marsupio,mercurio,obitorio,orecchio,orologio,ossequio,pertugio,petrolio,sacrario,silenzio,simposio,specchio,spicchio,suburbio,sussidio,triennio¦8:business,gioventù,adulterio,auditorio,beneficio,breviario,consorzio,coperchio,corridoio,desiderio,domicilio,epitaffio,esproprio,finocchio,genocidio,glossario,maleficio,malocchio,manicomio,millennio,monopolio,municipio,nevischio,nosocomio,obbrobrio,papocchio,pidocchio,primordio,putiferio,raddoppio,ranocchio,risparmio,risucchio,seminario,sterminio,tenutario,vaticinio,vituperio¦9:avversario,corollario,crematorio,crocicchio,cronicario,dignitario,dormitorio,formulario,impresario,improperio,infortunio,inventario,itinerario,lucernario,matrimonio,mattocchio,mercimonio,necrologio,notiziario,oligopolio,pandemonio,participio,patrimonio,pennacchio,predominio,purgatorio,reclusorio,refettorio,repertorio,ricettario,sgocciolio,sillabario,territorio¦10:ambulatorio,apparecchio,brefotrofio,colluttorio,commentario,commissario,comprimario,consultorio,dentifricio,depositario,dispensario,epistolario,falansterio,laboratorio,macchinario,marcantonio,mitocondrio,pastrocchio,pateracchio,presbiterio,promontorio,reliquiario,semicerchio,spauracchio,vocabolario¦11:anniversario,armamentario,comprensorio,governicchio,indirizzario,orfanatrofio,orfanotrofio,osservatorio,parabancario,scarabocchio¦12:bibliotecario¦14:poliambulatorio,vicecommissario¦15:antinfiammatorio,antiparassitario¦4i:addio,bivio,iodio,oblio,sodio,tedio,vocio,abate,abete,acaro,apice,aroma,asilo,atomo,avere,baule,belga,busto,canto,cenno,censo,cesto,chilo,clima,cloro,colle,conte,costo,dente,duomo,erede,esame,esodo,fasto,fauno,feudo,frate,fusto,gambo,germe,gesto,gnomo,grado,greto,grido,grumo,guado,gusto,latte,libro,logos,mambo,manto,manzo,marmo,miele,monte,morbo,mosto,nuoto,obice,omino,onere,ovulo,padre,pasto,pesce,poema,poeta,ponte,prete,reame,resto,rublo,scalo,scopo,scudo,senno,senso,serbo,siero,sisma,soldo,sparo,sposo,sputo,suono,tasto,teste,topos,trono,tuono,utero,vanto,verbo,verme,sfida,tenda,morte,porta,prova,mappa,carne,notte,corda,ombra,forma,pelle,fonte,forza,torre,retta,acqua,corte,croce,carta,tazza,crepa,droga,guida,dieta,stima,multa,paura,linea,legge,lente,pinta,quota,fetta,firma,punta,ruota¦7s:affaire,college,exploit¦10s:aficionado,carabinero,vaudeville¦2hi:ago,eco¦6hi:apologo,collega,intrico,pizzico,prologo,pratica,allocco,alterco,ammicco,balocco,cacicco,chiosco,comasco,gerarca,menisco,monarca,ritocco,sblocco,sceicco,tarocco,ricerca¦7i:arbitrio,asparago,carbonio,chierico,chirurgo,crepitio,duopolio,ludibrio,mormorio,plutonio,presidio,thesaurus,tremolio,turbinio,acrobata,aforisma,agronomo,alfabeto,amalgama,aneddoto,anticipo,antidoto,antigene,aruspice,baritono,belcanto,bestiame,bonifico,bulimico,cadavere,calamaro,carneade,catetere,cesenate,ciarpame,cilindro,cimitero,cinemino,clistere,collaudo,comodino,complice,conclave,confonto,dicembre,disguido,disturbo,espianto,fantasma,focolare,fogliame,frutteto,gendarme,geometra,giaguaro,giardino,girasole,glaucoma,immagine,impianto,levriero,luminare,lupanare,magliaro,mecenate,megafono,melanoma,mezzadro,minareto,monolite,negriero,neosposo,nonsense,novembre,oroscopo,ossigeno,ossimoro,paninaro,panorama,papavero,parmense,pezzente,pomodoro,pretesto,proclama,programa,protesto,pullmino,rammendo,responso,restauro,richiamo,ricovero,riordino,riquadro,schemino,schianto,sciopero,scorporo,scudiero,semitono,sentiero,sergente,serpente,servente,sfintere,sperpero,televoto,titolare,torneino,traffico,tramonto,visconte,bellezza,chiusura,crescita,mancanza,qualcuno,chiunque,alleanza,condotta,chiamata,arachide,rotolare,template¦9hi:arcipelago,biblioteca,reincarico,sottobosco,supermarco,videodisco¦9i:assassinio,condominio,panegirico,parlatorio,pronostico,scandaglio,scintillio,sfarfallio,trentennio,aeromobile,aminoacido,architrave,biliardino,cacciavite,camaleonte,camposanto,candelabro,capocomico,cataclisma,conversare,detergente,forestiero,gastronomo,interprete,ippopotamo,kilogrammo,masnadiero,mastodonte,metabolita,noccioleto,pachiderma,panchinaro,pianoforte,prestanome,problemino,quadrupede,rimprovero,risciacquo,soprannome,superteste,tangentaro,tecnocrate,teleutente,ultrasuono,vacanziero,ventunenne,coordinata,strisciare,rientranza,tonnellata¦5i:attico,brusio,esilio,leggio,pendio,prozio,ronzio,alcol,affido,agrume,alloro,alluce,altero,ascaro,asceta,atleta,attimo,automa,avanzo,batavo,bavero,bolero,bolide,budino,bufalo,caduto,camice,cateto,colono,crisma,cristo,cugino,curaro,danaro,decoro,dedalo,denaro,dinaro,dirupo,domino,dovere,druido,enzima,esteta,estimo,flauto,fluoro,fodero,fronte,fucile,genoma,grammo,gregge,guanto,impero,incubo,lavoro,legume,letame,limite,membro,metodo,miasma,milite,modulo,ordine,ossido,papero,parere,petalo,picaro,podere,polipo,pranzo,prisma,pugile,puparo,raduno,regalo,riarmo,ricamo,rifuto,riparo,riposo,roseto,rudere,salame,saluto,sapere,schema,scialo,sciame,scisma,scriba,sedile,sibilo,sigaro,siluro,sperma,squalo,stormo,stupro,talamo,temine,tesoro,timbro,torace,torero,trauma,ussaro,utente,veleno,ventre,vivero,volere,zigomo,svolta,classe,moneta,durata,flotta,pietra,estate,cialda,addome,valuta,figura,patata,statua,visita,quadro¦3hi:baco,caco,fico,lago,logo,rogo,sugo,anca,arco,buco,duca,muco,orco¦8s:bailamme,commando,flamenco,pastiche,skinhead¦6i:baltico,brillio,dominio,fruscio,mosaico,parroco,portico,titanio,villico,abbuono,accenno,alveare,amuleto,arresto,balsamo,benzene,bisonte,borsaro,brivido,buttero,calesse,calibro,canguro,canneto,cappero,cardine,carisma,carrubo,cascame,castoro,catasto,catrame,certame,cetnico,coagulo,cognome,compare,computo,concime,condono,confine,congedo,coniuge,consumo,cratere,culmine,dattero,decreto,degrado,deposto,despota,diacono,diadema,diploma,disarmo,divieto,dollaro,ematoma,epiteto,eremita,fibroma,filmino,fulmine,giubilo,glicine,globulo,gravame,incenso,incesto,innesto,insieme,istinto,lichene,linfoma,liquame,magiaro,magnate,maniero,marasma,martire,mastice,mistero,moldavo,neofita,nuraghe,orefice,oriundo,ottobre,ovocita,patrono,perdono,pettine,pianeta,pianoro,pigiama,pollice,polline,postero,presepe,primate,profeta,profumo,pronome,pulmino,rapsodo,reclamo,riesame,rincaro,rinculo,riserbo,scialle,scolaro,seguace,sintomo,sloveno,sofisma,soldino,succube,suocero,tamburo,tendine,teorema,termine,travaso,tribuno,tropico,turbine,vigneto,vortice,nascita,fornace,testata,perdita,entrate,rivolta,squadra,tornado,offerta,azienda,domanda,disputa,finanza,tariffa,bussare,origine,portata,riserva,stringa¦10i:barbiturico,quadriennio,quinquennio,camerunense,chiaroscuro,coefficente,condottiero,contrappeso,controcanto,controesodo,contrordine,imbarcadero,maggiordomo,metropolita,palazzinaro,palinsensto,parafulmine,policlinico,presupposto,rinoceronte,satellitare,alternativa,caffellatte,passeggiata¦6s:barrio,charme,marine,pueblo,studio¦4ifondi:bassofondo¦4s:blog,byte,club,film,game,list,menu¦3i:brio,mago,odio,olio,trio,paio,acme,anno,asse,baro,bene,calo,cane,caso,cero,ceto,cibo,coma,coro,cubo,culo,dado,doge,dono,ente,faro,feto,filo,foro,fumo,gene,goto,inno,lido,lino,lodo,lume,lupo,mare,maso,mimo,modo,moto,mulo,muro,naso,nodo,nome,nume,oboe,oste,otre,pane,papa,pene,pepe,pero,peso,peto,pino,pomo,poro,pube,pupo,ramo,remo,rene,seme,seno,sole,tema,tino,tomo,tono,topo,toro,tubo,vaso,vate,veto,vino,voce,voto,base,vita,rete,pace,foto,nave,area,mira,cura,fuga,erba,idea,luce,leva,lega,nota,noce,paga,pipa,fase,cose,riva,cima,sede,arma,onda¦2oi:bue¦9s:campesino,videogame¦3ibanda:capobanda¦3iclan:capoclan¦3icorrente:capocorrente¦3icosca:capocosca¦3idelegazione:capodelegazione¦3ifamiglia:capofamiglia¦3igabinetto:capogabinetto¦3imafia:capomafia¦3ipattuglia:capopattuglia¦3ipopolo:capopopolo¦3ireparto:caporeparto¦3iscuola:caposcuola¦3iservizio:caposervizio¦3isquadra:caposquadra¦3istazione:capostazione¦3istruttura:capostruttura¦3iufficio:capoufficio¦1m.:centimetro,kilometro,millimetri¦12i:cinquantennio,superalcolico,biancoceleste,diciannovenne,xenotrapianto¦8i:colloquio,gorgoglio,principio,sarcofago,scrutinio,settennio,sfavillio,tintinnio,abbandono,aborigeno,allergene,amanuense,ammontare,astronomo,autocrate,avamposto,borgataro,burocrate,campanaro,caposaldo,carattere,carcinoma,carnefice,collagene,condomino,contrasto,cromosoma,destriero,disavanzo,disordine,ditirambo,dividendo,estrogeno,frangente,frastuono,gelsomino,ghirigoro,grembiule,individuo,interesse,israelita,labirinto,magistero,metallaro,meteorite,metronomo,ministero,nocchiero,olocausto,orizzonte,orologino,palombaro,pataccaro,pescecane,pesticida,pistolero,posticipo,prosieguo,ravennate,reintegro,ricordino,ripetente,sacerdote,settembre,sistemino,sovracuto,tassinaro,trapianto,assemblea,sottaceto,sicurezza,debolezza,sconfitta,dinosauro,abitudine,etichetta,lunghezza,narrativa,procedura,rilevanza¦8a:continuum,ginocchio¦4ora:corpus¦1ei:dio¦12s:desaparecido¦5fondo:doppiofondo¦4hi:drago,giogo,plico,sfogo,spago,svago,volgo,vasca,mosca,becco,bosco,bruco,casco,circo,disco,picco,succo,varco,bocca¦11i:guazzabuglio,quindicennio,scricchiolio,avventuriero,contrafforte,contribuente,festivaliero,guerrigliero,lungodegente,megaimpianto,nullafacente,palcoscenico,partitocrate,petrodollaro,progestinico,quadrilatero,superdollaro,ventiseienne,ventitreenne¦7hi:lombrico,monologo,naufrago,ombelico,stratega,politica,granduca,incarico,mollusco,oligarca,prosecco,ricarico,rintocco,scirocco,tricheco,fabbrica,bistecca¦5hi:macaco,valico,musica,blocco,bricco,brocco,chicco,copeco,eunuco,fiasco,gnocco,sbocco,spreco,giacca,carica,clicca¦5s:macho,peone,ratio,score¦4iviri:proboviro¦4icrociati:scudocrociato¦5ei:semidio¦6es:sketch¦8hi:solletico,strascico,tarassaco,transfuga,alambicco,asterisco,autoparco,patriarca,rammarico,discarica¦8ini:superuomo¦5idanza:teatrodanza¦3ini:uomo¦7igruppo:vicecapogruppo¦3l.:volumi¦4era:vulnus¦4ies:yuppy¦2i:zio,ano,avo,duo,evo,oro,uno,ala,ape,pro¦5e:scarpa,carota,anatra,misura,usanza,lingua,foglia,nuvola,pianta,pioggia,regola,scelta¦4e:torta,capra,trama,stiva,bugia,gamba¦4he:barca,tasca,pesca¦11a:sopracciglio¦9e:bancarotta¦6e:bevanda,vendita,lacrima,vacanza,verdura,rivista,recluta,fermata,vittima,cellula,costola,scimmia¦8e:sigaretta,frequenza,inchiesta¦7e:carrozza,insalata,tempesta,sostanza,avanzata,impronta,speranza,cravatta,ferrovia,molecola,montagna¦10e:uguaglianza,circostanza,aspettativa,prospettiva¦3e:fata¦13he:caratteristica¦2he:oca¦6he:tecnica,tattica¦13i:chemioterapico,superburocrate,superministero,consapevolezza¦15i:europarlamentare¦12hi:lanzichenecco¦11hi:streptococco¦14i:superconsulente"
       }
     },
     "adjectives": {
@@ -8497,7 +8525,7 @@
   // uncompress them
   Object.keys(model$1).forEach(k => {
     Object.keys(model$1[k]).forEach(form => {
-      model$1[k][form] = uncompress$1(model$1[k][form]);
+      model$1[k][form] = uncompress(model$1[k][form]);
     });
   });
 
@@ -11111,12 +11139,12 @@
       return res
     }
     return {
-      first: convert$1(str, m.first),
-      second: convert$1(str, m.second),
-      third: convert$1(str, m.third),
-      firstPlural: convert$1(str, m.firstPlural),
-      secondPlural: convert$1(str, m.secondPlural),
-      thirdPlural: convert$1(str, m.thirdPlural),
+      first: convert(str, m.first),
+      second: convert(str, m.second),
+      third: convert(str, m.third),
+      firstPlural: convert(str, m.firstPlural),
+      secondPlural: convert(str, m.secondPlural),
+      thirdPlural: convert(str, m.thirdPlural),
     }
   };
 
@@ -11172,11 +11200,11 @@
 
   let m$1 = {
     toGerund: gerunds.gerunds,
-    fromGerund: reverse$1(gerunds.gerunds),
+    fromGerund: reverse(gerunds.gerunds),
     toPastParticiple: pastParticiple.pastParticiple,
-    fromPastParticiple: reverse$1(pastParticiple.pastParticiple),
+    fromPastParticiple: reverse(pastParticiple.pastParticiple),
     toPresentParticiple: presentParticiple.presentParticiple,
-    fromPresentParticiple: reverse$1(presentParticiple.presentParticiple),
+    fromPresentParticiple: reverse(presentParticiple.presentParticiple),
   };
 
   // irregular participle/gerund lookups, in both directions
@@ -11210,31 +11238,31 @@
     if (fromGer.hasOwnProperty(str)) {
       return fromGer[str]
     }
-    return convert$1(str, m$1.fromGerund)
+    return convert(str, m$1.fromGerund)
   };
   const toGerund = function (str) {
     if (toGer.hasOwnProperty(str)) {
       return toGer[str]
     }
-    return convert$1(str, m$1.toGerund)
+    return convert(str, m$1.toGerund)
   };
   const fromPastParticiple = function (str) {
     if (fromPP.hasOwnProperty(str)) {
       return fromPP[str]
     }
-    return convert$1(str, m$1.fromPastParticiple)
+    return convert(str, m$1.fromPastParticiple)
   };
   const toPastParticiple = function (str) {
     if (toPP.hasOwnProperty(str)) {
       return toPP[str]
     }
-    return convert$1(str, m$1.toPastParticiple)
+    return convert(str, m$1.toPastParticiple)
   };
   const fromPresentParticiple = function (str) {
-    return convert$1(str, m$1.fromPresentParticiple)
+    return convert(str, m$1.fromPresentParticiple)
   };
   const toPresentParticiple = function (str) {
-    return convert$1(str, m$1.toPresentParticiple)
+    return convert(str, m$1.toPresentParticiple)
   };
 
   let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model$1;
@@ -11242,7 +11270,7 @@
   // =-=-
   const revAll = function (m) {
     return Object.keys(m).reduce((h, k) => {
-      h[k] = reverse$1(m[k]);
+      h[k] = reverse(m[k]);
       return h
     }, {})
   };
@@ -11254,7 +11282,7 @@
   let imperfectRev = revAll(imperfect);
   let subjunctiveRev = revAll(subjunctive);
 
-  const stripSuffix$1 = function (str) {
+  const stripSuffix = function (str) {
     // reflexive forms
     // 'congratularmi' to 'congratular'
     str = str.replace(/ar[mtscv]i$/, 'are');
@@ -11270,96 +11298,100 @@
     str = str.replace(/er(lo|la|le|gli|eci)$/, 'ere');
     str = str.replace(/ar(lo|la|le|gli|eci)$/, 'are');
     str = str.replace(/ir(lo|la|le|gli|eci)$/, 'ire');
+    // combined clitics - 'studiarselo', 'andarsene'
+    str = str.replace(/([aei])r[mtscv]e(l[oaie]|ne)$/, '$1re');
+    // whole infinitive + pronoun - 'scriverele', 'diregli'
+    str = str.replace(/(are|ere|ire)(l[oaie]|ne|gli|ci|mi|ti|si|vi)$/, '$1');
     return str
   };
 
   const fromPresent = (str, form) => {
     let forms = {
-      FirstPerson: (s) => convert$1(s, presentRev.first),
-      SecondPerson: (s) => convert$1(s, presentRev.second),
-      ThirdPerson: (s) => convert$1(s, presentRev.third),
-      FirstPersonPlural: (s) => convert$1(s, presentRev.firstPlural),
-      SecondPersonPlural: (s) => convert$1(s, presentRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, presentRev.thirdPlural)
+      FirstPerson: (s) => convert(s, presentRev.first),
+      SecondPerson: (s) => convert(s, presentRev.second),
+      ThirdPerson: (s) => convert(s, presentRev.third),
+      FirstPersonPlural: (s) => convert(s, presentRev.firstPlural),
+      SecondPersonPlural: (s) => convert(s, presentRev.secondPlural),
+      ThirdPersonPlural: (s) => convert(s, presentRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripSuffix$1(str)
+    return stripSuffix(str)
   };
 
   const fromPast = (str, form) => {
     let forms = {
-      FirstPerson: (s) => convert$1(s, pastRev.first),
-      SecondPerson: (s) => convert$1(s, pastRev.second),
-      ThirdPerson: (s) => convert$1(s, pastRev.third),
-      FirstPersonPlural: (s) => convert$1(s, pastRev.firstPlural),
-      SecondPersonPlural: (s) => convert$1(s, pastRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, pastRev.thirdPlural)
+      FirstPerson: (s) => convert(s, pastRev.first),
+      SecondPerson: (s) => convert(s, pastRev.second),
+      ThirdPerson: (s) => convert(s, pastRev.third),
+      FirstPersonPlural: (s) => convert(s, pastRev.firstPlural),
+      SecondPersonPlural: (s) => convert(s, pastRev.secondPlural),
+      ThirdPersonPlural: (s) => convert(s, pastRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripSuffix$1(str)
+    return stripSuffix(str)
   };
 
   const fromFuture = (str, form) => {
     let forms = {
-      FirstPerson: (s) => convert$1(s, futureRev.first),
-      SecondPerson: (s) => convert$1(s, futureRev.second),
-      ThirdPerson: (s) => convert$1(s, futureRev.third),
-      FirstPersonPlural: (s) => convert$1(s, futureRev.firstPlural),
-      SecondPersonPlural: (s) => convert$1(s, futureRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, futureRev.thirdPlural)
+      FirstPerson: (s) => convert(s, futureRev.first),
+      SecondPerson: (s) => convert(s, futureRev.second),
+      ThirdPerson: (s) => convert(s, futureRev.third),
+      FirstPersonPlural: (s) => convert(s, futureRev.firstPlural),
+      SecondPersonPlural: (s) => convert(s, futureRev.secondPlural),
+      ThirdPersonPlural: (s) => convert(s, futureRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripSuffix$1(str)
+    return stripSuffix(str)
   };
 
   const fromConditional = (str, form) => {
     let forms = {
-      FirstPerson: (s) => convert$1(s, conditionalRev.first),
-      SecondPerson: (s) => convert$1(s, conditionalRev.second),
-      ThirdPerson: (s) => convert$1(s, conditionalRev.third),
-      FirstPersonPlural: (s) => convert$1(s, conditionalRev.firstPlural),
-      SecondPersonPlural: (s) => convert$1(s, conditionalRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, conditionalRev.thirdPlural)
+      FirstPerson: (s) => convert(s, conditionalRev.first),
+      SecondPerson: (s) => convert(s, conditionalRev.second),
+      ThirdPerson: (s) => convert(s, conditionalRev.third),
+      FirstPersonPlural: (s) => convert(s, conditionalRev.firstPlural),
+      SecondPersonPlural: (s) => convert(s, conditionalRev.secondPlural),
+      ThirdPersonPlural: (s) => convert(s, conditionalRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripSuffix$1(str)
+    return stripSuffix(str)
   };
   const fromImperfect = (str, form) => {
     let forms = {
-      FirstPerson: (s) => convert$1(s, imperfectRev.first),
-      SecondPerson: (s) => convert$1(s, imperfectRev.second),
-      ThirdPerson: (s) => convert$1(s, imperfectRev.third),
-      FirstPersonPlural: (s) => convert$1(s, imperfectRev.firstPlural),
-      SecondPersonPlural: (s) => convert$1(s, imperfectRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, imperfectRev.thirdPlural)
+      FirstPerson: (s) => convert(s, imperfectRev.first),
+      SecondPerson: (s) => convert(s, imperfectRev.second),
+      ThirdPerson: (s) => convert(s, imperfectRev.third),
+      FirstPersonPlural: (s) => convert(s, imperfectRev.firstPlural),
+      SecondPersonPlural: (s) => convert(s, imperfectRev.secondPlural),
+      ThirdPersonPlural: (s) => convert(s, imperfectRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripSuffix$1(str)
+    return stripSuffix(str)
   };
 
   const fromSubjunctive = (str, form) => {
     let forms = {
-      FirstPerson: (s) => convert$1(s, subjunctiveRev.first),
-      SecondPerson: (s) => convert$1(s, subjunctiveRev.second),
-      ThirdPerson: (s) => convert$1(s, subjunctiveRev.third),
-      FirstPersonPlural: (s) => convert$1(s, subjunctiveRev.firstPlural),
-      SecondPersonPlural: (s) => convert$1(s, subjunctiveRev.secondPlural),
-      ThirdPersonPlural: (s) => convert$1(s, subjunctiveRev.thirdPlural)
+      FirstPerson: (s) => convert(s, subjunctiveRev.first),
+      SecondPerson: (s) => convert(s, subjunctiveRev.second),
+      ThirdPerson: (s) => convert(s, subjunctiveRev.third),
+      FirstPersonPlural: (s) => convert(s, subjunctiveRev.firstPlural),
+      SecondPersonPlural: (s) => convert(s, subjunctiveRev.secondPlural),
+      ThirdPersonPlural: (s) => convert(s, subjunctiveRev.thirdPlural)
     };
     if (forms.hasOwnProperty(form)) {
       return forms[form](str)
     }
-    return stripSuffix$1(str)
+    return stripSuffix(str)
   };
 
   const all$2 = function (str) {
@@ -11419,11 +11451,11 @@
 
   let { plural } = model$1.nouns;
 
-  const revPlural$1 = reverse$1(plural);
+  const revPlural$1 = reverse(plural);
 
-  const toPlural$1 = (str) => convert$1(str, plural);
+  const toPlural$1 = (str) => convert(str, plural);
 
-  const fromPlural$1 = (str) => convert$1(str, revPlural$1);
+  const fromPlural$1 = (str) => convert(str, revPlural$1);
 
   const all$1 = (str) => {
     let plur = toPlural$1(str);
@@ -11447,19 +11479,19 @@
 
   let { fs, mp, fp } = model$1.adjectives;
 
-  const revFemale = reverse$1(fs);
-  const revPlural = reverse$1(mp);
-  const revFemalePlural = reverse$1(fp);
+  const revFemale = reverse(fs);
+  const revPlural = reverse(mp);
+  const revFemalePlural = reverse(fp);
 
-  const toFemale = (str) => convert$1(str, fs);
-  const toPlural = (str) => convert$1(str, mp);
+  const toFemale = (str) => convert(str, fs);
+  const toPlural = (str) => convert(str, mp);
   // female-singular -> female-plural model ('bella' -> 'belle')
-  const toFemalePlural = (str) => convert$1(toFemale(str), fp);
+  const toFemalePlural = (str) => convert(toFemale(str), fp);
 
-  const fromFemale = (str) => convert$1(str, revFemale);
-  const fromPlural = (str) => convert$1(str, revPlural);
+  const fromFemale = (str) => convert(str, revFemale);
+  const fromPlural = (str) => convert(str, revPlural);
   // 'meravigliose' -> 'meraviglioso'
-  const fromFemalePlural = (str) => fromFemale(convert$1(str, revFemalePlural));
+  const fromFemalePlural = (str) => fromFemale(convert(str, revFemalePlural));
 
   const all = function (str) {
     let arr = [
@@ -11600,7 +11632,6 @@
     //remove from main node list
     t.nodes = t.nodes.slice(t.symCount, t.nodes.length);
   };
-  var parseSymbols = symbols;
 
   // References are either absolute (symbol) or relative (1 - based)
   const indexFromRef = function (trie, ref, index) {
@@ -11641,7 +11672,7 @@
   };
 
   //PackedTrie - Trie traversal of the Trie packed-string representation.
-  const unpack$2 = function (str) {
+  const unpack$1 = function (str) {
     const trie = {
       nodes: str.split(';'),
       syms: [],
@@ -11649,12 +11680,10 @@
     };
     //process symbols, if they have them
     if (str.match(':')) {
-      parseSymbols(trie);
+      symbols(trie);
     }
     return toArray$1(trie)
   };
-
-  var traverse = unpack$2;
 
   const unpack = function (str) {
     if (!str) {
@@ -11668,7 +11697,7 @@
     }, {});
     const all = {};
     Object.keys(obj).forEach(function (cat) {
-      const arr = traverse(obj[cat]);
+      const arr = unpack$1(obj[cat]);
       //special case, for botched-boolean
       if (cat === 'true') {
         cat = true;
@@ -11689,10 +11718,7 @@
     return all
   };
 
-  var unpack$1 = unpack;
-
   let misc$1 = {};
-  var misc$2 = misc$1;
 
   // import models from '../methods/models.js'
 
@@ -11777,7 +11803,7 @@
     return 0
   });
   tagList.forEach((tag) => {
-    let wordsObj = unpack$1(lexData[tag]);
+    let wordsObj = unpack(lexData[tag]);
     Object.keys(wordsObj).forEach((w) => {
       // merge, so a word packed under two tags keeps both (eg 'oggi' Date+Noun)
       if (words[w] === undefined) {
@@ -11829,10 +11855,7 @@
   //   })
   // })
 
-  words = Object.assign({}, words, misc$2);
-  // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
-  // console.log(words['dice'])
-  var words$1 = words;
+  words = Object.assign({}, words, misc$1);
 
   const verbForm = function (term) {
     let want = [
@@ -11874,6 +11897,8 @@
   });
   // 'sono' belongs to essere, not stare/etc
   irregularRoots['sono'] = 'essere';
+  // archaic long infinitive - 'beverlo'
+  irregularRoots['bevere'] = 'bere';
   // participles of otherwise-regular verbs
   Object.keys(irregular.participles).forEach((inf) => {
     let pp = irregular.participles[inf];
@@ -11903,6 +11928,10 @@
     str = str.replace(/er(lo|la|le|gli|eci)$/, 'ere');
     str = str.replace(/ar(lo|la|le|gli|eci)$/, 'are');
     str = str.replace(/ir(lo|la|le|gli|eci)$/, 'ire');
+    // combined clitics - 'studiarselo', 'andarsene'
+    str = str.replace(/([aei])r[mtscv]e(l[oaie]|ne)$/, '$1re');
+    // whole infinitive + pronoun - 'scriverele', 'diregli'
+    str = str.replace(/(are|ere|ire)(l[oaie]|ne|gli|ci|mi|ti|si|vi)$/, '$1');
     return str
   };
 
@@ -11917,7 +11946,7 @@
       terms.forEach((term) => {
         let str = term.implicit || term.normal || term.text;
         if (term.tags.has('Reflexive')) {
-          str = stripSuffix(str);
+          str = stripReflexive(str);
         }
         // get infinitive form of the verb
         if (term.tags.has('Verb')) {
@@ -11925,8 +11954,9 @@
           if (irregularRoots.hasOwnProperty(str)) {
             term.root = irregularRoots[str];
           } else if (term.tags.has('Infinitive')) {
-            // an infinitive is already its own root
-            term.root = str;
+            // an infinitive may carry a pronoun suffix - 'vederlo'
+            let inf = stripReflexive(str);
+            term.root = irregularRoots.hasOwnProperty(inf) ? irregularRoots[inf] : inf;
           } else if (term.tags.has('Gerund')) {
             term.root = verb.fromGerund(str, form);
           } else if (term.tags.has('ConditionalVerb')) {
@@ -11975,7 +12005,6 @@
     });
     return view
   };
-  var root$1 = root;
 
   var lexicon = {
     methods: {
@@ -11983,14 +12012,14 @@
         transform: methods,
       }
     },
-    words: words$1,
+    words,
     // model: {
     //   one: {
     //     lexicon: words
     //   }
     // },
     compute: {
-      root: root$1
+      root: root
     }
   };
 
@@ -12424,7 +12453,6 @@
     }
     return null
   };
-  var checkRegex$1 = checkRegex;
 
   const isTitleCase = function (str) {
     return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
@@ -12446,7 +12474,6 @@
       setTag([term], 'Noun', world, false, `1-titlecase`);
     }
   };
-  var titleCase = titleCaseNoun;
 
   const min = 1400;
   const max = 2100;
@@ -12501,7 +12528,6 @@
     }
     return null
   };
-  var checkYear = tagYear;
 
   const oneLetterAcronym = /^[A-ZÄÖÜ]('s|,)?$/;
   const isUpperCase = /^[A-Z-ÄÖÜ]+$/;
@@ -12582,7 +12608,6 @@
     }
     return null
   };
-  var acronym = isAcronym;
 
   // auxiliary word-forms (essere/avere/stare) - the Auxiliary tag itself
   // is only applied by the postTagger, which runs after this pass
@@ -12615,10 +12640,9 @@
       setTag([term], 'Noun', world, false, '2-fallback');
     }
   };
-  var fallback$1 = fallback;
 
   //sweep-through all suffixes
-  const suffixLoop$2 = function (str = '', suffixes = []) {
+  const suffixLoop$1 = function (str = '', suffixes = []) {
     const len = str.length;
     let max = 7;
     if (len <= max) {
@@ -12640,7 +12664,7 @@
     let suffixes = world.model.two.suffixPatterns;
     let term = terms[i];
     if (term.tags.size === 0) {
-      let tag = suffixLoop$2(term.normal, suffixes);
+      let tag = suffixLoop$1(term.normal, suffixes);
       if (tag !== null) {
         setTag([term], tag, world, false, '2-suffix');
         term.confidence = 0.7;
@@ -12648,7 +12672,7 @@
       }
       // try implicit form of word, too
       if (term.implicit) {
-        tag = suffixLoop$2(term.implicit, suffixes);
+        tag = suffixLoop$1(term.implicit, suffixes);
         if (tag !== null) {
           setTag([term], tag, world, false, '2-implicit-suffix');
           term.confidence = 0.7;
@@ -12658,7 +12682,6 @@
     }
     return null
   };
-  var suffixCheck$1 = suffixCheck;
 
   // runs before the suffix-lookup, which is too coarse for these
   // infinitive with attached clitic - 'scriverlo', 'fissarla'
@@ -12702,7 +12725,6 @@
     }
     return null
   };
-  var verbLike$1 = verbLike;
 
   //sweep-through all suffixes
   const suffixLoop = function (str = '', suffixes = []) {
@@ -12720,8 +12742,6 @@
     }
     return null
   };
-
-  var suffixLoop$1 = suffixLoop;
 
   const f = 'FemaleNoun';
   const m = 'MaleNoun';
@@ -12808,13 +12828,12 @@
     let tags = term.tags;
     let str = term.normal || term.implicit || '';
     if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
-      let tag = suffixLoop$1(str, suffixes);
+      let tag = suffixLoop(str, suffixes);
       if (tag) {
         setTag([term], tag, world, false, '2-guess-gender');
       }
     }
   };
-  var guessNounGender = nounGender;
 
   //  -o  (masculine) ->  -i in the plural, 
   //  -a  (feminine), -> -e in the plural.
@@ -12843,7 +12862,6 @@
       }
     }
   };
-  var guessNounNumber = nounNumber;
 
   // str = str.replace(/o$/, 'i')//rosso->rossi
   // str = str.replace(/e$/, 'i')//triste -> tristi
@@ -12881,7 +12899,6 @@
       }
     }
   };
-  var guessAdjGender = adjGender;
 
   // invariant '-e' adjectives are singular - 'grande', 'riferibile'
   const invariant = /(ale|ile|are|ore|nte|ese|bile)$/;
@@ -12908,7 +12925,6 @@
       }
     }
   };
-  var guessAdjNumber = adjNumber;
 
   // 1st pass
   // import guessPlural from './3rd-pass/noun-plural.js'
@@ -12921,29 +12937,29 @@
   const firstPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
       //  is it titlecased?
-      let found = titleCase(terms, i, world);
+      let found = titleCaseNoun(terms, i, world);
       // try look-like rules
-      found = found || checkRegex$1(terms, i, world);
+      found = found || checkRegex(terms, i, world);
       // turn '1993' into a year
-      checkYear(terms, i, world);
+      tagYear(terms, i, world);
     }
   };
   const secondPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
-      let found = acronym(terms, i, world);
-      found = found || verbLike$1(terms, i, world);
-      found = found || suffixCheck$1(terms, i, world);
+      let found = isAcronym(terms, i, world);
+      found = found || verbLike(terms, i, world);
+      found = found || suffixCheck(terms, i, world);
       // found = found || neighbours(terms, i, world)
-      found = found || fallback$1(terms, i, world);
+      found = found || fallback(terms, i, world);
     }
   };
 
   const thirdPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
-      guessNounGender(terms, i, world);
-      guessNounNumber(terms, i, world);
-      guessAdjGender(terms, i, world);
-      guessAdjNumber(terms, i, world);
+      nounGender(terms, i, world);
+      nounNumber(terms, i, world);
+      adjGender(terms, i, world);
+      adjNumber(terms, i, world);
       //     guessPlural(terms, i, world)
       //     verbForm(terms, i, world)
     }
@@ -12959,7 +12975,6 @@
     });
     return view
   };
-  var preTagger$1 = tagger;
 
   var regexNormal = [
     //web tags
@@ -13228,39 +13243,6 @@
       irli: inf,
       irle: inf,
 
-      irlo: inf,
-      irla: inf,
-      irli: inf,
-      irle: inf,
-      irmi: inf,
-      irti: inf,
-      irci: inf,
-      irvi: inf,
-
-      irle: inf,
-      irsi: inf,
-      arlo: inf,
-      arla: inf,
-      arli: inf,
-      arle: inf,
-      armi: inf,
-      arti: inf,
-      arci: inf,
-      arvi: inf,
-
-      arle: inf,
-      arsi: inf,
-      erlo: inf,
-      erla: inf,
-      erli: inf,
-      erle: inf,
-      ermi: inf,
-      erti: inf,
-      erci: inf,
-      ervi: inf,
-      erle: inf,
-      ersi: inf,
-
       endo: g,
       ando: g,
       ante: jj,
@@ -13449,7 +13431,19 @@
       irgli: inf,
       argli: inf,
       ergli: inf,
+      regli: inf, //diregli
+      areci: inf,
       ereci: inf,
+      ireci: inf,
+      arele: inf,
+      erele: inf, //scriverele
+      irele: inf,
+      // reflexive + object pronoun - 'studiarselo'
+      rselo: ref,
+      rsela: ref,
+      rseli: ref,
+      rsele: ref,
+      rsene: ref,
 
       tante: jj,
       tanti: jj,
@@ -13942,7 +13936,7 @@
 
   var preTagger = {
     compute: {
-      preTagger: preTagger$1
+      preTagger: tagger
     },
     model: {
       two: model
@@ -14046,11 +14040,10 @@
     // Che bello!
     doc.match('^che #Adjective$').tag('Expression', 'che-bello');
   };
-  var postTagger$2 = postTagger$1;
 
   var postTagger = {
     compute: {
-      postTagger: postTagger$2
+      postTagger: postTagger$1
     },
     hooks: ['postTagger']
   };
@@ -14094,7 +14087,6 @@
     // ensure it's not two verbs
     return m
   };
-  var find$1 = findVerbs;
 
   // split adverbs as before/after the root
   const getAdverbs = function (vb, root) {
@@ -14121,7 +14113,6 @@
     res.pre = parts.eq(0).adverbs();
     return res
   };
-  var getAdverbs$1 = getAdverbs;
 
   // import getRoot from './root.js'
 
@@ -14161,14 +14152,13 @@
     let res = {
       root: root,
       prefix: vb.match('#Prefix'),
-      adverbs: getAdverbs$1(vb, root),
+      adverbs: getAdverbs(vb, root),
       auxiliary: getAuxiliary(vb, root),
       negative: getNegative(vb),
       // phrasal: getPhrasal(root),
     };
     return res
   };
-  var parseVerb$1 = parseVerb;
 
   // import getGrammar from './parse/grammar/index.js'
   // import { getTense } from './lib.js'
@@ -14181,7 +14171,7 @@
     return m.json(opts).map(s => s.normal)
   };
 
-  const toText$2 = function (m) {
+  const toText$1 = function (m) {
     if (!m || !m.isView) {
       return ''
     }
@@ -14195,21 +14185,20 @@
   // }
 
   const toJSON = function (vb) {
-    let parsed = parseVerb$1(vb);
+    let parsed = parseVerb(vb);
     vb = vb.clone().toView();
     // const info = getGrammar(vb, parsed)
     return {
       root: parsed.root,
       preAdverbs: toArray(parsed.adverbs.pre),
       postAdverbs: toArray(parsed.adverbs.post),
-      auxiliary: toText$2(parsed.auxiliary),
+      auxiliary: toText$1(parsed.auxiliary),
       negative: parsed.negative.found,
-      prefix: toText$2(parsed.prefix),
+      prefix: toText$1(parsed.prefix),
       infinitive: parsed.root,
       // grammar: info,
     }
   };
-  var toJSON$1 = toJSON;
 
   // import getSubject from './parse/getSubject.js'
   // import getGrammar from './parse/grammar/index.js'
@@ -14219,20 +14208,20 @@
   // return the nth elem of a doc
   const getNth$4 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api$8 = function (View) {
+  const api$4 = function (View) {
     class Verbs extends View {
       constructor(document, pointer, groups) {
         super(document, pointer, groups);
         this.viewType = 'Verbs';
       }
       parse(n) {
-        return getNth$4(this, n).map(parseVerb$1)
+        return getNth$4(this, n).map(parseVerb)
       }
       json(opts, n) {
         let m = getNth$4(this, n);
         let arr = m.map((vb) => {
           let json = vb.toView().json(opts)[0] || {};
-          json.verb = toJSON$1(vb);
+          json.verb = toJSON(vb);
           return json
         }, []);
         return arr
@@ -14297,7 +14286,7 @@
       conjugate(n) {
         const m = this.methods.two.transform.verb;
         return getNth$4(this, n).map((vb) => {
-          let parsed = parseVerb$1(vb);
+          let parsed = parseVerb(vb);
           let root = parsed.root || '';
           return {
             Infinitive: root,
@@ -14349,15 +14338,14 @@
     Verbs.prototype.toFuture = Verbs.prototype.toFutureTense;
 
     View.prototype.verbs = function (n) {
-      let vb = find$1(this);
+      let vb = findVerbs(this);
       vb = getNth$4(vb, n);
       return new Verbs(this.document, vb.pointer)
     };
   };
-  var api$9 = api$8;
 
   var verbs = {
-    api: api$9,
+    api: api$4,
   };
 
   const findNumbers = function (view) {
@@ -14368,7 +14356,6 @@
     m = m.splitBefore('#Year');
     return m
   };
-  var find = findNumbers;
 
   let data = {
     ones: [
@@ -14518,7 +14505,6 @@
     // console.log(tokens)
     return tokens.filter(s => s).reverse()
   };
-  var tokenize$1 = tokenize;
 
   const fromText = function (terms) {
     let sum = 0;
@@ -14529,7 +14515,7 @@
       h += t.normal || '';
       return h
     }, '');
-    let tokens = tokenize$1(str);
+    let tokens = tokenize(str);
     // console.log(tokens)
 
     for (let i = 0; i < tokens.length; i += 1) {
@@ -14568,7 +14554,6 @@
     }
     return sum
   };
-  var fromText$1 = fromText;
 
   const fromNumber = function (m) {
     let str = m.text('normal').toLowerCase();
@@ -14609,7 +14594,7 @@
     let hasComma = false;
     let isText = m.has('#TextValue');
     if (isText) {
-      num = fromText$1(terms);
+      num = fromText(terms);
     } else {
       let res = fromNumber(m);
       prefix = res.prefix;
@@ -14628,7 +14613,6 @@
       isMoney: m.has('#Money'),
     }
   };
-  var parse = parseNumber;
 
   let { ones, tens } = data;
   ones = [].concat(ones).reverse();
@@ -14734,7 +14718,6 @@
     });
     return words
   };
-  var toText$1 = toText;
 
   // which form should we use - 'quarto' or 'quattresimo'?
   const combos = {
@@ -14775,15 +14758,13 @@
     return txt
   };
 
-  var toTextOrdinal$1 = toTextOrdinal;
-
   const formatNumber = function (parsed, fmt) {
     if (fmt === 'TextOrdinal') {
-      let words = toText$1(parsed.num);
-      return toTextOrdinal$1(words)
+      let words = toText(parsed.num);
+      return toTextOrdinal(words)
     }
     if (fmt === 'TextCardinal') {
-      return toText$1(parsed.num).join('')
+      return toText(parsed.num).join('')
     }
     // numeric format - 107 -> '107°'
     if (fmt === 'Ordinal') {
@@ -14794,12 +14775,11 @@
     }
     return String(parsed.num || '')
   };
-  var format = formatNumber;
 
   // return the nth elem of a doc
   const getNth$3 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api$6 = function (View) {
+  const api$3 = function (View) {
     /**   */
     class Numbers extends View {
       constructor(document, pointer, groups) {
@@ -14807,16 +14787,16 @@
         this.viewType = 'Numbers';
       }
       parse(n) {
-        return getNth$3(this, n).map(parse)
+        return getNth$3(this, n).map(parseNumber)
       }
       get(n) {
-        return getNth$3(this, n).map(parse).map(o => o.num)
+        return getNth$3(this, n).map(parseNumber).map(o => o.num)
       }
       json(n) {
         let doc = getNth$3(this, n);
         return doc.map(p => {
           let json = p.toView().json(n)[0];
-          let parsed = parse(p);
+          let parsed = parseNumber(p);
           json.number = {
             prefix: parsed.prefix,
             num: parsed.num,
@@ -14843,12 +14823,12 @@
       toNumber() {
         let m = this.if('#TextValue');
         let res = m.map(val => {
-          let obj = parse(val);
+          let obj = parseNumber(val);
           if (obj.num === null) {
             return val
           }
           let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
-          let str = format(obj, fmt);
+          let str = formatNumber(obj, fmt);
           if (str) {
             val.replaceWith(str, { tags: true });
             val.tag('NumericValue');
@@ -14864,12 +14844,12 @@
           if (val.has('#TextValue')) {
             return val
           }
-          let obj = parse(val);
+          let obj = parseNumber(val);
           if (obj.num === null) {
             return val
           }
           let fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
-          let str = format(obj, fmt);
+          let str = formatNumber(obj, fmt);
           if (str) {
             val.replaceWith(str, { tags: true });
             val.tag('TextValue');
@@ -14885,12 +14865,12 @@
           if (!val.has('#Ordinal')) {
             return val
           }
-          let obj = parse(val);
+          let obj = parseNumber(val);
           if (obj.num === null) {
             return val
           }
           let fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal';
-          let str = format(obj, fmt);
+          let str = formatNumber(obj, fmt);
           if (str) {
             val.replaceWith(str, { tags: true });
             val.tag('Cardinal');
@@ -14906,12 +14886,12 @@
           if (val.has('#Ordinal')) {
             return val
           }
-          let obj = parse(val);
+          let obj = parseNumber(val);
           if (obj.num === null) {
             return val
           }
           let fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal';
-          let str = format(obj, fmt);
+          let str = formatNumber(obj, fmt);
           if (str) {
             val.replaceWith(str, { tags: true });
             val.tag('Ordinal');
@@ -14924,28 +14904,28 @@
       /** return only numbers that are == n */
       isEqual(n) {
         return this.filter((val) => {
-          let num = parse(val).num;
+          let num = parseNumber(val).num;
           return num === n
         })
       }
       /** return only numbers that are > n*/
       greaterThan(n) {
         return this.filter((val) => {
-          let num = parse(val).num;
+          let num = parseNumber(val).num;
           return num > n
         })
       }
       /** return only numbers that are < n*/
       lessThan(n) {
         return this.filter((val) => {
-          let num = parse(val).num;
+          let num = parseNumber(val).num;
           return num < n
         })
       }
       /** return only numbers > min and < max */
       between(min, max) {
         return this.filter((val) => {
-          let num = parse(val).num;
+          let num = parseNumber(val).num;
           return num > min && num < max
         })
       }
@@ -14955,11 +14935,11 @@
           return this // don't bother
         }
         if (typeof n === 'string') {
-          n = parse(n).num;
+          n = parseNumber(n).num;
         }
         let m = this;
         let res = m.map((val) => {
-          let obj = parse(val);
+          let obj = parseNumber(val);
           obj.num = n;
           if (obj.num === null) {
             return val
@@ -14968,7 +14948,7 @@
           if (val.has('#TextValue')) {
             fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
           }
-          let str = format(obj, fmt);
+          let str = formatNumber(obj, fmt);
           // add commas to number
           if (obj.hasComma && fmt === 'Cardinal') {
             str = Number(str).toLocaleString();
@@ -14988,11 +14968,11 @@
           return this // don't bother
         }
         if (typeof n === 'string') {
-          n = parse(n).num;
+          n = parseNumber(n).num;
         }
         let m = this;
         let res = m.map((val) => {
-          let obj = parse(val);
+          let obj = parseNumber(val);
           if (obj.num === null) {
             return val
           }
@@ -15001,7 +14981,7 @@
           if (obj.isText) {
             fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal';
           }
-          let str = format(obj, fmt);
+          let str = formatNumber(obj, fmt);
           if (str) {
             val.replaceWith(str, { tags: true });
             // handle plural/singular unit
@@ -15037,17 +15017,16 @@
     Numbers.prototype.equals = Numbers.prototype.isEqual;
 
     View.prototype.numbers = function (n) {
-      let m = find(this);
+      let m = findNumbers(this);
       m = getNth$3(m, n);
       return new Numbers(this.document, m.pointer)
     };
     // alias
     View.prototype.values = View.prototype.numbers;
   };
-  var api$7 = api$6;
 
   var numbers = {
-    api: api$7
+    api: api$3
   };
 
   const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
@@ -15059,7 +15038,7 @@
     return str
   };
 
-  const api$4 = function (View) {
+  const api$2 = function (View) {
     class Adjectives extends View {
       constructor(document, pointer, groups) {
         super(document, pointer, groups);
@@ -15085,10 +15064,9 @@
       return new Adjectives(this.document, m.pointer)
     };
   };
-  var api$5 = api$4;
 
   var adjectives = {
-    api: api$5,
+    api: api$2,
   };
 
   const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
@@ -15104,7 +15082,7 @@
     return str
   };
 
-  const api$2 = function (View) {
+  const api$1 = function (View) {
     class Nouns extends View {
       constructor(document, pointer, groups) {
         super(document, pointer, groups);
@@ -15159,10 +15137,9 @@
       return new Nouns(this.document, m.pointer)
     };
   };
-  var api$3 = api$2;
 
   var nouns = {
-    api: api$3,
+    api: api$1,
   };
 
   // return the nth elem of a doc
@@ -15193,37 +15170,36 @@
       return new Contractions(this.document, m.pointer)
     };
   };
-  var api$1 = api;
 
   var contractions = {
-    api: api$1,
+    api,
   };
 
-  nlp$1.plugin(tokenize$2);
-  nlp$1.plugin(tagset);
-  nlp$1.plugin(lexicon);
-  nlp$1.plugin(preTagger);
-  nlp$1.plugin(postTagger);
-  nlp$1.plugin(verbs);
-  nlp$1.plugin(numbers);
-  nlp$1.plugin(adjectives);
-  nlp$1.plugin(nouns);
-  nlp$1.plugin(contractions);
+  nlp.plugin(tokenize$1);
+  nlp.plugin(tagset);
+  nlp.plugin(lexicon);
+  nlp.plugin(preTagger);
+  nlp.plugin(postTagger);
+  nlp.plugin(verbs);
+  nlp.plugin(numbers);
+  nlp.plugin(adjectives);
+  nlp.plugin(nouns);
+  nlp.plugin(contractions);
 
   const it = function (txt, lex) {
-    return nlp$1(txt, lex)
+    return nlp(txt, lex)
   };
 
   // copy constructor methods over
-  Object.keys(nlp$1).forEach(k => {
-    if (nlp$1.hasOwnProperty(k)) {
-      it[k] = nlp$1[k];
+  Object.keys(nlp).forEach(k => {
+    if (nlp.hasOwnProperty(k)) {
+      it[k] = nlp[k];
     }
   });
 
   // this one is hidden
   Object.defineProperty(it, '_world', {
-    value: nlp$1._world,
+    value: nlp._world,
     writable: true,
   });
 

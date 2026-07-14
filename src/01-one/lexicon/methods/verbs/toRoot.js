@@ -33,6 +33,10 @@ const stripSuffix = function (str) {
   str = str.replace(/er(lo|la|le|gli|eci)$/, 'ere')
   str = str.replace(/ar(lo|la|le|gli|eci)$/, 'are')
   str = str.replace(/ir(lo|la|le|gli|eci)$/, 'ire')
+  // combined clitics - 'studiarselo', 'andarsene'
+  str = str.replace(/([aei])r[mtscv]e(l[oaie]|ne)$/, '$1re')
+  // whole infinitive + pronoun - 'scriverele', 'diregli'
+  str = str.replace(/(are|ere|ire)(l[oaie]|ne|gli|ci|mi|ti|si|vi)$/, '$1')
   return str
 }
 

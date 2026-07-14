@@ -40,6 +40,8 @@ Object.keys(irregular.paradigms).forEach((inf) => {
 })
 // 'sono' belongs to essere, not stare/etc
 irregularRoots['sono'] = 'essere'
+// archaic long infinitive - 'beverlo'
+irregularRoots['bevere'] = 'bere'
 // participles of otherwise-regular verbs
 Object.keys(irregular.participles).forEach((inf) => {
   let pp = irregular.participles[inf]
@@ -69,6 +71,10 @@ const stripReflexive = function (str) {
   str = str.replace(/er(lo|la|le|gli|eci)$/, 'ere')
   str = str.replace(/ar(lo|la|le|gli|eci)$/, 'are')
   str = str.replace(/ir(lo|la|le|gli|eci)$/, 'ire')
+  // combined clitics - 'studiarselo', 'andarsene'
+  str = str.replace(/([aei])r[mtscv]e(l[oaie]|ne)$/, '$1re')
+  // whole infinitive + pronoun - 'scriverele', 'diregli'
+  str = str.replace(/(are|ere|ire)(l[oaie]|ne|gli|ci|mi|ti|si|vi)$/, '$1')
   return str
 }
 
@@ -83,7 +89,7 @@ const root = function (view) {
     terms.forEach((term) => {
       let str = term.implicit || term.normal || term.text
       if (term.tags.has('Reflexive')) {
-        str = stripSuffix(str)
+        str = stripReflexive(str)
       }
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
@@ -91,8 +97,9 @@ const root = function (view) {
         if (irregularRoots.hasOwnProperty(str)) {
           term.root = irregularRoots[str]
         } else if (term.tags.has('Infinitive')) {
-          // an infinitive is already its own root
-          term.root = str
+          // an infinitive may carry a pronoun suffix - 'vederlo'
+          let inf = stripReflexive(str)
+          term.root = irregularRoots.hasOwnProperty(inf) ? irregularRoots[inf] : inf
         } else if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('ConditionalVerb')) {

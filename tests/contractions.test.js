@@ -78,7 +78,7 @@ test('buildNet:', function (t) {
   arr.forEach(a => {
     let [str, out] = a
     let res = nlp(str).json({ normal: true })[0].terms.map(o => o.machine)
-    t.deepEqual(res, out, str)
+    t.deepEqual(res, out, here + str)
   })
   t.end()
 })

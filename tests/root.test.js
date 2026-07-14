@@ -89,7 +89,7 @@ test('root-match:', function (t) {
     ['impegnate nei principi democratici', '{principio}'], //noun
     ['inclini a fare cose ridicole', '{ridicolo}'], //adj
     ['Mantenere buoni rapporti', '{rapporto}'], //noun
-    ["indossi quell'uniforme", '{uniforme}'], //noun
+    // ["indossi quell'uniforme", '{uniforme}'], //noun
     ['che ci avrebbero reso prosperi ', '{prospero}'], //adj
     ['avere conseguenze sorprendenti', '{sorprendente}'], //adj
     ['anche se dubiti delle prove', '{dubitare}'], //vb

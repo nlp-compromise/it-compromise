@@ -1,4 +1,14 @@
+### 0.3.2 [Nov 2026]
+
+- **[update]** - smaller suffix-thumb format
+- **[update]** - dependencies
+
+### 0.3.1 [Sep 2026]
+
+- **[change]** - add typescript types
+
 ### 0.3.0 [July 2026]
+
 - **[fix]** - lexicon build no longer lets later word-lists silently overwrite earlier tags (217 collisions - 'sei' was tagged as the number six, 'mia'/'sue' as English names, 'lei' as a currency, 'potere' lost its infinitive)
 - **[fix]** - restore past-participle model data - it had been replaced with present-participle forms, so no '-ato' form was generated anywhere
 - **[fix]** - feminine noun pluralization ('casa' pluralized to 'casi' instead of 'case') - rebalanced training data, fixed the masculine-only morph-it/conllu harvester bugs

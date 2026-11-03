@@ -6,11 +6,11 @@ const fromText = function (terms) {
   let carry = 0
   let minus = false
   // get proper word tokens
-  let str = terms.reduce((h, t) => {
+  const str = terms.reduce((h, t) => {
     h += t.normal || ''
     return h
   }, '')
-  let tokens = tokenize(str)
+  const tokens = tokenize(str)
   // console.log(tokens)
 
   for (let i = 0; i < tokens.length; i += 1) {
@@ -26,7 +26,7 @@ const fromText = function (terms) {
     }
     // 'cent'
     if (multiples.hasOwnProperty(w)) {
-      let mult = multiples[w] || 1
+      const mult = multiples[w] || 1
       if (carry === 0) {
         carry = 1
       }

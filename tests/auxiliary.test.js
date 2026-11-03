@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[aux] '
+const here = '[aux] '
 
 
-let irreg = {
+const irreg = {
   //essere (to be; auxiliary)
   'essere': ['sono', 'ero', 'fui', 'sarò', 'sia', 'fossi', 'sarei'],
   // 'essere': ['sei', 'eri', 'fosti', 'sarai', 'sia', 'fossi', 'saresti'],
@@ -72,7 +72,7 @@ let irreg = {
 test('irreg-root:', function (t) {
   Object.keys(irreg).forEach(k => {
     irreg[k].forEach(str => {
-      let doc = nlp(str)
+      const doc = nlp(str)
       t.ok(doc.has(`{${k}}`), here + ' ' + str)
     })
   })

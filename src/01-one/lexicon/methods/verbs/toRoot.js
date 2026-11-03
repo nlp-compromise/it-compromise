@@ -1,6 +1,6 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model
+const { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model
 
 // =-=-
 const revAll = function (m) {
@@ -10,12 +10,12 @@ const revAll = function (m) {
   }, {})
 }
 
-let presentRev = revAll(presentTense)
-let pastRev = revAll(pastTense)
-let futureRev = revAll(futureTense)
-let conditionalRev = revAll(conditional)
-let imperfectRev = revAll(imperfect)
-let subjunctiveRev = revAll(subjunctive)
+const presentRev = revAll(presentTense)
+const pastRev = revAll(pastTense)
+const futureRev = revAll(futureTense)
+const conditionalRev = revAll(conditional)
+const imperfectRev = revAll(imperfect)
+const subjunctiveRev = revAll(subjunctive)
 
 const stripSuffix = function (str) {
   // reflexive forms
@@ -41,7 +41,7 @@ const stripSuffix = function (str) {
 }
 
 const fromPresent = (str, form) => {
-  let forms = {
+  const forms = {
     FirstPerson: (s) => convert(s, presentRev.first),
     SecondPerson: (s) => convert(s, presentRev.second),
     ThirdPerson: (s) => convert(s, presentRev.third),
@@ -56,7 +56,7 @@ const fromPresent = (str, form) => {
 }
 
 const fromPast = (str, form) => {
-  let forms = {
+  const forms = {
     FirstPerson: (s) => convert(s, pastRev.first),
     SecondPerson: (s) => convert(s, pastRev.second),
     ThirdPerson: (s) => convert(s, pastRev.third),
@@ -71,7 +71,7 @@ const fromPast = (str, form) => {
 }
 
 const fromFuture = (str, form) => {
-  let forms = {
+  const forms = {
     FirstPerson: (s) => convert(s, futureRev.first),
     SecondPerson: (s) => convert(s, futureRev.second),
     ThirdPerson: (s) => convert(s, futureRev.third),
@@ -86,7 +86,7 @@ const fromFuture = (str, form) => {
 }
 
 const fromConditional = (str, form) => {
-  let forms = {
+  const forms = {
     FirstPerson: (s) => convert(s, conditionalRev.first),
     SecondPerson: (s) => convert(s, conditionalRev.second),
     ThirdPerson: (s) => convert(s, conditionalRev.third),
@@ -100,7 +100,7 @@ const fromConditional = (str, form) => {
   return stripSuffix(str)
 }
 const fromImperfect = (str, form) => {
-  let forms = {
+  const forms = {
     FirstPerson: (s) => convert(s, imperfectRev.first),
     SecondPerson: (s) => convert(s, imperfectRev.second),
     ThirdPerson: (s) => convert(s, imperfectRev.third),
@@ -115,7 +115,7 @@ const fromImperfect = (str, form) => {
 }
 
 const fromSubjunctive = (str, form) => {
-  let forms = {
+  const forms = {
     FirstPerson: (s) => convert(s, subjunctiveRev.first),
     SecondPerson: (s) => convert(s, subjunctiveRev.second),
     ThirdPerson: (s) => convert(s, subjunctiveRev.third),

@@ -6,9 +6,9 @@ const suffixLoop = function (str = '', suffixes = []) {
     max = len - 1
   }
   for (let i = max; i > 1; i -= 1) {
-    let suffix = str.substring(len - i, len)
+    const suffix = str.substring(len - i, len)
     if (suffixes[suffix.length].hasOwnProperty(suffix) === true) {
-      let tag = suffixes[suffix.length][suffix]
+      const tag = suffixes[suffix.length][suffix]
       // console.log(suffix)
       return tag
     }
@@ -17,9 +17,9 @@ const suffixLoop = function (str = '', suffixes = []) {
 }
 // decide tag from the ending of the word
 const suffixCheck = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let suffixes = world.model.two.suffixPatterns
-  let term = terms[i]
+  const setTag = world.methods.one.setTag
+  const suffixes = world.model.two.suffixPatterns
+  const term = terms[i]
   if (term.tags.size === 0) {
     let tag = suffixLoop(term.normal, suffixes)
     if (tag !== null) {

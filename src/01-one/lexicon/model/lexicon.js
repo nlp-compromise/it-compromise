@@ -66,9 +66,9 @@ const addVerbs = function (w) {
   res = verbs.toPastParticiple(w)
   if (res) {
     words[res] = words[res] || ['PastParticiple']
-    let fem = res.replace(/o$/, 'a')
-    let plur = res.replace(/o$/, 'i')
-    let femPlur = res.replace(/o$/, 'e')
+    const fem = res.replace(/o$/, 'a')
+    const plur = res.replace(/o$/, 'i')
+    const femPlur = res.replace(/o$/, 'e')
     words[fem] = words[fem] || ['PastParticiple']
     words[plur] = words[plur] || ['PastParticiple']
     words[femPlur] = words[femPlur] || ['PastParticiple']
@@ -80,13 +80,13 @@ const addVerbs = function (w) {
 
 // process 'Infinitive' last, so its generated conjugations
 // never shadow words from the curated lists (eg 'pizza')
-let tagList = Object.keys(lexData).sort((a, b) => {
+const tagList = Object.keys(lexData).sort((a, b) => {
   if (a === 'Infinitive') return 1
   if (b === 'Infinitive') return -1
   return 0
 })
 tagList.forEach((tag) => {
-  let wordsObj = unpack(lexData[tag])
+  const wordsObj = unpack(lexData[tag])
   Object.keys(wordsObj).forEach((w) => {
     // merge, so a word packed under two tags keeps both (eg 'oggi' Date+Noun)
     if (words[w] === undefined) {

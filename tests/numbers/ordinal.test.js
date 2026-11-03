@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[number-ordinal] '
+const here = '[number-ordinal] '
 nlp.verbose(false)
 
-let arr = [
+const arr = [
   ['uno', 'primo'],//1,
   ['due', 'secondo'],//2,
   ['tre', 'terzo'],//3,
@@ -56,9 +56,9 @@ let arr = [
 
 test('ordinal-tag:', function (t) {
   arr.forEach(a => {
-    let str = a[1]
-    let doc = nlp(str)
-    let m = doc.numbers()
+    const str = a[1]
+    const doc = nlp(str)
+    const m = doc.numbers()
     t.equal(m.found, true, here + '[ordinal-tag] ' + str)
   })
   t.end()
@@ -66,18 +66,18 @@ test('ordinal-tag:', function (t) {
 
 test('number-toOrdinal:', function (t) {
   arr.forEach(a => {
-    let [card, ord] = a
-    let doc = nlp(card)
-    let m = doc.numbers().toOrdinal()
+    const [card, ord] = a
+    const doc = nlp(card)
+    const m = doc.numbers().toOrdinal()
     t.equal(m.text(), ord, here + '[toOrdinal] ' + card)
   })
   t.end()
 })
 test('number-toCardinal:', function (t) {
   arr.forEach(a => {
-    let [card, ord] = a
-    let doc = nlp(ord)
-    let m = doc.numbers().toCardinal()
+    const [card, ord] = a
+    const doc = nlp(ord)
+    const m = doc.numbers().toCardinal()
     t.equal(m.text(), card, here + '[toCarrdinal] ' + ord)
   })
   t.end()

@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[it-verb-forms] '
+const here = '[it-verb-forms] '
 nlp.verbose(false)
 
 test('ferbs:', function (t) {
-  let arr = [
+  const arr = [
     // Presente
     ['colmo', '#Verb'],//io 
     ['colmi', '#Verb'],//tu 
@@ -124,11 +124,11 @@ test('ferbs:', function (t) {
     ['colmato', '#Verb']
   ]
   arr.forEach(function (a) {
-    let [str, match] = a
-    let doc = nlp(str)//.compute('tagRank')
-    let tags = doc.json()[0].terms.map(term => term.tags[0])
-    let msg = `'${(str + "' ").padEnd(20, ' ')}  - '${tags.join(', ')}'`
-    let m = doc.match(match)
+    const [str, match] = a
+    const doc = nlp(str)//.compute('tagRank')
+    const tags = doc.json()[0].terms.map(term => term.tags[0])
+    const msg = `'${(str + "' ").padEnd(20, ' ')}  - '${tags.join(', ')}'`
+    const m = doc.match(match)
     t.equal(m.text(), doc.text(), here + msg + ' ' + a[1])
   })
   t.end()

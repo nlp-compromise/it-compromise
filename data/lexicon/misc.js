@@ -1,7 +1,7 @@
 const pr = ['Pronoun', 'Possessive']
 import aux from './aux.js'
 
-let misc = {
+const misc = {
 
   'il': 'Determiner',
   'lo': 'Determiner',

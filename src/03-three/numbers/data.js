@@ -1,4 +1,4 @@
-let data = {
+const data = {
   ones: [
     [1, 'uno', 'primo', 'unesimo'],
     [2, 'due', 'secondo', 'duesimo'],
@@ -87,7 +87,7 @@ data.tens.forEach(a => {
 
 Object.keys(data).forEach(k => {
   data[k].forEach(a => {
-    let [num, card, ord, ord2] = a
+    const [num, card, ord, ord2] = a
     ends.push(card)
     ends.push(ord)
     toCardinal[ord] = card
@@ -114,7 +114,7 @@ ends = ends.sort((a, b) => {
   return 0
 })
 
-let multiples = {
+const multiples = {
   mila: 1000,
 }
 data.multiples.forEach(a => {

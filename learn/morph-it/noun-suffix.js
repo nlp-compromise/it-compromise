@@ -1,15 +1,15 @@
-import fs from 'fs'
+import fs from 'node:fs'
 // import fingerprint from '/Users/spencer/mountain/suffix-thumb/src/fingerprint/index.js'
 
-let lines = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/morph-it/morph-it_data.txt').toString().split(/\n/)
+const lines = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/morph-it/morph-it_data.txt').toString().split(/\n/)
 
 let masc = new Set()
 let fem = new Set()
 
 lines.forEach(str => {
-  let a = str.split(/\t/g)
+  const a = str.split(/\t/g)
   if (a[2] && a[2].startsWith('NOUN')) {
-    if (!a[0] || a[0].match(/(-|[0-9]|'|�|\.)/)) {
+    if (!a[0] || /(-|[0-9]|'|�|\.)/.test(a[0])) {
       return
     }
     a[0] = a[0].toLowerCase().trim()
@@ -26,7 +26,7 @@ lines.forEach(str => {
 masc = Array.from(masc)
 fem = Array.from(fem)
 
-let res = fingerprint(masc, fem, 'm', 'f')
+const res = fingerprint(masc, fem, 'm', 'f')
 console.log(res)
 // fs.writeFileSync('./nouns.js', JSON.stringify(byInf, null, 2))
 // console.log(byInf)

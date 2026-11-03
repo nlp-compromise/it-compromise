@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 // generate src/01-one/lexicon/methods/verbs/irregular.js from verbs.jsonl
 //   node scripts/gen-irregular.js
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 const jsonl = fs.readFileSync(path.join(root, 'verbs.jsonl'), 'utf8')
@@ -32,12 +32,12 @@ const six = (arr) => {
   return arr.map(clean)
 }
 
-let paradigms = {}
-let missing = []
-for (let w of PARADIGM_VERBS) {
-  let o = byWord[w]
+const paradigms = {}
+const missing = []
+for (const w of PARADIGM_VERBS) {
+  const o = byWord[w]
   if (!o) { missing.push(w); continue }
-  let p = {
+  const p = {
     present: six(o['Indicativo Presente']),
     imperfect: six(o['Indicativo Imperfetto']),
     past: six(o['Indicativo Passato remoto']),
@@ -62,14 +62,14 @@ paradigms.dovere.subjunctive = ['debba', 'debba', 'debba', 'dobbiamo', 'dobbiate
 const regularPP = (inf) => inf.replace(/are$/, 'ato').replace(/ere$/, 'uto').replace(/ire$/, 'ito')
 const regularGer = (inf) => inf.replace(/are$/, 'ando').replace(/(ere|ire)$/, 'endo')
 
-let participles = {}
-let gerunds = {}
-for (let o of jsonl) {
-  let pp = clean((o['Participio Passato'] || [])[0])
+const participles = {}
+const gerunds = {}
+for (const o of jsonl) {
+  const pp = clean((o['Participio Passato'] || [])[0])
   if (pp && /(are|ere|ire|rre)$/.test(o.word) && pp !== regularPP(o.word)) {
     participles[o.word] = pp
   }
-  let ger = clean((o['Gerundio Presente'] || [])[0])
+  const ger = clean((o['Gerundio Presente'] || [])[0])
   if (ger && /(are|ere|ire|rre)$/.test(o.word) && ger !== regularGer(o.word)) {
     gerunds[o.word] = ger
   }

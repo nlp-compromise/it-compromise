@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[it-buildNet] '
+const here = '[it-buildNet] '
 
 test('buildNet:', function (t) {
-  let arr = [
+  const arr = [
     ["all'uscita", ["a", "l", "uscita"]],
     ["all'aeroporto", ["a", "l", "aeroporto"]],
     ["all'entrata", ["a", "l", "entrata"]],
@@ -76,8 +76,8 @@ test('buildNet:', function (t) {
   ]
 
   arr.forEach(a => {
-    let [str, out] = a
-    let res = nlp(str).json({ normal: true })[0].terms.map(o => o.machine)
+    const [str, out] = a
+    const res = nlp(str).json({ normal: true })[0].terms.map(o => o.machine)
     t.deepEqual(res, out, here + str)
   })
   t.end()

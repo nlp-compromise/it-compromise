@@ -1,7 +1,7 @@
-import { resolve } from 'path'
-import fs from 'fs'
+import { resolve } from 'node:path'
+import fs from 'node:fs'
 const want = 'subjunctive/present'
-let forms = [
+const forms = [
   's1',//io
   's2',//tu
   's3',//lei/lui
@@ -10,7 +10,7 @@ let forms = [
   'p3',//loro
 ]
 
-let arr = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conjugation/infinitives.txt').toString().split(/\n/).slice(0, 5000)
+const arr = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conjugation/infinitives.txt').toString().split(/\n/).slice(0, 5000)
 const tops = new Set(arr)
 
 async function getFiles(dir) {
@@ -23,7 +23,7 @@ async function getFiles(dir) {
 }
 
 const getOne = function (file) {
-  let obj = JSON.parse(fs.readFileSync(file).toString())
+  const obj = JSON.parse(fs.readFileSync(file).toString())
   if (!obj || !obj.conjugations) {
     return ''
   }
@@ -31,7 +31,7 @@ const getOne = function (file) {
   if (!tops.has(obj.word)) {
     isBad = true
   }
-  if (obj.word.match(/si$/)) {
+  if (/si$/.test(obj.word)) {
     isBad = true
   }
   if (!obj.etymology) {
@@ -40,14 +40,14 @@ const getOne = function (file) {
   if (obj.definitions.length === 0) {
     isBad = true
   }
-  let res = forms.map(f => {
-    let found = obj.conjugations.find(o => o.group === want && (o.form === f || o.form === f + '-b'))// 
+  const res = forms.map(f => {
+    const found = obj.conjugations.find(o => o.group === want && (o.form === f || o.form === f + '-b'))// 
     if (!found || !found.value) {
       isBad = true
       return ''
     }
     found.value = found.value.replace(/(mi|ti|si|ci|vi) /, '')
-    if (found.value.match(/[ -]/)) {
+    if (/[ -]/.test(found.value)) {
       isBad = true
     }
     return found.value.trim()
@@ -66,7 +66,7 @@ fs.writeFileSync('./out.js', 'export default {\n', { flag: 'a' })
 getFiles('/Users/spencer/mountain/it-compromise/learn/conjugation/verbs').then((files) => {
   files = files.filter(str => str && str.match(/\.json$/))
   files.forEach(file => {
-    let res = getOne(file)
+    const res = getOne(file)
     if (res) {
       fs.writeFileSync('./out.js', res + '\n', { flag: 'a' })
     }

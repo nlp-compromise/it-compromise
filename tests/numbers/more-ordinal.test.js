@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[ordinal-more] '
+const here = '[ordinal-more] '
 nlp.verbose(false)
 
-let arr = [
+const arr = [
   // ['zeresimo', '0°'],
   ['primo', '1°'],
   ['secondo', '2°'],
@@ -161,9 +161,9 @@ let arr = [
 
 test('ordinal-toNum:', function (t) {
   arr.forEach(a => {
-    let [str, num] = a
-    let doc = nlp(str)
-    let m = doc.numbers().toNumber()
+    const [str, num] = a
+    const doc = nlp(str)
+    const m = doc.numbers().toNumber()
     t.equal(m.text(), num, here + '[toNum] ' + str)
   })
   t.end()
@@ -171,9 +171,9 @@ test('ordinal-toNum:', function (t) {
 
 test('ordinal-toText:', function (t) {
   arr.forEach(a => {
-    let [str, num] = a
-    let doc = nlp(num)
-    let m = doc.numbers().toText()
+    const [str, num] = a
+    const doc = nlp(num)
+    const m = doc.numbers().toText()
     t.equal(m.text(), str, here + '[toText] ' + str)
   })
   t.end()

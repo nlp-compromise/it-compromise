@@ -1,6 +1,6 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[conjugate] '
+const here = '[conjugate] '
 nlp.verbose(false)
 
 test('adj-conjugate:', function (t) {
@@ -37,7 +37,7 @@ test('noun-conjugate:', function (t) {
 })
 
 test('verb-conjugate:', function (t) {
-  let all = ["ascendo", "ascendi", "ascende", "ascendiamo", "ascendete", "ascendono"]
+  const all = ["ascendo", "ascendi", "ascende", "ascendiamo", "ascendete", "ascendono"]
   t.deepEqual(Object.values(nlp(all[0]).verbs().conjugate()[0].PresentTense), all, here + 'from-first')
   t.deepEqual(Object.values(nlp(all[1]).verbs().conjugate()[0].PresentTense), all, here + 'from-2nd')
   t.deepEqual(Object.values(nlp(all[2]).verbs().conjugate()[0].PresentTense), all, here + 'from-3d')

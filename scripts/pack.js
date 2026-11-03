@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import fs from 'fs'
+import fs from 'node:fs'
 import { pack } from 'efrt'
 import { learn, compress } from 'suffix-thumb'
 import lexicon from '../data/lexicon/index.js'
@@ -12,31 +12,31 @@ const steps = [
     label: 'lexicon',
     path: './src/01-one/lexicon/model/_data.js',
     compress: function () {
-      let packed = {}
+      const packed = {}
       //turn them into a series of flat-arrays
-      Object.keys(lexicon).forEach(word => {
+      Object.keys(lexicon).forEach((word) => {
         let tags = lexicon[word]
         if (typeof tags === 'string') {
           tags = [tags]
         }
-        tags.forEach(tag => {
+        tags.forEach((tag) => {
           packed[tag] = packed[tag] || []
           packed[tag].push(word)
         })
       })
       //pack each array into a tiny string
-      Object.keys(packed).forEach(tag => {
-        packed[tag] = pack(packed[tag])
+      Object.keys(packed).forEach((tag) => {
+        packed[tag] = pack(packed[tag], { dictionary: true, direction: 'auto' })
       })
       return packed
-    },
+    }
   },
   {
     label: 'models',
     path: './src/01-one/lexicon/methods/_data.js',
     compress: function () {
-      let packed = {}
-      let opts = {
+      const packed = {}
+      const opts = {
         min: 1
       }
       console.log('nouns')
@@ -49,23 +49,23 @@ const steps = [
       packed.adjectives = {
         fs: [],
         mp: [],
-        fp: [],
+        fp: []
       }
-      Object.keys(models.adjectives).forEach(k => {
-        let a = models.adjectives[k]
+      Object.keys(models.adjectives).forEach((k) => {
+        const a = models.adjectives[k]
         packed.adjectives.fs.push([k, a[0]])
         packed.adjectives.mp.push([k, a[1]])
         // female-singular -> female-plural ('meravigliosa' -> 'meravigliose')
         packed.adjectives.fp.push([a[0], a[2]])
       })
-      Object.keys(packed.adjectives).forEach(k => {
+      Object.keys(packed.adjectives).forEach((k) => {
         packed.adjectives[k] = compress(learn(packed.adjectives[k], opts))
       })
       console.log('verbs')
-      Object.keys(models.verbs).forEach(k => {
+      Object.keys(models.verbs).forEach((k) => {
         packed[k] = {}
-        Object.keys(models.verbs[k]).forEach(form => {
-          let pairs = models.verbs[k][form]
+        Object.keys(models.verbs[k]).forEach((form) => {
+          const pairs = models.verbs[k][form]
           console.log('-', k, form)
           packed[k][form] = learn(pairs, {})
           packed[k][form] = compress(packed[k][form])
@@ -91,12 +91,12 @@ const steps = [
       }
 
       return packed
-    },
+    }
   }
 ]
 
 // run through all our steps
-steps.forEach(obj => {
+steps.forEach((obj) => {
   console.log(`\n 🕑  - packing ${obj.label}..`)
   const packed = obj.compress()
 
@@ -106,6 +106,6 @@ steps.forEach(obj => {
 
   //get filesize
   const stats = fs.statSync(obj.path)
-  let size = (stats.size / 1000.0).toFixed(1)
+  const size = (stats.size / 1000.0).toFixed(1)
   console.log(`       - ${obj.label} is  ` + size + 'k\n')
 })

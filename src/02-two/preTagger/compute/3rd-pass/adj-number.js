@@ -13,12 +13,12 @@ const checkSuffix = function (str) {
 }
 
 const adjNumber = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let tags = term.tags
-  let str = term.normal || term.implicit || ''
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const tags = term.tags
+  const str = term.normal || term.implicit || ''
   if (tags.has('Adjective') && !tags.has('PluralAdjective')) {
-    let tag = checkSuffix(str)
+    const tag = checkSuffix(str)
     if (tag) {
       setTag([term], tag, world, false, '2-adj-number')
     }

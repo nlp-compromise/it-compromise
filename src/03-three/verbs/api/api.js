@@ -19,9 +19,9 @@ const api = function (View) {
       return getNth(this, n).map(parseVerb)
     }
     json(opts, n) {
-      let m = getNth(this, n)
-      let arr = m.map((vb) => {
-        let json = vb.toView().json(opts)[0] || {}
+      const m = getNth(this, n)
+      const arr = m.map((vb) => {
+        const json = vb.toView().json(opts)[0] || {}
         json.verb = toJSON(vb)
         return json
       }, [])
@@ -87,8 +87,8 @@ const api = function (View) {
     conjugate(n) {
       const m = this.methods.two.transform.verb
       return getNth(this, n).map((vb) => {
-        let parsed = parseVerb(vb)
-        let root = parsed.root || ''
+        const parsed = parseVerb(vb)
+        const root = parsed.root || ''
         return {
           Infinitive: root,
           PastTense: m.toPast(root),
@@ -129,7 +129,7 @@ const api = function (View) {
     // }
     // overloaded - keep Verb class
     update(pointer) {
-      let m = new Verbs(this.document, pointer)
+      const m = new Verbs(this.document, pointer)
       m._cache = this._cache // share this full thing
       return m
     }

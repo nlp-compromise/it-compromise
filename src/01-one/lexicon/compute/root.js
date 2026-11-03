@@ -1,7 +1,7 @@
 import irregular from '../methods/verbs/irregular.js'
 
 const verbForm = function (term) {
-  let want = [
+  const want = [
     'FirstPerson',
     'SecondPerson',
     'ThirdPerson',
@@ -25,7 +25,7 @@ const guessForm = function (str) {
 // every irregular conjugated form, mapped back to its infinitive
 const irregularRoots = {}
 Object.keys(irregular.paradigms).forEach((inf) => {
-  let p = irregular.paradigms[inf]
+  const p = irregular.paradigms[inf]
   Object.keys(p).forEach((k) => {
     let forms = p[k]
     if (typeof forms === 'string') {
@@ -44,13 +44,13 @@ irregularRoots['sono'] = 'essere'
 irregularRoots['bevere'] = 'bere'
 // participles of otherwise-regular verbs
 Object.keys(irregular.participles).forEach((inf) => {
-  let pp = irregular.participles[inf]
+  const pp = irregular.participles[inf]
   if (!irregularRoots.hasOwnProperty(pp)) {
     irregularRoots[pp] = inf
   }
 })
 Object.keys(irregular.gerunds).forEach((inf) => {
-  let ger = irregular.gerunds[inf]
+  const ger = irregular.gerunds[inf]
   if (!irregularRoots.hasOwnProperty(ger)) {
     irregularRoots[ger] = inf
   }
@@ -93,19 +93,19 @@ const root = function (view) {
       }
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
-        let form = verbForm(term) || guessForm(str)
+        const form = verbForm(term) || guessForm(str)
         if (irregularRoots.hasOwnProperty(str)) {
           term.root = irregularRoots[str]
         } else if (term.tags.has('Infinitive')) {
           // an infinitive may carry a pronoun suffix - 'vederlo'
-          let inf = stripReflexive(str)
+          const inf = stripReflexive(str)
           term.root = irregularRoots.hasOwnProperty(inf) ? irregularRoots[inf] : inf
         } else if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('ConditionalVerb')) {
           term.root = verb.fromConditional(str, form)
         } else if (term.tags.has('PastParticiple')) {
-          let masc = masculineParticiple(str)
+          const masc = masculineParticiple(str)
           term.root = irregularRoots.hasOwnProperty(masc)
             ? irregularRoots[masc]
             : verb.fromPastParticiple(masc, form)

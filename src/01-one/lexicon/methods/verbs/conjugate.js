@@ -1,7 +1,7 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
 import irregular from './irregular.js'
-let {
+const {
   presentTense,
   pastTense,
   futureTense,
@@ -14,9 +14,9 @@ const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thi
 
 const doEach = function (str, m, tense) {
   // known-irregular verb?
-  let table = irregular.paradigms[str]
+  const table = irregular.paradigms[str]
   if (table && table[tense]) {
-    let res = {}
+    const res = {}
     persons.forEach((p, i) => {
       res[p] = table[tense][i]
     })
@@ -42,15 +42,15 @@ const toSubjunctive = (str) => doEach(str, subjunctive, 'subjunctive')
 // congiuntivo imperfetto is regular enough for simple rules
 // parlare -> parlassi, credere -> credessi, dormire -> dormissi
 const toImperfectSubjunctive = (str) => {
-  let table = irregular.paradigms[str]
+  const table = irregular.paradigms[str]
   if (table && table.imperfectSubjunctive) {
-    let res = {}
+    const res = {}
     persons.forEach((p, i) => {
       res[p] = table.imperfectSubjunctive[i]
     })
     return res
   }
-  let stem = str.replace(/are$/, 'a').replace(/ere$/, 'e').replace(/ire$/, 'i')
+  const stem = str.replace(/are$/, 'a').replace(/ere$/, 'e').replace(/ire$/, 'i')
   if (stem === str) {
     return {}
   }

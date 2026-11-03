@@ -1,6 +1,6 @@
 import getAll from './parse.js'
 
-let suffixes = [
+const suffixes = [
   'grafe',
   'ochi',
   'senso',
@@ -1387,7 +1387,7 @@ let suffixes = [
 
 
 
-let docs = getAll()
+const docs = getAll()
 const convert = {
   ProperNoun: 'Noun',
   Singular: 'Noun',
@@ -1408,7 +1408,7 @@ function doSuffix(suff) {
   const testOne = function (obj) {
     obj.words.forEach(o => {
       if (o.w.endsWith(suff) && o.w.length > suff.length) {
-        let tag = convert[o.tag] || o.tag
+        const tag = convert[o.tag] || o.tag
         // let str = o.w.toLowerCase()
         all[tag] = all[tag] || 0
         all[tag] += 1
@@ -1435,14 +1435,14 @@ function doSuffix(suff) {
     return 0
   })
   // add percent
-  let total = all.reduce((h, a) => {
+  const total = all.reduce((h, a) => {
     h += a[1]
     return h
   }, 0)
 
   all = all.map(a => {
-    let num = (a[1] / total || 1) * 100
-    let per = Math.round(num * 10) / 10
+    const num = (a[1] / total || 1) * 100
+    const per = Math.round(num * 10) / 10
     return [a[0], a[1], per]
   })
 

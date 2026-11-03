@@ -2,10 +2,10 @@ import { ends } from '../data.js'
 
 // split 'centosessantasette' into  [ 'cento', 'sessanta', 'sette' ]
 const tokenize = function (str) {
-  let tokens = []
+  const tokens = []
   let going = true
   while (going) {
-    let found = ends.find(end => str.endsWith(end))
+    const found = ends.find(end => str.endsWith(end))
     if (found) {
       tokens.push(found)
       str = str.substr(0, str.length - found.length)

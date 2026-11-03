@@ -14,7 +14,7 @@ const api = function (View) {
     }
     // overloaded - keep Contraction class
     update(pointer) {
-      let m = new Contractions(this.document, pointer)
+      const m = new Contractions(this.document, pointer)
       m._cache = this._cache // share this full thing
       return m
     }

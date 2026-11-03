@@ -1,7 +1,7 @@
 import getAll from './parse.js'
 import nlp from '../../src/index.js'
 
-let show = new Set([
+const show = new Set([
 ])
 
 let byWord = {}
@@ -26,10 +26,10 @@ const percent = (part, total) => {
   num = Math.round(num * 10) / 10
   return num
 }
-let missing = {}
+const missing = {}
 
 const testOne = function (o) {
-  let doc = nlp(o.text).terms()
+  const doc = nlp(o.text).terms()
   if (doc.length !== o.words.length) {
     // console.log('len mis-match')
     return null
@@ -43,7 +43,7 @@ const testOne = function (o) {
     if (m.has('#' + tag)) {
       right += 1
     } else {
-      let str = m.text('normal')
+      const str = m.text('normal')
       if (tag === 'Verb') {
         // if (m.has('#Noun')) {
         byWord[str] = byWord[str] || 0
@@ -60,12 +60,12 @@ const testOne = function (o) {
   return percent(right, o.words.length)
 }
 
-let docs = getAll()
+const docs = getAll()
 
 let sum = 0
 let total = 0
 docs.forEach(o => {
-  let avg = testOne(o)
+  const avg = testOne(o)
   if (avg !== null) {
     sum += avg
     total += 1

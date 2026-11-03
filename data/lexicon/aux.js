@@ -1,6 +1,6 @@
 
 let lex = {}
-let irreg = [
+const irreg = [
   //essere (to be; auxiliary)
   ['sono', 'ero', 'fui', 'sarò', 'sia', 'fossi', 'sarei'],
   ['sei', 'eri', 'fosti', 'sarai', 'sia', 'fossi', 'saresti'],
@@ -58,7 +58,7 @@ let irreg = [
   ['sanno', 'sapevano', 'seppero', 'sapranno', 'sappiano', 'sapessero', 'saprebbero'],
 ]
 
-let forms = [
+const forms = [
   'PresentTense',
   'PastTense',
   'PastTense',
@@ -75,7 +75,7 @@ irreg.forEach(line => {
 
 const vb = 'Verb'
 // auxiliary verbs
-let misc = {
+const misc = {
   //alt
   'debbo': vb,
   'debbono': vb,

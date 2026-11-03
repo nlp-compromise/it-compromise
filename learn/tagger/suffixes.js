@@ -1,7 +1,7 @@
 import getAll from './parse.js'
 
 
-let suff = 'simi'
+const suff = 'simi'
 let all = {}
 
 const convert = {
@@ -19,11 +19,11 @@ const convert = {
   SingularAdjective: 'Adjective',
 }
 
-let counts = {}
+const counts = {}
 const testOne = function (obj) {
   obj.words.forEach(o => {
     if (o.w.endsWith(suff) && o.w.length > suff.length) {
-      let tag = convert[o.tag] || o.tag
+      const tag = convert[o.tag] || o.tag
       // let str = o.w.toLowerCase()
       all[tag] = all[tag] || 0
       all[tag] += 1
@@ -36,7 +36,7 @@ const testOne = function (obj) {
   })
 }
 
-let docs = getAll()
+const docs = getAll()
 
 docs.forEach(obj => {
   testOne(obj)
@@ -53,14 +53,14 @@ all = Object.entries(all).sort((a, b) => {
   return 0
 })
 // add percent
-let total = all.reduce((h, a) => {
+const total = all.reduce((h, a) => {
   h += a[1]
   return h
 }, 0)
 
 all = all.map(a => {
-  let num = (a[1] / total || 1) * 100
-  let per = Math.round(num * 10) / 10
+  const num = (a[1] / total || 1) * 100
+  const per = Math.round(num * 10) / 10
   return [a[0], a[1], per + '%']
 })
 

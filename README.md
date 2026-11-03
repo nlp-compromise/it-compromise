@@ -283,3 +283,7 @@ npm watch
 - &nbsp; **[TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/)** - Perl tagger w/ italian model
 
 MIT
+
+### TypeScript
+
+Both ESM imports and CommonJS `import = require()` are supported. CommonJS typings require TypeScript 5.3 or newer.

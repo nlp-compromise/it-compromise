@@ -11,8 +11,8 @@ const auxWords = new Set([
 const participleLike = /(at|ut|it)[oaie]$/
 
 const fallback = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
   if (term.tags.size === 0) {
 
     if (terms[i - 1]) {

@@ -2,7 +2,7 @@
 //  -o  (masculine) ->  -i in the plural, 
 //  -a  (feminine), -> -e in the plural.
 const checkSuffix = function (term) {
-  let str = term.normal || term.implicit || ''
+  const str = term.normal || term.implicit || ''
   if (str.endsWith('i') || str.endsWith('che') || str.endsWith('ghe')) {
     return 'PluralNoun'
   }
@@ -16,11 +16,11 @@ const checkSuffix = function (term) {
 }
 
 const nounNumber = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let tags = term.tags
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const tags = term.tags
   if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('PluralNoun') && !tags.has('Singular')) {
-    let tag = checkSuffix(term)
+    const tag = checkSuffix(term)
     if (tag) {
       setTag([term], tag, world, false, '2-noun-number')
     }

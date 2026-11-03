@@ -37,7 +37,7 @@ const all = function (str) {
     Object.values(toReflexive(str))
   )
   // past-participle, in all four gender/number agreements
-  let pp = toPastParticiple(str)
+  const pp = toPastParticiple(str)
   if (pp) {
     arr.push(pp)
     arr.push(pp.replace(/o$/, 'a'))
@@ -47,7 +47,7 @@ const all = function (str) {
   arr.push(toGerund(str))
   arr.push(toPresentParticiple(str))
   // attached object-pronouns - 'fissarla', 'scriverlo'
-  let stem = str.replace(/e$/, '')
+  const stem = str.replace(/e$/, '')
   arr = arr.concat([stem + 'lo', stem + 'la', stem + 'li', stem + 'le', stem + 'ne'])
   arr = arr.filter((s) => s)
   arr = new Set(arr)

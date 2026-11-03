@@ -1,11 +1,11 @@
-import fs from 'fs'
-let lines = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conlu/conlu-it.txt').toString().split(/\n/)
+import fs from 'node:fs'
+const lines = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/conlu/conlu-it.txt').toString().split(/\n/)
 
-let reg = / Gender=Masc|Number=/
-let verb = /VerbForm=/
-let plur = /Number=Plur/
-let sing = /Number=Sing/
-let pairs = []
+const reg = / Gender=Masc|Number=/
+const verb = /VerbForm=/
+const plur = /Number=Plur/
+const sing = /Number=Sing/
+const pairs = []
 for (let i = 0; i < lines.length - 1; i += 1) {
   if (reg.test(lines[i]) && reg.test(lines[i + 1]) && !verb.test(lines[i]) && !verb.test(lines[i + 1])) {
     if (plur.test(lines[i]) && sing.test(lines[i + 1])) {

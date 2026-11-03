@@ -15,7 +15,7 @@ const m = 'MaleNoun'
 
 */
 
-let suffixes = [
+const suffixes = [
   null,
   {
     'a': f,
@@ -79,12 +79,12 @@ let suffixes = [
 ]
 
 const nounGender = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  let tags = term.tags
-  let str = term.normal || term.implicit || ''
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  const tags = term.tags
+  const str = term.normal || term.implicit || ''
   if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
-    let tag = suffixLoop(str, suffixes)
+    const tag = suffixLoop(str, suffixes)
     if (tag) {
       setTag([term], tag, world, false, '2-guess-gender')
     }

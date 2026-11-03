@@ -16,10 +16,10 @@ const multiples = [
 //turn number into an array of magnitudes, like [[5, mila], [2, cento]]
 const getMagnitudes = function (num) {
   let working = num
-  let have = []
+  const have = []
   multiples.forEach(a => {
     if (num >= a[0]) {
-      let howmany = Math.floor(working / a[0])
+      const howmany = Math.floor(working / a[0])
       working -= howmany * a[0]
       if (howmany) {
         have.push({
@@ -35,7 +35,7 @@ const getMagnitudes = function (num) {
 
 // 25 -> ['venti', 'cinque']
 const twoDigit = function (num) {
-  let words = []
+  const words = []
   // 20-90
   for (let i = 0; i < tens.length; i += 1) {
     if (tens[i][0] <= num) {
@@ -83,7 +83,7 @@ const toText = function (num) {
     num = Math.abs(num)
   }
   // handle multiples
-  let found = getMagnitudes(num)
+  const found = getMagnitudes(num)
   found.forEach(obj => {
     // just 'cento', not 'unocento'
     if (obj.num === 1 && obj.unit) {
@@ -95,7 +95,7 @@ const toText = function (num) {
       words.push(obj.unit)
       return
     }
-    let res = twoDigit(obj.num)
+    const res = twoDigit(obj.num)
     words = words.concat(res)
     if (obj.unit !== '') {
       words.push(obj.unit)

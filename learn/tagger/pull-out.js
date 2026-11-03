@@ -1,11 +1,11 @@
 import getAll from './parse.js'
 
 let all = {}
-let tag = "Plural"
+const tag = "Plural"
 const testOne = function (obj) {
   obj.words.forEach(o => {
     if (o.tag === tag) {
-      let str = o.w.toLowerCase()
+      const str = o.w.toLowerCase()
       all[str] = all[str] || 0
       all[str] += 1
     }
@@ -13,7 +13,7 @@ const testOne = function (obj) {
   })
 }
 
-let docs = getAll()
+const docs = getAll()
 
 docs.forEach(obj => {
   testOne(obj)

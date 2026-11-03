@@ -1,9 +1,9 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
 import irregular from './irregular.js'
-let { gerunds, pastParticiple, presentParticiple } = model
+const { gerunds, pastParticiple, presentParticiple } = model
 
-let m = {
+const m = {
   toGerund: gerunds.gerunds,
   fromGerund: reverse(gerunds.gerunds),
   toPastParticiple: pastParticiple.pastParticiple,
@@ -13,10 +13,10 @@ let m = {
 }
 
 // irregular participle/gerund lookups, in both directions
-let toPP = {}
-let fromPP = {}
-let toGer = {}
-let fromGer = {}
+const toPP = {}
+const fromPP = {}
+const toGer = {}
+const fromGer = {}
 Object.keys(irregular.participles).forEach((inf) => {
   toPP[inf] = irregular.participles[inf]
   fromPP[irregular.participles[inf]] = inf
@@ -26,7 +26,7 @@ Object.keys(irregular.gerunds).forEach((inf) => {
   fromGer[irregular.gerunds[inf]] = inf
 })
 Object.keys(irregular.paradigms).forEach((inf) => {
-  let p = irregular.paradigms[inf]
+  const p = irregular.paradigms[inf]
   if (p.pastParticiple) {
     toPP[inf] = p.pastParticiple
     fromPP[p.pastParticiple] = fromPP[p.pastParticiple] || inf

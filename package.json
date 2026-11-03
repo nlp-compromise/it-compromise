@@ -1,35 +1,33 @@
 {
-  "author": "Spencer Kelly <spencermountain@gmail.com> (https://spencermountain.dev)",
   "name": "it-compromise",
-  "description": "modesta elaborazione del linguaggio naturale per javascript",
   "version": "0.3.1",
-  "packageManager": "pnpm@11.5.0",
-  "engines": {
-    "node": ">=12"
+  "description": "modesta elaborazione del linguaggio naturale per javascript",
+  "license": "MIT",
+  "repository": "github:nlp-compromise/it-compromise",
+  "author": "Spencer Kelly <spencermountain@gmail.com> (https://spencermountain.dev)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./builds/it-compromise.mjs"
+      },
+      "require": {
+        "types": "./types/index.d.cts",
+        "default": "./builds/it-compromise.cjs"
+      }
+    }
   },
   "main": "./builds/it-compromise.mjs",
   "browser": "./builds/it-compromise.min.js",
-  "unpkg": "./builds/it-compromise.min.js",
-  "type": "module",
+  "types": "./types/index.d.ts",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./types/index.d.ts",
-      "import": "./builds/it-compromise.mjs",
-      "require": "./builds/it-compromise.cjs"
-    }
+  "engines": {
+    "node": ">=12"
   },
-  "types": "types/index.d.ts",
-  "repository": "github:nlp-compromise/it-compromise",
-  "prettier": {
-    "trailingComma": "none",
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true,
-    "printWidth": 100
-  },
+  "packageManager": "pnpm@11.5.0",
   "scripts": {
-    "test": "pnpm run check-types && tape \"./tests/**/*.test.js\" | tap-dancer",
+    "test": "pnpm run check-package-types && pnpm run check-types && tape \"./tests/**/*.test.js\" | tap-dancer",
     "check-types": "tsc -p tsconfig.json",
     "testb": "cross-env TESTENV=prod pnpm run test",
     "build": "pnpm run version && rollup -c --silent",
@@ -40,31 +38,40 @@
     "lint": "eslint ./src/**/*",
     "version": "node ./scripts/version.js",
     "score": "node ./learn/tagger/test.js",
-    "stress": "node scripts/stress.js"
+    "stress": "node scripts/stress.js",
+    "check-package-types": "tsc -p tests/package-types/tsconfig.json"
   },
   "files": [
     "builds/",
-    "types/",
-    "src/"
+    "src/",
+    "types/"
   ],
   "dependencies": {
-    "compromise": "^14.17.0",
-    "efrt": "2.7.0",
-    "suffix-thumb": "5.0.3"
+    "compromise": "^14.19.0",
+    "efrt": "2.9.0",
+    "rollup-plugin-filesize-check": "^2.0.1",
+    "suffix-thumb": "6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-node-resolve": "16.0.3",
-    "@rollup/plugin-terser": "1.0.0",
+    "@rollup/plugin-terser": "1.0.2",
     "cross-env": "10.1.0",
-    "eslint": "10.10.0",
-    "eslint-plugin-regexp": "3.3.0",
-    "globals": "17.12.0",
+    "eslint": "10.14.0",
+    "eslint-plugin-regexp": "3.3.3",
+    "globals": "17.14.0",
     "it-corpus": "^0.0.1",
-    "rollup": "4.63.1",
-    "tap-dancer": "0.4.0",
-    "tape": "5.10.2",
+    "rollup": "4.67.4",
+    "tap-dancer": "0.4.4",
+    "tape": "5.10.3",
     "typescript": "7.0.2"
   },
-  "license": "MIT"
+  "unpkg": "./builds/it-compromise.min.js",
+  "prettier": {
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 100
+  }
 }

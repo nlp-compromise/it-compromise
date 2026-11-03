@@ -7,16 +7,16 @@ const infinitive = /^.{3,}(are|ere|ire|rre)$/
 const prefix = /^(auto|anti|contro|inter|micro|mini|multi|neo|post|pre|pseudo|semi|sotto|sopra|super|ultra|vice|co)/
 
 const verbLike = function (terms, i, world) {
-  let setTag = world.methods.one.setTag
-  let term = terms[i]
-  if (term.tags.size !== 0) {
+  const setTag = world.methods.one.setTag
+  const term = terms[i]
+  if (term.tags.size > 0) {
     return null
   }
   // an unknown prefixed compound takes the tags of its base word
-  let pre = term.normal.match(prefix)
+  const pre = term.normal.match(prefix)
   if (pre) {
-    let base = term.normal.slice(pre[0].length)
-    let lexicon = world.model.one.lexicon || {}
+    const base = term.normal.slice(pre[0].length)
+    const lexicon = world.model.one.lexicon || {}
     if (base.length > 3 && lexicon[base] !== undefined) {
       setTag([term], lexicon[base], world, false, '2-prefix-compound')
       return true
@@ -32,7 +32,7 @@ const verbLike = function (terms, i, world) {
   }
   // truncated infinitive - 'aver fatto', 'salvar la vita'
   if (/(ar|er|ir)$/.test(term.normal)) {
-    let lexicon = world.model.one.lexicon || {}
+    const lexicon = world.model.one.lexicon || {}
     if (lexicon[term.normal + 'e'] === 'Infinitive') {
       setTag([term], 'Infinitive', world, false, '2-truncated-infinitive')
       return true

@@ -20,7 +20,7 @@ const toTextOrdinal = function (words) {
     return 'decimillesimo'
   }
   // only convert the last word
-  let last = words[words.length - 1]
+  const last = words[words.length - 1]
   // which form should we use - 'quarto' or 'quattresimo'?
   if (combos.hasOwnProperty(last) && words.length > 1) {
     if (tens.hasOwnProperty(words[words.length - 2])) {

@@ -1,10 +1,10 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import tagset from './tags.js'
-let punct = new Set(['FB', 'FC', 'FF', 'FS'])
+const punct = new Set(['FB', 'FC', 'FF', 'FS'])
 
 
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'node:url'
 const dir = path.dirname(fileURLToPath(import.meta.url))
 
 // use the full corpus when present, otherwise the checked-in sample
@@ -13,12 +13,12 @@ if (!fs.existsSync(path.join(dir, file))) {
   file = 'it-test.part.txt'
 }
 
-let arr = fs.readFileSync(path.join(dir, file)).toString().split(/\n/).map(str => str.trim()).filter(str => str)
+const arr = fs.readFileSync(path.join(dir, file)).toString().split(/\n/).map(str => str.trim()).filter(str => str)
 console.log('read')
 
 const parse = function (str) {
   let words = str.split(/ /g).map(w => {
-    let a = w.split(/_/)
+    const a = w.split(/_/)
     return { w: a[0], tag: tagset[a[1]] || a[1], id: a[1] }
   })
   words = words.filter(o => {
@@ -32,7 +32,7 @@ const parse = function (str) {
 // console.log(parse(arr[223]))
 
 const doAll = function () {
-  let d = arr.slice(0, 120000).map(parse)
+  const d = arr.slice(0, 120000).map(parse)
   console.log('parsed')
   return d
 }

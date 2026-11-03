@@ -1,5 +1,5 @@
-import { Lexicon, Plugin, matchOptions, Match, Net } from './misc'
-import View from './view/it'
+import { Lexicon, Plugin, matchOptions, Match, Net } from './misc.js'
+import View from './view/it.js'
 
 /** parse a given text */
 declare function nlp(text: string, lexicon?: Lexicon): View

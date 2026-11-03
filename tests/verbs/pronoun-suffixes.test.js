@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[pronoun-suffixes] '
+const here = '[pronoun-suffixes] '
 nlp.verbose(false)
 
 test('pronoun-root:', function (t) {
-  let arr = [
+  const arr = [
     // pronoun suffixes
     // [`parlandone`, `{parlare}`],
     [`vederlo`, `{vedere}`],
@@ -38,8 +38,8 @@ test('pronoun-root:', function (t) {
     // [``,`{}`],
   ]
   arr.forEach(function (a) {
-    let [str, match] = a
-    let doc = nlp(str).compute('root')
+    const [str, match] = a
+    const doc = nlp(str).compute('root')
     t.equal(doc.has(match), true, here + a.join(' '))
   })
   t.end()

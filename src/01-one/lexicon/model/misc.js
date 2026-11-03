@@ -1,3 +1,3 @@
 
-let misc = {}
+const misc = {}
 export default misc

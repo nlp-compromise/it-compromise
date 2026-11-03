@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[root-match] '
+const here = '[root-match] '
 nlp.verbose(false)
 
 test('root-match:', function (t) {
-  let arr = [
+  const arr = [
     // present tense
     ['agguanto', '{agguantare}'],
     ['agguanti', '{agguantare}'],
@@ -176,8 +176,8 @@ test('root-match:', function (t) {
     // [``,`{}`],
   ]
   arr.forEach(function (a) {
-    let [str, match] = a
-    let doc = nlp(str).compute('root')
+    const [str, match] = a
+    const doc = nlp(str).compute('root')
     t.equal(doc.has(match), true, here + a.join(' '))
   })
   t.end()

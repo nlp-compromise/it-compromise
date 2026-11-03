@@ -1,14 +1,14 @@
-import fs from 'fs'
+import fs from 'node:fs'
 
-let lines = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/morph-it/morph-it_data.txt').toString().split(/\n/)
+const lines = fs.readFileSync('/Users/spencer/mountain/it-compromise/learn/morph-it/morph-it_data.txt').toString().split(/\n/)
 import { learn, compress } from 'suffix-thumb'
 
-let byInf = {}
+const byInf = {}
 
 lines.forEach(str => {
-  let a = str.split(/\t/g)
+  const a = str.split(/\t/g)
   if (a[2] && a[2].startsWith('ADJ')) {
-    if (!a[0] || a[0].match(/(-|[0-9]|�)/)) {
+    if (!a[0] || /(-|[0-9]|�)/.test(a[0])) {
       return
     }
     a[0] = a[0].toLowerCase().trim()

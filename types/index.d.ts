@@ -98,6 +98,12 @@ export interface Verbs extends View {
   json(options?: string | object, n?: number): any
   /** get all conjugated forms of these verbs - 'parlo', 'parlai', 'parlerò' */
   conjugate(n?: number): VerbConjugation[]
+  /** re-write these verbs in the past-tense (imperfetto) - 'lei parla' -> 'lei parlava' */
+  toPastTense(n?: number): Verbs
+  /** re-write these verbs in the present-tense - 'lei parlava' -> 'lei parla' */
+  toPresentTense(n?: number): Verbs
+  /** re-write these verbs in the future-tense - 'lei parla' -> 'lei parlerà' */
+  toFutureTense(n?: number): Verbs
 }
 
 export interface Nouns extends View {

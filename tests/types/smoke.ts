@@ -31,8 +31,11 @@ const isNegative: boolean = parsed[0].negative.found
 const verbJson: VerbJson = verbs.json()[0].verb
 verbs.json({ normal: true }, 0)
 verbs.conjugate(0)
-// @ts-expect-error tense-conversion is not implemented in italian
-verbs.toPastTense()
+const pastVerbs: Verbs = verbs.toPastTense()
+const presentVerbs: Verbs = verbs.toPresentTense(0)
+const futureVerbs: Verbs = pastVerbs.toFutureTense()
+futureVerbs.conjugate()
+presentVerbs.text()
 // @ts-expect-error there is no imperative conjugation
 conj[0].Imperative
 

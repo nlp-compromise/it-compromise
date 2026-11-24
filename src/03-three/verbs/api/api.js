@@ -1,6 +1,7 @@
 import find from './find.js'
 import toJSON from './toJSON.js'
 import parseVerb from './parse.js'
+import convertTo from './tense.js'
 // import getSubject from './parse/getSubject.js'
 // import getGrammar from './parse/grammar/index.js'
 // import toNegative from './conjugate/toNegative.js'
@@ -56,27 +57,18 @@ const api = function (View) {
     //     return toInfinitive(vb, parsed, info.form)
     //   })
     // }
-    // toPresentTense(n) {
-    //   return getNth(this, n).map(vb => {
-    //     let parsed = parseVerb(vb)
-    //     let info = getGrammar(vb, parsed)
-    //     return toPresent(vb, parsed, info.form)
-    //   })
-    // }
-    // toPastTense(n) {
-    //   return getNth(this, n).map(vb => {
-    //     let parsed = parseVerb(vb)
-    //     let info = getGrammar(vb, parsed)
-    //     return toPast(vb, parsed, info.form)
-    //   })
-    // }
-    // toFutureTense(n) {
-    //   return getNth(this, n).map(vb => {
-    //     let parsed = parseVerb(vb)
-    //     let info = getGrammar(vb, parsed)
-    //     return toFuture(vb, parsed, info.form)
-    //   })
-    // }
+    /** 'parlavo' -> 'parlo' */
+    toPresentTense(n) {
+      return convertTo(getNth(this, n), 'present')
+    }
+    /** 'parlo' -> 'parlavo' (imperfetto) */
+    toPastTense(n) {
+      return convertTo(getNth(this, n), 'imperfect')
+    }
+    /** 'parlo' -> 'parlerò' */
+    toFutureTense(n) {
+      return convertTo(getNth(this, n), 'future')
+    }
     // toGerund(n) {
     //   return getNth(this, n).map(vb => {
     //     let parsed = parseVerb(vb)

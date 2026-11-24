@@ -260,6 +260,30 @@ doc.has('{guidare} al #Noun')
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
+### Tempi verbali
+
+può cambiare il tempo dei verbi, mantenendo la persona
+
+```js
+let doc = nlp('io parlo italiano e lei mangia il pane')
+doc.verbs().toPastTense()
+doc.text()
+// 'io parlavo italiano e lei mangiava il pane'
+
+doc.verbs().toFutureTense()
+doc.text()
+// 'io parlerò italiano e lei mangerà il pane'
+
+doc.verbs().toPresentTense()
+doc.text()
+// 'io parlo italiano e lei mangia il pane'
+```
+
+`.toPastTense()` usa l'imperfetto - i verbi al passato prossimo o al passato remoto sono già al passato, e non cambiano.
+
+<!-- spacer -->
+<img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
+
 <div align="center">
   <img src="https://user-images.githubusercontent.com/399657/68221731-e8b84800-ffb7-11e9-8453-6395e0e903fa.png"/>
 </div>

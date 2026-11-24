@@ -53,7 +53,8 @@ const api = function (View) {
     toSingular(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).if('#PluralNoun').map(m => {
-        const str = getRoot(m)
+        // nb: the root of a plural noun is already singular - so use the word itself
+        const str = m.text('normal')
         const singular = methods.fromPlural(str)
         return m.replaceWith(singular)
       })

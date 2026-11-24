@@ -16,7 +16,7 @@ const api = function (View) {
       this.viewType = 'Verbs'
     }
     parse(n) {
-      return getNth(this, n).map(parseVerb)
+      return getNth(this, n).map(parseVerb, [])
     }
     json(opts, n) {
       const m = getNth(this, n)
@@ -134,10 +134,6 @@ const api = function (View) {
       return m
     }
   }
-  Verbs.prototype.toPast = Verbs.prototype.toPastTense
-  Verbs.prototype.toPresent = Verbs.prototype.toPresentTense
-  Verbs.prototype.toFuture = Verbs.prototype.toFutureTense
-
   View.prototype.verbs = function (n) {
     let vb = find(this)
     vb = getNth(vb, n)

@@ -1,5 +1,11 @@
-learn/conjugation/verbs
-it-test.txt
-conlu-it.txt
-.*
-morph-it_data.txt
+node_modules/
+coverage/
+.nyc_output/
+.pnpm-store/
+.claude/
+.DS_Store
+.env
+.eslintcache
+*.log
+*.tgz
+*.tsbuildinfo

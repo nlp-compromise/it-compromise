@@ -1,4 +1,4 @@
-// generated from ./verbs.jsonl by scripts/gen-irregular.js
+// generated from ./data/verbs.jsonl by scripts/gen-irregular.js
 // full tables for verbs with irregular stems,
 // plus irregular past-participles + gerunds for otherwise-regular verbs
 export default {

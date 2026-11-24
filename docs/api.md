@@ -200,23 +200,23 @@ Sono scritte per ogni lingua: quelle disponibili qui non sono le stesse dell'ing
 - **`.numbers().greaterThan(n)`** — restituisce solo i numeri maggiori di n
 - **`.numbers().lessThan(n)`** — restituisce solo i numeri minori di n
 - **`.numbers().between(min, max)`** — restituisce solo i numeri compresi tra min e max
-- **`.numbers().set(n)`** — sostituisce ogni numero con n
-- **`.numbers().add(n)`** — aggiunge n a ogni numero
-- **`.numbers().subtract(n)`** — sottrae n da ogni numero
+- **`.numbers().json(n?)`** — restituisce i metadati di ogni numero (o solo dell'n-esimo), con il valore interpretato
+- **`.numbers().set(n)`** — sostituisce ogni numero con n, dato come numero o come testo (`8`, `'8'`, `'otto'`)
+- **`.numbers().add(n)`** — aggiunge n a ogni numero (numero o testo)
+- **`.numbers().subtract(n)`** — sottrae n da ogni numero (numero o testo)
 - **`.numbers().increment()`** — aggiunge 1 a ogni numero
 - **`.numbers().decrement()`** — sottrae 1 da ogni numero
 
 ### `.contractions()`
 
 - **`.contractions()`** — restituisce le forme contratte o elise, come «l'amico» o «c'è»
-- **`.contractions().expand()`** — le scrive per esteso
+- **`.contractions().expand()`** — le scrive per esteso: «c'è» → «ci è», «l'amico» → «lo amico», «dell'amico» → «di lo amico». L'articolo eliso diventa sempre «lo», senza accordo di genere; le preposizioni articolate senza apostrofo («della», «nel») non vengono toccate
 
 ## Metodi del costruttore
 
 _(chiamati sull'oggetto `nlp` importato, non su una vista)_
 
 - **`nlp.tokenize(text, lexicon?)`** — analizza il testo senza eseguire il tagger
-<!-- - **`nlp.lazy(text, match?)`** — scorre il testo con un'analisi minima -->
 - **`nlp.plugin(plugin)`** — aggiunge un plugin di compromise
 - **`nlp.extend(plugin)`** — alias di nlp.plugin()
 - **`nlp.addWords(words, isFrozen?)`** — aggiunge nuove parole al lessico interno

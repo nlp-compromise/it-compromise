@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-// generate src/01-one/lexicon/methods/verbs/irregular.js from verbs.jsonl
+// generate src/01-one/lexicon/methods/verbs/irregular.js from data/verbs.jsonl
 //   node scripts/gen-irregular.js
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 
-const jsonl = fs.readFileSync(path.join(root, 'verbs.jsonl'), 'utf8')
+const jsonl = fs.readFileSync(path.join(root, 'data/verbs.jsonl'), 'utf8')
   .split(/\n/).filter(s => s).map(s => JSON.parse(s))
 const byWord = {}
 jsonl.forEach(o => { byWord[o.word] = o })
@@ -77,7 +77,7 @@ for (const o of jsonl) {
 console.error('irregular participles:', Object.keys(participles).length)
 console.error('irregular gerunds:', Object.keys(gerunds).length)
 
-const out = `// generated from ./verbs.jsonl by scripts/gen-irregular.js
+const out = `// generated from ./data/verbs.jsonl by scripts/gen-irregular.js
 // full tables for verbs with irregular stems,
 // plus irregular past-participles + gerunds for otherwise-regular verbs
 export default ${JSON.stringify({ paradigms, participles, gerunds }, null, 2)}

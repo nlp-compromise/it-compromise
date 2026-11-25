@@ -47,7 +47,6 @@ const suffixes = [
   },
   //four
   {
-    'arca': m,
     'cida': m,
     'iere': m,
     'ista': m,
@@ -66,6 +65,11 @@ const suffixes = [
     'ptosi': f,
     // 'mante': m,
     'nauta': m,
+    // 'monarca', but not 'barca'
+    'narca': m,
+    'iarca': m,
+    'rarca': m,
+    'garca': m,
     // 'crate': m,
     'trice': f,
     'igine': f,

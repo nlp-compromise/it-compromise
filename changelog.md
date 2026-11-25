@@ -6,6 +6,8 @@
 - **[change]** - remove `nlp.lazy()` from types and docs - it lives in a plugin now
 - **[new]** - `.contractions().expand()` writes elisions out in full - "c'è" → 'ci è', "l'uomo" → 'lo uomo'
 - **[fix]** - `.nouns().toSingular()` no longer over-converts - 'mele' → 'mela' (was 'melm')
+- **[fix]** - feminine nouns pluralise properly - 'ragazza' → 'ragazze' (was 'ragazzi'), 'banca' → 'banche', 'arancia' → 'arance' - and come back with `.toSingular()`
+- **[fix]** - irregular and invariable noun plurals - 'uovo' → 'uova', 'film' → 'film', 'crisi' → 'crisi' - and singular '-e' nouns ('lo studente', 'la lezione') are no longer tagged `#PluralNoun`
 - **[fix]** - `.numbers().set()`, `.add()` and `.subtract()` accept a written number - `.add('due')` - and ignore a string that isn't one
 - **[fix]** - `.numbers().json(n)` returns the nth number, instead of throwing
 - **[fix]** - `.numbers().get()` and `.parse()` return `[]` when there are no numbers

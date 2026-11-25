@@ -200,7 +200,11 @@ const setHidden = function (terms, i, str, participle) {
   const host = terms[i - 1]
   const term = terms[i]
   const [before] = host.text.split(/['’]/)
-  if (startsVowel.test(str)) {
+  // "l'ama", "t'amavo" and "c'era" stay elided
+  // but "s'è alzato" is 'si alza', and "dov'è" is 'dove abita'
+  const isClitic = /^[lmtsvn]$/i.test(before)
+  const keep = isClitic ? !participle || /^l$/i.test(before) : /^[eè]/.test(str)
+  if (keep && startsVowel.test(str)) {
     // still elided - "c'era"
     host.text = before + "'" + str
     host.normal = host.text.toLowerCase()

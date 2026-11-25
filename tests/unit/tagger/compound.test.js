@@ -83,3 +83,70 @@ test('not a compound tense:', function (t) {
   t.equal(nlp('ha fame').has('#Auxiliary'), false, here + 'ha fame')
   t.end()
 })
+
+test('short contractions are split:', function (t) {
+  const arr = [
+    ["m'ha visto", '#Pronoun #Auxiliary #PastParticiple'],
+    ["t'ho detto", '#Pronoun #Auxiliary #PastParticiple'],
+    ["s'è alzato", '#Reflexive #Auxiliary #PastParticiple'],
+    ["l'ha mangiata", '#Pronoun #Auxiliary #PastParticiple'],
+    ["dov'è il gatto", 'dove #Verb #Determiner #Noun'],
+    ["com'è bello", 'come #Verb #Adjective'],
+    ["cos'è questo", 'cosa #Verb .'],
+    ["cos'era", 'cosa #Verb'],
+  ]
+  arr.forEach(function (a) {
+    const [str, match] = a
+    const doc = nlp(str)
+    t.equal(doc.has(match), true, here + `'${str}' has ${match}`)
+    t.equal(doc.text(), str, here + `'${str}' text is unchanged`)
+  })
+  t.equal(nlp("m'ha visto").compute('root').has('{avere} {vedere}'), true, here + "m'ha roots")
+  t.end()
+})
+
+test('conjugations beat a bare verb tag:', function (t) {
+  const arr = [
+    ['lo faranno domani', '#Pronoun (#FutureTense && #ThirdPersonPlural) #Date'],
+    ['lo farò', '#Pronoun (#FutureTense && #FirstPerson)'],
+    ['faranno tutto', '#FutureTense .'],
+  ]
+  arr.forEach(function (a) {
+    const [str, match] = a
+    t.equal(nlp(str).has(match), true, here + `'${str}' has ${match}`)
+  })
+  t.end()
+})
+
+test('imperative with pronouns attached:', function (t) {
+  const arr = [
+    ['dammelo', 'dare'],
+    ['dimmi la verità', 'dire'],
+    ['diglielo', 'dire'],
+    ['vacci tu', 'andare'],
+    ['vattene', 'andare'],
+    ['fallo subito', 'fare'],
+    ['guardami', 'guardare'],
+    ['scusami', 'scusare'],
+    ['aspettami qui', 'aspettare'],
+    ['portamelo', 'portare'],
+    ['parlane', 'parlare'],
+    ['prendilo', 'prendere'],
+    ['sentimi bene', 'sentire'],
+    ['finiscilo', 'finire'],
+    ['mangiatelo', 'mangiare'],
+    ['andiamoci', 'andare'],
+  ]
+  arr.forEach(function (a) {
+    const [str, root] = a
+    const doc = nlp(str).compute('root')
+    t.equal(doc.has('^#Imperative'), true, here + `'${str}' is imperative`)
+    t.equal(doc.has(`^{${root}}`), true, here + `'${str}' root is ${root}`)
+  })
+  // these are not
+  const not = ['il fallo era grave', 'le cantine', 'la stazione', 'la pensione', 'dalle otto', 'i fatti', 'la valle']
+  not.forEach(function (str) {
+    t.equal(nlp(str).has('#Imperative'), false, here + `'${str}' has no imperative`)
+  })
+  t.end()
+})

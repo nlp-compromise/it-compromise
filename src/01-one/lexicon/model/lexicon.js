@@ -16,46 +16,49 @@ const tagMap = {
 
 let words = {}
 
+// a bare 'Verb' says less than a conjugation does - 'faranno'
+const isEmpty = (w) => !words[w] || words[w] === 'Verb'
+
 const addVerbs = function (w) {
   // do present-tense
   let res = verbs.toPresent(w)
   Object.keys(res).forEach((k) => {
-    if (!words[res[k]]) {
+    if (isEmpty(res[k])) {
       words[res[k]] = [tagMap[k], 'PresentTense']
     }
   })
   // past-tense
   res = verbs.toPast(w)
   Object.keys(res).forEach((k) => {
-    if (!words[res[k]]) {
+    if (isEmpty(res[k])) {
       words[res[k]] = [tagMap[k], 'PastTense']
     }
   })
   // future-tense
   res = verbs.toFuture(w)
   Object.keys(res).forEach((k) => {
-    if (!words[res[k]]) {
+    if (isEmpty(res[k])) {
       words[res[k]] = [tagMap[k], 'FutureTense']
     }
   })
   // conditonal
   res = verbs.toConditional(w)
   Object.keys(res).forEach((k) => {
-    if (!words[res[k]]) {
+    if (isEmpty(res[k])) {
       words[res[k]] = [tagMap[k], 'ConditionalVerb']
     }
   })
   // imperfect
   res = verbs.toImperfect(w)
   Object.keys(res).forEach((k) => {
-    if (!words[res[k]]) {
+    if (isEmpty(res[k])) {
       words[res[k]] = [tagMap[k], 'ImperfectVerb']
     }
   })
   // imperfect
   res = verbs.toSubjunctive(w)
   Object.keys(res).forEach((k) => {
-    if (!words[res[k]]) {
+    if (isEmpty(res[k])) {
       words[res[k]] = [tagMap[k], 'Subjunctive']
     }
   })

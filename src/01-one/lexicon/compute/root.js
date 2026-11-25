@@ -1,4 +1,5 @@
 import irregular from '../methods/verbs/irregular.js'
+import parseImperative from '../methods/verbs/imperative.js'
 
 const verbForm = function (term) {
   const want = [
@@ -56,6 +57,14 @@ Object.keys(irregular.gerunds).forEach((inf) => {
   }
 })
 
+// a hint for the noun inflector - 'le chiavi' is 'chiave'
+const nounGender = function (term) {
+  if (term.tags.has('FemaleNoun')) {
+    return 'f'
+  }
+  return term.tags.has('MaleNoun') ? 'm' : undefined
+}
+
 // turn 'congratularmi' into 'congratular'
 const stripReflexive = function (str) {
   str = str.replace(/ar[mtscv]i$/, 'are')
@@ -94,7 +103,11 @@ const root = function (view) {
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
         const form = verbForm(term) || guessForm(str)
-        if (irregularRoots.hasOwnProperty(str)) {
+        // 'dammelo' is 'dare'
+        const imp = term.tags.has('Imperative') ? parseImperative(str, view.world.model.one.lexicon, verb) : null
+        if (imp) {
+          term.root = imp.root
+        } else if (irregularRoots.hasOwnProperty(str)) {
           term.root = irregularRoots[str]
         } else if (term.tags.has('Infinitive')) {
           // an infinitive may carry a pronoun suffix - 'vederlo'
@@ -127,7 +140,7 @@ const root = function (view) {
       // nouns -> singular form
       if (term.tags.has('Noun')) {
         if (term.tags.has('PluralNoun')) {
-          str = noun.fromPlural(str)
+          str = noun.fromPlural(str, nounGender(term))
         }
         term.root = str
       }

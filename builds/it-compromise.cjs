@@ -7622,7 +7622,7 @@ er
   const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
 
   // don't support single-quotes for multi-sentences
-  const pairs = {
+  const pairs$1 = {
     '\u0022': '\u0022', // 'StraightDoubleQuotes'
     '\uFF02': '\uFF02', // 'StraightDoubleQuotesWide'
     // '\u0027': '\u0027', // 'StraightSingleQuotes'
@@ -7644,8 +7644,8 @@ er
     '\u300C': '\u300D', // 'CornerBrackets' 「」
     '\u300E': '\u300F', // 'WhiteCornerBrackets' 『』
   };
-  const openQuote = RegExp('[' + Object.keys(pairs).join('') + ']', 'g');
-  const closeQuote = RegExp('[' + Object.values(pairs).join('') + ']', 'g');
+  const openQuote = RegExp('[' + Object.keys(pairs$1).join('') + ']', 'g');
+  const closeQuote = RegExp('[' + Object.values(pairs$1).join('') + ']', 'g');
 
   const closesQuote = function (str) {
     if (!str) {
@@ -8003,7 +8003,7 @@ er
     return { str, pre, post }
   };
 
-  const parseTerm = (txt, model) => {
+  const parseTerm$1 = (txt, model) => {
     // cleanup any punctuation as whitespace
     const { str, pre, post } = normalizePunctuation(txt, model);
     const parsed = {
@@ -8159,7 +8159,7 @@ er
         splitSentences,
         isSentence,
         splitTerms: splitWords,
-        splitWhitespace: parseTerm,
+        splitWhitespace: parseTerm$1,
         fromString: parse,
       },
     },
@@ -8896,11 +8896,31 @@ designate
     { word: `c'è`, out: ['ci', 'è'] },
     { word: `v'è`, out: ['vi', 'è'] },
     { word: `l'ho`, out: ['lo', 'ho'] },
+    // a 'before' rule needs three letters after it, so these short ones are spelled-out
+    { word: `l'ha`, out: ['lo', 'ha'] },
+    { word: `l'è`, out: ['lo', 'è'] },
+    { word: `m'ha`, out: ['mi', 'ha'] },
+    { word: `m'è`, out: ['mi', 'è'] },
+    { word: `t'ho`, out: ['ti', 'ho'] },
+    { word: `t'ha`, out: ['ti', 'ha'] },
+    { word: `t'è`, out: ['ti', 'è'] },
+    { word: `s'è`, out: ['si', 'è'] },
+    { word: `c'ha`, out: ['ci', 'ha'] },
+    { word: `v'ho`, out: ['vi', 'ho'] },
+    { word: `v'ha`, out: ['vi', 'ha'] },
+    { word: `n'è`, out: ['ne', 'è'] },
+    { word: `dov'è`, out: ['dove', 'è'] },
+    { word: `com'è`, out: ['come', 'è'] },
+    { word: `cos'è`, out: ['cosa', 'è'] },
+    { word: `quand'è`, out: ['quando', 'è'] },
+    { word: `qual'è`, out: ['quale', 'è'] },
     { word: `l'abbiamo`, out: ['lo', 'abbiamo'] },
     { before: `c`, out: ['ci'] },//c'era, c'erano
     { before: `d`, out: ['di'] },//d'accordo, d'estate
     { before: `dov`, out: ['dove'] },
     { before: `com`, out: ['come'] },
+    { before: `cos`, out: ['cosa'] },//cos'era
+    { before: `quand`, out: ['quando'] },//quand'ero
     { before: `quest`, out: ['questo'] },//quest'anno
     { before: `quell`, out: ['quello'] },//quell'uomo
     { before: `sant`, out: ['santo'] },//sant'antonio
@@ -9076,7 +9096,7 @@ designate
   // generated in ./lib/models
   var model$1 = {
     "nouns": {
-      "plural": "1:io{,l{dil,o{p,s,r,ci}},atr,cin}|1i:o{i{l{andag,gorgog,abug,esi,l,o,uopo,b},frusc,voc,r{rlato,mo,t,dib},d{d,te,esi,o},biv,vv,nv,ich,roz,onz,n{i,n{e{dri,uant,rent,tt,ic,u},i},bo,uto,ta,e},tt,it,us,ncip,lloqu},nac,llic,roc},e,a,ala,ativa,s|1hi:o{bric,olog{pr,ap,on}},ca|1e:tativa|2i:rus|9m.:illimetri|0es:h|0i:l~1i:o{,g{ara,ma,fa,olo},c{ia,ma,da,i,oli},duom},egame|9icrociati:ocrociato|1:io{min{edo,r},pod,isod}|1ini:uomo|5iviri:oviro|1oi:bue|1hi:o{c{,i{ar,tr,l,z,et,c}},g},ega,sfuga|6ifondi:sofondo|2ei:midio|0s:e{air,war,scor,mm,harm,gam,ag,eg,yt,rin,peon,ch,ill},o{onad,mmand,ecid,rri,rati,tudi,pesin,iner,menc,h,ebl},t,g,r,b,lm,n,u,d|1ies:y|0:ss,on,k,nt,ost,à,ù|2en:man|5iclan:oclan|1a:m,cciglio,ginocchio|6ibanda:obanda|6icosca:ocosca|9ifamiglia:ofamiglia|10ipattuglia:opattuglia|6imafia:omafia|7iscuola:oscuola|8isquadra:osquadra|10istruttura:ostruttura|2ora:us|2era:nus|6idanza:odanza|9icorrente:ocorrente|1e:a{t{on,an,tor,rot,aret,at,ro,a{f,al,z,rm},nchies,pes,ndi,clu,el},n,rp,r{r,nat,st,isu,rdu,p,e},vand,z{roz,n{a{i,ost,ac,s,er},reque}},tram,rim,ttim,tiv,gu,i,l,mb,s}|12idelegazione:odelegazione|9istazione:apostazione|1he:ca{bar,tas,es,sti,tti,ni,o}|2e:cia,ggia|10igabinetto:ogabinetto|8ireparto:oreparto|7ipopolo:opopolo|9iservizio:oservizio|8iufficio:oufficio|6fondo:iofondo|7igruppo:ogruppo|9m.:entimetro|8m.:kilometro|3l.:umi~1e:i{t{a{ab,pl,cr,fr,ntr,en,agn,venn,im,v},n{,serve,ipia,ica,rca,isco},pre,i{nol,il,or,av,ip,sp,im},or{f,m,c},les,rtes,lat,rdo,po},l{so,au,su,iu,i,obi,uci,mie,a,oca},n{i{pett,tend,rd,tud,lic,poll,rg,ag,ig,im,ulm,nf},o,muo,quo,e{g,tig,il,b,z,h,p},en,eien,oma,ceca,car},gregg,dog,iug,c{a,lu,i{sp,am,ef,ast,rt,ar,rn,l,d,b},es,vo,no},s{ales,eres,clas,en{u,nons,n,m},e,ba,fa},r{o,nco,a{f,t{l,on,lamen,li},e,nvers,uss,ci,upan,min,mp,ol},e{t{rat,e,lis,o,ra,n},i{,er,rr,or,ss},dav,dov,s,n,vol,sap,c,d,ar},vent,mest,ot,tor,emb,tob,rti,pad},m{c,ci,gi,no,prono,ddo,u,r{la,da,ge,ve},a,tra,ie,se},ro,bo,uragh,d{oi,oli,hi,ipo,ea,e},ccub,pub,av{tr,l,n},ep,nqu}|1a:i{t{a{crob,nell,dur,at,rt,din,sseggi,am},pin,e{tl,g,sc,an,on,st,di,of,o},i{ol,ael,rd,nasc,esc,voc,vis,erem,of},ffer,s{i,po,a{e,er,i,n},ru,ore,ie,y},t{flo,nfi,tiche,cle},u{na,isp,e,val},o{sp,i,l,u,n},vol},g{pa,ro,l,n},z{z{ta,e{ur,l,t,h}},n},r{eomet,iet,iat,u{ig,pa,s,t,d},omb,squad},m{,s{i{r{fo,ca,c,p},acl,sof},a{l,mi,t,r}},li,zi,o{in,en,lan,uc},au,a{g,gi,r,cl}},d{sfi,stici,doman,ten,ien,tra,pa,ial},rib,v{ati{tern,r},le,pro,iser},ariff,e{in,d,ar,bl},p{pi,pa,map,re},tu}|1o:i{t{eurocra,n{e{m,cc,arg,v,rt,gu,al},a{pi,hi,c,s,u,v},o{c,fr,nf,am},u,i},coli,nfor,s{qui,cri,po{am,e,p}},nuo,isvol},l{sso,popo,i{b,s,f,h},a{c,sci,uf,mb,ded,and,eg,et,qu}},n{i{rd{ia,co,io},pulm},o{band,ond,erd,u,arit,mit,ig,atr,diac,of,af,ef},ige,oge,cen,sen},z{z,golez,n{ava,ma,pra,o},l,r,for},c{ona,i{bonif,aff,port,ill},rro},pes,r{o{cast,ist,es,sim,mod,lav,lu,c,irig,an,corp,f},a{c,pic,gu,gent,gat,tt,ors,b,gi,li,den,an,in,am,ur,p,ll,scol,g},e{mit,i{dott,sent,rest,rigl,ival,r,man,nocch,canz,nad,ud,s},on,oc,fod,ad},memb},m{s,i,o{on,dr,nt,d,p,g},su,fu,t,ar,her,tor,a{ls,hi,ic,ot,ecl,tal},ilogram,l},zo,d{aci,ossi,rre,ge},strof,oroscop,cqu}|0o:i{l{g,o{gocci,tr,gas,op},idil,usi,ci,ime,ite,pa},n{atici,oci,o{rcant,ndem,rim,cim},en{ec,i,l,t},ema,cra,era,tu},g,crolog,z{,un,len,or},c{,ba,i{ausp,f,enef,lef,fr,pin,il}},s{ar,nna,co,mpo},r{o{t{a{mbul,urg,sserv,iamm,crem},lut,fet,sul,i{aud,orm,rr,b},per,on},rens,us,og,mp},a{,ec,ic,anc,cett,ab,emin,cchin,sip,roll,stol,bol},e{t{ul,bat,i,ns,eu},tif,rop,tup,id},pat,ugu,rcu,b{ili,uli,u,o},li,ap,op,ond},com,parm,o,h{c{c{nna,tera,ura,oci,ni,spi,o{mal,cr,tr,n,tt,p,d,ab},re,pe,mu,isu},s{te,fi,vi,ra,mu},er,or,gran},ing},a,d{sor,mor,ci,si,ti,pen,cen,ma,ta,sse,me,lu,pu},b{ver,bur,cam,nu},hiv,rav,uv,f{ro,taf,raf,of},p{ici{rt,n},co,sem,cap,dop,cop,su},qu}|1us:esauri|1s:goi,poi|2a:chi{giac,lic,tec,mos,vas,r{rice,a{r,n,g,i}},du,te,i,scari}|2o:hi{gnocc,terc,mbric,ieg}|2:tches|2illimetri:mm.~1i:e{t{abe,re,con,fron,os,tes,not,esta},apic,croc,ass,cos,aver,oner,mar,n{ca,pa,re,temi,termi,turbi},ll{co,scia,pe},ap,legg},o{r{o{,all,cl,p,t},ce,fa,ussa},m{to,ato,gno,gram,gru,ra,re},i{br,legg,pend,z,pa},chirurg,on{col,d,t,tr},lezz,mant,senat,scop,verb},a{m{co,scis,sis,sti,ci,ar},al,t{por,car,testa,vi,ret,fet,condot,mul,pun},cord,guid,ond,forz,acqu,mir,cur,fug,leg,erb,riv}|1:io{ast,pat,atr,avor,laborator,ces,ch{oc,coc,sec,mar,ris},con,torn,mic,orolog}|2ei:dio|1hi:fico,orco,ca{boc,cari,an}|0:retro|1e:rivista|0i:alcol"
+      "plural": "1:io{,l{dil,o{p,s,r,ci}},atr,cin}|1i:o{i{l{andag,gorgog,abug,esi,l,o,uopo,b},frusc,voc,r{rlato,mo,t,dib},d{d,te,esi,o},biv,vv,nv,ich,roz,onz,n{i,n{e{dri,uant,rent,tt,ic,u},i},bo,uto,ta,e},tt,it,us,ncip,lloqu},nac,llic,roc},e,a{t{as,ba,e,au,i{m,l,f,oc}},m,ramm,cid,al,metr,ap,ib},s|1hi:o{ic{et,ar,tr,br,l,z,c},olog{pr,ap,on}},uca,arca|1e:a{tervist,onet,iet,m{tra,am,som,i,or,ir,l}}|1he:arca{b,m}|2i:rus|9m.:illimetri|0es:h|0i:l~1i:o{,g{ara,ma,fa,olo},c{ia,ma,da,i,oli,por,gre},duom},a{t{is,ys,eu,po,io,lo},lg,iatr,lim,zim},egame|9icrociati:ocrociato|1:io{min{edo,r},pod,isod}|1ini:uomo|5iviri:oviro|1oi:bue|1hi:co,go,ega,sfuga|6ifondi:sofondo|2ei:midio|0s:e{air,war,scor,mm,harm,gam,ag,eg,yt,rin,peon,ch,ill},o{onad,mmand,ecid,rri,rati,tudi,pesin,iner,menc,h,ebl},t,g,r,b,lm,n,u,d|1ies:y|0:ss,on,foto,k,nt,ost,à,ù|2en:man|5iclan:oclan|1a:m,o{ccigli,ginocchi,labbr,uov}|6ibanda:obanda|6icosca:ocosca|9ifamiglia:ofamiglia|10ipattuglia:opattuglia|6imafia:omafia|7iscuola:oscuola|8isquadra:osquadra|10istruttura:ostruttura|2ora:us|2era:nus|6idanza:odanza|1e:a|9icorrente:ocorrente|12idelegazione:odelegazione|9istazione:apostazione|1he:ca,ga|2e:cia,ggia|10igabinetto:ogabinetto|8ireparto:oreparto|7ipopolo:opopolo|9iservizio:oservizio|8iufficio:oufficio|6fondo:iofondo|7igruppo:ogruppo|9m.:entimetro|8m.:kilometro|3l.:umi~1e:i{t{a{ab,pl,cr,fr,ntr,en,agn,venn,im,v},n{,serve,ipia,ica,rca,isco},pre,i{nol,il,or,av,ip,sp,im},or{f,m,c},les,rtes,lat,rdo,ipo},l{so,au,su,iu,i,obi,uci,mie,a,oca},n{i{pett,tend,rd,tud,lic,poll,rg,ag,ig,im,ulm,nf},o,muo,quo,e{g,tig,il,b,z,h,p},en,eien,oma,ceca,car},gregg,dog,iug,c{a,lu,i{sp,cam,ef,ast,rt,ar,rn,l,d,b},es,vo,no},s{ales,eres,clas,en{u,nons,n,m},e,ba,fa},r{o,nco,a{f,t{l,on,lamen,li},e,nvers,uss,ci,upan,min,mp,ol},e{t{rat,e,lis,o,ra,n},i{,er,rr,or,ss},dav,dov,s,n,vol,sap,c,d,ar},vent,mest,ot,tor,emb,tob,rti,pad},m{c,ci,gi,no,prono,ddo,u,lar,dar,er,a,tra,ie,se},ro,bo,uragh,d{oi,oli,hi,ipo,ea,e},ccub,pub,av{tr,l,n,i},ep,nqu}|1a:i{t{croba,e{tl,g,sc,an,st,of,o},i{ol,ael,voc,erem,of},as{e,er,i,n},nau},eometr,m{s{i{r{fo,ca,c,p},acl,sof},a{l,mi,t,r}},o{,in,en,lan,uc},au,der,per,a{g,gi,r,cl},m,e,g},sticid,rib,pap}|1o:i{t{eurocra,n{e{m,cc,arg,v,rt,gu,al},a{pi,hi,c,s,u,v},o{c,fr,nf,am},u,i},coli,nfor,quis,cris},l{sso,popo,i{b,s,f,h},a{c,sci,uf,mb,ded,and,eg,et,qu}},n{i{rd{ia,co,io},pulm},o{band,ond,erd,u,arit,mit,ig,atr,diac,of,af,ef},ige,oge,cen,sen},z{z,an,on,l,r,for},c{ona,i{bonif,aff,port,ill,ed},rro},pes,r{o{cast,ist,es,sim,mod,lav,lu,c,irig,an,corp,f},a{c,pic,gu,gent,gat,tt,ors,b,gi,li,den,an,in,am,ur,p,ll,scol,g},e{mit,i{dott,sent,rest,rigl,ival,r,man,nocch,canz,nad,ud,s},on,oc,fod,ad},memb},m{o{on,dr,nt,d,p,g},su,fu,her,a{ls,hi,ic,ot,ecl,tal},ilogram},zo,d{aci,ossi,rre,ge},strof,oroscop,cqu}|0o:i{l{g,o{gocci,tr,gas,op},idil,usi,ci,ime,ite,pa},n{atici,oci,o{rcant,ndem,rim,cim},en{ec,i,l,t},ema,cra,era,tu},g,crolog,z,orz,c{,ba,i{ausp,f,enef,lef,fr,pin,il}},s{ar,nna,co,mpo},r{o{t{a{mbul,urg,sserv,iamm,crem},lut,fet,sul,i{aud,orm,rr,b},per,on},rens,us,og,mp},a{,ec,ic,anc,cett,ab,emin,cchin,sip,roll,stol,bol},e{t{ul,bat,i,ns,eu},tif,rop,tup,id},pat,ugu,rcu,b{ili,uli,u,o},li,ap,op,ond},com,parm,o,h{c{c{nna,tera,ura,oci,ni,spi,o{mal,cr,tr,n,tt,p,d,ab},re,pe,mu,isu},s{te,fi,vi,ra,mu},er,or,gran},ing},a,d{sor,mor,ci,si,ti,pen,cen,ma,ta,sse,me,lu,pu},b{ver,bur,cam,nu},hiv,rav,uv,f{ro,taf,raf,of},p{ici{rt,n},co,sem,cap,dop,cop,su},qu}|1us:esauri|1s:goi,poi|2o:hi{gnocc,terc,ieg}|2a:chi{ar{r,n,g,i},du}|2:tches|2illimetri:mm.~1i:e{t{abe,re,con,fron,os,tes,not,esta},apic,croc,ass,cos,aver,oner,mar,n{ca,pa,re,temi,termi,turbi},ll{co,scia,pe},ap,legg},o{r{o{,all,cl,p,t},ce,fa,ussa},m{to,ato,gno,gram,gru,ra,re},i{br,legg,pend,z},chirurg,on{col,d,t,tr},mant,senat,scop,verb},a{m{co,scis,sis,ar},al}|1:io{ast,pat,atr,avor,laborator,ces,ch{oc,coc,sec,mar,ris},con,torn,mic,orolog}|2ei:dio|1hi:fico,orco|0:retro|1e:a{st{a,vi,rivi,li},gemm}|1a:dito,paio|1he:lega|0i:alcol"
     },
     "adjectives": {
       "fs": "0:a~0:e|3rice:tore|1e:stio|1a:o~0:trice{gola,gi},a{t{lma,i{ron,nn,am,em,pol,ocl},is,tivis,be,ro,io},raere,icid}|1o:ista{v,mm}~",
@@ -9092,12 +9112,12 @@ designate
       "thirdPlural": "4iono:arere|3gono:nere|3ono:re{rne,orri,ngui,vi}|5ngono:gnere|4nno:avere|2scono:asalire|2cono:nedire|2ono:mpire|3cono:rre|4ono:ersi~2no:re|5ucano:anicare|3ono:re{e,i{t{iat,sen,pen,ves,er,ipar},r{ap,op,f,ut},fugg,orm,boll,egu,ssorb}}|7ettono:etrasmettere|2scono:ire|6escono:uscire|2cono:dire{d,le,pre,in,ter,s}|6lgono:gliere|3gono:re{ale,sali,veni}|3ngono:orre|3ggono:arre|4iono:parire|2ono:ucire|3ciono:cere{a,nuo}|3iono:ocere|4gliono:olere|4ssono:otere|4nno:apere|2nno:are{ttost,rif,praff}~3ere:ono{resc,mesc,iduc,volg,ulg}|4rre:ucono|3ire:ono{borr,serv,angu}|4ere:ngono{e,ma}|5gnere:pengono|3re:empiono|3vere:ianno~3ono:re{e{alg,duc{,e},vert},menti,parti}|5hanno:avere|2vono:bere|2nno:are{d,rid,st,rist,f}|2cono:dire{,ri}|5uoiono:morire|4iono:parere{,s}|2scono:sparire|5odono:udire|6sono:essere|6vanno:andare"
     },
     "pastTense": {
-      "first": "2i:rraffare,solere|3ssi:rre|3si:orre,lere|5si:ere{nd,gu}|4si:ere{and,r,c,g,an,lv,ll}|5ssi:ere{ind,tt}|5cqui:ascere|4ssi:ere{uc,t,v}|5essi:ere{ig,im}|5nsi:gnere|5ebbi:avere|4nsi:mere|7isi:ettersi~2i:re|4si:dere|5ssi:ggere|2ssi:dire{d,in,ter,pre}|5assi:digere|4ssi:cedere|6lsi:gliere|6ulsi:pellere|5ensi:dimere|6usi:fondere|6isi:mettere|7isi:etrasmettere|5bbi:scere|3ni:ere,venire|3vi:parire|3eci:fare{e,raf,s,ri,tra}|3di:cadere|3qui:acere|6ocqui:uocere|6fui:essere|6uppi:ompere|5eppi:apere|3etti:tostare|3li:volere~3rre:ssi{du,a}|3cere:idussi|3tere:cussi|3vere:issi{cr,v}|3ndere:cissi|4imere:pressi|4igere:essi{ir,er,dil,gl}|3ttere:flessi|2nere:masi|2ndere:si{e,tu,rispo,co}|2rere:hesi,corsi|2dere:si{ie,le,mor,ar,pan}|2vere:solsi|2gere:si{vol,ul,r,par,n}|2lere:lsi{esto,ve,cce}|2ere:lsi{do,a}|2cere:si{mol,tor,vin}|3mere:sunsi|2guere:stinsi|3gnere:ensi|2rre:posi|4scere:nacqui~5ebbi:avere|2ssi:dire{,ri}|4ssi:ducere{,e}|3eci:fare|3etti:stare{,ri}|4si:gere{scor,stin}|2i:spandere,sparire",
-      "second": "2sti:rraffare|3cesti:rre|3sti:rsi~2sti:re|2cesti:re{di{d,in,ter,pre},fa{e,raf,s,ri,tra}}|7ettesti:etrasmettere|3esti:tostare,arre|3nesti:orre|6fosti:essere~5rre:ucesti|3re:iducesti~2cesti:re{di,ridi,fa}|2sti:ducere{,e}|3esti:stare{,ri}",
-      "third": "3ò:rraffare|3sse:rre|3se:orre,lere|5se:ere{nd,gu}|4se:ere{and,r,c,g,an,lv,ll}|5sse:ere{ind,tt}|5cque:ascere|4sse:ere{uc,t,v}|5esse:ere{ig,im}|5nse:gnere|5ebbe:avere|4nse:mere|7ise:ettersi~3ò:are|3ì:ire|4se:dere|5sse:ggere|2sse:dire{d,in,ter,pre}|5asse:digere|4sse:cedere|6lse:gliere|6ulse:pellere|5ense:dimere|6use:fondere|6ise:mettere|7ise:etrasmettere|5bbe:scere|3ne:ere,venire|3ve:parire|3ece:fare{e,raf,s,ri,tra}|3de:cadere|3que:acere|6ocque:uocere|6uppe:ompere|5eppe:apere|3ette:tostare|2tte:solere|3le:volere|6fu:essere~3rre:sse{du,a}|3cere:idusse|3tere:cusse|3vere:isse{cr,v}|3ndere:cisse|4imere:presse|4igere:esse{ir,er,dil,gl}|3ttere:flesse|2nere:mase|2ndere:se{e,tu,rispo,co}|2rere:hese,corse|2dere:se{ie,le,mor,ar,pan}|2vere:solse|2gere:se{vol,ul,r,par,n}|2lere:lse{esto,ve,cce}|2ere:lse{do,a}|2cere:se{mol,tor,vin}|3mere:sunse|2guere:stinse|3gnere:ense|2rre:pose|4scere:nacque~5ebbe:avere|2sse:dire{,ri}|4sse:ducere{,e}|3ece:fare|3ette:stare{,ri}|4se:gere{scor,stin}|3é:spandere|3ì:sparire",
-      "firstPlural": "2mmo:rraffare|3cemmo:rre|3mmo:rsi~2mmo:re|2cemmo:re{di{d,in,ter,pre},fa{e,raf,s,ri,tra}}|7ettemmo:etrasmettere|3emmo:tostare,arre|3nemmo:orre|6fummo:essere~5rre:ucemmo|3re:iducemmo~2cemmo:re{di,ridi,fa}|2mmo:ducere{,e}|3emmo:stare{,ri}",
-      "secondPlural": "2ste:rraffare|3ceste:rre|3ste:rsi~2ste:re|2ceste:re{di{d,in,ter,pre},fa{e,raf,s,ri,tra}}|7etteste:etrasmettere|3este:tostare,arre|3neste:orre|6foste:essere~5rre:uceste|3re:iduceste~2ceste:re{di,ridi,fa}|2ste:ducere{,e}|3este:stare{,ri}",
-      "thirdPlural": "1ono:rraffare,solere|3ssero:rre|3sero:orre,lere|5sero:ere{nd,gu}|4sero:ere{and,r,c,g,an,lv,ll}|5ssero:ere{ind,tt}|5cquero:ascere|4ssero:ere{uc,t,v}|5essero:ere{ig,im}|5nsero:gnere|5ebbero:avere|4nsero:mere|7isero:ettersi~1ono:e|6furono:essere|4sero:dere|5ssero:ggere|2ssero:dire{d,in,ter,pre}|5assero:digere|4ssero:cedere|6lsero:gliere|6ulsero:pellere|5ensero:dimere|6usero:fondere|6isero:mettere|7isero:etrasmettere|5bbero:scere|3nero:ere,venire|3vero:parire|3ecero:fare{e,raf,s,ri,tra}|3dero:cadere|3quero:acere|6ocquero:uocere|6uppero:ompere|5eppero:apere|3ettero:tostare|3lero:volere~5rre:ssero{du,a}|5cere:idussero|5tere:cussero|5vere:issero{cr,v}|5ndere:cissero|6imere:pressero|6igere:essero{ir,er,dil,gl}|5ttere:flessero|4nere:masero|4ndere:sero{e,tu,rispo,co}|4rere:sero{he,cor}|4dere:sero{ie,le,mor,ar,pan}|4vere:solsero|4gere:sero{vol,ul,r,par,n}|4lere:lsero{esto,ve,cce}|4ere:lsero{do,a}|4cere:sero{mol,tor,vin}|5mere:sunsero|4guere:stinsero|5gnere:ensero|4rre:posero|6scere:nacquero~5ebbero:avere|2ssero:dire{,ri}|4ssero:ducere{,e}|3ecero:fare|3ettero:stare{,ri}|4sero:gere{scor,stin}|1ono:sparire"
+      "first": "2i:re{rraffa,e{lend,sied,god,sig,onnett,iscern,sol}}|3ssi:rre|3si:orre,lere|5si:ere{nd,gu}|4si:ere{and,r,c,g,an,lv,ll}|5ssi:ere{ind,ett}|3i:iere|3vi:arere|5cqui:ascere|4ssi:ere{uc,ut,iv}|5essi:igere|5nsi:gnere|2tti:devolvere|5ebbi:avere|4nsi:umere|7isi:ettersi~2i:re|4si:dere{,ie,le}|5ssi:ggere|2ssi:dire{d,in,ter,pre}|5assi:digere|5essi:primere|4ssi:cedere{on,tro,uc}|6lsi:gliere|6ulsi:pellere|5ensi:dimere|6usi:fondere|6isi:mettere|7isi:etrasmettere|5bbi:scere|3ni:nere,venire|3vi:parire,bevere|3eci:fare{e,raf,s,ri,tra}|3di:cadere|5idi:vedere|3qui:acere|6ocqui:uocere|6uppi:ompere|5eppi:apere|3etti:tostare|2tti:ere{iet,d{e,open,ven,pru,stri},rn,v,em,ncomb,mesc,pasc,nsig}|3li:volere~1ere:ompii|3rre:ssi{du,a}|3cere:idussi|3tere:cussi|3vere:issi{cr,v}|3ndere:cissi|4igere:essi{ir,er,dil,gl}|3ttere:essi{fl,n}|2nere:masi|2ndere:si{e,tu,rispo,co}|2rere:hesi,corsi|2vere:olsi{s,ev}|2gere:si{vol,ul,r,par,n}|2lere:lsi{esto,ve,cce}|2ere:lsi{do,a}|2cere:si{mol,tor,vin}|2dere:si{mor,isper,ar,pan}|3mere:sunsi|2guere:stinsi|3gnere:ensi|2rre:posi|4scere:nacqui~5ebbi:avere|2ssi:dire{,ri}|4ssi:ducere{,e}|3eci:fare|3etti:stare{,ri}|4si:ere{scorg,sting,perd}|2i:re{de{span,pen,se,posse},spari}|2vvi:bere|3iedi:dare{,ri}|2tti:fendere|3vi:parere|6fui:essere",
+      "second": "2sti:are{rraff,grid}|3esti:ridare|3cesti:rre|3sti:piere,rsi~2sti:re|2cesti:re{di{d,in,ter,pre},fa{e,raf,s,ri,tra}}|7ettesti:etrasmettere|3esti:tostare,arre|3nesti:orre~3ere:ompisti|5rre:ucesti|3re:iducesti~2cesti:re{di,ridi,fa}|2sti:ducere{,e}|3esti:are{st,rist,d}|2vesti:bere|6fosti:essere",
+      "third": "3ò:rraffare|3sse:rre|3se:orre|5se:ere{nd,gu}|2tte:ere{d{open,ven,pru,stri,e},mesc,pasc,nsig,iet,devolv}|4se:ere{and,r,c,g,an,lv,ll}|5sse:ere{ind,ett}|4ì:iere|3ve:arere|5cque:ascere|4sse:ere{uc,ut,iv}|5esse:ere{ig,im}|3é:onnettere|5nse:gnere|5ebbe:avere|4nse:umere|7ise:ettersi~3ò:are|3ì:ire|4se:dere{,ie,le}|5sse:ggere|2sse:dire{d,in,ter,pre}|5asse:digere|4sse:cedere{on,tro,uc}|6lse:gliere|3se:lere{do,a}|6ulse:pellere|5ense:dimere|6use:fondere|6ise:mettere|7ise:etrasmettere|5bbe:scere|3ne:enere,venire|3ve:parire,bevere|3ece:fare{e,raf,s,ri,tra}|3de:cadere|5ide:vedere|3que:acere|6ocque:uocere|6uppe:ompere|5eppe:apere|2tte:re|3ette:tostare|3le:volere|3é:ere{lend,god,sied,t,irim,iscern,sig,ccomb,s}~1iere:ompì|3rre:sse{du,a}|3cere:idusse|3tere:cusse|3vere:isse{cr,v}|3ndere:cisse|4imere:presse|4igere:esse{ir,er,dil,gl}|3ttere:esse{fl,n}|2nere:mase|2ndere:se{e,tu,rispo,co}|2rere:hese,corse|2vere:olse{s,ev}|2gere:se{vol,ul,r,par,n}|2lere:lse{esto,ve,cce}|2cere:se{mol,tor,vin}|2dere:se{mor,isper,ar,pan}|3mere:sunse|2guere:stinse|3gnere:ense|2rre:pose|4scere:nacque~5ebbe:avere|2sse:dire{,ri}|4sse:ducere{,e}|3ece:fare|3ette:stare{,ri}|4se:ere{scorg,sting,perd}|3é:dere{span,pen,se,posse}|3ì:sparire|2vve:bere|3iede:dare{,ri}|2tte:fendere|3ve:parere|6fu:essere",
+      "firstPlural": "2mmo:are{rraff,grid}|3emmo:ridare|3cemmo:rre|3mmo:piere,rsi~2mmo:re|2cemmo:re{di{d,in,ter,pre},fa{e,raf,s,ri,tra}}|7ettemmo:etrasmettere|3emmo:tostare,arre|3nemmo:orre~3ere:ompimmo|5rre:ucemmo|3re:iducemmo~2cemmo:re{di,ridi,fa}|2mmo:ducere{,e}|3emmo:are{st,rist,d}|2vemmo:bere|6fummo:essere",
+      "secondPlural": "2ste:are{rraff,grid}|3este:ridare|3ceste:rre|3ste:piere,rsi~2ste:re|2ceste:re{di{d,in,ter,pre},fa{e,raf,s,ri,tra}}|7etteste:etrasmettere|3este:tostare,arre|3neste:orre~3ere:ompiste|5rre:uceste|3re:iduceste~2ceste:re{di,ridi,fa}|2ste:ducere{,e}|3este:are{st,rist,d}|2veste:bere|6foste:essere",
+      "thirdPlural": "1ono:re{rraffa,e{lend,sied,god,sig,onnett,iscern,sol}}|3ssero:rre|3sero:orre,lere|5sero:ere{nd,gu}|4sero:ere{and,r,c,g,an,lv,ll}|5ssero:ere{ind,ett}|3rono:iere|3vero:arere|5cquero:ascere|4ssero:ere{uc,ut,iv}|5essero:igere|5nsero:gnere|2ttero:devolvere|5ebbero:avere|4nsero:umere|7isero:ettersi~1ono:e|4sero:dere{,ie,le}|5ssero:ggere|2ssero:dire{d,in,ter,pre}|5assero:digere|5essero:primere|4ssero:cedere{on,tro,uc}|6lsero:gliere|6ulsero:pellere|5ensero:dimere|6usero:fondere|6isero:mettere|7isero:etrasmettere|5bbero:scere|3nero:nere,venire|3vero:parire,bevere|3ecero:fare{e,raf,s,ri,tra}|3dero:cadere|5idero:vedere|3quero:acere|6ocquero:uocere|6uppero:ompere|5eppero:apere|3ettero:tostare|2ttero:ere{iet,d{e,open,ven,pru,stri},rn,v,em,ncomb,mesc,pasc,nsig}|3lero:volere~4ere:o{ompiron,lser{do,a}}|5rre:ssero{du,a}|5cere:idussero|5tere:cussero|5vere:issero{cr,v}|5ndere:cissero|6igere:essero{ir,er,dil,gl}|5ttere:essero{fl,n}|4nere:masero|4ndere:sero{e,tu,rispo,co}|4rere:sero{he,cor}|4vere:olsero{s,ev}|4gere:sero{vol,ul,r,par,n}|4lere:lsero{esto,ve,cce}|4cere:sero{mol,tor,vin}|4dere:sero{mor,isper,ar,pan}|5mere:sunsero|4guere:stinsero|5gnere:ensero|4rre:posero|6scere:nacquero~5ebbero:avere|2ssero:dire{,ri}|4ssero:ducere{,e}|3ecero:fare|3ettero:stare{,ri}|4sero:ere{scorg,sting,perd}|1ono:re{spari,de{pen,se,posse}}|2vvero:bere|3iedero:dare{,ri}|2ttero:fendere|3vero:parere|6furono:essere"
     },
     "futureTense": {
       "first": "1ò:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3rò:ere{pi,ar}|4rrò:ere{uc,an}|2ò:si~1ò:e,scadere|3erò:are{,llung}|3herò:are{c,g}|7etterò:etrasmettere|4erò:iare{c,g}|4rrò:re{le,ene,veni}|3rò:ere{cad,god,av,viv,ov,ot,ap}~1e:rò{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|3are:erò{d{en{facc,b,m},gri},sum{n,ie}}|3iare:gerò{for,can,man,en}|2ere:ompirò,parrò|3cere:idurrò|3nere:marrò~3rò:andare|1ò:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rrò:ducere{,e}|3erò:are{ronc,sci}|6sarò:essere",
@@ -9152,7 +9172,7 @@ designate
   // generated from ./data/verbs.jsonl by scripts/gen-irregular.js
   // full tables for verbs with irregular stems,
   // plus irregular past-participles + gerunds for otherwise-regular verbs
-  var irregular = {
+  var irregular$2 = {
     "paradigms": {
       "essere": {
         "present": [
@@ -11746,14 +11766,14 @@ designate
     subjunctive: subjunctive$1,
   } = model$1;
 
-  const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
+  const persons$2 = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
 
   const doEach = function (str, m, tense) {
     // known-irregular verb?
-    const table = irregular.paradigms[str];
+    const table = irregular$2.paradigms[str];
     if (table && table[tense]) {
       const res = {};
-      persons.forEach((p, i) => {
+      persons$2.forEach((p, i) => {
         res[p] = table[tense][i];
       });
       return res
@@ -11778,10 +11798,10 @@ designate
   // congiuntivo imperfetto is regular enough for simple rules
   // parlare -> parlassi, credere -> credessi, dormire -> dormissi
   const toImperfectSubjunctive = (str) => {
-    const table = irregular.paradigms[str];
+    const table = irregular$2.paradigms[str];
     if (table && table.imperfectSubjunctive) {
       const res = {};
-      persons.forEach((p, i) => {
+      persons$2.forEach((p, i) => {
         res[p] = table.imperfectSubjunctive[i];
       });
       return res
@@ -11832,16 +11852,16 @@ designate
   const fromPP = {};
   const toGer = {};
   const fromGer = {};
-  Object.keys(irregular.participles).forEach((inf) => {
-    toPP[inf] = irregular.participles[inf];
-    fromPP[irregular.participles[inf]] = inf;
+  Object.keys(irregular$2.participles).forEach((inf) => {
+    toPP[inf] = irregular$2.participles[inf];
+    fromPP[irregular$2.participles[inf]] = inf;
   });
-  Object.keys(irregular.gerunds).forEach((inf) => {
-    toGer[inf] = irregular.gerunds[inf];
-    fromGer[irregular.gerunds[inf]] = inf;
+  Object.keys(irregular$2.gerunds).forEach((inf) => {
+    toGer[inf] = irregular$2.gerunds[inf];
+    fromGer[irregular$2.gerunds[inf]] = inf;
   });
-  Object.keys(irregular.paradigms).forEach((inf) => {
-    const p = irregular.paradigms[inf];
+  Object.keys(irregular$2.paradigms).forEach((inf) => {
+    const p = irregular$2.paradigms[inf];
     if (p.pastParticiple) {
       toPP[inf] = p.pastParticiple;
       fromPP[p.pastParticiple] = fromPP[p.pastParticiple] || inf;
@@ -12069,13 +12089,177 @@ designate
 
   // console.log(toPresent('fermarsi'))
 
+  // rule-based noun inflection - the suffix-model only knows what is in its data
+
+  // [singular, plural]
+  const pairs = [
+    ['uomo', 'uomini'],
+    ['dio', 'dei'],
+    ['bue', 'buoi'],
+    ['tempio', 'templi'],
+    ['moglie', 'mogli'],
+    ['superficie', 'superfici'],
+    // feminine, but not '-e'
+    ['mano', 'mani'],
+    ['ala', 'ali'],
+    ['arma', 'armi'],
+    // masculine singular, feminine '-a' plural
+    ['dito', 'dita'],
+    ['uovo', 'uova'],
+    ['braccio', 'braccia'],
+    ['labbro', 'labbra'],
+    ['ginocchio', 'ginocchia'],
+    ['sopracciglio', 'sopracciglia'],
+    ['ciglio', 'ciglia'],
+    ['lenzuolo', 'lenzuola'],
+    ['osso', 'ossa'],
+    ['paio', 'paia'],
+    ['miglio', 'miglia'],
+    ['centinaio', 'centinaia'],
+    ['migliaio', 'migliaia'],
+    // masculine '-ga', without the 'h'
+    ['belga', 'belgi'],
+  ];
+  const irregular$1 = { toPlural: {}, fromPlural: {} };
+  pairs.forEach(a => {
+    irregular$1.toPlural[a[0]] = a[1];
+    irregular$1.fromPlural[a[1]] = a[0];
+  });
+  // both plurals are used - 'i ginocchi', 'gli ossi'
+  Object.assign(irregular$1.fromPlural, { ginocchi: 'ginocchio', ossi: 'osso', bracci: 'braccio', cigli: 'ciglio' });
+
+  // truncations, and other nouns that never change
+  const same = new Set([
+    'foto', 'auto', 'moto', 'radio', 'cinema', 'video', 'stereo', 'frigo', 'euro', 'zoo',
+    'serie', 'specie', 'carie', 'barbarie', 'progenie',
+    'gorilla', 'boia', 'vaglia', 'sosia', 'koala', 'panda'
+  ]);
+
+  // loanwords, stressed endings, '-i' nouns and monosyllables - 'film', 'città', 'crisi', 're'
+  const isInvariable = function (str) {
+    if (same.has(str)) {
+      return true
+    }
+    if (!/[aeio]$/.test(str)) {
+      return true
+    }
+    // 're', 'gru', 'sci'
+    return /^[^aeiouàèéìòù]*[aeiou]$/.test(str)
+  };
+
+  // masculine nouns in '-a' - mostly greek
+  const maleSuffix =
+    /([iy]sta|gramma|dramma|framma|emma|ema|oma|sma|gma|iatra|[nirg]arca|cida|nauta|crata|peuta)$/;
+  const maleWords = new Set([
+    'amalgama', 'clima', 'coma', 'comma', 'enzima', 'pachiderma', 'panorama', 'pigiama', 'proclama', 'sperma', 'trauma',
+    'tema', 'schema', 'idioma', 'assioma', 'plasma',
+    'poeta', 'profeta', 'atleta', 'pianeta', 'asceta', 'esteta', 'esegeta', 'apologeta', 'analfabeta',
+    'pilota', 'copilota', 'patriota', 'compatriota', 'despota', 'idiota',
+    'eremita', 'israelita', 'metabolita', 'metropolita', 'neofita', 'ovocita', 'parassita', 'gesuita',
+    'acrobata', 'pirata', 'cineasta', 'entusiasta', 'ginnasta', 'pederasta',
+    'papa', 'duca', 'granduca', 'collega', 'stratega', 'geometra', 'scriba', 'transfuga', 'monarca'
+  ]);
+  const femaleWords = new Set(['pista', 'lista', 'vista', 'rivista', 'conquista', 'intervista', 'svista', 'provvista', 'asma', 'crema', 'gemma', 'flemma', 'maremma', 'soma', 'chioma']);
+
+  // greek feminine nouns in '-i' never change - 'le crisi', 'le analisi'
+  const greekI = /(crisi|lisi|^tesi|ipotesi|sintesi|protesi|parentesi|gnosi|genesi|oasi|enfasi|opoli)$/;
+
+  // is this '-a' noun masculine? - gender is 'm', 'f' or undefined
+  const isMaleA = function (str, gender) {
+    if (femaleWords.has(str)) {
+      return false
+    }
+    // 'la turista' -> 'le turiste'
+    if (gender === 'f' && str.endsWith('ista')) {
+      return false
+    }
+    return gender === 'm' || maleWords.has(str) || maleSuffix.test(str) || /^(vice)?capo./.test(str)
+  };
+
+  // 'ragazza' -> 'ragazze'
+  const femalePlural = function (str) {
+    // 'banca' -> 'banche'
+    if (/[cg]a$/.test(str)) {
+      return str.replace(/a$/, 'he')
+    }
+    // 'arancia' -> 'arance', but stressed 'allergia' -> 'allergie'
+    if (/[^aeiour][cg]ia$/.test(str) || /rcia$/.test(str)) {
+      return str.replace(/ia$/, 'e')
+    }
+    return str.replace(/a$/, 'e')
+  };
+
+  // 'ragazze' -> 'ragazza'
+  const fromFemalePlural$1 = function (str) {
+    // 'banche' -> 'banca'
+    if (/[cg]he$/.test(str)) {
+      return str.replace(/he$/, 'a')
+    }
+    // 'arance' -> 'arancia'
+    if (/[cg]e$/.test(str)) {
+      return str.replace(/e$/, 'ia')
+    }
+    return str.replace(/e$/, 'a')
+  };
+
+  // 'poeta' -> 'poeti', 'collega' -> 'colleghi'
+  const malePlural = function (str) {
+    if (/[cg]a$/.test(str)) {
+      return str.replace(/a$/, 'hi')
+    }
+    return str.replace(/a$/, 'i')
+  };
+
   const { plural } = model$1.nouns;
 
   const revPlural$1 = reverse(plural);
 
-  const toPlural$1 = (str) => convert(str, plural);
+  // gender is an optional hint - 'm' or 'f'
+  const toPlural$1 = (str, gender) => {
+    if (irregular$1.toPlural.hasOwnProperty(str)) {
+      return irregular$1.toPlural[str]
+    }
+    if (isInvariable(str)) {
+      return str
+    }
+    // the model is mostly masculine nouns - so '-a' nouns are done by rule
+    if (str.endsWith('a')) {
+      if (!isMaleA(str, gender)) {
+        return femalePlural(str)
+      }
+      // 'capobanda' -> 'capibanda'
+      const res = convert(str, plural);
+      return res.endsWith('i') || res.endsWith('a') ? res : malePlural(str)
+    }
+    return convert(str, plural)
+  };
 
-  const fromPlural$1 = (str) => convert(str, revPlural$1);
+  const fromPlural$1 = (str, gender) => {
+    if (irregular$1.fromPlural.hasOwnProperty(str)) {
+      return irregular$1.fromPlural[str]
+    }
+    if (isInvariable(str)) {
+      return str
+    }
+    // an '-e' plural is a feminine '-a' noun
+    if (str.endsWith('e')) {
+      return fromFemalePlural$1(str)
+    }
+    // 'le crisi' -> 'crisi'
+    if (greekI.test(str)) {
+      return str
+    }
+    // 'le chiavi' -> 'chiave'
+    if (gender === 'f' && /[^i]i$/.test(str)) {
+      return str.replace(/i$/, 'e')
+    }
+    if (str.endsWith('i')) {
+      const res = convert(str, revPlural$1);
+      // the reversed model can miss - 'uovm'
+      return /[aeo]$/.test(res) ? res : str.replace(/i$/, 'o')
+    }
+    return str
+  };
 
   const all$1 = (str) => {
     const plur = toPlural$1(str);
@@ -12090,12 +12274,6 @@ designate
     fromPlural: fromPlural$1,
     all: all$1
   };
-
-  // console.log(toPlural('abboccamento'))
-  // console.log(fromPlural('abboccamenti'))
-  // console.log(fromPlural('scarpe'))
-  // console.log(toPlural('scarpa'))
-  // console.log(fromPlural('nuvole'))
 
   const { fs, mp, fp } = model$1.adjectives;
 
@@ -12446,46 +12624,49 @@ designate
 
   let words = {};
 
+  // a bare 'Verb' says less than a conjugation does - 'faranno'
+  const isEmpty = (w) => !words[w] || words[w] === 'Verb';
+
   const addVerbs = function (w) {
     // do present-tense
     let res = verbs$2.toPresent(w);
     Object.keys(res).forEach((k) => {
-      if (!words[res[k]]) {
+      if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'PresentTense'];
       }
     });
     // past-tense
     res = verbs$2.toPast(w);
     Object.keys(res).forEach((k) => {
-      if (!words[res[k]]) {
+      if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'PastTense'];
       }
     });
     // future-tense
     res = verbs$2.toFuture(w);
     Object.keys(res).forEach((k) => {
-      if (!words[res[k]]) {
+      if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'FutureTense'];
       }
     });
     // conditonal
     res = verbs$2.toConditional(w);
     Object.keys(res).forEach((k) => {
-      if (!words[res[k]]) {
+      if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'ConditionalVerb'];
       }
     });
     // imperfect
     res = verbs$2.toImperfect(w);
     Object.keys(res).forEach((k) => {
-      if (!words[res[k]]) {
+      if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'ImperfectVerb'];
       }
     });
     // imperfect
     res = verbs$2.toSubjunctive(w);
     Object.keys(res).forEach((k) => {
-      if (!words[res[k]]) {
+      if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'Subjunctive'];
       }
     });
@@ -12570,6 +12751,76 @@ designate
 
   words = Object.assign({}, words, misc$1);
 
+  // an imperative, with its object-pronouns attached
+  // 'dammelo' -> dare + me + lo, 'guardami' -> guardare + mi, 'andiamoci' -> andare + ci
+
+  const clitics$1 = /(glie(lo|la|li|le|ne)|[mtcvs]e(lo|la|li|le|ne)|gli|lo|la|li|le|ne|mi|ti|ci|vi|si)$/;
+
+  // these double the consonant of their pronoun - 'da' + 'mi' -> 'dammi'
+  const short = { da: 'dare', di: 'dire', fa: 'fare', sta: 'stare', va: 'andare' };
+  // forms that are not in the present-tense
+  const irregular = { abbi: 'avere', sii: 'essere', sappi: 'sapere', abbiate: 'avere', siate: 'essere', sappiate: 'sapere' };
+
+  const isInfinitive$1 = function (str, lexicon) {
+    if (!Object.prototype.hasOwnProperty.call(lexicon, str)) {
+      return false
+    }
+    const tags = lexicon[str];
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+
+  // which present-tense forms are also the imperative?
+  // 'mangia!' is the third-person, but 'prendi!' is the second
+  const forms = [
+    { tag: 'ThirdPerson', key: 'third', isAre: true },
+    { tag: 'SecondPerson', key: 'second', isAre: false },
+    { tag: 'FirstPersonPlural', key: 'firstPlural' },
+    { tag: 'SecondPersonPlural', key: 'secondPlural' },
+  ];
+
+  const findRoot = function (stem, lexicon, verb) {
+    for (let i = 0; i < forms.length; i += 1) {
+      const { tag, key, isAre } = forms[i];
+      const inf = verb.fromPresent(stem, tag);
+      if (!inf || inf === stem || !isInfinitive$1(inf, lexicon)) {
+        continue
+      }
+      if (isAre !== undefined && isAre !== /are$/.test(inf)) {
+        continue
+      }
+      if (verb.toPresent(inf)[key] === stem) {
+        return inf
+      }
+    }
+    return null
+  };
+
+  // returns the infinitive, and the pronouns - or null
+  const parseImperative = function (str, lexicon, verb) {
+    const m = str.match(clitics$1);
+    if (!m || m.index < 2) {
+      return null
+    }
+    const stem = str.slice(0, m.index);
+    const clitic = m[0];
+    // 'dammi', 'dillo', 'facci' - but 'dagli'
+    const base = stem.slice(0, -1);
+    if (Object.prototype.hasOwnProperty.call(short, base) && stem.slice(-1) === clitic[0] && clitic !== 'gli') {
+      return { root: short[base], clitic }
+    }
+    if (Object.prototype.hasOwnProperty.call(short, stem) && /^gli/.test(clitic)) {
+      return { root: short[stem], clitic }
+    }
+    if (Object.prototype.hasOwnProperty.call(irregular, stem)) {
+      return { root: irregular[stem], clitic }
+    }
+    if (stem.length < 4) {
+      return null
+    }
+    const root = findRoot(stem, lexicon, verb);
+    return root ? { root, clitic } : null
+  };
+
   const verbForm = function (term) {
     const want = [
       'FirstPerson',
@@ -12594,8 +12845,8 @@ designate
 
   // every irregular conjugated form, mapped back to its infinitive
   const irregularRoots = {};
-  Object.keys(irregular.paradigms).forEach((inf) => {
-    const p = irregular.paradigms[inf];
+  Object.keys(irregular$2.paradigms).forEach((inf) => {
+    const p = irregular$2.paradigms[inf];
     Object.keys(p).forEach((k) => {
       let forms = p[k];
       if (typeof forms === 'string') {
@@ -12613,18 +12864,26 @@ designate
   // archaic long infinitive - 'beverlo'
   irregularRoots['bevere'] = 'bere';
   // participles of otherwise-regular verbs
-  Object.keys(irregular.participles).forEach((inf) => {
-    const pp = irregular.participles[inf];
+  Object.keys(irregular$2.participles).forEach((inf) => {
+    const pp = irregular$2.participles[inf];
     if (!irregularRoots.hasOwnProperty(pp)) {
       irregularRoots[pp] = inf;
     }
   });
-  Object.keys(irregular.gerunds).forEach((inf) => {
-    const ger = irregular.gerunds[inf];
+  Object.keys(irregular$2.gerunds).forEach((inf) => {
+    const ger = irregular$2.gerunds[inf];
     if (!irregularRoots.hasOwnProperty(ger)) {
       irregularRoots[ger] = inf;
     }
   });
+
+  // a hint for the noun inflector - 'le chiavi' is 'chiave'
+  const nounGender$1 = function (term) {
+    if (term.tags.has('FemaleNoun')) {
+      return 'f'
+    }
+    return term.tags.has('MaleNoun') ? 'm' : undefined
+  };
 
   // turn 'congratularmi' into 'congratular'
   const stripReflexive = function (str) {
@@ -12664,7 +12923,11 @@ designate
         // get infinitive form of the verb
         if (term.tags.has('Verb')) {
           const form = verbForm(term) || guessForm(str);
-          if (irregularRoots.hasOwnProperty(str)) {
+          // 'dammelo' is 'dare'
+          const imp = term.tags.has('Imperative') ? parseImperative(str, view.world.model.one.lexicon, verb) : null;
+          if (imp) {
+            term.root = imp.root;
+          } else if (irregularRoots.hasOwnProperty(str)) {
             term.root = irregularRoots[str];
           } else if (term.tags.has('Infinitive')) {
             // an infinitive may carry a pronoun suffix - 'vederlo'
@@ -12697,7 +12960,7 @@ designate
         // nouns -> singular form
         if (term.tags.has('Noun')) {
           if (term.tags.has('PluralNoun')) {
-            str = noun.fromPlural(str);
+            str = noun.fromPlural(str, nounGender$1(term));
           }
           term.root = str;
         }
@@ -13535,6 +13798,21 @@ designate
     return null
   };
 
+  // an unknown word that is an imperative + its pronouns - 'dammelo', 'guardami'
+  const imperative = function (terms, i, world) {
+    const term = terms[i];
+    if (term.tags.size > 0 || term.normal.length < 5) {
+      return null
+    }
+    const verb = world.methods.two.transform.verb;
+    const found = parseImperative(term.normal, world.model.one.lexicon || {}, verb);
+    if (found) {
+      world.methods.one.setTag([term], 'Imperative', world, false, '2-imperative-clitic');
+      return true
+    }
+    return null
+  };
+
   //sweep-through all suffixes
   const suffixLoop = function (str = '', suffixes = []) {
     const len = str.length;
@@ -13600,7 +13878,6 @@ designate
     },
     //four
     {
-      'arca': m,
       'cida': m,
       'iere': m,
       'ista': m,
@@ -13619,6 +13896,11 @@ designate
       'ptosi': f,
       // 'mante': m,
       'nauta': m,
+      // 'monarca', but not 'barca'
+      'narca': m,
+      'iarca': m,
+      'rarca': m,
+      'garca': m,
       // 'crate': m,
       'trice': f,
       'igine': f,
@@ -13646,10 +13928,22 @@ designate
 
   //  -o  (masculine) ->  -i in the plural, 
   //  -a  (feminine), -> -e in the plural.
+  //  -e  (either gender) -> -i in the plural.
+
+  // endings of singular '-e' nouns - 'stazione', 'studente', 'attrice'
+  const singularE = /(ione|tore|sore|ente|ante|trice|udine|igine|iere)$/;
+  // most '-ie' are plurals of '-ia' ('famiglie', 'storie') - these are not
+  const singularIe = new Set(['moglie', 'serie', 'specie', 'superficie', 'carie', 'barbarie', 'progenie', 'effigie']);
+
+  const isSingularE = (str) => singularIe.has(str) || singularE.test(str);
+
   const checkSuffix$2 = function (term) {
     const str = term.normal || term.implicit || '';
     if (str.endsWith('i') || str.endsWith('che') || str.endsWith('ghe')) {
       return 'PluralNoun'
+    }
+    if (isSingularE(str)) {
+      return 'Singular'
     }
     if (term.tags.has('FemaleNoun') && str.endsWith('e')) {
       return 'PluralNoun'
@@ -13756,6 +14050,7 @@ designate
   const secondPass = function (terms, world) {
     for (let i = 0; i < terms.length; i += 1) {
       let found = isAcronym(terms, i, world);
+      found = found || imperative(terms, i, world);
       found = found || verbLike(terms, i, world);
       found = found || suffixCheck(terms, i, world);
       // found = found || neighbours(terms, i, world)
@@ -14753,6 +15048,123 @@ designate
     hooks: ['preTagger']
   };
 
+  // verbs that build their passato prossimo with 'essere' - 'sono andato'
+  // (any other participle after 'essere' is a passive, or an adjective - 'è amato')
+  var essereVerbs = new Set([
+    'accadere', 'andare', 'apparire', 'arrivare', 'arrossire', 'avvenire', 'bastare', 'cadere', 'capitare',
+    'costare', 'crescere', 'dimagrire', 'dipendere', 'divenire', 'diventare', 'durare', 'emergere', 'entrare',
+    'esistere', 'essere', 'fuggire', 'giungere', 'guarire', 'impazzire', 'ingrassare', 'intervenire', 'invecchiare',
+    'morire', 'nascere', 'parere', 'partire', 'pervenire', 'piacere', 'restare', 'rientrare', 'rimanere',
+    'ritornare', 'riuscire', 'salire', 'scappare', 'scendere', 'scomparire', 'sembrare', 'sorgere', 'sparire',
+    'stare', 'succedere', 'svenire', 'tornare', 'uscire', 'venire',
+  ]);
+
+  // compound tenses, with something between the auxiliary and its participle
+  // 'ho sempre [mangiato]', 'lei è già [partita]', 'non ho mai [visto]'
+  // - the participle is often mis-read as a noun, an adjective, or a present-tense verb
+
+  const avere = new Set([
+    'ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno', 'avevo', 'avevi', 'aveva', 'avevamo', 'avevate', 'avevano',
+    'ebbi', 'avesti', 'ebbe', 'avemmo', 'aveste', 'ebbero', 'avrò', 'avrai', 'avrà', 'avremo', 'avrete', 'avranno',
+    'abbia', 'abbiano', 'avessi', 'avesse', 'avessimo', 'avessero', 'avrei', 'avresti', 'avrebbe', 'avremmo',
+    'avreste', 'avrebbero', 'avere', 'aver',
+  ]);
+  const essere = new Set([
+    'sono', 'sei', 'è', 'siamo', 'siete', 'ero', 'eri', 'era', 'eravamo', 'eravate', 'erano', 'fui', 'fosti', 'fu',
+    'fummo', 'foste', 'furono', 'sarò', 'sarai', 'sarà', 'saremo', 'sarete', 'saranno', 'sia', 'siano', 'fossi',
+    'fosse', 'fossimo', 'fossero', 'sarei', 'saresti', 'sarebbe', 'saremmo', 'sareste', 'sarebbero', 'essere',
+  ]);
+  // words that go in the middle
+  const fillers$1 = new Set(['sempre', 'mai', 'già', 'ancora', 'appena', 'anche', 'più', 'proprio', 'spesso', 'solo', 'quasi', 'pure', 'ormai', 'davvero']);
+  const reflexives$1 = new Set(['mi', 'ti', 'si', 'ci', 'vi']);
+  const persons$1 = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
+
+  // every irregular participle, mapped back to its infinitive
+  let irregulars = null;
+  const fromIrregular = function (str) {
+    if (irregulars === null) {
+      irregulars = {};
+      Object.keys(irregular$2.participles || {}).forEach((inf) => {
+        irregulars[irregular$2.participles[inf]] = inf;
+      });
+      Object.keys(irregular$2.paradigms || {}).forEach((inf) => {
+        const pp = irregular$2.paradigms[inf].pastParticiple;
+        if (typeof pp === 'string' && !irregulars.hasOwnProperty(pp)) {
+          irregulars[pp] = inf;
+        }
+      });
+    }
+    return irregulars.hasOwnProperty(str) ? irregulars[str] : null
+  };
+
+  const isInfinitive = function (str, lexicon) {
+    if (!lexicon.hasOwnProperty(str)) {
+      return false
+    }
+    const tags = lexicon[str];
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+
+  // the infinitive of this participle, in any agreement - 'partita' -> 'partire'
+  const fromParticiple$1 = function (str, world) {
+    if (!/[ts][oaie]$/.test(str)) {
+      return null
+    }
+    const verb = world.methods.two.transform.verb;
+    const masc = str.replace(/[aie]$/, 'o');
+    const found = fromIrregular(masc);
+    if (found) {
+      return found
+    }
+    const inf = verb.fromPastParticiple(masc);
+    if (inf && inf !== masc && isInfinitive(inf, world.model.one.lexicon) && verb.toPastParticiple(inf) === masc) {
+      return inf
+    }
+    return null
+  };
+
+  const word = (term) => (term.text === '' && term.implicit ? term.implicit : term.normal);
+
+  const tagCompounds = function (doc) {
+    const world = doc.world;
+    const { setTag, unTag } = world.methods.one;
+    doc.docs.forEach((terms) => {
+      terms.forEach((term, i) => {
+        const str = word(term);
+        const isAvere = avere.has(str);
+        if ((!isAvere && !essere.has(str)) || !term.tags.has('Verb')) {
+          return
+        }
+        // skip over any adverbs
+        let n = i + 1;
+        while (terms[n] && (fillers$1.has(terms[n].normal) || terms[n].tags.has('Adverb') || terms[n].tags.has('Negative'))) {
+          n += 1;
+        }
+        const next = terms[n];
+        if (!next) {
+          return
+        }
+        const inf = fromParticiple$1(next.normal, world);
+        if (!inf) {
+          return
+        }
+        // with 'essere', only some verbs are a compound tense - 'è partita', 'si è alzato'
+        if (!isAvere) {
+          // skip back over the host of a contraction - "s'è alzato"
+          const before = terms[i - 1] || {};
+          if (!essereVerbs.has(inf) && !reflexives$1.has(before.implicit || before.normal)) {
+            return
+          }
+        }
+        if (!next.tags.has('PastParticiple')) {
+          persons$1.forEach((tag) => unTag([next], tag, world.model.one.tagSet));
+          setTag([next], ['Verb', 'PastParticiple'], world, false, 'compound-participle');
+        }
+        setTag([term], 'Auxiliary', world, false, 'compound-aux');
+      });
+    });
+  };
+
   // articles that are never object-pronouns (l' splits to 'l')
   const articles = '(il|i|un|uno|una|l)';
   // these are articles OR proclitic object-pronouns - 'la pizza' vs 'la vedo'
@@ -14777,12 +15189,19 @@ designate
   const coreVerbs =
     '(è|era|erano|ero|sono|sei|siamo|siete|fu|furono|sarà|saranno|sia|siano|fosse|ho|hai|ha|abbiamo|avete|hanno|avevo|aveva|avevano|avrà|abbia|sto|stai|sta|stanno|stava|posso|puoi|può|possiamo|possono|poteva|potrà|devo|devi|deve|dobbiamo|devono|doveva|dovrà|voglio|vuoi|vuole|vogliamo|vogliono|voleva|vorrà|so|sai|sa|sanno|vado|vai|va|vanno|faccio|fai|fa|fanno|dico|dici|dice|dicono)';
 
+  // 'non lo so', 'non ne ho'
+  const objectPronouns = '(lo|la|le|li|gli|ne|mi|ti|si|ci|vi|me|te|ce|ve)';
+  // verb-forms that are rarely a noun, after 'lo/la/le/gli'
+  const finiteVerb =
+    '(#FirstPerson|#SecondPerson|#FirstPersonPlural|#SecondPersonPlural|#ThirdPersonPlural|#ImperfectVerb|#FutureTense|#ConditionalVerb)';
+
   const postTagger$1 = function (doc) {
     // a word after an article is a noun - 'la pizza', 'il potere'
     doc.match(`${articles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-noun');
     doc.match(`${prepArticles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'prep-art-noun');
     doc.match(`${otherDets} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'det-noun');
-    doc.match(`${articleClitics} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-clitic-noun');
+    // ..but 'lo vedo', 'la mangiavo' - only a third-person form looks like a noun ('la porta', 'la legge')
+    doc.match(`${articleClitics} [#Verb]`, 0).ifNo(coreVerbs).ifNo(finiteVerb).tag('Noun', 'art-clitic-noun');
     // ..unless an object follows - 'le offro un caffè', 'lo vede la sera'
     doc.match(`${articleClitics} [#Noun] (un|uno|una|il|lo|la|i|gli|le|mi|ti|ci|vi)`, 0).tag('PresentTense', 'clitic-verb');
     // 'lo vedo' - the clitic before a verb is a pronoun
@@ -14815,9 +15234,13 @@ designate
     // Come ti chiami? - the clitic pronoun gets the Reflexive tag
     doc.match('[(mi|ti|si|ci|vi)] #Verb', 0).tag('Reflexive', 'si-verb');
     // non lavoro
-    doc.match('non [#Noun]', 0).tag('Verb', 'non-verb');
+    doc.match('non [#Noun]', 0).ifNo(objectPronouns).tag('Verb', 'non-verb');
+    // non lo so - but not the object-pronoun before it
+    doc.match(`non [${objectPronouns}] #Verb`, 0).tag('Pronoun', 'non-clitic-verb');
     // i ginocchi
     doc.match('(i|gli|le) [#Noun]', 0).tag('PluralNoun', 'i-plural');
+    // lo studente, una lezione
+    doc.match('(il|lo|la|l|un|uno|una|ogni|qualche) [#Noun]', 0).ifNo('#Pronoun').tag('Singular', 'il-singular');
     // 27° - '27th'
     doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal');
 
@@ -14845,6 +15268,12 @@ designate
     ;['volere', 'potere', 'dovere', 'sapere'].forEach((modal) => {
       doc.match(`[{${modal}}] (#Infinitive|#Reflexive)`, 0).tag('Auxiliary', 'modal-aux');
     });
+
+    // 'ho sempre mangiato', 'è già partita' - a participle, further along
+    tagCompounds(doc);
+
+    // 'fallo subito!' - do it, not 'the foul'
+    doc.match('^[fallo] (#Adverb|tu|voi|pure)', 0).tag('Imperative', 'fallo-imperative');
 
     // Che bello!
     doc.match('^che #Adjective$').tag('Expression', 'che-bello');
@@ -15009,6 +15438,388 @@ designate
     }
   };
 
+  // re-conjugate a verb-phrase into another tense, in-place
+  // 'io parlo' -> 'io parlavo' -> 'io parlerò'
+  //
+  // only the finite verb is changed - 'voglio andare' -> 'volevo andare'
+  // and its grammatical person is kept - 'parliamo' -> 'parleremo'
+  // italian drops its subject pronouns, so the person is read from the verb itself
+  //
+  // the past-tense is the imperfetto, which is always a one-word substitution.
+  // (the passato prossimo needs avere/essere, and agreement with the subject)
+
+
+  const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
+
+  const personTags = {
+    first: 'FirstPerson',
+    second: 'SecondPerson',
+    third: 'ThirdPerson',
+    firstPlural: 'FirstPersonPlural',
+    secondPlural: 'SecondPersonPlural',
+    thirdPlural: 'ThirdPersonPlural',
+  };
+
+  const tenseTags = {
+    present: 'PresentTense',
+    imperfect: 'ImperfectVerb',
+    future: 'FutureTense',
+  };
+
+  const subjects = {
+    io: 'first',
+    tu: 'second',
+    lui: 'third',
+    lei: 'third',
+    egli: 'third',
+    ella: 'third',
+    esso: 'third',
+    essa: 'third',
+    noi: 'firstPlural',
+    voi: 'secondPlural',
+    loro: 'thirdPlural',
+    essi: 'thirdPlural',
+    esse: 'thirdPlural',
+  };
+
+  // object-pronouns sit between the subject and its verb - 'io non lo so'
+  const clitics = new Set(['mi', 'ti', 'si', 'ci', 'vi', 'lo', 'la', 'li', 'le', 'gli', 'ne', 'me', 'te', 'se', 'ce', 've', 'glielo', 'gliela', 'glieli', 'gliele', 'gliene']);
+  const reflexives = new Set(['mi', 'ti', 'si', 'ci', 'vi']);
+  // other words allowed between a subject and its verb - 'io non parlavo mai'
+  const fillers = new Set(['non', 'mai', 'già', 'anche', 'sempre', 'ancora', 'più', 'proprio', 'spesso', 'solo', 'appena', 'quasi', 'pure', 'ormai', 'davvero']);
+
+  // verb-forms that are not an indicative tense
+  const skipTags = ['Infinitive', 'Gerund', 'PastParticiple', 'Participle', 'PresentParticiple', 'Imperative', 'Subjunctive', 'ConditionalVerb'];
+
+  // every indicative form of this verb
+  const getForms = function (root, methods) {
+    return {
+      present: methods.toPresent(root),
+      imperfect: methods.toImperfect(root),
+      past: methods.toPast(root), //passato remoto
+      future: methods.toFuture(root),
+      conditional: methods.toConditional(root),
+    }
+  };
+
+  // the second half of a contraction has no text of its own - the 'è' in "c'è"
+  const isHidden = (term) => term.text === '' && typeof term.implicit === 'string';
+  // .. and the first half holds the text for both - "c'è"
+  const isHost = (term) => Boolean(term) && term.text !== '' && typeof term.implicit === 'string';
+
+  const getWord = (term) => (isHidden(term) ? term.implicit : term.normal);
+
+  // the infinitive of 'mangiato', and its agreements - 'mangiata', 'mangiati', 'mangiate'
+  const fromParticiple = function (term, methods) {
+    if (!term.tags.has('Verb') || !term.root) {
+      return null
+    }
+    const str = getWord(term).replace(/[aie]$/, 'o');
+    if (term.tags.has('PastParticiple') || methods.toPastParticiple(term.root) === str) {
+      return term.root
+    }
+    // the tagger can miss these - 'hanno dormito'
+    const root = methods.fromPastParticiple(str);
+    if (root && root !== str && methods.toPastParticiple(root) === str) {
+      return root
+    }
+    return null
+  };
+
+  // which tense + person is this word?
+  const parseTerm = function (term, methods) {
+    const str = getWord(term);
+    // the clitic of a contraction - the "c'" in "c'è"
+    if (!str || isHost(term)) {
+      return null
+    }
+    if (!term.tags.has('Verb') || clitics.has(str) || skipTags.some((tag) => term.tags.has(tag))) {
+      return null
+    }
+    const root = term.root;
+    if (!root || root === str) {
+      return null
+    }
+    // find the word in its own conjugation table
+    const forms = getForms(root, methods);
+    const hits = [];
+    Object.keys(forms).forEach((tense) => {
+      persons.forEach((person) => {
+        if (forms[tense][person] === str) {
+          hits.push({ tense, person });
+        }
+      });
+    });
+    if (hits.length === 0) {
+      return null
+    }
+    return { root, hits }
+  };
+
+  const isFiller = (term) => clitics.has(term.implicit || term.normal) || fillers.has(term.normal);
+
+  // look backwards for a subject - 'io non lo [so]'
+  const getSubject = function (terms, i) {
+    for (let k = i - 1; k >= 0; k -= 1) {
+      const term = terms[k];
+      if (subjects.hasOwnProperty(term.normal)) {
+        return subjects[term.normal]
+      }
+      if (!isFiller(term)) {
+        // 'i ragazzi [sono]'
+        if (term.tags.has('Noun') && !term.tags.has('Pronoun')) {
+          return term.tags.has('PluralNoun') ? 'thirdPlural' : 'third'
+        }
+        return null
+      }
+    }
+    return null
+  };
+
+  // 'sono' is both first-person, and third-person plural
+  const choosePerson = function (hits, terms, i, end) {
+    const found = hits.map((o) => o.person).filter((p, k, arr) => arr.indexOf(p) === k);
+    if (found.length === 1) {
+      return found[0]
+    }
+    const subj = getSubject(terms, i);
+    if (subj && found.includes(subj)) {
+      return subj
+    }
+    // 'ci sono molti gatti' - there are
+    const before = terms[i - 1];
+    if (before && (before.implicit || before.normal) === 'ci' && found.includes('thirdPlural')) {
+      return 'thirdPlural'
+    }
+    // look for a plural after it - 'sono amici', 'sono andati'
+    if (found.includes('thirdPlural')) {
+      let next = terms[i + 1];
+      for (let k = i + 1; k < end && next && isFiller(next); k += 1) {
+        next = terms[k + 1];
+      }
+      if (next && (next.tags.has('PluralNoun') || (/i$/.test(next.normal) && (next.tags.has('Adjective') || next.tags.has('Verb'))))) {
+        return 'thirdPlural'
+      }
+    }
+    return found[0]
+  };
+
+  // 'Parlo' -> 'Parlavo'
+  const matchCase = function (str, orig) {
+    orig = orig || '';
+    if (orig.length > 1 && orig === orig.toUpperCase() && orig !== orig.toLowerCase()) {
+      return str.toUpperCase()
+    }
+    if (orig && orig[0] !== orig[0].toLowerCase()) {
+      return str[0].toUpperCase() + str.slice(1)
+    }
+    return str
+  };
+
+  // 'ho sempre [mangiato]' - find the participle of a compound tense
+  const findParticiple = function (terms, index, methods) {
+    for (let i = index + 1; i < terms.length; i += 1) {
+      const term = terms[i];
+      if (fromParticiple(term, methods)) {
+        return i
+      }
+      if (!term.tags.has('Adverb') && !term.tags.has('Negative') && !fillers.has(term.normal)) {
+        return null
+      }
+    }
+    return null
+  };
+
+  const startsVowel = /^h?[aeiouàèéìòù]/;
+  // the object-pronoun agrees with the participle - "l'ho vista" -> 'la vedo'
+  const objects = { o: 'lo', a: 'la', i: 'li', e: 'le' };
+
+  // put a new word into a contraction - "c'è" -> "c'era", or 'ci sarà'
+  const setHidden = function (terms, i, str, participle) {
+    const host = terms[i - 1];
+    const term = terms[i];
+    const [before] = host.text.split(/['’]/);
+    // "l'ama", "t'amavo" and "c'era" stay elided
+    // but "s'è alzato" is 'si alza', and "dov'è" is 'dove abita'
+    const isClitic = /^[lmtsvn]$/i.test(before);
+    const keep = isClitic ? !participle || /^l$/i.test(before) : /^[eè]/.test(str);
+    if (keep && startsVowel.test(str)) {
+      // still elided - "c'era"
+      host.text = before + "'" + str;
+      host.normal = host.text.toLowerCase();
+      term.implicit = str;
+      term.machine = str;
+    } else {
+      // write it out in full - 'ci sarà'
+      let full = host.implicit;
+      if (before.toLowerCase() === 'l' && participle) {
+        full = objects[participle.normal.slice(-1)] || full;
+      }
+      host.text = matchCase(full, before);
+      host.normal = full;
+      host.post = ' ';
+      delete host.implicit;
+      delete host.machine;
+      term.text = str;
+      term.normal = str;
+      delete term.implicit;
+      delete term.machine;
+    }
+    host.dirty = true;
+    term.dirty = true;
+  };
+
+  // 'ci è' is always written "c'è"
+  const elide = function (terms, i) {
+    const host = terms[i - 1];
+    const term = terms[i];
+    if (!host || host.normal !== 'ci' || host.post !== ' ' || isHost(host) || !/^[eè]/.test(term.normal)) {
+      return
+    }
+    host.implicit = 'ci';
+    host.machine = 'ci';
+    host.text = host.text.slice(0, 1) + "'" + term.text.toLowerCase();
+    host.normal = host.text.toLowerCase();
+    host.post = '';
+    term.implicit = term.normal;
+    term.machine = term.normal;
+    term.text = '';
+    term.normal = '';
+    host.dirty = true;
+    term.dirty = true;
+  };
+
+  const oldTags = ['PresentTense', 'PastTense', 'ImperfectVerb', 'FutureTense', 'Auxiliary'].concat(Object.values(personTags));
+
+  // change this verb-phrase, and return its new finite verb
+  const convertOne = function (view, n, span, want) {
+    const methods = view.methods.two.transform.verb;
+    const [start, end] = span;
+    // the whole sentence, as we look outside of the verb-phrase
+    view.update([[n]]).compute('root');
+    const terms = view.document[n];
+    // the first conjugated verb in the phrase is the finite one
+    let index = null;
+    let parsed = null;
+    for (let i = start; i < end; i += 1) {
+      parsed = parseTerm(terms[i], methods);
+      if (parsed) {
+        index = i;
+        break
+      }
+    }
+    if (!parsed) {
+      return null
+    }
+    const term = terms[index];
+    const tenses = parsed.hits.map((o) => o.tense);
+    // the conditional is a mood, not a tense - 'parlerei'
+    if (tenses.every((t) => t === 'conditional')) {
+      return null
+    }
+    const person = choosePerson(parsed.hits, terms, index, end);
+    let root = parsed.root;
+    // is it a compound tense? - 'ho mangiato', 'sono andato', 'mi sono alzato'
+    let participle = null;
+    if (root === 'avere' || root === 'essere') {
+      participle = findParticiple(terms, index, methods);
+      if (participle !== null && root === 'essere') {
+        const before = terms[index - 1];
+        const isReflexive = Boolean(before) && reflexives.has(before.implicit || before.normal);
+        // otherwise, it's a passive - 'è amato'
+        if (!essereVerbs.has(fromParticiple(terms[participle], methods)) && !isReflexive) {
+          participle = null;
+        }
+      }
+    }
+    if (participle !== null) {
+      // 'ho mangiato' and 'avevo mangiato' are already in the past
+      if (want === 'imperfect') {
+        return null
+      }
+      // 'avrò mangiato' is already in the future
+      if (want === 'future' && tenses.includes('future')) {
+        return null
+      }
+      // collapse it to a simple tense - 'ho mangiato' -> 'mangio'
+      root = fromParticiple(terms[participle], methods);
+    } else if (tenses.includes(want) || (want === 'imperfect' && tenses.includes('past'))) {
+      // already there
+      return null
+    }
+    const str = getForms(root, methods)[want][person];
+    if (!str) {
+      return null
+    }
+    const at = (i, len) => view.update([[n, i, i + (len || 1)]]);
+    const tags = ['Verb', tenseTags[want], personTags[person]];
+    if (isHidden(term)) {
+      // "c'è" -> "c'era", "l'ho visto" -> 'lo vedo'
+      setHidden(terms, index, str, participle === null ? null : terms[participle]);
+      const { setTag, unTag } = view.methods.one;
+      oldTags.forEach((tag) => unTag([term], tag, view.model.one.tagSet));
+      setTag([term], tags, view.world, false, 'to-' + want);
+    } else if (participle === index + 1) {
+      // 'ho mangiato' -> 'mangio'
+      at(index, 2).replaceWith(matchCase(str, term.text));
+      participle = null;
+    } else {
+      at(index).replaceWith(matchCase(str, term.text));
+    }
+    // 'ho sempre mangiato' -> 'mangio sempre'
+    if (participle !== null) {
+      // keep any punctuation after it
+      const post = view.document[n][participle].post;
+      at(participle).remove();
+      view.document[n][participle - 1].post = post;
+    }
+    const found = view.document[n][index];
+    if (!isHidden(term)) {
+      // the new word may not be in our lexicon
+      at(index).tag(tags, 'to-' + want);
+      elide(view.document[n], index);
+    }
+    return found
+  };
+
+  const convertTo = function (view, want) {
+    // pointers go stale as we add + remove words, so hold onto the terms themselves
+    const phrases = [];
+    view.forEach((vb) => {
+      const ptr = vb.fullPointer[0];
+      if (ptr) {
+        phrases.push({ n: ptr[0], terms: (vb.docs[0] || []).slice() });
+      }
+    });
+    phrases.forEach((phrase) => {
+      const terms = view.document[phrase.n];
+      // some of them may be removed already - 'ho sempre [mangiato]'
+      const found = phrase.terms.map((term) => terms.indexOf(term)).filter((i) => i !== -1);
+      if (found.length === 0) {
+        phrase.terms = [];
+        return
+      }
+      const span = [Math.min(...found), Math.max(...found) + 1];
+      const old = terms.slice(span[0], span[1]);
+      const res = convertOne(view, phrase.n, span, want);
+      if (res) {
+        // whatever is left of the phrase, and the new verb
+        const now = view.document[phrase.n];
+        phrase.terms = old.filter((term) => now.includes(term)).concat([res]);
+      }
+    });
+    // return what is left of each verb-phrase
+    const ptrs = [];
+    phrases.forEach((phrase) => {
+      const terms = view.document[phrase.n];
+      const found = phrase.terms.map((term) => terms.indexOf(term)).filter((i) => i !== -1);
+      if (found.length > 0) {
+        ptrs.push([phrase.n, Math.min(...found), Math.max(...found) + 1]);
+      }
+    });
+    return view.update(ptrs)
+  };
+
   // import getSubject from './parse/getSubject.js'
   // import getGrammar from './parse/grammar/index.js'
   // import toNegative from './conjugate/toNegative.js'
@@ -15064,27 +15875,18 @@ designate
       //     return toInfinitive(vb, parsed, info.form)
       //   })
       // }
-      // toPresentTense(n) {
-      //   return getNth(this, n).map(vb => {
-      //     let parsed = parseVerb(vb)
-      //     let info = getGrammar(vb, parsed)
-      //     return toPresent(vb, parsed, info.form)
-      //   })
-      // }
-      // toPastTense(n) {
-      //   return getNth(this, n).map(vb => {
-      //     let parsed = parseVerb(vb)
-      //     let info = getGrammar(vb, parsed)
-      //     return toPast(vb, parsed, info.form)
-      //   })
-      // }
-      // toFutureTense(n) {
-      //   return getNth(this, n).map(vb => {
-      //     let parsed = parseVerb(vb)
-      //     let info = getGrammar(vb, parsed)
-      //     return toFuture(vb, parsed, info.form)
-      //   })
-      // }
+      /** 'parlavo' -> 'parlo' */
+      toPresentTense(n) {
+        return convertTo(getNth$4(this, n), 'present')
+      }
+      /** 'parlo' -> 'parlavo' (imperfetto) */
+      toPastTense(n) {
+        return convertTo(getNth$4(this, n), 'imperfect')
+      }
+      /** 'parlo' -> 'parlerò' */
+      toFutureTense(n) {
+        return convertTo(getNth$4(this, n), 'future')
+      }
       // toGerund(n) {
       //   return getNth(this, n).map(vb => {
       //     let parsed = parseVerb(vb)
@@ -15912,6 +16714,17 @@ designate
     return str
   };
 
+  // a hint for the inflector - 'la turista' vs 'il turista'
+  const getGender = function (m) {
+    if (m.has('#FemaleNoun')) {
+      return 'f'
+    }
+    if (m.has('#MaleNoun')) {
+      return 'm'
+    }
+    return undefined
+  };
+
   const api$1 = function (View) {
     class Nouns extends View {
       constructor(document, pointer, groups) {
@@ -15925,7 +16738,7 @@ designate
           if (m.has('#PluralNoun')) {
             return {
               plural: str,
-              singular: methods.fromPlural(str)
+              singular: methods.fromPlural(str, getGender(m))
             }
           }
           if (m.has('#Uncountable')) {
@@ -15936,7 +16749,7 @@ designate
           }
           return {
             singular: str,
-            plural: methods.toPlural(str)
+            plural: methods.toPlural(str, getGender(m))
           }
         }, [])
       }
@@ -15947,7 +16760,7 @@ designate
         const methods = this.methods.two.transform.noun;
         return getNth$1(this, n).if('#Singular').map(m => {
           const str = getRoot(m);
-          const plural = methods.toPlural(str);
+          const plural = methods.toPlural(str, getGender(m));
           return m.replaceWith(plural)
         })
       }
@@ -15956,7 +16769,7 @@ designate
         return getNth$1(this, n).if('#PluralNoun').map(m => {
           // nb: the root of a plural noun is already singular - so use the word itself
           const str = m.text('normal');
-          const singular = methods.fromPlural(str);
+          const singular = methods.fromPlural(str, getGender(m));
           return m.replaceWith(singular)
         })
       }

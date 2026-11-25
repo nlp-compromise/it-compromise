@@ -74,6 +74,8 @@ const postTagger = function (doc) {
   doc.match(`non [${objectPronouns}] #Verb`, 0).tag('Pronoun', 'non-clitic-verb')
   // i ginocchi
   doc.match('(i|gli|le) [#Noun]', 0).tag('PluralNoun', 'i-plural')
+  // lo studente, una lezione
+  doc.match('(il|lo|la|l|un|uno|una|ogni|qualche) [#Noun]', 0).ifNo('#Pronoun').tag('Singular', 'il-singular')
   // 27° - '27th'
   doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal')
 
@@ -104,6 +106,9 @@ const postTagger = function (doc) {
 
   // 'ho sempre mangiato', 'è già partita' - a participle, further along
   tagCompounds(doc)
+
+  // 'fallo subito!' - do it, not 'the foul'
+  doc.match('^[fallo] (#Adverb|tu|voi|pure)', 0).tag('Imperative', 'fallo-imperative')
 
   // Che bello!
   doc.match('^che #Adjective$').tag('Expression', 'che-bello')

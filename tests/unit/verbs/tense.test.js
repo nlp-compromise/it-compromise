@@ -575,3 +575,59 @@ test('verbs the tagger used to miss:', function (t) {
   ], 'toFutureTense')
   t.end()
 })
+
+test('short contractions:', function (t) {
+  // m'ha, s'è, t'ho - a clitic and a one-syllable auxiliary
+  run(t, [
+    ["m'ha visto", 'mi vede'],
+    ["M'ha visto.", 'Mi vede.'],
+    ["t'ho detto", 'ti dico'],
+    ["s'è alzato", 'si alza'],
+    ["s'è alzata presto", 'si alza presto'],
+    ["l'ha mangiata", 'la mangia'],
+    ["non m'ha mai visto", 'non mi vede mai'],
+    ["dov'era il gatto", "dov'è il gatto"],
+    ["com'era bello", "com'è bello"],
+    ["cos'era questo", "cos'è questo"],
+  ], 'toPresentTense')
+  run(t, [
+    ["m'ha visto", 'mi vedrà'],
+    ["t'ho detto", 'ti dirò'],
+    ["s'è alzato", 'si alzerà'],
+    ["dov'è il gatto", 'dove sarà il gatto'],
+    ["Dov'è il gatto?", 'Dove sarà il gatto?'],
+    ["com'è bello", 'come sarà bello'],
+    ["cos'è questo", 'cosa sarà questo'],
+  ], 'toFutureTense')
+  run(t, [
+    ["dov'è il gatto", "dov'era il gatto"],
+    ["Dov'è il gatto?", "Dov'era il gatto?"],
+    ["com'è bello", "com'era bello"],
+    ["cos'è questo", "cos'era questo"],
+    // a compound tense is already in the past
+    ["m'ha visto", "m'ha visto"],
+    ["s'è alzato", "s'è alzato"],
+  ], 'toPastTense')
+  t.end()
+})
+
+test('a future verb after an object-pronoun:', function (t) {
+  run(t, [
+    ['lo faranno domani', 'lo fanno domani'],
+    ['lo farò io', 'lo faccio io'],
+    ['la daranno a te', 'la danno a te'],
+  ], 'toPresentTense')
+  run(t, [
+    ['lo faranno domani', 'lo facevano domani'],
+    ['lo farò io', 'lo facevo io'],
+  ], 'toPastTense')
+  t.end()
+})
+
+test('imperatives are left alone:', function (t) {
+  const arr = ['dammelo', 'dimmi la verità', 'guardami', 'fallo subito', 'aspettami qui', 'andiamoci']
+  ;['toPastTense', 'toPresentTense', 'toFutureTense'].forEach((fn) => {
+    run(t, arr.map((str) => [str, str]), fn)
+  })
+  t.end()
+})

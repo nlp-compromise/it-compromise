@@ -11,6 +11,17 @@ const getRoot = function (m) {
   return str
 }
 
+// a hint for the inflector - 'la turista' vs 'il turista'
+const getGender = function (m) {
+  if (m.has('#FemaleNoun')) {
+    return 'f'
+  }
+  if (m.has('#MaleNoun')) {
+    return 'm'
+  }
+  return undefined
+}
+
 const api = function (View) {
   class Nouns extends View {
     constructor(document, pointer, groups) {
@@ -24,7 +35,7 @@ const api = function (View) {
         if (m.has('#PluralNoun')) {
           return {
             plural: str,
-            singular: methods.fromPlural(str)
+            singular: methods.fromPlural(str, getGender(m))
           }
         }
         if (m.has('#Uncountable')) {
@@ -35,7 +46,7 @@ const api = function (View) {
         }
         return {
           singular: str,
-          plural: methods.toPlural(str)
+          plural: methods.toPlural(str, getGender(m))
         }
       }, [])
     }
@@ -46,7 +57,7 @@ const api = function (View) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).if('#Singular').map(m => {
         const str = getRoot(m)
-        const plural = methods.toPlural(str)
+        const plural = methods.toPlural(str, getGender(m))
         return m.replaceWith(plural)
       })
     }
@@ -55,7 +66,7 @@ const api = function (View) {
       return getNth(this, n).if('#PluralNoun').map(m => {
         // nb: the root of a plural noun is already singular - so use the word itself
         const str = m.text('normal')
-        const singular = methods.fromPlural(str)
+        const singular = methods.fromPlural(str, getGender(m))
         return m.replaceWith(singular)
       })
     }

@@ -269,11 +269,6 @@ test('passato prossimo:', function (t) {
     ['avrà mangiato', 'avrà mangiato'],
     ['avremo parlato', 'avremo parlato'],
   ], 'toFutureTense')
-  // an adverb in the middle - only the auxiliary changes
-  run(t, [
-    ['ho sempre mangiato la pasta', 'avrò sempre mangiato la pasta'],
-    ['non ho mai visto il mare', 'non avrò mai visto il mare'],
-  ], 'toFutureTense')
   t.end()
 })
 
@@ -328,8 +323,6 @@ test('leaves non-indicative verbs alone:', function (t) {
     'lei parlerebbe', // conditional
     'che tu venga', // subjunctive
     'il gatto nero', // no verb
-    "c'è un gatto", // contraction
-    "l'ho visto", // contraction
     '',
   ]
   arr.forEach(str => {
@@ -433,5 +426,152 @@ test('nth verb only:', function (t) {
   const none = nlp('la casa rossa').match('foo').verbs()
   t.equal(none.toPastTense().found, false, here + 'empty toPastTense')
   t.equal(none.toFutureTense().length, 0, here + 'empty toFutureTense')
+  t.end()
+})
+
+test('compound tense, with an adverb in the middle:', function (t) {
+  // already in the past
+  run(t, [
+    ['ho sempre mangiato la pasta', 'ho sempre mangiato la pasta'],
+    ['non ho mai visto il mare', 'non ho mai visto il mare'],
+    ['lei è già partita', 'lei è già partita'],
+    ['siamo appena arrivati', 'siamo appena arrivati'],
+  ], 'toPastTense')
+  // the new verb takes the place of the auxiliary
+  run(t, [
+    ['ho sempre mangiato la pasta', 'mangio sempre la pasta'],
+    ['non ho mai visto il mare', 'non vedo mai il mare'],
+    ['Non ho mai visto il mare.', 'Non vedo mai il mare.'],
+    ['Ho sempre mangiato.', 'Mangio sempre.'],
+    ['lei è già partita', 'lei parte già'],
+    ['abbiamo anche parlato', 'parliamo anche'],
+    ['ho già finito', 'finisco già'],
+    ['siamo appena arrivati', 'arriviamo appena'],
+    ['ha sempre lavorato', 'lavora sempre'],
+    ['non ha ancora mangiato', 'non mangia ancora'],
+    ['è sempre stato così', 'è sempre così'],
+  ], 'toPresentTense')
+  run(t, [
+    ['ho sempre mangiato la pasta', 'mangerò sempre la pasta'],
+    ['non ho mai visto il mare', 'non vedrò mai il mare'],
+    ['Ho sempre mangiato.', 'Mangerò sempre.'],
+    ['lei è già partita', 'lei partirà già'],
+    ['abbiamo anche parlato', 'parleremo anche'],
+    ['non ha ancora mangiato', 'non mangerà ancora'],
+    ['è sempre stato così', 'sarà sempre così'],
+  ], 'toFutureTense')
+  // an adjective is not a participle
+  run(t, [
+    ['sono molto stanco', 'ero molto stanco'],
+    ['la porta è sempre chiusa', 'la porta era sempre chiusa'],
+  ], 'toPastTense')
+  // both verbs are found, and returned once
+  const doc = nlp('ho sempre mangiato la pasta e lei beve acqua')
+  const m = doc.verbs().toFutureTense()
+  t.deepEqual(m.out('array'), ['mangerò', 'berrà'], here + 'split-compound return value')
+  t.equal(doc.text(), 'mangerò sempre la pasta e lei berrà acqua', here + 'split-compound text')
+  t.end()
+})
+
+test('contractions:', function (t) {
+  // the elision is kept, before a vowel
+  run(t, [
+    ["c'è un gatto", "c'era un gatto"],
+    ["C'è un gatto.", "C'era un gatto."],
+    ["non c'è nessuno", "non c'era nessuno"],
+    ["t'amo", "t'amavo"],
+    ["ce l'ho", "ce l'avevo"],
+    ["c'era una volta", "c'era una volta"],
+    ["l'ho visto", "l'ho visto"],
+  ], 'toPastTense')
+  run(t, [
+    ["c'era una volta", "c'è una volta"],
+    ["C'era un gatto.", "C'è un gatto."],
+    ["c'erano molti", 'ci sono molti'],
+    ["t'amavo", "t'amo"],
+  ], 'toPresentTense')
+  // .. and written out in full, before a consonant
+  run(t, [
+    ["c'è un gatto", 'ci sarà un gatto'],
+    ["C'è un gatto.", 'Ci sarà un gatto.'],
+    ["non c'è nessuno", 'non ci sarà nessuno'],
+    ["c'erano molti", 'ci saranno molti'],
+    ["t'amo", "t'amerò"],
+    ["ce l'ho", "ce l'avrò"],
+  ], 'toFutureTense')
+  // 'ci è' is always elided
+  run(t, [
+    ['ci sarà una festa', "c'è una festa"],
+    ['Ci sarà una festa.', "C'è una festa."],
+    ['non ci sarà nessuno', "non c'è nessuno"],
+    ['ci sono molti gatti', 'ci sono molti gatti'],
+  ], 'toPresentTense')
+  run(t, [
+    ['ci sarà una festa', "c'era una festa"],
+    ['ci sono molti gatti', "c'erano molti gatti"],
+  ], 'toPastTense')
+  // the object-pronoun agrees with the participle
+  run(t, [
+    ["l'ho visto", 'lo vedo'],
+    ["l'ho vista", 'la vedo'],
+    ["l'ha mangiata", 'la mangia'],
+    ["l'aveva detto", 'lo dice'],
+    ["non l'ho mai visto", 'non lo vedo mai'],
+    ["L'ho visto.", 'Lo vedo.'],
+  ], 'toPresentTense')
+  run(t, [
+    ["l'ho visto", 'lo vedrò'],
+    ["l'ho vista", 'la vedrò'],
+    ["l'ha mangiata", 'la mangerà'],
+    ["non l'ho mai visto", 'non lo vedrò mai'],
+  ], 'toFutureTense')
+  // a noun's article is not touched
+  run(t, [["l'amico è qui", "l'amico era qui"]], 'toPastTense')
+  run(t, [["l'amico è qui", "l'amico sarà qui"]], 'toFutureTense')
+
+  // round-trips
+  const arr = ["c'è un gatto", "non c'è nessuno", "C'è un gatto.", "t'amo", "ce l'ho"]
+  arr.forEach(str => {
+    const doc = nlp(str)
+    doc.verbs().toFutureTense()
+    doc.verbs().toPresentTense()
+    t.equal(doc.text(), str, here + `future round-trip '${str}'`)
+    doc.verbs().toPastTense()
+    doc.verbs().toPresentTense()
+    t.equal(doc.text(), str, here + `past round-trip '${str}'`)
+  })
+  // the new words are still matchable
+  let doc = nlp("c'è un gatto")
+  doc.verbs().toFutureTense()
+  t.equal(doc.has('ci sarà un gatto'), true, here + 'expanded match')
+  t.equal(doc.match('sarà').has('#FutureTense'), true, here + 'expanded tag')
+  doc = nlp("c'è un gatto")
+  doc.verbs().toPastTense()
+  t.equal(doc.has('ci era un gatto'), true, here + 'elided match')
+  t.equal(doc.has('#ImperfectVerb'), true, here + 'elided tag')
+  t.equal(doc.has('#PresentTense'), false, here + 'elided old tag')
+  t.end()
+})
+
+test('verbs the tagger used to miss:', function (t) {
+  // a first-person verb after 'lo/la/le/gli' is not a noun
+  run(t, [
+    ['lo vedo', 'lo vedevo'],
+    ['io lo vedo', 'io lo vedevo'],
+    ['la conosco', 'la conoscevo'],
+    ['gli parlo', 'gli parlavo'],
+    ['non la mangio', 'non la mangiavo'],
+    ['le canto una canzone', 'le cantavo una canzone'],
+  ], 'toPastTense')
+  run(t, [
+    ['te lo dicevo', 'te lo dico'],
+    ['la mangiavo', 'la mangio'],
+    ['lo vedevi', 'lo vedi'],
+  ], 'toPresentTense')
+  run(t, [
+    ['lo vedo', 'lo vedrò'],
+    ['te lo dicevo', 'te lo dirò'],
+    ['non la mangio', 'non la mangerò'],
+  ], 'toFutureTense')
   t.end()
 })

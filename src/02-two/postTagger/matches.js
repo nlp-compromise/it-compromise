@@ -1,3 +1,5 @@
+import tagCompounds from './compound.js'
+
 // articles that are never object-pronouns (l' splits to 'l')
 const articles = '(il|i|un|uno|una|l)'
 // these are articles OR proclitic object-pronouns - 'la pizza' vs 'la vedo'
@@ -22,12 +24,19 @@ const stareForms =
 const coreVerbs =
   '(è|era|erano|ero|sono|sei|siamo|siete|fu|furono|sarà|saranno|sia|siano|fosse|ho|hai|ha|abbiamo|avete|hanno|avevo|aveva|avevano|avrà|abbia|sto|stai|sta|stanno|stava|posso|puoi|può|possiamo|possono|poteva|potrà|devo|devi|deve|dobbiamo|devono|doveva|dovrà|voglio|vuoi|vuole|vogliamo|vogliono|voleva|vorrà|so|sai|sa|sanno|vado|vai|va|vanno|faccio|fai|fa|fanno|dico|dici|dice|dicono)'
 
+// 'non lo so', 'non ne ho'
+const objectPronouns = '(lo|la|le|li|gli|ne|mi|ti|si|ci|vi|me|te|ce|ve)'
+// verb-forms that are rarely a noun, after 'lo/la/le/gli'
+const finiteVerb =
+  '(#FirstPerson|#SecondPerson|#FirstPersonPlural|#SecondPersonPlural|#ThirdPersonPlural|#ImperfectVerb|#FutureTense|#ConditionalVerb)'
+
 const postTagger = function (doc) {
   // a word after an article is a noun - 'la pizza', 'il potere'
   doc.match(`${articles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-noun')
   doc.match(`${prepArticles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'prep-art-noun')
   doc.match(`${otherDets} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'det-noun')
-  doc.match(`${articleClitics} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-clitic-noun')
+  // ..but 'lo vedo', 'la mangiavo' - only a third-person form looks like a noun ('la porta', 'la legge')
+  doc.match(`${articleClitics} [#Verb]`, 0).ifNo(coreVerbs).ifNo(finiteVerb).tag('Noun', 'art-clitic-noun')
   // ..unless an object follows - 'le offro un caffè', 'lo vede la sera'
   doc.match(`${articleClitics} [#Noun] (un|uno|una|il|lo|la|i|gli|le|mi|ti|ci|vi)`, 0).tag('PresentTense', 'clitic-verb')
   // 'lo vedo' - the clitic before a verb is a pronoun
@@ -60,7 +69,9 @@ const postTagger = function (doc) {
   // Come ti chiami? - the clitic pronoun gets the Reflexive tag
   doc.match('[(mi|ti|si|ci|vi)] #Verb', 0).tag('Reflexive', 'si-verb')
   // non lavoro
-  doc.match('non [#Noun]', 0).tag('Verb', 'non-verb')
+  doc.match('non [#Noun]', 0).ifNo(objectPronouns).tag('Verb', 'non-verb')
+  // non lo so - but not the object-pronoun before it
+  doc.match(`non [${objectPronouns}] #Verb`, 0).tag('Pronoun', 'non-clitic-verb')
   // i ginocchi
   doc.match('(i|gli|le) [#Noun]', 0).tag('PluralNoun', 'i-plural')
   // 27° - '27th'
@@ -90,6 +101,9 @@ const postTagger = function (doc) {
   ;['volere', 'potere', 'dovere', 'sapere'].forEach((modal) => {
     doc.match(`[{${modal}}] (#Infinitive|#Reflexive)`, 0).tag('Auxiliary', 'modal-aux')
   })
+
+  // 'ho sempre mangiato', 'è già partita' - a participle, further along
+  tagCompounds(doc)
 
   // Che bello!
   doc.match('^che #Adjective$').tag('Expression', 'che-bello')

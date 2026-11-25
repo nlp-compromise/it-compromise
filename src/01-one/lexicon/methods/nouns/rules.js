@@ -8,6 +8,8 @@ const pairs = [
   ['tempio', 'templi'],
   ['moglie', 'mogli'],
   ['superficie', 'superfici'],
+  ['effigie', 'effigi'],
+  ['mille', 'mila'],
   // feminine, but not '-e'
   ['mano', 'mani'],
   ['ala', 'ali'],
@@ -26,6 +28,9 @@ const pairs = [
   ['miglio', 'miglia'],
   ['centinaio', 'centinaia'],
   ['migliaio', 'migliaia'],
+  ['grido', 'grida'],
+  ['corno', 'corna'],
+  ['orecchio', 'orecchie'],
   // masculine '-ga', without the 'h'
   ['belga', 'belgi'],
 ]
@@ -35,18 +40,24 @@ pairs.forEach(a => {
   irregular.fromPlural[a[1]] = a[0]
 })
 // both plurals are used - 'i ginocchi', 'gli ossi'
-Object.assign(irregular.fromPlural, { ginocchi: 'ginocchio', ossi: 'osso', bracci: 'braccio', cigli: 'ciglio' })
+Object.assign(irregular.fromPlural, {
+  ginocchi: 'ginocchio', ossi: 'osso', bracci: 'braccio', cigli: 'ciglio', orecchi: 'orecchio', gridi: 'grido', corni: 'corno'
+})
 
 // truncations, and other nouns that never change
 const same = new Set([
   'foto', 'auto', 'moto', 'radio', 'cinema', 'video', 'stereo', 'frigo', 'euro', 'zoo',
   'serie', 'specie', 'carie', 'barbarie', 'progenie',
-  'gorilla', 'boia', 'vaglia', 'sosia', 'koala', 'panda'
+  'gorilla', 'boia', 'vaglia', 'sosia', 'koala', 'panda', 'delta', 'cobra', 'puma',
+  'bici', 'brindisi', 'eclissi', 'ellissi', 'sintassi', 'prassi', 'alibi', 'taxi'
 ])
 
-// loanwords, stressed endings, '-i' nouns and monosyllables - 'film', 'città', 'crisi', 're'
+// greek feminine nouns in '-i' never change - 'le crisi', 'le analisi'
+const greekI = /(crisi|lisi|^tesi|ipotesi|sintesi|protesi|parentesi|gnosi|genesi|oasi|enfasi|(metr|necr|acr|megal|tend)opoli)$/
+
+// loanwords, stressed endings, greek '-i' nouns and monosyllables - 'film', 'città', 'crisi', 're'
 const isInvariable = function (str) {
-  if (same.has(str)) {
+  if (same.has(str) || greekI.test(str)) {
     return true
   }
   if (!/[aeio]$/.test(str)) {
@@ -70,8 +81,8 @@ const maleWords = new Set([
 ])
 const femaleWords = new Set(['pista', 'lista', 'vista', 'rivista', 'conquista', 'intervista', 'svista', 'provvista', 'asma', 'crema', 'gemma', 'flemma', 'maremma', 'soma', 'chioma'])
 
-// greek feminine nouns in '-i' never change - 'le crisi', 'le analisi'
-const greekI = /(crisi|lisi|^tesi|ipotesi|sintesi|protesi|parentesi|gnosi|genesi|oasi|enfasi|opoli)$/
+// ..but these are people, of either gender - 'la collega', 'le atlete'
+const epicene = /(ista|asta|iatra|cida|nauta|peuta|collega|atleta|[il]ota|bata|beta)$/
 
 // is this '-a' noun masculine? - gender is 'm', 'f' or undefined
 const isMaleA = function (str, gender) {
@@ -79,7 +90,7 @@ const isMaleA = function (str, gender) {
     return false
   }
   // 'la turista' -> 'le turiste'
-  if (gender === 'f' && str.endsWith('ista')) {
+  if (gender === 'f' && epicene.test(str)) {
     return false
   }
   return gender === 'm' || maleWords.has(str) || maleSuffix.test(str) || /^(vice)?capo./.test(str)
@@ -91,8 +102,8 @@ const femalePlural = function (str) {
   if (/[cg]a$/.test(str)) {
     return str.replace(/a$/, 'he')
   }
-  // 'arancia' -> 'arance', but stressed 'allergia' -> 'allergie'
-  if (/[^aeiour][cg]ia$/.test(str) || /rcia$/.test(str)) {
+  // 'arancia' -> 'arance', but stressed 'allergia', 'nostalgia', 'scia' -> 'allergie'
+  if (/[aeiou].*([^aeiourl][cg]|rc)ia$/.test(str)) {
     return str.replace(/ia$/, 'e')
   }
   return str.replace(/a$/, 'e')
@@ -119,4 +130,7 @@ const malePlural = function (str) {
   return str.replace(/a$/, 'i')
 }
 
-export { greekI, irregular, isInvariable, isMaleA, femalePlural, fromFemalePlural, malePlural }
+// the singular of an '-i' plural, where its ending says so - 'lezioni', 'attrici', 'origini'
+const singularE = /(ion|tric|[ai]gin|tudin)i$/
+
+export { irregular, isInvariable, isMaleA, maleWords, singularE, femalePlural, fromFemalePlural, malePlural }

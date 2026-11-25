@@ -25,6 +25,9 @@ import {
   fromSubjunctive,
 } from './toRoot.js'
 
+import { toImperative, fromImperative } from './imperative.js'
+import { table, findHits, candidates, lookup } from './lookup.js'
+
 const all = function (str) {
   let arr = [str].concat(
     Object.values(toPresent(str)),
@@ -34,7 +37,8 @@ const all = function (str) {
     Object.values(toImperfect(str)),
     Object.values(toSubjunctive(str)),
     Object.values(toImperfectSubjunctive(str)),
-    Object.values(toReflexive(str))
+    Object.values(toReflexive(str)),
+    Object.values(toImperative(str))
   )
   // past-participle, in all four gender/number agreements
   const pp = toPastParticiple(str)
@@ -64,6 +68,8 @@ export default {
   toSubjunctive,
   toImperfectSubjunctive,
   toReflexive,
+  toImperative,
+  fromImperative,
   fromGerund,
   toGerund,
   fromPastParticiple,
@@ -76,6 +82,10 @@ export default {
   fromConditional,
   fromImperfect,
   fromSubjunctive,
+  table,
+  findHits,
+  candidates,
+  lookup,
 }
 
 // console.log(toPresent('fermarsi'))

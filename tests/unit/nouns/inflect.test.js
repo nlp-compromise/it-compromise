@@ -60,6 +60,9 @@ test('nouns conjugate, from plural:', function (t) {
     ['le dita', 'dito', 'dita'],
     ['gli uomini', 'uomo', 'uomini'],
     ['i problemi', 'problema', 'problemi'],
+    // only an adjective in the lexicon, but a noun after its article
+    ['i medici', 'medico', 'medici'],
+    ['un italiano', 'italiano', 'italiani'],
     // invariable
     ['le crisi', 'crisi', 'crisi'],
     ['le città', 'città', 'città'],

@@ -25,6 +25,9 @@ const clean = (s) => {
   s = s.replace(/^che (io|tu|lei\/lui|lui|lei|noi|voi|loro) /, '')
   s = s.replace(/^(io|tu|lei\/lui|lui|lei|noi|voi|loro) /, '')
   s = s.split('/')[0].trim()
+  // the data marks the stress of some words - 'sièdo' is written 'siedo'
+  const plain = { à: 'a', è: 'e', é: 'e', ì: 'i', ò: 'o', ù: 'u' }
+  s = s.replace(/[àèéìòù](?=.)/g, (c) => plain[c])
   return s
 }
 const six = (arr) => {

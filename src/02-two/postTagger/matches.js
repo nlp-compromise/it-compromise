@@ -1,4 +1,8 @@
 import tagCompounds from './compound.js'
+import tagNounAdjectives from './noun-adjective.js'
+import tagImperatives from './imperative.js'
+import homographVerbs from './homograph-verb.js'
+import tagArticles from './article-clitic.js'
 
 // articles that are never object-pronouns (l' splits to 'l')
 const articles = '(il|i|un|uno|una|l)'
@@ -30,6 +34,9 @@ const objectPronouns = '(lo|la|le|li|gli|ne|mi|ti|si|ci|vi|me|te|ce|ve)'
 const finiteVerb =
   '(#FirstPerson|#SecondPerson|#FirstPersonPlural|#SecondPersonPlural|#ThirdPersonPlural|#ImperfectVerb|#FutureTense|#ConditionalVerb)'
 
+// the noun of "l'amica" has no text of its own
+const notElided = (m) => m.docs[0][0].text !== ''
+
 const postTagger = function (doc) {
   // a word after an article is a noun - 'la pizza', 'il potere'
   doc.match(`${articles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-noun')
@@ -41,6 +48,15 @@ const postTagger = function (doc) {
   doc.match(`${articleClitics} [#Noun] (un|uno|una|il|lo|la|i|gli|le|mi|ti|ci|vi)`, 0).tag('PresentTense', 'clitic-verb')
   // 'lo vedo' - the clitic before a verb is a pronoun
   doc.match(`[${articleClitics}] #Verb`, 0).tag('Pronoun', 'clitic-pron')
+  // ..and choose again, by the noun, its agreement with the article, and the words around it - 'le stazioni', 'gli parla'
+  tagArticles(doc)
+  // words that are something else, without an article - "l'ora", 'la specie', 'i guai', 'gli dei'
+  doc.match(`(l|lo|la|un|una|che|ogni|qualche|questa|quella|stessa|mezzo|mezza|${prepArticles}) [ora]`, 0).tag(['Noun', 'FemaleNoun', 'Singular'], 'art-ora')
+  doc.match(`(#Determiner|${prepArticles}) [specie]`, 0).tag(['Noun', 'FemaleNoun'], 'art-specie')
+  doc.match('(#Determiner|#Preposition|#Possessive|#Adjective|#Value) [guai]', 0).tag(['Noun', 'MaleNoun', 'PluralNoun'], 'art-guai')
+  doc.match('(gli|degli|agli|dagli|negli|sugli|quegli) [dei]', 0).tag(['Noun', 'MaleNoun', 'PluralNoun'], 'gli-dei')
+  // 'i medici', 'un italiano' - an adjective after a determiner, with no noun after it, is the noun
+  tagNounAdjectives(doc)
   // gender from indefinite article
   doc.match('una [#Noun]', 0).tag('FemaleNoun', 'una-noun')
   doc.match('(un|uno) [#Noun]', 0).tag('MaleNoun', 'un-noun')
@@ -58,8 +74,8 @@ const postTagger = function (doc) {
     )
     .tag('#PhrasalVerb #Particle', 'phrasal')
 
-  // noun gender aggrement
-  doc.match('(il|lo|i|gli) [#Noun]', 0).tag('MaleNoun', 'm-noun')
+  // noun gender aggrement - but the l' of "l'amica" says nothing
+  doc.match('(il|lo|i|gli) [#Noun]', 0).filter(notElided).tag('MaleNoun', 'm-noun')
   doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun')
 
   // 'vi arrabbiate' - a word right after a reflexive clitic is its verb
@@ -76,12 +92,19 @@ const postTagger = function (doc) {
   doc.match('(i|gli|le) [#Noun]', 0).tag('PluralNoun', 'i-plural')
   // lo studente, una lezione
   doc.match('(il|lo|la|l|un|uno|una|ogni|qualche) [#Noun]', 0).ifNo('#Pronoun').tag('Singular', 'il-singular')
+  // an '-e' plural is feminine - 'due mele'
+  doc.match('#PluralNoun').filter((m) => /[^i]e$/.test(m.docs[0][0].normal)).tag('FemaleNoun', 'e-plural')
   // 27° - '27th'
   doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal')
 
   // 'uno' and 'sei' are also number-words
   // standalone - 'uno'
   doc.match('^[(uno|sei)]$', 0).tag(['TextValue', 'Cardinal'], 'lone-number')
+  // 'alle sei', 'le sei di sera', 'da sei anni' - six, after a preposition or an article
+  doc.match('(#Preposition|le|ore) [sei]', 0).tag(['TextValue', 'Cardinal'], 'prep-sei')
+  // 'Dai una mano' - 'dai' is a preposition with its article, so no article can follow it
+  doc.match('[dai] (un|una|uno|il|lo|la|le|gli|i|tutto|sempre|molto|troppo|retta|fastidio)', 0).tag(['Verb', 'PresentTense', 'SecondPerson'], 'dai-verb')
+  doc.match('(tu|non|mi|ti|ci|gli|lo|la|li|ne|me|te|ce) [dai]', 0).tag(['Verb', 'PresentTense', 'SecondPerson'], 'tu-dai')
   // 'sei anni' - six years
   doc.match('[sei] #PluralNoun', 0).tag(['TextValue', 'Cardinal'], 'sei-plural')
   // 'a uno è..' - one (person)
@@ -109,6 +132,12 @@ const postTagger = function (doc) {
 
   // 'fallo subito!' - do it, not 'the foul'
   doc.match('^[fallo] (#Adverb|tu|voi|pure)', 0).tag('Imperative', 'fallo-imperative')
+
+  // 'fermati!', 'dagli il libro', 'Mangia la pasta!'
+  tagImperatives(doc)
+
+  // 'mia madre [cucina] la cena', '[Porto] il libro'
+  homographVerbs(doc)
 
   // Che bello!
   doc.match('^che #Adjective$').tag('Expression', 'che-bello')

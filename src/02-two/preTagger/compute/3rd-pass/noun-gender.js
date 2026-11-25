@@ -21,7 +21,7 @@ const suffixes = [
     'a': f,
     'o': m,
     'i': m,
-    'e': f,
+    // '-e' is either - 'il fiume', 'la notte'
   },
   // two
   {
@@ -88,7 +88,9 @@ const nounGender = function (terms, i, world) {
   const tags = term.tags
   const str = term.normal || term.implicit || ''
   if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
-    const tag = suffixLoop(str, suffixes)
+    // 'il poeta', 'il clima' - before '-a' says feminine
+    const isMaleA = str.endsWith('a') && world.methods.two.transform.noun.isMaleA(str)
+    const tag = isMaleA ? m : suffixLoop(str, suffixes)
     if (tag) {
       setTag([term], tag, world, false, '2-guess-gender')
     }

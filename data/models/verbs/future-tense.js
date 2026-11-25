@@ -1353,7 +1353,7 @@ export default {
   "giostrare": ["giostrerò", "giostrerai", "giostrerà", "giostreremo", "giostrerete", "giostreranno"],
   "giovare": ["gioverò", "gioverai", "gioverà", "gioveremo", "gioverete", "gioveranno"],
   "girare": ["girerò", "girerai", "girerà", "gireremo", "girerete", "gireranno"],
-  "gire": ["girò", "girai", "girà", "girémo", "giréte", "girànno"],
+  "gire": ["girò", "girai", "girà", "giremo", "girete", "giranno"],
   "girovagare": ["girovagherò", "girovagherai", "girovagherà", "girovagheremo", "girovagherete", "girovagheranno"],
   "giubilare": ["giubilerò", "giubilerai", "giubilerà", "giubileremo", "giubilerete", "giubileranno"],
   "giudicare": ["giudicherò", "giudicherai", "giudicherà", "giudicheremo", "giudicherete", "giudicheranno"],

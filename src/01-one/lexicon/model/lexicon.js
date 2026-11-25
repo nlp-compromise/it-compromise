@@ -17,7 +17,12 @@ const tagMap = {
 let words = {}
 
 // a bare 'Verb' says less than a conjugation does - 'faranno'
-const isEmpty = (w) => !words[w] || words[w] === 'Verb'
+// .. and so does a tense with no person - 'sapevo'
+const bare = new Set(['Verb', 'PastTense', 'PresentTense'])
+const isEmpty = (w) => !words[w] || bare.has(words[w])
+
+// these are nothing else - (but 'abbi' is also in our list of names)
+const ownImperatives = new Set(['sii', 'abbi', 'sappi', 'vogli'])
 
 const addVerbs = function (w) {
   // do present-tense
@@ -60,6 +65,13 @@ const addVerbs = function (w) {
   Object.keys(res).forEach((k) => {
     if (isEmpty(res[k])) {
       words[res[k]] = [tagMap[k], 'Subjunctive']
+    }
+  })
+  // imperatives are present-tense forms, but for a few - 'sii', 'abbi', 'sappi'
+  res = verbs.toImperative(w)
+  ;['second', 'secondPlural'].forEach((k) => {
+    if (res[k] && !/'/.test(res[k]) && (isEmpty(res[k]) || ownImperatives.has(res[k]))) {
+      words[res[k]] = ['Imperative']
     }
   })
   // gerunds

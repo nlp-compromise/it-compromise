@@ -1797,12 +1797,12 @@ export default {
     },
     "sedere": {
       "present": [
-        "sièdo",
-        "sièdi",
-        "siède",
+        "siedo",
+        "siedi",
+        "siede",
         "sediamo",
         "sedete",
-        "sièdono"
+        "siedono"
       ],
       "imperfect": [
         "sedevo",
@@ -1837,12 +1837,12 @@ export default {
         "sederebbero"
       ],
       "subjunctive": [
-        "sièda",
-        "sièda",
-        "sièda",
+        "sieda",
+        "sieda",
+        "sieda",
         "sediamo",
         "sediate",
-        "sièdano"
+        "siedano"
       ],
       "imperfectSubjunctive": [
         "sedessi",

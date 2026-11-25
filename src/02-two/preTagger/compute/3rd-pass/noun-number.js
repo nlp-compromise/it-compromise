@@ -18,7 +18,8 @@ const checkSuffix = function (term) {
   if (isSingularE(str)) {
     return 'Singular'
   }
-  if (term.tags.has('FemaleNoun') && str.endsWith('e')) {
+  // a bare '-e' is more often a plural - 'mele', 'case'
+  if (str.endsWith('e') && !term.tags.has('MaleNoun')) {
     return 'PluralNoun'
   }
   if (str.endsWith('o') || str.endsWith('a')) {

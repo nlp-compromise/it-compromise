@@ -53,15 +53,15 @@
   // wrappers for loops in javascript arrays
 
   // call the callback with a one-match view
-  const wrap$2 = (view, cb) => (ptr, i) => cb(view.update([ptr]), i);
+  const wrap$4 = (view, cb) => (ptr, i) => cb(view.update([ptr]), i);
 
   const forEach = function (cb) {
-    this.fullPointer.forEach(wrap$2(this, cb));
+    this.fullPointer.forEach(wrap$4(this, cb));
     return this
   };
 
   const map = function (cb, empty) {
-    const run = wrap$2(this, cb);
+    const run = wrap$4(this, cb);
     const res = this.fullPointer.map((ptr, i) => {
       const out = run(ptr, i);
       // if we returned nothing, return a view
@@ -94,11 +94,11 @@
   };
 
   const filter = function (cb) {
-    return this.update(this.fullPointer.filter(wrap$2(this, cb)))
+    return this.update(this.fullPointer.filter(wrap$4(this, cb)))
   };
 
   const find = function (cb) {
-    const found = this.fullPointer.find(wrap$2(this, cb));
+    const found = this.fullPointer.find(wrap$4(this, cb));
     if (found === undefined) {
       return this.update([])
     }
@@ -106,7 +106,7 @@
   };
 
   const some$1 = function (cb) {
-    return this.fullPointer.some(wrap$2(this, cb))
+    return this.fullPointer.some(wrap$4(this, cb))
   };
 
   const random = function (n = 1) {
@@ -416,7 +416,7 @@
 
   var version$1 = '14.20.0';
 
-  const isObject$1 = function (item) {
+  const isObject$2 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
   };
 
@@ -424,13 +424,13 @@
 
   // recursive merge of objects
   function mergeDeep(model, plugin) {
-    if (isObject$1(plugin)) {
+    if (isObject$2(plugin)) {
       for (const key in plugin) {
         // prevent prototype pollution
         if (isUnsafeKey(key)) {
           continue
         }
-        if (isObject$1(plugin[key])) {
+        if (isObject$2(plugin[key])) {
           if (!model[key]) {
             model[key] = {};
           }
@@ -543,6 +543,8 @@
   const blue = color(34);
   const cyan = color(36);
   const yellow = color(33);
+  // used by name, from the tagset colors
+  const magenta = color(35);
   const dim = color(2);
   const i$1 = color(3);
   const b = color(1);
@@ -558,6 +560,7 @@
     green: green,
     grey: grey,
     i: i$1,
+    magenta: magenta,
     red: red,
     ul: ul,
     yellow: yellow
@@ -567,7 +570,7 @@
   const debug$2 = { tags: Boolean(env.DEBUG_TAGS) };
 
   // Capture only the requested terms, and only while tracing.
-  const before = term => {
+  const before$1 = term => {
     if (debug$2.tags && (!debug$2.word || debug$2.word === (term.normal || term.text || term.implicit || '').toLowerCase())) {
       return [...term.tags]
     }
@@ -604,7 +607,7 @@
     print(added, '+', green);
   };
 
-  debug$2.before = before;
+  debug$2.before = before$1;
   debug$2.log = log;
 
   // Install only while verbose matching is enabled; restore the original hot path.
@@ -727,7 +730,7 @@
   };
 
   // a plain object - not an array, null, or class instance
-  const isObject = val => Object.prototype.toString.call(val) === '[object Object]';
+  const isObject$1 = val => Object.prototype.toString.call(val) === '[object Object]';
 
   // internal Term objects are slightly different
   const fromJson = function (json) {
@@ -774,7 +777,7 @@
       return new View(document)
     }
     // handle compromise View
-    if (isObject(input) && input.isView) {
+    if (isObject$1(input) && input.isView) {
       return new View(input.document, input.ptrs)
     }
     // handle json input
@@ -980,6 +983,70 @@
   const toTitleCase$1 = str => str.replace(/^\p{Ll}/u, x => x.toUpperCase());
   const toLowerCase = str => str.replace(/^\p{Lu}/u, x => x.toLowerCase());
 
+  // give a new word the case of the one it replaced: 'Danes' -> 'Dane', 'DANES' -> 'DANE'
+  const matchCase$1 = (original, str) => {
+    if (original.length > 1 && original === original.toUpperCase() && original !== original.toLowerCase()) {
+      return str.toUpperCase()
+    }
+    return /^\p{Lu}/u.test(original) ? toTitleCase$1(str) : str
+  };
+
+  // Heal the edges of a sentence, when its first or last words change.
+  // Shared by insert and remove, and by the noun and verb conversions.
+
+  // a capital of its own, not the sentence's - 'Spencer', 'NASA', 'I', or 'Plan B'
+  const ownsCapital = function (term) {
+    if (term.tags.has('ProperNoun') || term.tags.has('Acronym')) {
+      return true
+    }
+    return term.text.length === 1 || !isTitleCase$1(term.text)
+  };
+
+  // the first word of a sentence lends its capital to a new first word
+  const passCapital = function (from, to, drop) {
+    if (!/^\p{Lu}/u.test(from.text)) {
+      return
+    }
+    to.text = toTitleCase$1(to.text);
+    if (drop && !ownsCapital(from)) {
+      from.text = toLowerCase(from.text);
+    }
+  };
+
+  // quotes, brackets and newlines open a phrase, so they stay in front of it
+  const passOpening = function (from, to) {
+    to.pre = from.pre + to.pre;
+    from.pre = '';
+  };
+
+  // a bare hyphen joins two words - 'well-fed'
+  const isJoiner = post => /^[-–]$/.test(post);
+
+  // "dogs' bowls" - with no opening quote before it, an apostrophe belongs to its word
+  const isPossessive = function (terms, i) {
+    if (!/^['’]/.test(terms[i].post)) {
+      return false
+    }
+    return !terms.slice(0, i + 1).some(term => /['‘]/.test(term.pre))
+  };
+
+  // periods, commas, closing quotes and brackets end a phrase, so they stay behind it
+  const passClosing = function (terms, i, to) {
+    const from = terms[i];
+    // nothing to move, or it is part of the word
+    if (!from.post || isJoiner(from.post) || isPossessive(terms, i)) {
+      return false
+    }
+    let post = from.post;
+    // the new words may bring their own ending - 'loudly!'
+    if (/[.?!…]/.test(to.post)) {
+      post = post.replace(/^[.?!…]+/, '');
+    }
+    to.post = to.post.trimEnd() + post;
+    from.post = ' ';
+    return true
+  };
+
   // splice an array into an array
   const spliceArr = (parent, index, child) => {
     // tag them as dirty
@@ -1000,44 +1067,8 @@
     }
   };
 
-  // sentence-ending punctuation should move in append
-  const movePunct = (source, end, needle) => {
-    const juicy = /[-.?!,;:)–—'"]/g;
-    const wasLast = source[end - 1];
-    if (!wasLast) {
-      return
-    }
-    const post = wasLast.post;
-    if (juicy.test(post)) {
-      const punct = post.match(juicy).join(''); //not perfect
-      const last = needle.at(-1);
-      last.post = punct + last.post;
-      // remove it, from source
-      wasLast.post = wasLast.post.replace(juicy, '');
-    }
-  };
-
-
-  const moveTitleCase = function (home, start, needle) {
-    const from = home[start];
-    // should we bother?
-    if (start !== 0 || !isTitleCase$1(from.text)) {
-      return
-    }
-    // titlecase new first term
-    needle[0].text = toTitleCase$1(needle[0].text);
-    // should we un-titlecase the old word?
-    const old = home[start];
-    if (old.tags.has('ProperNoun') || old.tags.has('Acronym')) {
-      return
-    }
-    if (isTitleCase$1(old.text) && old.text.length > 1) {
-      old.text = toLowerCase(old.text);
-    }
-  };
-
   // put these words before the others
-  const cleanPrepend = function (home, ptr, needle, document) {
+  const cleanPrepend = function (home, ptr, needle, document, agree) {
     const [n, start, end] = ptr;
     // introduce spaces appropriately
     if (start === 0) {
@@ -1051,25 +1082,28 @@
       endSpace(needle);
       endSpace([home[ptr[1]]]);
     }
-    moveTitleCase(home, start, needle);
-    // movePunct(home, end, needle)
+    if (agree) {
+      // '"dogs' -> '"the dogs'
+      passOpening(home[start], needle[0]);
+      // 'Dogs' -> 'The dogs'
+      if (start === 0) {
+        passCapital(home[start], needle[0], true);
+      }
+    }
     spliceArr(home, start, needle);
   };
 
-  const cleanAppend = function (home, ptr, needle, document) {
+  const cleanAppend = function (home, ptr, needle, document, agree) {
     const [n, , end] = ptr;
     const total = (document[n] || []).length;
-    if (end < total) {
-      // are we in the middle?
-      // add trailing space on self
-      movePunct(home, end, needle);
+    // 'bark.' -> 'bark loudly.'
+    const moved = agree && home[end - 1] && passClosing(home, end - 1, needle.at(-1));
+    if (!moved && end < total) {
+      // in the middle - add trailing space on self
       endSpace(needle);
-    } else if (total === end) {
-      // are we at the end?
-      // add a space to predecessor
+    } else if (!moved) {
+      // at the end - add a space to predecessor
       endSpace(home);
-      // very end, move period
-      movePunct(home, end, needle);
       // is there another sentence after?
       if (document[n + 1]) {
         needle.at(-1).post += ' ';
@@ -1175,7 +1209,9 @@
     return []
   };
 
-  const insert = function (input, view, prepend) {
+  // {agree: false} skips moving any capitals or punctuation
+  const insert = function (input, view, prepend, opts = {}) {
+    const agree = opts.agree !== false;
     const { document, world } = view;
     view.uncache();
     // insert words at end of each doc
@@ -1194,10 +1230,10 @@
       terms = addIds$2(terms);
       if (prepend) {
         expandContraction(view.update([ptr]).firstTerm());
-        cleanPrepend(home, ptr, terms, document);
+        cleanPrepend(home, ptr, terms, document, agree);
       } else {
         expandContraction(view.update([ptr]).lastTerm());
-        cleanAppend(home, ptr, terms, document);
+        cleanAppend(home, ptr, terms, document, agree);
       }
       // harden the pointer
       if (document[n]?.[ptr[1]]) {
@@ -1217,11 +1253,11 @@
   };
 
   const fns$3 = {
-    insertAfter: function (input) {
-      return insert(input, this, false)
+    insertAfter: function (input, opts) {
+      return insert(input, this, false, opts)
     },
-    insertBefore: function (input) {
-      return insert(input, this, true)
+    insertBefore: function (input, opts) {
+      return insert(input, this, true, opts)
     },
   };
   fns$3.append = fns$3.insertAfter;
@@ -1267,6 +1303,7 @@
       pre: terms[0].pre,
       post: last.post,
       isTitleCase: isTitleCase$1(terms[0].text),
+      text: terms[0].text,
       isPossessive: last.tags.has('Possessive'),
       tags: terms.map(term => Array.from(term.tags)),
     }
@@ -1330,7 +1367,9 @@
     if (typeof input === 'string') {
       input = this.fromText(input).compute('id');
     }
-    main.insertAfter(input);
+    // {agree: false} swaps the words, and nothing else
+    const agree = keep.agree !== false;
+    main.insertAfter(input, { agree });
     // New terms follow each old match; stop at an existing term to separate nearby matches.
     if (replacements) {
       replacements.forEach(group => {
@@ -1347,10 +1386,15 @@
       more.contractions().expand();
     }
     // delete the original terms
-    main.delete(original); //science.
+    // (we restore the start of the phrase ourselves, below)
+    // the new words take the sentence's capital, unless {case: false}
+    // (we restore the punctuation ourselves, below)
+    main.delete(original, { agree, start: keep.case !== false, end: false }); //science.
 
     // main now points at only the new terms
-    main.docs.forEach((terms, i) => restoreOriginal(terms, originals[i], keep));
+    if (agree) {
+      main.docs.forEach((terms, i) => restoreOriginal(terms, originals[i], keep));
+    }
 
     // what should we return?
     const m = retag(main.toView(), ['index']);
@@ -1364,7 +1408,8 @@
     if (keep.case) {
       m.docs.forEach((terms, i) => {
         const transformCase = originals[i].isTitleCase ? toTitleCase$1 : toLowerCase;
-        terms[0].text = transformCase(terms[0].text);
+        // 'DOGS' -> 'CATS'
+        terms[0].text = matchCase$1(originals[i].text, transformCase(terms[0].text));
       });
     }
     // Transfer plugin metadata after replacement text, punctuation, and case are finalized.
@@ -1377,7 +1422,7 @@
   };
 
   fns$2.replace = function (match, input, keep) {
-    if (match && !input) {
+    if (match && input === undefined) {
       return this.replaceWith(match, keep)
     }
     const m = this.match(match);
@@ -1412,22 +1457,68 @@
     const to = terms[last - len];
     if (to && from) {
       to.post += from.post; //this isn't perfect.
-      to.post = removeRunBefore(to.post, ' ', '.?!,;:');
+      to.post = removeRunBefore(to.post, ' ', '.?!,;:"”)]');
       // don't allow any silly punctuation outcomes like ',!'
       to.post = removeRunBefore(to.post, ',;:', '.?!');
     }
   };
 
+  const pairs$2 = { '(': ')', '[': ']', '"': '"', '“': '”', '‘': '’' };
+
+  // a quote or bracket that opens and closes on the removed words leaves with them - '(loudly)'
+  const dropPairs = function (terms, start, end) {
+    const first = terms[start];
+    const last = terms[end - 1];
+    Object.keys(pairs$2).forEach(open => {
+      if (first.pre.includes(open) && last.post.includes(pairs$2[open])) {
+        first.pre = first.pre.replace(open, '');
+        last.post = last.post.replace(pairs$2[open], '');
+      }
+    });
+  };
+
+  // the word before us becomes the end of the phrase - 'bark loudly, and' -> 'bark, and'
+  const repairEnd = function (terms, start, end) {
+    const prev = terms[start - 1];
+    const post = terms[end - 1].post;
+    // is there anything to keep, and room to keep it?
+    if (prev && /\S/.test(post) && !/\S/.test(prev.post)) {
+      prev.post = post;
+    }
+  };
+
+  // the words after us become the start of the phrase
+  const repairStart = function (terms, start, end) {
+    const next = terms[end];
+    if (!next) {
+      return
+    }
+    // '"the dogs' -> '"dogs'
+    passOpening(terms[start], next);
+    // 'The dogs' -> 'Dogs'
+    if (start === 0) {
+      passCapital(terms[start], next);
+    }
+  };
+
   // remove terms from document json
-  const pluckOut = function (document, nots) {
+  const pluckOut = function (document, nots, opts = {}) {
     nots.forEach(ptr => {
       const [n, start, end] = ptr;
       const len = end - start;
       if (!document[n]) {
         return // weird!
       }
-      if (end === document[n].length && end > 1) {
-        repairPunct(document[n], len);
+      if (opts.agree !== false) {
+        dropPairs(document[n], start, end);
+        if (end === document[n].length && end > 1) {
+          repairPunct(document[n], len);
+        } else if (opts.end !== false) {
+          repairEnd(document[n], start, end);
+        }
+        if (opts.start !== false) {
+          repairStart(document[n], start, end);
+        }
       }
       document[n].splice(start, len); // replaces len terms at index start
     });
@@ -1489,9 +1580,14 @@
   };
 
   const methods$j = {
-    /** */
-    remove: function (reg) {
+    // {agree: false} skips moving any capitals or punctuation
+    remove: function (reg, opts) {
       const { indexN } = this.methods.one.pointer;
+      // allow .remove({agree: false})
+      if (reg && Object.hasOwn(reg, 'agree')) {
+        opts = reg;
+        reg = undefined;
+      }
       this.uncache();
       // two modes:
       //  - a. remove self, from full parent
@@ -1511,7 +1607,7 @@
       const gonePtrs = indexN(nots);
       const emptied = getEmptied(gonePtrs, this.document);
       // remove them from the actual document)
-      const document = pluckOut(this.document, nots);
+      const document = pluckOut(this.document, nots, opts);
       // repair our pointers
       ptrs = fixPointers$1(ptrs, gonePtrs, emptied);
       // clean up our original inputs
@@ -1548,7 +1644,7 @@
   };
 
   // put these characters around each match
-  const wrap$1 = function (view, start, end) {
+  const wrap$3 = function (view, start, end) {
     view.docs.forEach(terms => {
       terms[0].pre = start + terms[0].pre;
       const last = terms.at(-1);
@@ -1617,12 +1713,12 @@
 
     /** add quotations around these matches */
     toQuotations: function (start, end) {
-      return wrap$1(this, start || '"', end || '"')
+      return wrap$3(this, start || '"', end || '"')
     },
 
     /** add brackets around these matches */
     toParentheses: function (start, end) {
-      return wrap$1(this, start || '(', end || ')')
+      return wrap$3(this, start || '(', end || ')')
     },
   };
 
@@ -1647,8 +1743,8 @@
   /** count the # of terms in each match - most first */
   const wordCount$1 = (a, b) => b.words - a.words;
 
-  /** count the # of terms in each match */
-  const sequential = (a, b) => b[0] - a[0] || (a[1] > b[1] ? 1 : -1);
+  /** document order - sentence, then start, then end of each match */
+  const sequential = (a, b) => a.pointer[0] - b.pointer[0] || a.pointer[1] - b.pointer[1] || a.pointer[2] - b.pointer[2];
 
   /** sort by # of duplicates in the document*/
   const byFreq = function (arr) {
@@ -2749,7 +2845,7 @@ er
       if (typeof input === 'string') {
         input = [input];
       }
-      const trie = isObject(input) ? input : buildTrie(input, this.world);
+      const trie = isObject$1(input) ? input : buildTrie(input, this.world);
       let res = scan(this, trie, opts);
       res = res.settle();
       return res
@@ -2795,7 +2891,7 @@ er
   // add alias
   lib$4.compile = lib$4.buildTrie;
 
-  var lookup = {
+  var lookup$1 = {
     api: api$7,
     lib: lib$4
   };
@@ -2841,9 +2937,9 @@ er
   };
 
   // did they pass-in a compromise object?
-  const isView = val => val && isObject(val) && val.isView === true;
+  const isView = val => val && isObject$1(val) && val.isView === true;
 
-  const isNet = val => val && isObject(val) && val.isNet === true;
+  const isNet = val => val && isObject$1(val) && val.isNet === true;
 
   // sweep options when only finding, not tagging
   const noTag = { tagger: false };
@@ -2886,7 +2982,7 @@ er
     return asView(this, doMatch(this, regs, group, opts, true))
   };
 
-  const has = function (regs, group, opts) {
+  const has$2 = function (regs, group, opts) {
     // support view as input
     if (isView(regs)) {
       return this.intersection(regs).fullPointer.length > 0
@@ -2923,7 +3019,7 @@ er
     return view
   };
 
-  var match$2 = { matchOne, match: match$1, has, if: ifBy(true), ifNo: ifBy(false) };
+  var match$2 = { matchOne, match: match$1, has: has$2, if: ifBy(true), ifNo: ifBy(false) };
 
   // the words before (or after) each match, in its sentence
   const lookaround = function (view, isAfter, regs, group, opts) {
@@ -5325,7 +5421,7 @@ er
     return starts
   };
 
-  const wrap = function (doc, obj) {
+  const wrap$2 = function (doc, obj) {
     // index ids to highlight
     const starts = findStarts(doc, obj);
     let text = '';
@@ -5465,8 +5561,8 @@ er
   /** some named output formats */
   const out = function (method) {
     // support custom outputs
-    if (isObject(method)) {
-      return wrap(this, method)
+    if (isObject$1(method)) {
+      return wrap$2(this, method)
     }
     if (Object.hasOwn(outputs, method)) {
       return outputs[method](this)
@@ -5481,7 +5577,7 @@ er
     out,
     /** */
     wrap: function (obj) {
-      return wrap(this, obj)
+      return wrap$2(this, obj)
     },
   };
 
@@ -5494,7 +5590,7 @@ er
       let opts = {};
       if (fmt && typeof fmt === 'string' && Object.hasOwn(fmts, fmt)) {
         opts = { ...fmts[fmt] };
-      } else if (fmt && isObject(fmt)) {
+      } else if (fmt && isObject$1(fmt)) {
         opts = { ...fmt }; //todo: fixme
       }
       // is it a full document?
@@ -5536,8 +5632,9 @@ er
         if (!Object.hasOwn(model.one.tagSet, tag)) {
           return tag
         }
-        const c = model.one.tagSet[tag].color || 'blue';
-        return cli[c](tag)
+        // an unknown color should not break the output
+        const paint = cli[model.one.tagSet[tag].color] || blue;
+        return paint(tag)
       });
     }
     return tags.join(', ')
@@ -5677,9 +5774,86 @@ er
     highlight: showHighlight,
   };
 
+  const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
+  const comment = /\}[ \t]*#(.*)$/s; // an optional '# comment' after the last {tags} block
+
+
+  // parse the spec output
+  const parseLine = function (line = '') {
+    let [text, tags] = line.split(lastBrace); // eslint-disable-line prefer-const
+    if (tags === undefined) {
+      const note = text.match(/\s#(.*)$/s)?.[1] || '';
+      // no {tags} block on this line
+      return { text: text.replace(/\s#.*$/s, '').trim(), tags: null, comment: note.trim() }
+    }
+    const note = (tags.match(comment)?.[1] || '').trim();
+    tags = tags.replace(comment, '}'); // drop the comment - only ever one, always last
+    tags = tags.split(',').map(tag => tag.trim());
+    const lastTag = tags[tags.length - 1];
+    tags[tags.length - 1] = lastTag.replace(/\}$/, '');
+    tags = tags.map(tag => tag.split('|').map(t => t.trim()));
+    if (tags.length === 1 && tags[0].length === 1 && tags[0][0] === '') {
+      tags = []; // empty '{}'; retain empty slots in nonempty lists
+    }
+    return { text: text.trim(), tags, comment: note }
+  };
+
+  // parse a whole spec into [{ line, text, tags, comment }], skipping blank and comment lines
+  const parseSpec = function (spec = '') {
+    const list = [];
+    spec.split('\n').forEach((str, i) => {
+      if (str.trim() && !/^\s*#/.test(str)) {
+        list.push({ line: i + 1, ...parseLine(str) });
+      }
+    });
+    return list
+  };
+
+  // make a match syntax looping through the arrays of tags
+  const toMatchString = function (tags, aliases) {
+    // Slots accept tags and '.', never match-syntax quantifiers or groups.
+    if (tags.some(slot => slot.some(tag => tag !== '.' && !/^!?#?[a-z][a-z0-9]*$/i.test(tag)))) {
+      return null
+    }
+    return tags.map(arr => {
+      arr = arr.map(str => {
+        if (str === '.') {
+          return '.'
+        }
+        const negative = str.startsWith('!');
+        const tag = str.replace(/^!?#?/, '');
+        const prefix = negative ? '!#' : '#';
+        return prefix + (aliases[tag] || tag)
+      });
+      if (arr.length > 1) {
+        return `(${arr.join(' && ')})`
+      }
+      return arr[0]
+    }).join(' ')
+  };
+
+  // Apply only positive constraints; negatives remain assertions.
+  const applyTags = (doc, slots, aliases) => {
+    const terms = doc.terms();
+    // Tokenization can supply structural tags; literal slots replace them.
+    doc.docs.flat().forEach(term => term.tags.clear());
+    slots?.forEach((slot, i) => {
+      const tags = slot.filter(tag => tag !== '.' && !tag.startsWith('!')).map(tag => {
+        tag = tag.replace(/^#/, '');
+        return aliases[tag] || tag
+      });
+      terms.eq(i).tag(tags, 'fromSpec');
+    });
+  };
+
   // Diagnostics describe the original parse, before the returned View is mutated.
-  const specFailures = (doc, slots, patterns, aliases) => {
+  const specFailures = (doc, slots, aliases) => {
     const terms = doc.docs.flat();
+    const patterns = slots.map(slot => toMatchString([slot], aliases));
+    const pattern = toMatchString(slots, aliases);
+    if (terms.length === slots.length && pattern !== null && doc.has(pattern)) {
+      return [] // valid
+    }
     const failures = [];
     if (terms.length !== slots.length) {
       failures.push({
@@ -5774,64 +5948,6 @@ er
     return `${green('✓')} ${green(dim(text))}${dim(block)}`
   };
 
-  const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
-  const comment = /\}[ \t]*#.*$/s; // an optional '# comment' after the last {tags} block
-
-
-  // parse the spec output
-  const parseLine = function (line = '') {
-    let [text, tags] = line.split(lastBrace); // eslint-disable-line prefer-const
-    if (tags === undefined) {
-      return { text: text.replace(/\s#.*$/s, '').trimEnd(), tags: null } // no {tags} block on this line
-    }
-    tags = tags.replace(comment, '}'); // drop the comment - only ever one, always last
-    tags = tags.split(',').map(tag => tag.trim());
-    const lastTag = tags[tags.length - 1];
-    tags[tags.length - 1] = lastTag.replace(/\}$/, '');
-    tags = tags.map(tag => tag.split('|').map(t => t.trim()));
-    if (tags.length === 1 && tags[0].length === 1 && tags[0][0] === '') {
-      tags = []; // empty '{}'; retain empty slots in nonempty lists
-    }
-    return { text, tags }
-  };
-
-  // make a match syntax looping through the arrays of tags
-  const toMatchString = function (tags, aliases) {
-    // Slots accept tags and '.', never match-syntax quantifiers or groups.
-    if (tags.some(slot => slot.some(tag => tag !== '.' && !/^!?#?[a-z][a-z0-9]*$/i.test(tag)))) {
-      return null
-    }
-    return tags.map(arr => {
-      arr = arr.map(str => {
-        if (str === '.') {
-          return '.'
-        }
-        const negative = str.startsWith('!');
-        const tag = str.replace(/^!?#?/, '');
-        const prefix = negative ? '!#' : '#';
-        return prefix + (aliases[tag] || tag)
-      });
-      if (arr.length > 1) {
-        return `(${arr.join(' && ')})`
-      }
-      return arr[0]
-    }).join(' ')
-  };
-
-  // Apply only positive constraints; negatives remain assertions.
-  const applyTags = (doc, slots, aliases) => {
-    const terms = doc.terms();
-    // Tokenization can supply structural tags; literal slots replace them.
-    doc.docs.flat().forEach(term => term.tags.clear());
-    slots?.forEach((slot, i) => {
-      const tags = slot.filter(tag => tag !== '.' && !tag.startsWith('!')).map(tag => {
-        tag = tag.replace(/^#/, '');
-        return aliases[tag] || tag
-      });
-      terms.eq(i).tag(tags, 'fromSpec');
-    });
-  };
-
   const fromSpec = function (spec, { tags: tagMode = 'ignore', failures: failureMode = 'ignore', verbose = false } = {}) {
     if (!['ignore', 'use'].includes(tagMode) || !['ignore', 'throw', 'retain', 'log'].includes(failureMode)) {
       throw new Error('Invalid fromSpec options')
@@ -5839,29 +5955,24 @@ er
     const aliases = this.world().model.one.tagAliases;
     const result = this('');
     result.failures = [];
-    spec.split('\n').forEach((line, index) => {
-      if (!line.trim() || /^\s*#/.test(line)) {
-        return
-      }
-      const { text, tags } = parseLine(line);
+    parseSpec(spec).forEach(({ line, text, tags }) => {
       const doc = tagMode === 'use' ? this.tokenize(text) : this(text);
       let failures = [];
       if (tags !== null && (tagMode === 'use' || failureMode !== 'ignore')) {
         const count = doc.docs.reduce((sum, terms) => sum + terms.length, 0);
-        const patterns = tags.map(slot => toMatchString([slot], aliases));
         const pattern = toMatchString(tags, aliases);
         // Assigning slots is unsafe when the shape or syntax is invalid.
         const canApply = count === tags.length && pattern !== null;
         if (tagMode === 'use' && !canApply && failureMode !== 'log') {
-          const invalid = specFailures(doc, tags, patterns, aliases);
-          throw new Error(`${text.trim()} - ${invalid.map(failure => failure.message).join('; ')}`)
+          const invalid = specFailures(doc, tags, aliases);
+          throw new Error(`${text} - ${invalid.map(failure => failure.message).join('; ')}`)
         }
         if (tagMode === 'use') {
           applyTags(doc, canApply ? tags : null, aliases);
         }
-        if (failureMode !== 'ignore' && (count !== tags.length || pattern === null || !doc.has(pattern))) {
-          failures = specFailures(doc, tags, patterns, aliases)
-            .map(failure => ({ line: index + 1, text: text.trim(), ...failure }));
+        if (failureMode !== 'ignore') {
+          failures = specFailures(doc, tags, aliases)
+            .map(failure => ({ line, text, ...failure }));
           result.failures.push(...failures);
         }
       } else if (tagMode === 'use') {
@@ -5874,7 +5985,7 @@ er
         console.log(logLine(text, tags, detail)); //eslint-disable-line no-console
       }
       if (failures.length > 0 && failureMode === 'throw') {
-        throw new Error(`${text.trim()} - ${detail}`)
+        throw new Error(`${text} - ${detail}`)
       }
       if (failureMode === 'retain' && tags !== null && failures.length === 0) {
         return
@@ -5911,6 +6022,7 @@ er
       one: {
         hash: md5,
         debug,
+        parseSpec,
       },
     },
   };
@@ -6249,7 +6361,7 @@ er
           o.pointer = [
             term.index[0],
             term.index[1],
-            ptr[1] + len
+            term.index[1] + len
           ];
         }
         return o
@@ -7549,7 +7661,7 @@ er
   };
 
   // a letter, number, or symbol/emoji in any script - otherwise it's only punctuation
-  const hasLetter$2 = /[\p{L}\p{N}\p{So}]/u;
+  const hasLetter$3 = /[\p{L}\p{N}\p{So}]/u;
   const hasSomething$1 = /\S/;
 
   const notEmpty = function (splits) {
@@ -7561,7 +7673,7 @@ er
         continue
       }
       //this is meaningful whitespace
-      if (!hasSomething$1.test(s) || !hasLetter$2.test(s)) {
+      if (!hasSomething$1.test(s) || !hasLetter$3.test(s)) {
         //add it to the last one
         if (chunks[chunks.length - 1]) {
           chunks[chunks.length - 1] += s;
@@ -7579,7 +7691,7 @@ er
     return chunks
   };
 
-  const hasLetter$1 = /\p{L}/u;
+  const hasLetter$2 = /\p{L}/u;
 
   const hasNewline = function (c) {
     return Boolean(/\n$/.test(c))
@@ -7599,7 +7711,7 @@ er
       const c = chunks[i];
       sentence += c;
       tail = (tail + c).slice(-64);
-      foundLetter ||= hasLetter$1.test(c);
+      foundLetter ||= hasLetter$2.test(c);
       //should this chunk be combined with the next one?
       if (chunks[i + 1] && !isSentence(tail, abbrevs, foundLetter) && !hasNewline(c)) {
         continue
@@ -7619,7 +7731,7 @@ er
 
   // merge embedded quotes into 1 sentence
   // like - 'he said "no!" and left.'
-  const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
+  const MAX_QUOTE$1 = 280;// ¯\_(ツ)_/¯
 
   // don't support single-quotes for multi-sentences
   const pairs$1 = {
@@ -7675,7 +7787,7 @@ er
         }
 
         // look at the next sentence for a closing quote,
-        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
+        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE$1) {
           splits[i] += splits[i + 1];// merge them
           arr.push(splits[i]);
           splits[i + 1] = '';
@@ -7686,7 +7798,7 @@ er
         if (closesQuote(splits[i + 2])) {
           const toAdd = splits[i + 1] + splits[i + 2];// merge them all
           //make sure it's not too-long
-          if (toAdd.length < MAX_QUOTE) {
+          if (toAdd.length < MAX_QUOTE$1) {
             splits[i] += toAdd;
             arr.push(splits[i]);
             splits[i + 1] = '';
@@ -7884,13 +7996,13 @@ er
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
 
   //we have slightly different rules for start/end - like #hashtags.
-  const isLetter = /\p{Letter}/u;
+  const isLetter$1 = /\p{Letter}/u;
   const isMark = /\p{Mark}/u;
   const isNumber = /[\p{Number}\p{Currency_Symbol}]/u;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const chillin = /[sn]['’]$/;
   // a leading apostrophe that stands for letters - 'tis, 'em, 'cause
-  const elision = /^['’](tis|twas|em|cause|til|bout|round)\b/i;
+  const elision$1 = /^['’](tis|twas|em|cause|til|bout|round)\b/i;
   const isFullNumber = /^[(+\-]?\d+(th|st|nd|rd)?[)+\-]?$/;
   const openers = { ')': '(', ']': '[', '}': '{' };
 
@@ -7936,11 +8048,11 @@ er
         break//done
       }
       // start of word
-      if (isLetter.test(c) || isNumber.test(c)) {
+      if (isLetter$1.test(c) || isNumber.test(c)) {
         break //done
       }
       // keep an elided apostrophe - 'tis
-      if ((c === "'" || c === '’') && elision.test(chars.slice(start).join(''))) {
+      if ((c === "'" || c === '’') && elision$1.test(chars.slice(start).join(''))) {
         break//keep it
       }
       // punctuation
@@ -7955,7 +8067,7 @@ er
         break//keep it
       }
       // start of word
-      if (isLetter.test(c) || isNumber.test(c)) {
+      if (isLetter$1.test(c) || isNumber.test(c)) {
         break //done
       }
       // Keep marks attached to letters, but not variation selectors after symbols.
@@ -7964,7 +8076,7 @@ er
         while (base >= start && isMark.test(chars[base])) {
           base--;
         }
-        if (base >= start && isLetter.test(chars[base])) {
+        if (base >= start && isLetter$1.test(chars[base])) {
           break
         }
         end = base + 1;
@@ -8115,13 +8227,13 @@ er
   };
 
   const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
-  const hasEllipse = /(?:\u2026|\.{2}) *$/; // '...'
-  const hasLetter = /\p{L}/u;
-  const hasPeriod = /\. *$/;
+  const hasEllipse$1 = /(?:\u2026|\.{2}) *$/; // '...'
+  const hasLetter$1 = /\p{L}/u;
+  const hasPeriod$1 = /\. *$/;
   const leadInit = /^[A-Z]\. $/; // "W. Kensington"
 
   /** does this look like a sentence? - str can be the end of it, if foundLetter is given */
-  const isSentence = function (str, abbrevs, foundLetter = hasLetter.test(str)) {
+  const isSentence$1 = function (str, abbrevs, foundLetter = hasLetter$1.test(str)) {
     // must have a letter
     if (foundLetter === false) {
       return false
@@ -8135,14 +8247,14 @@ er
       return false
     }
     //check for '...'
-    if (hasEllipse.test(str)) {
+    if (hasEllipse$1.test(str)) {
       return false
     }
     const txt = str.replace(/[.!?\u203D\u2E18\u203C\u2047-\u2049] *$/, '');
     const words = txt.split(' ');
     const lastWord = words[words.length - 1].toLowerCase();
     // check for 'Mr.' (and not mr?)
-    if (Object.hasOwn(abbrevs, lastWord) && hasPeriod.test(str)) {
+    if (Object.hasOwn(abbrevs, lastWord) && hasPeriod$1.test(str)) {
       return false
     }
     // //check for jeopardy!
@@ -8157,7 +8269,7 @@ er
       killUnicode,
       tokenize: {
         splitSentences,
-        isSentence,
+        isSentence: isSentence$1,
         splitTerms: splitWords,
         splitWhitespace: parseTerm$1,
         fromString: parse,
@@ -8794,7 +8906,7 @@ designate
   const prepare = function (words = [], opts = {}) {
     const model = this.model();
     opts = { ...defaults, ...opts };
-    if (isObject(words)) {
+    if (isObject$1(words)) {
       Object.assign(model.one.lexicon, words);
       words = Object.keys(words);
     }
@@ -8838,7 +8950,7 @@ designate
   nlp.extend(tokenize$2); //7kb
   nlp.extend(freeze); //
   nlp.plugin(cache$1); //~1kb
-  nlp.extend(lookup); //7kb
+  nlp.extend(lookup$1); //7kb
   nlp.extend(typeahead); //1kb
   nlp.extend(lexicon$2); //1kb
   nlp.extend(sweep); //1kb
@@ -8943,11 +9055,226 @@ designate
     { before: 'dall', out: ['da', 'l'] },
   ];
 
+  // sentence-splitting rules that the english parser doesn't have.
+  // - isSentence() replaces the english one, and only sees the end of a chunk
+  // - wrap() runs after the english splitter, so it can see the next sentence too
+  // all of the language-specific parts are in ./abbreviations.js
+  const MAX_QUOTE = 500;
+  const MAX_MERGE = 6;
+
+  const hasLetter = /\p{L}/u;
+  const hasUpper = /\p{Lu}/u;
+  const hasPeriod = /\. *$/;
+  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
+  // an uppercase initial - 'A. S. Pushkin', or a dotted letter - 'F.B.I.', 'u.a.'
+  const isInitial = /(?:(?:^|[\s([«»„“"'-])\p{Lu}|\.\p{L})\. *$/u;
+  // one lowercase letter - 'z. B.', 'i. d. R.'
+  const isLetter = /(?:^|[\s([«»„“"'])\p{Ll}\. *$/u;
+  // '3.' or '102.', and 'VIII.'
+  const isOrdinal = /(?:\d|(?<!\p{L})[IVX]{2,})\. *$/u;
+  const trailing = /[.!?\u203D\u2E18\u203C\u2047\u2048\u2049]+ *$/;
+  const leading = /^[([{«»„“”"'‚‘¿¡—–-]+/;
+  const elision = /^\p{L}+['’]/u; // l'avv.
+  const endsNewline = /\n\s*$/;
+  // 'Who's there? — he asked.'
+  const endsAsk = /[?!\u2026]["»“”«]*[ \t\u00A0\u202F]*$/;
+  const startsLower = /^\p{Ll}/u;
+  const startsDash = /^[—–]\s*\p{Ll}/u;
+
+  const escape = str => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  const count = (str, char) => str.split(char).length - 1;
+
+  const build = function (config) {
+    const { quotes = [], enders = [], starters = [] } = config;
+
+    // the last word of a chunk - 'dr', 'pág', 'avv'
+    const lastWord = function (str) {
+      let w = str.replace(trailing, '').split(/\s/).pop() || '';
+      w = w.replace(leading, '').replace(elision, '');
+      return w.toLowerCase()
+    };
+
+    /** does this look like the end of a sentence? */
+    const isSentence = function (str, abbrevs, foundLetter = hasLetter.test(str)) {
+      // must have a letter
+      if (foundLetter === false) {
+        return false
+      }
+      // 'F.B.I.' or 'A. S. Pushkin'
+      if (isInitial.test(str)) {
+        return false
+      }
+      if (config.singleLetters && isLetter.test(str)) {
+        return false
+      }
+      // 'am 3. Mai'
+      if (config.ordinals && isOrdinal.test(str)) {
+        return false
+      }
+      // '...' - may get split again, below
+      if (hasEllipse.test(str)) {
+        return false
+      }
+      if (hasPeriod.test(str)) {
+        // 'Dr.' but not 'Dr?'
+        const w = lastWord(str);
+        if (Object.hasOwn(abbrevs, w) || Object.hasOwn(abbrevs, w.split('.').pop())) {
+          return false
+        }
+        // 'Hauptstr.'
+        if (config.suffix && config.suffix.test(w)) {
+          return false
+        }
+        // words that are only sometimes abbreviations - 'em set.'
+        if (config.conditional && config.conditional.test(str)) {
+          return false
+        }
+      }
+      return true
+    };
+
+    // are we inside a quotation, or some brackets?
+    const isOpen = function (str) {
+      return quotes.some(([open, close]) => {
+        if (open === close) {
+          return count(str, open) % 2 === 1
+        }
+        return count(str, open) > count(str, close)
+      })
+    };
+
+    // put a quotation back together, when it has many sentences in it
+    const quoteMerge = function (arr) {
+      const out = [];
+      for (let i = 0; i < arr.length; i += 1) {
+        let str = arr[i];
+        if (isOpen(str)) {
+          let merged = str;
+          for (let n = i + 1; n < arr.length && n - i < MAX_MERGE; n += 1) {
+            if (endsNewline.test(merged)) {
+              break
+            }
+            merged += arr[n];
+            if (merged.length > MAX_QUOTE) {
+              break
+            }
+            if (!isOpen(merged)) {
+              // the quotation closes here
+              str = merged;
+              i = n;
+              break
+            }
+          }
+        }
+        out.push(str);
+      }
+      return out
+    };
+
+    // places where a sentence ends, that are only clear from the word after it
+    const opens = escape(quotes.map(a => a[0]).join(''));
+    const closes = escape(quotes.map(a => a[1]).join(''));
+    const upper = `(?=(?:[—–-]\\s?)?[${opens}¿¡]*\\p{Lu})`;
+    const rules = [];
+    if (closes) {
+      // 'he said "no." Then he left'
+      rules.push(`[.!?\u2026][ \u00A0\u202F]?[${closes}]+\\s+${upper}`);
+    }
+    {
+      // 'I don't know... Maybe tomorrow'
+      rules.push(`(?:\u2026|\\.{2,})\\s+${upper}`);
+    }
+    if (enders.length > 0) {
+      // 'bread, milk, etc. Then he left'
+      rules.push(`(?<![\\p{L}\\p{N}])(?:${enders.join('|')})\\.\\s+${upper}`);
+    }
+    if (starters.length > 0) {
+      // 'Ich habe 5. Du hast 3.'
+      rules.push(`\\d\\.\\s+(?=(?:${starters.join('|')})(?!\\p{L}))`);
+    }
+    const boundary = rules.length > 0 ? new RegExp(rules.join('|'), 'gu') : null;
+
+    const resplit = function (str) {
+      if (boundary === null) {
+        return [str]
+      }
+      const out = [];
+      let start = 0;
+      for (const m of str.matchAll(boundary)) {
+        const end = m.index + m[0].length;
+        const before = str.slice(start, end);
+        // don't split inside a quotation, or leave a piece with no words in it
+        if (!hasLetter.test(before) || isOpen(before)) {
+          continue
+        }
+        out.push(before);
+        start = end;
+      }
+      out.push(str.slice(start));
+      return out
+    };
+
+    // '— Come here! — she said.' is one sentence
+    const dialogueMerge = function (arr) {
+      const out = [];
+      arr.forEach(str => {
+        const last = out[out.length - 1];
+        if (last !== undefined && endsAsk.test(last)) {
+          // lowercase text gives us no clues, so only trust it after a capital
+          if (startsDash.test(str) || (startsLower.test(str) && hasUpper.test(last))) {
+            out[out.length - 1] += str;
+            return
+          }
+        }
+        out.push(str);
+      });
+      return out
+    };
+
+    /** add our own passes to the end of the english sentence-splitter */
+    const wrap = function (splitSentences) {
+      return function (text, world) {
+        let arr = splitSentences(text, world);
+        arr = quoteMerge(arr);
+        arr = arr.flatMap(resplit);
+        arr = dialogueMerge(arr);
+        return arr
+      }
+    };
+
+    return { isSentence, wrap }
+  };
+
+  // abbreviations, and the other language-specific parts of the sentence-parser
+  // (these replace the english abbreviations, which collide with real words here)
+  const toObj = str => Object.fromEntries(str.trim().split(/\s+/).map(w => [w, true]));
+
+  var sentenceRules = {
+    // words that never end a sentence, when they have a period
+    abbreviations: toObj(`
+    sig sigg dott dr prof proff avv ing arch geom rag on sen gen col cap ten mons
+    spett egr gent ill
+    pag pagg p art artt n nn num vol voll cfr es fig tab sez lett v ed
+    tel ca vs ecc etc
+    feb apr giu lug sett ott nov dic
+  `),
+    // abbreviations that end a sentence, when a capital comes next
+    enders: ['ecc', 'etc'],
+    quotes: [['«', '»'], ['“', '”'], ['"', '"'], ['(', ')']]};
+
+  const { isSentence, wrap: wrap$1 } = build(sentenceRules);
+
+
   var tokenize$1 = {
     mutate: (world) => {
       world.model.one.unicode = unicode;
 
       world.model.one.contractions = contractions$1;
+
+      // our own abbreviations, and sentence-boundary rules
+      world.model.one.abbreviations = { ...sentenceRules.abbreviations };
+      world.methods.one.tokenize.isSentence = isSentence;
+      world.methods.one.tokenize.splitSentences = wrap$1(world.methods.one.tokenize.splitSentences);
 
       // 'que' -> 'quebec'
       delete world.model.one.lexicon.que;
@@ -9096,7 +9423,7 @@ designate
   // generated in ./lib/models
   var model$1 = {
     "nouns": {
-      "plural": "1:io{,l{dil,o{p,s,r,ci}},atr,cin}|1i:o{i{l{andag,gorgog,abug,esi,l,o,uopo,b},frusc,voc,r{rlato,mo,t,dib},d{d,te,esi,o},biv,vv,nv,ich,roz,onz,n{i,n{e{dri,uant,rent,tt,ic,u},i},bo,uto,ta,e},tt,it,us,ncip,lloqu},nac,llic,roc},e,a{t{as,ba,e,au,i{m,l,f,oc}},m,ramm,cid,al,metr,ap,ib},s|1hi:o{ic{et,ar,tr,br,l,z,c},olog{pr,ap,on}},uca,arca|1e:a{tervist,onet,iet,m{tra,am,som,i,or,ir,l}}|1he:arca{b,m}|2i:rus|9m.:illimetri|0es:h|0i:l~1i:o{,g{ara,ma,fa,olo},c{ia,ma,da,i,oli,por,gre},duom},a{t{is,ys,eu,po,io,lo},lg,iatr,lim,zim},egame|9icrociati:ocrociato|1:io{min{edo,r},pod,isod}|1ini:uomo|5iviri:oviro|1oi:bue|1hi:co,go,ega,sfuga|6ifondi:sofondo|2ei:midio|0s:e{air,war,scor,mm,harm,gam,ag,eg,yt,rin,peon,ch,ill},o{onad,mmand,ecid,rri,rati,tudi,pesin,iner,menc,h,ebl},t,g,r,b,lm,n,u,d|1ies:y|0:ss,on,foto,k,nt,ost,à,ù|2en:man|5iclan:oclan|1a:m,o{ccigli,ginocchi,labbr,uov}|6ibanda:obanda|6icosca:ocosca|9ifamiglia:ofamiglia|10ipattuglia:opattuglia|6imafia:omafia|7iscuola:oscuola|8isquadra:osquadra|10istruttura:ostruttura|2ora:us|2era:nus|6idanza:odanza|1e:a|9icorrente:ocorrente|12idelegazione:odelegazione|9istazione:apostazione|1he:ca,ga|2e:cia,ggia|10igabinetto:ogabinetto|8ireparto:oreparto|7ipopolo:opopolo|9iservizio:oservizio|8iufficio:oufficio|6fondo:iofondo|7igruppo:ogruppo|9m.:entimetro|8m.:kilometro|3l.:umi~1e:i{t{a{ab,pl,cr,fr,ntr,en,agn,venn,im,v},n{,serve,ipia,ica,rca,isco},pre,i{nol,il,or,av,ip,sp,im},or{f,m,c},les,rtes,lat,rdo,ipo},l{so,au,su,iu,i,obi,uci,mie,a,oca},n{i{pett,tend,rd,tud,lic,poll,rg,ag,ig,im,ulm,nf},o,muo,quo,e{g,tig,il,b,z,h,p},en,eien,oma,ceca,car},gregg,dog,iug,c{a,lu,i{sp,cam,ef,ast,rt,ar,rn,l,d,b},es,vo,no},s{ales,eres,clas,en{u,nons,n,m},e,ba,fa},r{o,nco,a{f,t{l,on,lamen,li},e,nvers,uss,ci,upan,min,mp,ol},e{t{rat,e,lis,o,ra,n},i{,er,rr,or,ss},dav,dov,s,n,vol,sap,c,d,ar},vent,mest,ot,tor,emb,tob,rti,pad},m{c,ci,gi,no,prono,ddo,u,lar,dar,er,a,tra,ie,se},ro,bo,uragh,d{oi,oli,hi,ipo,ea,e},ccub,pub,av{tr,l,n,i},ep,nqu}|1a:i{t{croba,e{tl,g,sc,an,st,of,o},i{ol,ael,voc,erem,of},as{e,er,i,n},nau},eometr,m{s{i{r{fo,ca,c,p},acl,sof},a{l,mi,t,r}},o{,in,en,lan,uc},au,der,per,a{g,gi,r,cl},m,e,g},sticid,rib,pap}|1o:i{t{eurocra,n{e{m,cc,arg,v,rt,gu,al},a{pi,hi,c,s,u,v},o{c,fr,nf,am},u,i},coli,nfor,quis,cris},l{sso,popo,i{b,s,f,h},a{c,sci,uf,mb,ded,and,eg,et,qu}},n{i{rd{ia,co,io},pulm},o{band,ond,erd,u,arit,mit,ig,atr,diac,of,af,ef},ige,oge,cen,sen},z{z,an,on,l,r,for},c{ona,i{bonif,aff,port,ill,ed},rro},pes,r{o{cast,ist,es,sim,mod,lav,lu,c,irig,an,corp,f},a{c,pic,gu,gent,gat,tt,ors,b,gi,li,den,an,in,am,ur,p,ll,scol,g},e{mit,i{dott,sent,rest,rigl,ival,r,man,nocch,canz,nad,ud,s},on,oc,fod,ad},memb},m{o{on,dr,nt,d,p,g},su,fu,her,a{ls,hi,ic,ot,ecl,tal},ilogram},zo,d{aci,ossi,rre,ge},strof,oroscop,cqu}|0o:i{l{g,o{gocci,tr,gas,op},idil,usi,ci,ime,ite,pa},n{atici,oci,o{rcant,ndem,rim,cim},en{ec,i,l,t},ema,cra,era,tu},g,crolog,z,orz,c{,ba,i{ausp,f,enef,lef,fr,pin,il}},s{ar,nna,co,mpo},r{o{t{a{mbul,urg,sserv,iamm,crem},lut,fet,sul,i{aud,orm,rr,b},per,on},rens,us,og,mp},a{,ec,ic,anc,cett,ab,emin,cchin,sip,roll,stol,bol},e{t{ul,bat,i,ns,eu},tif,rop,tup,id},pat,ugu,rcu,b{ili,uli,u,o},li,ap,op,ond},com,parm,o,h{c{c{nna,tera,ura,oci,ni,spi,o{mal,cr,tr,n,tt,p,d,ab},re,pe,mu,isu},s{te,fi,vi,ra,mu},er,or,gran},ing},a,d{sor,mor,ci,si,ti,pen,cen,ma,ta,sse,me,lu,pu},b{ver,bur,cam,nu},hiv,rav,uv,f{ro,taf,raf,of},p{ici{rt,n},co,sem,cap,dop,cop,su},qu}|1us:esauri|1s:goi,poi|2o:hi{gnocc,terc,ieg}|2a:chi{ar{r,n,g,i},du}|2:tches|2illimetri:mm.~1i:e{t{abe,re,con,fron,os,tes,not,esta},apic,croc,ass,cos,aver,oner,mar,n{ca,pa,re,temi,termi,turbi},ll{co,scia,pe},ap,legg},o{r{o{,all,cl,p,t},ce,fa,ussa},m{to,ato,gno,gram,gru,ra,re},i{br,legg,pend,z},chirurg,on{col,d,t,tr},mant,senat,scop,verb},a{m{co,scis,sis,ar},al}|1:io{ast,pat,atr,avor,laborator,ces,ch{oc,coc,sec,mar,ris},con,torn,mic,orolog}|2ei:dio|1hi:fico,orco|0:retro|1e:a{st{a,vi,rivi,li},gemm}|1a:dito,paio|1he:lega|0i:alcol"
+      "plural": "1:io,dillio|1i:o{i{l{gorgog,l,o{t,g,hi,m},b},frusc,voc,mor,dd,vv,nv,ich,roz,onz,bin,inn,tt,it,us},nac,llic,roc},e,a{t{as,ba,e,au,i{m,l,f,oc}},m,ramm,cid,al,metr,ap,ib}|1hi:o{ic{et,ar,tr,br,l,z,c},olog{pr,ap,on}},uca,arca|1e:a{tervist,onet,iet,m{tra,am,som,i,or,ir,l}}|1he:arca{b,m}|0i:l~1i:o{,arag,fag,olog,c{ia,ma,da,i,oli,por,vo,gre},duom},a{t{is,ys,eu,po,io,lo},lg,iatr,lim,zim},egame|9icrociati:ocrociato|1ini:uomo|5iviri:oviro|1oi:bue|1hi:co,go,ega,sfuga|6ifondi:sofondo|2ei:midio|0:s,foto,n,t,à,ù,k|0s:e{air,war,scor,mm,harm,gam,ag,eg,yt,rin,peon,ch,ill},o{onad,mmand,ecid,rri,rati,pesin,iner,menc,h,ebl},u|1ies:y|6ibanda:obanda|6icosca:ocosca|9ifamiglia:ofamiglia|1a:o{ccigli,ginocchi,labbr,uov}|10ipattuglia:opattuglia|6imafia:omafia|7iscuola:oscuola|8isquadra:osquadra|10istruttura:ostruttura|6idanza:odanza|1e:a|9icorrente:ocorrente|12idelegazione:odelegazione|9istazione:apostazione|1he:ca,ga|2e:cia,ggia|10igabinetto:ogabinetto|8ireparto:oreparto|7ipopolo:opopolo|9iservizio:oservizio|8iufficio:oufficio|6fondo:iofondo|7igruppo:ogruppo|5iclan:oclan~1e:i{t{a{ab,pl,cr,fr,ntr,en,agn,venn,im,v},n{,serve,ipia,ica,rca,isco},pre,pare,i{nol,il,or,av,ip,sp,im},or{f,m,c},les,rtes,lat,rdo,ipo},l{so,au,su,iu,i,obi,uci,mie,a,oca},n{i{pett,tend,rd,tud,lic,poll,rg,ag,ig,im,ulm,f},o,muo,quo,e{g,tig,il,b,z,h,p},en{ei,v,u,e,n},oma,ceca,ova,car},gregg,dog,iug,c{a,lu,i{sp,cam,ef,ast,rt,ar,rn,l,d,b},es,no},s{ales,eres,clas,en{u,nons,n,m},e,ba,fa,ra},r{o,nco,a{f,t{l,on,lamen,li},e,nvers,uss,ci,upan,min,mp,ol},e{t{rat,e,lis,o,ra,n},i{,er,rr,or,ss},dav,dov,lv,s,n,vol,sap,c,d,ar},vent,mest,ot,tor,emb,ebb,tob,rti,pad,mad,ig},m{c,ci,gi,no,prono,ddo,u,lar,dar,er,a,ie,se},ro,bo,uragh,d{oi,oli,hi,po,ea,e},ccub,pub,v{a{tr,l,n,i},ne},volp,ep,nqu}|1a:i{t{croba,e{tl,g,sc,an,st,of,o},i{ol,ael,voc,erem,of},as{e,er,i,n},nau},eometr,m{s{i{r{fo,ca,c,p},acl,sof},a{l,mi,t,r}},o{,in,en,lan,uc},au,der,per,a{g,gi,or,cl},m,e,g},sticid,rib,pap}|1o:i{t{eurocra,n{e{m,cc,arg,v,rt,gu,al},a{pi,hi,c,s,u,v},o{c,fr,nf,am},u,i},coli,nfor,quis,cris},l{sso,popo,i{b,as,f,h},a{c,sci,uf,mb,ded,and,eg,et,qu}},n{i{rd{ia,co,io},pulm,lf},o{band,ond,erd,u,arit,mit,ig,atr,diac,of,af,ef},ige,oge,ccen,sen},z{z,an,on,l,r,for},c{ona,i{bonif,aff,port,ill,ed},rro},pes,r{o{cast,ist,es,sim,mod,lav,lu,c,irig,an,corp,f},a{c,pic,gu,gent,gat,tt,ors,b,gi,li,den,an,in,am,ur,p,ll,scol,g},e{mit,i{dott,sent,rest,rigl,ival,r,man,nocch,canz,nad,ud,s},on,oc,fod,ad},alib,memb,up},m{o{on,dr,nt,d,p,g},su,fu,her,a{ls,hi,ic,ot,ecl,tal},ilogram},zo,d{aci,ossi,rre,ge},strof,ticip,oroscop,cqu}|0o:i{l{g,o{gocci,tr,gas,op},idil,si,ci,ime,ite,pa},n{i{rut,atic,oc,sass,dom,rm},o{rcant,ut,ndem,rim,cim},ce,en,uinquen,ema,cra,era,tu},g,crolog,z,orz,c{,ba,i{ausp,f,enef,lef,fr,pin,il}},s{ar,nna,co,mpo},r{o{t{a{mbul,urg,sserv,iamm,crem},lut,fet,sul,i{aud,orm,rr,b},per,on},rens,us,og,mp},a{,ec,ic,anc,cett,ab,emin,cchin,sip,roll,stol,bol},e{t{ul,bat,i,ns,eu},tif,rop,tup,id},pat,ugu,rcu,ib,ub,ob,li,p,ond},com,parm,prem,o,h{c{c{nna,tera,ura,oci,ni,spi,o{mal,cr,tr,n,tt,p,d,ab},e,mu,isu},s{te,fi,vi,ra,mu},er,or,gran},ing},a,d{sor,mor,ci,si,ti,pen,cen,iso,ma,ta,sse,me,te,lu,pu,tu},b{ub,ver,bur,cam,nu},v{hi,bi,ra,u},f{ro,taf,raf,of},p{ci,rtici,co,sem,cap,dop,cop,su},qu}|2o:hi{c{c{gno,be,ne,ose},ter},ieg}|2a:chi{ar{r,n,g,i},du}~1i:e{t{abe,re,con,fron,os,tes,not,esta,li},apic,voc,croc,ass,cos,aver,oner,mar,n{ca,pa,re,temi,termi,turbi},ll{co,scia,pe},ap,legg,nub},o{r{o{,all,cl,p,t},ce,fa,ussa,lib},m{to,ato,gno,gram,gru,ra,re},i{br,tr,legg,pend,z},n{cen,o{col,d,t,tr}},chirurg,mant,senat,scop,verb},a{m{co,scis,sis,ar},al}|1:io{ast,pat,atr,avor,laborator,ces,ch{oc,coc,mar,ris,mas},con,torn,od{,i,p,s},mic,ol,orolog}|2ei:dio|1hi:fico,orco|0:retro|1e:a{st{a,vi,rivi,li},gemm}|1a:dito,paio|1he:lega|0i:alcol"
     },
     "adjectives": {
       "fs": "0:a~0:e|3rice:tore|1e:stio|1a:o~0:trice{gola,gi},a{t{lma,i{ron,nn,am,em,pol,ocl},is,tivis,be,ro,io},raere,icid}|1o:ista{v,mm}~",
@@ -9123,9 +9450,9 @@ designate
       "first": "1ò:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3rò:ere{pi,ar}|4rrò:ere{uc,an}|2ò:si~1ò:e,scadere|3erò:are{,llung}|3herò:are{c,g}|7etterò:etrasmettere|4erò:iare{c,g}|4rrò:re{le,ene,veni}|3rò:ere{cad,god,av,viv,ov,ot,ap}~1e:rò{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|3are:erò{d{en{facc,b,m},gri},sum{n,ie}}|3iare:gerò{for,can,man,en}|2ere:ompirò,parrò|3cere:idurrò|3nere:marrò~3rò:andare|1ò:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rrò:ducere{,e}|3erò:are{ronc,sci}|6sarò:essere",
       "second": "1ai:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3rai:ere{pi,ar}|4rrai:ere{uc,an}|2ai:si~1ai:e,scadere|3erai:are{,llung}|3herai:are{c,g}|7etterai:etrasmettere|4erai:iare{c,g}|4rrai:re{le,ene,veni}|8driurrai:riducere|3rai:ere{cad,god,av,viv,ov,ot,ap}~2e:rai{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|4are:erai{d{en{facc,b,m},gri},sum{n,ie}}|4iare:gerai{for,can,man,en}|3ere:rai{ompi,par}|4nere:marrai~3rai:andare|1ai:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rrai:ducere{,e}|3erai:are{ronc,sci}|6sarai:essere",
       "third": "1à:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3rà:ere{pi,ar}|4rrà:ere{uc,an}|2à:si~1à:e,scadere|3erà:are{,llung}|3herà:are{c,g}|7etterà:etrasmettere|4erà:iare{c,g}|4rrà:re{le,ene,veni}|3rà:ere{cad,god,av,viv,ov,ot,ap}~1e:rà{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|3are:erà{d{en{facc,b,m},gri},sum{n,ie}}|3iare:gerà{for,can,man,en}|2ere:ompirà,parrà|3cere:idurrà|3nere:marrà~3rà:andare|1à:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rrà:ducere{,e}|3erà:are{ronc,sci}|6sarà:essere",
-      "firstPlural": "0mo:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3remo:ere{pi,ar}|4rremo:ere{uc,an}|2emo:si~0mo:e,scadere|3eremo:are{,llung}|3heremo:are{c,g}|7etteremo:etrasmettere|4eremo:iare{c,g}|4rremo:re{le,ene,veni}|3remo:ere{cad,god,av,viv,ov,ot,ap}~2:remo{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|5are:eremo{d{en{facc,b,m},gri},sum{n,ie}}|5iare:geremo{for,can,man,en}|4ere:remo{ompi,par}|5cere:idurremo|5nere:marremo~3remo:andare|0mo:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rremo:ducere{,e}|1émo:gire|3eremo:are{ronc,sci}|6saremo:essere",
-      "secondPlural": "0te:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3rete:ere{pi,ar}|4rrete:ere{uc,an}|2ete:si~0te:e,scadere|3erete:are{,llung}|3herete:are{c,g}|7etterete:etrasmettere|4erete:iare{c,g}|4rrete:re{le,ene,veni}|3rete:ere{cad,god,av,viv,ov,ot,ap}~2:rete{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|5are:erete{d{en{facc,b,m},gri},sum{n,ie}}|5iare:gerete{for,can,man,en}|4ere:rete{ompi,par}|5cere:idurrete|5nere:marrete~3rete:andare|0te:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rrete:ducere{,e}|1éte:gire|3erete:are{ronc,sci}|6sarete:essere",
-      "thirdPlural": "1anno:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3ranno:ere{pi,ar}|4rranno:ere{uc,an}|2anno:si~1anno:e,scadere|3eranno:are{,llung}|3heranno:are{c,g}|7etteranno:etrasmettere|4eranno:iare{c,g}|4rranno:re{le,ene,veni}|3ranno:ere{cad,god,av,viv,ov,ot,ap}~4e:ranno{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|6are:eranno{d{en{facc,b,m},gri},sum{n,ie}}|6iare:geranno{for,can,man,en}|5ere:ranno{ompi,par}|6cere:idurranno|6nere:marranno~3ranno:andare|1anno:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rranno:ducere{,e}|1ànno:gire|3eranno:are{ronc,sci}|6saranno:essere"
+      "firstPlural": "0mo:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3remo:ere{pi,ar}|4rremo:ere{uc,an}|2emo:si~0mo:e,scadere|3eremo:are{,llung}|3heremo:are{c,g}|7etteremo:etrasmettere|4eremo:iare{c,g}|4rremo:re{le,ene,veni}|3remo:ere{cad,god,av,viv,ov,ot,ap}~2:remo{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|5are:eremo{d{en{facc,b,m},gri},sum{n,ie}}|5iare:geremo{for,can,man,en}|4ere:remo{ompi,par}|5cere:idurremo|5nere:marremo~3remo:andare|0mo:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rremo:ducere{,e}|3eremo:are{ronc,sci}|6saremo:essere",
+      "secondPlural": "0te:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3rete:ere{pi,ar}|4rrete:ere{uc,an}|2ete:si~0te:e,scadere|3erete:are{,llung}|3herete:are{c,g}|7etterete:etrasmettere|4erete:iare{c,g}|4rrete:re{le,ene,veni}|3rete:ere{cad,god,av,viv,ov,ot,ap}~2:rete{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|5are:erete{d{en{facc,b,m},gri},sum{n,ie}}|5iare:gerete{for,can,man,en}|4ere:rete{ompi,par}|5cere:idurrete|5nere:marrete~3rete:andare|0te:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rrete:ducere{,e}|3erete:are{ronc,sci}|6sarete:essere",
+      "thirdPlural": "1anno:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3ranno:ere{pi,ar}|4rranno:ere{uc,an}|2anno:si~1anno:e,scadere|3eranno:are{,llung}|3heranno:are{c,g}|7etteranno:etrasmettere|4eranno:iare{c,g}|4rranno:re{le,ene,veni}|3ranno:ere{cad,god,av,viv,ov,ot,ap}~4e:ranno{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li,ol},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,ro,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|6are:eranno{d{en{facc,b,m},gri},sum{n,ie}}|6iare:geranno{for,can,man,en}|5ere:ranno{ompi,par}|6cere:idurranno|6nere:marranno~3ranno:andare|1anno:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rranno:ducere{,e}|3eranno:are{ronc,sci}|6saranno:essere"
     },
     "conditional": {
       "first": "0i:re{a{f{raf{t,p},e,tra,s,ri},tost},lle}|3rei:ere{pi,ar}|4rrei:ere{uc,an}|2ei:si~0i:e,scadere|3erei:are{,llung}|3herei:are{c,g}|7etterei:etrasmettere|4erei:iare{c,g}|4rrei:re{le,ene,veni}|3rei:ere{cad,god,ved,av,viv,ov,ot,ap}~1:rei{e{gli{co,io,to,ce},spegn,cern,ll{to,e{esp,op,ep,div,sv,ecc}},tess,t{t{ba,fle,nne,me,fo},sis,ver,mie,pe,cu},corr,c{s{na,pa,re,me,no},vin,tor,ia,ta,edi,li},d{n{o{f{if,ef,n,as},sc,p},e,ci,pa,u},bra,sua,va,e{c,cr,i,l},rro,ero,mor,iar,er,i{r,ass,nc,ec,cc,ll,el,v},lu,iu,ru},tingu,nqu,omp,m{pri,iri,edi,su,fre,pre,ge},comb,g{r,g{i,e{iel,il,orr,ot},u},n,l,i{il,gl,r,s,d}},v{cri,be,ce,ol,fer}},ur,por,rar}|4are:erei{d{en{facc,b,m},gri},sum{n,ie}}|4iare:gerei{for,can,man,en}|3ere:rei{ompi,par}|4cere:idurrei|4nere:marrei~3rei:andare|0i:re{e{ard,profond,rad,cher,chier,egg{l,el,r},tem},a{d,rid,f,st,rist}}|4rrei:ducere{,e}|3erei:are{ronc,sci}|6sarei:essere",
@@ -9172,7 +9499,7 @@ designate
   // generated from ./data/verbs.jsonl by scripts/gen-irregular.js
   // full tables for verbs with irregular stems,
   // plus irregular past-participles + gerunds for otherwise-regular verbs
-  var irregular$2 = {
+  var irregular$1 = {
     "paradigms": {
       "essere": {
         "present": [
@@ -10968,12 +11295,12 @@ designate
       },
       "sedere": {
         "present": [
-          "sièdo",
-          "sièdi",
-          "siède",
+          "siedo",
+          "siedi",
+          "siede",
           "sediamo",
           "sedete",
-          "sièdono"
+          "siedono"
         ],
         "imperfect": [
           "sedevo",
@@ -11008,12 +11335,12 @@ designate
           "sederebbero"
         ],
         "subjunctive": [
-          "sièda",
-          "sièda",
-          "sièda",
+          "sieda",
+          "sieda",
+          "sieda",
           "sediamo",
           "sediate",
-          "sièdano"
+          "siedano"
         ],
         "imperfectSubjunctive": [
           "sedessi",
@@ -11766,14 +12093,14 @@ designate
     subjunctive: subjunctive$1,
   } = model$1;
 
-  const persons$2 = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
+  const persons$4 = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
 
   const doEach = function (str, m, tense) {
     // known-irregular verb?
-    const table = irregular$2.paradigms[str];
+    const table = irregular$1.paradigms[str];
     if (table && table[tense]) {
       const res = {};
-      persons$2.forEach((p, i) => {
+      persons$4.forEach((p, i) => {
         res[p] = table[tense][i];
       });
       return res
@@ -11798,10 +12125,10 @@ designate
   // congiuntivo imperfetto is regular enough for simple rules
   // parlare -> parlassi, credere -> credessi, dormire -> dormissi
   const toImperfectSubjunctive = (str) => {
-    const table = irregular$2.paradigms[str];
+    const table = irregular$1.paradigms[str];
     if (table && table.imperfectSubjunctive) {
       const res = {};
-      persons$2.forEach((p, i) => {
+      persons$4.forEach((p, i) => {
         res[p] = table.imperfectSubjunctive[i];
       });
       return res
@@ -11838,7 +12165,7 @@ designate
 
   const { gerunds, pastParticiple, presentParticiple } = model$1;
 
-  const m$1 = {
+  const m$2 = {
     toGerund: gerunds.gerunds,
     fromGerund: reverse(gerunds.gerunds),
     toPastParticiple: pastParticiple.pastParticiple,
@@ -11852,16 +12179,16 @@ designate
   const fromPP = {};
   const toGer = {};
   const fromGer = {};
-  Object.keys(irregular$2.participles).forEach((inf) => {
-    toPP[inf] = irregular$2.participles[inf];
-    fromPP[irregular$2.participles[inf]] = inf;
+  Object.keys(irregular$1.participles).forEach((inf) => {
+    toPP[inf] = irregular$1.participles[inf];
+    fromPP[irregular$1.participles[inf]] = inf;
   });
-  Object.keys(irregular$2.gerunds).forEach((inf) => {
-    toGer[inf] = irregular$2.gerunds[inf];
-    fromGer[irregular$2.gerunds[inf]] = inf;
+  Object.keys(irregular$1.gerunds).forEach((inf) => {
+    toGer[inf] = irregular$1.gerunds[inf];
+    fromGer[irregular$1.gerunds[inf]] = inf;
   });
-  Object.keys(irregular$2.paradigms).forEach((inf) => {
-    const p = irregular$2.paradigms[inf];
+  Object.keys(irregular$1.paradigms).forEach((inf) => {
+    const p = irregular$1.paradigms[inf];
     if (p.pastParticiple) {
       toPP[inf] = p.pastParticiple;
       fromPP[p.pastParticiple] = fromPP[p.pastParticiple] || inf;
@@ -11878,31 +12205,31 @@ designate
     if (fromGer.hasOwnProperty(str)) {
       return fromGer[str]
     }
-    return convert(str, m$1.fromGerund)
+    return convert(str, m$2.fromGerund)
   };
   const toGerund = function (str) {
     if (toGer.hasOwnProperty(str)) {
       return toGer[str]
     }
-    return convert(str, m$1.toGerund)
+    return convert(str, m$2.toGerund)
   };
   const fromPastParticiple = function (str) {
     if (fromPP.hasOwnProperty(str)) {
       return fromPP[str]
     }
-    return convert(str, m$1.fromPastParticiple)
+    return convert(str, m$2.fromPastParticiple)
   };
   const toPastParticiple = function (str) {
     if (toPP.hasOwnProperty(str)) {
       return toPP[str]
     }
-    return convert(str, m$1.toPastParticiple)
+    return convert(str, m$2.toPastParticiple)
   };
   const fromPresentParticiple = function (str) {
-    return convert(str, m$1.fromPresentParticiple)
+    return convert(str, m$2.fromPresentParticiple)
   };
   const toPresentParticiple = function (str) {
-    return convert(str, m$1.toPresentParticiple)
+    return convert(str, m$2.toPresentParticiple)
   };
 
   const { presentTense, pastTense, futureTense, conditional, imperfect, subjunctive } = model$1;
@@ -12034,6 +12361,275 @@ designate
     return stripSuffix(str)
   };
 
+  // the italian imperative has no forms of its own, for nearly every verb -
+  // it borrows them from the present-tense, and the subjunctive.
+  // 'mangia!' (tu), 'mangi!' (Lei), 'mangiamo!' (noi), 'mangiate!' (voi), 'mangino!' (Loro)
+
+  // [tu, voi] - the few verbs with their own forms
+  const irregulars$1 = {
+    essere: ['sii', 'siate'],
+    avere: ['abbi', 'abbiate'],
+    sapere: ['sappi', 'sappiate'],
+    volere: ['vogli', 'vogliate'],
+    dire: ["di'", 'dite'],
+    dare: ['dai', 'date'],
+    fare: ['fai', 'fate'],
+    stare: ['stai', 'state'],
+    andare: ['vai', 'andate'],
+  };
+  // the short forms of these - "da'", "fa'", "sta'", "va'"
+  const short = { da: 'dare', di: 'dire', fa: 'fare', sta: 'stare', va: 'andare' };
+
+  const has$1 = (obj, k) => Object.prototype.hasOwnProperty.call(obj, k);
+
+  const toImperative = function (str) {
+    const pres = toPresent(str);
+    const subj = toSubjunctive(str);
+    const res = {
+      // 'mangia!' is the third-person, but 'prendi!' is the second
+      second: /are$/.test(str) ? pres.third : pres.second,
+      third: subj.third,
+      firstPlural: pres.firstPlural,
+      secondPlural: pres.secondPlural,
+      thirdPlural: subj.thirdPlural,
+    };
+    if (has$1(irregulars$1, str)) {
+      res.second = irregulars$1[str][0];
+      res.secondPlural = irregulars$1[str][1];
+    }
+    return res
+  };
+
+  // every irregular present-tense and subjunctive form, and its infinitive - 'siedi' -> 'sedere'
+  let known$1 = null;
+  const fromIrregular$1 = function (str) {
+    if (known$1 === null) {
+      known$1 = {};
+      Object.keys(irregular$1.paradigms).forEach((inf) => {
+        const table = irregular$1.paradigms[inf];
+        const list = (table.present || []).concat(table.subjunctive || []);
+        list.forEach((w) => {
+          if (w && !has$1(known$1, w)) {
+            known$1[w] = inf;
+          }
+        });
+      });
+      Object.keys(irregulars$1).forEach((inf) => {
+        irregulars$1[inf].forEach((w) => {
+          known$1[w] = inf;
+        });
+      });
+    }
+    return has$1(known$1, str) ? known$1[str] : null
+  };
+
+  const forms = [
+    { key: 'second', from: (s) => [fromPresent(s, 'ThirdPerson'), fromPresent(s, 'SecondPerson')] },
+    { key: 'firstPlural', from: (s) => [fromPresent(s, 'FirstPersonPlural')] },
+    { key: 'secondPlural', from: (s) => [fromPresent(s, 'SecondPersonPlural')] },
+    { key: 'third', from: (s) => [fromSubjunctive(s, 'ThirdPerson')] },
+    { key: 'thirdPlural', from: (s) => [fromSubjunctive(s, 'ThirdPersonPlural')] },
+  ];
+
+  // find an infinitive whose imperative is this word
+  // - pass-in 'isVerb' to only accept infinitives that we know
+  const fromImperative = function (str, isVerb) {
+    str = str.replace(/’/g, "'");
+    const bare = str.replace(/'$/, '');
+    if (str !== bare && has$1(short, bare)) {
+      return short[bare]
+    }
+    const isOk = (inf) => Boolean(inf) && inf !== str && /(are|ere|ire|rre)$/.test(inf) && (!isVerb || isVerb(inf));
+    const irr = fromIrregular$1(str);
+    if (irr && Object.values(toImperative(irr)).includes(str)) {
+      return irr
+    }
+    for (let i = 0; i < forms.length; i += 1) {
+      const { key, from } = forms[i];
+      const found = from(str).find((inf) => isOk(inf) && toImperative(inf)[key] === str);
+      if (found) {
+        return found
+      }
+    }
+    return null
+  };
+
+  // an imperative, with its object-pronouns attached
+  // 'dammelo' -> dare + me + lo, 'guardami' -> guardare + mi, 'andiamoci' -> andare + ci
+  const clitics$1 = /(glie(lo|la|li|le|ne)|[mtcvs]e(lo|la|li|le|ne)|gli|lo|la|li|le|ne|mi|ti|ci|vi|si)$/;
+
+  const isInfinitive$4 = function (str, lexicon) {
+    if (!has$1(lexicon, str)) {
+      return false
+    }
+    const tags = lexicon[str];
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+
+  // returns the infinitive, and the pronouns - or null
+  const parseImperative = function (str, lexicon) {
+    const m = str.match(clitics$1);
+    if (!m || m.index < 2) {
+      return null
+    }
+    const stem = str.slice(0, m.index);
+    const clitic = m[0];
+    // these double the consonant of their pronoun - 'dammi', 'dillo', 'facci' - but 'dagli'
+    const base = stem.slice(0, -1);
+    if (has$1(short, base) && stem.slice(-1) === clitic[0] && clitic !== 'gli') {
+      return { root: short[base], clitic }
+    }
+    if (has$1(short, stem) && /^gli/.test(clitic)) {
+      return { root: short[stem], clitic }
+    }
+    // only the tu, noi and voi forms take a pronoun
+    const root = stem.length < 4 ? null : fromImperative(stem, (inf) => isInfinitive$4(inf, lexicon));
+    if (!root) {
+      return null
+    }
+    const found = toImperative(root);
+    if (![found.second, found.firstPlural, found.secondPlural].includes(stem)) {
+      return null
+    }
+    return { root, clitic }
+  };
+
+  // find a conjugated verb in the conjugation table of its infinitive.
+  //
+  // the reverse-models (fromPresent, fromPast..) each guess at an infinitive,
+  // and they need to be told the tense + person, which we often do not know.
+  // so try them all, and only keep an infinitive that conjugates back into our word.
+  //
+  // (this file is the same in each of the *-compromise libraries - the list of tenses is not)
+
+  const persons$3 = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
+
+  // tenses is a list of { name, to(infinitive), from(word, person) }
+  // opts.extra(word) may give more infinitives to try
+  const makeLookup = function (tenses, opts = {}) {
+    // what an infinitive looks like - 'hablar', 'parlare', 'sprechen'
+    const shape = opts.shape || /./;
+    const pick = (only) => (only ? tenses.filter((o) => only.includes(o.name)) : tenses);
+
+    // every form of this verb, by tense, and then person
+    const table = function (inf, only) {
+      const res = {};
+      pick(only).forEach((o) => {
+        res[o.name] = o.to(inf) || {};
+      });
+      return res
+    };
+
+    // where is this word, in the conjugations of this infinitive?
+    const findHits = function (str, inf, only) {
+      const forms = table(inf, only);
+      const hits = [];
+      Object.keys(forms).forEach((tense) => {
+        persons$3.forEach((person) => {
+          if (forms[tense][person] === str) {
+            hits.push({ tense, person });
+          }
+        });
+      });
+      return hits
+    };
+
+    // every infinitive that has this word as one of its forms
+    const candidates = function (str, only) {
+      // the word itself may be one - 'wir gehen'
+      let roots = shape.test(str) ? [str] : [];
+      // any irregular verbs, that the models do not reverse
+      if (opts.extra) {
+        roots = roots.concat(opts.extra(str) || []);
+      }
+      pick(only).forEach((o) => {
+        persons$3.forEach((person) => {
+          // 'rad fahren' -> 'fahren'
+          const inf = (o.from(str, person) || '').split(' ').pop();
+          if (inf && inf !== str && shape.test(inf)) {
+            roots.push(inf);
+          }
+        });
+      });
+      roots = roots.filter((s, i) => roots.indexOf(s) === i);
+      const found = [];
+      roots.forEach((root) => {
+        const hits = findHits(str, root, only);
+        if (hits.length > 0) {
+          found.push({ root, hits });
+        }
+      });
+      return found
+    };
+
+    // the best of them - or null
+    // - isVerb(infinitive) says if this is a verb that we know. these are preferred.
+    // - known: only accept a verb that we know
+    // - tenses: only look in these tenses
+    const lookup = function (str, options = {}) {
+      const isVerb = options.isVerb || (() => false);
+      let found = candidates(str, options.tenses);
+      found = found.map((o, i) => ({ o, i, known: isVerb(o.root) }));
+      if (options.known) {
+        found = found.filter((a) => a.known);
+      }
+      // prefer a real verb - 'pude' is 'poder', not 'pudir'
+      found.sort((a, b) => {
+        const diff = Number(b.known) - Number(a.known);
+        if (diff !== 0) {
+          return diff
+        }
+        // then the shortest - 'sagte' is 'sagen', not 'sagten'
+        return a.o.root.length - b.o.root.length || a.i - b.i
+      });
+      return found.length > 0 ? found[0].o : null
+    };
+
+    return { table, findHits, candidates, lookup }
+  };
+
+  // the reverse-models take a tag for the person
+  const tags$1 = {
+    first: 'FirstPerson',
+    second: 'SecondPerson',
+    third: 'ThirdPerson',
+    firstPlural: 'FirstPersonPlural',
+    secondPlural: 'SecondPersonPlural',
+    thirdPlural: 'ThirdPersonPlural',
+  };
+  const wrap = (fn) => (str, person) => fn(str, tags$1[person]);
+
+  // the indicative tenses - ('past' is the passato remoto)
+  const tenses$1 = [
+    { name: 'present', to: toPresent, from: wrap(fromPresent) },
+    { name: 'imperfect', to: toImperfect, from: wrap(fromImperfect) },
+    { name: 'past', to: toPast, from: wrap(fromPast) },
+    { name: 'future', to: toFuture, from: wrap(fromFuture) },
+    { name: 'conditional', to: toConditional, from: wrap(fromConditional) },
+  ];
+
+  // every form of our irregular verbs - 'vedrò' -> ['vedere']
+  let known = null;
+  const extra = function (str) {
+    if (known === null) {
+      known = {};
+      Object.keys(irregular$1.paradigms).forEach((inf) => {
+        tenses$1.forEach((o) => {
+          const forms = irregular$1.paradigms[inf][o.name] || [];
+          forms.forEach((w) => {
+            if (w) {
+              known[w] = known[w] || [];
+              known[w].push(inf);
+            }
+          });
+        });
+      });
+    }
+    return Object.prototype.hasOwnProperty.call(known, str) ? known[str] : []
+  };
+
+  const { table, findHits, candidates, lookup } = makeLookup(tenses$1, { shape: /(are|ere|ire|rre)$/, extra });
+
   const all$2 = function (str) {
     let arr = [str].concat(
       Object.values(toPresent(str)),
@@ -12043,7 +12639,8 @@ designate
       Object.values(toImperfect(str)),
       Object.values(toSubjunctive(str)),
       Object.values(toImperfectSubjunctive(str)),
-      Object.values(toReflexive(str))
+      Object.values(toReflexive(str)),
+      Object.values(toImperative(str))
     );
     // past-participle, in all four gender/number agreements
     const pp = toPastParticiple(str);
@@ -12063,7 +12660,7 @@ designate
     return Array.from(arr)
   };
 
-  var verbs$2 = {
+  var verb = {
     all: all$2,
     toPresent,
     toPast,
@@ -12073,6 +12670,8 @@ designate
     toSubjunctive,
     toImperfectSubjunctive,
     toReflexive,
+    toImperative,
+    fromImperative,
     fromGerund,
     toGerund,
     fromPastParticiple,
@@ -12085,239 +12684,13 @@ designate
     fromConditional,
     fromImperfect,
     fromSubjunctive,
+    table,
+    findHits,
+    candidates,
+    lookup,
   };
 
   // console.log(toPresent('fermarsi'))
-
-  // rule-based noun inflection - the suffix-model only knows what is in its data
-
-  // [singular, plural]
-  const pairs = [
-    ['uomo', 'uomini'],
-    ['dio', 'dei'],
-    ['bue', 'buoi'],
-    ['tempio', 'templi'],
-    ['moglie', 'mogli'],
-    ['superficie', 'superfici'],
-    // feminine, but not '-e'
-    ['mano', 'mani'],
-    ['ala', 'ali'],
-    ['arma', 'armi'],
-    // masculine singular, feminine '-a' plural
-    ['dito', 'dita'],
-    ['uovo', 'uova'],
-    ['braccio', 'braccia'],
-    ['labbro', 'labbra'],
-    ['ginocchio', 'ginocchia'],
-    ['sopracciglio', 'sopracciglia'],
-    ['ciglio', 'ciglia'],
-    ['lenzuolo', 'lenzuola'],
-    ['osso', 'ossa'],
-    ['paio', 'paia'],
-    ['miglio', 'miglia'],
-    ['centinaio', 'centinaia'],
-    ['migliaio', 'migliaia'],
-    // masculine '-ga', without the 'h'
-    ['belga', 'belgi'],
-  ];
-  const irregular$1 = { toPlural: {}, fromPlural: {} };
-  pairs.forEach(a => {
-    irregular$1.toPlural[a[0]] = a[1];
-    irregular$1.fromPlural[a[1]] = a[0];
-  });
-  // both plurals are used - 'i ginocchi', 'gli ossi'
-  Object.assign(irregular$1.fromPlural, { ginocchi: 'ginocchio', ossi: 'osso', bracci: 'braccio', cigli: 'ciglio' });
-
-  // truncations, and other nouns that never change
-  const same = new Set([
-    'foto', 'auto', 'moto', 'radio', 'cinema', 'video', 'stereo', 'frigo', 'euro', 'zoo',
-    'serie', 'specie', 'carie', 'barbarie', 'progenie',
-    'gorilla', 'boia', 'vaglia', 'sosia', 'koala', 'panda'
-  ]);
-
-  // loanwords, stressed endings, '-i' nouns and monosyllables - 'film', 'città', 'crisi', 're'
-  const isInvariable = function (str) {
-    if (same.has(str)) {
-      return true
-    }
-    if (!/[aeio]$/.test(str)) {
-      return true
-    }
-    // 're', 'gru', 'sci'
-    return /^[^aeiouàèéìòù]*[aeiou]$/.test(str)
-  };
-
-  // masculine nouns in '-a' - mostly greek
-  const maleSuffix =
-    /([iy]sta|gramma|dramma|framma|emma|ema|oma|sma|gma|iatra|[nirg]arca|cida|nauta|crata|peuta)$/;
-  const maleWords = new Set([
-    'amalgama', 'clima', 'coma', 'comma', 'enzima', 'pachiderma', 'panorama', 'pigiama', 'proclama', 'sperma', 'trauma',
-    'tema', 'schema', 'idioma', 'assioma', 'plasma',
-    'poeta', 'profeta', 'atleta', 'pianeta', 'asceta', 'esteta', 'esegeta', 'apologeta', 'analfabeta',
-    'pilota', 'copilota', 'patriota', 'compatriota', 'despota', 'idiota',
-    'eremita', 'israelita', 'metabolita', 'metropolita', 'neofita', 'ovocita', 'parassita', 'gesuita',
-    'acrobata', 'pirata', 'cineasta', 'entusiasta', 'ginnasta', 'pederasta',
-    'papa', 'duca', 'granduca', 'collega', 'stratega', 'geometra', 'scriba', 'transfuga', 'monarca'
-  ]);
-  const femaleWords = new Set(['pista', 'lista', 'vista', 'rivista', 'conquista', 'intervista', 'svista', 'provvista', 'asma', 'crema', 'gemma', 'flemma', 'maremma', 'soma', 'chioma']);
-
-  // greek feminine nouns in '-i' never change - 'le crisi', 'le analisi'
-  const greekI = /(crisi|lisi|^tesi|ipotesi|sintesi|protesi|parentesi|gnosi|genesi|oasi|enfasi|opoli)$/;
-
-  // is this '-a' noun masculine? - gender is 'm', 'f' or undefined
-  const isMaleA = function (str, gender) {
-    if (femaleWords.has(str)) {
-      return false
-    }
-    // 'la turista' -> 'le turiste'
-    if (gender === 'f' && str.endsWith('ista')) {
-      return false
-    }
-    return gender === 'm' || maleWords.has(str) || maleSuffix.test(str) || /^(vice)?capo./.test(str)
-  };
-
-  // 'ragazza' -> 'ragazze'
-  const femalePlural = function (str) {
-    // 'banca' -> 'banche'
-    if (/[cg]a$/.test(str)) {
-      return str.replace(/a$/, 'he')
-    }
-    // 'arancia' -> 'arance', but stressed 'allergia' -> 'allergie'
-    if (/[^aeiour][cg]ia$/.test(str) || /rcia$/.test(str)) {
-      return str.replace(/ia$/, 'e')
-    }
-    return str.replace(/a$/, 'e')
-  };
-
-  // 'ragazze' -> 'ragazza'
-  const fromFemalePlural$1 = function (str) {
-    // 'banche' -> 'banca'
-    if (/[cg]he$/.test(str)) {
-      return str.replace(/he$/, 'a')
-    }
-    // 'arance' -> 'arancia'
-    if (/[cg]e$/.test(str)) {
-      return str.replace(/e$/, 'ia')
-    }
-    return str.replace(/e$/, 'a')
-  };
-
-  // 'poeta' -> 'poeti', 'collega' -> 'colleghi'
-  const malePlural = function (str) {
-    if (/[cg]a$/.test(str)) {
-      return str.replace(/a$/, 'hi')
-    }
-    return str.replace(/a$/, 'i')
-  };
-
-  const { plural } = model$1.nouns;
-
-  const revPlural$1 = reverse(plural);
-
-  // gender is an optional hint - 'm' or 'f'
-  const toPlural$1 = (str, gender) => {
-    if (irregular$1.toPlural.hasOwnProperty(str)) {
-      return irregular$1.toPlural[str]
-    }
-    if (isInvariable(str)) {
-      return str
-    }
-    // the model is mostly masculine nouns - so '-a' nouns are done by rule
-    if (str.endsWith('a')) {
-      if (!isMaleA(str, gender)) {
-        return femalePlural(str)
-      }
-      // 'capobanda' -> 'capibanda'
-      const res = convert(str, plural);
-      return res.endsWith('i') || res.endsWith('a') ? res : malePlural(str)
-    }
-    return convert(str, plural)
-  };
-
-  const fromPlural$1 = (str, gender) => {
-    if (irregular$1.fromPlural.hasOwnProperty(str)) {
-      return irregular$1.fromPlural[str]
-    }
-    if (isInvariable(str)) {
-      return str
-    }
-    // an '-e' plural is a feminine '-a' noun
-    if (str.endsWith('e')) {
-      return fromFemalePlural$1(str)
-    }
-    // 'le crisi' -> 'crisi'
-    if (greekI.test(str)) {
-      return str
-    }
-    // 'le chiavi' -> 'chiave'
-    if (gender === 'f' && /[^i]i$/.test(str)) {
-      return str.replace(/i$/, 'e')
-    }
-    if (str.endsWith('i')) {
-      const res = convert(str, revPlural$1);
-      // the reversed model can miss - 'uovm'
-      return /[aeo]$/.test(res) ? res : str.replace(/i$/, 'o')
-    }
-    return str
-  };
-
-  const all$1 = (str) => {
-    const plur = toPlural$1(str);
-    if (plur === str) {
-      return [str]
-    }
-    return [str, plur]
-  };
-
-  var noun = {
-    toPlural: toPlural$1,
-    fromPlural: fromPlural$1,
-    all: all$1
-  };
-
-  const { fs, mp, fp } = model$1.adjectives;
-
-  const revFemale = reverse(fs);
-  const revPlural = reverse(mp);
-  const revFemalePlural = reverse(fp);
-
-  const toFemale = (str) => convert(str, fs);
-  const toPlural = (str) => convert(str, mp);
-  // female-singular -> female-plural model ('bella' -> 'belle')
-  const toFemalePlural = (str) => convert(toFemale(str), fp);
-
-  const fromFemale = (str) => convert(str, revFemale);
-  const fromPlural = (str) => convert(str, revPlural);
-  // 'meravigliose' -> 'meraviglioso'
-  const fromFemalePlural = (str) => fromFemale(convert(str, revFemalePlural));
-
-  const all = function (str) {
-    const arr = [
-      str,
-      toFemale(str),
-      toPlural(str),
-      toFemalePlural(str),
-    ].filter(s => s);
-    return arr
-  };
-
-  var adjective = {
-    all,
-    toFemale, toPlural, toFemalePlural,
-    fromFemale, fromPlural, fromFemalePlural,
-  };
-
-  // "ridicola",
-  // "ridicoli",
-  // "ridicole"
-  // console.log(toFemale(toPlural("ridicolo")))
-  // console.log(toPlural("ridicolo"))
-
-  var methods = {
-    verb: verbs$2,
-    noun,
-    adjective,
-  };
 
   // generated in ./lib/lexicon
   var lexData = {
@@ -12609,6 +12982,44 @@ designate
     return all
   };
 
+  const { fs, mp, fp } = model$1.adjectives;
+
+  const revFemale = reverse(fs);
+  const revPlural$1 = reverse(mp);
+  const revFemalePlural = reverse(fp);
+
+  const toFemale = (str) => convert(str, fs);
+  const toPlural$1 = (str) => convert(str, mp);
+  // female-singular -> female-plural model ('bella' -> 'belle')
+  const toFemalePlural = (str) => convert(toFemale(str), fp);
+
+  const fromFemale = (str) => convert(str, revFemale);
+  const fromPlural$1 = (str) => convert(str, revPlural$1);
+  // 'meravigliose' -> 'meraviglioso'
+  const fromFemalePlural$1 = (str) => fromFemale(convert(str, revFemalePlural));
+
+  const all$1 = function (str) {
+    const arr = [
+      str,
+      toFemale(str),
+      toPlural$1(str),
+      toFemalePlural(str),
+    ].filter(s => s);
+    return arr
+  };
+
+  var adjective = {
+    all: all$1,
+    toFemale, toPlural: toPlural$1, toFemalePlural,
+    fromFemale, fromPlural: fromPlural$1, fromFemalePlural: fromFemalePlural$1,
+  };
+
+  // "ridicola",
+  // "ridicoli",
+  // "ridicole"
+  // console.log(toFemale(toPlural("ridicolo")))
+  // console.log(toPlural("ridicolo"))
+
   const misc$1 = {};
 
   // import models from '../methods/models.js'
@@ -12625,56 +13036,68 @@ designate
   let words = {};
 
   // a bare 'Verb' says less than a conjugation does - 'faranno'
-  const isEmpty = (w) => !words[w] || words[w] === 'Verb';
+  // .. and so does a tense with no person - 'sapevo'
+  const bare = new Set(['Verb', 'PastTense', 'PresentTense']);
+  const isEmpty = (w) => !words[w] || bare.has(words[w]);
+
+  // these are nothing else - (but 'abbi' is also in our list of names)
+  const ownImperatives = new Set(['sii', 'abbi', 'sappi', 'vogli']);
 
   const addVerbs = function (w) {
     // do present-tense
-    let res = verbs$2.toPresent(w);
+    let res = verb.toPresent(w);
     Object.keys(res).forEach((k) => {
       if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'PresentTense'];
       }
     });
     // past-tense
-    res = verbs$2.toPast(w);
+    res = verb.toPast(w);
     Object.keys(res).forEach((k) => {
       if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'PastTense'];
       }
     });
     // future-tense
-    res = verbs$2.toFuture(w);
+    res = verb.toFuture(w);
     Object.keys(res).forEach((k) => {
       if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'FutureTense'];
       }
     });
     // conditonal
-    res = verbs$2.toConditional(w);
+    res = verb.toConditional(w);
     Object.keys(res).forEach((k) => {
       if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'ConditionalVerb'];
       }
     });
     // imperfect
-    res = verbs$2.toImperfect(w);
+    res = verb.toImperfect(w);
     Object.keys(res).forEach((k) => {
       if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'ImperfectVerb'];
       }
     });
     // imperfect
-    res = verbs$2.toSubjunctive(w);
+    res = verb.toSubjunctive(w);
     Object.keys(res).forEach((k) => {
       if (isEmpty(res[k])) {
         words[res[k]] = [tagMap[k], 'Subjunctive'];
       }
     });
+    // imperatives are present-tense forms, but for a few - 'sii', 'abbi', 'sappi'
+    res = verb.toImperative(w)
+    ;['second', 'secondPlural'].forEach((k) => {
+      if (res[k] && !/'/.test(res[k]) && (isEmpty(res[k]) || ownImperatives.has(res[k]))) {
+        words[res[k]] = ['Imperative'];
+      }
+    });
     // gerunds
-    res = verbs$2.toGerund(w);
+    res = verb.toGerund(w);
     words[res] = words[res] || ['Gerund'];
     // participle, in all gender/number agreements - fondato/a/i/e
-    res = verbs$2.toPastParticiple(w);
+    res = verb.toPastParticiple(w);
     if (res) {
       words[res] = words[res] || ['PastParticiple'];
       const fem = res.replace(/o$/, 'a');
@@ -12685,7 +13108,7 @@ designate
       words[femPlur] = words[femPlur] || ['PastParticiple'];
     }
     // present participle
-    res = verbs$2.toPresentParticiple(w);
+    res = verb.toPresentParticiple(w);
     words[res] = words[res] || ['PresentParticiple'];
   };
 
@@ -12751,74 +13174,247 @@ designate
 
   words = Object.assign({}, words, misc$1);
 
-  // an imperative, with its object-pronouns attached
-  // 'dammelo' -> dare + me + lo, 'guardami' -> guardare + mi, 'andiamoci' -> andare + ci
+  // rule-based noun inflection - the suffix-model only knows what is in its data
 
-  const clitics$1 = /(glie(lo|la|li|le|ne)|[mtcvs]e(lo|la|li|le|ne)|gli|lo|la|li|le|ne|mi|ti|ci|vi|si)$/;
+  // [singular, plural]
+  const pairs = [
+    ['uomo', 'uomini'],
+    ['dio', 'dei'],
+    ['bue', 'buoi'],
+    ['tempio', 'templi'],
+    ['moglie', 'mogli'],
+    ['superficie', 'superfici'],
+    ['effigie', 'effigi'],
+    ['mille', 'mila'],
+    // feminine, but not '-e'
+    ['mano', 'mani'],
+    ['ala', 'ali'],
+    ['arma', 'armi'],
+    // masculine singular, feminine '-a' plural
+    ['dito', 'dita'],
+    ['uovo', 'uova'],
+    ['braccio', 'braccia'],
+    ['labbro', 'labbra'],
+    ['ginocchio', 'ginocchia'],
+    ['sopracciglio', 'sopracciglia'],
+    ['ciglio', 'ciglia'],
+    ['lenzuolo', 'lenzuola'],
+    ['osso', 'ossa'],
+    ['paio', 'paia'],
+    ['miglio', 'miglia'],
+    ['centinaio', 'centinaia'],
+    ['migliaio', 'migliaia'],
+    ['grido', 'grida'],
+    ['corno', 'corna'],
+    ['orecchio', 'orecchie'],
+    // masculine '-ga', without the 'h'
+    ['belga', 'belgi'],
+  ];
+  const irregular = { toPlural: {}, fromPlural: {} };
+  pairs.forEach(a => {
+    irregular.toPlural[a[0]] = a[1];
+    irregular.fromPlural[a[1]] = a[0];
+  });
+  // both plurals are used - 'i ginocchi', 'gli ossi'
+  Object.assign(irregular.fromPlural, {
+    ginocchi: 'ginocchio', ossi: 'osso', bracci: 'braccio', cigli: 'ciglio', orecchi: 'orecchio', gridi: 'grido', corni: 'corno'
+  });
 
-  // these double the consonant of their pronoun - 'da' + 'mi' -> 'dammi'
-  const short = { da: 'dare', di: 'dire', fa: 'fare', sta: 'stare', va: 'andare' };
-  // forms that are not in the present-tense
-  const irregular = { abbi: 'avere', sii: 'essere', sappi: 'sapere', abbiate: 'avere', siate: 'essere', sappiate: 'sapere' };
+  // truncations, and other nouns that never change
+  const same = new Set([
+    'foto', 'auto', 'moto', 'radio', 'cinema', 'video', 'stereo', 'frigo', 'euro', 'zoo',
+    'serie', 'specie', 'carie', 'barbarie', 'progenie',
+    'gorilla', 'boia', 'vaglia', 'sosia', 'koala', 'panda', 'delta', 'cobra', 'puma',
+    'bici', 'brindisi', 'eclissi', 'ellissi', 'sintassi', 'prassi', 'alibi', 'taxi'
+  ]);
 
-  const isInfinitive$1 = function (str, lexicon) {
-    if (!Object.prototype.hasOwnProperty.call(lexicon, str)) {
+  // greek feminine nouns in '-i' never change - 'le crisi', 'le analisi'
+  const greekI = /(crisi|lisi|^tesi|ipotesi|sintesi|protesi|parentesi|gnosi|genesi|oasi|enfasi|(metr|necr|acr|megal|tend)opoli)$/;
+
+  // loanwords, stressed endings, greek '-i' nouns and monosyllables - 'film', 'città', 'crisi', 're'
+  const isInvariable = function (str) {
+    if (same.has(str) || greekI.test(str)) {
+      return true
+    }
+    if (!/[aeio]$/.test(str)) {
+      return true
+    }
+    // 're', 'gru', 'sci'
+    return /^[^aeiouàèéìòù]*[aeiou]$/.test(str)
+  };
+
+  // masculine nouns in '-a' - mostly greek
+  const maleSuffix =
+    /([iy]sta|gramma|dramma|framma|emma|ema|oma|sma|gma|iatra|[nirg]arca|cida|nauta|crata|peuta)$/;
+  const maleWords = new Set([
+    'amalgama', 'clima', 'coma', 'comma', 'enzima', 'pachiderma', 'panorama', 'pigiama', 'proclama', 'sperma', 'trauma',
+    'tema', 'schema', 'idioma', 'assioma', 'plasma',
+    'poeta', 'profeta', 'atleta', 'pianeta', 'asceta', 'esteta', 'esegeta', 'apologeta', 'analfabeta',
+    'pilota', 'copilota', 'patriota', 'compatriota', 'despota', 'idiota',
+    'eremita', 'israelita', 'metabolita', 'metropolita', 'neofita', 'ovocita', 'parassita', 'gesuita',
+    'acrobata', 'pirata', 'cineasta', 'entusiasta', 'ginnasta', 'pederasta',
+    'papa', 'duca', 'granduca', 'collega', 'stratega', 'geometra', 'scriba', 'transfuga', 'monarca'
+  ]);
+  const femaleWords = new Set(['pista', 'lista', 'vista', 'rivista', 'conquista', 'intervista', 'svista', 'provvista', 'asma', 'crema', 'gemma', 'flemma', 'maremma', 'soma', 'chioma']);
+
+  // ..but these are people, of either gender - 'la collega', 'le atlete'
+  const epicene = /(ista|asta|iatra|cida|nauta|peuta|collega|atleta|[il]ota|bata|beta)$/;
+
+  // is this '-a' noun masculine? - gender is 'm', 'f' or undefined
+  const isMaleA = function (str, gender) {
+    if (femaleWords.has(str)) {
       return false
     }
-    const tags = lexicon[str];
-    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+    // 'la turista' -> 'le turiste'
+    if (gender === 'f' && epicene.test(str)) {
+      return false
+    }
+    return gender === 'm' || maleWords.has(str) || maleSuffix.test(str) || /^(vice)?capo./.test(str)
   };
 
-  // which present-tense forms are also the imperative?
-  // 'mangia!' is the third-person, but 'prendi!' is the second
-  const forms = [
-    { tag: 'ThirdPerson', key: 'third', isAre: true },
-    { tag: 'SecondPerson', key: 'second', isAre: false },
-    { tag: 'FirstPersonPlural', key: 'firstPlural' },
-    { tag: 'SecondPersonPlural', key: 'secondPlural' },
-  ];
-
-  const findRoot = function (stem, lexicon, verb) {
-    for (let i = 0; i < forms.length; i += 1) {
-      const { tag, key, isAre } = forms[i];
-      const inf = verb.fromPresent(stem, tag);
-      if (!inf || inf === stem || !isInfinitive$1(inf, lexicon)) {
-        continue
-      }
-      if (isAre !== undefined && isAre !== /are$/.test(inf)) {
-        continue
-      }
-      if (verb.toPresent(inf)[key] === stem) {
-        return inf
-      }
+  // 'ragazza' -> 'ragazze'
+  const femalePlural = function (str) {
+    // 'banca' -> 'banche'
+    if (/[cg]a$/.test(str)) {
+      return str.replace(/a$/, 'he')
     }
-    return null
+    // 'arancia' -> 'arance', but stressed 'allergia', 'nostalgia', 'scia' -> 'allergie'
+    if (/[aeiou].*([^aeiourl][cg]|rc)ia$/.test(str)) {
+      return str.replace(/ia$/, 'e')
+    }
+    return str.replace(/a$/, 'e')
   };
 
-  // returns the infinitive, and the pronouns - or null
-  const parseImperative = function (str, lexicon, verb) {
-    const m = str.match(clitics$1);
-    if (!m || m.index < 2) {
-      return null
+  // 'ragazze' -> 'ragazza'
+  const fromFemalePlural = function (str) {
+    // 'banche' -> 'banca'
+    if (/[cg]he$/.test(str)) {
+      return str.replace(/he$/, 'a')
     }
-    const stem = str.slice(0, m.index);
-    const clitic = m[0];
-    // 'dammi', 'dillo', 'facci' - but 'dagli'
-    const base = stem.slice(0, -1);
-    if (Object.prototype.hasOwnProperty.call(short, base) && stem.slice(-1) === clitic[0] && clitic !== 'gli') {
-      return { root: short[base], clitic }
+    // 'arance' -> 'arancia'
+    if (/[cg]e$/.test(str)) {
+      return str.replace(/e$/, 'ia')
     }
-    if (Object.prototype.hasOwnProperty.call(short, stem) && /^gli/.test(clitic)) {
-      return { root: short[stem], clitic }
+    return str.replace(/e$/, 'a')
+  };
+
+  // 'poeta' -> 'poeti', 'collega' -> 'colleghi'
+  const malePlural = function (str) {
+    if (/[cg]a$/.test(str)) {
+      return str.replace(/a$/, 'hi')
     }
-    if (Object.prototype.hasOwnProperty.call(irregular, stem)) {
-      return { root: irregular[stem], clitic }
+    return str.replace(/a$/, 'i')
+  };
+
+  // the singular of an '-i' plural, where its ending says so - 'lezioni', 'attrici', 'origini'
+  const singularE$1 = /(ion|tric|[ai]gin|tudin)i$/;
+
+  const { plural } = model$1.nouns;
+
+  const revPlural = reverse(plural);
+
+  // gender is an optional hint - 'm' or 'f'
+  const toPlural = (str, gender) => {
+    if (irregular.toPlural.hasOwnProperty(str)) {
+      return irregular.toPlural[str]
     }
-    if (stem.length < 4) {
-      return null
+    // 'film', 'città', 'crisi' - and any other noun in '-i'
+    if (isInvariable(str) || str.endsWith('i')) {
+      return str
     }
-    const root = findRoot(stem, lexicon, verb);
-    return root ? { root, clitic } : null
+    // the model is mostly masculine nouns - so '-a' nouns are done by rule
+    if (str.endsWith('a')) {
+      if (!isMaleA(str, gender)) {
+        return femalePlural(str)
+      }
+      // 'capobanda' -> 'capibanda'
+      const res = convert(str, plural);
+      return res.endsWith('i') || res.endsWith('a') ? res : malePlural(str)
+    }
+    return convert(str, plural)
+  };
+
+  // words that the lexicon knows as a singular noun, or as an adjective that can be one - 'il giovane'
+  const isNoun$1 = /^(Noun|Singular|MaleNoun|FemaleNoun)$/;
+  const isAdj = /^(Noun|Singular|MaleNoun|FemaleNoun|MaleAdjective|Adjective)$/;
+  const has = (str, reg) => words.hasOwnProperty(str) && [].concat(words[str]).some((tag) => reg.test(tag));
+  const isKnown = (str) => has(str, isNoun$1);
+  // 'problema', but not 'casa'
+  const isKnownA = (str) => maleWords.has(str) || (isKnown(str) && isMaleA(str));
+
+  // an '-i' plural does not say what its singular ends in - 'libri' -> 'libro', 'cani' -> 'cane', 'poeti' -> 'poeta'
+  // if we know only one of them as a word, use it
+  const findKnown = function (str, gender) {
+    const stem = str.slice(0, -1);
+    // 'banchi' -> 'banco', 'colleghi' -> 'collega'
+    const hard = stem.replace(/([cg])h$/, '$1');
+    const found = [];
+    // 'giovane' - but 'le case' is 'casa', before it is 'i casi', and 'tedesche' is no singular
+    if (hard === stem && has(stem + 'e', isAdj) && !(isKnown(stem + 'a') && !isMaleA(stem + 'a'))) {
+      found.push(stem + 'e');
+    }
+    // a feminine '-i' plural is an '-e' noun
+    if (gender !== 'f') {
+      found.push(...[hard + 'o', stem + 'io'].filter(isKnown));
+      // 'pirati' -> 'pirata', but 'collega' is 'colleghi'
+      if (isKnownA(hard + 'a') && !/[cg]$/.test(stem)) {
+        found.push(hard + 'a');
+      }
+    }
+    return found.length === 1 ? found[0] : null
+  };
+
+  const fromPlural = (str, gender) => {
+    if (irregular.fromPlural.hasOwnProperty(str)) {
+      return irregular.fromPlural[str]
+    }
+    if (isInvariable(str)) {
+      return str
+    }
+    // an '-e' plural is a feminine '-a' noun - but 'i college' are not
+    if (str.endsWith('e')) {
+      return gender === 'm' ? str : fromFemalePlural(str)
+    }
+    if (!str.endsWith('i')) {
+      return str
+    }
+    // 'zii' -> 'zio'
+    if (str.endsWith('ii')) {
+      return str.replace(/i$/, 'o')
+    }
+    // 'giovani' -> 'giovane'
+    const known = findKnown(str, gender);
+    if (known) {
+      return known
+    }
+    // 'lezioni' -> 'lezione', 'le chiavi' -> 'chiave'
+    if (singularE$1.test(str) || gender === 'f') {
+      return str.replace(/i$/, 'e')
+    }
+    const res = convert(str, revPlural);
+    // the reversed model can miss - 'uovm'
+    return /[aeo]$/.test(res) ? res : str.replace(/i$/, 'o')
+  };
+
+  const all = (str) => {
+    const plur = toPlural(str);
+    if (plur === str) {
+      return [str]
+    }
+    return [str, plur]
+  };
+
+  var noun = {
+    isMaleA,
+    toPlural,
+    fromPlural,
+    all
+  };
+
+  var methods = {
+    verb,
+    noun,
+    adjective,
   };
 
   const verbForm = function (term) {
@@ -12845,8 +13441,8 @@ designate
 
   // every irregular conjugated form, mapped back to its infinitive
   const irregularRoots = {};
-  Object.keys(irregular$2.paradigms).forEach((inf) => {
-    const p = irregular$2.paradigms[inf];
+  Object.keys(irregular$1.paradigms).forEach((inf) => {
+    const p = irregular$1.paradigms[inf];
     Object.keys(p).forEach((k) => {
       let forms = p[k];
       if (typeof forms === 'string') {
@@ -12864,14 +13460,14 @@ designate
   // archaic long infinitive - 'beverlo'
   irregularRoots['bevere'] = 'bere';
   // participles of otherwise-regular verbs
-  Object.keys(irregular$2.participles).forEach((inf) => {
-    const pp = irregular$2.participles[inf];
+  Object.keys(irregular$1.participles).forEach((inf) => {
+    const pp = irregular$1.participles[inf];
     if (!irregularRoots.hasOwnProperty(pp)) {
       irregularRoots[pp] = inf;
     }
   });
-  Object.keys(irregular$2.gerunds).forEach((inf) => {
-    const ger = irregular$2.gerunds[inf];
+  Object.keys(irregular$1.gerunds).forEach((inf) => {
+    const ger = irregular$1.gerunds[inf];
     if (!irregularRoots.hasOwnProperty(ger)) {
       irregularRoots[ger] = inf;
     }
@@ -12912,6 +13508,24 @@ designate
     return str.replace(/([ts])[aie]$/, '$1o')
   };
 
+  // the tagger's tense + person are often a guess, and so is the infinitive we get from them.
+  // if it does not conjugate back into our word, look for a known verb that does
+  const checkRoot = function (str, guess, world) {
+    const verb = world.methods.two.transform.verb;
+    if (guess && guess !== str && verb.findHits(str, guess).length > 0) {
+      return guess
+    }
+    const lexicon = world.model.one.lexicon;
+    const isVerb = (inf) => lexicon.hasOwnProperty(inf) && [].concat(lexicon[inf]).includes('Infinitive');
+    const found = verb.lookup(str, { isVerb, known: true });
+    return found ? found.root : guess
+  };
+
+  // 'porto' is the participle of 'porgere', but with a person, it is 'io porto' - from 'portare'
+  const isOther = function (term, str, inf, verb) {
+    return Boolean(verbForm(term)) && !term.tags.has('PastParticiple') && verb.findHits(str, inf).length === 0
+  };
+
   const root = function (view) {
     const { verb, adjective, noun } = view.world.methods.two.transform;
     view.docs.forEach((terms) => {
@@ -12924,10 +13538,12 @@ designate
         if (term.tags.has('Verb')) {
           const form = verbForm(term) || guessForm(str);
           // 'dammelo' is 'dare'
-          const imp = term.tags.has('Imperative') ? parseImperative(str, view.world.model.one.lexicon, verb) : null;
-          if (imp) {
-            term.root = imp.root;
-          } else if (irregularRoots.hasOwnProperty(str)) {
+          const lexicon = view.world.model.one.lexicon;
+          const imp = term.tags.has('Imperative') ? parseImperative(str, lexicon) : null;
+          const bare = term.tags.has('Imperative') && !imp ? fromImperative(str, (inf) => lexicon[inf] === 'Infinitive') : null;
+          if (imp || bare) {
+            term.root = imp ? imp.root : bare;
+          } else if (irregularRoots.hasOwnProperty(str) && !isOther(term, str, irregularRoots[str], verb)) {
             term.root = irregularRoots[str];
           } else if (term.tags.has('Infinitive')) {
             // an infinitive may carry a pronoun suffix - 'vederlo'
@@ -12936,24 +13552,24 @@ designate
           } else if (term.tags.has('Gerund')) {
             term.root = verb.fromGerund(str, form);
           } else if (term.tags.has('ConditionalVerb')) {
-            term.root = verb.fromConditional(str, form);
+            term.root = checkRoot(str, verb.fromConditional(str, form), view.world);
           } else if (term.tags.has('PastParticiple')) {
             const masc = masculineParticiple(str);
             term.root = irregularRoots.hasOwnProperty(masc)
               ? irregularRoots[masc]
               : verb.fromPastParticiple(masc, form);
           } else if (term.tags.has('ImperfectVerb')) {
-            term.root = verb.fromImperfect(str, form);
+            term.root = checkRoot(str, verb.fromImperfect(str, form), view.world);
           } else if (term.tags.has('Subjunctive')) {
             term.root = verb.fromSubjunctive(str, form);
           } else if (term.tags.has('PresentTense')) {
-            term.root = verb.fromPresent(str, form);
+            term.root = checkRoot(str, verb.fromPresent(str, form), view.world);
           } else if (term.tags.has('PastTense')) {
-            term.root = verb.fromPast(str, form);
+            term.root = checkRoot(str, verb.fromPast(str, form), view.world);
           } else if (term.tags.has('FutureTense')) {
-            term.root = verb.fromFuture(str, form);
+            term.root = checkRoot(str, verb.fromFuture(str, form), view.world);
           } else {
-            term.root = verb.fromPresent(str, form);
+            term.root = checkRoot(str, verb.fromPresent(str, form), view.world);
           }
         }
 
@@ -13804,8 +14420,7 @@ designate
     if (term.tags.size > 0 || term.normal.length < 5) {
       return null
     }
-    const verb = world.methods.two.transform.verb;
-    const found = parseImperative(term.normal, world.model.one.lexicon || {}, verb);
+    const found = parseImperative(term.normal, world.model.one.lexicon || {});
     if (found) {
       world.methods.one.setTag([term], 'Imperative', world, false, '2-imperative-clitic');
       return true
@@ -13830,8 +14445,8 @@ designate
     return null
   };
 
-  const f = 'FemaleNoun';
-  const m = 'MaleNoun';
+  const f$1 = 'FemaleNoun';
+  const m$1 = 'MaleNoun';
 
   // https://en.wiktionary.org/wiki/Category:Italian_feminine_suffixes
 
@@ -13849,66 +14464,66 @@ designate
   const suffixes = [
     null,
     {
-      'a': f,
-      'o': m,
-      'i': m,
-      'e': f,
+      'a': f$1,
+      'o': m$1,
+      'i': m$1,
+      // '-e' is either - 'il fiume', 'la notte'
     },
     // two
     {
-      'tà': f,
-      'tù': f,
-      'ie': f,
+      'tà': f$1,
+      'tù': f$1,
+      'ie': f$1,
     },
     // three
     {
       // 'are': m,
-      'ese': m,
-      'ile': m,
-      'oma': m,
-      'one': m,
-      'ore': m,
+      'ese': m$1,
+      'ile': m$1,
+      'oma': m$1,
+      'one': m$1,
+      'ore': m$1,
       // 'are': f,
-      'ime': f,
-      'ite': f,
-      'ame': m,
-      'ale': m,
-      'ere': m,
-      'ice': f,
+      'ime': f$1,
+      'ite': f$1,
+      'ame': m$1,
+      'ale': m$1,
+      'ere': m$1,
+      'ice': f$1,
     },
     //four
     {
-      'cida': m,
-      'iere': m,
-      'ista': m,
-      'eide': f,
-      'poli': f,
-      'essa': f,
-      'ione': f,
+      'cida': m$1,
+      'iere': m$1,
+      'ista': m$1,
+      'eide': f$1,
+      'poli': f$1,
+      'essa': f$1,
+      'ione': f$1,
 
     },
     // five
     {
-      'crate': f,
-      'gione': f,
+      'crate': f$1,
+      'gione': f$1,
       // 'mante': f,
-      'opoli': f,
-      'ptosi': f,
+      'opoli': f$1,
+      'ptosi': f$1,
       // 'mante': m,
-      'nauta': m,
+      'nauta': m$1,
       // 'monarca', but not 'barca'
-      'narca': m,
-      'iarca': m,
-      'rarca': m,
-      'garca': m,
+      'narca': m$1,
+      'iarca': m$1,
+      'rarca': m$1,
+      'garca': m$1,
       // 'crate': m,
-      'trice': f,
-      'igine': f,
-      'udine': f,
+      'trice': f$1,
+      'igine': f$1,
+      'udine': f$1,
     },
     //six
     {
-      'cinesi': f,
+      'cinesi': f$1,
     },
     {}
   ];
@@ -13919,7 +14534,9 @@ designate
     const tags = term.tags;
     const str = term.normal || term.implicit || '';
     if (tags.has('Noun') && !tags.has('Pronoun') && !tags.has('MaleNoun') && !tags.has('FemaleNoun')) {
-      const tag = suffixLoop(str, suffixes);
+      // 'il poeta', 'il clima' - before '-a' says feminine
+      const isMaleA = str.endsWith('a') && world.methods.two.transform.noun.isMaleA(str);
+      const tag = isMaleA ? m$1 : suffixLoop(str, suffixes);
       if (tag) {
         setTag([term], tag, world, false, '2-guess-gender');
       }
@@ -13945,7 +14562,8 @@ designate
     if (isSingularE(str)) {
       return 'Singular'
     }
-    if (term.tags.has('FemaleNoun') && str.endsWith('e')) {
+    // a bare '-e' is more often a plural - 'mele', 'case'
+    if (str.endsWith('e') && !term.tags.has('MaleNoun')) {
       return 'PluralNoun'
     }
     if (str.endsWith('o') || str.endsWith('a')) {
@@ -15077,18 +15695,18 @@ designate
   // words that go in the middle
   const fillers$1 = new Set(['sempre', 'mai', 'già', 'ancora', 'appena', 'anche', 'più', 'proprio', 'spesso', 'solo', 'quasi', 'pure', 'ormai', 'davvero']);
   const reflexives$1 = new Set(['mi', 'ti', 'si', 'ci', 'vi']);
-  const persons$1 = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
+  const persons$2 = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
 
   // every irregular participle, mapped back to its infinitive
   let irregulars = null;
   const fromIrregular = function (str) {
     if (irregulars === null) {
       irregulars = {};
-      Object.keys(irregular$2.participles || {}).forEach((inf) => {
-        irregulars[irregular$2.participles[inf]] = inf;
+      Object.keys(irregular$1.participles || {}).forEach((inf) => {
+        irregulars[irregular$1.participles[inf]] = inf;
       });
-      Object.keys(irregular$2.paradigms || {}).forEach((inf) => {
-        const pp = irregular$2.paradigms[inf].pastParticiple;
+      Object.keys(irregular$1.paradigms || {}).forEach((inf) => {
+        const pp = irregular$1.paradigms[inf].pastParticiple;
         if (typeof pp === 'string' && !irregulars.hasOwnProperty(pp)) {
           irregulars[pp] = inf;
         }
@@ -15097,7 +15715,7 @@ designate
     return irregulars.hasOwnProperty(str) ? irregulars[str] : null
   };
 
-  const isInfinitive = function (str, lexicon) {
+  const isInfinitive$3 = function (str, lexicon) {
     if (!lexicon.hasOwnProperty(str)) {
       return false
     }
@@ -15117,7 +15735,7 @@ designate
       return found
     }
     const inf = verb.fromPastParticiple(masc);
-    if (inf && inf !== masc && isInfinitive(inf, world.model.one.lexicon) && verb.toPastParticiple(inf) === masc) {
+    if (inf && inf !== masc && isInfinitive$3(inf, world.model.one.lexicon) && verb.toPastParticiple(inf) === masc) {
       return inf
     }
     return null
@@ -15157,11 +15775,268 @@ designate
           }
         }
         if (!next.tags.has('PastParticiple')) {
-          persons$1.forEach((tag) => unTag([next], tag, world.model.one.tagSet));
+          persons$2.forEach((tag) => unTag([next], tag, world.model.one.tagSet));
           setTag([next], ['Verb', 'PastParticiple'], world, false, 'compound-participle');
         }
         setTag([term], 'Auxiliary', world, false, 'compound-aux');
       });
+    });
+  };
+
+  // a word that the lexicon only knows as an adjective is the noun of its phrase,
+  // when it follows a determiner and no noun follows it
+  // 'i [medici]', 'un [italiano]', 'i [ricchi] e i [poveri]', 'dei [giovani]'
+  // - but not 'i giovani studenti', or 'gli studenti giovani'
+
+  const m = 'MaleNoun';
+  const f = 'FemaleNoun';
+  const s = 'Singular';
+  const p = 'PluralNoun';
+
+  // the gender and number that each noun-introducer gives its noun
+  const dets = {};
+  const add = (str, gender, number) => {
+    str.split(' ').forEach((w) => {
+      dets[w] = [gender, number];
+    });
+  };
+  // articles, and preposition+article contractions
+  add('il lo un uno del dello al allo nel nello sul sullo dal dallo col', m, s);
+  add('la una della alla nella sulla dalla', f, s);
+  add('i gli dei degli ai agli nei negli sui sugli dai dagli coi', m, p);
+  add('le delle alle nelle sulle dalle', f, p);
+  // demonstratives - 'quello' and 'quelli' are left out, they are pronouns before an adjective ('quello rosso')
+  add('questo quel', m, s);
+  add('questa quella', f, s);
+  add('questi quei quegli', m, p);
+  add('queste quelle', f, p);
+  // quantifiers - 'tutti' and 'pochi' are left out, they often sit before a real adjective ('sono tutti felici')
+  add('nessun ciascun', m, s);
+  add('nessuna ciascuna', f, s);
+  add('alcuni molti', m, p);
+  add('alcune molte', f, p);
+  add('ogni qualche', null, s);
+  // possessives - 'i miei [cari]'
+  add('mio tuo suo nostro vostro', m, s);
+  add('mia tua sua nostra vostra', f, s);
+  add('miei tuoi suoi nostri vostri', m, p);
+  add('mie tue sue nostre vostre', f, p);
+  add('loro', null, null);
+  // elided forms, split-up by the tokenizer - "l'italiano", "un'italiana", "quell'altro"
+  const elided$1 = {
+    lo: [null, s],
+    l: [null, s],
+    una: [f, s],
+    questo: [null, s],
+    quello: [null, s],
+  };
+
+  // the gender + number of the determiner, if it is one
+  const getDet = function (term) {
+    if (!term || term.tags.has('Verb')) {
+      return null
+    }
+    // the clitic in 'lo vedo', and 'ne', 'ci' are pronouns - but 'mio' is tagged as one, too
+    if (term.tags.has('Pronoun') && !term.tags.has('Possessive')) {
+      return null
+    }
+    if (term.implicit) {
+      return elided$1.hasOwnProperty(term.implicit) ? elided$1[term.implicit] : null
+    }
+    return dets.hasOwnProperty(term.normal) ? dets[term.normal] : null
+  };
+
+  // would this word be the noun of the phrase, instead?
+  const isHead = function (term) {
+    if (!term) {
+      return false
+    }
+    const tags = term.tags;
+    // 'il vecchio mi ha detto' - a clitic is not the head of this phrase
+    if (tags.has('Pronoun') && !tags.has('Possessive')) {
+      return false
+    }
+    // 'i giovani studenti', 'la bella italiana', 'i primi due'
+    return tags.has('Noun') || tags.has('Adjective') || tags.has('Value')
+  };
+
+  const tagNounAdjectives = function (doc) {
+    const world = doc.world;
+    const setTag = world.methods.one.setTag;
+    doc.docs.forEach((terms) => {
+      terms.forEach((term, i) => {
+        if (!term.tags.has('Adjective')) {
+          return
+        }
+        const det = getDet(terms[i - 1]);
+        if (!det || isHead(terms[i + 1])) {
+          return
+        }
+        const wasFemale = term.tags.has('FemaleAdjective');
+        setTag([term], 'Noun', world, false, 'det-adj-noun');
+        // 'le giovani', 'dei ricchi' - agree with the determiner
+        const [gender, number] = det;
+        if (gender || wasFemale) {
+          setTag([term], gender || f, world, false, 'det-adj-gender');
+        }
+        if (number) {
+          setTag([term], number, world, false, 'det-adj-number');
+        }
+        // otherwise, go by the ending of the word
+        nounGender(terms, i, world);
+        nounNumber(terms, i, world);
+      });
+    });
+  };
+
+  // imperatives that look like something else
+  const persons$1 = ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural'];
+  // 'dagli il libro' - give him the book
+  const daForms = new Set(['dagli', 'dalle', 'dallo', 'dalla']);
+  const afterDa = new Set(['il', 'lo', 'la', 'i', 'gli', 'le', 'un', 'uno', 'una', 'a', 'subito', 'tu', 'tutto', 'questo', 'questa']);
+
+  const isInfinitive$2 = function (str, lexicon) {
+    const tags = Object.prototype.hasOwnProperty.call(lexicon, str) ? lexicon[str] : null;
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+
+  const tagImperatives = function (doc) {
+    const world = doc.world;
+    const { setTag, unTag } = world.methods.one;
+    const lexicon = world.model.one.lexicon;
+    const tag = function (term, reason) {
+      persons$1.concat(['PastParticiple', 'PastTense']).forEach((t) => unTag([term], t, world.model.one.tagSet));
+      term.tags.clear();
+      setTag([term], 'Imperative', world, false, reason);
+    };
+    doc.docs.forEach((terms) => {
+      const term = terms[0];
+      const next = terms[1];
+      if (!term || term.implicit !== undefined) {
+        return
+      }
+      const str = term.normal;
+      if (term.tags.has('Imperative')) {
+        return
+      }
+      // 'dagli il libro', 'dalle un bacio'
+      if (daForms.has(str) && next && afterDa.has(next.normal)) {
+        tag(term, 'da-imperative');
+        return
+      }
+      // 'fermati!', 'alzati subito' - also the plural participles of these verbs
+      if (/[aie]ti$/.test(str) && (term.tags.has('PastParticiple') || !term.tags.has('Verb'))) {
+        const found = parseImperative(str, lexicon);
+        const isObject = next && (next.tags.has('Determiner') || next.tags.has('Noun'));
+        if (found && found.clitic === 'ti' && !isObject) {
+          tag(term, 'reflexive-imperative');
+          return
+        }
+      }
+      // 'Mangia la pasta!', 'Andiamo!' - a present-tense form, in an exclamation
+      const last = terms[terms.length - 1];
+      if (/!/.test(last.post) && term.tags.has('PresentTense') && !term.tags.has('Auxiliary') && !term.tags.has('Infinitive')) {
+        const root = fromImperative(str, (inf) => isInfinitive$2(inf, lexicon));
+        if (root) {
+          tag(term, 'exclamation-imperative');
+        }
+      }
+    });
+  };
+
+  // many verb-forms are also a noun or an adjective - 'cucina', 'porto', 'gioco', 'vive', 'sale'
+  // and the lexicon gives them to the noun.
+  // when a sentence has no verb at all, look for one of these, in a place where a verb goes.
+
+  const subjects$1 = new Set(['io', 'tu', 'lui', 'lei', 'egli', 'ella', 'noi', 'voi', 'loro']);
+  // 'non [vive]', 'mi [porto]', 'dove [vivi]'
+  const before = new Set([
+    'non', 'mi', 'ti', 'si', 'ci', 'vi', 'ne', 'dove', 'come', 'quando', 'perché', 'cosa', 'chi', 'quanto', 'anche',
+    'sempre', 'spesso', 'oggi', 'domani', 'ora', 'adesso', 'qui',
+  ]);
+  // 'di giorno', 'di solito'
+  const diWords = new Set(['giorno', 'notte', 'sera', 'mattina', 'pomeriggio', 'solito', 'più', 'meno', 'rado', 'nuovo', 'corsa', 'fretta']);
+  const joins = new Set(['e', 'o', 'ma', 'poi']);
+  const tenses = { present: 'PresentTense', imperfect: 'ImperfectVerb', future: 'FutureTense' };
+  const persons = {
+    first: 'FirstPerson',
+    second: 'SecondPerson',
+    third: 'ThirdPerson',
+    firstPlural: 'FirstPersonPlural',
+    secondPlural: 'SecondPersonPlural',
+    thirdPlural: 'ThirdPersonPlural',
+  };
+  const nonFinite = ['Infinitive', 'Gerund', 'PastParticiple', 'PresentParticiple'];
+
+  const isInfinitive$1 = function (str, lexicon) {
+    const tags = Object.prototype.hasOwnProperty.call(lexicon, str) ? lexicon[str] : null;
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+  const isFinite = (term) => term.tags.has('Verb') && !nonFinite.some((tag) => term.tags.has(tag));
+  const isNoun = (term) => Boolean(term) && term.tags.has('Noun') && !term.tags.has('Pronoun');
+  // something that a verb can lead into - 'porto [il] libro', 'gioco [a] calcio', 'vive [qui]'
+  const isObject = function (term) {
+    return Boolean(term) && (term.tags.has('Determiner') || term.tags.has('Preposition') || term.tags.has('Adverb') || term.tags.has('Value'))
+  };
+
+  const homographVerbs = function (doc) {
+    const world = doc.world;
+    const lexicon = world.model.one.lexicon;
+    const verb = world.methods.two.transform.verb;
+    const isVerb = (inf) => isInfinitive$1(inf, lexicon);
+    const lookup = function (term) {
+      if (term.tags.has('Verb') || term.implicit !== undefined || !(term.tags.has('Noun') || term.tags.has('Adjective'))) {
+        return null
+      }
+      if (term.tags.has('Pronoun') || term.normal.length < 3) {
+        return null
+      }
+      return verb.lookup(term.normal, { isVerb, known: true, tenses: Object.keys(tenses) })
+    };
+    const tag = function (term, hit, reason) {
+      term.tags.clear();
+      world.methods.one.setTag([term], ['Verb', tenses[hit.tense], persons[hit.person]], world, false, reason);
+    };
+    doc.docs.forEach((terms) => {
+      if (terms.some(isFinite)) {
+        return
+      }
+      let person = null;
+      for (let i = 0; i < terms.length; i += 1) {
+        const term = terms[i];
+        const prev = terms[i - 1];
+        const next = terms[i + 1];
+        const found = lookup(term);
+        if (!found) {
+          continue
+        }
+        // one more verb, for the same subject - 'lavoro di giorno e [studio] di notte'
+        if (person !== null) {
+          const hit = found.hits.find((o) => o.person === person);
+          if (hit && prev && joins.has(prev.normal)) {
+            tag(term, hit, 'homograph-verb-and');
+          }
+          continue
+        }
+        let hit = null;
+        if (!prev) {
+          // 'Porto il libro.', 'Gioco a calcio.'
+          // .. but 'Lavoro di squadra' is a noun-phrase, unlike 'Lavoro di notte'
+          const after = terms[i + 2];
+          const isOf = next && next.normal === 'di' && !(after && diWords.has(after.normal));
+          hit = isObject(next) && !isOf ? found.hits[0] : null;
+        } else if (subjects$1.has(prev.normal) || before.has(prev.normal)) {
+          // 'lei vive a Roma', 'non vive più qui', 'dove vivi?'
+          hit = found.hits[0];
+        } else if (isNoun(prev) && isObject(next)) {
+          // 'mia madre cucina la cena', 'il gatto sale sull'albero'
+          hit = found.hits.find((o) => o.person === 'third' || o.person === 'thirdPlural');
+        }
+        if (hit) {
+          tag(term, hit, 'homograph-verb');
+          person = hit.person;
+        }
+      }
     });
   };
 
@@ -15195,6 +16070,9 @@ designate
   const finiteVerb =
     '(#FirstPerson|#SecondPerson|#FirstPersonPlural|#SecondPersonPlural|#ThirdPersonPlural|#ImperfectVerb|#FutureTense|#ConditionalVerb)';
 
+  // the noun of "l'amica" has no text of its own
+  const notElided = (m) => m.docs[0][0].text !== '';
+
   const postTagger$1 = function (doc) {
     // a word after an article is a noun - 'la pizza', 'il potere'
     doc.match(`${articles} [#Verb]`, 0).ifNo(coreVerbs).tag('Noun', 'art-noun');
@@ -15206,6 +16084,8 @@ designate
     doc.match(`${articleClitics} [#Noun] (un|uno|una|il|lo|la|i|gli|le|mi|ti|ci|vi)`, 0).tag('PresentTense', 'clitic-verb');
     // 'lo vedo' - the clitic before a verb is a pronoun
     doc.match(`[${articleClitics}] #Verb`, 0).tag('Pronoun', 'clitic-pron');
+    // 'i medici', 'un italiano' - an adjective after a determiner, with no noun after it, is the noun
+    tagNounAdjectives(doc);
     // gender from indefinite article
     doc.match('una [#Noun]', 0).tag('FemaleNoun', 'una-noun');
     doc.match('(un|uno) [#Noun]', 0).tag('MaleNoun', 'un-noun');
@@ -15223,8 +16103,8 @@ designate
       )
       .tag('#PhrasalVerb #Particle', 'phrasal');
 
-    // noun gender aggrement
-    doc.match('(il|lo|i|gli) [#Noun]', 0).tag('MaleNoun', 'm-noun');
+    // noun gender aggrement - but the l' of "l'amica" says nothing
+    doc.match('(il|lo|i|gli) [#Noun]', 0).filter(notElided).tag('MaleNoun', 'm-noun');
     doc.match('(la|le|una) [#Noun]', 0).tag('FemaleNoun', 'f-noun');
 
     // 'vi arrabbiate' - a word right after a reflexive clitic is its verb
@@ -15241,6 +16121,8 @@ designate
     doc.match('(i|gli|le) [#Noun]', 0).tag('PluralNoun', 'i-plural');
     // lo studente, una lezione
     doc.match('(il|lo|la|l|un|uno|una|ogni|qualche) [#Noun]', 0).ifNo('#Pronoun').tag('Singular', 'il-singular');
+    // an '-e' plural is feminine - 'due mele'
+    doc.match('#PluralNoun').filter((m) => /[^i]e$/.test(m.docs[0][0].normal)).tag('FemaleNoun', 'e-plural');
     // 27° - '27th'
     doc.match('[#Value] °', 0).tag('Ordinal', 'number-ordinal');
 
@@ -15274,6 +16156,12 @@ designate
 
     // 'fallo subito!' - do it, not 'the foul'
     doc.match('^[fallo] (#Adverb|tu|voi|pure)', 0).tag('Imperative', 'fallo-imperative');
+
+    // 'fermati!', 'dagli il libro', 'Mangia la pasta!'
+    tagImperatives(doc);
+
+    // 'mia madre [cucina] la cena', '[Porto] il libro'
+    homographVerbs(doc);
 
     // Che bello!
     doc.match('^che #Adjective$').tag('Expression', 'che-bello');
@@ -15449,8 +16337,6 @@ designate
   // (the passato prossimo needs avere/essere, and agreement with the subject)
 
 
-  const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural'];
-
   const personTags = {
     first: 'FirstPerson',
     second: 'SecondPerson',
@@ -15491,17 +16377,6 @@ designate
   // verb-forms that are not an indicative tense
   const skipTags = ['Infinitive', 'Gerund', 'PastParticiple', 'Participle', 'PresentParticiple', 'Imperative', 'Subjunctive', 'ConditionalVerb'];
 
-  // every indicative form of this verb
-  const getForms = function (root, methods) {
-    return {
-      present: methods.toPresent(root),
-      imperfect: methods.toImperfect(root),
-      past: methods.toPast(root), //passato remoto
-      future: methods.toFuture(root),
-      conditional: methods.toConditional(root),
-    }
-  };
-
   // the second half of a contraction has no text of its own - the 'è' in "c'è"
   const isHidden = (term) => term.text === '' && typeof term.implicit === 'string';
   // .. and the first half holds the text for both - "c'è"
@@ -15526,8 +16401,13 @@ designate
     return null
   };
 
+  const isInfinitive = function (str, lexicon) {
+    const tags = lexicon.hasOwnProperty(str) ? lexicon[str] : null;
+    return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+  };
+
   // which tense + person is this word?
-  const parseTerm = function (term, methods) {
+  const parseTerm = function (term, methods, lexicon) {
     const str = getWord(term);
     // the clitic of a contraction - the "c'" in "c'è"
     if (!str || isHost(term)) {
@@ -15537,23 +16417,13 @@ designate
       return null
     }
     const root = term.root;
-    if (!root || root === str) {
-      return null
-    }
     // find the word in its own conjugation table
-    const forms = getForms(root, methods);
-    const hits = [];
-    Object.keys(forms).forEach((tense) => {
-      persons.forEach((person) => {
-        if (forms[tense][person] === str) {
-          hits.push({ tense, person });
-        }
-      });
-    });
-    if (hits.length === 0) {
-      return null
+    const hits = root && root !== str ? methods.findHits(str, root) : [];
+    if (hits.length > 0) {
+      return { root, hits }
     }
-    return { root, hits }
+    // the tagger's guess at the tense was wrong - look for a verb that we know
+    return methods.lookup(str, { isVerb: (inf) => isInfinitive(inf, lexicon), known: true })
   };
 
   const isFiller = (term) => clitics.has(term.implicit || term.normal) || fillers.has(term.normal);
@@ -15669,16 +16539,24 @@ designate
     term.dirty = true;
   };
 
+  // words that lose their vowel before 'è'
+  const elided = { ci: 'c', dove: 'dov', come: 'com', cosa: 'cos' };
+
   // 'ci è' is always written "c'è"
   const elide = function (terms, i) {
     const host = terms[i - 1];
     const term = terms[i];
-    if (!host || host.normal !== 'ci' || host.post !== ' ' || isHost(host) || !/^[eè]/.test(term.normal)) {
+    if (!host || !elided.hasOwnProperty(host.normal) || host.post !== ' ' || isHost(host)) {
       return
     }
-    host.implicit = 'ci';
-    host.machine = 'ci';
-    host.text = host.text.slice(0, 1) + "'" + term.text.toLowerCase();
+    // "c'era", but only "dov'è" and "com'è"
+    if (host.normal === 'ci' ? !/^[eè]/.test(term.normal) : term.normal !== 'è') {
+      return
+    }
+    const full = host.normal;
+    host.implicit = full;
+    host.machine = full;
+    host.text = host.text.slice(0, elided[full].length) + "'" + term.text.toLowerCase();
     host.normal = host.text.toLowerCase();
     host.post = '';
     term.implicit = term.normal;
@@ -15702,7 +16580,7 @@ designate
     let index = null;
     let parsed = null;
     for (let i = start; i < end; i += 1) {
-      parsed = parseTerm(terms[i], methods);
+      parsed = parseTerm(terms[i], methods, view.model.one.lexicon);
       if (parsed) {
         index = i;
         break
@@ -15747,7 +16625,7 @@ designate
       // already there
       return null
     }
-    const str = getForms(root, methods)[want][person];
+    const str = methods.table(root, [want])[want][person];
     if (!str) {
       return null
     }
@@ -16714,6 +17592,29 @@ designate
     return str
   };
 
+  // the noun of an elision has no text of its own - "l'amica"
+  const getText = function (m, fmt) {
+    return m.text(fmt) || m.docs[0][0].implicit || ''
+  };
+
+  // ..it is written inside its article
+  const replace = function (m, str) {
+    const term = m.docs[0][0];
+    if (term.text || !term.implicit) {
+      return m.replaceWith(str)
+    }
+    const [n, i] = m.fullPointer[0];
+    const host = m.document[n].slice(0, i).reverse().find((t) => t.text);
+    if (host) {
+      host.text = host.text.replace(/(['’]).*$/, '$1' + str);
+      host.normal = host.normal.replace(/'.*$/, "'" + str);
+      term.implicit = str;
+      term.machine = str;
+      delete term.root;
+    }
+    return m
+  };
+
   // a hint for the inflector - 'la turista' vs 'il turista'
   const getGender = function (m) {
     if (m.has('#FemaleNoun')) {
@@ -16734,7 +17635,7 @@ designate
       conjugate(n) {
         const methods = this.methods.two.transform.noun;
         return getNth$1(this, n).map(m => {
-          const str = m.text();
+          const str = getText(m);
           if (m.has('#PluralNoun')) {
             return {
               plural: str,
@@ -16761,16 +17662,18 @@ designate
         return getNth$1(this, n).if('#Singular').map(m => {
           const str = getRoot(m);
           const plural = methods.toPlural(str, getGender(m));
-          return m.replaceWith(plural)
+          replace(m, plural);
+          return m.tag('PluralNoun', 'toPlural')
         })
       }
       toSingular(n) {
         const methods = this.methods.two.transform.noun;
         return getNth$1(this, n).if('#PluralNoun').map(m => {
           // nb: the root of a plural noun is already singular - so use the word itself
-          const str = m.text('normal');
+          const str = getText(m, 'normal');
           const singular = methods.fromPlural(str, getGender(m));
-          return m.replaceWith(singular)
+          replace(m, singular);
+          return m.tag('Singular', 'toSingular')
         })
       }
     }

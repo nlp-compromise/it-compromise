@@ -1,5 +1,5 @@
 import irregular from '../methods/verbs/irregular.js'
-import parseImperative from '../methods/verbs/imperative.js'
+import { parseImperative, fromImperative } from '../methods/verbs/imperative.js'
 
 const verbForm = function (term) {
   const want = [
@@ -92,6 +92,24 @@ const masculineParticiple = function (str) {
   return str.replace(/([ts])[aie]$/, '$1o')
 }
 
+// the tagger's tense + person are often a guess, and so is the infinitive we get from them.
+// if it does not conjugate back into our word, look for a known verb that does
+const checkRoot = function (str, guess, world) {
+  const verb = world.methods.two.transform.verb
+  if (guess && guess !== str && verb.findHits(str, guess).length > 0) {
+    return guess
+  }
+  const lexicon = world.model.one.lexicon
+  const isVerb = (inf) => lexicon.hasOwnProperty(inf) && [].concat(lexicon[inf]).includes('Infinitive')
+  const found = verb.lookup(str, { isVerb, known: true })
+  return found ? found.root : guess
+}
+
+// 'porto' is the participle of 'porgere', but with a person, it is 'io porto' - from 'portare'
+const isOther = function (term, str, inf, verb) {
+  return Boolean(verbForm(term)) && !term.tags.has('PastParticiple') && verb.findHits(str, inf).length === 0
+}
+
 const root = function (view) {
   const { verb, adjective, noun } = view.world.methods.two.transform
   view.docs.forEach((terms) => {
@@ -104,10 +122,12 @@ const root = function (view) {
       if (term.tags.has('Verb')) {
         const form = verbForm(term) || guessForm(str)
         // 'dammelo' is 'dare'
-        const imp = term.tags.has('Imperative') ? parseImperative(str, view.world.model.one.lexicon, verb) : null
-        if (imp) {
-          term.root = imp.root
-        } else if (irregularRoots.hasOwnProperty(str)) {
+        const lexicon = view.world.model.one.lexicon
+        const imp = term.tags.has('Imperative') ? parseImperative(str, lexicon) : null
+        const bare = term.tags.has('Imperative') && !imp ? fromImperative(str, (inf) => lexicon[inf] === 'Infinitive') : null
+        if (imp || bare) {
+          term.root = imp ? imp.root : bare
+        } else if (irregularRoots.hasOwnProperty(str) && !isOther(term, str, irregularRoots[str], verb)) {
           term.root = irregularRoots[str]
         } else if (term.tags.has('Infinitive')) {
           // an infinitive may carry a pronoun suffix - 'vederlo'
@@ -116,24 +136,24 @@ const root = function (view) {
         } else if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('ConditionalVerb')) {
-          term.root = verb.fromConditional(str, form)
+          term.root = checkRoot(str, verb.fromConditional(str, form), view.world)
         } else if (term.tags.has('PastParticiple')) {
           const masc = masculineParticiple(str)
           term.root = irregularRoots.hasOwnProperty(masc)
             ? irregularRoots[masc]
             : verb.fromPastParticiple(masc, form)
         } else if (term.tags.has('ImperfectVerb')) {
-          term.root = verb.fromImperfect(str, form)
+          term.root = checkRoot(str, verb.fromImperfect(str, form), view.world)
         } else if (term.tags.has('Subjunctive')) {
           term.root = verb.fromSubjunctive(str, form)
         } else if (term.tags.has('PresentTense')) {
-          term.root = verb.fromPresent(str, form)
+          term.root = checkRoot(str, verb.fromPresent(str, form), view.world)
         } else if (term.tags.has('PastTense')) {
-          term.root = verb.fromPast(str, form)
+          term.root = checkRoot(str, verb.fromPast(str, form), view.world)
         } else if (term.tags.has('FutureTense')) {
-          term.root = verb.fromFuture(str, form)
+          term.root = checkRoot(str, verb.fromFuture(str, form), view.world)
         } else {
-          term.root = verb.fromPresent(str, form)
+          term.root = checkRoot(str, verb.fromPresent(str, form), view.world)
         }
       }
 

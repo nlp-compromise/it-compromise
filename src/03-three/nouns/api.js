@@ -11,6 +11,29 @@ const getRoot = function (m) {
   return str
 }
 
+// the noun of an elision has no text of its own - "l'amica"
+const getText = function (m, fmt) {
+  return m.text(fmt) || m.docs[0][0].implicit || ''
+}
+
+// ..it is written inside its article
+const replace = function (m, str) {
+  const term = m.docs[0][0]
+  if (term.text || !term.implicit) {
+    return m.replaceWith(str)
+  }
+  const [n, i] = m.fullPointer[0]
+  const host = m.document[n].slice(0, i).reverse().find((t) => t.text)
+  if (host) {
+    host.text = host.text.replace(/(['’]).*$/, '$1' + str)
+    host.normal = host.normal.replace(/'.*$/, "'" + str)
+    term.implicit = str
+    term.machine = str
+    delete term.root
+  }
+  return m
+}
+
 // a hint for the inflector - 'la turista' vs 'il turista'
 const getGender = function (m) {
   if (m.has('#FemaleNoun')) {
@@ -31,7 +54,7 @@ const api = function (View) {
     conjugate(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).map(m => {
-        const str = m.text()
+        const str = getText(m)
         if (m.has('#PluralNoun')) {
           return {
             plural: str,
@@ -58,16 +81,18 @@ const api = function (View) {
       return getNth(this, n).if('#Singular').map(m => {
         const str = getRoot(m)
         const plural = methods.toPlural(str, getGender(m))
-        return m.replaceWith(plural)
+        replace(m, plural)
+        return m.tag('PluralNoun', 'toPlural')
       })
     }
     toSingular(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).if('#PluralNoun').map(m => {
         // nb: the root of a plural noun is already singular - so use the word itself
-        const str = m.text('normal')
+        const str = getText(m, 'normal')
         const singular = methods.fromPlural(str, getGender(m))
-        return m.replaceWith(singular)
+        replace(m, singular)
+        return m.tag('Singular', 'toSingular')
       })
     }
   }

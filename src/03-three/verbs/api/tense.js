@@ -10,8 +10,6 @@
 
 import essereVerbs from '../../../02-two/postTagger/essere-verbs.js'
 
-const persons = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural']
-
 const personTags = {
   first: 'FirstPerson',
   second: 'SecondPerson',
@@ -52,17 +50,6 @@ const fillers = new Set(['non', 'mai', 'già', 'anche', 'sempre', 'ancora', 'pi�
 // verb-forms that are not an indicative tense
 const skipTags = ['Infinitive', 'Gerund', 'PastParticiple', 'Participle', 'PresentParticiple', 'Imperative', 'Subjunctive', 'ConditionalVerb']
 
-// every indicative form of this verb
-const getForms = function (root, methods) {
-  return {
-    present: methods.toPresent(root),
-    imperfect: methods.toImperfect(root),
-    past: methods.toPast(root), //passato remoto
-    future: methods.toFuture(root),
-    conditional: methods.toConditional(root),
-  }
-}
-
 // the second half of a contraction has no text of its own - the 'è' in "c'è"
 const isHidden = (term) => term.text === '' && typeof term.implicit === 'string'
 // .. and the first half holds the text for both - "c'è"
@@ -87,8 +74,13 @@ const fromParticiple = function (term, methods) {
   return null
 }
 
+const isInfinitive = function (str, lexicon) {
+  const tags = lexicon.hasOwnProperty(str) ? lexicon[str] : null
+  return tags === 'Infinitive' || (Array.isArray(tags) && tags.includes('Infinitive'))
+}
+
 // which tense + person is this word?
-const parseTerm = function (term, methods) {
+const parseTerm = function (term, methods, lexicon) {
   const str = getWord(term)
   // the clitic of a contraction - the "c'" in "c'è"
   if (!str || isHost(term)) {
@@ -98,23 +90,13 @@ const parseTerm = function (term, methods) {
     return null
   }
   const root = term.root
-  if (!root || root === str) {
-    return null
-  }
   // find the word in its own conjugation table
-  const forms = getForms(root, methods)
-  const hits = []
-  Object.keys(forms).forEach((tense) => {
-    persons.forEach((person) => {
-      if (forms[tense][person] === str) {
-        hits.push({ tense, person })
-      }
-    })
-  })
-  if (hits.length === 0) {
-    return null
+  const hits = root && root !== str ? methods.findHits(str, root) : []
+  if (hits.length > 0) {
+    return { root, hits }
   }
-  return { root, hits }
+  // the tagger's guess at the tense was wrong - look for a verb that we know
+  return methods.lookup(str, { isVerb: (inf) => isInfinitive(inf, lexicon), known: true })
 }
 
 const isFiller = (term) => clitics.has(term.implicit || term.normal) || fillers.has(term.normal)
@@ -230,16 +212,24 @@ const setHidden = function (terms, i, str, participle) {
   term.dirty = true
 }
 
+// words that lose their vowel before 'è'
+const elided = { ci: 'c', dove: 'dov', come: 'com', cosa: 'cos' }
+
 // 'ci è' is always written "c'è"
 const elide = function (terms, i) {
   const host = terms[i - 1]
   const term = terms[i]
-  if (!host || host.normal !== 'ci' || host.post !== ' ' || isHost(host) || !/^[eè]/.test(term.normal)) {
+  if (!host || !elided.hasOwnProperty(host.normal) || host.post !== ' ' || isHost(host)) {
     return
   }
-  host.implicit = 'ci'
-  host.machine = 'ci'
-  host.text = host.text.slice(0, 1) + "'" + term.text.toLowerCase()
+  // "c'era", but only "dov'è" and "com'è"
+  if (host.normal === 'ci' ? !/^[eè]/.test(term.normal) : term.normal !== 'è') {
+    return
+  }
+  const full = host.normal
+  host.implicit = full
+  host.machine = full
+  host.text = host.text.slice(0, elided[full].length) + "'" + term.text.toLowerCase()
   host.normal = host.text.toLowerCase()
   host.post = ''
   term.implicit = term.normal
@@ -263,7 +253,7 @@ const convertOne = function (view, n, span, want) {
   let index = null
   let parsed = null
   for (let i = start; i < end; i += 1) {
-    parsed = parseTerm(terms[i], methods)
+    parsed = parseTerm(terms[i], methods, view.model.one.lexicon)
     if (parsed) {
       index = i
       break
@@ -308,7 +298,7 @@ const convertOne = function (view, n, span, want) {
     // already there
     return null
   }
-  const str = getForms(root, methods)[want][person]
+  const str = methods.table(root, [want])[want][person]
   if (!str) {
     return null
   }

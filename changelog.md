@@ -8,6 +8,11 @@
 - **[fix]** - `.nouns().toSingular()` no longer over-converts - 'mele' → 'mela' (was 'melm')
 - **[fix]** - feminine nouns pluralise properly - 'ragazza' → 'ragazze' (was 'ragazzi'), 'banca' → 'banche', 'arancia' → 'arance' - and come back with `.toSingular()`
 - **[fix]** - irregular and invariable noun plurals - 'uovo' → 'uova', 'film' → 'film', 'crisi' → 'crisi' - and singular '-e' nouns ('lo studente', 'la lezione') are no longer tagged `#PluralNoun`
+- **[fix]** - `.nouns().toSingular()` finds the singular of an '-i' plural from the words it knows, then its ending, then its article - 'i giovani' → 'giovane' (was 'giovano'), 'le attrici' → 'attrice', 'i pirati' → 'pirata', 'i popoli' → 'popolo'
+- **[fix]** - the noun of an elision inflects - `nlp("l'amica").nouns().conjugate()` (was empty), and `.toPlural()` gives "l'amiche" (was 'lo amichi') - and takes its gender from the noun, not from the l'
+- **[fix]** - an '-e' ending does not make a noun `#FemaleNoun` - 'ogni giovane', 'ogni fiume' - unless it is a plural ('due mele') - and a bare 'poeta', 'clima' or "l'atleta" is `#MaleNoun`
+- **[fix]** - more noun plurals - 'studio' → 'studi' (was 'studios'), 'dominio' → 'domini' (was 'dominii'), 'mago' → 'maghi', 'nostalgia' → 'nostalgie', 'la collega' → 'colleghe', 'orecchio' → 'orecchie', 'grido' → 'grida', 'mille' → 'mila' - and 'delta', 'bici', 'brindisi', 'eclissi' never change
+- **[fix]** - an adjective after a determiner, with no noun after it, is tagged as the `#Noun` - 'i medici', 'un italiano', 'i ricchi e i poveri' - but not in 'i giovani studenti'
 - **[fix]** - `.numbers().set()`, `.add()` and `.subtract()` accept a written number - `.add('due')` - and ignore a string that isn't one
 - **[fix]** - `.numbers().json(n)` returns the nth number, instead of throwing
 - **[fix]** - `.numbers().get()` and `.parse()` return `[]` when there are no numbers

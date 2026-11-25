@@ -1,22 +1,16 @@
-const anything = ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord']
-
+// only our own tags, and what differs from the shared tagset - see ../plugin.js
 export default {
   Adjective: {
     aliases: [null, 'Aggettivo'],
-    not: ['Noun', 'Verb', 'Adverb', 'Value'],
   },
   Comparable: {
     aliases: [null, 'Comparabile'],
-    is: 'Adjective',
   },
   Comparative: {
     aliases: [null, 'Comparativo'],
-    is: 'Adjective',
   },
   Superlative: {
     aliases: [null, 'Superlativo'],
-    is: 'Adjective',
-    not: ['Comparative'],
   },
   MaleAdjective: {
     aliases: [null, 'AggettivoMaschile'],
@@ -37,32 +31,28 @@ export default {
   },
   Adverb: {
     aliases: [null, 'Avverbio'],
-    not: ['Noun', 'Verb', 'Adjective', 'Value'],
   },
-
   Determiner: {
     aliases: [null, 'Determinante', 'Articolo'],
-    not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord', 'Conjunction'], //allow 'a' to be a Determiner/Value
   },
   Conjunction: {
     aliases: [null, 'Congiunzione'],
-    not: anything,
+    is: undefined,
+    not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'Value', 'QuestionWord'],
   },
   Preposition: {
     aliases: [null, 'Preposizione'],
+    is: undefined,
     not: ['Noun', 'Verb', 'Adjective', 'Adverb', 'QuestionWord'],
   },
   QuestionWord: {
     aliases: [null, 'Interrogativo'],
-    not: ['Determiner'],
   },
   Currency: {
     aliases: [null, 'Valuta'],
-    is: 'Noun',
   },
   Expression: {
     aliases: [null, 'Interiezione'],
-    not: ['Noun', 'Adjective', 'Verb', 'Adverb'],
   },
   Abbreviation: {
     aliases: [null, 'Abbreviazione'],
@@ -74,10 +64,10 @@ export default {
     aliases: [null, 'Telefono'],
     not: ['HashTag', 'Verb', 'Adjective', 'Value', 'AtMention', 'Email'],
   },
-  HashTag: {},
+  HashTag: {
+  },
   AtMention: {
     aliases: [null, 'Menzione'],
-    is: 'Noun',
     not: ['HashTag', 'Email'],
   },
   Emoji: {
@@ -99,6 +89,6 @@ export default {
   },
   Condition: {
     aliases: [null, 'Condizione'],
-    not: ['Verb', 'Adjective', 'Noun', 'Value'],
+    is: undefined,
   },
 }

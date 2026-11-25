@@ -74,7 +74,7 @@ const toNumber = {
   'cent': 100,//centottantesimo
 }
 // list end-strings, for tokenization
-let ends = ['cento', 'mille', 'milione', 'tré', 'mila', 'seiesimo', 'dodicesimo', 'decimo']
+let ends = ['cento', 'mille', 'milione', 'milioni', 'miliardi', 'tré', 'mila', 'seiesimo', 'dodicesimo', 'decimo']
 
 // add 'quarantuno'
 data.tens.forEach(a => {
@@ -116,6 +116,9 @@ ends = ends.sort((a, b) => {
 
 const multiples = {
   mila: 1000,
+  // plurals - 'due milioni'
+  milioni: 1000000,
+  miliardi: 1000000000,
 }
 data.multiples.forEach(a => {
   multiples[a[1]] = a[0]

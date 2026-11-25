@@ -3,6 +3,7 @@ import { unpack } from 'efrt'
 import verbs from '../methods/verbs/index.js'
 import adjective from '../methods/adjectives/index.js'
 import misc from './misc.js'
+import { properNouns } from 'compromise/shared'
 // import models from '../methods/models.js'
 
 const tagMap = {
@@ -156,4 +157,11 @@ tagList.forEach((tag) => {
 words = Object.assign({}, words, misc)
 // console.log(Object.keys(lexicon).length.toLocaleString(), 'words')
 // console.log(words['dice'])
+// names of people and places, shared by every language - our own words win
+Object.keys(properNouns).forEach(tag => {
+  Object.keys(unpack(properNouns[tag])).forEach(w => {
+    words[w] = words[w] || tag
+  })
+})
+
 export default words

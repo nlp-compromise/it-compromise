@@ -36,7 +36,9 @@ test('sentences:', function (t) {
     ['Vedi fig. 3 per i dettagli.', ['Vedi fig. 3 per i dettagli.']],
     ['Lavora per la F.I.A.T. da anni.', ['Lavora per la F.I.A.T. da anni.']],
     ['Abita in p.zza Garibaldi. È bello.', ['Abita in p.zza Garibaldi.', 'È bello.']],
-    ['Ha comprato pane, latte, ecc. Poi è tornato a casa.', ['Ha comprato pane, latte, ecc.', 'Poi è tornato a casa.']],
+    // 'ecc.' is an abbreviation, so it never ends a sentence (like 'etc.' in english)
+    ['Ha comprato pane, latte, ecc. Poi è tornato a casa.', ['Ha comprato pane, latte, ecc. Poi è tornato a casa.']],
+    ['Frutta, verdura, ecc. sono in offerta.', ['Frutta, verdura, ecc. sono in offerta.']],
     // numbers
     ['Costa 3,50 euro. Lo compro.', ['Costa 3,50 euro.', 'Lo compro.']],
     ['Costa 3.50 euro. Va bene.', ['Costa 3.50 euro.', 'Va bene.']],

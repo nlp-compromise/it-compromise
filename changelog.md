@@ -13,6 +13,7 @@
 - **[fix]** - an '-e' ending does not make a noun `#FemaleNoun` - 'ogni giovane', 'ogni fiume' - unless it is a plural ('due mele') - and a bare 'poeta', 'clima' or "l'atleta" is `#MaleNoun`
 - **[fix]** - more noun plurals - 'studio' → 'studi' (was 'studios'), 'dominio' → 'domini' (was 'dominii'), 'mago' → 'maghi', 'nostalgia' → 'nostalgie', 'la collega' → 'colleghe', 'orecchio' → 'orecchie', 'grido' → 'grida', 'mille' → 'mila' - and 'delta', 'bici', 'brindisi', 'eclissi' never change
 - **[fix]** - an adjective after a determiner, with no noun after it, is tagged as the `#Noun` - 'i medici', 'un italiano', 'i ricchi e i poveri' - but not in 'i giovani studenti'
+- **[fix]** - lo / la / le / gli / l' before a noun that is also a verb-form is the article, not an object-pronoun - 'le stazioni', 'gli uffici', 'lo sbaglio', "l'acquisto", 'con le leggi' - and before a word that can not be its noun it is the pronoun - 'gli parla', 'le porto', 'la studio', 'Maria la vede' - while 'tu le leggi' and 'lo sbaglio sempre' stay verbs. Also "l'ora", 'la specie', 'i guai' and 'gli dei' are nouns
 - **[fix]** - `.numbers().set()`, `.add()` and `.subtract()` accept a written number - `.add('due')` - and ignore a string that isn't one
 - **[fix]** - `.numbers().json(n)` returns the nth number, instead of throwing
 - **[fix]** - `.numbers().get()` and `.parse()` return `[]` when there are no numbers

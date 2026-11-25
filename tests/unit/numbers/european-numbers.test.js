@@ -77,3 +77,59 @@ test('decimal-comma output', function (t) {
   t.equal(nlp('1.234,56 €').numbers().json()[0].number.hasComma, true, here + 'json')
   t.end()
 })
+
+// the number takes its tag from the word beside it
+test('spaced money and percent', function (t) {
+  const money = ["5,30 €", "€ 5,30", "1.000 euro", "12,50 EUR", "mille euro", "cento euro"]
+  const percent = ["3,5 %", "50 per cento", "cinquanta per cento", "20 percento"]
+  const values = [["50 per cento", 50], ["cinquanta per cento", 50]]
+  const neither = ["per cento anni", "5, euro", "cinque gatti"]
+  money.forEach(str => {
+    const doc = nlp(str)
+    t.ok(doc.has('#Money'), here + 'money: ' + str)
+    t.ok(doc.has('#Currency'), here + 'currency: ' + str)
+    t.equal(doc.numbers().length, 1, here + 'one number: ' + str)
+  })
+  percent.forEach(str => {
+    const doc = nlp(str)
+    t.ok(doc.has('#Percent'), here + 'percent: ' + str)
+    t.equal(doc.numbers().length, 1, here + 'one number: ' + str)
+  })
+  values.forEach(a => {
+    t.deepEqual(nlp(a[0]).numbers().get(), [a[1]], here + 'value: ' + a[0])
+  })
+  neither.forEach(str => {
+    t.equal(nlp(str).has('(#Money|#Percent)'), false, here + 'neither: ' + str)
+  })
+  t.end()
+})
+
+test('meno is a minus-sign', function (t) {
+  const arr = [
+    ['meno cinque', [-5]],
+    ['meno 5 gradi', [-5]],
+    ['Fa meno cinque gradi.', [-5]],
+    ['meno 3,5', [-3.5]],
+    ['meno ventidue', [-22]],
+    // 'about five'
+    ['più o meno cinque', [5]],
+    // 'five to six'
+    ['le sei meno cinque', [6, 5]],
+    // 'fewer than five'
+    ['meno di cinque', [5]],
+    ['meno, cinque', [5]],
+  ]
+  arr.forEach(a => {
+    t.deepEqual(nlp(a[0]).numbers().get(), a[1], here + a[0])
+  })
+  let doc = nlp('Fa meno cinque gradi.')
+  doc.numbers().add(1)
+  t.equal(doc.text(), 'Fa meno quattro gradi.', here + 'add to a negative')
+  doc = nlp('Fa meno cinque gradi.')
+  doc.numbers().add(9)
+  t.equal(doc.text(), 'Fa quattro gradi.', here + 'the sign is dropped')
+  doc = nlp('meno 5 gradi')
+  doc.numbers().add(1)
+  t.equal(doc.text(), '-4 gradi', here + 'digits take a sign')
+  t.end()
+})

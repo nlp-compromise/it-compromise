@@ -16,8 +16,13 @@ const fromNumber = function (terms, m) {
 }
 
 const parseNumber = function (m) {
-  const terms = m.docs[0]
+  let terms = m.docs[0]
   const isText = m.has('#TextValue')
+  // a written-out sign - 'meno 5', 'meno cinque'
+  const isMinus = terms.length > 1 && terms[0].normal === 'meno'
+  if (isMinus) {
+    terms = terms.slice(1)
+  }
   // any digits come first - '2,5 milioni'
   const split = terms.findIndex(t => !isNumeric(t))
   const digits = split === -1 ? terms : terms.slice(0, split)
@@ -34,6 +39,9 @@ const parseNumber = function (m) {
     } else {
       res.num = num
     }
+  }
+  if (isMinus && res.num) {
+    res.num *= -1
   }
   return {
     hasComma: res.hasComma,
